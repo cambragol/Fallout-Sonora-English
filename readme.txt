@@ -1,84 +1,83 @@
-
 ########################################################################################
 
                    FALLOUT SONORA: A Post-Nuclear Role-Playing Game
 
-                             Файл помощи на русском языке
+                             Help File in Russian
 
 ########################################################################################
 
 
 ------------------------------------------------------
 
-ВНИМАНИЕ! Внимательно изучите данную информацию перед дальнейшим использованием игрового архива.
+ATTENTION! Carefully study this information before further use of the game archive.
 
 ------------------------------------------------------
 
 
-СОДЕРЖАНИЕ
+CONTENTS
 
-	1. Условия эксплуатации
-	2. Установка
-	3. Технические замечания
-	4. Ссылки
+	1. Terms of Use
+	2. Installation
+	3. Technical Notes
+	4. Links
 
-
-
-------------------------------------------------------
-(1) УСЛОВИЯ ЭКСПЛУАТАЦИИ (Пользовательское соглашение)
-------------------------------------------------------
-
->> Общие положения:
-
-1.1. Вы можете использовать игровой архив "Fallout: Sonora" только в том случае, если согласны с условиями данного пользовательского соглашения.
-
-1.2. Играть в данный проект допустимо только лицам, достигшим возраста 18 лет.
-
-1.3. Пожалуйста, примите к сведению, что проект создан для ценителей игры "Fallout" 1997 года. Если вы не относитесь к такой аудитории, то возможно, игра будет вам не интересна или непонятна.
-
-1.4. Обратите внимание, что игра содержит информацию циничного характера, ненормативную лексику и черный юмор. Возможно, содержимое игры покажется вам оскорбительным или может вызвать у вас протест. В этом случае разработчики не несут ответственности, т.к. вы были предупреждены.
-
->> Отказ от ответственности:
-
-2.1. Вы используете эту программу на свой риск. Если вследствие эксплуатации вашему устройству или содержащейся на нем информации будет нанесен ущерб (потеря данных, некорректная работа программ, сбой операционной системы и т.д.), то разработчики не несут за это ответственность.
-
-2.2. Пожалуйста, примите во внимание, что проект разработан на базе устаревших технологий. Это означает, что в вашем случае не исключены проблемы с аппаратной или программной несовместимостью. Разработчики не несут за это ответственность и не обязаны решать эти проблемы.
-
-2.3. Пожалуйста, примите во внимание, что "Fallout: Sonora" предоставляется свободно, как акт доброй воли, без заключения каких-либо письменных договорённостей между вами и разработчиками либо кем-то ещё, любым образом связанным с этим проектом.
-
-2.4. Это некоммерческая программа, поэтому использование программы или ее отдельных элементов в коммерческих целях может быть противозаконно.
-
-2.5. Любые торговые марки, знаки и названия товаров, служб и организаций, права на дизайн, авторские и смежные права, которые упоминаются, используются или цитируются в "Fallout: Sonora", принадлежат их законным владельцам. Их использование в "Fallout: Sonora" не даёт вам право использовать их в своих целях.
-
-2.6. Использование собственных ресурсов "Fallout: Sonora" (то есть созданных специально для проекта и не являющихся заимствованными из других источников) в других проектах допустимо только при указании "Fallout: Sonora" как источника.
-
-2.7. Разработчик не призывает к нарушению никаких законов. Законы вашей страны могут трактовать защиту свободы слова не так широко, как законы Российской Федерации. В этом случае разработчик не несёт ответственности за любые потенциальные нарушения этих законов вами при создании ссылок на "Fallout: Sonora" или другом использовании любой содержащейся в этой игре информации.
 
 
 ------------------------------------------------------
-(2) УСТАНОВКА
+(1) TERMS OF USE (User Agreement)
 ------------------------------------------------------
 
-Следуйте шагам автоустановщика, чтобы установить программу, если таковой имеется.
+>> General Provisions:
+
+1.1. You may use the "Fallout: Sonora" game archive only if you agree to the terms of this user agreement.
+
+1.2. Playing this project is allowed only for persons aged 18 and over.
+
+1.3. Please note that the project is created for fans of the 1997 game "Fallout". If you are not part of this audience, you may find the game uninteresting or incomprehensible.
+
+1.4. Please be aware that the game contains cynical content, profanity, and dark humor. You may find the content of the game offensive or it may provoke a negative reaction. In this case, the developers are not responsible as you have been warned.
+
+>> Disclaimer:
+
+2.1. You use this program at your own risk. If your device or the information contained on it suffers damage (data loss, software malfunction, operating system failure, etc.) as a result of using the program, the developers are not responsible.
+
+2.2. Please note that the project is developed based on outdated technologies. This means that hardware or software incompatibility issues may occur. The developers are not responsible for this and are not obliged to resolve these problems.
+
+2.3. Please note that "Fallout: Sonora" is provided freely as an act of goodwill, without any written agreements between you and the developers or anyone else associated with this project.
+
+2.4. This is a non-commercial program, so using the program or its individual elements for commercial purposes may be illegal.
+
+2.5. Any trademarks, logos, and names of goods, services, and organizations, design rights, copyrights, and related rights mentioned, used, or quoted in "Fallout: Sonora" belong to their legal owners. Their use in "Fallout: Sonora" does not give you the right to use them for your own purposes.
+
+2.6. The use of "Fallout: Sonora" own resources (i.e., created specifically for the project and not borrowed from other sources) in other projects is allowed only with the attribution of "Fallout: Sonora" as the source.
+
+2.7. The developer does not encourage the violation of any laws. The laws of your country may not protect freedom of speech as broadly as the laws of the Russian Federation. In this case, the developer is not responsible for any potential violations of these laws by you when creating links to "Fallout: Sonora" or otherwise using any information contained in this game.
 
 
 ------------------------------------------------------
-(3) ТЕХНИЧЕСКИЕ ЗАМЕЧАНИЯ
+(2) INSTALLATION
 ------------------------------------------------------
 
-1. Системные требования аналогичны Fallout 2.
-
-2. "Fallout: Sonora" не совместима с модами, аддонами и патчами для игр Fallout и Fallout 2.
-
-3. Мы всячески рекомендуем играть в "Fallout: Sonora" в оригинальном разрешении экрана 640х480 на мониторах с диаметром около 17 дюймов м соотношением соторон 3х4. Игра в большом разрешении пагубно влияет на восприятие игры и геймплей.
+Follow the steps of the auto-installer, if available, to install the program.
 
 
 ------------------------------------------------------
-(4) ССЫЛКИ
+(3) TECHNICAL NOTES
 ------------------------------------------------------
 
-Сайт команды разработчиков: www.fallout-nevada.ucoz.ru
+1. System requirements are similar to Fallout 2.
 
-Группа в социальной сети: https://vk.com/fallout_nevada
+2. "Fallout: Sonora" is not compatible with mods, add-ons, and patches for Fallout and Fallout 2 games.
 
-Почтовый ящик для связи с разработчиком: alposh@mail.ru
+3. We highly recommend playing "Fallout: Sonora" in the original screen resolution of 640x480 on monitors with a diameter of about 17 inches and an aspect ratio of 4:3. Playing in a higher resolution adversely affects the game's perception and gameplay.
+
+
+------------------------------------------------------
+(4) LINKS
+------------------------------------------------------
+
+Developer team website: www.fallout-nevada.ucoz.ru
+
+Social network group: https://vk.com/fallout_nevada
+
+Email for contacting the developer: alposh@mail.ru
