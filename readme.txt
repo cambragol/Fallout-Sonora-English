@@ -2,7 +2,7 @@
 
                    FALLOUT SONORA: A Post-Nuclear Role-Playing Game
 
-                             Help File in Russian
+                             Help File in English
 
 ########################################################################################
 
