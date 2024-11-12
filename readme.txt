@@ -29,7 +29,7 @@ data
 
 This folder contains everything needed to convert a base 1.14 vanilla install of the Russian Fallot:Sonora, minus the Dayglow DLC, into an English version.
 
-It contains translated dialogue files, English interface graphics, English end and death scene text and narration, English pre-made character descriptions, as well as an English version of the credits.mve. It also contains original fonts for use with English.
+It contains translated dialogue files, English interface graphics, English end and death scene text and narration, English pre-made character descriptions, as well as original fonts for use with English. The credits.mve movie is not included here as it is too large for github.
 
 ------------------------------------------------------
 data_dayglow
