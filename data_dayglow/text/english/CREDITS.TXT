@@ -1,0 +1,133 @@
+#FALLOUT: SONORA
+
+@ Game created based on Fallout 2
+@ in 2020-2021
+
+
+#- PROJECT CONTRIBUTORS -
+
+
+Alexander "BLACK DESIGNER" Poshelyuzhin
+@ project idea, design, script, scripting,
+@ 3D modeling, environment object sprites,
+@ game text, location maps, gameplay videos
+
+
+Alexander "Red888guns" Berezin
+@ 3D modeling, environment object sprites,
+@ inventory, new critters and talking heads,
+@ ship explosion video in version 1.10
+
+
+Osman "Wolfram" Adjusmanov
+@ introductory video creation
+
+
+Grigory Sokolov
+@ Puerto explosion video up to version 1.10,
+@ consultation on videos
+
+
+Denis "MASTER" Voloshin
+@ quality control, testing, script discussions
+
+
+Dmitry Kuznetsov
+@ version 0.29 testing
+
+
+"Foxx"
+@ installer, HRP and sfall adaptation
+
+
+Lexx
+@ additional animation for NMLTHR.
+
+
+Enrique Barredo
+@ consultation and Spanish translation
+
+
+David Ageev
+@ editing of game texts (Garage City, Rangers,
+@ San Brahmin, standard objects, random encounters)
+
+
+Ilya Nizovskikh
+@ editing of game texts (Flagstaff, Two-Sun, Casa Nueva)
+
+
+Alexander "Vault_boy" Chernenko
+@ editing of game texts
+@ (Jackals, Phoenix, Old Motel, Inferno, Pip-Boy recordings)
+
+
+Tainted Acolyte
+@ editing of game texts (Casa Grande, Raiders)
+
+
+Elena Skryvaeva
+@ editing of game texts (gender mistakes and punctuation)
+
+
+Dmitry "Jimmy J." Chepusov
+@ voiceover for slideshow and introductory video
+
+
+Alexey "NOBODYS NAIL MACHINE" Trofimov
+@ composer
+
+
+@ The song "La Cucaracha" is featured
+@ in the introductory video and final credits
+
+
+#- CONTRIBUTORS TO SIYANIE DNYA EXPANSION -
+
+Alexander Berezin (graphics)
+Alexey Trofimov (music)
+Akop Abraamyan (testing)
+Tainted Acolyte (text editing)
+Alexander Poshelyuzhin (other contributions)
+
+
+#- SPECIAL THANKS -
+
+@ Participants of our forum and VKontakte group.
+@ Thank you for your moral support,
+@ criticism, and suggestions!
+
+
+Akop "Vaulter" Abraamyan
+@ for our VKontakte group
+
+Egor "Vault 13" Ostapenko
+@ for the forum and informational support
+
+WWW.FALLOUT-NEVADA.UCOZ.RU
+@ official website
+
+ALPOSH(a)MAIL.RU
+@ contact Nevada Band
+
+
+@ Programs used in the project development
+@ for modding Fallout 2:
+
+BIS mapper
+Fallout 2 DAT explorer ver 1.43
+sFall ScriptEditor ver 4.1.5.0
+Frame Animator ver 2.51 by Jochua
+AVI to MVE converter by ABel
+@ and others
+
+
+#- ALL RIGHTS RESERVED -
+
+@ Copying, duplicating, or reproducing
+@ this program or any of its parts for commercial purposes
+@ without explicit permission from the copyright holders
+@ is a violation of copyright law.
+
+@ The Fallout trademark rights belong to
+Bethesda Softworks LLC

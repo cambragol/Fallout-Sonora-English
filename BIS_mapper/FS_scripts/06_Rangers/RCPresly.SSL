@@ -1,0 +1,554 @@
+#include "..\headers\define.h"
+#include "..\headers\rangers.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCPresly
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_RANGER           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeQuest100;
+procedure NodeQuest101;
+procedure NodeQuest102;
+procedure NodeQuest103;
+procedure NodeQuest104;
+procedure NodeQuest105;
+procedure NodeToInfocenter;
+procedure NodeToBarrak;
+procedure NodeQuest201;
+procedure NodeQuest202;
+procedure NodeQuest203;
+procedure NodeQuest204;
+procedure NodeQuest205;
+procedure NodeQuest206;
+procedure NodeQuest207;
+procedure NodeQuestGo;
+procedure NodeQuest300;
+procedure NodeQuest301;
+procedure NodeQuest302;
+procedure NodeQuest303;
+procedure NodeQuest304;
+procedure NodeQuest305;
+procedure NodeQuest306;
+procedure NodeQuest307;
+procedure NodeQuest308;
+procedure NodeQuest309;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (cur_map_index == MAP_RANGERS_BASA) then begin
+          party_remove(self_obj);
+          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+          if MISSIA_START then begin
+          add_timer_event(self_obj, 5, 4);
+          end
+          if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+          set_obj_visibility(self_obj, 1);
+          end
+          else begin
+          set_obj_visibility(self_obj, 0);
+          end
+       end
+       if (cur_map_index == MAP_RANGERS_CAVE) then begin
+          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+          add_timer_event(self_obj, 7, 5);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (cur_map_index == MAP_RANGERS_BASA) then begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+   if (fixed_param == 3) then begin
+       set_gvar_bit_on(GVAR_RANGERS_QST_CADET_MASK, bit_7);
+       party_add(self_obj);
+       //? вооружение (винтовкой с патронами или револьвером)?
+       dude_teleport_map(1,1,MAP_RANGERS_CAVE,2);
+   end
+   if (fixed_param == 4) then begin
+       terminate_combat;
+       dialogue_system_enter;
+   end
+   if (fixed_param == 5) then begin
+      if MILTON_ENEMY_TO_DUDE then begin
+      floater(self_obj,106,COLOR_MSG_NORMAL);
+      end
+      else begin
+      floater(self_obj,105,COLOR_MSG_NORMAL);
+      end
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if MISSIA_START then begin
+      partyRunToDude
+      if (cur_map_index == MAP_RANGERS_CAVE) then begin
+         if ((gvar_bit(GVAR_RANGERS_QST_CADET_MASK, bit_10) != 0) or (gvar_bit(GVAR_RANGERS_QST_CADET_MASK, bit_11) != 0)) then begin
+         dialogue_system_forcing(16)
+         end
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   //!!! ЧИТ
+   //call NodeToInfocenter;
+   //!!!
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (getQuest(GVAR_RANGERS_QST_CADET) == qStart) then begin
+      setQuest(GVAR_RANGERS_QST_CADET,qZero);
+   end
+   if (cur_map_index != MAP_RANGERS_BASA) then begin
+      set_gvar_bit_on(GVAR_RANGERS_QST_CADET_MASK, bit_9);
+      if (get_SLAVA > 0) then begin
+      floater(dude_obj,102,COLOR_MSG_RED);
+      end
+      else begin
+      floater(dude_obj,103,COLOR_MSG_RED);
+      end
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if (getQuest(GVAR_RANGERS_QST_CADET) >= qEnd) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (gvar_bit(GVAR_RANGERS_QST_CADET_MASK, bit_11) != 0) then begin
+       call NodeQuest306;
+   end
+   else if (gvar_bit(GVAR_RANGERS_QST_CADET_MASK, bit_10) != 0) then begin
+       call NodeQuest303;
+   end
+   else if (getQuest(GVAR_RANGERS_QST_CADET) >= qEnd) then begin
+       call NodeStopDialog;
+   end
+   else if (cur_map_index == MAP_RANGERS_BASA) then begin
+       if MISSIA_START then begin
+       call NodeQuest203;
+       end
+       else if (getQuest(GVAR_RANGERS_QST_CADET) == qStart) then begin
+       call NodeSndDialog2;
+       end
+       else if (bitDialog(bit_1) == 0) then begin
+       call NodeFstDialog;
+       end
+       else begin
+       call NodeSndDialog;
+       end
+   end
+   else if (cur_map_index == MAP_RANGERS_CAVE) then begin
+       call NodeQuest300;
+   end
+   else begin
+       call NodeStopDialog;
+   end
+end
+
+   /*
+   - Курсант Пресли, выйти из строя!
+   - Есть!
+   - Итак, курсант, мне доложили, что ты опять пытался взять винтовку и уйти в пустошь.
+   - Так точно, я думал...
+   - Я знаю, о чем ты думал, болван! О своей заднице.
+   - Но я готов к полевым испытаниям! Возьмите меня в пустошь!
+   - Мы это уже обсуждали. Сначала отрасти себе яйца, курсант Пресли.
+   - !
+   - Повторяю еще раз - никто из вас, молокососов, не готов к полевым испытаниям.
+   - ...
+   - Пока вы не завершите строевую подготовку, никто из командиров не возьмет вас на миссию. Это понятно?
+   - Так точно...
+   - А теперь иди в казарму. За своевольство - наряд на чистку туалетов. Живо!
+   - Есть...
+   */
+
+procedure NodeStopDialog begin
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+   BAnswer(209,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   set_map_var(MVAR_RNGRS_Presly,1);
+   Reply(206)
+   NAnswer(207,1,Node999)
+   NAnswer(208,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   NAnswer(230,3,NodeAnswer103)
+   NAnswer(233,3,NodeAnswer104)
+   if (map_var(MVAR_RNGRS_Presly) == 2) then begin
+      if (bitDialog(bit_2) == 0) then begin
+      NAnswer(220,1,NodeAnswer100)
+      end else begin
+      NAnswer(228,1,NodeAnswer101)
+      end
+         // added the below to offer to join sortie after getting permission from Agata - cambragol
+         if (getQuest(GVAR_RANGERS_QST_CADET) == -1) then begin
+            // restore the normal state of the quest - cambragol
+            setQuest(GVAR_RANGERS_QST_CADET,qStart);
+            NAnswer(300,1,NodeQuest100)
+         end
+   end
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   // start cadet quest here so that Pc will offer to take Presely out when talking to Agata - cambragol
+   setQuest(GVAR_RANGERS_QST_CADET,qStart);
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(224,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,0)
+   Reply(225)
+   NAnswer(226,1,NodeSndDialog)
+   BAnswer(227,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(231)
+   NAnswer(232,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(234)
+   NAnswer(235,1,NodeSndDialog)
+end
+
+procedure NodeQuest100 begin
+   Reply(301)
+   NAnswer(302,1,NodeQuest101)
+   GAnswer(304,1,NodeQuest102)
+   BAnswer(306,1,NodeQuest103)
+end
+
+procedure NodeQuest101 begin
+   Reply(303)
+   NAnswer(308,1,NodeQuest104)
+end
+
+procedure NodeQuest102 begin
+   Reply(305)
+   NAnswer(308,1,NodeQuest104)
+end
+
+procedure NodeQuest103 begin
+   Reply(307)
+   NAnswer(308,1,NodeQuest104)
+end
+
+procedure NodeQuest104 begin
+   Reply(309)
+   NAnswer(310,1,NodeQuest105)
+end
+
+procedure NodeQuest105 begin
+   call NodeToInfocenter;
+   Reply(311)
+   NAnswer(312,1,Node999)
+end
+
+procedure NodeToInfocenter begin
+   set_map_var(MVAR_RNGRS_Presly,3);
+   set_local_var(LVAR_Home_Tile,15295);
+      move_to(self_obj, local_var(LVAR_Home_Tile), 0);
+   set_local_var(LVAR_Home_Rotat,3);
+      anim(self_obj, ANIMATE_ROTATION, local_var(LVAR_Home_Rotat));
+end
+
+procedure NodeToBarrak begin
+   setQuest(GVAR_RANGERS_QST_CADET,qEnd);
+   set_local_var(LVAR_Home_Tile,23699);
+      move_to(self_obj, local_var(LVAR_Home_Tile), 2);
+   set_local_var(LVAR_Home_Rotat,2);
+      anim(self_obj, ANIMATE_ROTATION, local_var(LVAR_Home_Rotat));
+end
+
+//--- ДИАЛОГ В ХОДЕ КВЕСТА
+
+procedure NodeSndDialog2 begin
+   Reply(320)
+   NAnswer(322,1,NodeQuest201)
+   NAnswer(325,1,NodeQuest202)
+   NAnswer(321,1,Node999)
+end
+
+procedure NodeQuest201 begin
+   Reply(323)
+   NAnswer(324,1,NodeSndDialog2)
+end
+
+procedure NodeQuest202 begin
+   if (party_member_count(0) > 1) then begin
+   Reply(330)
+   NAnswer(331,1,NodeSndDialog2)
+   end
+   else begin
+   call NodeQuestGo;
+   end
+end
+
+procedure NodeQuest203 begin
+   set_gvar_bit_off(GVAR_RANGERS_QST_CADET_MASK, bit_7);
+   if RATKING_DEAD then begin
+   call NodeQuest205;
+   end
+   else begin
+   zReply(326)
+   NAnswer(327,1,NodeQuest204)
+   end
+end
+
+procedure NodeQuest204 begin
+   Reply(328)
+   NAnswer(329,1,Node999)
+end
+
+procedure NodeQuest205 begin
+   call NodeToBarrak;
+   exp_add(1000);
+
+   if MILTON_ENEMY_TO_DUDE then begin
+      setBonusReaction(-50)
+      set_SLAVA(-25)
+      Reply(332)
+      NAnswer(333,1,Node999)
+   end
+   else if (BANDIT_DEAD or BANDIT_RUN) then begin
+      setBonusReaction(50)
+      set_REP(5)
+      set_SLAVA(35)
+      Reply(334)
+      NAnswer(335,1,NodeQuest206)
+   end
+   else if (BANDIT_VISIBLE or DUDE_ESCAPED) then begin
+      setBonusReaction(-30)
+      set_SLAVA(-10)
+      Reply(332)
+      NAnswer(333,1,Node999)
+   end
+   else begin
+      setBonusReaction(25)
+      set_REP(2)
+      Reply(341)
+      NAnswer(342,1,Node999)
+   end
+end
+
+procedure NodeQuest206 begin
+   Reply(336)
+   NAnswer(337,1,NodeQuest207)
+end
+
+procedure NodeQuest207 begin
+   Reply(338)
+   NAnswer(339,1,Node999)
+   NAnswer(340,1,Node999)
+end
+
+procedure NodeQuestGo begin
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 2, 3);
+   call Node999;
+end
+
+procedure NodeQuest300 begin
+   if MILTON_ENEMY_TO_DUDE then begin
+   Reply(359)
+   end
+   else begin
+   Reply(350)
+   end
+   if RATKING_LIFE then begin
+   NAnswer(352,1,NodeQuest301)
+   end
+   NAnswer(356,1,NodeQuest305)
+   NAnswer(351,1,Node999)
+end
+
+procedure NodeQuest301 begin
+   Reply(353)
+   NAnswer(354,1,NodeQuest302)
+   NAnswer(351,1,Node999)
+end
+
+procedure NodeQuest302 begin
+   Reply(355)
+   NAnswer(351,1,Node999)
+end
+
+procedure NodeQuest303 begin
+   set_gvar_bit_off(GVAR_RANGERS_QST_CADET_MASK, bit_10);
+   Reply(360)
+   NAnswer(361,1,NodeQuest304)
+end
+
+procedure NodeQuest304 begin
+   Reply(362)
+   NAnswer(363,1,Node999)
+end
+
+procedure NodeQuest305 begin
+   if (MILTON_ENEMY_TO_DUDE or DEAD_MILTON_CHILD or DEAD_MILTON_MISS or DEAD_MILTON_MSTR) then begin
+   Reply(358)
+   end
+   else begin
+   Reply(357)
+   end
+   NAnswer(351,1,Node999)
+end
+
+procedure NodeQuest306 begin
+   set_gvar_bit_off(GVAR_RANGERS_QST_CADET_MASK, bit_11);
+   set_gvar_bit_off(GVAR_RANGERS_QST_CADET_MASK, bit_10); // контроль на случай, если разговор о крысе не состоялся
+   Reply(364)
+   NAnswer(365,1,NodeQuest307)
+end
+
+procedure NodeQuest307 begin
+   Reply(366)
+   NAnswer(367,1,NodeQuest308)
+   NAnswer(370,1,NodeQuest309)
+end
+
+procedure NodeQuest308 begin
+   Reply(368)
+   NAnswer(369,1,Node999)
+end
+
+procedure NodeQuest309 begin
+   Reply(371)
+   NAnswer(372,1,Node999)
+end

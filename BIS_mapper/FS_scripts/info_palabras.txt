@@ -1,0 +1,30 @@
+Font FONT1.AAF
+
+Character code in ASCII and in the utility / symbol for insertion into the text / explanation
+
+191 ø inverted question
+161 ° inverted exclamation
+136 à chant
+
+Accent letters:
+
+142 é (reserved for accented A)
+158 û accented a (lowercase)
+
+128 Ä (reserved for accented E)
+144 ê accented e (lowercase)
+
+138 ä (reserved for accented I)
+154 ö accented i (lowercase)
+
+140 å (reserved for accented N)
+156 ú accented n (lowercase)
+
+129 Å (reserved for accented O)
+131 É accented o (lowercase)
+
+143 è (reserved for accented under stressed U)
+159 ü stressed u (lowercase)
+
+141 ç (reserved for any new symbol)
+157 ù (reserved for any new symbol)

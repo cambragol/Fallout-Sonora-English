@@ -1,0 +1,775 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCRedBos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_BANDIT   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog100;
+procedure NodeStopDialog101;
+procedure NodeStopDialog102;
+procedure NodeStopDialog103;
+procedure NodeStopDialog104;
+procedure NodeStopDialog200;
+procedure NodeStopDialog201;
+procedure NodeStopDialog202;
+procedure NodeStopDialog203;
+procedure NodeStopDialog204;
+procedure NodeStopDialog205;
+procedure NodeStopDialog206;
+procedure NodeStopDialog207;
+procedure NodeStopDialog208;
+procedure NodeStopDialog209;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog205;
+procedure NodeFstDialog206;
+procedure NodeFstDialog300;
+procedure NodeFstDialog301;
+procedure NodeFstDialog302;
+procedure NodeFstDialog303;
+procedure NodeFstDialog304;
+procedure NodeFstDialog305;
+procedure NodeFstDialog306;
+procedure NodeFstDialog307;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer206b;
+procedure NodeAnswer207;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodeAnswer403;
+
+//---------------------
+
+#define LVAR_EnemyPrev                     (6) // число провокаций, при >N нападает
+
+import variable box_stop_use;
+import variable obj_critter_a; // указатель на Орриса
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,random(70,90))
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+   if (fixed_param == 3) then begin
+       if (dude_cur_hits<=2) then begin
+       dam_to_dude_LEG
+       end
+       else if (dude_cur_hits<10) then begin
+       critter_dmg(dude_obj, 1, DMG_normal_dam);
+       end
+       else begin
+       critter_dmg(dude_obj, (dude_cur_hits/2), DMG_normal_dam);
+       end
+   end
+   if (fixed_param == 4) then begin
+       KillScorpTail(-1) // фраза над жертвой (-1 если не нужна)
+   end
+end
+
+procedure critter_p_proc begin
+   obj_critter_a := self_obj;
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if ((bitDialog(bit_1) == 0) and (map_var(MVAR_PNX_CARDINALS_DOPUSK) == 0) and (getQuest(GVAR_PHENIX_QST_CARDINALS) == qZero)) then begin
+   dialogue_system_forcing(7)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (getQuest(GVAR_PHENIX_QST_CARDINALS) == qEnd) then begin
+   UsedToCrit_Poison(PID_M_PSYCHO,103,4)
+   UsedToCrit_Poison(PID_M_BUFFOUT,103,4)
+   UsedToCrit_Scorp(103,4)
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   obj_critter_a := 0;
+   set_map_var(MVAR_PNX_CARDINALS_ATTAK,-10);
+   set_global_var(GVAR_PHENIX_STATUS_CARDINAL,-1);
+   if (getQuest(GVAR_PHENIX_QST_CARDINALS) == qStart) then begin
+   setQuest(GVAR_PHENIX_QST_CARDINALS,qStop);
+   end
+   if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qStart) then begin
+   setQuest(GVAR_PHENIX_QST_CARDINAL_SPY,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_TITUL_PHENIX_CULT)>0) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARENA_MASTER,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,102,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_map_var(MVAR_PNX_CARDINALS_DOPUSK,-1);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((bitDialog(bit_1) != 0) and (bitDialog(bit_5) == 0) and (map_var(MVAR_PNX_BAIK_KILLER)>0)) then begin
+      call NodeStopDialog100;
+   end
+   else if ((bitDialog(bit_1) != 0) and (bitDialog(bit_6) == 0) and (global_var(GVAR_PHENIX_STATUS_DRUGDILLER) <= -2)) then begin
+      call NodeStopDialog200;
+   end
+   else if (getQuest(GVAR_PHENIX_QST_CARDINALS) == qZero) then begin
+      if (global_var(GVAR_TITUL_ARENA_MASTER)>0) then begin
+      call NodeFstDialog2;
+      end
+      else if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+      end
+      else begin
+      call NodeFstDialog101;
+      end
+   end
+   else if (getQuest(GVAR_PHENIX_QST_CARDINALS) == qStart) then begin
+      set_map_var(MVAR_PNX_CARDINALS_DOPUSK,1); // эта опция внесена только для удобства теста в маппере
+      bitDialogExp(bit_1,0)
+      if (bitDialog(bit_3) == 0) then begin
+      call NodeFstDialog300;
+      end
+      else begin
+      call NodeFstDialog305;
+      end
+   end
+   else begin
+      set_map_var(MVAR_PNX_CARDINALS_DOPUSK,1); // эта опция внесена только для удобства теста в маппере
+      bitDialogExp(bit_1,0)
+      call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog100 begin
+   bitDialogExp(bit_5,0)
+   zReply(320)
+   NAnswerSkill(332,1,NodeStopDialog104,SKILL_CONVERSANT,50,328,NodeStopDialog103)
+   NAnswerReaction(325,1,NodeStopDialog102,35,321,NodeStopDialog101)
+   BAnswer(335,1,NodeStopDialog101)
+end
+
+procedure NodeStopDialog101 begin
+   zReply(322)
+   NAnswer(323,1,Node998)
+   NAnswer(324,1,Node998)
+end
+
+procedure NodeStopDialog102 begin
+   setBonusReaction(-25)
+   Reply(326)
+   NAnswer(327,1,Node999)
+end
+
+procedure NodeStopDialog103 begin
+   Reply(329)
+   NAnswer(330,1,Node998)
+   NAnswer(331,1,Node998)
+end
+
+procedure NodeStopDialog104 begin
+   setBonusReaction(-25)
+   Reply(333)
+   NAnswer(334,1,Node999)
+end
+
+procedure NodeStopDialog200 begin
+   bitDialogExp(bit_6,0)
+   setBonusReaction(-50)
+   zReply(350)
+   NAnswer(356,1,NodeStopDialog202)
+   BAnswer(352,1,NodeStopDialog201)
+end
+
+procedure NodeStopDialog201 begin
+   Reply(353)
+   NAnswer(355,1,Node998)
+   BAnswer(354,1,Node998)
+end
+
+procedure NodeStopDialog202 begin
+   Reply(357)
+   if dude_is_female then begin
+   BAnswer(359,1,NodeStopDialog203)
+   end
+   else begin
+   GAnswer(378,5,NodeStopDialog207)
+   NAnswerSkill(371,1,NodeStopDialog207,SKILL_CONVERSANT,50,368,NodeStopDialog206)
+   NAnswerReaction(365,1,NodeStopDialog205,35,362,NodeStopDialog204)
+   end
+   BAnswer(358,1,NodeStopDialog201)
+end
+
+procedure NodeStopDialog203 begin
+   setBonusReaction(25)
+   Reply(360)
+   NAnswer(361,1,Node999)
+end
+
+procedure NodeStopDialog204 begin
+   Reply(363)
+   NAnswer(364,1,Node998)
+end
+
+procedure NodeStopDialog205 begin
+   Reply(366)
+   NAnswer(367,1,Node999)
+end
+
+procedure NodeStopDialog206 begin
+   Reply(369)
+   NAnswer(370,1,Node998)
+end
+
+procedure NodeStopDialog207 begin
+   Reply(372)
+   NAnswer(373,1,Node999)
+   if (item_amnt(dude_obj,PID_M_STIMPAK)>=10) then begin
+   NAnswer(375,1,NodeStopDialog208)
+   end
+   BAnswer(374,1,NodeStopDialog201)
+end
+
+procedure NodeStopDialog208 begin
+   bitDialogExp(bit_7,250)
+   set_SLAVA(5)
+   set_REP(1)
+   setBonusReaction(50)
+   item_remove(dude_obj,PID_M_STIMPAK,10)
+   Reply(376)
+   NAnswer(377,1,Node999)
+end
+
+procedure NodeStopDialog209 begin
+   if (bitDialog(bit_6) != 0) then begin
+      if (bitDialog(bit_7) == 0) then begin
+         if (item_amnt(dude_obj,PID_M_STIMPAK)>=10) then begin
+         NAnswer(375,1,NodeStopDialog208)
+         end
+      end
+   end
+   if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+      if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) > 0) then begin
+      NAnswer(340,1,NodeAnswer301)
+      end
+   end
+   if (getQuest(GVAR_PHENIX_QST_PLANT_SPY) == qStart) then begin
+      NAnswer(380,1,NodeAnswer400)
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog100)
+end
+
+procedure NodeFstDialog2 begin
+   bitDialogExp(bit_1,0)
+   zReply(224)
+   NAnswer(225,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(226)
+   NAnswer(227,1,NodeFstDialog205)
+   BAnswer(228,1,Node999)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(202)
+   NAnswer(217,1,NodeFstDialog108)
+   GAnswer(206,1,NodeFstDialog103)
+   BAnswer(203,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(223)
+   NAnswer(217,1,NodeFstDialog108)
+   GAnswer(206,1,NodeFstDialog103)
+   BAnswer(203,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(204)
+   NAnswer(205,1,Node998)
+end
+
+procedure NodeFstDialog103 begin
+   zReply(207)
+   NAnswer(208,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(209)
+   NAnswer(216,1,NodeFstDialog200)
+   BAnswer(210,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog106 begin
+   zReply(211)
+   NAnswer(212,1,NodeFstDialog107)
+   BAnswer(215,1,Node998)
+end
+
+procedure NodeFstDialog107 begin
+   inc_local_var(LVAR_EnemyPrev);
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>0) then begin
+   item_add(self_obj,PID_BOOTLE_CAPS,item_amnt(dude_obj,PID_BOOTLE_CAPS))
+   item_remove(dude_obj,PID_BOOTLE_CAPS,item_amnt(dude_obj,PID_BOOTLE_CAPS))
+   end
+   setBonusReaction(-10)
+
+   if (local_var(LVAR_EnemyPrev)>3) then begin
+   Reply(246)
+   BAnswer(247,1,Node998)
+   NAnswer(248,1,Node998)
+   end
+   else begin
+
+   move_to(dude_obj,22703,dude_elevation);
+   anim(dude_obj,ANIMATE_ROTATION,2);
+   if dude_is_female then begin
+   display_mstr(214);
+   end else begin
+   display_mstr(213);
+   end
+   add_timer_event(self_obj,3,3);
+
+   call Node999;
+   end
+end
+
+procedure NodeFstDialog108 begin
+   zReply(218)
+   NAnswer(219,1,NodeFstDialog109)
+end
+
+procedure NodeFstDialog109 begin
+   Reply(220)
+   NAnswer(221,1,NodeFstDialog200)
+   BAnswer(222,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog200 begin
+   bitDialogExp(bit_2,0)
+   Reply(230)
+   NAnswer(232,1,NodeFstDialog201)
+   NAnswer(240,1,NodeFstDialog202)
+   NAnswer(234,1,NodeFstDialog203)
+   BAnswer(231,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(233)
+   NAnswer(240,1,NodeFstDialog202)
+   NAnswer(234,1,NodeFstDialog203)
+   BAnswer(231,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog202 begin
+   Reply(241)
+   NAnswer(232,1,NodeFstDialog201)
+   NAnswer(234,1,NodeFstDialog203)
+   BAnswer(231,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(235)
+   NAnswer(236,1,NodeFstDialog204)
+end
+
+procedure NodeFstDialog204 begin
+   setQuest(GVAR_PHENIX_QST_CARDINALS,qStart);
+   set_map_var(MVAR_PNX_CARDINALS_DOPUSK,1);
+   setBonusReaction(5)
+   Reply(237)
+   BAnswer(238,1,Node999)
+   NAnswer(239,1,Node999)
+end
+
+procedure NodeFstDialog205 begin
+   setQuest(GVAR_PHENIX_QST_CARDINALS,qStart);
+   set_map_var(MVAR_PNX_CARDINALS_DOPUSK,1);
+   setBonusReaction(5)
+   Reply(230)
+   NAnswer(232,1,NodeFstDialog206)
+   NAnswer(238,1,Node999)
+   NAnswer(239,1,Node999)
+end
+
+procedure NodeFstDialog206 begin
+   Reply(245)
+   NAnswer(238,1,Node999)
+   NAnswer(239,1,Node999)
+end
+
+procedure NodeFstDialog300 begin
+   zReply(250)
+   if (global_var(GVAR_PHENIX_STATUS_CARD_PRISON) != 0) then begin
+   NAnswer(252,1,NodeFstDialog302)
+   end
+   call NodeStopDialog209;
+   NAnswer(242,1,NodeFstDialog301)
+   BAnswer(251,1,Node999)
+end
+
+procedure NodeFstDialog301 begin
+   Reply(243)
+   NAnswer(244,1,Node999)
+end
+
+procedure NodeFstDialog302 begin
+   Reply(253)
+   NAnswer(254,1,NodeFstDialog303)
+end
+
+procedure NodeFstDialog303 begin
+   Reply(255)
+   NAnswer(256,1,NodeFstDialog304)
+end
+
+procedure NodeFstDialog304 begin
+   bitDialogExp(bit_3,0)
+   Reply(257)
+   if (global_var(GVAR_PHENIX_STATUS_CARD_PRISON) < 0) then begin
+   NAnswer(266,1,NodeFstDialog307)
+   end
+   else if (global_var(GVAR_PHENIX_STATUS_CARD_PRISON) > 1) then begin
+   NAnswer(267,1,NodeFstDialog307)
+   end
+   NAnswer(258,1,Node999)
+   BAnswer(259,1,Node999)
+end
+
+procedure NodeFstDialog305 begin
+   Reply(260)
+   if (global_var(GVAR_PHENIX_STATUS_CARD_PRISON) < 0) then begin
+   NAnswer(266,1,NodeFstDialog307)
+   end
+   else if (global_var(GVAR_PHENIX_STATUS_CARD_PRISON) > 1) then begin
+   NAnswer(267,1,NodeFstDialog307)
+   end
+   call NodeStopDialog209;
+   NAnswer(261,1,NodeFstDialog306)
+end
+
+procedure NodeFstDialog306 begin
+   Reply(262)
+   NAnswer(263,1,Node999)
+   BAnswer(264,1,Node999)
+   BAnswer(265,3,Node998)
+end
+
+procedure NodeFstDialog307 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,120)
+   item_add(dude_obj,PID_M_STIMPAK,1)
+   setQuest(GVAR_PHENIX_QST_CARDINALS,qEnd);
+   exp_add(350);
+   setBonusReaction(25)
+
+   zReply(268)
+   NAnswer(269,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qStart) then begin
+   zReply(282)
+   end
+   else if (getReaction>=35) then begin
+   Reply(301)
+   end
+   else if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   zReply(303)
+   end
+   else begin
+   Reply(300)
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_LETTERS) == qStart) then begin
+      if (item_amnt(dude_obj,PID_Q_LETTERS) <= 0) then begin
+      NAnswer(310,1,NodeAnswer100)
+      end
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_CARDINALS) == qEnd) then begin
+      if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qZero) then begin
+         if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+         NAnswer(270,1,NodeAnswer200)
+         end
+         else begin
+         NAnswer(270,1,NodeAnswer202)
+         end
+      end
+      if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qStart) then begin
+         if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+         NAnswer(289,1,NodeAnswer201)
+         end
+         else begin
+         NAnswer(297,1,NodeAnswer207)
+         end
+      end
+      if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qEnd) then begin
+         NAnswer(283,1,NodeAnswer205)
+      end
+      if (bitDialog(bit_4) == 0) then begin
+         NAnswer(290,1,NodeAnswer101)
+      end
+   end
+
+   call NodeStopDialog209;
+
+   NAnswer(302,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(311)
+   NAnswer(312,1,Node999)
+   BAnswer(313,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   bitDialogExp(bit_4,0)
+   Reply(291)
+   NAnswer(292,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   Reply(293)
+   NAnswer(294,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(271)
+   NAnswer(272,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   set_global_var(GVAR_PHENIX_STATUS_CARDINAL,1);
+   setQuest(GVAR_PHENIX_QST_CARDINALS,qEnd+1);
+   setBonusReaction(50)
+   box_stop_use := 0;
+   exp_add(250);
+   zReply(273)
+   NAnswer(274,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   Reply(275)
+   NAnswer(276,1,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   Reply(277)
+   NAnswer(278,1,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   setQuest(GVAR_PHENIX_QST_CARDINAL_SPY,qStart);
+   Reply(279)
+   NAnswer(295,1,NodeAnswer207)
+   NAnswer(280,1,Node999)
+   BAnswer(281,1,Node999)
+end
+
+procedure NodeAnswer205 begin
+   Reply(284)
+   NAnswer(285,1,NodeAnswer206)
+end
+
+procedure NodeAnswer206 begin
+   inc_map_var(MVAR_PNX_CARDINALS_ATTAK);
+   set_global_var(GVAR_PHENIX_STATUS_CARDINAL,1);
+   setQuest(GVAR_PHENIX_QST_CARDINALS,qEnd+1);
+   item_add(dude_obj,PID_BOOTLE_CAPS,250)
+   exp_add(750);
+   set_SLAVA(-35)
+   set_REP(-3)
+   setBonusReaction(50)
+   box_stop_use := 0;
+
+   Reply(286)
+   if (map_var(MVAR_PNX_CARDINALS_ATTAK)<0) then begin
+   GAnswer(288,1,Node999)
+   end
+   else begin
+   NAnswer(287,1,NodeAnswer206b)
+   end
+end
+
+procedure NodeAnswer206b begin
+   PLAY_FADE
+   call Node999;
+end
+
+procedure NodeAnswer207 begin
+   Reply(296)
+   // added the two below lines to make the initial and follow up responses sound better - cambragol
+   NAnswer(298,1,Node999)
+   BAnswer(299,1,Node999)
+end
+
+procedure NodeAnswer301 begin
+   Reply(341)
+   NAnswer(342,1,NodeAnswer302)
+end
+
+procedure NodeAnswer302 begin
+   Reply(343)
+   NAnswer(344,1,NodeAnswer303)
+end
+
+procedure NodeAnswer303 begin
+   Reply(345)
+   NAnswer(346,1,NodeSndDialog)
+end
+
+procedure NodeAnswer400 begin
+   Reply(381)
+   if (global_var(GVAR_PHENIX_STATUS_CARDINAL)>0) then begin
+   NAnswer(387,1,NodeAnswer402)
+   end
+   NAnswerReaction(386,3,NodeAnswer402,50,383,NodeAnswer401)
+   NAnswer(382,1,NodeSndDialog)
+end
+
+procedure NodeAnswer401 begin
+   Reply(384)
+   NAnswer(385,1,Node999)
+end
+
+procedure NodeAnswer402 begin
+   Reply(388)
+   NAnswer(389,1,NodeAnswer403)
+end
+
+procedure NodeAnswer403 begin
+   setQuest(GVAR_PHENIX_QST_PLANT_SPY,qEnd);
+   exp_add(250);
+   Reply(390)
+   NAnswer(391,1,Node999)
+   BAnswer(392,1,Node998)
+   BAnswer(393,1,Node999)
+end

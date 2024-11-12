@@ -1,0 +1,387 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_NCQuestA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_NUEVA // ???????? ? ????????? (-1, ???? ?? ?????)
+
+#define NUM_TEAM                        TEAM_CASANUEVA_PEASAN // ??????, ? ??????? ??????????? ???????? (-1 ???? ????? ???????? Team, ???????? ? ?????????)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI ????????? (-1 ???? ????? ???????? AI, ???????? ? ?????????)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // ????? ?? ???????? ????? ????????? (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // ????????? ?? ???????? ????? ????????? (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // ?????????????? ???????????? ??????? (-1, ???? ?? ?????)
+
+#define FLAG_STEAL                      50 // ?????? ????? ?????? ??? ????? (??? ????????? 200, ??? ???????? 300)
+#define FLAG_ALCOHOL                    1  // ?????? ?? ???????? ?? ??: 0 - ?????????, 1 - ?? ?????????
+#define FLAG_FOOD                       1  // ?????? ?? ???? ?? ??: 0 - ?????????, 1 - ?? ?????????
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog205;
+procedure NodeFstDialog206;
+procedure NodeFstDialog207;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // ???????? ?? ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if ((map_var(MVAR_NUEVA_MER_ROSAKNOW) > 0) and (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) >= qEnd)) then begin
+       set_local_var(LVAR_Home_Tile,23281);
+       set_local_var(LVAR_Home_Rotat,5);
+       set_map_var(MVAR_NUEVA_MER_ROSAKNOW,999);
+       end
+
+       set_start_home
+
+       set_obj_visibility(self_obj, 0);
+       if ((map_var(MVAR_NUEVA_MER_DIALOG) == 0) or (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) >= qEnd) or (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) <= qStop)) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+
+       /*
+       if ((map_var(MVAR_NUEVA_MER_ROSAKNOW) > 0) and (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) >= qEnd)) then begin
+       ?????? ???????? ? ?????? ??? ???????? ?? ????????? ???????
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       move_to(self_obj,23281,0);
+       kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+       end
+       */
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // ?????? ?? ??????? 1 ?????????????? ??? ??????????? ????????? ?? ???????
+   // ?????? ?? ??????? 2 ?????????????? ??? ??????????? ???????
+   if (fixed_param == 1) then begin
+       if (map_var(MVAR_NUEVA_MER_ROSAKNOW) > 100) then begin
+       timer_move_to_home
+       end
+       else if (map_var(MVAR_NUEVA_MER_DIALOG) >= 2) then begin
+       timer_move_random_home(1)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //??????? ????????? (0 ?????? ??????, 1 ?????? ????????, 2 ??????), ???????? ? ??
+   if (map_var(MVAR_NUEVA_MER_DIALOG) == 1) then begin
+   set_obj_visibility(self_obj, 0);
+   dialogue_system_forcing(3)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //?????????? min, ????????? min, ?????? ??? %, ?????? ??? %, ?????? ???? %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) < qEnd) then begin
+   setQuest(GVAR_NUEVA_QST_PLANT_DEAD,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_NUEVA_MER_ROSAKNOW) > 100) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else if ((map_var(MVAR_NUEVA_MER_DIALOG) > 0) or (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) != qZero)) then begin
+   setReaction(1) // ????????? ? ?? (1 - ???????? ?????????????, -1 ?????????????, 0 ???????????)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   z_floater(self_obj,102,COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   end
+
+   if (map_var(MVAR_NUEVA_MER_DIALOG) == 1) then begin
+   call NodeFstDialog101;
+   end
+   else if (map_var(MVAR_NUEVA_MER_DIALOG) == 2) then begin
+   call NodeFstDialog200;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ?????? ??????
+
+procedure NodeFstDialog101 begin
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog103)
+   BAnswer(204,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog104)
+   BAnswer(207,1,NodeFstDialog106)
+   BAnswer(208,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog104 begin
+   bitDialogExp(bit_1,0)
+   inc_map_var(MVAR_NUEVA_MER_DIALOG);
+   set_local_var(LVAR_Home_Tile,26916);
+   move_to(self_obj,HomeTile,0);
+   call Node999;
+end
+
+procedure NodeFstDialog105 begin
+   set_REP(-1)
+   setBonusReaction(-25)
+   call NodeFstDialog104;
+end
+
+procedure NodeFstDialog106 begin
+   setBonusReaction(-10)
+   call NodeFstDialog104;
+end
+
+procedure NodeFstDialog200 begin
+   inc_map_var(MVAR_NUEVA_MER_DIALOG);
+   setQuest(GVAR_NUEVA_QST_PLANT_DEAD,qStart);
+   set_local_var(LVAR_Home_Tile,27507);
+   zReply(210)
+   NAnswer(211,1,NodeFstDialog201)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(212)
+   NAnswer(213,1,NodeFstDialog202)
+   NAnswer(215,1,NodeFstDialog203)
+   NAnswer(219,1,NodeFstDialog205)
+end
+
+procedure NodeFstDialog202 begin
+   Reply(214)
+   NAnswer(215,1,NodeFstDialog203)
+   NAnswer(219,1,NodeFstDialog205)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(216)
+   NAnswer(217,1,NodeFstDialog204)
+   NAnswer(213,1,NodeFstDialog202)
+   NAnswer(219,1,NodeFstDialog205)
+end
+
+procedure NodeFstDialog204 begin
+   Reply(218)
+   NAnswer(213,1,NodeFstDialog202)
+   NAnswer(219,1,NodeFstDialog205)
+end
+
+procedure NodeFstDialog205 begin
+   Reply(220)
+   NAnswer(223,3,NodeFstDialog206)
+   GAnswer(221,1,NodeFstDialog207)
+   BAnswer(222,1,Node999)
+end
+
+procedure NodeFstDialog206 begin
+   Reply(224)
+   GAnswer(221,1,NodeFstDialog207)
+   BAnswer(222,1,Node999)
+end
+
+procedure NodeFstDialog207 begin
+   Reply(225)
+   NAnswer(226,1,Node999)
+end
+
+//--- ?????? ??????
+
+procedure NodeSndDialog begin
+   if (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) == qStart) then begin
+   Reply(231)
+   end
+   else begin
+   Reply(230)
+   end
+
+   if (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) == qStart) then begin
+   if (global_var(GVAR_NUEVA_KNOW_SPORE) != 0) then begin
+   NAnswer(250,3,NodeAnswer200)
+   BAnswer(251,3,NodeAnswer201)
+   end
+   end
+
+   // fixed this introduction, otherwise it pops up all the time - cambragol
+   if (map_var(MVAR_NUEVA_MER_DIALOG) == 3) then begin
+      NAnswer(240,3,NodeAnswer100)
+      inc_map_var(MVAR_NUEVA_MER_DIALOG);
+   end
+
+   if (map_var(MVAR_NUEVA_MER_ROSAKNOW) == 1) then begin
+   NAnswer(243,3,NodeAnswer101)
+   end
+
+   if (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) == qStart) then begin
+   NAnswer(232,1,NodeFstDialog207)
+   end
+   else begin
+   NAnswer(233,1,Node999)
+   end
+end
+
+procedure NodeAnswer100 begin
+   Reply(241)
+   NAnswer(242,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(244)
+   NAnswer(245,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   inc_map_var(MVAR_NUEVA_MER_ROSAKNOW);
+   zReply(246)
+   NAnswer(247,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(252)
+   NAnswer(253,1,NodeAnswer202)
+end
+
+procedure NodeAnswer201 begin
+   setBonusReaction(-35)
+   set_REP(-1)
+   set_SLAVA(-10)
+   call NodeAnswer200;
+end
+
+procedure NodeAnswer202 begin
+   PLAY_FADE
+   Reply(254)
+   NAnswer(255,1,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   Reply(256)
+   NAnswer(257,1,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   setQuest(GVAR_NUEVA_QST_PLANT_DEAD,qEnd);
+   exp_add(350);
+   Reply(258)
+   BAnswer(263,1,NodeAnswer206)
+   GAnswer(259,1,NodeAnswer205)
+end
+
+procedure NodeAnswer205 begin
+   setBonusReaction(50)
+   set_SLAVA(10)
+   set_REP(3)
+   zReply(260)
+   NAnswer(261,1,Node999)
+   NAnswer(262,1,Node999)
+end
+
+procedure NodeAnswer206 begin
+   setBonusReaction(-50)
+   set_SLAVA(-10)
+   set_REP(-2)
+   item_add(dude_obj,PID_BOOTLE_CAPS,random(50,60))
+   Reply(264)
+   NAnswer(265,1,Node999)
+end

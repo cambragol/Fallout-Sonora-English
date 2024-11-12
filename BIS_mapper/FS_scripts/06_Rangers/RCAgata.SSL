@@ -1,0 +1,535 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCAgata
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_RANGER           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      80 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog3;
+procedure NodeStopDialog4;
+procedure NodeStopDialog5;
+procedure NodeStopDialog6;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202a;
+procedure NodeAnswer202b;
+procedure NodeAnswer202c;
+procedure NodeAnswer202;
+procedure NodeAnswer203a;
+procedure NodeAnswer203b;
+procedure NodeAnswer203;
+procedure NodeAnswer204a;
+procedure NodeAnswer204b;
+procedure NodeAnswer204;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodePresly;
+procedure NodePresly2;
+procedure NodePresly3;
+procedure NodePresly4;
+procedure NodePresly5;
+procedure NodeSkillUp;
+procedure NodeSkillUp2;
+procedure NodeSkillUp3;
+procedure NodeSkillUp10;
+procedure NodeSkillUp11;
+procedure NodeSkillUp12;
+procedure NodeSkillUp13;
+procedure NodeSkillUp14;
+procedure NodeSkillUp20;
+procedure NodeSkillUp21;
+
+//---------------------
+
+#define LVAR_Skill_Up                   (6) // прохождение курса молодого бойца
+#define LVAR_Dialog_Sroty               (7) // личная история - рассказ
+
+import variable box_stop_use;
+
+variable dialogSkillUp;                 // номер навыка для повышения (курс молодого бойца)
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if (global_var(GVAR_STATUS_RANGERS_AGATA) != 0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) <= 0) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_STATUS_RANGERS_AGATA,-1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((bitDialog(bit_6) == 0) and (global_var(GVAR_TITUL_REBIRTH) != 0)) then begin
+   call NodeStopDialog4;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_2) == 0) and (global_var(GVAR_CAR_MAP_INDEX) == cur_map_index)) then begin
+   call NodeStopDialog;
+   end
+   else if ((bitDialog(bit_7) == 0) and (gvar_bit(GVAR_RANGERS_QST_CADET_MASK, bit_9) != 0)) then begin
+   call NodeStopDialog5;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(206)
+   NAnswer(207,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) == 0) then begin
+      Reply(200)
+      NAnswer(201,1,NodeStartDialog)
+   end
+   else begin
+      if town_rep_is_antipaty then begin
+      Reply(204)
+      NAnswer(205,1,NodeStartDialog)
+      end
+      else begin
+      Reply(202)
+      NAnswer(203,1,NodeStartDialog)
+      end
+   end
+end
+
+procedure NodeStopDialog begin
+   bitDialogExp(bit_2,0)
+   zReply(220)
+   GAnswer(221,1,NodeStopDialog2)
+   NAnswer(224,1,NodeStopDialog3)
+end
+
+procedure NodeStopDialog2 begin
+   set_REP(1)
+   setBonusReaction(20)
+   Reply(222)
+   NAnswer(223,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog3 begin
+   Reply(225)
+   NAnswer(226,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog4 begin
+   bitDialogExp(bit_6,0)
+   Reply(213)
+   NAnswer(214,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog5 begin
+   bitDialogExp(bit_7,0)
+   set_REP(-5)
+   setBonusReaction(-50)
+   zReply(313)
+   NAnswer(314,1,NodeStopDialog6)
+end
+
+procedure NodeStopDialog6 begin
+   zReply(315)
+   NAnswer(316,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(102)
+   end
+   else if (global_var(GVAR_TITUL_ARIZONA_RANGER) == 0) then begin
+   zReply(210)
+   end
+   else begin
+   Reply(211)
+   end
+
+   NAnswer(230,1,NodeAnswer)
+
+   if (local_var(LVAR_Skill_Up) == 0) then begin
+   NAnswer(250,1,NodeSkillUp)
+   end
+
+   if (map_var(MVAR_RNGRS_Presly) == 1) then begin
+   NAnswer(300,1,NodePresly)
+   end
+
+   if (getQuest(GVAR_RANGERS_QST_CADET) == qStart) and (bitDialog(bit_8) == 0) then begin
+      // this node opens when cadet preley has told the PC about the cave/critters - cambragol
+      setQuest(GVAR_RANGERS_QST_CADET,-1);
+      // the quest is set to -1 temporarily to handle the next step in the RCPresley script - -1 will open a dialogue option to join his quest - cambragol
+      NAnswer(309,4,NodePresly5)
+      bitDialogExp(bit_8,0)
+      // added the option to offer to take presley out here, - cambragol
+   end
+
+   if (getQuest(GVAR_RANGERS_QST_INTENDANT) == qStart) then begin
+   NAnswer(320,3,NodeAnswer300)
+   end
+
+   NAnswer(212,1,Node999)
+end
+
+//--- ВОПРОСЫ
+
+procedure NodeAnswer begin
+   Reply(231)
+   if (local_var(LVAR_Dialog_Sroty) == 0) then begin
+      if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+      NAnswer(271,1,NodeAnswer200)
+      end else begin
+      NAnswerSkill(270,3,NodeAnswer200,SKILL_CONVERSANT,40,270,NodeAnswer101)
+      end
+   end
+   NAnswer(237,1,NodeAnswer102)
+   NAnswer(241,1,NodeAnswer104)
+   NAnswer(236,1,NodeStartDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(272)
+   zNAnswer(273,1,NodeStartDialog)
+   BAnswer(274,1,NodeStartDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(238)
+   NAnswer(239,3,NodeAnswer103)
+   NAnswer(230,1,NodeAnswer)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_4,10)
+   Reply(240)
+   NAnswer(230,1,NodeAnswer)
+end
+
+procedure NodeAnswer104 begin
+   Reply(242)
+   NAnswer(243,5,NodeAnswer105)
+   NAnswer(245,1,NodeAnswer106)
+   NAnswer(230,1,NodeAnswer)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_3,10)
+   Reply(244)
+   NAnswer(230,1,NodeAnswer)
+end
+
+procedure NodeAnswer106 begin
+   Reply(246)
+   NAnswer(247,1,NodeAnswer107)
+end
+
+procedure NodeAnswer107 begin
+   Reply(248)
+   NAnswer(249,1,NodeAnswer)
+end
+
+procedure NodeAnswer200 begin
+   Reply(275)
+   NAnswer(276,1,NodeAnswer201)
+   NAnswer(277,1,NodeStartDialog)
+end
+
+procedure NodeAnswer201 begin
+   Reply(278)
+   NAnswer(279,1,NodeAnswer202a)
+   BAnswer(280,1,NodeAnswer202b)
+   if (global_var(GVAR_VILLA_STATUS_CHRIS) != 0) then begin
+   GAnswer(289,1,NodeAnswer202c)
+   end
+end
+
+procedure NodeAnswer202a begin
+   setBonusReaction(5)
+   call NodeAnswer202;
+end
+
+procedure NodeAnswer202b begin
+   setBonusReaction(-5)
+   call NodeAnswer202;
+end
+
+procedure NodeAnswer202c begin
+   setBonusReaction(15)
+   call NodeAnswer202;
+end
+
+procedure NodeAnswer202 begin
+   Reply(281)
+   NAnswer(282,1,NodeAnswer203a)
+   BAnswer(283,1,NodeAnswer203b)
+end
+
+procedure NodeAnswer203a begin
+   setBonusReaction(5)
+   call NodeAnswer203;
+end
+
+procedure NodeAnswer203b begin
+   setBonusReaction(-5)
+   call NodeAnswer203;
+end
+
+procedure NodeAnswer203 begin
+   Reply(284)
+   NAnswer(285,1,NodeAnswer204a)
+   BAnswer(286,1,NodeAnswer204b)
+end
+
+procedure NodeAnswer204a begin
+   setBonusReaction(5)
+   call NodeAnswer204;
+end
+
+procedure NodeAnswer204b begin
+   setBonusReaction(-5)
+   call NodeAnswer204;
+end
+
+procedure NodeAnswer204 begin
+   set_local_var(LVAR_Dialog_Sroty,1);
+   bitDialogExp(bit_5,100)
+   Reply(287)
+   NAnswer(288,1,NodeStartDialog)
+end
+
+procedure NodeAnswer300 begin
+   Reply(321)
+   NAnswer(322,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   Reply(323)
+   NAnswer(324,1,Node999)
+   BAnswer(325,1,Node999)
+end
+
+//--- КУРСАНТ ПРЕСЛИ
+
+procedure NodePresly begin
+   // set the map variable here, rather than at nodepresly5
+   set_map_var(MVAR_RNGRS_Presly,2);
+   Reply(301)
+   NAnswer(302,1,NodePresly2)
+end
+
+procedure NodePresly2 begin
+   Reply(303)
+   NAnswer(304,1,NodePresly3)
+   NAnswer(306,1,NodePresly4)
+   NAnswer(308,1,Node999)
+end
+
+procedure NodePresly3 begin
+   Reply(305)
+   NAnswer(306,1,NodePresly4)
+   NAnswer(308,1,Node999)
+end
+
+procedure NodePresly4 begin
+   Reply(307)
+   NAnswer(304,1,NodePresly3)
+   NAnswer(308,1,Node999)
+end
+
+procedure NodePresly5 begin
+   Reply(310)
+   NAnswer(311,1,Node999)
+   NAnswer(312,1,Node999)
+end
+
+//--- ОБУЧЕНИЕ
+
+procedure NodeSkillUp begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) == 0) then begin
+   Reply(251)
+   NAnswer(252,1,NodeStartDialog)
+   end
+   else begin
+   Reply(253)
+   NAnswer(254,1,NodeSkillUp2)
+   NAnswer(255,1,NodeStartDialog)
+   end
+end
+
+procedure NodeSkillUp2 begin
+   Reply(256)
+   NAnswer(257,1,NodeSkillUp3)
+end
+
+procedure NodeSkillUp3 begin
+   Reply(258)
+   NAnswer(260,1,NodeSkillUp10)
+   NAnswer(261,1,NodeSkillUp11)
+   NAnswer(262,1,NodeSkillUp12)
+   NAnswer(263,1,NodeSkillUp13)
+   NAnswer(264,1,NodeSkillUp14)
+end
+
+procedure NodeSkillUp10 begin
+   dialogSkillUp := SKILL_SMALL_GUNS;
+   call NodeSkillUp20;
+end
+
+procedure NodeSkillUp11 begin
+   dialogSkillUp := SKILL_BIG_GUNS;
+   call NodeSkillUp20;
+end
+
+procedure NodeSkillUp12 begin
+   dialogSkillUp := SKILL_THROWING;
+   call NodeSkillUp20;
+end
+
+procedure NodeSkillUp13 begin
+   dialogSkillUp := SKILL_UNARMED_COMBAT;
+   call NodeSkillUp20;
+end
+
+procedure NodeSkillUp14 begin
+   dialogSkillUp := SKILL_MELEE;
+   call NodeSkillUp20;
+end
+
+procedure NodeSkillUp20 begin
+   Reply(265)
+   NAnswer(266,1,NodeSkillUp21)
+end
+
+procedure NodeSkillUp21 begin
+   inc_local_var(LVAR_Skill_Up);
+   //skill_up(SKILL_SCOUT,5);
+   skill_up(dialogSkillUp,10);
+   PLAY_FADE
+   call Node999;
+end

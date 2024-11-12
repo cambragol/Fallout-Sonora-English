@@ -1,0 +1,6 @@
+{100}{}{You see a scavenger.}
+{101}{}{You see a dark man in dirty clothes.}
+
+{110}{}{Get out!}
+{111}{}{Get someone else.}
+{112}{}{Hi, how are you?}

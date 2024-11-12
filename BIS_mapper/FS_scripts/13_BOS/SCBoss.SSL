@@ -1,0 +1,908 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_SCBoss
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_BIG_PALADIN    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_BOS              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      120 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog3;
+procedure NodeHeadTest;
+procedure NodeHeadTest1;
+procedure NodeHeadTest2;
+procedure NodeHeadTest3;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog205;
+procedure NodeFstDialog206;
+procedure NodeFstDialog207;
+procedure NodeFstDialog208;
+procedure NodeFstDialog300;
+procedure NodeFstDialog301;
+procedure NodeFstDialog302;
+procedure NodeFstDialog303;
+procedure NodeFstDialog304;
+procedure NodeFstDialog305;
+procedure NodeFstDialog306;
+procedure NodeFstDialog307;
+procedure NodeFstDialog308;
+procedure NodeFstDialog306;
+procedure NodeFstDialog307;
+procedure NodeFstDialog308;
+procedure NodeFstDialog309;
+procedure NodeFstDialog310;
+procedure NodeFstDialog311;
+procedure NodeFstDialog312;
+procedure NodeSndDialog;
+procedure NodeRangers;
+procedure NodeRangers2;
+procedure NodeRangers3;
+procedure NodeRangers4;
+procedure NodeRangers5;
+procedure NodeRangers6;
+procedure NodeRangers7;
+procedure NodeTitul;
+procedure NodeTitul2;
+procedure NodeTitul3;
+procedure NodeTitul4;
+procedure NodeTitul5;
+procedure NodeTitul6;
+procedure NodeTitul7;
+procedure NodeTitul8;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer109;
+procedure NodeAnswer110;
+procedure NodeAnswer111;
+procedure NodeAnswer112;
+procedure NodeAnswer113;
+procedure NodeHolo;
+procedure NodeHolo2;
+procedure NodeHolo3;
+procedure NodeHolo4;
+procedure NodeHolo5;
+procedure NodeHolo6;
+procedure NodeHolo7;
+procedure NodeHolo8;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_TITUL_BOS) <= 0) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if ((map_var(MVAR_PUERTO_ALARM_BOS) > 0) and (tile_distance_objs(self_obj,dude_obj)<10)) then begin
+   if (global_var(GVAR_TITUL_BOS) <= 0) then begin
+   attack(dude_obj);
+   end
+   end
+   if self_enemy_dude then begin
+      BarklyAttakDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,5,5,5) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   //set_damage_EMP
+   if (source_obj == dude_obj) then begin
+   BarklyAttakDude
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_PUERTO_STATUS_BOSS,-1);
+   setQuest(GVAR_VILLA_ALLIANCE_BOS,qStop);
+   if (getQuest(GVAR_PUERTO_QST_RANGERS) == qStart) then begin
+   setQuest(GVAR_PUERTO_QST_RANGERS,qStop);
+   end
+   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
+   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,-90) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+
+   if (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) != 0) then begin
+   floater(dude_obj,102,COLOR_MSG_GREY);
+   floater(self_obj,103,COLOR_MSG_NORMAL);
+   end
+   else if (global_var(GVAR_GAME_END) != 0) then begin
+   floater(self_obj,105,COLOR_MSG_NORMAL);
+   end
+   else if ((armor_pid_dude_var == PID_ARMOR_POWER_A) and (global_var(GVAR_TITUL_BOS) == 0)) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else if ((armor_pid_dude_var == PID_ARMOR_POWER_B) and (global_var(GVAR_TITUL_BOS) == 0)) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else if ((armor_pid_dude_var == PID_ARMOR_POWER_C) and (global_var(GVAR_TITUL_BOS) == 0)) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,HEAD_BOSS_DIXON,BACKGROUND_WASTELND)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+   off_enemy_dude;
+end
+
+procedure NodeStartDialog begin
+   //call NodeHeadTest;
+
+   if (global_var(GVAR_PUERTO_DOPUSK)<=0) then begin
+   call NodeStopDialog;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   setBonusReaction(-10)
+   Reply(200)
+   BAnswer(201,0,NodeStopDialog2)
+   BAnswer(202,0,NodeStopDialog2)
+end
+
+procedure NodeStopDialog2 begin
+   Reply(203)
+   NAnswer(204,0,Node998)
+   BAnswer(205,0,Node998)
+end
+
+procedure NodeStopDialog3 begin
+   setBonusReaction(-10)
+   Reply(242)
+   NAnswer(243,0,Node999)
+   NAnswer(244,0,Node999)
+end
+
+procedure NodeHeadTest begin
+   Reply(108)
+   GAnswer(109,0,NodeHeadTest1)
+   NAnswer(110,0,NodeHeadTest3)
+   BAnswer(111,0,NodeHeadTest2)
+   NAnswer(112,0,Node999)
+end
+
+procedure NodeHeadTest1 begin
+   inc_local_var_amt(LVAR_Flags,5);
+   call NodeHeadTest;
+end
+
+procedure NodeHeadTest2 begin
+   dec_local_var_amt(LVAR_Flags,5);
+   call NodeHeadTest;
+end
+
+procedure NodeHeadTest3 begin
+   set_local_var(LVAR_Flags,0);
+   call NodeHeadTest;
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   /*
+   - Что это за шутки, мать вашу? Кого-то сегодня ждет серьезный выговор за пропуск гражданских на базу. Ладно, говори, кто ты и чего хочешь?
+   - Я здесь потому, что вы повинны в бедах моей деревни.
+   - Вот как? Интересное дело. Я дам тебе минуту, рассказывай.
+   - Из-за вашей тяги к источникам энергии в колонии Флагпула используют рабскую силу. И мою деревню поработили из-за этого.
+   */
+
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
+      call NodeFstDialog300;
+   end
+   else if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+      call NodeFstDialog300;
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+      call NodeFstDialog300;
+   end
+   else begin
+      call NodeFstDialog2;
+   end
+
+end
+
+procedure NodeFstDialog2 begin
+   Reply(210)
+
+   if (getQuest(GVAR_RANGERS_QST_PUERTO) == qStart) then begin
+   GAnswer(225,0,NodeFstDialog101)
+   end
+   if (global_var(GVAR_TWOSUN_STATUS_BOSS) > 0) then begin
+   GAnswer(223,0,NodeFstDialog100)
+   end
+   if ((getQuest(GVAR_PHENIX_QST_OWRS_HOLO) == qStart) and (item_amnt(dude_obj,PID_HOLODSK_ULISS) > 0)) then begin
+   GAnswer(213,0,NodeFstDialog102)
+   end
+   //BAnswer(228,0,NodeFstDialog106)
+   NAnswer(229,0,NodeFstDialog104)
+
+   BAnswer(211,0,NodeStopDialog2)
+   BAnswer(241,0,NodeStopDialog3)
+end
+
+procedure NodeFstDialog100 begin
+   setBonusReaction(20)
+   zReply(224)
+   NAnswer(218,0,NodeFstDialog104)
+end
+
+procedure NodeFstDialog101 begin
+   setBonusReaction(5)
+   Reply(226)
+   NAnswer(227,0,NodeFstDialog104)
+end
+
+procedure NodeFstDialog102 begin
+   setBonusReaction(35)
+   Reply(214)
+   NAnswer(215,0,NodeFstDialog103)
+   NAnswer(216,0,NodeFstDialog103)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(217)
+   NAnswer(218,0,NodeFstDialog104)
+end
+
+procedure NodeFstDialog104 begin
+   bitDialogExp(bit_1,100)
+   Reply(219)
+   NAnswer(220,0,NodeFstDialog105)
+end
+
+procedure NodeFstDialog105 begin
+   zReply(221)
+   BAnswer(293,0,NodeFstDialog106)
+   //NAnswer(222,0,NodeFstDialog200)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(294)
+   NAnswer(295,0,NodeFstDialog107)
+end
+
+procedure NodeFstDialog107 begin
+   zReply(296)
+   GAnswer(297,0,NodeFstDialog200)
+   BAnswer(298,0,NodeStopDialog2)
+end
+
+procedure NodeFstDialog200 begin
+   Reply(230)
+   NAnswer(231,0,NodeFstDialog201)
+   NAnswer(232,0,NodeFstDialog201)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(233)
+   NAnswer(234,0,NodeFstDialog202)
+   BAnswer(235,0,NodeFstDialog202)
+end
+
+procedure NodeFstDialog202 begin
+   Reply(236)
+   NAnswer(237,0,NodeFstDialog203)
+   BAnswer(238,0,NodeFstDialog203)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(239)
+   NAnswer(245,0,NodeFstDialog204)
+   BAnswer(246,0,NodeFstDialog204)
+end
+
+procedure NodeFstDialog204 begin
+   Reply(247)
+   NAnswer(248,0,NodeFstDialog205)
+end
+
+procedure NodeFstDialog205 begin
+   Reply(249)
+   GAnswer(254,0,NodeFstDialog207)
+   BAnswer(250,0,NodeFstDialog206)
+end
+
+procedure NodeFstDialog206 begin
+   Reply(251)
+   NAnswer(252,0,Node998)
+   BAnswer(253,0,Node998)
+end
+
+procedure NodeFstDialog207 begin
+   setQuest(GVAR_PUERTO_QST_RANGERS,qStart);
+   set_global_var(GVAR_PUERTO_DOPUSK, 1);
+   mark_on_map(AREA_RANGERS)
+   bitDialogExp(bit_1,0)
+   bitDialogExp(bit_2,100)
+   
+   // added this for the tiny bit of spanish spoken by the general - cambragol
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(209)
+   end
+   else begin
+      Reply(255)
+   end
+   NAnswer(256,0,NodeFstDialog208)
+end
+
+procedure NodeFstDialog208 begin
+   Reply(257)
+   GAnswer(258,0,Node999)
+   NAnswer(259,0,Node999)
+end
+
+procedure NodeFstDialog300 begin
+   bitDialogExp(bit_1,0)
+   if (get_REP<0) then begin
+   zReply(260)
+   end
+   else begin
+   zReply(261)
+   end
+   BAnswer(262,0,NodeFstDialog301)
+end
+
+procedure NodeFstDialog301 begin
+   zReply(263)
+   NAnswer(264,0,NodeFstDialog302)
+   BAnswer(265,0,NodeStopDialog2)
+end
+
+procedure NodeFstDialog302 begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
+      setBonusReaction(-50)
+      Reply(266)
+      NAnswer(267,1,NodeFstDialog303)
+   end
+   else if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+      call NodeFstDialog303;
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+      call NodeFstDialog304;
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
+      call NodeFstDialog305;
+   end
+   else begin
+      call NodeFstDialog306;
+   end
+end
+
+procedure NodeFstDialog303 begin
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+      setBonusReaction(-35)
+      Reply(268)
+      NAnswer(269,0,NodeFstDialog304)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+      call NodeFstDialog304;
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
+      call NodeFstDialog305;
+   end
+   else begin
+      call NodeFstDialog306;
+   end
+end
+
+procedure NodeFstDialog304 begin
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+      setBonusReaction(-25)
+      set_REP(-5)
+      Reply(270)
+      NAnswer(271,0,NodeFstDialog305)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
+      setBonusReaction(-25)
+      set_REP(-5)
+      Reply(270)
+      NAnswer(271,0,NodeFstDialog305)
+   end
+   else begin
+      call NodeFstDialog306;
+   end
+end
+
+procedure NodeFstDialog305 begin
+   call NodeFstDialog306;
+end
+
+procedure NodeFstDialog306 begin
+   zReply(274)
+   NAnswer(275,0,NodeFstDialog307)
+end
+
+procedure NodeFstDialog307 begin
+   Reply(276)
+   NAnswer(278,0,NodeFstDialog308)
+   BAnswer(277,0,NodeStopDialog2)
+end
+
+procedure NodeFstDialog308 begin
+   Reply(279)
+   NAnswer(281,0,NodeFstDialog309)
+   BAnswer(280,0,NodeStopDialog2)
+end
+
+procedure NodeFstDialog309 begin
+   Reply(282)
+   NAnswer(283,0,NodeFstDialog310)
+   BAnswer(284,0,NodeFstDialog310)
+end
+
+procedure NodeFstDialog310 begin
+   Reply(285)
+   NAnswer(290,0,NodeFstDialog312)
+   BAnswer(286,0,NodeFstDialog311)
+end
+
+procedure NodeFstDialog311 begin
+   Reply(287)
+   BAnswer(288,0,Node998)
+   zNAnswer(289,0,Node998)
+end
+
+procedure NodeFstDialog312 begin
+   setQuest(GVAR_PUERTO_QST_RANGERS,qStart);
+   mark_on_map(AREA_RANGERS)
+   bitDialogExp(bit_2,100)
+   //!!! По идеи здесь должен быть промежуточный квест в Ногалесе, и уже после стычки там Диксон отправляет на разведку к рейнджерам.
+   Reply(291)
+   NAnswer(292,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(300)
+
+   //--- Расспросы
+   NAnswerReaction(354,4,NodeAnswer100,50,350,NodeAnswer101)
+
+   /*
+   Почти вся жизнь в этом регионе теплится вокруг Феникса, а прочие поселения - лишь редкие исключения. И сложилось так во многом благодаря местным ресурсам.
+      Жители Феникса собирают последние крохи довоенных ресурсов из некогда огромного мегаполиса. Так не может продолжаться. Когда-нибудь руины исчерпают весь свой запас.
+   */
+
+   //--- Сюжет и квесты
+   if (getQuest(GVAR_PUERTO_QST_RANGERS) == qZero) then begin
+      NAnswer(229,0,NodeFstDialog104)
+   end
+
+   if (getQuest(GVAR_PUERTO_QST_RANGERS) == qStart) then begin
+      NAnswer(400,0,NodeRangers)
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_OWRS_HOLO) == qStart) then begin
+      if (item_amnt(dude_obj,PID_HOLODSK_ULISS) >0) then begin
+      NAnswer(310,0,NodeHolo)
+      end
+   end
+
+   //--- Титул
+   if (global_var(GVAR_TITUL_BOS) == 0) then begin
+      NAnswer(420,0,NodeTitul)
+   end
+
+   NAnswer(301,0,Node999)
+end
+
+//--- РЕЙНДЖЕРЫ
+
+procedure NodeRangers begin
+   Reply(401)
+   NAnswer(405,3,NodeRangers3)
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+   GAnswer(411,0,NodeRangers5)
+   end
+   //!!! альтернатива - союз с рейнджерами
+   NAnswer(402,0,NodeRangers2)
+end
+
+procedure NodeRangers2 begin
+   zReply(403)
+   NAnswer(404,0,Node999)
+end
+
+procedure NodeRangers3 begin
+   Reply(406)
+   NAnswer(407,0,NodeRangers4)
+   BAnswer(408,0,NodeRangers4)
+end
+
+procedure NodeRangers4 begin
+   Reply(409)
+   NAnswer(410,0,Node999)
+end
+
+procedure NodeRangers5 begin
+   Reply(412)
+   NAnswer(413,0,NodeRangers6)
+end
+
+procedure NodeRangers6 begin
+   Reply(414)
+   NAnswer(415,0,NodeRangers7)
+end
+
+procedure NodeRangers7 begin
+   set_global_var(GVAR_TITUL_ARIZONA_RANGER,0);
+   set_global_var(GVAR_PUERTO_SKLAD_DOPUSK,1);
+   setQuest(GVAR_PUERTO_QST_RANGERS,qEnd);
+   setQuest(GVAR_VILLA_ALLIANCE_BOS,qEnd);
+   setQuest(GVAR_VILLA_ALLIANCE_RANGER,qStop);
+   exp_add(2500);
+   setBonusReaction(100)
+   set_REP(25)
+   Reply(416)
+   NAnswer(417,0,Node999)
+end
+
+//--- ТИТУЛ
+
+procedure NodeTitul begin
+   variable titulParam;
+   titulParam := 0;
+
+   titulParam := global_var(GVAR_TOWN_REP_PUERTO);
+
+   if (getReaction<=-50) then begin
+   titulParam -= 25;
+   end
+   else if (getReaction<0) then begin
+   titulParam -= 10;
+   end
+   else if (getReaction>=50) then begin
+   titulParam += 10;
+   end
+
+   if (getQuest(GVAR_PUERTO_QST_RANGERS) >= qEnd) then begin
+   titulParam += 100;
+   end
+   if (getQuest(GVAR_PUERTO_QST_BANDITS_PIP) >= qEnd) then begin
+   titulParam += 25;
+   end
+   if (getQuest(GVAR_PUERTO_QST_INFERNO) >= qEnd) then begin
+   titulParam += 25;
+   end
+   if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) >= qEnd) then begin
+   titulParam += 25;
+   end
+   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) >= qEnd) then begin
+   titulParam += 25;
+   end
+   if (getQuest(GVAR_OIL_PLATFORM_QST_A) >= qEnd) then begin
+   titulParam += 10;
+   end
+
+
+   if (titulParam >= 100) then begin
+      Reply(437)
+      NAnswer(438,0,NodeTitul2)
+   end
+   else begin
+      if (getQuest(GVAR_PUERTO_QST_RANGERS) >= qEnd) then begin
+      Reply(432)
+      end
+      else begin
+      Reply(434)
+      end
+      GAnswer(435,0,Node999)
+      NAnswer(436,0,Node999)
+   end
+end
+
+procedure NodeTitul2 begin
+   Reply(421)
+   NAnswer(mstr(422)+dude_name+mstr(423),0,NodeTitul3)
+end
+
+procedure NodeTitul3 begin
+   Reply(424)
+   NAnswer(425,0,NodeTitul4)
+   NAnswer(426,0,NodeTitul5)
+   NAnswer(427,0,NodeTitul6)
+   NAnswer(428,0,NodeTitul7)
+end
+
+procedure NodeTitul4 begin
+   set_global_var(GVAR_TITUL_BOS_SCRIBE,1);
+   call NodeTitul8;
+end
+procedure NodeTitul5 begin
+   set_global_var(GVAR_TITUL_BOS_PALADIN,1);
+   call NodeTitul8;
+end
+procedure NodeTitul6 begin
+   set_global_var(GVAR_TITUL_BOS_CAVALER,1);
+   call NodeTitul8;
+end
+procedure NodeTitul7 begin
+   set_global_var(GVAR_TITUL_BOS_SCOUT,1);
+   call NodeTitul8;
+end
+
+procedure NodeTitul8 begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER)>0) then begin
+   display_mstr(106);
+   set_global_var(GVAR_TITUL_ARIZONA_RANGER,0);
+   end
+
+   set_global_var(GVAR_TITUL_BOS,1);
+   display_mstr(107);
+
+   exp_add(1000);
+   Reply(mstr(429)+dude_name+mstr(430))
+   NAnswer(431,0,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(355)
+   NAnswer(356,0,NodeAnswer102)
+   NAnswer(364,0,NodeAnswer104)
+   NAnswer(367,0,NodeAnswer105)
+   NAnswer(380,0,NodeAnswer110)
+   NAnswer(387,0,NodeAnswer113)
+   NAnswer(363,0,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(351)
+   //NAnswer(352,0,NodeSndDialog)
+   NAnswer(353,0,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(357)
+   NAnswer(358,0,NodeAnswer103)
+   BAnswer(359,0,NodeAnswer103)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_3,35)
+   //После некоторых событий, о которых ты скорее всего не знаешь, Старейшины решили наконец вылезти из душного подземелья и начать экспансию в другие земли. Причина? Банальная потребность в ресурсах. Особенно ценным для Братства стал ядерный материал.
+   Reply(360)
+   NAnswer(361,0,NodeAnswer100)
+   BAnswer(362,0,NodeAnswer100)
+end
+
+procedure NodeAnswer104 begin
+   Reply(365)
+   NAnswer(366,0,NodeAnswer100)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_4,50)
+   Reply(368)
+   NAnswer(369,0,NodeAnswer106)
+end
+
+procedure NodeAnswer106 begin
+   Reply(370)
+   NAnswer(371,0,NodeAnswer107)
+end
+
+procedure NodeAnswer107 begin
+   Reply(372)
+   NAnswer(373,0,NodeAnswer108)
+end
+
+procedure NodeAnswer108 begin
+   Reply(374)
+   NAnswer(375,7,NodeAnswer109)
+   NAnswer(377,0,NodeAnswer100)
+end
+
+procedure NodeAnswer109 begin
+   bitDialogExp(bit_5,50)
+   Reply(376)
+   NAnswer(377,0,NodeAnswer100)
+end
+
+procedure NodeAnswer110 begin
+   bitDialogExp(bit_6,50)
+   Reply(381)
+   NAnswer(382,0,NodeAnswer111)
+end
+
+procedure NodeAnswer111 begin
+   Reply(383)
+   NAnswer(384,0,NodeAnswer112)
+end
+
+procedure NodeAnswer112 begin
+   Reply(385)
+   NAnswer(386,0,NodeAnswer100)
+end
+
+procedure NodeAnswer113 begin
+   bitDialogExp(bit_7,15)
+   Reply(388)
+   //Как там дела на Западном фронте?
+   NAnswer(386,0,NodeAnswer100)
+end
+
+//--- ГОЛОДИСК УЛИССА ГРАНТА
+
+procedure NodeHolo begin
+   Reply(311)
+   NAnswer(312,0,NodeHolo2)
+   BAnswer(313,0,NodeHolo3)
+   BAnswer(320,0,NodeHolo5)
+end
+
+procedure NodeHolo2 begin
+   item_remove(dude_obj,PID_HOLODSK_ULISS,1)
+   setQuest(GVAR_PHENIX_QST_OWRS_HOLO,qEnd);
+   setBonusReaction(25)
+   set_REP(5)
+   exp_add(500);
+
+   Reply(322)
+   NAnswer(323,0,NodeHolo6)
+   BAnswer(326,0,NodeHolo7)
+   BAnswer(329,0,NodeHolo8)
+end
+
+procedure NodeHolo3 begin
+   zReply(315)
+   NAnswer(317,0,NodeHolo4)
+   NAnswer(316,0,Node999)
+end
+
+procedure NodeHolo4 begin
+   setBonusReaction(-10)
+   Reply(318)
+   NAnswer(319,0,NodeHolo2)
+end
+
+procedure NodeHolo5 begin
+   setBonusReaction(-10)
+   Reply(321)
+   NAnswer(319,0,NodeHolo2)
+end
+
+procedure NodeHolo6 begin
+   Reply(324)
+   //!!! Если еще не вышел на главквест: Могу ли я еще как-то послужить Братству?
+   NAnswer(325,0,Node999)
+end
+
+procedure NodeHolo7 begin
+   Reply(327)
+   NAnswer(328,0,NodeHolo6)
+end
+
+procedure NodeHolo8 begin
+   setBonusReaction(-10)
+   Reply(330)
+   //!!! Если еще не вышел на главквест: Могу ли я еще как-то послужить Братству?
+   NAnswer(331,0,Node999)
+end

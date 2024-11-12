@@ -1,0 +1,309 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_AFGold
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_OIL_PLATFORM // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_OIL_PLATFORM_CTZN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer300; // added by cambragol
+
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if ((global_var(GVAR_OIL_STATUS_GOLD) < 0) or (global_var(GVAR_OIL_STATUS_GOLD) == 1)) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_OIL_STATUS_GOLD, -1);
+   if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) == qStart) then begin
+   setQuest(GVAR_OIL_PLATFORM_QST_GOLD, qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if (map_var(MVAR_OIL_PLATFORM_GHOULSAMNT) > 0) then begin
+   floater(self_obj, 106, COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_OIL_STATUS_GOLD) >= 3) then begin
+   floater(self_obj, 104, COLOR_MSG_NORMAL);
+   end
+   else if (global_var(GVAR_OIL_STATUS_GOLD) == 2) then begin
+   floater(self_obj, 103, COLOR_MSG_RED);
+   end
+   else if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) >= qEnd) then begin
+   floater(self_obj, 105, COLOR_MSG_NORMAL);
+   end
+   else if (global_var(GVAR_OIL_STATUS_GOLD) == 1) then begin
+   floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) >= qEnd) then begin
+      if (bitDialog(bit_1) == 0) then begin
+      bitDialogExp(bit_1,0)
+      end
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+      if DudePerkHas(PERK_ghouling_fiziology) then begin
+      call NodeFstDialog1;
+      end
+      else begin
+      call NodeFstDialog;
+      end
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ЗНАКОМСТВО
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(202,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog1 begin
+   bitDialogExp(bit_1,0)
+   zReply(212)
+   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(202,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(204,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) == qZero) then begin
+   setQuest(GVAR_OIL_PLATFORM_QST_GOLD, qStart);
+   end
+   Reply(207)
+   BAnswer(208,1,NodeFstDialog5)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+   
+
+   if ((getQuest(GVAR_OIL_PLATFORM_QST_A) < qEnd) and (getQuest(GVAR_OIL_PLATFORM_STATUS) < qEnd)) then begin
+      NAnswer(230,1,NodeAnswer100)
+   end
+
+   if (bitDialog(bit_2) == 0) then begin
+      //Кстати, у меня тоже есть родственник по имени Хосе. / В мире полно людей по имени Хосе, дубина! Займись лучше делом! -- Я просто хотел поддержать дружескую беседу. / Ты что, подлизываешься? Я не из тех, кому нужна дружба. Проваливай!
+   end
+
+   if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) == qStart) then begin
+      if (global_var(GVAR_OIL_STATUS_SOIL_GOLD) == 0) then begin
+         if ((item_amnt(dude_obj,PID_Q_GOLD_MAP)>=3) and (item_amnt(self_obj,PID_Q_GOLD_MAP)>0)) then begin
+            NAnswer(240,1,NodeAnswer200)
+         end
+         // added this and nodeAnswer300 to give a clue to look in Brahmin shit for the map pieces - player feedback - cambragol
+         else begin
+            NAnswer(224,1,NodeAnswer300)
+         end
+      end
+   end
+
+   if (getQuest(GVAR_OIL_PLATFORM_QST_KILL) == qStart) then begin
+      if (map_var(MVAR_OIL_PLATFORM_KILL_C) == 1) then begin
+      BAnswer(250,1,NodeAnswer102)
+      end
+   end
+
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(231)
+   if (map_var(MVAR_OIL_PLATFORM_BOAT_REPAIR)>0) then begin
+   NAnswer(232,1,NodeAnswer101)
+   end
+   NAnswer(234,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(233)
+   NAnswer(234,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(251)
+   NAnswer(252,1,NodeAnswer103)
+end
+
+procedure NodeAnswer103 begin
+   Reply(253)
+   NAnswer(254,1,NodeAnswer104)
+   BAnswer(257,1,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   set_map_var(MVAR_OIL_PLATFORM_KILL_C,2);
+   if (map_var(MVAR_OIL_PLATFORM_KILL_B) == 0) then begin
+   set_map_var(MVAR_OIL_PLATFORM_KILL_B, 1);
+   end
+   Reply(255)
+   NAnswer(256,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(241)
+   GAnswer(242,1,NodeAnswer201)
+   BAnswer(243,1,Node999)
+end
+
+procedure NodeAnswer201 begin
+   set_global_var(GVAR_OIL_STATUS_SOIL_GOLD, 1);
+   set_global_var(GVAR_OIL_STATUS_GOLD, 1);
+   item_remove(self_obj,PID_Q_GOLD_MAP,1)
+   item_remove(dude_obj,PID_Q_GOLD_MAP,3)
+
+   Reply(244)
+   NAnswer(245,1,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   Reply(246)
+   NAnswer(247,1,Node999)
+end
+
+// added to give a clue to the quest - cambragol
+procedure NodeAnswer300 begin
+   Reply(225)
+   NAnswer(226,1,Node999)
+end

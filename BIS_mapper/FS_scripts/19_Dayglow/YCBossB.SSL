@@ -1,0 +1,587 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//--------------------- Лидер северного лагеря (Старый город)
+
+#define NAME                            SCRIPT_YCBossB
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog200;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeQstDialog100;
+procedure NodeQstDialog101;
+procedure NodeQstDialog102;
+procedure NodeQstDialog103;
+procedure NodeQstDialog104;
+procedure NodeQstDialog200;
+procedure NodeQstDialog201;
+procedure NodeQstDialog202;
+procedure NodeQstDialog203;
+procedure NodeQstDialog203b;
+procedure NodeQstDialog204;
+procedure NodeQstDialog204b;
+procedure NodeQstDialog204c;
+procedure NodeQstDialog204d;
+procedure NodeQstDialog205;
+procedure NodeQstDialog206;
+procedure NodeQstDialog207;
+procedure NodeQstDialog301;
+procedure NodeQstDialog302;
+procedure NodeQstDialog303;
+procedure NodeQstDialog304;
+procedure NodeQstDialog305;
+procedure NodeQstDialog306;
+procedure NodeQstDialog307;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (global_var(GVAR_DAYGLOW_CORONADO_STATUS) != 0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,5,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_DAYGLOW_STATUS_BOSS_B, -1);
+   if (getQuest(GVAR_DAYGLOW_QST_MORODERS) < qEnd) then begin
+   setQuest(GVAR_DAYGLOW_QST_MORODERS,qStop);
+   end
+   if (global_var(GVAR_DAYGLOW_STATUS_RUTGER) == 0) then begin
+   if (getQuest(GVAR_DAYGLOW_MAIN_C) == qZero) then begin
+   setQuest(GVAR_DAYGLOW_MAIN_C, qStart); //инициация появления дальнобойщиков для гг-убийцы
+   end
+   end
+   if (getQuest(GVAR_DAYGLOW_MAIN_D) == qZero) then begin
+   item_add(self_obj,PID_Q_DAYGLOW_CODE_CORONADO,1)
+   setQuest(GVAR_DAYGLOW_MAIN_D, qStart);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (getQuest(GVAR_DAYGLOW_MAIN_D) >= qStart) then begin
+   floater(self_obj, 237, COLOR_MSG_NORMAL);
+   end
+   else if ((getQuest(GVAR_DAYGLOW_MAIN_C) == qStart) and (global_var(GVAR_DAYGLOW_STATUS_RUTGER) == 0)) then begin
+   floater(self_obj, 262, COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   dialog_proc(0,0,NodeStartDialog,HEAD_DAYGLOW_BOSS_B,BACKGROUND_WASTELND)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((getQuest(GVAR_DAYGLOW_MAIN_C) == 10) and (getQuest(GVAR_DAYGLOW_MAIN_D) == qZero)) then begin
+   call NodeQstDialog304;
+   end
+   else if ((getQuest(GVAR_DAYGLOW_MAIN_C) == qStart) and (global_var(GVAR_DAYGLOW_STATUS_RUTGER) != 0)) then begin
+   call NodeQstDialog302;
+   end
+   else if ((getQuest(GVAR_DAYGLOW_MAIN_C) == qEnd) and (global_var(GVAR_DAYGLOW_STATUS_RUTGER) != 0)) then begin
+   call NodeQstDialog302;
+   end
+   else if ((bitDialog(bit_2) == 0) and (partyPidMtn!=0)) then begin
+   call NodeFstDialog200;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog101;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog101 begin
+   bitDialogExp(bit_1,0)
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(200)
+   GAnswer(mstr(201)+dude_name+mstr(202),0,NodeFstDialog102)
+   BAnswer(203,0,NodeFstDialog103)
+   end
+   else begin
+   Reply(206)
+   NAnswer(207,0,NodeFstDialog104)
+   BAnswer(209,0,NodeFstDialog105)
+   end
+end
+
+procedure NodeFstDialog102 begin
+   call NodeSndDialog;
+end
+
+procedure NodeFstDialog103 begin
+   setBonusReaction(-20)
+   set_REP(-1)
+   Reply(204)
+   NAnswer(205,0,NodeSndDialog)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(208)
+   BAnswer(211,0,NodeFstDialog106)
+   GAnswer(214,0,NodeFstDialog107)
+end
+
+procedure NodeFstDialog105 begin
+   setBonusReaction(-10)
+   Reply(210)
+   BAnswer(211,0,NodeFstDialog106)
+   GAnswer(214,0,NodeFstDialog107)
+end
+
+procedure NodeFstDialog106 begin
+   setBonusReaction(-20)
+   set_REP(-1)
+   Reply(212)
+   call NodeAnswer;
+   zNAnswer(216,0,Node999)
+end
+
+procedure NodeFstDialog107 begin
+   setBonusReaction(20)
+   set_REP(1)
+   Reply(215)
+   call NodeAnswer;
+   zNAnswer(216,0,Node999)
+end
+
+procedure NodeFstDialog200 begin
+   bitDialogExp(bit_2,0)
+   zReply(220)
+   NAnswer(221,0,NodeStartDialog)
+   NAnswer(222,0,NodeStartDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getQuest(GVAR_DAYGLOW_MAIN_D) >= qStart) then begin
+   Reply(237)
+   end
+   else if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(232)
+   end
+   else if (getReaction>0) then begin
+   zReply(231)
+   end
+   else if (getReaction<=-30) then begin
+   Reply(236)
+   end
+   else begin
+   Reply(230)
+   end
+
+   call NodeAnswer;
+
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(233,0,NodeSndDialog2)
+   end else begin
+   NAnswer(233,0,Node999)
+   end
+end
+
+procedure NodeSndDialog2 begin
+   bitDialogExp(bit_3,0)
+   Reply(234)
+   NAnswer(235,0,Node999)
+end
+
+procedure NodeAnswer begin
+   NAnswer(249,3,NodeAnswer103)
+   NAnswer(240,3,NodeAnswer101)
+   NAnswer(242,3,NodeAnswer102)
+   if (bitDialog(bit_4) == 0) then begin
+   NAnswer(245,3,NodeAnswer100)
+   end
+
+   if (getQuest(GVAR_DAYGLOW_RADIO) == 2) then begin
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_HOLO_GUSTAVO) > 0) then begin
+   GAnswer(300,0,NodeQstDialog100)
+   end
+   end
+
+   if (getQuest(GVAR_DAYGLOW_QST_MORODERS) == qStart) then begin
+   NAnswer(324,0,NodeQstDialog202)
+   end
+end
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_4,0)
+   Reply(246)
+   call NodeAnswer;
+   NAnswer(247,0,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(241)
+   call NodeAnswer;
+   NAnswer(244,0,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(243)
+   call NodeAnswer;
+   NAnswer(244,0,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(250)
+   NAnswer(251,3,NodeAnswer104)
+   call NodeAnswer;
+   NAnswer(244,0,Node999)
+end
+
+procedure NodeAnswer104 begin
+   Reply(252)
+   call NodeAnswer;
+   NAnswer(244,0,Node999)
+end
+
+//-- ПЕРВЫЙ КВЕСТ
+
+procedure NodeQstDialog100 begin
+   setQuest(GVAR_DAYGLOW_RADIO, 3);
+   item_remove(dude_obj,PID_Q_DAYGLOW_HOLO_GUSTAVO,1)
+   exp_add(1000);
+   set_REP(5)
+   Reply(301)
+   NAnswer(302,0,NodeQstDialog101)
+end
+
+procedure NodeQstDialog101 begin
+   Reply(303)
+   GAnswer(304,0,NodeQstDialog102)
+   NAnswer(305,0,NodeQstDialog102)
+   BAnswer(308,0,NodeQstDialog103)
+end
+
+procedure NodeQstDialog102 begin
+   Reply(306)
+   NAnswer(307,0,NodeQstDialog200)
+end
+
+procedure NodeQstDialog103 begin
+   Reply(312)
+   NAnswer(313,0,NodeQstDialog200)
+   /*
+   Reply(309)
+   NAnswer(311,0,NodeQstDialog200)
+   BAnswer(310,0,NodeQstDialog104)
+   */
+end
+
+procedure NodeQstDialog104 begin
+   //!!! стоп квесты
+   setBonusReaction(-40)
+   call Node999;
+end
+
+//--- ВТОРОЙ КВЕСТ
+
+procedure NodeQstDialog200 begin
+   setQuest(GVAR_DAYGLOW_QST_MORODERS, qStart);
+   Reply(320)
+   //Сейчас черные старатели разбирают по винтикам старый авиационный завод. Я не против, что это делают гладкие морды. Но у них нет Печати Сэта. И более того - они принуждают работать гулей! *В атаку!* Надо освободить наших собратьев и вернуть ресурсы, собранные на заводе. Мы обменяем их на нужные товары из Хаба.
+   //Как ты смотришь на то, чтобы просто перебить там всех старателей?
+   NAnswer(321,0,NodeQstDialog201)
+   NAnswer(323,0,Node999)
+end
+
+procedure NodeQstDialog201 begin
+   Reply(322)
+   NAnswer(323,0,Node999)
+end
+
+procedure NodeQstDialog202 begin
+   Reply(325)
+   /*
+   - 325 Ну так что, тебе удалось их вразумить?
+   - 333 Нелегальные старатели ушли с территории Завода после того, как набрали полные рюкзаки товара.
+         334 Жаль, что мы потеряли столько ценных деталей. Зато благодаря тебе мы избежали конфликта с нормиками. Главное - это жизни наших братьев и сестер. *Пленных не брать!*
+   - 329 Все нелегальные старатели на Заводе погибли. Территория свободна.
+         330 Все погибли? Святые угодники! Хорошо, что я попросил тебя об этом. Иначе нам, гулям, опять пришлось бы оправдываться перед нормиками.
+   */
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) >= qEnd) then begin
+   NAnswer(333,0,NodeQstDialog205)
+   end
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) <= -100) then begin
+   BAnswer(343,0,NodeQstDialog207)
+   end
+   else if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) <= qStop) then begin
+   NAnswer(329,0,NodeQstDialog204)
+   end
+   NAnswer(327,0,NodeQstDialog203)
+   NAnswer(346,0,NodeQstDialog203b)
+   NAnswer(326,0,Node999)
+end
+
+procedure NodeQstDialog203 begin
+   Reply(322)
+   NAnswer(328,0,NodeQstDialog202)
+end
+
+procedure NodeQstDialog203b begin
+   Reply(347)
+   NAnswer(348,0,NodeQstDialog202)
+end
+
+procedure NodeQstDialog204 begin
+   Reply(330)
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP)>=10) then begin
+   GAnswer(340,0,NodeQstDialog204c)
+   end
+   else if (item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP)>0) then begin
+   NAnswer(341,0,NodeQstDialog204d)
+   end
+   NAnswer(337,0,NodeQstDialog204b)
+end
+
+procedure NodeQstDialog204b begin
+   Reply(338)
+   NAnswer(339,0,Node999)
+end
+
+procedure NodeQstDialog204c begin
+   item_remove(dude_obj,PID_Q_DAYGLOW_CHIP,10)
+   call NodeQstDialog205;
+end
+
+procedure NodeQstDialog204d begin
+   Reply(342)
+   NAnswer(339,0,Node999)
+end
+
+procedure NodeQstDialog205 begin
+   Reply(334)
+   NAnswer(331,0,NodeQstDialog206)
+   NAnswer(332,0,NodeQstDialog206)
+end
+
+procedure NodeQstDialog206 begin
+   variable pointAmnt;
+   //-опыт:
+   pointAmnt := 2000;
+   if (global_var(GVAR_DAYGLOW_FABRICA_GHOULLIFE)>0) then begin
+   pointAmnt -= (global_var(GVAR_DAYGLOW_FABRICA_GHOULLIFE) * 100);
+   end
+   exp_add(pointAmnt);
+   //-репутация:
+   pointAmnt := 7;
+   if (global_var(GVAR_DAYGLOW_FABRICA_GHOULLIFE)>0) then begin
+   pointAmnt -= global_var(GVAR_DAYGLOW_FABRICA_GHOULLIFE);
+   end
+   if (pointAmnt!=0) then begin
+   set_REP(pointAmnt)
+   end
+   //-деньги:
+   pointAmnt := 1000;
+   if (global_var(GVAR_DAYGLOW_FABRICA_GHOULLIFE)>0) then begin
+   pointAmnt -= (global_var(GVAR_DAYGLOW_FABRICA_GHOULLIFE)*100);
+   end
+   if (pointAmnt>0) then begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,pointAmnt)
+   end
+   //-квест:
+   setQuest(GVAR_DAYGLOW_QST_MORODERS, qEnd);
+
+   Reply(335)
+   NAnswer(336,0,NodeQstDialog301) //!!!! - переход к др квесту + пересмотреть тексты
+end
+
+procedure NodeQstDialog207 begin
+   setQuest(GVAR_DAYGLOW_QST_MORODERS, qEnd+1);
+   Reply(344)
+   NAnswer(345,0,NodeQstDialog301) //!!!! - переход к др квесту + пересмотреть тексты
+end
+
+//--- ТРЕТИЙ КВЕСТ
+
+procedure NodeQstDialog301 begin
+   variable crittreBodyObj;
+
+   setQuest(GVAR_DAYGLOW_MAIN_C, qStart);
+   crittreBodyObj := create_object_sid(PID_BRAHMIN_CARAVAN, 22525, 1, SCRIPT_ZCBrahmn);
+   anim(crittreBodyObj, ANIMATE_ROTATION, 2);
+   kill_critter(crittreBodyObj, ANIM_fall_back_blood_sf);
+   crittreBodyObj := 0;
+
+   Reply(259)
+   NAnswer(260,0,Node999)
+   BAnswer(261,0,Node999)
+end
+
+procedure NodeQstDialog302 begin
+   setQuest(GVAR_DAYGLOW_MAIN_C, 10);
+   if (global_var(GVAR_DAYGLOW_STATUS_RUTGER) > 0) then begin
+      set_REP(5)
+      if DudePerkHas(PERK_ghouling_fiziology) then begin
+      Reply(mstr(265)+" "+dude_name+mstr(266))
+      end
+      else begin
+      Reply(mstr(265)+mstr(267))
+      end
+      NAnswer(268,0,NodeQstDialog303)
+   end
+   else begin
+      Reply(269)
+      NAnswer(270,0,NodeQstDialog303)
+      zNAnswer(271,0,NodeQstDialog303)
+   end
+end
+
+procedure NodeQstDialog303 begin
+   Reply(272)
+   NAnswer(273,0,Node999)
+end
+
+procedure NodeQstDialog304 begin
+   Reply(350)
+   NAnswer(351,0,NodeQstDialog305)
+end
+
+procedure NodeQstDialog305 begin
+   setQuest(GVAR_DAYGLOW_MAIN_D, qStart);
+   item_add(dude_obj,PID_Q_DAYGLOW_CODE_CORONADO,1)
+   Reply(352)
+   /*
+   Другие варианты:
+   - С военной базы? Серьезно? / Сейчас туда не попасть из-за старых военных игрушек. Но по словам Рутгера, у Братства Стали есть коды доступа. Делиться они с нами, конечно, не станут. Поэтому вот твоё задание - сходи в лагерь Братства и выкради у них коды доступа. Затем используй их (тайно!) на радиостанции в Сан-Исидро и приходи на пирс, где тебя будет ждать оперативная группа.
+   - С военной базы? Серьезно? / Сейчас туда не попасть из-за старых военных игрушек. Но нам удалось собрать транспондер из того мусора, который был на Заводе. Осталась самая малость - задать ему идентификатор, который военная база приняла бы за своего. Дело как раз для той радиостанции в Сан-Исидро, которую тебе удалось восстановить. Когда сделаешь это, приходи на пирс, там тебя будет ждать сопровождение. И не говори об этом Густаво!
+   */
+   // - restored by cambragol to flesh out mission more
+   NAnswer(354,7,NodeQstDialog307) /*- Откуда у тебя коды доступа?*/
+   NAnswer(353,0,NodeQstDialog306)
+end
+
+procedure NodeQstDialog306 begin
+   if (partyPidMtn>0) then begin
+      if (tile_distance(13900,tile_num(partyPidMtn))>10) then begin
+      move_to(partyPidMtn, 13900, 0);
+      end
+      floater(partyPidMtn, 102, COLOR_MSG_RED);
+   end
+   call Node999;
+end
+
+
+procedure NodeQstDialog307 begin
+   Reply(355)
+   NAnswer(353,0,Node999)
+   // - restored by cambragol to flesh out mission more
+   /*-вариант1: - Они отыскались в Свечении. Это еще одна военная база по соседству. Там сейчас активно ведутся раскопки. Но прежде, чем открывать новый прииск на Коронадо, я ждал дальнобойщиков и транспондер с Завода.
+   -вариант2: - Их везли дальнобойщики. Приятно, когда у тебя есть надежные партнеры.*/
+end
+

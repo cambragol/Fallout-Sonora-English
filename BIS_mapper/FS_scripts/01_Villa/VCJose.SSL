@@ -1,0 +1,688 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_VCJose
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_VILLA   // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        10  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_VILLA_PEASAN     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_TRIBLE_VILLA       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog001;
+procedure NodeFstDialog002;
+procedure NodeFstDialog003;
+procedure NodeFstDialog004;
+procedure NodeFstDialog005;
+procedure NodeFstDialog006;
+procedure NodeFstDialog006b;
+procedure NodeFstDialog007;
+procedure NodeFstDialog008;
+procedure NodeFstDialog009;
+procedure NodeFstDialog010a;
+procedure NodeFstDialog010b;
+procedure NodeFstDialog010c;
+procedure NodeFstDialog010d;
+procedure NodeFstDialog011;
+
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+
+procedure NodeGame;
+procedure NodeGame2;
+procedure NodeGame3;
+
+procedure NodeAnswerGarag;
+procedure NodeAnswerGarag1;
+procedure NodeAnswerGarag2;
+procedure NodeAnswerGarag3;
+procedure NodeAnswerGarag4;
+
+procedure NodeAnswer;
+procedure NodeAnswer000;
+procedure NodeAnswer001;
+procedure NodeAnswer002;
+procedure NodeAnswer003;
+procedure NodeAnswer004;
+procedure NodeAnswer005;
+procedure NodeAnswer005b;
+procedure NodeAnswer006;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+
+procedure NodeQuest;
+procedure NodeQuest1;
+procedure NodeQuest2;
+procedure NodeQuest3;
+procedure NodeQuest4;
+procedure NodeQuest5;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_WEEK)
+   end
+end
+
+procedure setBarterA begin
+         check_restock_item(PID_W_KNIFE, 1,1, 100)
+         if (dude_level >= 7) then begin
+         check_restock_item(PID_W_MACHETE, 1,1, 100)
+         end
+         if ((getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) >= qEnd) or (getQuest(GVAR_MAIN_QUEST_TWOSUN) >= qEnd)) then begin
+         check_restock_item(PID_M_FRUIT, 2, 3, 100)
+         check_restock_item(PID_CORN_FLOUR, 4, 6, 100)
+         check_restock_item(PID_M_WATER_FLASK, 1, 1, 100)
+         end
+         else begin
+         check_restock_item(PID_M_FRUIT, 1, 1, 100)
+         check_restock_item(PID_CORN_FLOUR, 2, 2, 100)
+         end
+
+         //Персонаж не использует крышки от бутылок до финала игры!
+         if (global_var(GVAR_GAME_END) != 0) then begin
+         if (global_var(GVAR_TITUL_VILLA_DISTROY)>0) then begin
+         check_restock_many(400,600)
+         end
+         end
+end
+
+procedure setBarterB begin
+   //! пока пусто
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+       /*
+       - Реплики о событиях в городе
+       - Реплики о событиях личной жизни
+       - Реакция на ГГ, когда видит:
+           фразы о силовой броне
+           фразы о мантии Феникса
+           фразы об оружии в руках
+           фразы о приборах в руках (счетчик Гейгера, радар, рация, включенный стел-сбой)
+           фразы на титулы, статусы, звания, высокую или низкую славы/репутацию
+       */
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(3,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_VILLA_STATUS_JOSE,-1);
+   kill_critter_opt
+   kill_critter_box
+   kill_critter_dude_reply(102,102)
+end
+
+procedure talk_p_proc begin
+   if town_rep_is_vilified then begin
+   z_floater(self_obj,105,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc_barter(0,104,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((bitDialog(bit_11) == 0) and ((getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) >= qEnd) or (getQuest(GVAR_MAIN_QUEST_TWOSUN) >= qEnd) or (global_var(GVAR_VILLA_STATUS_PADRE) == 1))) then begin
+   call NodeSndDialog2;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((global_var(GVAR_TITUL_REBIRTH) > 0) and (bitDialog(bit_12) == 0)) then begin
+   call NodeSndDialog4;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,100)
+   // added for espanol trait completeness - cambragol
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(199)
+   end
+   else begin
+      Reply(200)
+   end
+   NAnswer(201,1,NodeFstDialog001)
+   NAnswer(216,1,NodeFstDialog001)
+end
+
+procedure NodeFstDialog001 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog002)
+   NAnswer(217,1,NodeFstDialog002)
+end
+
+procedure NodeFstDialog002 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog003)
+end
+
+procedure NodeFstDialog003 begin
+   Reply(206)
+   NAnswer(207,1,NodeFstDialog004)
+   NAnswer(208,1,NodeFstDialog005)
+   NAnswer(209,1,NodeFstDialog006)
+   NAnswer(210,1,NodeFstDialog007)
+end
+
+procedure NodeFstDialog004 begin
+   Reply(211)
+   NAnswer(208,1,NodeFstDialog005)
+   NAnswer(209,1,NodeFstDialog006)
+   NAnswer(210,1,NodeFstDialog007)
+end
+
+procedure NodeFstDialog005 begin
+   Reply(212)
+   NAnswer(207,1,NodeFstDialog004)
+   NAnswer(209,1,NodeFstDialog006)
+   NAnswer(210,1,NodeFstDialog007)
+end
+
+procedure NodeFstDialog006 begin
+   Reply(213)
+   NAnswer(214,1,NodeFstDialog006b)
+   NAnswer(207,1,NodeFstDialog004)
+   NAnswer(208,1,NodeFstDialog005)
+   NAnswer(210,1,NodeFstDialog007)
+end
+
+procedure NodeFstDialog006b begin
+   Reply(215)
+   NAnswer(207,1,NodeFstDialog004)
+   NAnswer(208,1,NodeFstDialog005)
+   NAnswer(210,1,NodeFstDialog007)
+end
+
+procedure NodeFstDialog007 begin
+   Reply(220)
+   NAnswer(221,1,NodeFstDialog008)
+   NAnswer(222,1,NodeFstDialog001)
+end
+
+procedure NodeFstDialog008 begin
+   mark_on_map(AREA_GARAGE)
+   Reply(223)
+   NAnswer(224,1,NodeFstDialog009)
+end
+
+procedure NodeFstDialog009 begin
+   item_add(dude_obj,PID_M_FRUIT,3)
+   item_add(dude_obj,PID_CORN_FLOUR,2)
+   Reply(225)
+   NAnswer(226,1,NodeFstDialog010a)
+   NAnswer(228,1,NodeFstDialog010b)
+   NAnswerSkill(230,1,NodeFstDialog010c,SKILL_CONVERSANT,30,230,NodeFstDialog010d)
+end
+
+procedure NodeFstDialog010a begin
+   Reply(227)
+   NAnswer(234,1,NodeFstDialog011)
+end
+
+procedure NodeFstDialog010b begin
+   Reply(229)
+   NAnswer(234,1,NodeFstDialog011)
+end
+
+procedure NodeFstDialog010c begin
+   item_add(dude_obj,PID_M_FRUIT,1)
+   item_add(dude_obj,PID_CORN_FLOUR,1)
+   Reply(231)
+   NAnswer(234,1,NodeFstDialog011)
+end
+
+procedure NodeFstDialog010d begin
+   Reply(232)
+   NAnswer(234,1,NodeFstDialog011)
+end
+
+procedure NodeFstDialog011 begin
+   call Node999;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getReaction >=0) then begin
+   Reply(250)
+   end
+   else begin
+   Reply(251)
+   end
+   NAnswer(253,1,NodeAnswer)
+   NAnswer(310,1,NodeQuest)
+
+   if (getQuest(GVAR_VILLA_MARAUDERS) == qStart) then begin
+   if (global_var(GVAR_VILLA_MARAUDERS_RUN) != 0) then begin
+   GAnswer(318,1,NodeQuest4)
+   end
+   end
+
+   if (getQuest(GVAR_VILLA_METEO) == qStart) then begin
+   if (map_var(MVAR_Plaza_Meteo) != 0) then begin
+   GAnswer(321,1,NodeQuest5)
+   end
+   end
+
+   if (bitDialog(bit_13) == 0) then begin
+   NAnswer(350,1,NodeGame)
+   end
+
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   bitDialogExp(bit_11,0)
+   bitDialogExp(bit_1,0)
+   zReply(240)
+   NAnswer(241,1,NodeSndDialog3)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(242)
+   NAnswer(243,1,Node999)
+end
+
+procedure NodeSndDialog4 begin
+   bitDialogExp(bit_12,0)
+   Reply(287)
+   NAnswer(288,1,Node999)
+   BAnswer(289,1,Node999)
+end
+
+//--- АЗАРТНАЯ ИГРА
+
+procedure NodeGame begin
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
+   Reply(351)
+   NAnswer(352,1,NodeSndDialog)
+   NAnswer(353,1,Node999)
+   BAnswer(354,1,Node999)
+   end
+   else begin
+   Reply(355)
+   NAnswerSkill(356,1,NodeGame2,SKILL_GAMBLING,35,356,NodeGame3)
+   NAnswer(357,1,NodeSndDialog)
+   NAnswer(358,1,Node999)
+   end
+end
+
+procedure NodeGame2 begin
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR);
+   bitDialogExp(bit_13,200)
+   display_mstr(359);
+   //floater(self_obj,360,COLOR_MSG_NORMAL);
+   call Node999;
+end
+
+procedure NodeGame3 begin
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR);
+   display_mstr(361);
+   //floater(self_obj,362,COLOR_MSG_NORMAL);
+   call Node999;
+end
+
+//--- ВОПРОСЫ О ГАРАЖ-СИТИ
+
+procedure NodeAnswerGarag begin
+   Reply(274)
+   NAnswer(275,1,NodeAnswerGarag1)
+   NAnswer(279,3,NodeAnswerGarag2)
+   NAnswer(281,5,NodeAnswerGarag3)
+   NAnswer(283,6,NodeAnswerGarag4)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswerGarag1 begin
+   Reply(276)
+   NAnswer(279,3,NodeAnswerGarag2)
+   NAnswer(281,5,NodeAnswerGarag3)
+   NAnswer(283,6,NodeAnswerGarag4)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswerGarag2 begin
+   bitDialogExp(bit_6,10)
+   Reply(280)
+   NAnswer(275,1,NodeAnswerGarag1)
+   NAnswer(281,5,NodeAnswerGarag3)
+   NAnswer(283,6,NodeAnswerGarag4)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswerGarag3 begin
+   bitDialogExp(bit_7,25)
+   Reply(282)
+   NAnswer(275,1,NodeAnswerGarag1)
+   NAnswer(279,3,NodeAnswerGarag2)
+   NAnswer(283,6,NodeAnswerGarag4)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswerGarag4 begin
+   bitDialogExp(bit_8,50)
+   Reply(284)
+   NAnswer(275,1,NodeAnswerGarag1)
+   NAnswer(279,3,NodeAnswerGarag2)
+   NAnswer(281,5,NodeAnswerGarag3)
+   NAnswer(259,1,NodeAnswer)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer begin
+   Reply(254)
+   NAnswer(255,1,NodeAnswer000)
+   NAnswer(256,3,NodeAnswer100)
+   if (bitDialog(bit_10) == 0) then begin
+   NAnswer(257,1,NodeAnswer200)
+   end
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeAnswer000 begin
+   Reply(260)
+   NAnswer(273,1,NodeAnswerGarag)
+   NAnswer(269,3,NodeAnswer005)
+   NAnswer(261,3,NodeAnswer001)
+   NAnswer(265,1,NodeAnswer003)
+   NAnswer(267,1,NodeAnswer004)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer001 begin
+   Reply(262)
+   NAnswer(263,6,NodeAnswer002)
+   NAnswer(273,1,NodeAnswerGarag)
+   NAnswer(269,3,NodeAnswer005)
+   NAnswer(265,1,NodeAnswer003)
+   NAnswer(267,1,NodeAnswer004)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer002 begin
+   bitDialogExp(bit_2,50)
+   Reply(264)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer003 begin
+   bitDialogExp(bit_3,10)
+   Reply(266)
+   NAnswer(273,1,NodeAnswerGarag)
+   NAnswer(269,3,NodeAnswer005)
+   NAnswer(261,3,NodeAnswer001)
+   NAnswer(267,1,NodeAnswer004)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer004 begin
+   bitDialogExp(bit_4,10)
+   Reply(268)
+   NAnswer(273,1,NodeAnswerGarag)
+   NAnswer(269,3,NodeAnswer005)
+   NAnswer(261,3,NodeAnswer001)
+   NAnswer(265,1,NodeAnswer003)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer005 begin
+   Reply(270)
+   NAnswer(271,1,NodeAnswer005b)
+end
+
+procedure NodeAnswer005b begin
+   Reply(272)
+   NAnswer(277,1,NodeAnswer006)
+end
+
+procedure NodeAnswer006 begin
+   bitDialogExp(bit_5,25)
+   Reply(278)
+   NAnswer(273,1,NodeAnswerGarag)
+   NAnswer(261,3,NodeAnswer001)
+   NAnswer(265,1,NodeAnswer003)
+   NAnswer(267,1,NodeAnswer004)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer100 begin
+   Reply(290)
+   NAnswer(291,5,NodeAnswer101)
+   NAnswer(255,1,NodeAnswer000)
+   if (bitDialog(bit_10) == 0) then begin
+   NAnswer(257,1,NodeAnswer200)
+   end
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer101 begin
+   zReply(292)
+   NAnswer(293,7,NodeAnswer102)
+   NAnswer(255,1,NodeAnswer000)
+   if (bitDialog(bit_10) == 0) then begin
+   NAnswer(257,1,NodeAnswer200)
+   end
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_9,50)
+   Reply(294)
+   NAnswer(255,1,NodeAnswer000)
+   if (bitDialog(bit_10) == 0) then begin
+   NAnswer(257,1,NodeAnswer200)
+   end
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer200 begin
+   Reply(295)
+   if (bitDialog(bit_10) == 0) then begin
+   NAnswerSkill(296,5,NodeAnswer201,SKILL_CONVERSANT,60,296,NodeAnswer202)
+   end
+   NAnswer(255,1,NodeAnswer000)
+   NAnswer(256,3,NodeAnswer100)
+   NAnswer(259,1,NodeAnswer)
+end
+
+procedure NodeAnswer201 begin
+   Reply(297)
+   NAnswer(299,1,NodeAnswer203)
+end
+
+procedure NodeAnswer202 begin
+   Reply(303)
+   NAnswer(298,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   bitDialogExp(bit_10,150)
+   Reply(300)
+   BAnswer(301,1,NodeAnswer204)
+   GAnswer(302,1,NodeAnswer205)
+end
+
+procedure NodeAnswer204 begin
+   set_REP(-1)
+   setBonusReaction(-10)
+   call Node999;
+end
+
+procedure NodeAnswer205 begin
+   set_REP(1)
+   setBonusReaction(10)
+   call Node999;
+end
+
+//--- ЗАДАНИЯ
+
+procedure NodeQuest begin
+   Reply(311)
+   NAnswer(312,1,NodeQuest1)
+   NAnswer(253,1,NodeAnswer)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeQuest1 begin
+   if (getQuest(GVAR_VILLA_MARAUDERS) < qEnd) then begin
+   setQuest(GVAR_VILLA_MARAUDERS,qStart);
+   display_mstr(103);
+   Reply(313)
+   NAnswer(314,1,NodeQuest2)
+   if (global_var(GVAR_VILLA_MARAUDERS_RUN) != 0) then begin
+   GAnswer(318,1,NodeQuest4)
+   end
+   NAnswer(253,1,NodeAnswer)
+   NAnswer(252,1,Node999)
+   end
+   else begin
+   call NodeQuest2;
+   end
+end
+
+procedure NodeQuest2 begin
+   if (getQuest(GVAR_VILLA_METEO) < qEnd) then begin
+   setQuest(GVAR_VILLA_METEO,qStart);
+   Reply(315)
+   NAnswer(316,1,NodeQuest3)
+   if (map_var(MVAR_Plaza_Meteo) != 0) then begin
+   GAnswer(321,1,NodeQuest5)
+   end
+   NAnswer(253,1,NodeAnswer)
+   NAnswer(252,1,Node999)
+   end
+   else begin
+   call NodeQuest3;
+   end
+end
+
+procedure NodeQuest3 begin
+   Reply(317)
+   NAnswer(253,1,NodeAnswer)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeQuest4 begin
+   setQuest(GVAR_VILLA_MARAUDERS,qEnd);
+   set_REP(3)
+   exp_add(200);
+
+   Reply(319)
+   NAnswer(320,1,Node999)
+end
+
+procedure NodeQuest5 begin
+   setQuest(GVAR_VILLA_METEO,qEnd);
+   set_REP(2)
+   //опыт даётся автоматически при починке метеостанции, здесь нет смысла дублировать
+
+   Reply(322)
+   NAnswer(323,1,Node999)
+end

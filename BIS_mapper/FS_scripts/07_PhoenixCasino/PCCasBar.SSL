@@ -1,0 +1,481 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCCasBar
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        16                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_CASINO           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer205b;
+procedure NodeAnswer206;
+procedure NodeAnswer206b;
+procedure NodeAnswer207;
+procedure NodeAnswer207b;
+procedure NodeAnswer208;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+
+//---------------------
+
+#define LVAR_Reput_Up                     (8) // фиксирует распускание добрых слухов про ГГ
+
+variable CityReputUp;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_WEEK)
+   end
+end
+
+procedure setBarterA begin
+        check_restock_item(PID_M_WATER_FLASK, 1, 3, 100)
+        check_restock_item(PID_M_VISKI, 1, 3, 100)
+        if (getQuest(GVAR_PHENIX_ALCOHOL_DESTROY) >= qEnd) then begin
+        check_restock_item(PID_M_TEQUILA, 2, 4, 100)
+        end else begin
+        check_restock_item(PID_M_TEQUILA, 4, 8, 100)
+        end
+        check_restock_item(PID_M_BEER, 4, 8, 100)
+        //Персонаж не использует крышки от бутылок!
+end
+
+procedure setBarterB begin
+   //! пока пусто
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   killCasinoRepCity(-2)
+   kill_critter_opt
+   kill_critter_box
+end
+
+procedure talk_p_proc begin
+
+   /*
+   else if (tile_distance(HomeTile, dude_tile) <= 2) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   */
+
+   if (tile_distance(self_tile, HomeTile) > 3) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_PHENIX_CASINO,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_ARENA_MASTER,15) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc_barter(1,102,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((bitDialog(bit_2) == 0) and (global_var(GVAR_PHENIX_STATUS_DIEGO) > 0)) then begin
+   call NodeFstDialog4;
+   end
+   else if ((bitDialog(bit_2) == 0) and (global_var(GVAR_TITUL_PHENIX_CASINO) > 0)) then begin
+   call NodeFstDialog4;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_4) == 0) and (global_var(GVAR_TITUL_ARENA_MASTER) > 0)) then begin
+   call NodeSndDialog2;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(205,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   BAnswer(203,1,NodeStartDialog)
+   NAnswer(204,1,NodeStartDialog)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(206)
+   BAnswer(207,1,NodeStartDialog)
+   NAnswer(208,1,NodeStartDialog)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(215)
+   BAnswer(216,1,NodeFstDialog5)
+   NAnswer(217,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   bitDialogExp(bit_1,0)
+   bitDialogExp(bit_2,0)
+   item_add(dude_obj,PID_M_TEQUILA,1)
+   decBarterMod(50);
+   Reply(218)
+   NAnswer(219,1,NodeStartDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   //--- Расспросы
+   NAnswer(280,3,NodeAnswer300)
+   if (global_var(GVAR_PHENIX_STATUS_DIEGO) <= 0) then begin
+   NAnswer(230,3,NodeAnswer102)
+   end
+   if (getQuest(GVAR_PHENIX_QST_CULT_D) == qStart) then begin
+   if (global_var(GVAR_BRAHMIN_STATUS_COMMANDER)>0) then begin
+   if ((game_time_hour >= 1800) or (game_time_hour < 0800)) then begin
+   end
+   else begin
+   NAnswer(240,3,NodeAnswer107)
+   end
+   end
+   end
+
+   if (local_var(LVAR_Reput_Up) == 0) then begin
+   NAnswer(250,3,NodeAnswer200)
+   end
+
+   if (bitDialog(bit_5) == 0) then begin
+   if (getQuest(GVAR_PHENIX_ALCOHOL_DESTROY) >= qEnd) then begin
+   NAnswer(290,3,NodeAnswer106)
+   end
+   end
+
+   //--- Нападение на Последователей
+   if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) then begin
+   NAnswer(220,1,NodeAnswer100)
+   end
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3) then begin
+   NAnswer(220,1,NodeAnswer100)
+   end
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   bitDialogExp(bit_4,0)
+   item_add(dude_obj,PID_M_BEER,1)
+   Reply(212)
+   NAnswer(213,1,NodeStartDialog)
+   BAnswer(214,1,NodeStartDialog)
+end
+
+//--- РАССПРОСЫ ПРО КАЗИНО
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   BAnswer(224,1,Node999)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   if (global_var(GVAR_PHENIX_STATUS_DIEGO) < 0) then begin
+   Reply(231)
+   NAnswer(232,1,NodeSndDialog)
+   end
+   else begin
+   call NodeAnswer103;
+   end
+end
+
+procedure NodeAnswer103 begin
+   Reply(233)
+   NAnswer(234,1,NodeAnswer104)
+   NAnswer(232,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(235)
+   NAnswer(237,1,NodeAnswer105)
+   NAnswer(236,1,NodeSndDialog)
+end
+
+procedure NodeAnswer105 begin
+   Reply(238)
+   NAnswer(239,1,NodeSndDialog)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_5,0)
+   Reply(291)
+   NAnswer(292,1,NodeStartDialog)
+   BAnswer(293,1,NodeStartDialog)
+end
+
+procedure NodeAnswer107 begin
+   Reply(241)
+   NAnswer(243,4,Node999)
+   // changed the int check to 1, don't know why it was -4 - cambragol
+   NAnswer(242,1,Node999)
+end
+
+//--- ПОВЫШЕНИЕ РЕПУТАЦИИ СЛУХАМИ
+
+procedure NodeAnswer200 begin
+   Reply(251)
+   NAnswer(254,3,NodeAnswer201)
+   NAnswer(256,3,NodeAnswer202)
+   NAnswer(253,1,NodeSndDialog)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeAnswer201 begin
+   Reply(255)
+   NAnswer(256,3,NodeAnswer202)
+   NAnswer(253,1,NodeSndDialog)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   zReply(257)
+   NAnswer(258,5,NodeAnswer203)
+   NAnswer(253,1,NodeSndDialog)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   if (global_var(GVAR_TOWN_REP_PHOENIX) >= 15) then begin
+   Reply(259)
+   NAnswer(260,1,NodeSndDialog)
+   NAnswer(261,1,Node999)
+   end
+   else begin
+   call NodeAnswer204;
+   end
+end
+
+procedure NodeAnswer204 begin
+   CityReputUp := 0;
+   Reply(262)
+   NAnswer(265,1,NodeAnswer205)
+   NAnswer(267,1,NodeAnswer206)
+   NAnswer(269,1,NodeAnswer207)
+   NAnswer(263,1,NodeSndDialog)
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeAnswer205 begin
+   Reply(266)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+   NAnswer(271,1,NodeAnswer205b)
+   end
+   NAnswer(263,1,NodeSndDialog)
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeAnswer205b begin
+   CityReputUp := 1;
+   call NodeAnswer208;
+end
+
+procedure NodeAnswer206 begin
+   Reply(268)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 200) then begin
+   NAnswer(271,1,NodeAnswer206b)
+   end
+   NAnswer(263,1,NodeSndDialog)
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeAnswer206b begin
+   CityReputUp := 2;
+   call NodeAnswer208;
+end
+
+procedure NodeAnswer207 begin
+   Reply(270)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 300) then begin
+   NAnswer(271,1,NodeAnswer207b)
+   end
+   NAnswer(263,1,NodeSndDialog)
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeAnswer207b begin
+   CityReputUp := 3;
+   call NodeAnswer208;
+end
+
+procedure NodeAnswer208 begin
+   if (CityReputUp <= 0) then begin
+   call Node999;
+   end
+   else if (item_amnt(dude_obj,PID_BOOTLE_CAPS) < (CityReputUp*100)) then begin
+   Reply(274)
+   NAnswer(275,1,Node999)
+   end
+   else begin
+   set_local_var(LVAR_Reput_Up,1);
+   item_remove(dude_obj,PID_BOOTLE_CAPS,CityReputUp*100)
+   set_SLAVA(25*CityReputUp)
+   //set_REP(1)
+   //set_REP(2*CityReputUp)
+   set_CITY_REP(GVAR_TOWN_REP_PHOENIX,1)
+   set_CITY_REP(GVAR_TOWN_REP_PHOENIX,2*CityReputUp)
+
+   zReply(272)
+   NAnswer(273,1,Node999)
+   end
+end
+
+//--- ПРО БАР
+
+procedure NodeAnswer300 begin
+   if (bitDialog(bit_3) == 0) then begin
+   Reply(281)
+   NAnswer(282,1,NodeAnswer301)
+   end
+   else begin
+   Reply(288)
+   NAnswer(289,1,NodeSndDialog)
+   end
+end
+
+procedure NodeAnswer301 begin
+   if (getQuest(GVAR_PHENIX_ALCOHOL_DESTROY) >= qEnd) then begin
+   Reply(294)
+   NAnswer(296,1,NodeSndDialog)
+   BAnswer(295,1,NodeSndDialog)
+   end
+   else begin
+   Reply(283)
+   NAnswer(284,1,NodeAnswer302)
+   end
+end
+
+procedure NodeAnswer302 begin
+   bitDialogExp(bit_3,25)
+   Reply(285)
+   BAnswer(286,1,NodeSndDialog)
+   GAnswer(287,1,NodeSndDialog)
+end

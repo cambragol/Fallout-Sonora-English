@@ -1,0 +1,689 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_HCRunchA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_HERMOSILLO  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BRAHMIN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+// This script heavily modified to give an Espanol trait path, but did not break the original intent (i.e. English path works too) - cambragol
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodeAnswer403;
+procedure NodeAnswer404;
+
+procedure NodeFstDialog2E;
+procedure NodeFstDialog3E;
+procedure NodeFstDialog4E;
+procedure NodeFstDialog5E;
+procedure NodeFstDialog6E;
+procedure NodeFstDialog7E;
+procedure NodeAnswer100E;
+procedure NodeAnswer101E;
+procedure NodeAnswer102E;
+procedure NodeAnswer103E;
+procedure NodeAnswer104E;
+procedure NodeAnswer105E;
+procedure NodeAnswer106E;
+procedure NodeAnswer200E;
+procedure NodeAnswer201E;
+procedure NodeAnswer202E;
+procedure NodeAnswer203E;
+procedure NodeAnswer300E;
+procedure NodeAnswer301E;
+procedure NodeAnswer302E;
+procedure NodeAnswer400E;
+procedure NodeAnswer401E;
+procedure NodeAnswer402E;
+procedure NodeAnswer403E;
+procedure NodeAnswer404E;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(map_var(MVAR_HERMO_Runcho_Enemy),0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_SANDALS) then begin
+      script_overrides;
+      if self_enemy_dude then begin
+      end
+      else if (bitDialog(bit_10) != 0) then begin
+         if DudeTraitHas(TRAIT_espanol) then begin
+            display_mstr(109);
+         end
+         else begin
+            display_mstr(104);
+         end
+      end
+      else begin
+      set_REP(1)
+      setBonusReaction(25)
+      exp_add(75);
+         if DudeTraitHas(TRAIT_espanol) then begin
+            display_mstr(111);
+            floater(self_obj,110,COLOR_MSG_GREEN);
+         end
+         else begin
+            display_mstr(106);
+            floater(self_obj,105,COLOR_MSG_GREEN);
+         end
+      item_remove(dude_obj, objUsedPid, 1)
+      bitDialogExp(bit_10,0)
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   setQuest(GVAR_CGRANDE_QST_SALUT,qZero);
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_HERMO_Runcho_Enemy,2);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      if (game_time_hour < 0600) then begin
+      floater(self_obj,108,COLOR_MSG_RED);
+      end
+      else begin
+      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(1,107,NodeStartDialog,-1,-1)
+      end
+   end
+   else begin
+      if (game_time_hour < 0600) then begin
+      floater(self_obj,103,COLOR_MSG_RED);
+      end
+      else begin
+      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(1,102,NodeStartDialog,-1,-1)
+      end
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      if ((getQuest(GVAR_HERMO_QST_RADIO) >= qEnd) and (bitDialog(bit_9) == 0)) then begin
+         call NodeFstDialog7;
+      end
+      else if (bitDialog(bit_1) == 0) then begin
+         if (bitDialog(bit_2) == 0) then begin
+         call NodeFstDialog;
+         end
+         else begin
+         call NodeFstDialog5;
+         end
+      end
+      else begin
+         call NodeSndDialog;
+      end
+   end
+   else begin
+      if ((getQuest(GVAR_HERMO_QST_RADIO) >= qEnd) and (bitDialog(bit_9) == 0)) then begin
+         call NodeFstDialog7E;
+      end
+      else if (bitDialog(bit_1) == 0) then begin
+         if (bitDialog(bit_2) == 0) then begin
+         call NodeFstDialog;
+         end
+         else begin
+         call NodeFstDialog5E;
+         end
+      end
+      else begin
+         call NodeSndDialog;
+      end
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_2,0)
+      if DudeTraitHas(TRAIT_espanol) then begin
+         Reply(300)
+         NAnswer(301,1,NodeFstDialog2)
+      end
+      else begin
+         Reply(200)
+      end
+   NAnswer(201,1,NodeFstDialog2E)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(302)
+   call NodeFstDialog6;
+   NAnswer(303,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(305)
+   NAnswer(306,1,Node999)
+   BAnswer(307,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   bitDialogExp(bit_1,0)
+   call NodeSndDialog;
+end
+
+procedure NodeFstDialog5 begin
+   Reply(308)
+   call NodeFstDialog6;
+   NAnswer(309,1,Node999)
+end
+
+procedure NodeFstDialog6 begin
+   NAnswerSkill(304,3,NodeFstDialog4,SKILL_CONVERSANT,75,304,NodeFstDialog3)
+   NAnswerSlava(337,3,NodeFstDialog4,50,337,NodeFstDialog3)
+   if (getQuest(GVAR_CGRANDE_QST_SALUT) == qStart) then begin
+   GAnswer(347,5,NodeAnswer300)
+   end
+end
+
+procedure NodeFstDialog7 begin
+   bitDialogExp(bit_9,0)
+   setBonusReaction(35)
+
+   Reply(338)
+   NAnswer(339,1,NodeFstDialog4)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      if (getReaction >= 50) then begin
+      Reply(336)
+      end
+      else if (getReaction >= 20) then begin
+      Reply(335)
+      end
+      else begin
+      Reply(310)
+      end
+
+      if (bitDialog(bit_3) == 0) then begin
+         NAnswer(312,4,NodeAnswer100)
+      end
+      else begin
+         if (bitDialog(bit_8) == 0) then begin
+         NAnswer(334,4,NodeAnswer106)
+         end
+         NAnswer(370,4,NodeAnswer400)
+      end
+
+      if (bitDialog(bit_5) == 0) then begin
+      NAnswer(350,4,NodeAnswer200)
+      end
+      if (getQuest(GVAR_CGRANDE_QST_SALUT) == qStart) then begin
+      GAnswer(340,3,NodeAnswer300)
+      end
+
+      NAnswer(311,1,Node999)
+   end
+   else begin
+      if (getReaction >= 50) then begin
+      Reply(236)
+      end
+      else if (getReaction >= 20) then begin
+      Reply(235)
+      end
+      else begin
+      Reply(210)
+      end
+
+      if (bitDialog(bit_3) == 0) then begin
+         NAnswer(212,4,NodeAnswer100E)
+      end
+      else begin
+         if (bitDialog(bit_8) == 0) then begin
+         NAnswer(234,4,NodeAnswer106E)
+         end
+         NAnswer(270,4,NodeAnswer400E)
+      end
+
+      if (bitDialog(bit_5) == 0) then begin
+      NAnswer(250,4,NodeAnswer200E)
+      end
+      if (getQuest(GVAR_CGRANDE_QST_SALUT) == qStart) then begin
+      GAnswer(240,3,NodeAnswer300E)
+      end
+
+      NAnswer(211,1,Node999)
+   end
+end
+
+procedure NodeAnswer100 begin
+   Reply(313)
+   NAnswer(314,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(315)
+   //NAnswer(330,3,NodeAnswer106)
+   NAnswer(322,3,NodeAnswer102)
+   NAnswer(316,3,NodeAnswer104)
+   NAnswer(321,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(323)
+   NAnswer(325,5,NodeAnswer103)
+   NAnswer(316,3,NodeAnswer104)
+   NAnswer(324,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_3,25)
+   Reply(326)
+   //NAnswer(333,3,NodeAnswer106)
+   NAnswer(316,3,NodeAnswer104)
+   NAnswer(327,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   Reply(317)
+   NAnswer(318,5,NodeAnswer105)
+   NAnswer(328,1,Node999)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_4,25)
+   Reply(319)
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(329,4,NodeAnswer102)
+   end
+   NAnswer(320,1,Node999)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_8,0)
+   Reply(331)
+   if (getReaction >= 0) then begin
+   NAnswer(355,4,NodeSndDialog)
+   end
+   NAnswer(332,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(351)
+   NAnswer(352,1,NodeAnswer201)
+   BAnswer(353,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(354)
+   if (town_known(AREA_SAN_BRAHMIN) >= MARK_STATE_VISITED) then begin
+   NAnswer(357,3,NodeAnswer202)
+   end
+   if (getReaction >= 0) then begin
+   NAnswer(355,5,NodeSndDialog)
+   end
+   NAnswer(356,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   bitDialogExp(bit_5,25)
+   Reply(358)
+   if (getReaction >= 0) then begin
+   NAnswer(359,1,NodeSndDialog)
+   NAnswer(360,1,NodeSndDialog)
+   end
+   else begin
+   NAnswer(359,1,NodeAnswer203)
+   NAnswer(360,1,NodeAnswer203)
+   end
+end
+
+procedure NodeAnswer203 begin
+   Reply(361)
+   NAnswer(362,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   Reply(341)
+   NAnswer(342,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   Reply(343)
+   NAnswer(344,1,NodeAnswer302)
+end
+
+procedure NodeAnswer302 begin
+   bitDialogExp(bit_6,0)
+   bitDialogExp(bit_1,0)
+   setQuest(GVAR_CGRANDE_QST_SALUT,qEnd);
+   setBonusReaction(75)
+   set_REP(3)
+   exp_add(350);
+   Reply(345)
+   NAnswer(346,1,Node999)
+end
+
+procedure NodeAnswer400 begin
+   Reply(371)
+   NAnswer(372,1,NodeAnswer401)
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeAnswer401 begin
+   Reply(374)
+   NAnswer(375,1,NodeAnswer402)
+end
+
+procedure NodeAnswer402 begin
+   Reply(376)
+   NAnswer(377,1,NodeAnswer403)
+end
+
+procedure NodeAnswer403 begin
+   Reply(378)
+   NAnswer(379,1,NodeAnswer404)
+end
+
+procedure NodeAnswer404 begin
+   bitDialogExp(bit_7,100)
+   Reply(380)
+   NAnswer(381,1,NodeSndDialog)
+   NAnswer(382,1,Node999)
+end
+
+
+
+// English nodes --------------------------------
+
+
+procedure NodeFstDialog2E begin
+   Reply(202)
+   call NodeFstDialog6E;
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeFstDialog3E begin
+   Reply(205)
+   NAnswer(206,1,Node999)
+   BAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog4E begin
+   bitDialogExp(bit_1,0)
+   call NodeSndDialog;
+end
+
+procedure NodeFstDialog5E begin
+   Reply(208)
+   call NodeFstDialog6E;
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog6E begin
+   NAnswerSkill(204,3,NodeFstDialog4E,SKILL_CONVERSANT,75,204,NodeFstDialog3E)
+   NAnswerSlava(237,3,NodeFstDialog4E,50,237,NodeFstDialog3E)
+   if (getQuest(GVAR_CGRANDE_QST_SALUT) == qStart) then begin
+   GAnswer(247,5,NodeAnswer300E)
+   end
+end
+
+procedure NodeFstDialog7E begin
+   bitDialogExp(bit_9,0)
+   setBonusReaction(35)
+
+   Reply(238)
+   NAnswer(239,1,NodeFstDialog4E)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeAnswer100E begin
+   Reply(213)
+   NAnswer(214,1,NodeAnswer101E)
+end
+
+procedure NodeAnswer101E begin
+   Reply(215)
+   //NAnswer(230,3,NodeAnswer106E)
+   NAnswer(222,3,NodeAnswer102E)
+   NAnswer(216,3,NodeAnswer104E)
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeAnswer102E begin
+   Reply(223)
+   NAnswer(225,5,NodeAnswer103E)
+   NAnswer(216,3,NodeAnswer104E)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer103E begin
+   bitDialogExp(bit_3,25)
+   Reply(226)
+   //NAnswer(233,3,NodeAnswer106E)
+   NAnswer(216,3,NodeAnswer104E)
+   NAnswer(227,1,Node999)
+end
+
+procedure NodeAnswer104E begin
+   Reply(217)
+   NAnswer(218,5,NodeAnswer105E)
+   NAnswer(228,1,Node999)
+end
+
+procedure NodeAnswer105E begin
+   bitDialogExp(bit_4,25)
+   Reply(219)
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(229,4,NodeAnswer102E)
+   end
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeAnswer106E begin
+   bitDialogExp(bit_8,0)
+   Reply(231)
+   if (getReaction >= 0) then begin
+   NAnswer(255,4,NodeSndDialog)
+   end
+   NAnswer(232,1,Node999)
+end
+
+procedure NodeAnswer200E begin
+   Reply(251)
+   NAnswer(252,1,NodeAnswer201E)
+   BAnswer(253,1,NodeAnswer201E)
+end
+
+procedure NodeAnswer201E begin
+   Reply(254)
+   if (town_known(AREA_SAN_BRAHMIN) >= MARK_STATE_VISITED) then begin
+   NAnswer(257,3,NodeAnswer202E)
+   end
+   if (getReaction >= 0) then begin
+   NAnswer(255,5,NodeSndDialog)
+   end
+   NAnswer(256,1,Node999)
+end
+
+procedure NodeAnswer202E begin
+   bitDialogExp(bit_5,25)
+   Reply(258)
+   if (getReaction >= 0) then begin
+   NAnswer(259,1,NodeSndDialog)
+   NAnswer(260,1,NodeSndDialog)
+   end
+   else begin
+   NAnswer(259,1,NodeAnswer203E)
+   NAnswer(260,1,NodeAnswer203E)
+   end
+end
+
+procedure NodeAnswer203E begin
+   Reply(261)
+   NAnswer(262,1,Node999)
+end
+
+procedure NodeAnswer300E begin
+   Reply(241)
+   NAnswer(242,1,NodeAnswer301E)
+end
+
+procedure NodeAnswer301E begin
+   Reply(243)
+   NAnswer(244,1,NodeAnswer302E)
+end
+
+procedure NodeAnswer302E begin
+   bitDialogExp(bit_6,0)
+   bitDialogExp(bit_1,0)
+   setQuest(GVAR_CGRANDE_QST_SALUT,qEnd);
+   setBonusReaction(75)
+   set_REP(3)
+   exp_add(350);
+   Reply(245)
+   NAnswer(246,1,Node999)
+end
+
+procedure NodeAnswer400E begin
+   Reply(271)
+   NAnswer(272,1,NodeAnswer401E)
+   NAnswer(273,1,NodeSndDialog)
+end
+
+procedure NodeAnswer401E begin
+   Reply(274)
+   NAnswer(275,1,NodeAnswer402E)
+end
+
+procedure NodeAnswer402E begin
+   Reply(276)
+   NAnswer(277,1,NodeAnswer403E)
+end
+
+procedure NodeAnswer403E begin
+   Reply(278)
+   NAnswer(279,1,NodeAnswer404E)
+end
+
+procedure NodeAnswer404E begin
+   bitDialogExp(bit_7,100)
+   Reply(280)
+   NAnswer(281,1,NodeSndDialog)
+   NAnswer(282,1,Node999)
+end

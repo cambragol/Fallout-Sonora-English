@@ -1,0 +1,55 @@
+>> Merchants:
+
+BCLthr Tanner in San Brahmin
+GCPit Pete in GarageCity
+PCBrtrA Weapons Dealer
+PCBrtrB Junk Dealer
+PCBrtrC Outfit Dealer
+PCBrtrD Snack Bar Vendor
+PCDrgdlr Slum Pusher
+PCAtmBrt Atomic Trader
+RCIntndt Ranger Quartermaster
+DCWtrBrt Water Trader in Casa Grande
+SCIntndt Brotherhood of Steel Quartermaster
+TCBarter Tinkerer Quartermaster
+NCApcAst Apocalypse Followers in KNueva
+NCHimadr Chimador in KNueva
+
+>> Bartenders:
+
+GCBarmen
+FCBarmen
+DCBarmen only appears in freeplay
+PCCasBar
+PCRngBrt
+
+>> Regular Companions:
+
+GCEugene Garage City Eugene
+VVCScnc Vault 27 scientist
+ICApoc Inferno Disciple Diana
+ICPaladn Inferno paladin BS
+HCPrisnr Hermosillo prisoner
+VCRobot Villa robot in the crypt (freeplay only)
+
+>> Local companions (only for the duration of the quest within one or more specific maps):
+
+JCRanger Jackals prisoner-ranger (before leaving the Jackals location)
+FCMadre Flagstaff madre (before moving to another area of ??Flagstaff)
+RCPresly Rangers ranger Presley on the dam (only in the cave Gyers Wash)
+PCPrtznD Phoenix guerrilla
+MCMtlBoy Motel prisoner (before leaving the Motel location)
+MCPrison Casa Grande imprisoned highwayman in the town hall (before moving to another area)
+
+>> Technical companions (joined only for moving to another map, then immediately disconnect):
+
+GCImgrnt Garage City immigrant
+FCTraper Flagstaff trapper at Winona camp
+FCCrvBos Flagstaff caravanner at Flagstaff to Phoenix
+PCCrvBos Phoenix caravanner at Phoenix to Tu-San
+TCCrvBos Tu-San caravanner at Tu-San to Puerto
+DCAlien Casa Grande visitor
+DCCtznD Casa Grande resident at train station
+RCBezhA Rangers refugee mother at dam
+RCBezhB Rangers refugee child at dam
+FCFarmA Flagstaff farmer

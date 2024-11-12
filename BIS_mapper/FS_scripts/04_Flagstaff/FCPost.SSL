@@ -1,0 +1,561 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCPost
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_CITIZEN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst205;
+procedure NodeQst206;
+procedure NodeQst207;
+procedure NodeQst208;
+
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+
+procedure NodeCurier;
+procedure NodeCurier001;
+procedure NodeCurier002;
+procedure NodeCurier100;
+procedure NodeCurier101;
+procedure NodeCurier102;
+procedure NodeCurier103;
+procedure NodeCurier104;
+procedure NodeCurierEnd;
+procedure NodeCurierEnd2;
+
+//---------------------
+
+#define LVAR_Coast_Express              (6) // цена за посылку в Феникс (устанавливается при первом запуске, затем меняется по ходу диалога)
+
+variable dialogCityCurier;              // пункт назначения для отправки посылки
+variable dialogCityCoast;               // модификатор цены на пересылку
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,random(20,35))
+       set_local_var(LVAR_Coast_Express,300);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       if (map_var(MVAR_FLAG_PostSlav) >0) then begin
+          if (tile_distance(self_tile, map_var(MVAR_FLAG_PostSlav)) <= 5) then begin
+          timer_floater(120,125,COLOR_MSG_RED,random(40,60))
+          end
+          else begin
+          add_timer_event(self_obj, 20, 2);
+          end
+       end
+       else begin
+          //timer_float_reply(120,121)
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_FLAG_Vor,-1);
+   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
+   item_remove(dude_obj,PID_Q_PORTMONE,1)
+   setQuest(GVAR_FLAGSTAFF_POST_VOR, qStop);
+   end
+   set_map_var(MVAR_FLAG_PostSlav,-1);
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (map_var(MVAR_FLAG_PostSlav) > 0) then begin
+      floater(self_obj,129,COLOR_MSG_RED);
+   end
+   else if ((map_var(MVAR_FLAG_PostSlav) == -1) and (bitDialog(bit_11) == 0)) then begin
+      dialog_proc(1,0,NodeSndDialog2,-1,-1) // эта опция вынесена перед проверкой времени, иначе ночью ситуация получится нелепой
+   end
+   else if (game_time_hour < 0600) then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else begin
+      dialog_proc(1,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   BAnswer(202,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(5)
+   Reply(203)
+   NAnswer(204,1,NodeSndDialog)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(-5)
+   Reply(205)
+   NAnswer(206,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   //- Отправка посылки
+   /*
+   if (bitDialog(bit_2) != 0) then begin
+      if (town_known(AREA_PHOENIX) > MARK_STATE_UNKNOWN) then begin
+      NAnswer(220,1,NodeCurier001)
+      end
+      if (town_known(AREA_TWO_SUN) > MARK_STATE_UNKNOWN) then begin
+      NAnswer(221,1,NodeCurier002)
+      end
+   end
+   */
+
+   //- Вопросы
+   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
+   NAnswer(280,3,NodeQst200)
+   end
+   else begin
+   // added below to make the PC recognize the Sonora express at other locations - cambragol
+   if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_7) != 0) then begin
+   NAnswer(334,1,NodeAnswer101)
+   end
+   else begin
+   NAnswer(300,1,NodeAnswer100)
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_7);
+   end
+   end
+   
+   //NAnswer(300,1,NodeAnswer100)
+   NAnswer(320,1,NodeAnswer200)
+   if ((bitDialog(bit_2) != 0) and (bitDialog(bit_10) == 0)) then begin
+      if ((getQuest(GVAR_MAIN_QUEST_PHENIX) == qStart) and (town_known(AREA_PHOENIX) < MARK_STATE_VISITED)) then begin
+      NAnswer(350,1,NodeAnswer300)
+      end
+   end
+
+   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qZero) then begin
+   NAnswer(270,3,NodeQst100)
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   bitDialogExp(bit_11,100)
+   set_local_var(LVAR_Coast_Express,local_var(LVAR_Coast_Express)/2);
+   setBonusReaction(60)
+   Reply(218)
+   NAnswer(219,1,Node999)
+end
+
+//--- КВЕСТ
+
+procedure NodeQst100 begin
+   Reply(271)
+   NAnswer(272,1,NodeQst101)
+   BAnswer(273,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(274)
+   NAnswer(275,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   setQuest(GVAR_FLAGSTAFF_POST_VOR, qStart);
+   Reply(276)
+   NAnswer(277,1,Node999)
+end
+
+procedure NodeQst200 begin
+   Reply(281)
+   if (item_amnt(dude_obj,PID_Q_PORTMONE)>0) then begin
+   GAnswer(285,1,NodeQst202)
+   end
+   NAnswer(282,1,NodeQst201)
+   NAnswer(278,1,Node999)
+end
+
+procedure NodeQst201 begin
+   Reply(283)
+   NAnswer(284,1,Node999)
+end
+
+procedure NodeQst202 begin
+   if (item_amnt(dude_obj,PID_Q_PORTMONE)>0) then begin
+   call NodeQst203;
+   end
+   else begin
+   call NodeQst200;
+   end
+end
+
+procedure NodeQst203 begin
+   setQuest(GVAR_FLAGSTAFF_POST_VOR, qEnd);
+   item_remove(dude_obj, PID_Q_PORTMONE, 1)
+   setBonusReaction(25)
+   set_SLAVA(10)
+   set_REP(3)
+   exp_add(200);
+   Reply(286)
+   NAnswer(287,1,NodeQst204)
+   zNAnswer(293,1,NodeQst207)
+end
+
+procedure NodeQst204 begin
+   setBonusReaction(5)
+   set_SLAVA(-10)
+   set_REP(-1)
+   Reply(288)
+   NAnswer(289,1,NodeQst205)
+   NAnswer(291,1,NodeQst206)
+end
+
+procedure NodeQst205 begin
+   Reply(290)
+   NAnswer(295,1,NodeQst208)
+   BAnswer(296,1,NodeQst208)
+end
+
+procedure NodeQst206 begin
+   Reply(292)
+   NAnswer(295,1,NodeQst208)
+   BAnswer(296,1,NodeQst208)
+end
+
+procedure NodeQst207 begin
+   Reply(294)
+   NAnswer(295,1,NodeQst208)
+   BAnswer(296,1,NodeQst208)
+end
+
+procedure NodeQst208 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,20)
+   Reply(297)
+   NAnswer(298,1,Node999)
+   BAnswer(299,1,Node999)
+end
+
+//--- ???????
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_2,0)
+   Reply(301)
+   NAnswer(302,1,NodeAnswer101)
+   NAnswer(307,1,NodeAnswer103)
+   NAnswer(212,1,NodeSndDialog)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(303)
+   NAnswer(304,3,NodeAnswer102)
+   NAnswer(213,1,NodeAnswer100)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_3,10)
+   Reply(305)
+   NAnswer(213,1,NodeAnswer100)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(308)
+   NAnswer(309,3,NodeAnswer104)
+   NAnswer(213,1,NodeAnswer100)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_4,10)
+   Reply(310)
+   NAnswer(213,1,NodeAnswer100)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(321)
+   NAnswer(322,1,NodeAnswer201)
+   NAnswer(328,1,NodeAnswer204)
+   NAnswer(332,1,NodeAnswer206)
+   NAnswer(212,1,NodeSndDialog)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer201 begin
+   Reply(323)
+   NAnswer(324,3,NodeAnswer202)
+   NAnswer(213,1,NodeAnswer200)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   Reply(325)
+   NAnswer(326,3,NodeAnswer203)
+   NAnswer(213,1,NodeAnswer200)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   bitDialogExp(bit_8,10)
+   Reply(327)
+   NAnswer(213,1,NodeAnswer200)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer204 begin
+   Reply(329)
+   NAnswer(330,5,NodeAnswer205)
+   NAnswer(213,1,NodeAnswer200)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer205 begin
+   bitDialogExp(bit_9,20)
+   Reply(331)
+   NAnswer(213,1,NodeAnswer200)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer206 begin
+   Reply(333)
+   NAnswer(213,1,NodeAnswer200)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   mark_on_map(AREA_PHOENIX)
+   bitDialogExp(bit_10,20)
+   Reply(351)
+   NAnswer(352,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   /*
+   Замечание:
+   Раньше предполагалось, что можно приобщиться к конвою посыльных за крышки,
+   но два таких каравана для Флагпула - это перебор.
+   */
+   Reply(353)
+   NAnswer(354,1,NodeSndDialog)
+   NAnswer(355,1,Node999)
+end
+
+//--- ОТПРАВКА ПОСЫЛКИ
+
+procedure NodeCurier begin
+   Reply(mstr(222)+dialogCityCoast+mstr(223))
+
+   if (bitDialog(bit_7) == 0) then begin
+   NAnswer(240,3,NodeCurier100)
+   end
+   if (bitDialog(bit_5) == 0) then begin
+   NAnswerSkill(244,3,NodeCurier101,SKILL_BARTER,60,244,NodeCurier102)
+   end
+   NAnswer(249,3,NodeCurier104)
+
+   NAnswer(224,1,NodeCurierEnd)
+   NAnswer(225,1,NodeSndDialog)
+   NAnswer(226,1,Node999)
+end
+
+procedure NodeCurier001 begin
+   dialogCityCurier := bit_5;
+   dialogCityCoast := local_var(LVAR_Coast_Express)*1;
+   call NodeCurier;
+end
+
+procedure NodeCurier002 begin
+   dialogCityCurier := bit_6;
+   dialogCityCoast := local_var(LVAR_Coast_Express)*2;
+   call NodeCurier;
+end
+
+procedure NodeCurier100 begin
+   bitDialogExp(bit_7,20)
+   Reply(241)
+   NAnswer(242,1,NodeCurier)
+   NAnswer(243,1,Node999)
+end
+
+procedure NodeCurier101 begin
+   bitDialogExp(bit_5,35)
+   dec_local_var_amt(LVAR_Coast_Express,50);
+   Reply(247)
+   NAnswer(248,1,NodeSndDialog)
+end
+
+procedure NodeCurier102 begin
+   Reply(245)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeCurier103 begin
+   bitDialogExp(bit_6,50)
+   Reply(251)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeCurier104 begin
+   Reply(253)
+   NAnswer(242,1,NodeCurier)
+end
+
+procedure NodeCurier105 begin
+   Reply(254)
+   NAnswer(255,1,Node999)
+end
+
+procedure NodeCurierEnd begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= dialogCityCoast) then begin
+      call NodeCurierEnd2;
+   end
+   else begin
+      Reply(230)
+      NAnswer(231,1,NodeSndDialog)
+      NAnswer(232,1,Node999)
+   end
+end
+
+procedure NodeCurierEnd2 begin
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, dialogCityCurier);
+   play_sfx("BELLBOX1");
+   item_remove(dude_obj,PID_BOOTLE_CAPS,dialogCityCoast)
+   item_add(self_obj,PID_BOOTLE_CAPS,dialogCityCoast)
+
+   Reply(227)
+   if (bitDialog(bit_6) == 0) then begin
+   NAnswerSkill(250,3,NodeCurier103,SKILL_SCIENCE,20,250,NodeCurier105)
+   end
+   NAnswer(229,1,Node999)
+end

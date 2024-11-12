@@ -1,0 +1,81 @@
+[debug]
+
+mode=environment - debug type: debugging disabled (environment), bug report directly on the screen in the mapper (GNW), bug report in the debug.log file (LOG)
+output_map_data_info=0 - if (1), includes lists of resources (sprites, scripts, etc.) used on the newly loaded map in the bug report (does not work with mode=environment)
+show_load_info=0 - if (1), displays additional debug information when loading each map (does not work with mode=environment)
+show_script_messages=0 - if (1), includes text functions of scripts in the bug report, including debug_msg (does not work with mode=environment)
+show_tile_num=0 - unknown. Obviously, it should show tile numbers, but where exactly? MrStalin: "not used in the engine, probably not used in debugging the mapper either."
+
+[mapper]
+
+default_f8_as_game=1 - at (0) the pseudo-game mode (it is activated by the F8 key) is cut in the mapper, for example, it will be impossible to leave the current map through the transition grid or by the W key. The effect differs from the similar parameter run_mapper_as_game.
+fix_map_inventory=0 - unknown. Probably not used.
+fix_map_objects=1 - unknown. Judging by the name, it could be used to restore data from pro-files for objects in the location, if there was a discrepancy between them. But this does not happen. The mapper itself has a function "Fix map-objects to pids", but it also does not give a visible result.
+ignore_rebuild_errors=0 - the process of rebuilding pro-files (see rebuild_protos) is performed with errors ignored.
+librarian=1 - at (1) allows editing pro-files.
+override_librarian=0 - at (1) adds a special librarian menu at the top of the screen for working with pro-files, but prohibits saving maps.
+rebuild_protos=0 - rebuilds all prototypes or enables the corresponding options (better not to use)
+run_mapper_as_game=0 - at (0) the pseudo-game mode is curtailed (for example, enemies themselves cannot attack the main character), and at (1) it is full and similar to a normal game. The effect differs from the similar parameter default_f8_as_game.
+save_text_maps=0 - at (1) in addition to the map file, it will also save (the Save option, but not Save as) its text version. The mapper itself has the same option, but it is applied to all maps that are in the game resources at once.
+show_pid_numbers=0 - shows PID numbers of objects somewhere, but where exactly?
+sort_script_list=1 - at (0) sorts the script list according to the order from the scripts.lst file. And at (1) sorts strictly by alphabet.
+use_art_not_protos=0 - at (1) displays the corresponding sprites in the object list instead of pro files in the order in which they are designated in their register (SCENERY.LST for the environment, TILES.LST for tiles, etc.). This disables the ability to edit pro files. Since there are fewer sprites than pro files, there will be many empty cells at the end of the list.
+
+[preferences] - this section completely duplicates the standard game settings, which can be directly changed during the game
+
+brightness=1.000000 - screen brightness
+combat_difficulty=1 - combat difficulty
+combat_looks=1 - combat info
+combat_messages=1 - combat message
+combat_speed=50 - combat speed (0 - normal, 50 - very fast)
+combat_taunts=1 - combat taunts
+game_difficulty=1 - game difficulty
+item_highlight=1 - item highlighting
+language_filter=0 - swearing filter
+mouse_sensitivity=1.000000 - mouse sensitivity
+player_speedup=0 - affect character speed
+running=1 - running
+subtitles=1 - subtitles
+target_highlight=2 - target highlighting
+text_base_delay=6.000000 - delay text
+text_line_delay=2.000000 - text delay
+violence_level=3 - violence level
+
+[sound]
+
+cache_size=512 - the amount of memory for sounds and music
+debug=0 - if (1), data on used sounds is included in the bug report (see the debug section) (does not apply when mode=environment).
+debug_sfxc=0 - if (1), data on used sounds is included in the bug report (see the debug section) (does not apply when mode=environment).
+device=-1 - sound card parameter (if -1, DirectSound from DirectX is used)
+dma=-1 - sound card parameter (if -1, DirectSound from DirectX is used)
+initialize=1 - specifies whether the sound card should be initialized when the game starts. If (0), the game loses all sound and it will not be possible to restore it during the game.
+irq=-1 - sound card parameter (if -1, DirectSound from DirectX is used)
+master_volume=32767 - overall volume level in the game (parameter in game settings, from 0 to 32767)
+music=1 - enables (1) or disables (0) music (you won't be able to turn it back on during the game)
+music_path1=C:\... - path to the music folder
+music_path2=D:\... - path to the music folder on the external drive with the game (if the game was not fully installed and loads music from the disk)
+music_volume=32767 - music volume level (parameter in game settings, from 0 to 32767)
+port=-1 - sound card parameter (if -1, DirectSound from DirectX is used)
+sndfx_volume=32767 - sound volume level (parameter in game settings, from 0 to 32767)
+sounds=1 - enables (1) or disables (0) sounds (cannot be enabled during gameplay)
+speech=1 - enables (1) or disables (0) speech sounds (cannot be enabled during gameplay)
+speech_volume=32767 - speech volume level (parameter in game settings, from 0 to 32767)
+
+[system]
+
+art_cache_size=256 - amount of memory for graphics. If 0, the program does not start at all.
+cdlock= - unknown. Path to some file cdlock.dat, but what is it? Probably, it was important during partial installation of the game, when some resources remain on the CD-disk. Or to check the authenticity of the disk. In my case, this value is empty during full installation. Mr.Stalin: "definitely not used in the engine".
+color_cycling=1 - at (0) disables iridescent pixels (special animation, for example, of burning barrels and computers, as well as contour highlighting of critters in battle), replacing them with black.
+critter_dat=C:\... - path to the critter.dat file
+critter_patches=C:\... - path to the folder where sprites are placed to replace critter.dat
+cycle_speed_factor=1 - speed of iridescent pixels (see color_cycling), by default 1 (the higher, the slower)
+executable=mapper - unknown. In the game fallout2.cfg it takes the value game, and in the mapper mapper2.cfg it takes the value mapper.
+free_space=20480 - free disk space in kilobytes. At (0) the space is not limited. The default value is 20480 (this is 20 MB), which is completely irrelevant for modern realities. It is recommended to set to 0.
+hashing=1 - probably it should have been hashing. Mr.Stalin: "definitely not used in the engine".
+interrupt_walk=1 - at (0) the character's running and walking cannot be interrupted until he reaches the primary destination. Which is terribly inconvenient and non-functional. At (1) it becomes possible to interrupt the movement by specifying a new destination.
+language=english - the name of the folder with the game's text files
+master_dat=C:\... - path to the master.dat file
+master_patches=C:\... - path to the folder where the resources are located to replace master.dat
+scroll_lock=0 - unknown (effect of the Scroll Lock key? disabling screen scrolling?). Probably not used.
+splash=1 - the ordinal number of the next introductory slide when loading the game. The parameter works fine in the game, but it is useless for the mapper, since the splash screen is not shown there at all. The slides themselves are stored in /master.dat/art/splash/ in *.rix format.
+times_run=1 - unknown (there is an assumption that it sets the slide duration, see splash). Mr. Stalin: "in the engine it simply sets its value cyclically 1...5 (just like that), but probably this is not used in the mapper."

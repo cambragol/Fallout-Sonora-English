@@ -1,0 +1,385 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_OBJ_CAR
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RAIDERS   // привязка к репутации, если не нужна, то установить -1
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure first_start_car;
+procedure block_gener;
+procedure block_delete;
+procedure lump_gener;
+procedure lump_delete;
+procedure art_change_self;
+
+#define truck_tile                      tile_num_in_direction(self_tile, 1, 1)
+
+variable varTileParam;                  // вспомогательная переменная для передачи данных о гексах
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+
+       //--- Смена внешнего вида после улучшений
+       call art_change_self;
+
+       //--- Переопределение координат байка
+       if (town_known(AREA_CAR_PIT_STOP) >= MARK_STATE_KNOWN) then begin
+          set_global_var(GVAR_CAR_MAP_INDEX,MAP_CAR_PIT_STOP);
+       end
+       if (global_var(GVAR_CAR_MAP_INDEX) == -999) then begin
+          set_global_var(GVAR_CAR_MAP_INDEX,cur_map_index);
+       end
+       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+          if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PHOENIX_PLAZA) then begin
+          if (cur_map_index == MAP_PHOENIX_PLAZA) then begin
+          set_global_var(GVAR_CAR_MAP_INDEX,MAP_PHOENIX_SIGN);
+          end
+          end
+       end
+       if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qStart) then begin
+          if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PUERTO_DOCS) then begin
+          set_global_var(GVAR_CAR_MAP_INDEX,MAP_PUERTO_DESTROY);
+          end
+          if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PUERTO_SIGN) then begin
+          set_global_var(GVAR_CAR_MAP_INDEX,MAP_PUERTO_DESTROY);
+          end
+       end
+       if (global_var(GVAR_CAR_MAP_INDEX) == -1) then begin
+          set_global_var(GVAR_CAR_MAP_INDEX,MAP_CAR_PIT_STOP);
+       end
+
+       //--- Позиционирование байка на карте
+       if (global_var(GVAR_CAR_MAP_INDEX) == cur_map_index) then begin
+
+          //- Байк отображается на карте
+          set_obj_visibility(self_obj, 0);
+
+          //- Багажник отображается на карте и перемещается к байку
+          if (party_member_obj(PID_CAR_TRUNK) != 0) then begin
+          set_obj_visibility(party_member_obj(PID_CAR_TRUNK), 0);
+          move_to(party_member_obj(PID_CAR_TRUNK), truck_tile, self_elevation);
+          end
+
+          //- Генерируются блокираторы под байком
+          varTileParam := tile_num_in_direction(self_tile, 1, 1);
+                          call block_gener;
+          varTileParam := tile_num_in_direction(self_tile, 3, 1);
+                          call block_gener;
+          varTileParam := tile_num_in_direction(self_tile, 4, 1);
+                          call block_gener;
+          varTileParam := tile_num_in_direction(tile_num_in_direction(self_tile, 4, 1), 3, 1);
+                          call block_gener;
+
+          //- Генерируется освещение после установки фары
+          call lump_gener;
+
+          //- Опция для захвата байка бандитами в трущобах Феникса
+          if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PHOENIX_BNDCS) then begin
+             if (map_var(MVAR_PNX_MOTO_STATUS) < 2) then begin
+             inc_map_var(MVAR_PNX_MOTO_STATUS);
+             end
+             if (map_var(MVAR_PNX_MOTO_STATUS) == 2) then begin
+             set_global_var(GVAR_CAR_GOT_PLAYER,0);
+             set_map_var(MVAR_PNX_MOTO_STATUS,10);
+             end
+          end
+       end
+       else begin
+
+          //- Байк и багажник исчезают с карты
+          set_obj_visibility(self_obj, 1);
+          if (party_member_obj(PID_CAR_TRUNK) != 0) then begin
+          set_obj_visibility(party_member_obj(PID_CAR_TRUNK), 1);
+          end
+
+          //- Удаление блокираторов под байком
+          varTileParam := tile_num_in_direction(self_tile, 1, 1);
+                          call block_delete;
+          varTileParam := tile_num_in_direction(self_tile, 3, 1);
+                          call block_delete;
+          varTileParam := tile_num_in_direction(self_tile, 4, 1);
+                          call block_delete;
+          varTileParam := tile_num_in_direction(tile_num_in_direction(self_tile, 4, 1), 3, 1);
+                          call block_delete;
+          //display_msg("Blocks destroy");
+
+          //- Удаление освещение после установки фары
+          call lump_delete;
+       end
+
+       //display_msg("car_tile "+self_tile);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   //Блокировка при отсутствии ключа
+   if (dude_has_car == 0) then begin
+      display_mstr(112);
+      floater(dude_obj,113,COLOR_MSG_NORMAL);
+   end
+
+   //Блокировка при нехватке энергии
+   else if (car_out_of_fuel != 0) then begin
+      display_mstr(110);
+      floater(dude_obj,111,COLOR_MSG_NORMAL);
+   end
+
+   //Блокировка по квесту кадета у рейнджеров
+   else if ((cur_map_index == MAP_RANGERS_CAVE) and (getQuest(GVAR_RANGERS_QST_CADET) == qStart)) then begin
+      display_mstr(114);
+      floater(dude_obj,115,COLOR_MSG_NORMAL);
+   end
+
+   //Блокировка при избытке напарников
+   else if ((party_member_count(0) > 3) and (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_8) != 0)) then begin
+      display_mstr(117);
+   end
+   else if ((party_member_count(0) > 2) and (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_8) == 0)) then begin
+      display_mstr(117);
+   end
+
+   //Выезд на карту мира
+   else begin
+      call first_start_car;
+      if (cur_map_index == MAP_PHOENIX_BNDCS) then begin
+      if (map_var(MVAR_PNX_MOTO_STATUS) < 2) then begin
+      set_map_var(MVAR_PNX_MOTO_STATUS,0);
+      end
+      end
+      set_global_var(GVAR_CAR_MAP_INDEX,-999);
+      play_sfx("carstart");
+      car_give_to_party;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   /*
+   Замечание!
+   Нужно учесть, что игрок может промахнуться и использовать предмет на багажник вместо байка.
+   Следует свериться с процедурой use_obj_on_p_proc в скрипте багажника, SCRIPT_OBJ_TRCK.
+   */
+
+   if (objUsedPid == PID_MOTO_KEY) then begin
+       script_overrides;
+       set_global_var(GVAR_CAR_GOT_PLAYER, 1); //! важно: эта переменная используется движком, ее обязательно нужно установить на 1 при получении байка
+       play_sfx("WRR1XXX1");
+       display_mstr(200);
+       item_remove(dude_obj, PID_MOTO_KEY, 1)
+   end
+   else if (objUsedPid == PID_MOTO_BAG) then begin
+       script_overrides;
+       display_mstr(211);
+   end
+   else if (objUsedPid == PID_MOTO_LUMP) then begin
+       script_overrides;
+       if (dude_has_car == 0) then begin
+           display_mstr(207);
+       end
+       else if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_5) == 0) then begin
+           set_gvar_bit_on(GVAR_CAR_FLAGS_BIT, bit_5);
+           play_sfx("carrepar");
+           /*
+           Этот бонус спорен, но ничего лучше пока не придумал:
+           if (is_skill_tagged(SKILL_SCOUT) == true) then begin
+           skill_up(SKILL_SCOUT,6);
+           end
+           else begin
+           skill_up(SKILL_SCOUT,5);
+           end
+           */
+           display_mstr(209);
+           dude_floater_OK;
+           item_remove(dude_obj, PID_MOTO_LUMP, 1)
+           call lump_gener;
+       end
+       else begin
+           dude_floater_NON;
+           display_mstr(210);
+       end
+   end
+   else if (objUsedPid == PID_SCULL_DEATHCLAW) then begin
+       script_overrides;
+       if (dude_has_car == 0) then begin
+           display_mstr(207);
+       end
+       else if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_4) == 0) then begin
+           PLAY_FADE
+           play_sfx("carrepar");
+           exp_add(100);
+           set_SLAVA(25)
+           display_mstr(206);
+           dude_floater_OK;
+           item_remove(dude_obj, PID_SCULL_DEATHCLAW, 1)
+           set_gvar_bit_on(GVAR_CAR_FLAGS_BIT, bit_4);
+           call art_change_self;
+       end
+       else begin
+           dude_floater_NON;
+           display_mstr(208);
+       end
+   end
+
+   if (objUsedPid == PID_TOOL_CAR_GAZ) then begin
+       play_sfx("WOS1XXX1"); // play_sfx("WRS1XXX1");
+       dude_floater_OK;
+   end
+   else if (objUsedPid == PID_AMMO_ENERGY_CELL) then begin
+       script_overrides;
+       display_mstr(202);
+       floater(dude_obj,201,COLOR_MSG_NORMAL);
+   end
+   else if (objUsedPid == PID_AMMO_MICRO_FUSION_CELL) then begin
+       script_overrides;
+       display_mstr(202);
+       floater(dude_obj,201,COLOR_MSG_NORMAL);
+   end
+      // added for completeness - they could be easily confused - cambragol
+   else if (objUsedPid == PID_GENERATOR_ENERGY) then begin
+       script_overrides;
+       display_mstr(202);
+       floater(dude_obj,201,COLOR_MSG_NORMAL);
+   end
+
+   if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+       script_overrides;
+       display_mstr(204);
+       floater(dude_obj,201,COLOR_MSG_NORMAL);
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_ELECTRONIC) then begin
+       script_overrides;
+       display_mstr(205);
+       floater(dude_obj,201,COLOR_MSG_NORMAL);
+   end
+   else if (objUsedPid == PID_OIL) then begin
+       script_overrides;
+       display_mstr(203);
+       floater(dude_obj,201,COLOR_MSG_NORMAL);
+   end
+
+end
+
+procedure use_skill_on_p_proc begin
+
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(300);
+   end
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       if (dude_has_car == 0) then begin
+           if (has_skill(dude_obj, SKILL_SCIENCE) >= 80) then begin
+              play_sfx("WRR1XXX1");
+              display_mstr(200);
+              dude_floater_OK;
+              set_global_var(GVAR_CAR_GOT_PLAYER, 1); //! важно: эта переменная используется движком, ее обязательно нужно установить на 1 при получении байка
+           end else begin
+              skill_display_mstr(302,SKILL_SCIENCE,80)
+           end
+       end else begin
+           display_mstr(301);
+       end
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       //Свериться с использованием Ремонта на багажник в SCRIPT_OBJ_TRCK.
+       if (dude_has_car == 0) then begin
+       display_mstr(305);
+       end
+       else if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_2) == 0) then begin
+       display_mstr(304);
+       end
+       else begin
+       display_mstr(303);
+       end
+   end
+
+end
+
+procedure first_start_car begin
+   if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_1) == 0) then begin
+       party_add(tile_contains_pid_obj(truck_tile, self_elevation, PID_CAR_TRUNK));
+       exp_add(1000);
+       //play_gmovie(MOVIE_CAR);
+       if (cur_map_index == MAP_RAIDERS_BASA) then begin
+          if (map_var(MVAR_CAR_PRESENT) == 0) then begin
+          set_map_var(MVAR_ROADWAR_DOPUSK,-1);
+          set_REP(REP_KILL_CRITICAL)
+          display_mstr(116);
+          end
+          move_to(self_obj, 26315, 0); //Перемещение на карте магистральщиков для смены точки входа на локацию
+       end
+       set_gvar_bit_on(GVAR_CAR_FLAGS_BIT, bit_1);
+   end
+end
+
+procedure block_gener begin
+   if (tile_contains_obj_pid(varTileParam,self_elevation,PID_HEX_BLOCKING) == false) then begin
+   create_object_sid(PID_HEX_BLOCKING, varTileParam, self_elevation, -1);
+   end
+end
+
+procedure block_delete begin
+   if (tile_contains_obj_pid(varTileParam,self_elevation,PID_HEX_BLOCKING) == true) then begin
+   destroy_object(tile_contains_pid_obj(varTileParam, self_elevation, PID_HEX_BLOCKING));
+   end
+end
+
+procedure lump_gener begin
+   if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_5) != 0) then begin
+       varTileParam := tile_num_in_direction(self_tile, 4, 2);
+                       if (tile_contains_obj_pid(varTileParam,self_elevation,PID_HEX_SOLAR) == false) then begin
+                       create_object_sid(PID_HEX_SOLAR, varTileParam, self_elevation, -1);
+                       end
+   end
+end
+
+procedure lump_delete begin
+   if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_5) != 0) then begin
+       varTileParam := tile_num_in_direction(self_tile, 4, 2);
+                       if (tile_contains_obj_pid(varTileParam,self_elevation,PID_HEX_SOLAR) == true) then begin
+                       destroy_object(tile_contains_pid_obj(varTileParam, self_elevation, PID_HEX_SOLAR));
+                       end
+   end
+end
+
+procedure art_change_self begin
+       if (global_var(GVAR_CAR_SPEED_UPGD) > 0) then begin
+          //  авиационный ускоритель
+          //art_change_fid_num(self_obj, 1458); // (номер изображения берется по номеру строки в ART/SCENERY.LST - 1)
+          if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_4) != 0) then begin
+          art_change_fid_num(self_obj, 1787);
+          end
+          else begin
+          art_change_fid_num(self_obj, 1784);
+          end
+       end
+       else if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_6) != 0) then begin
+          // кожаные мешки
+          if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_4) != 0) then begin
+          art_change_fid_num(self_obj, 1786);
+          end
+          else begin
+          art_change_fid_num(self_obj, 1783);
+          end
+       end
+       else begin
+          // изначальный вид
+          if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_4) != 0) then begin
+          art_change_fid_num(self_obj, 1785);
+          end
+          else begin
+          art_change_fid_num(self_obj, 1782);
+          end
+       end
+end

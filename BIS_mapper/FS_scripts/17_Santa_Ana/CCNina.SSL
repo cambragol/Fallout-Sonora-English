@@ -1,0 +1,425 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_CCNina
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SANTA_ANA // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANTA_ANA_CTZN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CHILD              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_CHILD      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_CHRCH_UNDGRND              24515  // точка размещения в подвале церкви
+#define TILE_CHRCH_DOOR                 13501  // точка размещения у входа в церковь
+#define TILE_HOME_NEW                   16296  // точка размещения в поселении после спасения на кладбище
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure port_to_chrch;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog110; // added to fix a splip back to spanish when using espanol/trait - cambragol
+procedure NodeSndDialog;
+procedure NodeSndDialog101;
+procedure NodeSndDialog102;
+procedure NodeSndDialog103;
+procedure NodeSndDialog104;
+procedure NodeSndDialog105;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (self_elevation == 1) then begin
+       move_to(self_obj, TILE_CHRCH_UNDGRND, 1);
+       end
+
+       set_obj_visibility(self_obj, 0);
+       if ((global_var(GVAR_SANTAANA_STATUS_NINA) >= 2) or (global_var(GVAR_SANTAANA_STATUS_NINA)<0)) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((global_var(GVAR_SANTAANA_STATUS_NINA) == 1) and (self_elevation == 0)) then begin
+       timer_move_to_tile(0,TILE_CHRCH_DOOR,5)
+       end
+       else if ((global_var(GVAR_SANTAANA_STATUS_NINA) == 1) and (self_elevation == 1)) then begin
+       timer_move_to_tile(1,TILE_CHRCH_UNDGRND,2)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_SANTAANA_STATUS_NINA) == 0) then begin
+       if (global_var(GVAR_SANTAANA_STATUS_FIESTA) == 2) then begin
+       if ((self_elevation == 0) and (dude_elevation == 0)) then begin
+          if (self_tile == TILE_CHRCH_DOOR) then begin
+          call port_to_chrch;
+          end
+          else begin
+          move_to_tile(0,TILE_CHRCH_DOOR,0)
+          end
+       end
+       else begin
+          call port_to_chrch;
+       end
+       end
+   end
+   else if (global_var(GVAR_SANTAANA_STATUS_NINA) == 1) then begin
+       if (self_elevation == 0) then begin
+       call port_to_chrch;
+       end
+       else if (global_var(GVAR_SANTAANA_STATUS_FIESTA) == 10) then begin
+       set_global_var(GVAR_SANTAANA_STATUS_NINA,2);
+       end
+   end
+   else if (global_var(GVAR_SANTAANA_STATUS_NINA) == 2) then begin
+       if (self_elevation > 0) then begin
+       call NodeSndDialog105;
+       end
+   end
+
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure port_to_chrch begin
+   reg_anim_clear(self_obj);
+   move_to(self_obj, TILE_CHRCH_UNDGRND, 1);
+   anim(self_obj, ANIMATE_ROTATION, 2);
+   //item_add(self_obj,PID_TOOL_FLARE,1)
+   item_add(self_obj,PID_ACTIVE_FLARE,1)
+   //!!! создание светящегося фальшфайера и его размещение в руку девочки
+   set_global_var(GVAR_SANTAANA_STATUS_NINA, 1);
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_Q_SANTAANA_CORONA) then begin
+      script_overrides;
+      if (global_var(GVAR_SANTAANA_STATUS_NINA) >= 3) then begin
+      setQuest(GVAR_SANTAANA_QST_FIESTA, qEnd);
+      set_REP(3)
+      setBonusReaction(30)
+      floater(dude_obj, 105, COLOR_MSG_NORMAL);
+      display_mstr(104);
+      exp_add(100);
+      item_remove(dude_obj, objUsedPid, 1)
+      end
+      else begin
+      floater(dude_obj, 106, COLOR_MSG_NORMAL);
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+   /*
+   if (action_being_used >= 0) then begin
+   set_global_var(GVAR_SANTAANA_STATUS_EL_DIABLO, -1); // !!! ЧИТ
+   set_CITY_REP(GVAR_TOWN_REP_SANTA_ANA,15) // !!! ЧИТ
+   item_add(dude_obj,PID_Q_SANTAANA_CORONA,1) //!!! ЧИТ
+   end
+   */
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+      set_global_var(GVAR_SANTAANA_STATUS_NINA, -1);
+   if (cur_map_index == MAP_SANTA_ANA_GRAVE) then begin
+      set_global_var(GVAR_SANTAANA_STATUS_NINA, -3);
+   end
+   if (cur_map_index == MAP_SANTA_ANA_MONUMENT) then begin
+      set_global_var(GVAR_SANTAANA_STATUS_NINA, -3);
+   end
+   if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+      if (self_elevation > 0) then begin
+      set_global_var(GVAR_SANTAANA_STATUS_NINA, -2);
+      end
+      if (self_elevation == 0) then begin
+      set_global_var(GVAR_SANTAANA_STATUS_FIESTA, -1);
+      end
+   end
+
+   stop_santa_fiesta
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (global_var(GVAR_SANTAANA_STATUS_NINA) >= 2) then begin
+   floater(self_obj, 103, COLOR_MSG_GREEN);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (self_elevation == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ДИАЛОГ НА ПЛОЩАДИ ДО ЦЕРЕМОНИИ
+//This script was tweaked to standardize handling of the espanol perk - cambragol
+
+
+procedure NodeFstDialog begin
+   //bitDialogExp(bit_1,0)
+   if ((game_time_hour >= 0600) and (game_time_hour < 1800)) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         Reply(199)
+      end
+      else begin
+         Reply(201)
+      end
+   end
+   else begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         Reply(198)
+      end
+      else begin
+         Reply(200)
+      end
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+      GAnswer(210,1,NodeFstDialog104)
+      end
+      // added 'else' here to make these answers mutually exclusive. One leads to dead end because pc doesn't understnd Spanish, one is opened up by the Spanish perk. - cambragol
+      else begin
+      NAnswer(203,1,NodeFstDialog101)
+      end
+   end
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+      if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
+      NAnswer(222,1,NodeFstDialog109)
+      end
+   end
+
+   NAnswer(202,1,Node999)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(206)
+   NAnswer(207,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog103 begin
+   bitDialogExp(bit_1,0)
+   dialog_qst_SANTA
+
+   Reply(208)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog104 begin
+   setBonusReaction(25)
+   Reply(211)
+   NAnswer(212,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(213)
+   zGAnswer(214,1,NodeFstDialog106)
+   BAnswer(219,1,NodeFstDialog108)
+end
+
+procedure NodeFstDialog106 begin
+   setBonusReaction(20)
+   Reply(215)
+   NAnswer(216,1,NodeFstDialog107)
+end
+
+procedure NodeFstDialog107 begin
+   bitDialogExp(bit_1,100)
+   if (getQuest(GVAR_SANTAANA_QST_DIALOG) == qStart) then begin
+   //!!! квест поговорить с жителями +1 + сообщение
+   end
+   Reply(217)
+   NAnswer(218,1,Node999)
+end
+
+// changed 215 to 220, it appears to be a mistake - cambragol
+procedure NodeFstDialog108 begin
+   setBonusReaction(-25)
+   Reply(220)
+   NAnswer(216,1,NodeFstDialog107)
+end
+
+// changed the direction to the new NodeFstDialog110, otherwise the node went back to an non-espanol trait node - cambragol
+procedure NodeFstDialog109 begin
+   Reply(223)
+   NAnswer(221,1,NodeFstDialog110)
+end
+
+procedure NodeFstDialog110 begin
+   Reply(217)
+   NAnswer(224,1,Node999)
+end
+
+//--- ДИАЛОГ В ПОДЗЕМЕЛЬЕ
+
+procedure NodeSndDialog begin
+
+   Reply(230)
+      if DudeTraitHas(TRAIT_espanol) then begin
+         BAnswer(232,1,NodeSndDialog101)
+         if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) < 0) then begin
+         GAnswer(240,1,NodeSndDialog103)
+         end
+      end
+      else begin
+         BAnswer(241,1,NodeSndDialog101)
+         if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) < 0) then begin
+         GAnswer(237,1,NodeSndDialog103)
+         end
+      end
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeSndDialog101 begin
+   Reply(233)
+      if DudeTraitHas(TRAIT_espanol) then begin
+         BAnswer(234,1,NodeSndDialog102)
+      end
+      else begin
+         BAnswer(242,1,NodeSndDialog102)
+      end
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeSndDialog102 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(243)
+      if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) < 0) then begin
+      GAnswer(240,1,NodeSndDialog103)
+      end
+      NAnswer(244,1,Node999)
+   end
+   else begin
+      Reply(235)
+      if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) < 0) then begin
+      GAnswer(237,1,NodeSndDialog103)
+      end
+      NAnswer(236,1,Node999)
+   end
+end
+
+procedure NodeSndDialog103 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(245)
+      NAnswer(246,1,NodeSndDialog104)
+   end
+   else begin
+      Reply(238)
+      NAnswer(239,1,NodeSndDialog104)
+   end
+end
+
+procedure NodeSndDialog104 begin
+   call NodeSndDialog105;
+   call Node999;
+end
+
+procedure NodeSndDialog105 begin
+   set_global_var(GVAR_SANTAANA_STATUS_NINA, 2);
+   setBonusReaction(90)
+   set_local_var(LVAR_Home_Tile,TILE_HOME_NEW);
+   set_local_var(LVAR_Home_Rotat,5);
+   move_to(self_obj, HomeTile, 0);
+   anim(self_obj, ANIMATE_ROTATION, HomeRotat);
+   rm_timer_event(self_obj);
+   set_obj_visibility(self_obj, 1);
+end

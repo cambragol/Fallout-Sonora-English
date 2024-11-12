@@ -1,0 +1,385 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCRngMap
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                       TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_RANGER           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107; //added for intermediary stage in survey quest or players who need help - cambragol
+procedure NodeAnswer108; //added for viewing mapa - cambragol
+procedure NodeAnswer109; //added for intermediary stage in survey quest or players who need help - cambragol
+
+
+procedure NodeQuartz;
+procedure NodeQuartz101;
+procedure NodeQuartz102;
+procedure NodeQuartz103;
+procedure NodeQuartz104;
+procedure NodeQuartz105;
+procedure NodeQuartz106;
+procedure NodeQuartz107;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_13);
+   if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) <= qEnd) then begin
+   setQuest(GVAR_RANGERS_QST_QUARTZMAP,qZero);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (bitDialog(bit_2) == 0) then begin
+   Reply(213)
+   end
+   else begin
+   Reply(210)
+   end
+
+   // added for intermediary point in survey quest, to help players who are stuck - cambragol
+   if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) == qStart) then begin
+      NAnswer(235,1,NodeAnswer107)
+      NAnswer(241,1,NodeAnswer109)
+
+   end
+
+   //--- вопросы
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      NAnswer(233,1,NodeAnswer106)
+   end
+      NAnswer(220,1,NodeAnswer100)
+   if (bitDialog(bit_2) != 0) then begin
+      NAnswer(229,1,NodeAnswer104)
+      // added to allow viewing map as reward for survey quest - cambragol
+      if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_13) == 0) or (getQuest(GVAR_RANGERS_QST_QUARTZMAP) >= qEnd) then begin
+      NAnswer(226,1,NodeAnswer103)
+      end
+   end   
+
+   //--- Кварц
+   if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) == qZero) then begin
+      if (getQuest(GVAR_RANGERS_QST_QUARTZ) > qZero) then begin
+      NAnswer(250,1,NodeQuartz)
+      end
+   end
+   if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) == qEnd) then begin
+      NAnswer(270,1,NodeQuartz107)
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+//--- КВАРЦ
+
+procedure NodeQuartz begin
+   Reply(251)
+   NAnswer(253,1,NodeQuartz101)
+   NAnswer(259,1,NodeQuartz103)
+   if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) == qZero) then begin
+   NAnswer(261,1,NodeQuartz104)
+   end
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeQuartz101 begin
+   mark_on_map(AREA_QUARTZ)
+   Reply(254)
+   NAnswer(257,3,NodeQuartz102)
+   NAnswer(255,1,NodeQuartz)
+   NAnswer(256,1,NodeSndDialog)
+end
+
+procedure NodeQuartz102 begin
+   Reply(258)
+   NAnswer(255,1,NodeQuartz)
+   NAnswer(256,1,NodeSndDialog)
+end
+
+procedure NodeQuartz103 begin
+   Reply(260)
+   NAnswer(255,1,NodeQuartz)
+   NAnswer(256,1,NodeSndDialog)
+end
+
+procedure NodeQuartz104 begin
+   Reply(262)
+   NAnswer(263,1,NodeQuartz105)
+end
+
+procedure NodeQuartz105 begin
+   Reply(264)
+   NAnswer(265,1,NodeQuartz106)
+   NAnswer(266,1,NodeQuartz)
+end
+
+procedure NodeQuartz106 begin
+   setQuest(GVAR_RANGERS_QST_QUARTZMAP,qStart);
+   Reply(267)
+   NAnswer(268,1,NodeQuartz)
+   NAnswer(269,1,Node999)
+end
+
+procedure NodeQuartz107 begin
+   setQuest(GVAR_RANGERS_QST_QUARTZMAP,qEnd+1);
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_13);
+   setBonusReaction(50)
+   set_REP(3)
+   exp_add(500);
+
+   Reply(271)
+   zNAnswer(272,1,Node999)
+   NAnswer(273,1,Node999)
+end
+
+//--- ВОПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(224,1,NodeAnswer102)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,20)
+   Reply(225)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   // added for the map reward of survey quest - cambragol
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) or (getQuest(GVAR_RANGERS_QST_QUARTZMAP) >= qEnd) then begin
+      set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_13);
+      Reply(228)  
+      NAnswer(238,1,NodeAnswer108)
+   end
+   else begin
+      Reply(227)
+   end
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(230)
+   NAnswer(231,1,NodeAnswer105)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer105 begin
+   Reply(232)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer106 begin
+   Reply(234)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+// added for intermediary point of quest. Player can't find all the survey markers - cambragol
+procedure NodeAnswer107 begin
+   Reply(236)
+   NAnswer(237,1,NodeSndDialog)
+end
+   
+// added this node for viewing maps - cambragol
+procedure NodeAnswer108 begin
+   Reply(239)
+   // added these as a reward for viewing maps - cambragol
+      if (town_known(AREA_INFIERNO) == MARK_STATE_UNKNOWN) then begin
+         mark_on_map(AREA_INFIERNO)
+      end
+      if (town_known(AREA_CASA_NUEVA) == MARK_STATE_UNKNOWN) then begin
+         mark_on_map(AREA_CASA_NUEVA)
+      end
+      if (town_known(AREA_SAN_BRAHMIN) == MARK_STATE_UNKNOWN) then begin
+         mark_on_map(AREA_SAN_BRAHMIN)
+      end
+      if (town_known(AREA_PHOENIX) == MARK_STATE_UNKNOWN) then begin
+         mark_on_map(AREA_PHOENIX)
+      end
+      if (town_known(AREA_FLAGSTAFF) == MARK_STATE_UNKNOWN) then begin
+         mark_on_map(AREA_FLAGSTAFF)
+      end
+      if (town_known(AREA_GARAGE) == MARK_STATE_UNKNOWN) then begin
+         mark_on_map(AREA_GARAGE)
+      end
+      PLAY_FADE
+   NAnswer(240,1,NodeSndDialog)
+end
+
+// added for intermediary point of quest. Player can't find all the survey markers - cambragol
+procedure NodeAnswer109 begin
+   Reply(242)
+   NAnswer(237,1,NodeSndDialog)
+end
+
+   /*
+
+   Старый вариант:
+
+   Я много путешествую и могу помочь в твоей работе. / Правда? Хотя постой-ка, меня научили не доверять чужакам. Наверняка тебе что-то нужно взамен.
+      Нет, я хочу нести пользу делу рейнджеров.
+         Хм. Надеюсь, ты говоришь правду. Хотя мое слово маленькое, я расскажу о тебе командирам подразделений.
+      Да, мне нужна оплачиваемая работа.
+         Это честно. Я поговорю с интендантом, чтобы он выплатил тебе гонорар за успешную службу.
+
+      Так у тебя есть для меня задание? / Пожалуй. Но для этого нужны геодезические инструменты, которых у тебя наверняка нет.
+
+
+
+      Я много путешествую и могу помочь в твоей работе. / Правда? Но для этого нужны геодезические инструменты, которых у тебя наверняка нет.
+      У меня есть Пип-Бой 2000 со встроенным геодезическим сканом. / Серьезно? Ух ты, вот это неожиданность! Мы привыкли полагаться на свой ум и ноги, но такая техника сильно упростила бы нам работу.
+      Что-то нужно картографировать? / Есть одно местечко. Это старый город Кварцсайт в 50 милях на юге отсюда, на 10-й федеральной трассе. Генерал запретил туда соваться рейнджерам, но на тебя это правило не распространяется.
+      В чем же проблема это сделать? / Несколько лет назад город стал радиоактивным. И никто не знает, почему. Рейнджеры не успели провести там замеры, а теперь уже никто не желает лезть в столь опасную местность.
+         Что тебе известно об этом месте? / Во времена Великой Войны город накрыло тучами радиоактивного пепла, который шел со стороны Калифорнии. (водит пальцем по старой карте) Там было много ядерных ударов. До сих пор этот городок остается крайним рубежом для путешествий на запад. Если пройти дальше до Эренберга и реки Колорадо, то начинается полоса радиоактивной пустыни, где даже трава не растет. Но к нашему времени Кварцсайт уже был пригоден для проживания, если бы не этот инцидент с беженцами.
+         Почему это место радиоактивно? / Никто не знает. Несколько лет назад там поселились беженцы. Что-то у них там случилось, и город засиял от радиации... Ну, по крайней мере так говорит патрульные.
+         Зачем тебе карты этой дыры? / Видишь ли, прямо сейчас в них нет необходимости, но мы должны быть готовы ко всему. В старых развалинах могут скрываться гнезда мутантов или лагеря бандитов. В конце концов это один из стратегических пунктов между Западом и Востоком.
+         Ты правда предлагаешь мне лезть в радиоактивную зону? / Я думал, ты хочешь помочь? Но твоя правда, без защиты туда лезть не следует. В любом случае быстрая пробежка по улицам не нанесет тебе большой дозы облучения. Просто не задерживайся там слишком долго.
+
+
+
+      Есть места, которые следует избегать? / В первую очередь это руины города Кварцсайт. Ои находится в 50 милях на юге отсюда, на 10-й федеральной трассе.
+         Чем опасно это место? / Высокой радиацией.
+         Почему это место радиоактивно? / Точно никто не знает. После войны город накрыло тучами радиоактивного пепла, который шел со стороны Калифорнии. Но с тех пор прошло много лет, радиоактивный фон пришел в норму, хоть и оставался повышенным. Несколько лет назад там поселились беженцы.
+            Я могу узнать. / Это сумасшествие! Генерал запретил рейнджерам приближаться к руинам, чтобы те подхватили лучевую болезнь. Но если ты действительно узнает, что там произошло и сделаешь карты местности, эта информация будет очень ценной.
+   */

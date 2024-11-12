@@ -1,0 +1,531 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCFrmMan
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer110;
+procedure NodeAnswer111;
+procedure NodeAnswer120;
+procedure NodeAnswer121;
+procedure NodeAnswer131;
+procedure NodeAnswer132;
+procedure NodeAnswer133;
+procedure NodeAnswer134;
+procedure NodeAnswer135;
+procedure NodeAnswer136;
+procedure NodeAnswer137;
+procedure NodeAnswer138;
+procedure NodeAnswer140;
+procedure NodeAnswer141;
+procedure NodeAnswer142;
+procedure NodeAnswer150;
+procedure NodeAnswer151;
+procedure NodeAnswer152;
+procedure NodeAnswer153;
+procedure NodeAnswer154;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer210;
+procedure NodeAnswer211;
+procedure NodeAnswer220;
+procedure NodeAnswer221;
+procedure NodeAnswer230;
+procedure NodeQstDog100;
+procedure NodeQstDog200;
+procedure NodeQstDog201;
+procedure NodeQstDog202;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (game_time_hour < 0600) then begin
+       timer_move_to_tile(0,17476,0)
+       end
+       else if (game_time_hour > 1900) then begin
+       timer_move_to_tile(0,17476,0)
+       end
+       else begin
+       timer_move_random_home(5)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_STATUS_RANGERS_FARMER, -1);
+   if (getQuest(GVAR_RANGER_QST_WATERTANK) == qStart) then begin
+   setQuest(GVAR_RANGER_QST_WATERTANK,qZero);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) or town_rep_is_hated) then begin
+   call NodeSndDialog2;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_10) == 0) and (global_var(GVAR_TITUL_PHENIX_CULT) != 0)) then begin
+   call NodeFstDialog4;
+   end
+   else if ((bitDialog(bit_10) == 0) and (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A)) then begin
+   call NodeFstDialog4;
+   end
+   else if ((bitDialog(bit_10) == 0) and (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B)) then begin
+   call NodeFstDialog4;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(210)
+   NAnswer(211,1,NodeFstDialog2)
+   BAnswer(212,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(10)
+   Reply(213)
+   NAnswer(214,1,NodeStartDialog)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(-10)
+   Reply(216)
+   NAnswer(214,1,NodeStartDialog)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   bitDialogExp(bit_10,0)
+   Reply(227)
+   NAnswer(228,1,NodeStartDialog)
+   BAnswer(229,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(random(220,221))
+
+   if ((getQuest(GVAR_RANGER_QST_WATERTANK) == qStart) and (map_var(MVAR_RNGRS_RprTank) != 0)) then begin
+   GAnswer(305,1,NodeAnswer134)
+   end
+   if (global_var(GVAR_RANGERS_STATUS_SPY) == -2) then begin
+   NAnswer(246,1,NodeAnswer111)
+   end
+   NAnswer(230,1,NodeAnswer100)
+   if (bitDialog(bit_2) != 0) then begin
+   NAnswer(250,1,NodeAnswer200)
+   end
+
+   if (bitDialog(bit_7) != 0) then begin
+      if (map_var(MVAR_RNGRS_DogGrv) == 2) then begin
+         if (global_var(GVAR_RANGERS_STATUS_SPY) != 0) then begin
+         zNAnswer(353,1,NodeQstDog201)
+         end
+         else begin
+         zNAnswer(353,1,NodeQstDog200)
+         end
+      end
+      if (map_var(MVAR_RNGRS_DogGrv) == 3) then begin
+         zNAnswer(353,1,NodeQstDog201)
+      end
+   end
+
+   if (getQuest(GVAR_GARAGE_QST_BARMEN_RNGR) == qStart) then begin
+   if (global_var(GVAR_STATUS_RANGERS_FARMER) == 0) then begin
+   NAnswer(266,1,NodeAnswer101)
+   end
+   end
+
+   NAnswer(226,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(200)
+   BAnswer(201,1,Node999)
+   NAnswer(202,1,Node999)
+end
+
+//--- ВОПРОСЫ О РАНЧО
+// added a bit check here so that line 231 is not repeated endlessly, but rather only once - cambragol
+procedure NodeAnswer100 begin
+   if (bitDialog(bit_2) != 0) then begin
+      Reply(231)
+   end
+   else begin
+      Reply(random(220,221))
+   end
+   bitDialogExp(bit_2,0)
+   NAnswer(232,1,NodeAnswer110)
+   NAnswer(234,1,NodeAnswer120)
+   if (getQuest(GVAR_RANGER_QST_WATERTANK) == qZero) then begin
+   NAnswer(238,1,NodeAnswer131)
+   end
+   NAnswer(240,1,NodeAnswer140)
+   if (bitDialog(bit_6) == 0) then begin
+   NAnswer(290,1,NodeAnswer150)
+   end
+   NAnswer(223,1,NodeSndDialog)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(267)
+   NAnswer(268,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   set_global_var(GVAR_STATUS_RANGERS_FARMER, 1);
+   Reply(269)
+   NAnswer(270,1,Node999)
+end
+
+procedure NodeAnswer110 begin
+   Reply(233)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer111 begin
+   Reply(247)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer120 begin
+   Reply(235)
+   NAnswer(236,4,NodeAnswer121)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer121 begin
+   Reply(237)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer131 begin
+   Reply(239)
+   NAnswer(300,1,NodeAnswer132)
+   NAnswer(302,1,NodeAnswer133)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer132 begin
+   Reply(301)
+   NAnswer(302,1,NodeAnswer133)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer133 begin
+   setQuest(GVAR_RANGER_QST_WATERTANK,qStart);
+   Reply(303)
+   NAnswer(300,1,NodeAnswer132)
+   NAnswer(304,1,Node999)
+end
+
+procedure NodeAnswer134 begin
+   setQuest(GVAR_RANGER_QST_WATERTANK,qEnd);
+   setBonusReaction(25)
+   set_REP(3)
+   bitDialogExp(bit_3,250)
+   zReply(306)
+   zNAnswer(307,1,NodeAnswer135)
+   NAnswer(315,1,NodeAnswer138)
+end
+
+procedure NodeAnswer135 begin
+   item_add(dude_obj,PID_M_WATER_FLASK,2)
+   item_add(dude_obj,PID_M_FRUIT,5)
+   Reply(308)
+   NAnswer(309,1,NodeAnswer136)
+   zBAnswer(312,1,NodeAnswer137)
+end
+
+procedure NodeAnswer136 begin
+   Reply(310)
+   NAnswer(311,1,Node999)
+end
+
+procedure NodeAnswer137 begin
+   set_REP(-2)
+   set_SLAVA(-3)
+   setBonusReaction(-20)
+   item_add(dude_obj,PID_M_WATER_FLASK,1)
+   item_add(dude_obj,PID_M_FRUIT,3)
+   Reply(313)
+   NAnswer(314,1,Node999)
+end
+
+procedure NodeAnswer138 begin
+   set_REP(2)
+   set_SLAVA(3)
+   setBonusReaction(25)
+   Reply(316)
+   NAnswer(317,1,Node999)
+end
+
+procedure NodeAnswer140 begin
+   Reply(241)
+   if (bitDialog(bit_7) == 0) then begin
+   NAnswer(350,1,NodeQstDog100)
+   end
+   NAnswer(242,4,NodeAnswer141)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer141 begin
+   Reply(243)
+   NAnswer(244,5,NodeAnswer142)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer142 begin
+   bitDialogExp(bit_5,75)
+   Reply(245)
+   NAnswer(222,1,NodeAnswer100)
+end
+
+procedure NodeAnswer150 begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) >0) then begin
+   Reply(294)
+   NAnswer(295,1,NodeAnswer151)
+   end
+   else begin
+   Reply(291)
+   NAnswerSkill(296,1,NodeAnswer152,SKILL_BARTER,40,296,NodeAnswer154)
+   NAnswerReaction(298,1,NodeAnswer153,50,298,NodeAnswer154)
+   NAnswer(292,1,NodeAnswer100)
+   end
+end
+
+procedure NodeAnswer151 begin
+   item_add(dude_obj,PID_M_WATER_FLASK,1)
+   bitDialogExp(bit_6,50)
+   call Node999;
+end
+
+procedure NodeAnswer152 begin
+   Reply(297)
+   NAnswer(295,1,NodeAnswer151)
+end
+
+procedure NodeAnswer153 begin
+   Reply(299)
+   NAnswer(295,1,NodeAnswer151)
+end
+
+procedure NodeAnswer154 begin
+   Reply(288)
+   NAnswer(292,1,NodeAnswer100)
+   BAnswer(293,1,Node999)
+   NAnswer(289,1,Node999)
+end
+
+//--- ВОПРОСЫ О РЕЙНДЖЕРАХ
+
+procedure NodeAnswer200 begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) >0) then begin
+   Reply(251)
+   NAnswer(252,1,NodeSndDialog)
+   NAnswer(253,1,Node999)
+   end
+   else begin
+   call NodeAnswer201;
+   end
+end
+
+procedure NodeAnswer201 begin
+   Reply(254)
+   NAnswer(255,1,NodeAnswer210)
+   if (bitDialog(bit_4) == 0) then begin
+   NAnswerSkill(259,1,NodeAnswer220,SKILL_CONVERSANT,60,259,NodeAnswer221)
+   end
+   NAnswer(264,1,NodeAnswer230)
+
+   NAnswer(223,1,NodeSndDialog)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer210 begin
+   Reply(256)
+   NAnswer(257,5,NodeAnswer211)
+   NAnswer(222,1,NodeAnswer201)
+end
+
+procedure NodeAnswer211 begin
+   bitDialogExp(bit_8,25)
+   Reply(258)
+   NAnswer(222,1,NodeAnswer201)
+end
+
+procedure NodeAnswer220 begin
+   bitDialogExp(bit_4,100)
+   Reply(262)
+   NAnswer(263,1,NodeAnswer201)
+end
+
+procedure NodeAnswer221 begin
+   Reply(260)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeAnswer230 begin
+   Reply(265)
+   NAnswer(222,1,NodeAnswer201)
+end
+
+//--- КВЕСТ НА ПОИСК СОБАКИ
+
+procedure NodeQstDog100 begin
+   bitDialogExp(bit_7,0)
+   if (map_var(MVAR_RNGRS_DogGrv) == 0) then begin
+   inc_map_var(MVAR_RNGRS_DogGrv);
+   end
+   Reply(351)
+   NAnswer(352,1,NodeAnswer100)
+end
+
+procedure NodeQstDog200 begin
+   Reply(354)
+   NAnswer(356,1,Node999)
+end
+
+procedure NodeQstDog201 begin
+   Reply(354)
+   NAnswer(355,1,NodeQstDog202)
+   NAnswer(356,1,Node999)
+end
+
+procedure NodeQstDog202 begin
+   set_map_var(MVAR_RNGRS_DogGrv,10);
+   bitDialogExp(bit_9,100)
+   Reply(357)
+   if (global_var(GVAR_RANGERS_STATUS_SPY) != 0) then begin
+   NAnswer(360,1,Node999)
+   end
+   else begin
+   BAnswer(358,1,Node999)
+   NAnswer(359,1,Node999)
+   end
+end

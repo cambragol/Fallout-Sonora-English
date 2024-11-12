@@ -1,0 +1,398 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TCCrvQst
+#define TOWN_REP_VAR                    -1 // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+procedure NodeQstDialogEnd;
+procedure NodeQstDialogEnd1;
+procedure NodeQstDialogEnd2;
+procedure NodeQstDialogEnd3;
+
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer110;
+procedure NodeAnswer111;
+procedure NodeAnswer120;
+procedure NodeAnswer130;
+procedure NodeAnswer131;
+procedure NodeAnswer132;
+procedure NodeAnswer133;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+       set_local_var(LVAR_Home_Tile, 26517);
+       end
+       set_start_home
+       if (getQuest(GVAR_TWOSUN_QST_POMPA) >= qEnd) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(4)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+   if (fixed_param == 3) then begin
+       set_local_var(LVAR_Home_Tile,10);
+       dude_teleport_map(1,1,MAP_CASA_GRANDE_WATER,24+random(6,18));
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) == qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_POMPA,qZero);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_BOS,-50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,25) // Поправка к отношению за принадлежность к фракциям
+
+   /*
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) == qEnd) then begin
+   floater(self_obj,102,COLOR_MSG_NORMAL);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   */
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) == qEnd) then begin
+   call NodeSndDialog4;
+   end
+   else if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+   call NodeSndDialog2;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeSndDialog)
+   NAnswer(204,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(220,1,NodeAnswer100)
+   NAnswer(230,1,NodeAnswer110)
+   NAnswer(240,1,NodeAnswer120)
+   NAnswer(250,1,NodeAnswer130)
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) == qStart) then begin
+      if (item_amnt(dude_obj,PID_GENERATOR_ENERGY) >0) then begin
+      NAnswer(300,1,NodeQstDialogEnd)
+      end
+   end
+   NAnswer(211,1,Node999)
+end
+
+// Fixed this so that the cell is only offered if the quest is started - cambragol
+procedure NodeSndDialog2 begin
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) == qStart) then begin
+      Reply(266)
+      if (item_amnt(dude_obj,PID_GENERATOR_ENERGY) >0) then begin
+      NAnswer(300,1,NodeQstDialogEnd)
+      end
+   end
+   else begin
+      Reply(260)
+      NAnswer(261,1,NodeSndDialog3)
+   end
+   NAnswer(265,1,Node999)
+end
+
+// move the quest start here, as this is where he actually states it - cambragol
+procedure NodeSndDialog3 begin
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) < qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_POMPA,qStart);
+   end
+   Reply(262)
+   NAnswer(263,1,Node999)
+   BAnswer(264,1,Node999)
+end
+
+procedure NodeSndDialog4 begin
+   Reply(306)
+   NAnswer(304,1,NodeQstDialogEnd2)
+   NAnswer(305,1,NodeQstDialogEnd3)
+end
+
+procedure NodeQstDialogEnd begin
+   if (item_amnt(dude_obj,PID_GENERATOR_ENERGY) >0) then begin
+   bitDialogExp(bit_2,650)
+   item_add(dude_obj,PID_MANY,5)
+   set_map_var(MVAR_TWOSUN_CaravanPompa,1);
+   setQuest(GVAR_TWOSUN_QST_POMPA,qEnd);
+   set_SLAVA(25)
+   item_remove(dude_obj, PID_GENERATOR_ENERGY, 1)
+
+   Reply(301)
+   NAnswer(302,1,NodeQstDialogEnd1)
+   end
+   else begin
+   call Node999;
+   end
+end
+
+procedure NodeQstDialogEnd1 begin
+   Reply(303)
+   NAnswer(304,1,NodeQstDialogEnd2)
+   NAnswer(305,1,NodeQstDialogEnd3)
+end
+
+procedure NodeQstDialogEnd2 begin
+   mark_on_map(AREA_CASA_GRANDE)
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 2, 3);
+   call Node999;
+end
+
+procedure NodeQstDialogEnd3 begin
+   //disappearance??
+   call Node999;
+end
+
+//--- ВОПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer110 begin
+   Reply(231)
+   if (town_known(AREA_GARAGE) > MARK_STATE_UNKNOWN) then begin
+   NAnswer(232,1,NodeAnswer111)
+   end
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer111 begin
+   Reply(233)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer120 begin
+   Reply(241)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer130 begin
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) < qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_POMPA,qStart);
+   end
+   zReply(251)
+   NAnswer(252,1,NodeAnswer131)
+   NAnswer(255,1,NodeAnswer132)
+   NAnswer(258,1,NodeAnswer133)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer131 begin
+   Reply(253)
+   NAnswer(255,1,NodeAnswer132)
+   NAnswer(258,1,NodeAnswer133)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(254,1,Node999)
+end
+
+procedure NodeAnswer132 begin
+   Reply(256)
+   NAnswer(252,1,NodeAnswer131)
+   NAnswer(258,1,NodeAnswer133)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(257,1,Node999)
+end
+
+// added zReply to allow use of 'amiga' in response - cambragol
+procedure NodeAnswer133 begin
+   zReply(259)
+   NAnswer(252,1,NodeAnswer131)
+   NAnswer(255,1,NodeAnswer132)
+   NAnswer(213,1,NodeSndDialog)
+   NAnswer(254,1,Node999)
+end
+
+/*
+--- FIRST VERSION OF DIALOGUE in which the farmer demands parts for the hydroponic farm
+
+{100}{}{Вы видите крестьянина.}
+{101}{}{Перед вами сельский житель вполне обыденной внешности. Странно видеть его среди всей этой толпы.}
+{102}{}{Спасибо за помощь. Мы этого не забудем и расскажем всем о твоем подвиге.}
+
+{200}{}{Эй, ты ведь не из местных, верно? Таких сразу видно. Позволь бесплатный совет - не связывайся с этими барыгами. Они чужаков ни во что не ставят.}
+{201}{}{А ты...}
+{202}{}{Очередная жертва их недобросовестности, если хочешь знать. Жестянщики обещали продать детали для нашей фермы. Без них погибнут все наши и без того скудные плантации! Но эти бандиты заломили просто непосильную цену.}
+{203}{}{Расскажи подробнее об этой проблеме.}
+{204}{}{Эти не мое дело. Прощай.}
+
+{210}{}{Что ты хочешь узнать?}
+{211}{}{Больше ничего. Пока.}
+{212}{}{Мне надо идти.}
+{213}{}{Расскажи больше.}
+
+{220}{}{Расскажи о своей ферме.}
+{221}{}{Нам удалось восстановить старую гидропоническую ферму и выращивать в ней урожай. Не спрашивай, где она находится, я не скажу. Но недавно на ферме сломался капилярный насос. Пришлось обратиться к жестянщикам за помощью, ведь больше негде достать детали. В обмен они требуют отдавать им 80% урожая. Это немыслимо!}
+{222}{}{Но ведь без насоса урожая не будет вовсе.}
+{223}{}{Вот именно!}
+
+{230}{}{Больше негде взять детали?}
+{231}{}{Боюсь, что нет. Я разговаривал со многими караванщиками, но никто из них не слышал ни о чем подобном. Остается только рыться в случайных свалках металлолома.}
+{232}{}{Припоминаю такое местечко далеко на севере. Называется Гараж-Сити.}
+{233}{}{Никогда не слышал. Но если оно далеко, то мне туда не добраться.}
+
+{240}{}{Почему жестянщики так поступают?}
+{241}{}{Им дела нет до чужаков, когда дело доходит до технологий. Они просто приходят и берут то, что им нужно. Так было с семьей Гейтов, у которых они отобрали единственный генератор; у Стивенсонов они отобрали старый радиоприемник, даже у старика стащили ушной протез, он сам об этом рассказывал! Чертовы фанатики...}
+
+{250}{}{Что теперь собираешься делать?}
+{251}{}{Нам срочно нужны детали для насоса. К счастью я не настолько глуп, чтобы выдать жестянщикам местоположение фермы, так что остается только добыть детали и сматываться отсюда. Эй, у тебя есть знакомые, которые могут помочь?}
+{252}{}{Может да, а может нет. Зачем мне тебе помогать?}
+{253}{}{Ты ведь тоже из крестьян, верно? По тебе видно. Но у меня также много знакомых среди караванщиков. Я могу поговорить с ними, чтобы тебя взяли в безопасное путешествие. Или можешь отправиться со мной до Каса-Гранде, но дальше наши пути разойдутся, уж извини.}
+{254}{}{Я подумаю над твоим предложением.}
+{255}{}{С кем можно поговорить о деталях?}
+{256}{}{Детали на складе в том большом ангаре, а складом заведует интендант. Но сомневаюсь, что он изменит свое отношение.}
+{257}{}{Это мы посмотрим.}
+{258}{}{}
+{259}{}{}
+
+{260}{}{Вот уж не думал, что здесь еще кто-то есть!}
+{261}{}{Что ты здесь делаешь?}
+{262}{}{Мне нужны детали для гидропонической фермы. Они есть на складе в ангаре, но я не могу туда пройти незамеченным. Ты кажется только что оттуда и вроде роботы тебя не трогают. Можешь достать детали?}
+{263}{}{Я посмотрю, что можно сделать.}
+{264}{}{Сам разбирайся со своей проблемой. Я свою уже решил.}
+
+{300}{}{Вот детали для починки вашей фермы.}
+{301}{}{Невероятно! Как тебе удалось? Впрочем, не хочу знать. Мне пора уматывать отсюда, пока выход свободен. Спасибо, скиталец, без тебя наша ферма могла бы погибнуть. Я расскажу о твоем подвиге знакомым караванщикам, возможно, тебе это поможет. Если хочешь, можем вместе идти в Каса-Гранде. Но решай сейчас, я ждать не буду.}
+{302}{}{Тогда в путь.}
+{303}{}{Нет, здесь наши пути расходятся. Счастливо.}
+{304}{}{Ну так что - ты с нами? Путь до Каса-Гранде трудный, тебе будет безопаснее путешествовать вместе с нами.}
+*/

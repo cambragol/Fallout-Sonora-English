@@ -1,0 +1,408 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ACCtzCav
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_FELIPE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANFELIPE_CTZN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_MEXIC_GEN      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      35 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure uninjure_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeRun;
+procedure NodeEndDialog;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       // added to allow for combat taunts to be either pure spanish, or 'translated' via the Espanol Trait - cambragol
+       if DudeTraitHas(TRAIT_espanol) then begin
+         critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_MEXIC_GEN_ENG);       
+       end
+       if (cur_map_index == MAP_SAN_FELIPE_CAVE) then begin
+          set_injure_start(0,0,0,0,1) // травмировать (отметить нужное цифрой 1): a - левая рука, b - правая рука, c - левая нога, d - правая нога, e - слепота
+          if ((get_Medic_Quest == 0) and (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero)) then begin
+             reg_anim_clear(self_obj);
+             reg_anim_begin();
+             reg_anim_animate(self_obj,ANIM_fall_back_sf,-1);
+             reg_anim_end();
+             critter_injure(self_obj, DAM_KNOCKED_DOWN);
+          end
+          if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) >= qEnd) then begin
+             rm_timer_event(self_obj);
+             set_obj_visibility(self_obj, 1);
+          end
+       end
+
+       if (cur_map_index == MAP_SAN_FELIPE_CITY) then begin
+          if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) >= qEnd) then begin
+             set_obj_visibility(self_obj, 0);
+          end
+          else begin
+             rm_timer_event(self_obj);
+             set_obj_visibility(self_obj, 1);
+          end
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (cur_map_index == MAP_SAN_FELIPE_CAVE) then begin
+   set_injure_update(100,103)
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       reg_anim_clear(self_obj);
+       reg_anim_begin();
+       reg_anim_animate(self_obj,ANIM_back_to_standing,-1);
+       reg_anim_end();
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qStart) then begin
+      partyRunToDude
+      if (self_elevation == 0) then begin
+      terminate_combat;
+      dialogue_system_enter;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   UsedToCrit_Stimpak_Doctor
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAidx(35)
+   skillUseDoctor(0)
+end
+
+procedure uninjure_proc begin
+   add_timer_event(self_obj, 10, 3);
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   setQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE, qStop);
+   kill_critter_opt
+end
+
+//This script was tweaked to standardize handling of the espanol perk - cambragol
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (cur_map_index == MAP_SAN_FELIPE_CITY) then begin
+      if (global_var(GVAR_SANFELIPE_STATUS_BOSS)>=0) then begin
+         if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj,118,COLOR_MSG_GREEN);
+         end
+         else begin
+         floater(self_obj,117,COLOR_MSG_GREEN);
+         end
+      end
+      else begin
+         if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj,116,COLOR_MSG_GREEN);
+         end
+         else begin
+         floater(self_obj,115,COLOR_MSG_GREEN);
+         end
+      end
+   end
+   else if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) >= qEnd) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+      floater(self_obj,112,COLOR_MSG_GREEN);
+      end
+      else begin
+      floater(self_obj,113,COLOR_MSG_GREEN);
+      end
+   end
+   else if ((getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qStart) and (self_elevation == 0)) then begin
+      dialog_proc(0,0,NodeEndDialog,-1,-1)
+   end
+   else if (get_Medic_Quest == 0) then begin
+      floater(self_obj,110,COLOR_MSG_RED);
+      display_mstr(111);
+   end
+   else begin
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(180)
+      GAnswer(179,1,NodeFstDialog6)
+   end
+   else begin
+      Reply(200)
+      NAnswer(201,1,NodeFstDialog2)
+      BAnswer(202,1,NodeFstDialog3)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   GAnswer(204,1,NodeFstDialog4)
+   NAnswer(205,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(-20)
+   call NodeFstDialog2;
+end
+
+procedure NodeFstDialog4 begin
+   setBonusReaction(10)
+   call NodeFstDialog5;
+end
+
+procedure NodeFstDialog5 begin
+   Reply(206)
+   GAnswer(207,1,NodeRun)
+   NAnswer(208,1,Node999)
+end
+
+procedure NodeFstDialog6 begin
+   setBonusReaction(30)
+   Reply(210)
+   GAnswer(211,1,NodeFstDialog8)
+   BAnswer(212,1,NodeFstDialog7)
+end
+
+procedure NodeFstDialog7 begin
+   setBonusReaction(-10)
+   call NodeFstDialog8;
+end
+
+procedure NodeFstDialog8 begin
+   setBonusReaction(10)
+   Reply(213)
+   GAnswer(214,1,NodeRun)
+   BAnswer(215,1,Node999)
+end
+
+procedure NodeRun begin
+   setQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE, qStart);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   rm_timer_event(self_obj);
+   //party_add(self_obj);
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+   Reply(217)
+   NAnswer(181,1,Node999)
+   end
+   else begin
+   Reply(216)
+   NAnswer(218,1,Node999)
+   end
+end
+
+procedure NodeEndDialog begin
+   setQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE, qEnd);
+   set_local_var(LVAR_Home_Tile,self_tile);
+   set_local_var(LVAR_Home_Rotat,self_cur_rot);
+   exp_add(500);
+   setBonusReaction(90)
+   set_REP(10)
+   set_SLAVA(10)
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(112)
+      NAnswer(182,1,Node999)
+   end
+   else begin
+      Reply(113)
+      NAnswer(114,1,Node999)
+   end
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+   Reply(221)
+   end
+   else begin
+   Reply(220)
+   end
+
+   NAnswer(230,1,NodeAnswer100)
+
+   if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero) then begin
+   NAnswer(222,1,NodeRun)
+   NAnswer(223,1,Node999)
+   end
+   else begin
+   NAnswer(224,1,Node999)
+   end
+end
+
+procedure NodeAnswer100 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+   Reply(233)
+   NAnswer(235,1,NodeAnswer101)
+   NAnswer(237,1,NodeAnswer102)
+   NAnswer(239,1,NodeAnswer103)
+   NAnswer(241,1,NodeAnswer104)
+   NAnswer(234,1,NodeSndDialog)
+   end
+   else begin
+   Reply(231)
+   NAnswer(232,1,NodeSndDialog)
+   end
+end
+
+procedure NodeAnswer101 begin
+   Reply(236)
+   NAnswer(249,1,NodeAnswer102)
+   NAnswer(239,1,NodeAnswer103)
+   NAnswer(241,1,NodeAnswer104)
+   NAnswer(250,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,10)
+   Reply(238)
+   NAnswer(239,1,NodeAnswer103)
+   NAnswer(241,1,NodeAnswer104)
+   NAnswer(235,1,NodeAnswer101)
+   NAnswer(250,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_3,10)
+   if (self_elevation == 2) then begin
+   Reply(240)
+   end
+   else begin
+   Reply(251)
+   end
+   NAnswer(235,1,NodeAnswer101)
+   NAnswer(237,1,NodeAnswer102)
+   NAnswer(241,1,NodeAnswer104)
+   NAnswer(250,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(242)
+   NAnswerSkill(246,1,NodeAnswer106,SKILL_SCIENCE,35,243,NodeAnswer105)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_4,20) // понижено относительно NodeAnswer106
+   Reply(244)
+   NAnswer(245,1,NodeSndDialog)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_4,75) // повышено относительно NodeAnswer105
+   Reply(247)
+   NAnswer(248,1,NodeSndDialog)
+end

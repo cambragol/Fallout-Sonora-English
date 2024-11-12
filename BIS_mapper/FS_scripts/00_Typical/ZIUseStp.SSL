@@ -1,0 +1,167 @@
+#include "..\headers\define.h"
+#include "..\headers\updatmap.h"
+#define NAME                    SCRIPT_ZIUseStp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure spatial_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure tamper_proc;
+procedure tamper_stop;
+
+import variable box_stop_use;
+
+variable caught_tamper;
+variable user_obj;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_local_var(LVAR_Status, 0); // ??? или все же сохранять переменную?
+
+   if (is_loading_game == false) then begin
+       set_local_var(LVAR_Status,0);
+       set_obj_visibility(self_obj, 0);
+       if (cur_map_index == MAP_CASA_GRANDE_BAR) then begin
+          if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) == qZero) then begin
+          set_obj_visibility(self_obj, 1);
+          end
+       end
+       if (cur_map_index == MAP_RAIDERS_BASA) then begin
+          if (getQuest(GVAR_RAIDER_OIL_DESTROY) >= qEnd) then begin
+          if (self_tile == 13103) then begin
+          set_obj_visibility(self_obj, 1);
+          end
+          end
+       end
+       /*
+       Удалено в фиксе 2, так как многие воспринимают багом + можно потерять важные вещи
+
+       if (cur_map_index == MAP_SAN_BRAHMIN_SIGN) then begin
+          if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) <= qStop) then begin
+          if ((item_amnt(self_obj,PID_Q_PWR_HEAD)<=0) and (item_amnt(self_obj,PID_Q_PWR_PROC)<=0) and (item_amnt(self_obj,PID_NUKE_BOMB_DETONATOR)<=0) and (item_amnt(self_obj,PID_Q_DIANA_MUTAGEN)<=0) and (item_amnt(self_obj,PID_Q_INSECTICIDES)<=0)) then begin
+          set_obj_visibility(self_obj, 1);
+          create_object_sid(self_PID, self_tile, self_elevation, -1);
+          destroy_object(self_obj);
+          end
+          end
+       end
+       */
+   end
+end
+
+procedure spatial_p_proc begin
+   user_obj := source_obj;
+   call tamper_proc;
+end
+
+procedure use_p_proc begin
+   user_obj := source_obj;
+   call tamper_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   user_obj := source_obj;
+   stopUseCarGaz
+   call tamper_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   user_obj := source_obj;
+   call tamper_proc;
+end
+
+procedure tamper_proc begin
+   caught_tamper := false;
+   if (user_obj != 0) then begin
+   call tamper_stop;
+   end
+end
+
+procedure tamper_stop begin
+
+   if (box_stop_use != 0) then begin
+       if (is_critter_dead(box_stop_use) == false) then begin
+           if (obj_is_visible_flag(box_stop_use) == true) then begin
+               if (obj_can_see_obj(box_stop_use,user_obj) == true) then begin
+                   caught_tamper := true;
+                   if (user_obj == dude_obj) then begin
+                      if dude_is_sneaking then begin
+                         if (random(0,100) < (has_skill(dude_obj, SKILL_SNEAK)-tile_distance_objs(dude_obj,box_stop_use))) then begin
+                         caught_tamper := false;
+                         end
+                      end
+                   end
+               end
+           end
+       end
+   end
+
+   if (caught_tamper == true) then begin
+       script_overrides;
+
+       if (local_var(LVAR_Status) == 0) then begin
+          if (obj_type(self_obj) == 0) then begin
+             if (critter_kill_type(box_stop_use) == KILL_TYPE_robot) then begin
+               floater(box_stop_use,109,COLOR_MSG_RED);
+               display_mstr(124);
+             end
+             else begin
+               floater(box_stop_use,random(100,108),COLOR_MSG_RED);
+               //display_mstr(122);
+               if (get_critter_stat(box_stop_use,STAT_gender) == GENDER_FEMALE) then begin
+               display_msg(obj_name(box_stop_use)+mstr(127));
+               end
+               else begin
+               display_msg(obj_name(box_stop_use)+mstr(126));
+               end
+             end
+          end
+          else begin
+             if (critter_kill_type(box_stop_use) == KILL_TYPE_robot) then begin
+               floater(box_stop_use,119,COLOR_MSG_RED);
+               display_mstr(125);
+             end
+             else begin
+               if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+                  // added for completeness of espanol trait - cambragol
+                  if DudeTraitHas(TRAIT_espanol) then begin                                              \
+                     floater(box_stop_use,131,COLOR_MSG_RED);
+                  end
+                  else begin
+                     floater(box_stop_use,130,COLOR_MSG_RED);
+                  end
+               end
+               else begin
+               floater(box_stop_use,random(110,118),COLOR_MSG_RED);
+               end
+               //display_mstr(123);
+               if (get_critter_stat(box_stop_use,STAT_gender) == GENDER_FEMALE) then begin
+               display_msg(obj_name(box_stop_use)+mstr(129));
+               end
+               else begin
+               display_msg(obj_name(box_stop_use)+mstr(128));
+               end
+             end
+          end
+       end
+       else begin
+          if (critter_kill_type(box_stop_use) == KILL_TYPE_robot) then begin
+          floater(box_stop_use,121,COLOR_MSG_RED);
+          end else begin
+          floater(box_stop_use,120,COLOR_MSG_RED);
+          end
+          attack_setup(box_stop_use, user_obj);
+       end
+
+       inc_local_var(LVAR_Status);
+   end
+
+   user_obj := 0;
+   caught_tamper := false;
+end

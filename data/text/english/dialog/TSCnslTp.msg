@@ -1,0 +1,5 @@
+{100}{}{You see the console.}
+{101}{}{You see a console for entering commands.}
+{102}{}{Traps disabled.}
+{103}{}{This card is clearly not from this console.}
+{104}{}{The console is not functioning.}

@@ -1,0 +1,258 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCIsdCrh
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       if (map_var(MVAR_DIEGO_A_CONFESION)==0) then begin
+          set_map_var(MVAR_DIEGO_A_CONFESION,110);
+       end
+
+       if ((self_visible == true) and (tile_distance_objs(self_obj,dude_obj)<=9) and (self_elevation == dude_elevation) and (map_var(MVAR_DIEGO_A_CONFESION)>0)) then begin
+          if ((tile_distance_objs(self_obj,dude_obj)<=5) or (obj_can_see_obj(self_obj,dude_obj) == true)) then begin
+             //floater(self_obj, random(105,108), COLOR_MSG_NORMAL);
+          end
+          else begin
+             floater(self_obj, map_var(MVAR_DIEGO_A_CONFESION), COLOR_MSG_LIGHT_GREY);
+             if (map_var(MVAR_DIEGO_A_CONFESION)==120) then begin
+             display_mstr(102);
+             end
+             inc_map_var(MVAR_DIEGO_A_CONFESION);
+          end
+       end
+
+       if ((map_var(MVAR_DIEGO_A_CONFESION)<=120) and (map_var(MVAR_DIEGO_A_CONFESION)>=0)) then begin
+          if (tile_distance_objs(self_obj,dude_obj)>9) then begin
+          add_timer_event(self_obj, 10, 2);
+          end
+          else begin
+          add_timer_event(self_obj, 50, 2);
+          end
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,2,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,70) // поправка к отношению за принадлежность к фракции
+   if (bitDialog(bit_3) != 0) then begin
+   floater(self_obj, 104, COLOR_MSG_NORMAL);
+   end
+   else if (bitDialog(bit_2) != 0) then begin
+   floater(self_obj, 103, COLOR_MSG_NORMAL);
+   end
+   else if ((map_var(MVAR_DIEGO_A_CONFESION)>=120) or (map_var(MVAR_DIEGO_A_CONFESION)<0)) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj, random(105,108), COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   Reply(200)
+   zBAnswer(201,0,NodeFstDialog2)
+   NAnswer(202,0,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   bitDialogExp(bit_1,0)
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(205)
+   end
+   else begin
+   Reply(203)
+   end
+   GAnswer(204,0,NodeFstDialog3)
+   BAnswer(208,0,NodeFstDialog4)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(40)
+   set_REP(1)
+   Reply(206)
+   NAnswer(207,0,NodeFstDialog5)
+end
+
+procedure NodeFstDialog4 begin
+   setBonusReaction(-40)
+   set_REP(-1)
+   Reply(209)
+   NAnswer(210,0,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(211)
+   BAnswer(212,0,NodeFstDialog6)
+   NAnswer(213,0,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   if (getReaction>0) then begin
+   Reply(216)
+   NAnswer(217,0,Node999)
+   end
+   else begin
+   Reply(214)
+   NAnswer(215,0,Node999)
+   end
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+   // fixed incorrect dialogue option from 221 to 222 - cambragol
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF)<0) then begin
+   NAnswer(222,0,NodeSndDialog2)
+   end
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF)>=2) then begin
+   NAnswer(226,0,NodeSndDialog3)
+   end
+   NAnswer(221,0,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   bitDialogExp(bit_2,0)
+   exp_add(200);
+   Reply(223)
+   BAnswer(224,0,Node999)
+   NAnswer(225,0,Node999)
+end
+
+procedure NodeSndDialog3 begin
+   bitDialogExp(bit_3,0)
+   exp_add(200);
+   set_REP(1)
+   Reply(227)
+   NAnswer(228,0,Node999)
+   NAnswer(229,0,Node999)
+   //NAnswer(228,0,NodeSndDialog4)
+   //NAnswer(229,0,NodeSndDialog4)
+end
+
+procedure NodeSndDialog4 begin
+   Reply(230)
+   NAnswer(231,0,Node999)
+end

@@ -1,0 +1,987 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCBishop
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CULT_ATOMIC      // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_PHENIX        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialogStop;
+procedure NodeDialogStop2;
+procedure NodeDialogStop3;
+procedure NodeDialogStop4;
+procedure NodeDialogStop5;
+procedure NodeDialogCult;
+procedure NodeDialogCult2;
+procedure NodeDialogCult3;
+procedure NodeDialogCult4;
+procedure NodeDialogCult5;
+procedure NodeDialogCult6;
+procedure NodeDialogCult7;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeFAID;
+procedure NodeFAID2;
+procedure NodeFAIDMany;
+procedure NodeFAID100;
+procedure NodeFAID101;
+procedure NodeFAID200;
+procedure NodeFAID201;
+procedure NodeFAID300;
+procedure NodeFAID301;
+procedure NodeFAID400;
+procedure NodeFAID401;
+procedure NodeFAIDEnd;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer208;
+procedure NodeAnswer209;
+procedure NodeAnswer300;
+procedure NodeDonats;
+procedure NodeDonats10;
+procedure NodeDonats50;
+procedure NodeDonats100;
+procedure NodeDonatsEnd;
+procedure NodeList;
+procedure NodeList2;
+
+procedure NodeQuestStart;
+procedure NodeQuestStart2;
+procedure NodeQuestStart3;
+procedure NodeQuestA;
+procedure NodeQuestA2;
+procedure NodeQuestA3;
+procedure NodeQuestA4;
+procedure NodeQuestA5;
+procedure NodeQuestA6;
+procedure NodeQuestA7;
+procedure NodeQuestA8;
+procedure NodeQuestA9;
+procedure NodeQuestB;
+procedure NodeQuestB2;
+procedure NodeQuestB3;
+procedure NodeQuestB4;
+procedure NodeQuestEnd;
+procedure NodeQuestEnd1;
+procedure NodeQuestEnd2;
+procedure NodeQuestEnd3;
+procedure NodeQuestEnd4;
+procedure NodeQuestEnd5;
+procedure NodeQuestEnd6;
+
+procedure NodeQuestC;
+procedure NodeQuestC2;
+procedure NodeQuestC101;
+procedure NodeQuestC102;
+procedure NodeQuestC103;
+procedure NodeQuestCEnd;
+
+//---------------------
+
+#define LVAR_Dude_Donats                (6) // Общая сумма совершенных пожертвований церкви
+
+variable MedicMany;                     // расчет стоимость медицинских услуг
+
+#define cultKnown                       (bitDialog(bit_15) != 0)
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       KillScorpTail(103) // фраза над жертвой (-1 если не нужна)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   UsedToCrit_Scorp(102,3) // фраза над жертвой (-1 если не нужна), номер таймера
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_STATUS_FLAGSTAFF_PASTOR,-1);
+   if (source_obj == dude_obj) then begin
+   set_global_var(GVAR_STATUS_FLAGSTAFF_PASTOR,-2);
+   end
+   if (getQuest(GVAR_FLAGSTAFF_CULT_GOHOME) == qStart) then begin
+       if ((map_var(MVAR_FLAG_CitiznB) < 0) and (global_var(GVAR_STATUS_FLAGSTAFF_PASTOR) < 0)) then begin
+       setQuest(GVAR_FLAGSTAFF_CULT_GOHOME,qZero);
+       end
+   end
+
+   set_gvar_bit_on(GVAR_BIBL_FLAGS_BIT, bit_2);
+   if (global_var(GVAR_PHENIX_CULT_LETTER) == 1) then begin
+   set_global_var(GVAR_PHENIX_CULT_LETTER,2);
+   end
+   if (getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) == (qEnd+1)) then begin
+   setQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS,qEnd);
+   end
+
+   if (local_var(LVAR_Dude_Donats) > 0) then begin
+   item_add(self_obj,PID_BOOTLE_CAPS,local_var(LVAR_Dude_Donats))
+   end
+   item_add(self_obj,PID_M_RADAWAY,2)
+   item_add(self_obj,PID_M_STIMPAK,2)
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,80) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(1,104,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd)  and (bitDialog(bit_8) == 0)) then begin
+   call NodeDialogStop;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((global_var(GVAR_TITUL_PHENIX_CULT) > 0) and (bitDialog(bit_15) == 0)) then begin
+   call NodeDialogCult;
+   end
+   else if ((global_var(GVAR_TITUL_PHENIX_CULT) == 0) and cultKnown) then begin
+   call NodeDialogCult3;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ОТДЕЛЬНЫЕ БЛОКИРОВКИ ДИАЛОГА
+
+procedure NodeDialogStop begin
+   bitDialogExp(bit_8,0)
+   Reply(400)
+   NAnswer(401,1,NodeDialogStop2)
+end
+
+procedure NodeDialogStop2 begin
+   Reply(402)
+   if cultKnown then begin
+   NAnswer(403,1,NodeDialogStop3)
+   end
+   else begin
+   NAnswer(403,1,Node999)
+   end
+end
+
+procedure NodeDialogStop3 begin
+   zReply(411)
+   NAnswer(412,1,NodeDialogStop4)
+   zBAnswer(413,1,NodeDialogStop5)
+end
+
+procedure NodeDialogStop4 begin
+   Reply(414)
+   NAnswer(415,1,Node999)
+end
+
+procedure NodeDialogStop5 begin
+   Reply(416)
+   NAnswer(417,1,Node999)
+end
+
+procedure NodeDialogCult begin
+   bitDialogExp(bit_15,25)
+   zReply(404)
+   NAnswer(405,1,NodeDialogCult2)
+end
+
+procedure NodeDialogCult2 begin
+   Reply(406)
+   NAnswer(407,1,NodeSndDialog)
+end
+
+procedure NodeDialogCult3 begin
+   bitDialogZero(bit_15)
+   setBonusReaction(-100)
+   Reply(418)
+   BAnswer(419,1,NodeDialogCult4)
+   NAnswer(422,1,NodeDialogCult5)
+   NAnswerSkill(425,1,NodeDialogCult6,SKILL_CONVERSANT,80,425,NodeDialogCult7)
+end
+
+procedure NodeDialogCult4 begin
+   Reply(420)
+   NAnswer(421,1,Node999)
+end
+
+procedure NodeDialogCult5 begin
+   setBonusReaction(25)
+   Reply(423)
+   NAnswer(424,1,Node999)
+end
+
+procedure NodeDialogCult6 begin
+   bitDialogExp(bit_16,50)
+   setBonusReaction(50)
+   zReply(428)
+   NAnswer(429,1,Node999)
+end
+
+procedure NodeDialogCult7 begin
+   Reply(426)
+   NAnswer(427,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   // changed this to 1, as 3 seemed high compared to other 'idiot' barriers -cambragol
+   if (dude_iq <= 1) then begin
+   zReply(200)
+   NAnswer(287,1,NodeFstDialog1)
+   end
+   else if (get_SLAVA <= -50) then begin
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   end
+   else if (get_SLAVA >= 100) then begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog2)
+   end
+   else begin
+   Reply(207)
+   NAnswer(208,1,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog1 begin
+   Reply(288)
+   NAnswer(289,1,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswerSkill(214,5,NodeFstDialog3,SKILL_CONVERSANT,20,214,NodeFstDialog4)
+   NAnswer(203,1,NodeSndDialog)
+   NAnswer(204,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   bitDialogExp(bit_11,50)
+   setBonusReaction(10)
+   Reply(215)
+   NAnswer(203,1,NodeSndDialog)
+   NAnswer(204,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   bitDialogExp(bit_11,0)
+   setBonusReaction(-10)
+   Reply(209)
+   NAnswer(203,1,NodeSndDialog)
+   NAnswer(204,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if cultKnown then begin
+   zReply(410)
+   end
+   else begin
+   Reply(210)
+   end
+   NAnswer(212,1,NodeAnswer)
+   if (bitDialog(bit_2) != 0) then begin
+      NAnswer(270,1,NodeFAID)
+      if (local_var(LVAR_Dude_Donats) <= 2000) then begin
+      NAnswer(260,1,NodeDonats)
+      end
+      if (gvar_bit(GVAR_BIBL_FLAGS_BIT, bit_2) == 0) then begin
+      NAnswer(226,1,NodeAnswer205)
+      end
+   end
+   if (getQuest(GVAR_FLAGSTAFF_CULT_GOHOME) == qStart) then begin
+      if (bitDialog(bit_9) == 0) then begin
+      NAnswer(310,1,NodeQuestA)
+      end
+      else begin
+      NAnswer(330,1,NodeQuestB)
+      end
+   end
+   if (getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) == qStart) then begin
+      NAnswer(360,1,NodeQuestC)
+   end
+   NAnswer(211,1,Node999)
+end
+
+//--- ЛЕЧЕНИЕ
+
+procedure NodeFAID begin
+   MedicMany := 0;
+   Reply(271)
+   if (dude_cur_hits<dude_max_hits) then begin
+   NAnswer(272,1,NodeFAID100)
+   end
+   if dude_is_crippled then begin
+   NAnswer(273,1,NodeFAID200)
+   end
+   if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
+   NAnswer(274,1,NodeFAID300)
+   end
+   if (get_poison(dude_obj) >0) then begin
+   NAnswer(275,1,NodeFAID400)
+   end
+   NAnswer(276,1,NodeSndDialog)
+end
+
+procedure NodeFAID2 begin
+   Reply(281)
+   NAnswer(282,1,Node999)
+end
+
+procedure NodeFAIDMany begin
+   if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
+   MedicMany -= (MedicMany/2);
+   MedicMany -= (MedicMany/2); //повтор поставлен специально
+   end
+   if (bitDialog(bit_12) != 0) then begin
+   MedicMany -= (MedicMany/5);
+   end
+end
+
+procedure NodeFAID100 begin
+   MedicMany := (dude_max_hits-dude_cur_hits)*2;
+   call NodeFAIDMany;
+
+   Reply(mstr(277)+MedicMany+mstr(278))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(279,1,NodeFAID101)
+   end
+   NAnswer(280,1,NodeFAID2)
+   NAnswer(283,1,NodeSndDialog)
+end
+
+procedure NodeFAID101 begin
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID200 begin
+   MedicMany := 50;
+   call NodeFAIDMany;
+
+   Reply(mstr(277)+MedicMany+mstr(278))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(279,1,NodeFAID201)
+   end
+   NAnswer(280,1,NodeFAID2)
+   NAnswer(283,1,NodeSndDialog)
+end
+
+procedure NodeFAID201 begin
+   critter_uninjure_full(dude_obj);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID300 begin
+   MedicMany := get_critter_stat(dude_obj,STAT_current_rad);
+   call NodeFAIDMany;
+
+   Reply(mstr(277)+MedicMany+mstr(278))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(279,1,NodeFAID301)
+   end
+   NAnswer(280,1,NodeFAID2)
+   NAnswer(283,1,NodeSndDialog)
+end
+
+procedure NodeFAID301 begin
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID400 begin
+   MedicMany := get_poison(dude_obj);
+   call NodeFAIDMany;
+
+   Reply(mstr(277)+MedicMany+mstr(278))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(279,1,NodeFAID401)
+   end
+   NAnswer(280,1,NodeFAID2)
+   NAnswer(283,1,NodeSndDialog)
+end
+
+procedure NodeFAID401 begin
+   poison(dude_obj,-(get_poison(dude_obj)));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAIDEnd begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
+   PLAY_FADE
+   Reply(284)
+   NAnswer(285,1,NodeSndDialog)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer begin
+   if cultKnown then begin
+   zReply(433)
+   end
+   else begin
+   Reply(213)
+   NAnswer(245,1,NodeAnswer100)
+   NAnswer(216,1,NodeAnswer200)
+   NAnswer(255,1,NodeAnswer300)
+   end
+   NAnswer(242,1,NodeSndDialog)
+end
+
+procedure NodeAnswer100 begin
+   Reply(246)
+   NAnswer(247,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(248)
+   NAnswer(249,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   Reply(250)
+   NAnswer(251,3,NodeAnswer103)
+   NAnswer(253,3,NodeAnswer104)
+   NAnswer(224,1,NodeAnswer)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_4,10)
+   Reply(252)
+   NAnswer(253,3,NodeAnswer104)
+   NAnswer(224,1,NodeAnswer)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_5,10)
+   Reply(254)
+   NAnswer(251,3,NodeAnswer103)
+   NAnswer(224,1,NodeAnswer)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(217)
+   NAnswer(218,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(219)
+   NAnswer(220,1,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   Reply(221)
+   NAnswer(222,1,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   bitDialogExp(bit_2,35)
+   Reply(223)
+   NAnswer(224,1,NodeAnswer)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeAnswer205 begin
+   if cultKnown then begin
+   Reply(434)
+   end
+   else begin
+   zReply(227)
+   end
+   NAnswerSkill(228,5,NodeAnswer208,SKILL_SCIENCE,20,229,NodeAnswer206)
+end
+
+procedure NodeAnswer206 begin
+   Reply(230)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+   NAnswer(231,1,NodeAnswer207)
+   end
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeAnswer207 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+      item_remove(dude_obj, PID_BOOTLE_CAPS, -100)
+      if (is_skill_tagged(SKILL_SCIENCE) == true) then begin
+      skill_up(SKILL_SCIENCE,6);
+      end
+      else begin
+      skill_up(SKILL_SCIENCE,5);
+      end
+      PLAY_FADE
+      game_time_advance(ONE_GAME_HOUR*5);
+      Reply(234)
+      NAnswer(235,1,Node999)
+   end
+   else begin
+      call Node999;
+   end
+end
+
+procedure NodeAnswer208 begin
+
+   if cultKnown then begin
+      Reply(431)
+      zNAnswer(432,1,NodeAnswer209)
+   end
+   else begin
+      Reply(236)
+
+      if (local_var(LVAR_Dude_Donats) >= 300) then begin
+      NAnswer(237,1,NodeAnswer209)
+      end
+      else begin
+      NAnswer(238,1,NodeDonats)
+      end
+   end
+
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeAnswer209 begin
+   bitDialogExp(bit_3,100)
+   set_gvar_bit_on(GVAR_BIBL_FLAGS_BIT, bit_2);
+   Reply(239)
+   BAnswer(240,1,Node999)
+   NAnswer(241,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   Reply(256)
+   if ((getQuest(GVAR_FLAGSTAFF_CULT_GOHOME) == qZero) and (map_var(MVAR_FLAG_CitiznB) == 0)) then begin
+   NAnswer(302,1,NodeQuestStart2)
+   end
+   NAnswer(224,1,NodeAnswer)
+   NAnswer(225,1,Node999)
+end
+
+//--- ПОЖЕРТВОВАНИЯ
+
+procedure NodeDonats begin
+   if cultKnown then begin
+   Reply(430)
+   end
+   else begin
+   Reply(261)
+   end
+
+   if ((getQuest(GVAR_FLAGSTAFF_CULT_GOHOME) == qZero) and (map_var(MVAR_FLAG_CitiznB) == 0)) then begin
+   NAnswer(300,1,NodeQuestStart)
+   end
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 10) then begin
+   NAnswer(264,1,NodeDonats10)
+   end
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 50) then begin
+   NAnswer(265,1,NodeDonats50)
+   end
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+   NAnswer(266,1,NodeDonats100)
+   end
+   if (local_var(LVAR_Dude_Donats) >= 200) then begin
+      if ((getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd) and (global_var(GVAR_PHENIX_CULT_LETTER) == 0))then begin
+      GAnswer(290,1,NodeList)
+      end
+   end
+   NAnswer(262,1,NodeSndDialog)
+   NAnswer(263,1,Node999)
+end
+
+procedure NodeDonats10 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 10) then begin
+      item_remove(dude_obj, PID_BOOTLE_CAPS, 10)
+      set_SLAVA(1)
+      inc_local_var_amt(LVAR_Dude_Donats,10);
+      call NodeDonatsEnd;
+   end
+   else begin
+      call Node999;
+   end
+end
+
+procedure NodeDonats50 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 50) then begin
+      item_remove(dude_obj, PID_BOOTLE_CAPS, 50)
+      set_SLAVA(5)
+      inc_local_var_amt(LVAR_Dude_Donats,50);
+      call NodeDonatsEnd;
+   end
+   else begin
+      call Node999;
+   end
+end
+
+procedure NodeDonats100 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+      item_remove(dude_obj, PID_BOOTLE_CAPS, 100)
+      set_SLAVA(10)
+      inc_local_var_amt(LVAR_Dude_Donats,100);
+      call NodeDonatsEnd;
+   end
+   else begin
+      call Node999;
+   end
+end
+
+procedure NodeDonatsEnd begin
+   if (local_var(LVAR_Dude_Donats) >= 300) then begin
+      Reply(269)
+   end
+   else if (local_var(LVAR_Dude_Donats) >= 200) then begin
+      Reply(269)
+   end
+   else if (local_var(LVAR_Dude_Donats) >= 100) then begin
+      Reply(268)
+   end
+   else begin
+      Reply(267)
+   end
+   NAnswer(258,1,NodeSndDialog)
+   NAnswer(259,1,Node999)
+end
+
+procedure NodeList begin
+   variable paramDonat;
+   paramDonat := 1;
+   if (getQuest(GVAR_FLAGSTAFF_CULT_GOHOME) == qEnd) then begin
+   paramDonat := 250;
+   end
+
+   if town_rep_is_hated then begin
+   Reply(298)
+   NAnswer(292,1,Node999)
+   end
+   else if (local_var(LVAR_Dude_Donats) > (500-paramDonat)) then begin
+   zReply(293)
+   GAnswer(294,1,NodeList2)
+   NAnswer(295,1,Node999)
+   end
+   else begin
+   zReply(291)
+   NAnswer(292,1,Node999)
+   end
+end
+
+procedure NodeList2 begin
+   bitDialogExp(bit_7,350)
+   set_global_var(GVAR_PHENIX_CULT_LETTER,1);
+   item_add(dude_obj,PID_LETTER_CULT_FLAGSTAFF,1)
+   Reply(296)
+   NAnswer(297,1,Node999)
+end
+
+//--- ЗАДАНИЕ
+
+procedure NodeQuestStart begin
+   Reply(301)
+   NAnswer(302,1,NodeQuestStart2)
+end
+
+procedure NodeQuestStart2 begin
+   Reply(303)
+   NAnswer(304,1,NodeQuestStart3)
+   NAnswer(305,1,NodeAnswer)
+end
+
+procedure NodeQuestStart3 begin
+   setQuest(GVAR_FLAGSTAFF_CULT_GOHOME,qStart);
+   Reply(306)
+   NAnswer(307,1,Node999)
+end
+
+procedure NodeQuestA begin
+   Reply(311)
+   if (map_var(MVAR_FLAG_CitiznB) != 0) then begin
+   NAnswer(314,1,NodeQuestA2)
+   end
+   NAnswer(312,1,NodeSndDialog)
+   NAnswer(313,1,Node999)
+end
+
+procedure NodeQuestA2 begin
+   Reply(315)
+   NAnswer(316,1,NodeQuestA3)
+end
+
+procedure NodeQuestA3 begin
+   Reply(317)
+   NAnswer(318,1,NodeQuestA4)
+end
+
+procedure NodeQuestA4 begin
+   Reply(319)
+   NAnswer(320,1,NodeQuestA5)
+end
+
+procedure NodeQuestA5 begin
+   Reply(321)
+   NAnswer(322,1,NodeQuestA6)
+end
+
+procedure NodeQuestA6 begin
+   bitDialogExp(bit_9,0)
+   Reply(323)
+   NAnswer(324,1,NodeQuestA7)
+   NAnswer(325,1,NodeQuestA9)
+   NAnswer(326,1,Node999)
+end
+
+procedure NodeQuestA7 begin
+   Reply(327)
+   NAnswer(347,1,NodeQuestA8)
+end
+
+procedure NodeQuestA8 begin
+   //Reply(348) --- устаревшая версия!
+   Reply(349)
+   NAnswer(308,1,NodeQuestA9)
+   NAnswer(326,1,Node999)
+end
+
+procedure NodeQuestA9 begin
+   Reply(328)
+   NAnswer(329,1,Node999)
+end
+
+procedure NodeQuestB begin
+   Reply(331)
+   if (map_var(MVAR_FLAG_CitiznB) < 0) then begin
+   NAnswer(336,1,NodeQuestB3)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) == qEnd) then begin
+   BAnswer(357,1,NodeQuestB4)
+   end
+   else if (map_var(MVAR_FLAG_CitiznB) >= 2) then begin
+   GAnswer(334,1,NodeQuestB2)
+   end
+   NAnswer(332,1,NodeSndDialog)
+   NAnswer(333,1,Node999)
+end
+
+procedure NodeQuestB2 begin
+   set_SLAVA(10)
+   Reply(335)
+   NAnswer(345,1,NodeQuestEnd)
+end
+
+procedure NodeQuestB3 begin
+   Reply(337)
+   NAnswer(345,1,NodeQuestEnd)
+end
+
+procedure NodeQuestB4 begin
+   setQuest(GVAR_FLAGSTAFF_CULT_GOHOME,qEnd);
+   bitDialogExp(bit_10,500)
+   setBonusReaction(-30)
+   Reply(358)
+   NAnswer(359,1,Node999)
+end
+
+procedure NodeQuestEnd begin
+   setQuest(GVAR_FLAGSTAFF_CULT_GOHOME,qEnd);
+   bitDialogExp(bit_10,500)
+   setBonusReaction(30)
+   Reply(338)
+   GAnswer(339,1,NodeQuestEnd1)
+   NAnswer(340,1,NodeQuestEnd2)
+   NAnswer(341,1,NodeQuestEnd3)
+   NAnswer(342,1,NodeQuestEnd4)
+   if (gvar_bit(GVAR_BIBL_FLAGS_BIT, bit_2) == 0) then begin
+   NAnswer(344,1,NodeQuestEnd6)
+   end
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd) and (global_var(GVAR_PHENIX_CULT_LETTER) == 0))then begin
+   //NAnswer(343,5,NodeQuestEnd5)
+   end
+end
+
+procedure NodeQuestEnd1 begin
+   set_REP(5)
+   set_SLAVA(25)
+   setBonusReaction(20)
+   Reply(351)
+   NAnswer(350,1,Node999)
+end
+
+procedure NodeQuestEnd2 begin
+   bitDialogExp(bit_13,0)
+   item_add(dude_obj,PID_M_RADAWAY,1)
+   item_add(dude_obj,PID_M_STIMPAK,2)
+   Reply(352)
+   NAnswer(350,1,Node999)
+end
+
+procedure NodeQuestEnd3 begin
+   bitDialogExp(bit_12,0) // скидка на лечение
+   Reply(353)
+   NAnswer(350,1,Node999)
+end
+
+procedure NodeQuestEnd4 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,100)
+   Reply(354)
+   NAnswer(350,1,Node999)
+end
+
+procedure NodeQuestEnd5 begin
+   //письмо?
+   Reply(355)
+   NAnswer(350,1,Node999)
+end
+
+procedure NodeQuestEnd6 begin
+   set_gvar_bit_on(GVAR_BIBL_FLAGS_BIT, bit_2);
+   Reply(356)
+   NAnswer(350,1,Node999)
+end
+
+procedure NodeQuestC begin
+   Reply(361)
+
+   if (getQuest(GVAR_FLAGSTAFF_CULT_GOHOME) == qEnd) then begin
+      NAnswer(363,1,NodeQuestCEnd)
+   end
+   else begin
+      if (getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd) then begin
+      NAnswerSkill(364,1,NodeQuestCEnd,SKILL_SCIENCE,60,364,NodeQuestC101)
+      end
+      NAnswerSkill(365,1,NodeQuestCEnd,SKILL_CONVERSANT,60,365,NodeQuestC102)
+      NAnswerSkill(366,1,NodeQuestCEnd,SKILL_BARTER,60,366,NodeQuestC103)
+   end
+   NAnswer(371,1,NodeQuestC2)
+   NAnswer(362,1,Node999)
+end
+
+procedure NodeQuestC2 begin
+   Reply(372)
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeQuestC101 begin
+   Reply(369)
+   NAnswer(370,1,Node999)
+end
+
+procedure NodeQuestC102 begin
+   Reply(369)
+   NAnswer(370,1,Node999)
+end
+
+procedure NodeQuestC103 begin
+   Reply(369)
+   NAnswer(370,1,Node999)
+end
+
+procedure NodeQuestCEnd begin
+   bitDialogExp(bit_14,100)
+   setQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS,qEnd+1);
+   Reply(367)
+   NAnswer(368,1,Node999)
+end

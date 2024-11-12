@@ -1,0 +1,128 @@
+#FALLOUT: SONORA
+
+@ The game is based on Fallout 2
+@ in 2020-2021
+
+
+
+#- THE PROJECT WAS MADE BY -
+
+
+Alexander "BLACK DESIGNER" Poshelyuzhin
+@project idea, design, script, scripting,
+@3D modeling, environment object sprites,
+@game text, location maps, game videos
+
+
+Alexander "Red888guns" Berezin
+@3D modeling, environment object sprites,
+@inventory, new critters and talking heads,
+@video of the ship exploding in version 1.10
+
+
+Osman "Wolfram" Adzhiusmanov
+@creating an introductory video
+
+
+Grigory Sokolov
+@video with explosion in Puerto before version 1.10,
+@video consultation
+
+
+Denis "MASTER" Voloshin
+@quality control, testing, scenario discussion
+
+
+Dmitry Kuznetsov
+@testing version 0.29
+
+
+"Foxx"
+@installer, adaptation of HRP and sfall
+
+Lexx
+@additional animation for NMLTHR.
+
+Enrique Barredo
+@consultation and translation into Spanish
+
+
+David Ageev
+@editing game texts (Garage City, Rangers,
+@San Brahmin, typical objects, random encounters)
+
+
+Ilya Nizovskikh
+@editing game texts (Flagstaff, Two-Sun, Casa Nueva)
+
+
+Alexander "Vault_boy" Chernenko
+@editing game texts 
+@(Jackals, Phoenix, Old Motel, Inferno, Pip-Boy entries)
+
+
+Tainted Acolyte
+@editing game texts (Casa Grande, Raiders)
+
+
+Elena Skryvaeva
+@editing game texts (gender mistakes and punctuation)
+
+
+Dmitry "Jimmy J." Chepusov
+@voiceover in slideshow and introductory video
+
+
+Alexey "NOBODYS NAIL MACHINE" Trofimov
+@composer
+
+
+@In the intro and end credits
+@the song "La Cucaracha" is playing
+@performed by Louis Armstrong
+
+
+
+
+#- SPECIAL THANKS TO -
+
+@Participants of our forum and VKontakte group.
+@Thank you for your moral support,
+@criticism and suggestions!
+
+
+Hakob "Vaulter" Abrahamyan
+@for our VKontakte group
+
+Egor "Vault 13" Ostapenko
+@for the forum and information support
+
+WWW.FALLOUT-NEVADA.UCOZ.RU
+@official site
+
+ALPOSH(a)MAIL.RU
+@connection with Nevada Band
+
+
+@Used while working on the project
+@Fallout 2 modding programs:
+
+BIS mapper
+Fallout 2 DAT explorer ver 1.43
+sFall ScriptEditor ver 4.1.5.0
+Frame Animator ver 2.51 by Jochua
+AVI to MVE converter by ABel
+@and others
+
+
+
+
+#- ALL RIGHTS ARE RESERVED BY LAW -
+
+@Copy, Duplicate and Reproduction
+@this program and any parts thereof for commercial purposes
+@without express permission of the copyright holders
+@is a violation of copyright law.
+
+@Fallout trademark rights belong to
+Bethesda Softworks LLC

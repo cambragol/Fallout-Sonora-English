@@ -1,0 +1,375 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_SCCmpBos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
+
+//#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_TEAM                        TEAM_PLAYER           // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_PALADIN        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define HEX_IN_CAVE                     22948
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (self_cur_hits<self_max_hits) then begin
+       critter_heal(self_obj,self_max_hits-self_cur_hits);
+       end
+       set_obj_visibility(self_obj, 0);
+       if ((getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) or (getQuest(GVAR_PUERTO_QST_BANDITS_PIP) >= qEnd) or (getQuest(GVAR_PUERTO_QST_BANDITS_PIP) <= qStop) or (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) <= qStop)) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       dude_teleport_map(0,0,MAP_BOS_CAMP_B,1);
+   end
+   if (fixed_param == 4) then begin
+       dude_teleport_map(0,0,MAP_BOS_CAMP_C,1);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if ((cur_map_index == MAP_BOS_CAMP_A) and (dude_elevation == 0)) then begin
+   end
+   else begin
+   if (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) == qStart) then begin
+   if (global_var(GVAR_PUERTO_RUN_BANDITS_CAMP) > 0) then begin
+   if (self_elevation == dude_elevation) then begin
+   partyRunToDude // персонаж бегает вслед за ГГ
+   end
+   end
+   end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,5,102) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   //set_damage_EMP //разовое снижение Силы и Восприятия при уроне ЭМИ (НЕ РАБОТАЕТ!!!)
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_PUERTO_RUN_BANDITS_CAMP,0);
+   setQuest(GVAR_PUERTO_QST_BANDITS_CMP,qStop);
+   kill_critter_opt
+   kill_critter_BoS_item
+end
+
+procedure talk_p_proc begin
+   variable headFonNum;
+   if ((game_time_hour >= 0600) and (game_time_hour < 1800)) then begin
+   headFonNum := HEAD_BOSS_COMMANDER_B;
+   end
+   else begin
+   headFonNum := HEAD_BOSS_COMMANDER_C;
+   end
+   if ((cur_map_index == MAP_BOS_CAMP_A) and (self_elevation != 0)) then begin
+   headFonNum := HEAD_BOSS_COMMANDER_D;
+   end
+   else if (cur_map_index == MAP_BOS_CAMP_C) then begin
+   headFonNum := HEAD_BOSS_COMMANDER_A;
+   end
+
+   if (getQuest(GVAR_PUERTO_QST_BANDITS_PIP) >= qEnd) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else if (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) >= qEnd) then begin
+   floater(self_obj,103,COLOR_MSG_NORMAL);
+   end
+   else if (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) <= qStop) then begin
+   floater(self_obj,105,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,headFonNum,BACKGROUND_WASTELND)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) == qZero) then begin
+   call NodeFstDialog;
+   end
+   else if ((getQuest(GVAR_PUERTO_QST_BANDITS_CMP) == qStart) and (self_elevation == 0) and (cur_map_index == MAP_BOS_CAMP_A)) then begin
+   call NodeSndDialog3;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 0) then begin
+   Reply(200)
+   end
+   else if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 1) then begin
+   Reply(211)
+   end
+   else begin
+   Reply(212)
+   end
+
+   zGAnswer(204,1,NodeFstDialog3)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   setQuest(GVAR_PUERTO_QST_BANDITS_CMP,qStart);
+
+   if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 0) then begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+   end
+   else if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 1) then begin
+   Reply(207)
+   NAnswer(206,1,NodeFstDialog5)
+   end
+   else if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 2) then begin
+   Reply(208)
+   NAnswer(209,1,NodeFstDialog6)
+   end
+   else begin
+   setQuest(GVAR_PUERTO_QST_BANDITS_CMP,qZero);
+   call Node999;
+   end
+end
+
+procedure NodeFstDialog4 begin
+   add_timer_event(self_obj, 2, 3);
+   call Node999;
+end
+
+procedure NodeFstDialog5 begin
+   add_timer_event(self_obj, 2, 4);
+   call Node999;
+end
+
+procedure NodeFstDialog6 begin
+   PLAY_FADE
+   move_to(dude_obj,HEX_IN_CAVE,1);
+   call Node999;
+end
+
+procedure NodeSndDialog begin
+   Reply(random(220,222))
+
+   call NodeQst100;
+   NAnswer(240,1,NodeAnswer102)
+   if (global_var(GVAR_PUERTO_RUN_BANDITS_CAMP) == 0) then begin
+   NAnswer(230,1,NodeAnswer101)
+   end
+   else begin
+   zNAnswer(231,1,NodeAnswer100)
+   end
+
+   NAnswer(223,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   zReply(232)
+   call NodeQst100;
+   zNAnswer(233,1,NodeSndDialog3)
+end
+
+procedure NodeSndDialog3 begin
+   setQuest(GVAR_PUERTO_QST_BANDITS_CMP,-10);
+   set_global_var(GVAR_PUERTO_RUN_BANDITS_CAMP,0);
+   set_REP(-10)
+   set_SLAVA(-50)
+   Reply(234)
+   NAnswer(235,1,Node999)
+   BAnswer(236,1,Node999)
+end
+
+procedure NodeQst100 begin
+
+   if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 0) then begin
+      if (global_var(GVAR_PUERTO_STATUS_CRVN_BNDS)>0) then begin
+      GAnswer(245,1,NodeQst102)
+      end
+      if (global_var(GVAR_PUERTO_STATUS_CRVN_BNDS)<0) then begin
+      BAnswer(248,1,NodeQst103)
+      end
+   end
+
+   if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 1) then begin
+      if (item_amnt(dude_obj,PID_Q_BOS_MAP)>0) then begin
+      GAnswer(251,1,NodeQst104)
+      end
+      //!!! проверка разговора с языком
+      //GAnswer(251,1,NodeQst104)
+   end
+
+   if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 2) then begin
+      if (item_amnt(dude_obj,PID_Q_BOS_RELICT)>0) then begin
+      GAnswer(253,1,NodeQst105)
+      end
+   end
+
+   //NAnswer(224,1,NodeSndDialog2) //!!! ЧИТ
+end
+
+procedure NodeQst101 begin
+   setQuest(GVAR_PUERTO_QST_BANDITS_CMP,qEnd);
+   set_global_var(GVAR_PUERTO_RUN_BANDITS_CAMP,0);
+   Reply(225)
+   NAnswer(226,1,Node999)
+end
+
+procedure NodeQst102 begin
+   Reply(246)
+   zNAnswer(247,1,NodeQst101)
+end
+
+procedure NodeQst103 begin
+   set_REP(-5)
+   Reply(249)
+   NAnswer(250,1,NodeQst101)
+end
+
+procedure NodeQst104 begin
+   item_remove(dude_obj,PID_Q_BOS_MAP,1)
+   Reply(252)
+   zNAnswer(247,1,NodeQst101)
+end
+
+procedure NodeQst105 begin
+   item_remove(dude_obj,PID_Q_BOS_RELICT,1)
+   Reply(254)
+   zNAnswer(247,1,NodeQst101)
+end
+
+procedure NodeAnswer100 begin
+   set_global_var(GVAR_PUERTO_RUN_BANDITS_CAMP,0);
+   call Node999;
+end
+
+procedure NodeAnswer101 begin
+   set_global_var(GVAR_PUERTO_RUN_BANDITS_CAMP,1);
+   call Node999;
+end
+
+procedure NodeAnswer102 begin
+   if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 0) then begin
+   Reply(241)
+   end
+   else if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 1) then begin
+   Reply(242)
+   end
+   else begin
+   Reply(243)
+   end
+   NAnswer(244,1,Node999)
+end

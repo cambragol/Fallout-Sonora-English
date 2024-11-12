@@ -1,0 +1,303 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCAcvBnd
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS_GART     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog3;
+procedure NodeStopDialog4;
+procedure NodeStopDialog5;
+procedure NodeStopDialog6;
+procedure NodeStopDialog7;
+procedure NodeStopDialog8;
+procedure NodeStopDialog9;
+procedure NodeStopDialog10;
+procedure NodeStopDialog11;
+procedure NodeStopDialog12;
+procedure NodeStopDialog13;
+procedure NodeStopDialog14;
+procedure NodeStopDialog15;
+procedure NodeStopDialog16;
+procedure NodeStopDialogEnd;
+
+//---------------------
+
+#define LVAR_Alcoghol                   (6) // алкоголь: 0 - не использован, 1 - использован
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (self_elevation > 0) then begin
+       off_enemy_dude;
+       end
+       set_start_home
+       set_local_var(LVAR_Alcoghol,0);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (self_elevation == 0) then begin
+       timer_move_to_home
+       end
+       else begin
+       timer_move_random_home(3)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_RANGERS_AQUEDUCT_BODIES) != 0) then begin
+      if (getQuest(GVAR_RANGERS_QST_MISSING) < qEnd) then begin
+         if (global_var(GVAR_STATUS_RANGERS_GART) >= 0) then begin
+            if (local_var(LVAR_Alcoghol) == 0) then begin
+               if ((self_elevation == 0) and (dude_elevation > 0)) then begin
+                  set_local_var(LVAR_Home_Tile, 16301);
+                  move_to(self_obj,HomeTile,2);
+               end
+               if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_15) == 0) then begin
+                  if (self_elevation > 0) then begin
+                  if self_can_see_dude then begin
+                  dialogue_system_forcing(7)
+                  end
+                  end
+               end
+            end
+         end
+      end
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (itemTypeUseDude == 2) then begin
+   set_local_var(LVAR_Alcoghol,1);
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_15) != 0) then begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_STATUS_RANGERS_GART) < 0) then begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else if (self_elevation > 0) then begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else if (local_var(LVAR_Alcoghol) != 0) then begin
+   floater(self_obj,103,COLOR_MSG_GREEN);
+   end
+   else begin
+   floater(self_obj,random(110,116),COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeStopDialog;
+end
+
+//--- ДИАЛОГ В АКВЕДУКЕ
+
+procedure NodeStopDialog begin
+   bitDialogExp(bit_2,0)
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_15);
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(240)
+   NAnswer(241,1,NodeStopDialog13)
+   end
+   else if (global_var(GVAR_TITUL_REBIRTH) > 0) then begin
+   zReply(260)
+   NAnswer(205,1,NodeStopDialog3)
+   NAnswer(201,1,NodeStopDialog2)
+   end
+   else begin
+   Reply(200)
+   NAnswer(205,1,NodeStopDialog3)
+   NAnswer(201,1,NodeStopDialog2)
+   end
+end
+
+procedure NodeStopDialog2 begin
+   Reply(202)
+   NAnswer(203,1,Node998)
+   BAnswer(204,1,Node998)
+end
+
+procedure NodeStopDialog3 begin
+   Reply(206)
+   NAnswer(207,1,NodeStopDialog4)
+end
+
+procedure NodeStopDialog4 begin
+   Reply(208)
+   NAnswer(209,1,NodeStopDialog5)
+   NAnswer(212,1,NodeStopDialog6)
+   NAnswer(229,1,NodeStopDialog11)
+end
+
+procedure NodeStopDialog5 begin
+   zReply(210)
+   BAnswer(211,1,Node998)
+end
+
+procedure NodeStopDialog6 begin
+   zReply(213)
+   if dude_is_female then begin
+   NAnswer(234,4,NodeStopDialog16)
+   end
+   NAnswer(216,3,NodeStopDialog7)
+   BAnswer(215,1,Node998)
+end
+
+procedure NodeStopDialog7 begin
+   Reply(217)
+   NAnswer(219,3,NodeStopDialog8)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   NAnswer(231,3,NodeStopDialog12)
+   end
+   BAnswer(218,1,Node998)
+end
+
+procedure NodeStopDialog8 begin
+   Reply(220)
+   NAnswerSkill(225,3,NodeStopDialog9,SKILL_CONVERSANT,65,221,NodeStopDialog10)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   NAnswer(231,3,NodeStopDialog12)
+   end
+   BAnswer(222,1,Node998)
+end
+
+procedure NodeStopDialog9 begin
+   Reply(226)
+   GAnswer(227,1,NodeStopDialogEnd)
+   BAnswer(228,1,Node998)
+end
+
+procedure NodeStopDialog10 begin
+   Reply(223)
+   BAnswer(224,1,Node998)
+end
+
+procedure NodeStopDialog11 begin
+   Reply(230)
+   NAnswer(216,3,NodeStopDialog7)
+   BAnswer(215,1,Node998)
+end
+
+// changed NodeStopDialog7 to NodeStopDialog9, as the dialogue didn't make sense otherwise - cambragol
+procedure NodeStopDialog12 begin
+   Reply(232)
+   NAnswer(225,3,NodeStopDialog9)
+   BAnswer(233,1,Node998)
+end
+
+procedure NodeStopDialog13 begin
+   Reply(242)
+   NAnswer(244,3,NodeStopDialog14)
+   BAnswer(243,1,Node998)
+end
+
+procedure NodeStopDialog14 begin
+   Reply(245)
+   NAnswer(247,1,NodeStopDialog15)
+   BAnswer(246,1,Node998)
+end
+
+procedure NodeStopDialog15 begin
+   Reply(248)
+   NAnswer(249,1,NodeStopDialogEnd)
+   BAnswer(250,1,Node998)
+end
+ 
+// changed NodeStopDialog7 to NodeStopDialog9, as the dialogue didn't make sense otherwise - cambragol
+procedure NodeStopDialog16 begin
+   Reply(235)
+   NAnswer(225,3,NodeStopDialog9)
+   BAnswer(236,1,Node998)
+end
+
+procedure NodeStopDialogEnd begin
+   bitDialogExp(bit_3,100)
+   call Node999;
+end

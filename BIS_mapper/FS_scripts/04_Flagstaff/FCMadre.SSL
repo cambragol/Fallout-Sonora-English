@@ -1,0 +1,337 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCMadre
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_VILLA   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_SLAVES  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_TRIBLE_VILLA       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      -100       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog001;
+procedure NodeFstDialog002;
+procedure NodeFstDialog003;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer300;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer401b;
+procedure NodeAnswer402;
+procedure NodeAnswer403;
+procedure NodeAnswer404;
+procedure NodeFinal;
+procedure NodeFinal2;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if ((global_var(GVAR_FLAGSTAFF_VILLA_RUN) == 1) and (cur_map_index != MAP_FLAGSTAFF_SLAVE)) then begin
+       rm_timer_event(self_obj);
+       add_timer_event(self_obj, 5, 3);
+       end
+       if ((global_var(GVAR_FLAGSTAFF_VILLA_RUN) == 2) or (getQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON) == qEnd)) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (global_var(GVAR_FLAGSTAFF_VILLA_RUN) == 0) then begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       dialogue_system_enter;
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_FLAGSTAFF_VILLA_RUN) == 1) then begin
+   partyRunToDude // Персонаж следует за ГГ
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_VILLA_STATUS_MADRE,-1);
+   setQuest(GVAR_VILLA_QST_CULON,qStop);
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_DIALOG) < qEnd) then begin
+   setQuest(GVAR_FLAGSTAFF_SLAVES_DIALOG,qEnd);
+   end
+   if (getQuest(GVAR_MAIN_QUEST_VILLA) < qEnd) then begin
+   setQuest(GVAR_MAIN_QUEST_VILLA,qEnd);
+   end
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON) < qEnd) then begin
+   setQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON,qEnd);
+   end
+
+   kill_critter_opt
+   display_mstr(105);
+   kill_critter_dude_reply(102,102)
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if ((global_var(GVAR_FLAGSTAFF_VILLA_RUN) != 0) and (cur_map_index == MAP_FLAGSTAFF_SLAVE)) then begin
+   floater(self_obj,107,COLOR_MSG_RED);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_FLAGSTAFF_VILLA_RUN) != 0) then begin
+   call NodeFinal;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   Reply(dude_name+mstr(200))
+   zBAnswer(201,1,NodeFstDialog001)
+   zNAnswer(202,1,NodeFstDialog002)
+end
+
+procedure NodeFstDialog001 begin
+   Reply(203)
+   NAnswer(205,1,NodeFstDialog003)
+end
+
+procedure NodeFstDialog002 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog003)
+end
+
+procedure NodeFstDialog003 begin
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_DIALOG) < qEnd) then begin
+   bitDialogExp(bit_1,350)
+   setQuest(GVAR_FLAGSTAFF_SLAVES_DIALOG,qEnd);
+   end
+   if (getQuest(GVAR_MAIN_QUEST_VILLA) < qEnd) then begin
+   setQuest(GVAR_MAIN_QUEST_VILLA,qEnd);
+   end
+
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON) == qZero) then begin
+   setQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON,qStart);
+   end
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) == qZero) then begin
+   setQuest(GVAR_FLAGSTAFF_SLAVES_MINE,qStart);
+   end
+   if (getQuest(GVAR_MAIN_QUEST_PHENIX) == qZero) then begin
+   setQuest(GVAR_MAIN_QUEST_PHENIX,qStart);
+   end
+
+   Reply(206)
+   call NodeSndAnswer;
+   NAnswer(211,1,Node999)
+end
+
+//--- ????????? ??????
+
+procedure NodeSndDialog begin
+   Reply(212)
+   call NodeSndAnswer;
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(214)
+   call NodeSndAnswer;
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeSndAnswer begin
+   NAnswer(207,3,NodeAnswer100)
+   NAnswer(208,1,NodeAnswer200)
+   // - added to remove discussing other villa people - cambragol
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) < qEnd) then begin
+   NAnswer(209,1,NodeAnswer300)
+   end
+   NAnswer(210,1,NodeAnswer400)
+   if (map_var(MVAR_Freedom_Villa) == 1) then begin
+   GAnswer(225,1,NodeAnswer404)
+   end
+end
+
+procedure NodeAnswer100 begin
+   Reply(217)
+   NAnswer(216,1,NodeSndDialog2)
+end
+
+procedure NodeAnswer200 begin
+   Reply(218)
+   NAnswer(223,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   bitDialogExp(bit_2,25)
+   if ((getQuest(GVAR_PHENIX_MIGEL_KNOWN) < qStart) and (global_var(GVAR_VILLA_STATUS_MIGEL) == 0)) then begin
+   setQuest(GVAR_PHENIX_MIGEL_KNOWN,qStart);
+   end
+   Reply(224)
+   NAnswer(216,1,NodeSndDialog2)
+end
+
+procedure NodeAnswer300 begin
+   Reply(219)
+   NAnswer(216,1,NodeSndDialog2)
+end
+
+procedure NodeAnswer400 begin
+   Reply(220)
+   NAnswer(221,1,NodeAnswer401)
+   NAnswer(238,1,NodeAnswer401b)
+end
+
+procedure NodeAnswer401b begin
+   Reply(239)
+   NAnswer(240,1,NodeAnswer401)
+end
+
+procedure NodeAnswer401 begin
+   Reply(222)
+   if (map_var(MVAR_Freedom_Villa) == 1) then begin
+   GAnswer(225,1,NodeAnswer404)
+   end
+   if ((global_var(GVAR_FLAGSTAFF_RADIO_MARK) >0) or (map_var(MVAR_RadioSlave) >0)) then begin
+   NAnswer(229,1,NodeAnswer402)
+   end
+   NAnswer(238,1,NodeAnswer401b)
+   NAnswer(216,1,NodeSndDialog2)
+end
+
+procedure NodeAnswer402 begin
+   Reply(230)
+   NAnswer(232,1,NodeAnswer403)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer403 begin
+   Reply(233)
+   NAnswer(234,1,NodeAnswer404)
+   NAnswer(235,1,Node999)
+end
+
+procedure NodeAnswer404 begin
+   set_global_var(GVAR_FLAGSTAFF_VILLA_RUN,1);
+   if (map_var(MVAR_Freedom_Villa) == 0) then begin
+   set_global_var(GVAR_TOWN_REP_FLAGSTAFF_MERC,-100);
+   end
+   rm_timer_event(self_obj);
+   party_add(self_obj);
+   Reply(236)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeFinal begin
+   Reply(226)
+   NAnswer(227,1,NodeFinal2)
+end
+
+procedure NodeFinal2 begin
+   set_global_var(GVAR_FLAGSTAFF_VILLA_RUN,2);
+   set_global_var(GVAR_VILLA_STATUS_MADRE,1);
+   setQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON,qEnd);
+   setQuest(GVAR_MAIN_QUEST_FLAGSTAFF,qEnd);
+   exp_add_msg(1500,NAME,103,104);
+   set_REP(15)
+   rm_timer_event(self_obj);
+   party_remove(self_obj);
+   set_obj_visibility(self_obj, 1);
+   //destroy_object(self_obj);
+   call Node999;
+end

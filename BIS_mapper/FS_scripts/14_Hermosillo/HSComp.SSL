@@ -1,0 +1,146 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_HSComp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog200;
+procedure NodeDialog300;
+procedure NodeDialog400;
+procedure NodeDialog500;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_local_var(LVAR_Status,1);
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(0)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(0)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+//This script was tweaked to standardize handling of the espanol perk - cambragol
+
+procedure NodeDialog begin
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(200)
+
+      NAnswer(210,1,NodeDialog100)
+      NAnswer(212,1,NodeDialog200)
+      NAnswer(214,1,NodeDialog300)
+      NAnswer(216,1,NodeDialog400)
+      //if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) == qStart) then begin
+      if (map_var(MVAR_HERMO_HOLODISK) == 0) then begin
+      NAnswer(218,1,NodeDialog500)
+      end
+      //end
+
+      NAnswer(201,1,Node999)
+   end
+   else begin
+      Reply(300)
+      NAnswer(310,1,NodeDialog101)
+      NAnswer(312,1,NodeDialog101)
+      NAnswer(314,1,NodeDialog101)
+      NAnswer(316,1,NodeDialog101)
+         //if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) == qStart) then begin
+      if (map_var(MVAR_HERMO_HOLODISK) == 0) then begin
+      NAnswer(318,1,NodeDialog500)
+      end
+      //end
+
+      NAnswer(301,1,Node999)
+   end
+
+
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   Reply(220)
+   NAnswer(302,1,NodeDialog)
+end
+
+procedure NodeDialog200 begin
+   Reply(213)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog300 begin
+   Reply(215)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog400 begin
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) < qEnd) then begin
+   mark_on_map(AREA_PUERTO_STEEL)
+   end
+   mark_on_map(AREA_TWO_SUN)
+   Reply(217)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog500 begin
+   inc_map_var(MVAR_HERMO_HOLODISK);
+   item_add(dude_obj,PID_Q_HERMO_INFO_DISK,1)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(219)
+      NAnswer(202,1,NodeDialog)
+      NAnswer(201,1,Node999)
+   end
+   else begin
+      Reply(319)
+      NAnswer(302,1,NodeDialog)
+      NAnswer(301,1,Node999)
+   end
+end

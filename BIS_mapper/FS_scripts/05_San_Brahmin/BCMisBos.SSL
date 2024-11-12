@@ -1,0 +1,574 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_BCMisBos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SANBRHMN_MISS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CULT_ATOMIC      // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RAIDER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst205;
+procedure NodeQst206;
+procedure NodeQst207;
+procedure NodeQst300;
+procedure NodeQst301;
+procedure NodeQst302;
+procedure NodeQst303;
+procedure NodeQst304;
+procedure NodeQstEnd;
+procedure NodeQst400;
+procedure NodeQst401;
+procedure NodeQst402;
+procedure NodeQst403;
+procedure NodeQst404;
+procedure NodeQst405;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable obj_critter_a; // указатель на криттера 1
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if (global_var(GVAR_BRAHMIN_STATUS_COMMANDER) != 0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+       if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) == qStop) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   obj_critter_a := self_obj;
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (obj_critter_a == self_obj) then begin
+   obj_critter_a := 0;
+   end
+   set_global_var(GVAR_BRAHMIN_STATUS_COMMANDER,-2);
+   if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) == qStart) then begin
+   setQuest(GVAR_BRAHMIN_QST_COMMANDER,qStop);
+   end
+   if (getQuest(GVAR_BRAHMIN_QST_RNGRGOHOME) == qStart) then begin
+   setQuest(GVAR_BRAHMIN_QST_RNGRGOHOME,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) >= qEnd) then begin
+   floater(self_obj,103,COLOR_MSG_GREEN);
+   end
+   else if (global_var(GVAR_BRAHMIN_STATUS_COMMANDER) != 0) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else begin
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) != qZero) then begin
+   bitDialogExp(bit_1,0) // чит для удобства теста в маппере
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+      if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B)) then begin
+      call NodeFstDialog3;
+      end
+      else begin
+      call NodeFstDialog;
+      end
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   if (getQuest(GVAR_PHENIX_QST_CULT_C) == qStart) then begin
+   GAnswer(209,1,NodeFstDialog108)
+   end
+   if (getQuest(GVAR_RANGERS_QST_SBRAHMIN) == qStart) then begin
+   BAnswer(230,1,NodeFstDialog106)
+   end
+   BAnswer(201,1,NodeFstDialog100)
+   NAnswer(210,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog2 begin
+   bitDialogExp(bit_1,0)
+   Reply(222)
+   if (getQuest(GVAR_PHENIX_QST_CULT_C) == qStart) then begin
+   GAnswer(209,1,NodeFstDialog108)
+   end
+   BAnswer(201,1,NodeFstDialog100)
+   NAnswer(210,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog3 begin
+   bitDialogExp(bit_1,0)
+   Reply(220)
+   BAnswer(221,1,NodeFstDialog2)
+   NAnswer(223,1,NodeFstDialog108)
+end
+
+procedure NodeFstDialog100 begin
+   setBonusReaction(-10)
+   Reply(202)
+   NAnswer(210,1,NodeFstDialog103)
+   zBAnswer(203,1,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   setBonusReaction(-15)
+   zReply(204)
+   BAnswer(205,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   zReply(206)
+   NAnswer(218,1,NodeQst100)
+   //NAnswer(208,1,NodeSndDialog)
+   //NAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(211)
+   NAnswer(212,1,NodeFstDialog104)
+   BAnswer(215,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(213)
+   NAnswer(214,1,NodeQst100)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(216)
+   NAnswer(217,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(231)
+   BAnswer(232,1,NodeFstDialog107)
+end
+
+procedure NodeFstDialog107 begin
+   Reply(233)
+   NAnswer(235,1,NodeQst100)
+   //NAnswer(235,1,NodeSndDialog)
+   //NAnswer(234,1,Node999)
+end
+
+procedure NodeFstDialog108 begin
+   Reply(224)
+   NAnswer(225,1,NodeFstDialog109)
+   NAnswer(226,1,NodeFstDialog109)
+end
+
+procedure NodeFstDialog109 begin
+   Reply(227)
+   NAnswer(228,1,NodeQst100)
+   BAnswer(229,1,NodeQst100)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(250)
+
+   if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) == qZero) then begin
+      if (getQuest(GVAR_PHENIX_QST_CULT_C) == qStart) then begin
+      GAnswer(209,1,NodeFstDialog108)
+      end
+      else begin
+      NAnswer(252,1,NodeQst100)
+      end
+   end
+
+   if (getQuest(GVAR_BRAHMIN_QST_RANGER) == qStart) then begin
+   if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) < qEnd) then begin
+      if (global_var(GVAR_BRAHMIN_STATUS_COMMANDER) == 0) then begin
+      BAnswer(350,3,NodeQst400)
+      end
+   end
+   end
+
+   if (global_var(GVAR_BRAHMIN_STATUS_COMMANDER) != 0) then begin
+      //обманка, чтобы оборвать остальные ветки диалога
+   end
+   else if (getQuest(GVAR_BRAHMIN_QST_RNGRGOHOME) == qStart) then begin
+      if (global_var(GVAR_BRAHMIN_STATUS_RANGER)>0) then begin
+      NAnswer(302,1,NodeQst301)
+      end
+      else if (global_var(GVAR_BRAHMIN_STATUS_RANGER)==-1) then begin
+      NAnswer(302,1,NodeQst301)
+      end
+      else if (global_var(GVAR_BRAHMIN_STATUS_RANGER)<0) then begin
+      NAnswer(300,1,NodeQst300)
+      end
+   end
+   else if (getQuest(GVAR_BRAHMIN_QST_RNGRGOHOME) != qZero) then begin
+      //обманка, чтобы оборвать остальные ветки диалога
+   end
+   else if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) == qStart) then begin
+      if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) == qStart) then begin
+      NAnswer(280,1,NodeQst200)
+      end
+
+      if ((global_var(GVAR_BRAHMIN_STATUS_HEAD_GERONIMO)<0) and (global_var(GVAR_BRAHMIN_STATUS_CHATTO)<0)) then begin
+      zBAnswer(285,1,NodeQst202)
+      end
+      else if ((global_var(GVAR_BRAHMIN_STATUS_HEAD_GERONIMO)<0) and (global_var(GVAR_BRAHMIN_STATUS_CHATTO)>=10)) then begin
+      GAnswer(295,1,NodeQst206)
+      end
+      else if ((global_var(GVAR_BRAHMIN_STATUS_HEAD_GERONIMO)>=0) and (getQuest(GVAR_BRAHMIN_QST_GERONIMO)==10)) then begin
+      GAnswer(297,1,NodeQst207)
+      end
+   end
+
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(320,3,NodeAnswer100)
+   end else begin
+   NAnswer(321,3,NodeAnswer100)
+   end
+
+   NAnswer(251,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_2,0)
+   Reply(322)
+   NAnswer(327,1,NodeAnswer102)
+   NAnswer(324,5,NodeAnswer101)
+   NAnswer(323,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(325)
+   NAnswer(326,1,NodeAnswer100)
+end
+
+procedure NodeAnswer102 begin
+   Reply(328)
+   // changed this from Mark_State_Visited - cambragol
+   if (town_known(AREA_PHOENIX) == MARK_STATE_UNKNOWN) then begin
+   NAnswer(329,1,NodeAnswer103)
+   end
+   NAnswer(335,1,NodeAnswer105)
+   NAnswer(326,1,NodeAnswer100)
+   NAnswer(323,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   mark_on_map(AREA_PHOENIX)
+   Reply(330)
+   NAnswer(331,1,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   Reply(332)
+   NAnswer(337,1,NodeAnswer105)
+   NAnswer(333,1,Node999)
+   NAnswer(334,1,Node999)
+end
+
+procedure NodeAnswer105 begin
+   Reply(336)
+   NAnswer(338,7,NodeAnswer106)
+   NAnswer(326,1,NodeAnswer100)
+   NAnswer(342,1,Node999)
+end
+
+procedure NodeAnswer106 begin
+   Reply(339)
+   NAnswer(340,1,NodeAnswer107)
+end
+
+procedure NodeAnswer107 begin
+   bitDialogExp(bit_3,40)
+   Reply(341)
+   NAnswer(343,1,NodeAnswer102)
+   NAnswer(342,1,Node999)
+end
+
+//--- КВЕСТ
+
+procedure NodeQst100 begin
+   setQuest(GVAR_BRAHMIN_QST_COMMANDER,qStart);
+   Reply(260)
+   NAnswer(261,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(262)
+   NAnswer(263,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(264)
+   NAnswer(265,1,NodeQst103)
+end
+
+procedure NodeQst103 begin
+   Reply(266)
+   NAnswer(267,1,NodeQst104)
+end
+
+procedure NodeQst104 begin
+   Reply(268)
+   NAnswer(272,1,Node999)
+   BAnswer(269,1,NodeQst105)
+end
+
+procedure NodeQst105 begin
+   Reply(270)
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeQst200 begin
+   Reply(281)
+   NAnswer(282,1,NodeQst201)
+end
+
+procedure NodeQst201 begin
+   Reply(283)
+   NAnswer(284,1,Node999)
+end
+
+procedure NodeQst202 begin
+   Reply(286)
+   NAnswer(287,1,NodeQst203)
+   NAnswer(288,1,NodeQst203)
+end
+
+procedure NodeQst203 begin
+   Reply(289)
+   NAnswer(290,1,NodeQst204)
+end
+
+procedure NodeQst204 begin
+   Reply(291)
+   NAnswer(292,1,NodeQst205)
+end
+
+procedure NodeQst205 begin
+   setQuest(GVAR_BRAHMIN_QST_RNGRGOHOME,qStart);
+   Reply(293)
+   NAnswer(294,1,Node999)
+end
+
+procedure NodeQst206 begin
+   Reply(296)
+   NAnswer(290,1,NodeQst204)
+end
+
+procedure NodeQst207 begin
+   Reply(298)
+   NAnswer(290,1,NodeQst204)
+end
+
+procedure NodeQst300 begin
+   Reply(301)
+   zNAnswer(304,1,NodeQst302)
+   BAnswer(305,1,NodeQst302)
+end
+
+procedure NodeQst301 begin
+   Reply(303)
+   zNAnswer(304,1,NodeQst302)
+   BAnswer(305,1,NodeQst302)
+end
+
+procedure NodeQst302 begin
+   zReply(306)
+   NAnswer(307,1,NodeQst303)
+end
+
+procedure NodeQst303 begin
+   Reply(308)
+   NAnswer(309,1,NodeQst304)
+end
+
+procedure NodeQst304 begin
+   call NodeQstEnd;
+   Reply(310)
+   NAnswer(311,1,Node999)
+end
+
+procedure NodeQstEnd begin
+   set_global_var(GVAR_BRAHMIN_STATUS_COMMANDER,1);
+   setQuest(GVAR_BRAHMIN_QST_RNGRGOHOME,qEnd);
+   setQuest(GVAR_BRAHMIN_QST_COMMANDER,qEnd);
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qStop);
+   if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) >= qZero) then begin
+   setQuest(GVAR_BRAHMIN_QST_GERONIMO,10);
+   end
+
+   exp_add(1000);
+end
+
+procedure NodeQst400 begin
+   Reply(351)
+   NAnswerSkill(359,3,NodeQst403,SKILL_CONVERSANT,80,355,NodeQst402)
+   NAnswer(352,1,NodeQst401)
+end
+
+procedure NodeQst401 begin
+   Reply(353)
+   NAnswer(354,1,Node999)
+end
+
+procedure NodeQst402 begin
+   Reply(356)
+   zBAnswer(357,1,Node998)
+   zNAnswer(358,1,Node999)
+end
+
+procedure NodeQst403 begin
+   Reply(360)
+   NAnswer(362,3,NodeQst404)
+   NAnswer(361,1,Node999)
+end
+
+procedure NodeQst404 begin
+   Reply(363)
+   NAnswer(364,1,NodeQst405)
+end
+
+procedure NodeQst405 begin
+   setQuest(GVAR_BRAHMIN_QST_COMMANDER,qStop);
+   set_global_var(GVAR_BRAHMIN_STATUS_COMMANDER,1);
+   exp_add(100);
+   Reply(365)
+   NAnswer(366,1,Node999)
+end

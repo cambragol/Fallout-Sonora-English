@@ -1,0 +1,224 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSBlock
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure destroy_proc;
+
+#define LVAR_HP                         (1) // Состояние объекта (при >100 считается уничтоженным)
+
+variable damageCheck;
+
+/*
+
+Места, где есть ветхие стены:
+	TSZAX
+	CGSTAN
+	CGSCHOOL
+	FLAGFARM (2 шт)
+	FLAGGARD (2 шт)
+	FLAGCAMP (2 шт)
+	HERMO2
+	PXDSTR
+	RRETRNS
+	TSCITY (2 шт)
+	TSDSTR
+	VLGARD
+	VLRUINS
+	RCAVE (появляется скриптом, изначально на карте отсутствует)
+	RAIDERS
+	INFCITY
+	BSCAMPB
+	BSCAMPC
+
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   //display_msg("!!! block "+self_PID);
+end
+
+procedure look_at_p_proc begin
+   //lookProcMsg
+   //script_overrides;
+end
+
+// added this so the look description does not repeatedly pop up while hammering the wall - cambragol
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+   //script_overrides;
+   if (combat_is_initialized == TRUE) then begin
+       script_overrides;
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_msg(self_name+mstr(110));
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (has_skill(dude_obj, SKILL_REPAIR) >= 50) then begin
+         play_sfx("WH21FXX1");
+         play_sfx("PEBBLE");
+      call destroy_proc;
+      end
+      else begin
+         skill_display_mstr(123,SKILL_REPAIR,50)
+      end
+   end
+   else begin
+      script_overrides;
+      display_mstr(120);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   damageCheck := 0;
+
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      damageCheck := 1;
+   end
+   else if (objUsedPid == PID_W_HIKING_HATCHET) then begin
+      script_overrides;
+      damageCheck := 3;
+   end
+   else if (objUsedPid == PID_W_SLEDGEHAMMER) then begin
+      script_overrides;
+      damageCheck := 2;
+   end
+   else if (objUsedPid == PID_W_HAMMER) then begin
+      script_overrides;
+      damageCheck := 3;
+   end
+   else if (objUsedPid == PID_W_SUPER_SLEDGE) then begin
+      script_overrides;
+      damageCheck := 4;
+   end
+   else if (objUsedPid == PID_TOOL_ZIPPER) then begin
+      script_overrides;
+      display_mstr(121);
+   end
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+      display_mstr(122);
+   end
+   else if (objUsedPid == PID_TEST) then begin
+      script_overrides;
+      damageCheck := 100;
+   end
+
+   if (dude_strength < 5) then begin
+      if (damageCheck >0) then begin
+      display_mstr(111);
+      stat_display_mstr(111,STAT_st,5)
+      damageCheck := 0;
+      end
+   end
+
+   if (damageCheck >0) then begin
+       display_mstr(112);
+       play_sfx("WH21FXX1");
+       play_sfx("PEBBLE");
+       call destroy_proc;
+   end
+
+   /*
+   if (damageCheck >0) then begin
+      damageCheck := damageCheck*(dude_strength+random(1,3));
+      inc_local_var_amt(LVAR_HP,damageCheck);
+
+      if (local_var(LVAR_HP) >= 100) then begin
+         display_mstr(112);
+         play_sfx("WH32WXX1");
+         call destroy_proc;
+      end
+      else begin
+         play_sfx("WH21WXX1");
+         float_msg(self_obj,"-"+damageCheck+"%",COLOR_MSG_RED);
+         display_msg(mstr(116)+local_var(LVAR_HP)+mstr(117));
+      end
+   end
+   */
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         inc_local_var_amt(LVAR_HP,150);
+         if (local_var(LVAR_HP) >= 100) then begin
+         display_mstr(113);
+         call destroy_proc;
+         end
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_normal_dam) then begin
+         damageCheck := random(2,6);
+         inc_local_var_amt(LVAR_HP,damageCheck);
+
+         if (local_var(LVAR_HP) >= 100) then begin
+         display_mstr(115);
+         call destroy_proc;
+         end
+         else begin
+         float_msg(dude_obj,"-"+damageCheck+"%",COLOR_MSG_RED);
+         display_msg(mstr(116)+local_var(LVAR_HP)+mstr(117));
+         end
+      end
+      else begin
+         display_mstr(114);
+      end
+   end
+end
+
+procedure destroy_proc begin
+   //--- Общие процессы:
+   //exp_add(10); - а надо ли?
+   obj_unlock(self_obj);
+   set_obj_visibility(self_obj, 1);
+
+   //--- Создание разрушенных стен:
+   if (self_PID == 33555710) then begin
+   create_object_sid(33554939, self_tile, self_elevation, -1); // дверь в бункере ZAX
+   end
+   if (self_PID == 33555936) then begin
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1); // стена деревянная
+   end
+   if (self_PID == 33555938) then begin
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1); // стена бетонная
+   end
+   if (self_PID == 33555940) then begin
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1); // стена бетонная
+   end
+   if (self_PID == 33555942) then begin
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1); // стена деревянная низкая (под забор)
+   end
+   if (self_PID == 33556198) then begin
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1); // внешняя стена у магистральщиков
+   end
+   if (self_PID == 33556373) then begin
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1); // внешняя стена у магистральщиков
+   end
+
+   //--- Локальные поправки для отдельных случаев:
+   if (cur_map_index == MAP_RANGERS_CAVE) then begin
+      if ((self_elevation == 0) and (gvar_bit(GVAR_RANGERS_QST_CADET_MASK, bit_8) != 0)) then begin
+      set_gvar_bit_on(GVAR_RANGERS_QST_CADET_MASK, bit_14);
+      end
+   end
+
+   destroy_object(self_obj);
+end

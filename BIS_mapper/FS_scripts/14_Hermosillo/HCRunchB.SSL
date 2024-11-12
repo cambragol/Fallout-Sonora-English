@@ -1,0 +1,376 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_HCRunchB
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_HERMOSILLO  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BRAHMIN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+
+procedure NodeFstDialog2E;
+procedure NodeFstDialog3E;
+procedure NodeFstDialog4E;
+procedure NodeAnswer100E;
+procedure NodeAnswer200E;
+procedure NodeAnswer201E;
+procedure NodeAnswer202E;
+procedure NodeAnswer203E;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+// modified to add Espanol_Trait path, but retain original intent - cambragol
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (game_time_hour <= 0700) then begin
+       timer_move_to_tile(0,12500,0)
+       end
+       else begin
+       timer_move_random_home(2)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(map_var(MVAR_HERMO_Runcho_Enemy),0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_SANDALS) then begin
+      script_overrides;
+      if self_enemy_dude then begin
+      end
+      else if (bitDialog(bit_10) != 0) then begin
+      display_mstr(103);
+      end
+      else begin
+      set_REP(1)
+      setBonusReaction(20)
+      exp_add(75);
+      display_mstr(104);
+      floater(self_obj,105,COLOR_MSG_GREEN);
+      item_remove(dude_obj, objUsedPid, 1)
+      bitDialogExp(bit_10,0)
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_HERMO_Runcho_Enemy,2);
+   end
+   if (getQuest(GVAR_HERMO_QST_RADIO) == qStart) then begin
+   setQuest(GVAR_HERMO_QST_RADIO, qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (game_time_hour < 0600) then begin
+      if (dude_iq >= 5) then begin
+      floater(self_obj,110,COLOR_MSG_RED);
+      end
+      else begin
+      floater(self_obj,111,COLOR_MSG_RED);
+      end
+   end
+   else if (map_var(MVAR_HERMO_Runcho_Enemy)>0) then begin
+      if (dude_iq >= 5) then begin
+      floater(self_obj,112,COLOR_MSG_RED);
+      end
+      else begin
+      floater(self_obj,113,COLOR_MSG_RED);
+      end
+   end
+   else if (getQuest(GVAR_HERMO_QST_RADIO) >= qEnd) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj,117,COLOR_MSG_NORMAL);
+         /*
+         if (getReaction >= 5) then begin
+         floater(self_obj,117,COLOR_MSG_NORMAL);
+         end
+         else if town_rep_is_liked then begin
+         floater(self_obj,118,COLOR_MSG_NORMAL);
+         end
+         else begin
+         floater(self_obj,119,COLOR_MSG_NORMAL);
+         end
+         */
+      end
+      else begin
+         floater(self_obj,114,COLOR_MSG_NORMAL);
+         /*
+         if (getReaction >= 5) then begin
+         floater(self_obj,114,COLOR_MSG_NORMAL);
+         end
+         else if town_rep_is_liked then begin
+         floater(self_obj,115,COLOR_MSG_NORMAL);
+         end
+         else begin
+         floater(self_obj,116,COLOR_MSG_NORMAL);
+         end
+         */
+      end
+   end
+   else begin
+      dialog_proc(1,102,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(300)
+      NAnswer(301,1,NodeFstDialog2E)
+   end
+   else begin
+      Reply(200)
+      NAnswer(201,1,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   setQuest(GVAR_HERMO_QST_RADIO, qStart);
+   Reply(206)
+   NAnswer(208,1,NodeAnswer100)
+   NAnswer(209,1,NodeAnswer200)
+   NAnswer(207,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(310)
+      NAnswer(320,1,NodeAnswer100E)
+      NAnswer(323,1,NodeAnswer200E)
+      if (getQuest(GVAR_HERMO_QST_RADIO) <= qStart) then begin
+      if (item_amnt(dude_obj,PID_Q_RADIO_HERMOSILLO)>0) then begin
+      GAnswer(326,1,NodeAnswer201E)
+      end
+      end
+      NAnswer(311,1,Node999)
+   end
+   else begin
+      Reply(210)
+      NAnswer(220,1,NodeAnswer100)
+      NAnswer(223,1,NodeAnswer200)
+      if (getQuest(GVAR_HERMO_QST_RADIO) <= qStart) then begin
+      if (item_amnt(dude_obj,PID_Q_RADIO_HERMOSILLO)>0) then begin
+      GAnswer(226,1,NodeAnswer201)
+      end
+      end
+      NAnswer(211,1,Node999)
+   end
+end
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(224)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   if (item_amnt(dude_obj,PID_Q_RADIO_HERMOSILLO)>0) then begin
+   call NodeAnswer202;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeAnswer202 begin
+   item_remove(dude_obj,PID_Q_RADIO_HERMOSILLO,1)
+   Reply(227)
+   NAnswer(228,1,NodeAnswer203)
+   NAnswer(229,1,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   setQuest(GVAR_HERMO_QST_RADIO, qEnd);
+   setReaction(50)
+   set_REP(3)
+   exp_add(250);
+
+   Reply(230)
+   GAnswer(231,5,Node999)
+   GAnswer(232,1,Node999)
+end
+
+
+// Espanol nodes
+
+procedure NodeFstDialog2E begin
+   Reply(302)
+   NAnswer(303,1,NodeFstDialog3E)
+end
+
+procedure NodeFstDialog3E begin
+   Reply(304)
+   NAnswer(305,1,NodeFstDialog4E)
+end
+
+procedure NodeFstDialog4E begin
+   setQuest(GVAR_HERMO_QST_RADIO, qStart);
+   Reply(306)
+   NAnswer(308,1,NodeAnswer100E)
+   NAnswer(309,1,NodeAnswer200E)
+   NAnswer(307,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeAnswer100E begin
+   Reply(321)
+   NAnswer(322,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200E begin
+   Reply(324)
+   NAnswer(322,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201E begin
+   if (item_amnt(dude_obj,PID_Q_RADIO_HERMOSILLO)>0) then begin
+   call NodeAnswer202E;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeAnswer202E begin
+   item_remove(dude_obj,PID_Q_RADIO_HERMOSILLO,1)
+   Reply(327)
+   NAnswer(328,1,NodeAnswer203E)
+   NAnswer(329,1,NodeAnswer203E)
+end
+
+procedure NodeAnswer203E begin
+   setQuest(GVAR_HERMO_QST_RADIO, qEnd);
+   setReaction(50)
+   set_REP(3)
+   exp_add(250);
+
+   Reply(330)
+   GAnswer(331,5,Node999)
+   GAnswer(332,1,Node999)
+end

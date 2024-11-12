@@ -1,0 +1,950 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_NCApcBos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_NUEVA // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CASANUEVA_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_APOCALIPSIS   // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer109;
+procedure NodeAnswer110;
+procedure NodeAnswer110a; // added to complete dialogue from .msg file - cambragol
+procedure NodeAnswer111;
+procedure NodeAnswer112;
+procedure NodeAnswer200;
+procedure NodeAnswer200a; // added to make clinic node work better - cambragol
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer300;
+procedure NodeAnswer300a; // added to make town life node work better - cambragol
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeFAID;
+procedure NodeFAID1;
+procedure NodeFAID2;
+procedure NodeFAID3;
+procedure NodeFAIDEnd;
+procedure NodeFAIDHeal;
+procedure NodeFAID200;
+procedure NodeFAID201;
+procedure NodeFAID202;
+procedure NodeFAID203;
+procedure NodeFAID204;
+procedure NodeFAID205;
+procedure NodeFAID300;
+procedure NodeFAID301;
+procedure NodeFAID302;
+procedure NodeFAID303;
+procedure NodeFAID304;
+procedure NodeFAID305;
+procedure NodeFAID306;
+procedure NodeFAID307;
+procedure NodeFAID308;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+procedure NodeQst107;
+procedure NodeQst108;
+procedure NodeQst109;
+procedure NodeQst110;
+procedure NodeQst111;
+procedure NodeQst112;
+procedure NodeQst113;
+procedure NodeQst114;
+procedure NodeQst115;
+procedure NodeQst116;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst205;
+procedure NodeQst205b;
+procedure NodeQst206;
+procedure NodeQst207;
+procedure NodeQst208;
+procedure NodeQst300;
+procedure NodeQst301;
+procedure NodeQst302;
+procedure NodeQst303;
+procedure NodeQst304;
+procedure NodeCarlos;
+procedure NodeCarlos2;
+procedure NodeCarlos3;
+procedure NodeCarlos4;
+procedure NodeCarlos5;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+variable MedicMany;
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       setQuest(GVAR_NUEVA_QST_PLANT_INSECT,qStart);
+       item_add(dude_obj,PID_M_STIMPAK,1)
+       item_add(dude_obj,PID_M_ANTIDOTE,2)
+       dude_teleport_map(1,1,MAP_CASA_NUEVA_LAB,3);
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_NUEVA_STATUS_APOC,-1);
+   setQuest(GVAR_NUEVA_QST_PLANT_INSECT,qStop);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(102,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeSndDialog)
+end
+
+//--- ВТОРОЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getQuest(GVAR_NUEVA_QST_PLANT_INSECT) >= qEnd) then begin
+   Reply(212)
+   end
+   else if (getQuest(GVAR_NUEVA_QST_PLANT_INSECT) == qStart) then begin
+   zReply(213)
+   end
+   else if DudePerkHas(PERK_flower_child) then begin
+   Reply(210)
+   end
+   else if ((global_var(GVAR_ADDICT_NUKA_COLA) > 0) or (global_var(GVAR_ADDICT_BUFF_OUT) > 0) or (global_var(GVAR_ADDICT_MENTATS) > 0) or (global_var(GVAR_ADDICT_PSYCHO) > 0)) then begin
+   Reply(230)
+   end
+   else begin
+   Reply(210)
+   end
+
+   //--- Квест на инсектициды
+   if (getQuest(GVAR_NUEVA_QST_PLANT_INSECT) == qZero) then begin
+      if (bitDialog(bit_2) == 0) then begin
+         if (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) >= qEnd) then begin
+         NAnswer(320,1,NodeQst100)
+         end
+         else if (global_var(GVAR_NUEVA_KNOW_SPORE) != 0) then begin
+         //NAnswer(320,1,NodeQst100)
+         end
+      end
+      else begin
+         NAnswer(360,1,NodeQst114)
+      end
+   end
+
+   if (getQuest(GVAR_NUEVA_QST_PLANT_INSECT) == qEnd) then begin
+      if (global_var(GVAR_NUEVA_USING_INSECTICIDES) != 0) then begin
+      zGAnswer(375,1,NodeQst205)
+      end
+      else begin
+      NAnswer(354,1,NodeQst205b)
+      end
+   end
+   else if (getQuest(GVAR_NUEVA_QST_PLANT_INSECT) == qStart) then begin
+      if (global_var(GVAR_NUEVA_STATUS_LABA) != 0) then begin
+      BAnswer(380,1,NodeQst300)
+      end
+      else if (item_amnt(dude_obj,PID_Q_INSECT_WHITE)>0) then begin
+      GAnswer(366,1,NodeQst200)
+      end
+      else if ((item_amnt(dude_obj,PID_Q_INSECT_A)>0) or (item_amnt(dude_obj,PID_Q_INSECT_B)>0) or (item_amnt(dude_obj,PID_Q_INSECT_C)>0)) then begin
+      NAnswer(395,1,NodeQst208)
+      end
+   end
+
+   //--- Карлос в ТуСане
+   if (global_var(GVAR_TWOSUN_STATUS_KARLOS) == 0) then begin
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_10) != 0) then begin
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_11) == 0) then begin
+      NAnswer(300,1,NodeCarlos)
+      end
+      end
+   end
+
+   //--- Лечение
+   NAnswer(220,1,NodeFAID)
+
+   if DudePerkHas(PERK_autodoc_hp_bonus2) then begin
+   end
+   else if DudePerkHas(PERK_autodoc_hp_bonus1) then begin
+   NAnswer(263,3,NodeFAID305)
+   end
+   else if (bitDialog(bit_5) != 0) then begin
+   NAnswer(250,4,NodeFAID300)
+   end
+
+   if DudePerkHas(PERK_flower_child) then begin
+   end
+   else if ((global_var(GVAR_ADDICT_NUKA_COLA) > 0) or (global_var(GVAR_ADDICT_BUFF_OUT) > 0) or (global_var(GVAR_ADDICT_MENTATS) > 0) or (global_var(GVAR_ADDICT_PSYCHO) > 0)) then begin
+   zNAnswer(231,1,NodeFAID200)
+   end
+
+   //--- Расспросы
+   NAnswer(400,3,NodeAnswer100)
+   NAnswer(430,3,NodeAnswer200)
+   NAnswer(440,3,NodeAnswer300)
+
+   //--- Карлос в ТуСане
+   if (bitDialog(bit_6) == 0) then begin
+      if ((getQuest(GVAR_VAULT24_VISITED) >= qEnd) or (global_var(GVAR_HOLODISK_10) != 0)) then begin
+      NAnswer(451,1,NodeAnswer110)
+      end
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   if (global_var(GVAR_INF_STATUS_APOC) >= 2) then begin
+   Reply(mstr(401)+mstr(402))
+   end
+   else begin
+   Reply(401)
+   end
+
+   NAnswer(404,1,NodeAnswer101)
+   if (global_var(GVAR_INF_STATUS_APOC) >= 2) then begin
+   NAnswer(406,1,NodeAnswer102)
+   end
+   NAnswer(411,1,NodeAnswer104)
+   NAnswer(413,1,NodeAnswer105)
+   if (getQuest(GVAR_NUEVA_QST_PLANT_INSECT) != qZero) then begin
+   NAnswer(417,3,NodeAnswer107)
+   end
+   else begin
+   NAnswer(415,7,NodeAnswer106)
+   end
+   NAnswer(419,5,NodeAnswer108)
+   NAnswer(403,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(405)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer102 begin
+   Reply(407)
+   NAnswer(408,1,NodeAnswer103)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer103 begin
+   Reply(409)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer104 begin
+   Reply(412)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer105 begin
+   Reply(414)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_3,50)
+   Reply(416)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer107 begin
+   bitDialogExp(bit_3,50) // та же бит что в NodeAnswer106!
+   Reply(418)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer108 begin
+   Reply(420)
+   NAnswer(421,1,NodeAnswer109)
+end
+
+procedure NodeAnswer109 begin
+   Reply(422)
+   NAnswer(410,1,NodeAnswer100)
+end
+
+procedure NodeAnswer110 begin
+   Reply(452)
+   NAnswer(453,1,NodeAnswer111)
+   if (getQuest(GVAR_DAYGLOW_VISITED) >= qZero) then begin
+      NAnswer(455,1,NodeAnswer110a)
+   end
+end
+
+// added to complete the dialogue in the .msg file - cambragol
+procedure NodeAnswer110a begin
+   Reply(456)
+   NAnswer(453,1,NodeAnswer111)
+   NAnswer(457,1,NodeSndDialog)
+end
+
+procedure NodeAnswer111 begin
+   bitDialogExp(bit_6,100)
+   setBonusReaction(5)
+   Reply(454)
+   if (global_var(GVAR_HOLODISK_10) != 0) then begin
+   GAnswer(458,1,NodeAnswer112)
+   end
+   NAnswer(400,3,NodeAnswer100)
+   NAnswer(461,1,NodeSndDialog)
+end
+
+procedure NodeAnswer112 begin
+   bitDialogExp(bit_7,100)
+   setBonusReaction(20)
+   set_REP(1)
+   Reply(459)
+   NAnswer(400,3,NodeAnswer100)
+   NAnswer(460,1,NodeSndDialog)
+end
+
+
+procedure NodeAnswer200 begin
+   Reply(431)
+   NAnswer(433,1,NodeAnswer201)
+   NAnswer(436,1,NodeAnswer202)
+   NAnswer(438,1,NodeAnswer203)
+   NAnswer(432,1,NodeSndDialog)
+   
+end
+
+procedure NodeAnswer200a begin
+   Reply(429)
+   NAnswer(433,1,NodeAnswer201)
+   NAnswer(436,1,NodeAnswer202)
+   NAnswer(438,1,NodeAnswer203)
+   NAnswer(432,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   Reply(434)
+   NAnswer(435,1,NodeAnswer200a)
+end
+
+procedure NodeAnswer202 begin
+   bitDialogExp(bit_5,0)
+   Reply(437)
+   NAnswer(435,1,NodeAnswer200a)
+end
+
+procedure NodeAnswer203 begin
+   Reply(439)
+   NAnswer(435,1,NodeAnswer200a)
+end
+
+procedure NodeAnswer300 begin
+   Reply(441)
+   NAnswer(443,3,NodeAnswer301)
+   NAnswer(448,1,NodeAnswer303)
+   NAnswer(442,1,NodeSndDialog)
+end
+
+procedure NodeAnswer300a begin
+   Reply(429)
+   NAnswer(443,3,NodeAnswer301)
+   NAnswer(448,1,NodeAnswer303)
+   NAnswer(461,1,NodeSndDialog)
+end
+
+procedure NodeAnswer301 begin
+   Reply(444)
+   NAnswer(445,7,NodeAnswer302)
+   NAnswer(447,1,NodeAnswer300a)
+end
+
+procedure NodeAnswer302 begin
+   bitDialogExp(bit_4,50)
+   Reply(446)
+   NAnswer(447,1,NodeAnswer300a)
+end
+
+procedure NodeAnswer303 begin
+   Reply(449)
+   NAnswer(450,1,NodeAnswer300a)
+end
+
+//--- ЛЕЧЕНИЕ
+
+procedure NodeFAID begin
+   MedicMany := 0;
+   call NodeFAID1;
+
+   if (MedicMany<=2) then begin
+   call NodeFAID2;
+   end
+   else begin
+   call NodeFAID3;
+   end
+end
+
+procedure NodeFAID1 begin
+   MedicMany := 0;
+
+   if (dude_cur_hits<dude_max_hits) then begin
+   MedicMany += (dude_max_hits-dude_cur_hits);
+   end
+   if dude_is_crippled then begin
+   MedicMany += 25;
+   end
+   if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
+   MedicMany += get_critter_stat(dude_obj,STAT_current_rad);
+   end
+   if (get_poison(dude_obj) >0) then begin
+   MedicMany += get_poison(dude_obj);
+   end
+
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   MedicMany += (MedicMany*2);
+   end
+   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) >= qEnd) then begin
+   MedicMany -= (MedicMany/4);
+   end
+
+   if (town_rep_is_idolized or (get_SLAVA>=500) or (global_var(GVAR_TITUL_BOS) > 0)) then begin
+   MedicMany -= (MedicMany/2);
+   end
+   else if town_rep_is_liked then begin
+   MedicMany -= (MedicMany/4);
+   end
+   else if (get_SLAVA>=250) then begin
+   MedicMany -= (MedicMany/4);
+   end
+
+   if (town_rep_is_vilified or (get_SLAVA<=-500)) then begin
+   MedicMany += (MedicMany/2);
+   end
+   else if town_rep_is_hated then begin
+   MedicMany += (MedicMany/4);
+   end
+   else if (get_SLAVA<=-250) then begin
+   MedicMany += (MedicMany/4);
+   end
+end
+
+procedure NodeFAID2 begin
+   Reply(221)
+   NAnswer(222,1,Node999)
+end
+
+procedure NodeFAID3 begin
+   Reply(mstr(223)+MedicMany+mstr(224))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(225,1,NodeFAIDEnd)
+   end
+   NAnswer(226,1,Node999)
+end
+
+procedure NodeFAIDEnd begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   call NodeFAIDHeal;
+   item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
+   PLAY_FADE
+   end
+   call Node999;
+end
+
+procedure NodeFAIDHeal begin
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   poison(dude_obj,-(get_poison(dude_obj)));
+end
+
+procedure NodeFAID200 begin
+   Reply(232)
+   NAnswer(233,1,NodeFAID201)
+end
+
+procedure NodeFAID201 begin
+   MedicMany := 350;
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   MedicMany += (MedicMany*2);
+   end
+
+   Reply(234)
+   NAnswer(mstr(237)+MedicMany+mstr(238),1,NodeFAID202)
+   BAnswer(235,1,Node999)
+   NAnswer(236,1,Node999)
+end
+
+procedure NodeFAID202 begin
+   Reply(239)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(241,1,NodeFAID203)
+   end
+   NAnswer(240,1,Node999)
+end
+
+procedure NodeFAID203 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   call NodeFAID204;
+   end
+   else begin
+   call NodeFAID202;
+   end
+end
+
+procedure NodeFAID204 begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
+   Reply(242)
+   NAnswer(243,1,NodeFAID205)
+end
+
+procedure NodeFAID205 begin
+   PLAY_FADE
+   call NodeFAIDHeal;
+   critter_add_trait(dude_obj,TRAIT_PERK,PERK_flower_child,1);
+   game_time_advance(ONE_GAME_DAY*14);
+   set_global_var(GVAR_ADDICT_NUKA_COLA,0);
+   set_global_var(GVAR_ADDICT_BUFF_OUT,0);
+   set_global_var(GVAR_ADDICT_MENTATS,0);
+   set_global_var(GVAR_ADDICT_PSYCHO,0);
+   display_mstr(244);
+   display_mstr(245);
+   call Node999;
+end
+
+procedure NodeFAID300 begin
+   Reply(251)
+   NAnswer(252,1,NodeFAID301)
+end
+
+procedure NodeFAID301 begin
+   Reply(253)
+   NAnswer(254,1,NodeFAID302)
+end
+
+procedure NodeFAID302 begin
+   MedicMany := 1000;
+
+   Reply(mstr(255)+MedicMany+mstr(256))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(258,1,NodeFAID303)
+   end
+   NAnswer(257,1,Node999)
+end
+
+procedure NodeFAID303 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   call NodeFAID304;
+   end
+   else begin
+   call NodeFAID302;
+   end
+end
+
+procedure NodeFAID304 begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
+   PLAY_FADE
+   call NodeFAIDHeal;
+   critter_add_trait(dude_obj,TRAIT_PERK,PERK_autodoc_hp_bonus1,1);
+   game_time_advance(ONE_GAME_DAY*10);
+   display_mstr(261);
+   display_mstr(262);
+   call Node999;
+end
+
+procedure NodeFAID305 begin
+   Reply(264)
+   NAnswer(265,1,NodeFAID306)
+end
+
+procedure NodeFAID306 begin
+   MedicMany := 1500;
+   Reply(mstr(266)+MedicMany+mstr(267))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(269,1,NodeFAID307)
+   end
+   NAnswer(268,1,Node999)
+end
+
+procedure NodeFAID307 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   call NodeFAID308;
+   end
+   else begin
+   call NodeFAID306;
+   end
+end
+
+procedure NodeFAID308 begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
+   PLAY_FADE
+   call NodeFAIDHeal;
+   critter_add_trait(dude_obj,TRAIT_PERK,PERK_autodoc_hp_bonus2,1);
+   game_time_advance(ONE_GAME_DAY*14);
+   display_mstr(261);
+   display_mstr(262);
+   call Node999;
+end
+
+//--- КВЕСТ НА ИНСЕКТИЦИД
+
+procedure NodeQst100 begin
+   Reply(321)
+   NAnswer(322,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(323)
+
+   NAnswer(324,1,NodeQst102)
+   NAnswer(332,1,NodeQst105)
+   NAnswer(335,1,NodeQst106)
+
+   NAnswer(337,1,NodeQst107)
+   NAnswer(340,1,NodeQst108)
+end
+
+procedure NodeQst102 begin
+   Reply(325)
+   NAnswer(326,1,NodeQst103)
+end
+
+procedure NodeQst103 begin
+   Reply(327)
+   NAnswer(328,1,NodeQst104)
+   NAnswer(329,1,NodeQst104)
+end
+
+procedure NodeQst104 begin
+   Reply(330)
+   NAnswer(331,1,NodeQst101)
+end
+
+procedure NodeQst105 begin
+   Reply(333)
+   NAnswer(334,1,NodeQst101)
+end
+
+procedure NodeQst106 begin
+   Reply(336)
+   NAnswer(334,1,NodeQst101)
+end
+
+procedure NodeQst107 begin
+   Reply(338)
+   NAnswer(339,1,NodeQst109)
+end
+
+procedure NodeQst108 begin
+   Reply(341)
+   NAnswer(342,1,NodeQst109)
+end
+
+procedure NodeQst109 begin
+   Reply(343)
+   NAnswer(344,1,NodeQst110)
+end
+
+procedure NodeQst110 begin
+   Reply(345)
+   NAnswer(346,1,NodeQst111)
+end
+
+procedure NodeQst111 begin
+   bitDialogExp(bit_2,0)
+   Reply(347)
+   GAnswer(348,1,NodeQst112)
+   NAnswer(351,1,NodeQst113)
+end
+
+procedure NodeQst112 begin
+   Reply(349)
+   NAnswer(350,1,Node999)
+end
+
+procedure NodeQst113 begin
+   Reply(352)
+   NAnswer(353,1,Node999)
+end
+
+procedure NodeQst114 begin
+   Reply(361)
+   zNAnswer(362,1,NodeQst115)
+   NAnswer(363,1,Node999)
+end
+
+procedure NodeQst115 begin
+   Reply(364)
+   NAnswer(365,1,NodeQst116)
+end
+
+procedure NodeQst116 begin
+   add_timer_event(self_obj, 2, 3);
+   call Node999;
+end
+
+procedure NodeQst200 begin
+   if (item_amnt(dude_obj,PID_Q_INSECT_WHITE)>0) then begin
+   call NodeQst201;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeQst201 begin
+   item_remove(dude_obj,PID_Q_INSECT_WHITE,1)
+   Reply(367)
+   NAnswer(368,1,NodeQst202)
+end
+
+procedure NodeQst202 begin
+   PLAY_FADE
+   Reply(369)
+   NAnswer(370,1,NodeQst203)
+end
+
+procedure NodeQst203 begin
+   Reply(371)
+   NAnswer(372,1,NodeQst204)
+end
+
+procedure NodeQst204 begin
+   setQuest(GVAR_NUEVA_QST_PLANT_INSECT,qEnd);
+   item_add(dude_obj,PID_Q_INSECTICIDES,1)
+   PLAY_FADE
+   Reply(373)
+   NAnswer(374,1,Node999)
+end
+
+procedure NodeQst205 begin
+   setQuest(GVAR_NUEVA_QST_PLANT_INSECT,qEnd+1);
+   exp_add(2000);
+   setBonusReaction(100)
+   set_SLAVA(35)
+   set_REP(25)
+
+   Reply(376)
+   zBAnswer(377,1,NodeQst206)
+   NAnswer(379,1,NodeQst207)
+end
+
+procedure NodeQst205b begin
+   Reply(355)
+   NAnswer(356,1,Node999)
+end
+
+procedure NodeQst206 begin
+   setBonusReaction(-10)
+   set_SLAVA(-5)
+   set_REP(-1)
+   call NodeQst207;
+end
+
+procedure NodeQst207 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,350)
+   Reply(378)
+   NAnswer(357,1,Node999)
+end
+
+procedure NodeQst208 begin
+   Reply(396)
+   NAnswer(397,1,Node999)
+   NAnswer(398,1,Node999)
+end
+
+
+procedure NodeQst300 begin
+   zReply(381)
+   NAnswer(382,1,NodeQst301)
+end
+
+procedure NodeQst301 begin
+   Reply(383)
+   zNAnswer(384,1,NodeQst302)
+   NAnswer(385,1,NodeQst302)
+end
+
+procedure NodeQst302 begin
+   Reply(386)
+   NAnswer(387,1,NodeQst303)
+end
+
+procedure NodeQst303 begin
+   setQuest(GVAR_NUEVA_QST_PLANT_INSECT,qEnd+1);
+   exp_add(2000);
+   setBonusReaction(25)
+   set_SLAVA(90)
+   set_REP(15)
+
+   Reply(388)
+   BAnswer(390,3,NodeQst304)
+   NAnswer(389,1,Node999)
+   GAnswer(394,1,Node999)
+end
+
+procedure NodeQst304 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,100)
+   setBonusReaction(-10)
+   set_REP(-1)
+
+   zReply(391)
+   GAnswer(394,1,Node999)
+   NAnswer(392,1,Node999)
+   BAnswer(393,1,Node999)
+end
+
+//--- ПОБЕГ КАРЛОСА ИЗ ТУ-САНА
+
+procedure NodeCarlos begin
+   Reply(301)
+   NAnswer(302,1,NodeCarlos2)
+   NAnswer(307,1,Node999)
+end
+
+procedure NodeCarlos2 begin
+   Reply(303)
+   NAnswer(304,1,NodeCarlos3)
+end
+
+procedure NodeCarlos3 begin
+   Reply(305)
+   //NAnswer(306,1,NodeCarlos4)
+   NAnswerRep(306,1,NodeCarlos4,0,306,NodeCarlos5)
+   NAnswer(307,1,Node999)
+end
+
+procedure NodeCarlos4 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_11);
+   Reply(308)
+   NAnswer(309,1,Node999)
+end
+
+procedure NodeCarlos5 begin
+   Reply(310)
+   NAnswer(311,1,Node999)
+end

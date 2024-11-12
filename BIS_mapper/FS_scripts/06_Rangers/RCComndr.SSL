@@ -1,0 +1,945 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCComndr
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      (SLAVA_KILL_GOOD*2)   // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_RANGER           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      80 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure quest_clear;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog200;
+procedure NodeStopDialog210;
+procedure NodeStopDialog211;
+procedure NodeStopDialog212;
+procedure NodeStopDialog213;
+procedure NodeStopDialog220;
+procedure NodeStopDialog221;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeAcv;
+procedure NodeAcv2;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeBezh;
+procedure NodeBezh2;
+procedure NodeBezh3;
+procedure NodeBezh4;
+procedure NodeBezh5;
+procedure NodeBezh6;
+procedure NodeBezh7;
+procedure NodeVilla100;
+procedure NodeVilla101a;
+procedure NodeVilla101b;
+procedure NodeVilla102;
+procedure NodeVilla103;
+procedure NodeVilla104;
+procedure NodeVilla200;
+procedure NodeVilla201;
+procedure NodeVilla202;
+procedure NodeVilla203;
+procedure NodeMainQst;
+procedure NodeRadio1;
+procedure NodeRadio1b;//added by cambragol
+procedure NodeRadio2;
+procedure NodeRadio3;
+procedure NodeRadio4;
+procedure NodeQuartz;
+procedure NodeQuartz2;
+procedure NodeQuartz3;
+procedure NodeJackals0;
+procedure NodeJackals1;
+procedure NodeJackals2;
+procedure NodeJackals3;
+procedure NodeJackals4;
+procedure NodeJackals5;
+procedure NodeGarage1;
+procedure NodeGarage2;
+procedure NodeGarage3;
+procedure NodeGarage4;
+procedure NodeGarage5;
+procedure NodeMor10;
+procedure NodeMor11;
+procedure NodeMor12;
+procedure NodeMor20;
+procedure NodeMor30;
+procedure NodeDopQst;
+procedure NodeDopQst2;
+procedure NodeDopQst10;
+procedure NodeDopQst11;
+procedure NodeDopQst20;
+procedure NodeDopQst21;
+procedure NodeDopQst30;
+procedure NodeDopQst31;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+
+       set_obj_visibility(self_obj, 0);
+       if ((global_var(GVAR_STATUS_RANGERS_COMMANDIR) != 0) or (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd)) then begin
+       call quest_clear;
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_STATUS_RANGERS_COMMANDIR,-1);
+   call quest_clear;
+   kill_critter_opt
+end
+
+procedure quest_clear begin
+   if (getQuest(GVAR_RANGERS_QST_REPAIR_RADIO) == qStart) then begin
+      setQuest(GVAR_RANGERS_QST_REPAIR_RADIO,qZero);
+   end
+   if (getQuest(GVAR_RANGERS_QST_QUARTZ) == qStart) then begin
+      setQuest(GVAR_RANGERS_QST_QUARTZ,qZero);
+   end
+   if (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qStart) then begin
+      setQuest(GVAR_RANGERS_QST_RNGR_JCKL,qZero);
+   end
+   if (getQuest(GVAR_RANGERS_QST_IMMIGRANTS) == qStart) then begin
+      setQuest(GVAR_RANGERS_QST_IMMIGRANTS,qZero);
+   end
+   if (getQuest(GVAR_RANGERS_QST_MOR) == qStart) then begin
+      set_global_var(GVAR_JACKALS_STATUS_RANGER,1);
+      setQuest(GVAR_RANGERS_QST_MOR,qZero);
+   end
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   /*
+   if ((bitDialog(bit_13) == 0) and (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd)) then begin
+      - разговор про рейнджеров после разрушения дамбы
+   end
+   */
+   if ((bitDialog(bit_11) == 0) and (getQuest(GVAR_TITUL_REBIRTH) != 0)) then begin
+   call NodeStopDialog;
+   end
+   else if ((bitDialog(bit_12) == 0) and (global_var(GVAR_STATUS_RANGERS_FLICK) == cur_map_index)) then begin
+   call NodeStopDialog200;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_8) == 0) and (getQuest(GVAR_RANGERS_QST_FAMILY) == qEnd)) then begin
+   call NodeBezh5;
+   end
+   else if ((bitDialog(bit_9) == 0) and (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_3) != 0)) then begin
+   call NodeBezh6;
+   end
+   else if ((bitDialog(bit_14) == 0) and (global_var(GVAR_STATUS_RANGERS_GART) == -2)) then begin
+   call NodeAcv2;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeStartDialog)
+   GAnswer(202,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog begin
+   bitDialogExp(bit_11,0)
+   Reply(280)
+   NAnswer(281,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog200 begin
+   bitDialogExp(bit_12,0)
+   setBonusReaction(-20)
+   Reply(282)
+   NAnswer(296,1,NodeStopDialog210)
+end
+
+procedure NodeStopDialog210 begin
+   Reply(297)
+   NAnswer(283,1,NodeStopDialog211)
+   NAnswer(287,1,NodeStopDialog212)
+   NAnswer(289,1,NodeStopDialog213)
+end
+
+procedure NodeStopDialog211 begin
+   zReply(284)
+   NAnswer(285,1,NodeStopDialog220)
+   NAnswer(286,1,NodeStopDialog221)
+end
+
+procedure NodeStopDialog212 begin
+   Reply(288)
+   NAnswer(285,1,NodeStopDialog220)
+   NAnswer(286,1,NodeStopDialog221)
+end
+
+procedure NodeStopDialog213 begin
+   zReply(290)
+   NAnswer(291,1,NodeStopDialog221)
+end
+
+procedure NodeStopDialog220 begin
+   set_REP(-2)
+   set_SLAVA(-10)
+   setBonusReaction(-10)
+   Reply(292)
+   NAnswer(293,1,Node999)
+end
+
+procedure NodeStopDialog221 begin
+   setBonusReaction(5)
+   Reply(294)
+   NAnswer(295,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   //--- Сюжетная линия
+
+   if (getQuest(GVAR_RANGERS_TO_VILLA_HELP) == qZero) then begin
+      if (getQuest(GVAR_VILLA_ALLIANCE_PIP) >= qEnd) then begin
+      end
+      else if (getQuest(GVAR_VILLA_ALLIANCE_PIP) < qZero) then begin
+      end
+      else if (getQuest(GVAR_VILLA_ALLIANCE_RANGER) >= qEnd) then begin
+      end
+      else if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
+         if (bitDialog(bit_6) == 0) then begin
+         NAnswer(301,1,NodeVilla100)
+         end
+         else begin
+         NAnswer(302,1,NodeVilla100)
+         end
+      end
+      else begin
+         NAnswer(300,1,NodeVilla100)
+      end
+   end
+   else if (getQuest(GVAR_RANGERS_TO_VILLA_HELP) == qEnd) then begin
+      if (bitDialog(bit_10) == 0) then begin
+      NAnswer(320,1,NodeVilla104)
+      end
+   end
+   if ((getQuest(GVAR_RANGERS_QST_REPAIR_RADIO) == qStart) or
+       (getQuest(GVAR_RANGERS_QST_QUARTZ) == qStart) or
+       (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qStart) or
+       (getQuest(GVAR_RANGERS_QST_IMMIGRANTS) == qStart) or
+       (getQuest(GVAR_RANGERS_QST_MOR) == qStart)) then begin
+      NAnswer(350,1,NodeMainQst)
+   end
+
+   //--- метаквест Закон и Порядок
+
+   if (getQuest(GVAR_RANGERS_TO_VILLA_HELP) > qZero) then begin
+      if ((getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qZero) or (getQuest(GVAR_RANGERS_QST_IMMIGRANTS) == qZero) or (getQuest(GVAR_RANGERS_QST_MOR) == qZero)) then begin
+      NAnswer(400,1,NodeDopQst)
+      end
+   end
+      //!!! ЧИТ
+      //NAnswer(400,1,NodeDopQst)
+      //!!!
+
+   //--- Семейка преступника
+
+   if (getQuest(GVAR_RANGERS_QST_FAMILY) == qZero) then begin
+      if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_4) != 0) then begin
+      if (bitDialog(bit_7) == 0) then begin
+      NAnswer(250,1,NodeBezh)
+      end
+      end
+   end
+
+   //--- Преступления в акведуке
+   if (global_var(GVAR_RANGERS_AQUEDUCT_BODIES) != 0) then begin
+      if (global_var(GVAR_STATUS_RANGERS_GART) == 0) then begin
+      BAnswer(390,1,NodeAcv)
+      end
+   end
+
+   //--- Вопросы
+
+   if ((getQuest(GVAR_RANGERS_QST_SPY) > qZero) and (global_var(GVAR_RANGERS_STATUS_SPY) == 0)) then begin
+   NAnswer(270,1,NodeSndDialog2)
+   end
+   if (getQuest(GVAR_RANGERS_QST_INTENDANT) == qStart) then begin
+   NAnswer(273,3,NodeSndDialog3)
+   end
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   set_global_var(GVAR_RANGERS_STATUS_SPY,-2);
+   set_REP(5)
+   exp_add(350);
+   Reply(271)
+   NAnswer(272,1,Node999)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(274)
+   NAnswer(275,1,Node999)
+end
+
+procedure NodeAcv begin
+   Reply(391)
+   NAnswer(392,1,Node999)
+end
+
+procedure NodeAcv2 begin
+   bitDialogExp(bit_14,0)
+   Reply(393)
+   NAnswer(394,1,Node999)
+   BAnswer(395,1,Node999)
+end
+
+//--- ������� �������
+
+procedure NodeAnswer begin
+   Reply(214)
+   NAnswer(220,1,NodeAnswer100)
+   NAnswer(222,1,NodeAnswer101)
+   if (bitDialog(bit_2) != 0) then begin
+   NAnswer(226,1,NodeAnswer103)
+   end
+   if (bitDialog(bit_3) != 0) then begin
+   NAnswer(230,1,NodeAnswer105)
+   end
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(215,1,NodeAnswer)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(224,3,NodeAnswer102)
+   NAnswer(215,1,NodeAnswer)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,10)
+   Reply(225)
+   NAnswer(215,1,NodeAnswer)
+end
+
+procedure NodeAnswer103 begin
+   Reply(227)
+   NAnswer(228,3,NodeAnswer104)
+   NAnswer(215,1,NodeAnswer)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_3,10)
+   Reply(229)
+   NAnswer(215,1,NodeAnswer)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_4,50)
+   Reply(231)
+   NAnswer(215,1,NodeAnswer)
+end
+
+//--- СЕМЬЯ ПРЕСТУПНИКА
+
+/*
+Если угрожать Паромщику, то командир сделает выговор:
+- Я хочу знать, какого черты ты себе позволяешь?! К нам приходил паромщик и рассказывал о твоем наглом поведении. - Он не пускал семью беженцев без оплаты.
+- Это его работа! Паромщик следит за механизмом и пристанью, он ведет учет и платит налог. Это по-твоему плохо? - Ему следовало пойти на уступки... в данном случае.
+- Еще он говорил, что ты ему угрожал. Это правда? - Ну...
+- Я понимаю, история беженцев могла взыграть на твоих эмоциях. У вас, крестьян, семейные ценности стоят очень много... Но ты не думал о том, что эти люди могли быть подосланы шпионами, чтобы увидеть нашу базу изнутри?
+- Вы сами виноваты, что заняли дамбу и не дает прохода людям. - Что за вздор?! Мы заняли дамбу по многим причинам, в том числе с целью предотвратить диверсии. А для перехода через реку есть полноценная переправа. Поэтому в следующий раз, когда будешь позорить репутацию рейнджеров, лучше сразу отруби себе свой поганый язык, иначе это сделает кто-нибудь из наших.
+*/
+
+procedure NodeBezh begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_5);
+   bitDialogExp(bit_7,0)
+   Reply(251)
+   NAnswer(252,1,NodeBezh2)
+end
+
+procedure NodeBezh2 begin
+   Reply(253)
+   NAnswer(254,1,NodeBezh3)
+end
+
+procedure NodeBezh3 begin
+   Reply(255)
+   NAnswer(256,1,NodeBezh4)
+end
+
+procedure NodeBezh4 begin
+   Reply(257)
+   NAnswer(258,1,Node999)
+   NAnswer(259,1,Node999)
+end
+
+procedure NodeBezh5 begin
+   bitDialogExp(bit_8,20)
+   item_add(dude_obj,PID_AMMO_308,4)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,6)
+   Reply(260)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeBezh6 begin
+   bitDialogExp(bit_9,0)
+   Reply(262)
+   NAnswer(263,1,NodeBezh7)
+end
+
+procedure NodeBezh7 begin
+   Reply(264)
+   NAnswer(265,1,Node999)
+end
+
+//--- СОЮЗ ВИЛЛЫ И РЕЙНДЖЕРОВ
+
+procedure NodeVilla100 begin
+   if (bitDialog(bit_6) == 0) then begin
+   Reply(303)
+   end
+   else begin
+   Reply(304)
+   end
+
+   bitDialogExp(bit_6,0) // опция размещена ниже ответной реплики, иначе не сработает оператор условия
+
+   if (getQuest(GVAR_RANGERS_QST_REPAIR_RADIO) == qZero) then begin
+   NAnswer(305,1,NodeVilla101a)
+   end
+   else begin
+   NAnswer(305,1,NodeVilla101b)
+   end
+end
+
+procedure NodeVilla101a begin
+   Reply(306)
+   if (getQuest(GVAR_RANGERS_QST_REPAIR_RADIO) == qZero) then begin
+   NAnswer(330,1,NodeVilla200)
+   end
+   NAnswer(307,1,NodeSndDialog)
+   BAnswer(308,1,NodeSndDialog)
+end
+
+procedure NodeVilla101b begin
+   Reply(310)
+   if ((getQuest(GVAR_RANGERS_QST_REPAIR_RADIO) >= qEnd) and (getQuest(GVAR_RANGERS_QST_QUARTZ) >= qEnd)) then begin
+   zNAnswer(311,1,NodeVilla102)
+   end
+   NAnswer(307,1,NodeSndDialog)
+   BAnswer(308,1,NodeSndDialog)
+end
+
+procedure NodeVilla102 begin
+   Reply(312)
+   NAnswer(313,1,NodeVilla103)
+end
+
+procedure NodeVilla103 begin
+   set_gvar_bit_on(GVAR_RANGERS_RECOMMENDATION, bit_1);
+   setQuest(GVAR_RANGERS_TO_VILLA_HELP,qStart);
+   Reply(314)
+   NAnswer(315,1,Node999)
+   BAnswer(316,1,Node999)
+end
+
+procedure NodeVilla104 begin
+   bitDialogExp(bit_10,0)
+   if (global_var(GVAR_RANGER_RADIO_MARK) > 0) then begin
+   Reply(322)
+   end
+   else begin
+   Reply(321)
+   end
+   NAnswer(323,1,Node999)
+   BAnswer(324,1,Node999)
+end
+
+procedure NodeVilla200 begin
+   zReply(331)
+   NAnswer(332,1,NodeVilla201)
+end
+
+procedure NodeVilla201 begin
+   setQuest(GVAR_RANGERS_QST_REPAIR_RADIO,qStart);
+   Reply(333)
+   NAnswer(334,1,NodeVilla202)
+   BAnswer(335,1,NodeVilla202)
+end
+
+procedure NodeVilla202 begin
+   setQuest(GVAR_RANGERS_QST_QUARTZ,qStart);
+   Reply(336)
+   NAnswer(337,1,NodeVilla203)
+   BAnswer(338,1,NodeVilla203)
+end
+
+procedure NodeVilla203 begin
+   Reply(343)
+   NAnswer(344,1,Node999)
+end
+
+//--- СЮЖЕТНЫЕ КВЕСТЫ
+
+procedure NodeMainQst begin
+   Reply(351)
+
+   if (getQuest(GVAR_RANGERS_QST_REPAIR_RADIO) == qStart) then begin
+      if (global_var(GVAR_RANGER_RADIO_MARK) <= -1) then begin
+      BAnswer(353,1,NodeRadio2)
+      end
+      else if (global_var(GVAR_RANGER_RADIOTRANSLTR) >= 2) then begin
+      GAnswer(360,1,NodeRadio3)
+      end
+      // added to handle mid-way point in Radio quest - cambragol
+      else if (global_var(GVAR_RANGER_RADIOTRANSLTR) >= 1) then begin
+      GAnswer(366,1,NodeRadio1b)
+      end
+      // added the below else to make the response mutually exclusive with above. either the radio is fixed, or you ask about how to fix it. - cambragol
+      else begin
+      NAnswer(357,1,NodeRadio1)
+      end
+   end
+
+   if (getQuest(GVAR_RANGERS_QST_QUARTZ) == qStart) then begin
+      NAnswer(370,1,NodeQuartz)
+   end
+
+   if (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qStart) then begin
+      if ((global_var(GVAR_JACKALS_STATUS_RANGER) < 0) and (global_var(GVAR_JACKALS_STATUS_RANGER) != -10)) then begin
+      NAnswer(241,1,NodeJackals1)
+      end
+      if (global_var(GVAR_JACKALS_STATUS_RANGER) > 0) then begin
+      GAnswer(244,1,NodeJackals2)
+      end
+      NAnswer(236,1,NodeJackals0)
+   end
+
+   if (getQuest(GVAR_RANGERS_QST_IMMIGRANTS) == qStart) then begin
+      if (item_amnt(dude_obj,PID_Q_RANGER_STAR_QST) > 0) then begin
+      NAnswer(440,1,NodeGarage4)
+      end
+      else if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_10) != 0) then begin
+      NAnswer(430,1,NodeGarage1)
+      end
+      /*else if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_11) != 0) then begin
+      NAnswer(440,1,NodeGarage4)
+      end*/
+   end
+
+   if (getQuest(GVAR_RANGERS_QST_MOR) == qStart) then begin
+      if (global_var(GVAR_RANGERS_QST_MOR_STATUS) == 1) then begin
+         NAnswer(453,1,NodeMor10)
+      end
+      else begin
+         if (global_var(GVAR_STATUS_RANGERS_FLICK) > 0) then begin
+         NAnswer(463,1,NodeMor20)
+         end
+      end
+      if (global_var(GVAR_RANGERS_QST_MOR_STATUS) >= 3) then begin
+         NAnswer(466,1,NodeMor30)
+      end
+   end
+
+   BAnswer(352,1,NodeSndDialog)
+end
+
+//--- КВАРЦ
+
+procedure NodeQuartz begin
+   Reply(371)
+   if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_12) != 0) then begin
+   NAnswer(372,1,NodeQuartz2)
+   end
+   if (global_var(GVAR_HOLODISK_04) != 0) then begin
+   NAnswer(373,1,NodeQuartz2)
+   end
+   BAnswer(374,1,NodeMainQst)
+end
+
+procedure NodeQuartz2 begin
+   Reply(375)
+   NAnswer(376,1,NodeQuartz3)
+   NAnswer(377,1,NodeQuartz3)
+end
+
+procedure NodeQuartz3 begin
+   setQuest(GVAR_RANGERS_QST_QUARTZ,qEnd);
+   set_REP(3)
+   exp_add(500);
+   setBonusReaction(10)
+   zReply(378)
+   NAnswer(379,1,Node999)
+   NAnswer(380,1,Node999)
+end
+
+//--- РАДИОСТАНЦИЯ
+
+procedure NodeRadio1 begin
+   Reply(358)
+   NAnswer(359,1,NodeMainQst)
+end
+
+// added to handle mid-way point in Radio quest - cambragol
+procedure NodeRadio1b begin
+   Reply(367)
+   NAnswer(368,1,NodeMainQst)
+end
+
+procedure NodeRadio2 begin
+   setQuest(GVAR_RANGERS_QST_REPAIR_RADIO,qEnd);
+   set_REP(-5)
+   exp_add(1000);
+   Reply(354)
+   NAnswer(355,1,Node999)
+   BAnswer(356,1,Node999)
+end
+
+procedure NodeRadio3 begin
+   Reply(361)
+   NAnswer(362,1,NodeRadio4)
+end
+
+procedure NodeRadio4 begin
+   setQuest(GVAR_RANGERS_QST_REPAIR_RADIO,qEnd);
+   set_REP(5)
+   exp_add(1000);
+   item_add(dude_obj,PID_W_RIFLE_HUNTING,1)
+   Reply(363)
+   zNAnswer(364,1,Node999)
+   NAnswer(365,1,Node999)
+end
+
+//--- СПАСТИ РЕЙНДЖЕРА У ШАКАЛОВ
+
+procedure NodeJackals0 begin
+   if (global_var(GVAR_JACKALS_STATUS_RANGER) == -10) then begin
+   Reply(234)
+   NAnswer(235,1,NodeJackals5)
+   end
+   else begin
+   Reply(237)
+   NAnswer(238,1,NodeMainQst)
+   end
+end
+
+procedure NodeJackals1 begin
+   setQuest(GVAR_RANGERS_QST_RNGR_JCKL,qEnd);
+   bitDialogExp(bit_5,250)
+   setBonusReaction(-20)
+   Reply(242)
+   NAnswer(248,1,NodeJackals3)
+   if (getQuest(GVAR_JACKALS_UNION_CITY) == qStart) then begin
+   NAnswer(239,1,NodeJackals4)
+   end
+   NAnswer(243,1,Node999)
+end
+
+procedure NodeJackals2 begin
+   setQuest(GVAR_RANGERS_QST_RNGR_JCKL,qEnd);
+   bitDialogExp(bit_5,250)
+   display_mstr(102);
+   set_REP(5)
+   setBonusReaction(20)
+
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   Reply(245)
+   end
+   else begin
+   zReply(246)
+   end
+   NAnswer(248,1,NodeJackals3)
+   if (getQuest(GVAR_JACKALS_UNION_CITY) == qStart) then begin
+   NAnswer(239,1,NodeJackals4)
+   end
+   NAnswer(247,1,Node999)
+end
+
+procedure NodeJackals3 begin
+   Reply(249)
+   if (getQuest(GVAR_JACKALS_UNION_CITY) == qStart) then begin
+   NAnswer(239,1,NodeJackals4)
+   end
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeJackals4 begin
+   Reply(240)
+   NAnswer(248,1,NodeJackals3)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeJackals5 begin
+   setQuest(GVAR_RANGERS_QST_RNGR_JCKL,qEnd);
+   bitDialogExp(bit_5,0)
+   Reply(233)
+   NAnswer(243,1,Node999)
+end
+
+//--- БЕЖЕНЦЫ В ГАРАЖ-СИТИ
+
+procedure NodeGarage1 begin
+   Reply(431)
+   NAnswer(432,1,NodeGarage2)
+   NAnswer(433,1,NodeGarage2)
+   BAnswer(434,1,NodeGarage2)
+end
+
+procedure NodeGarage2 begin
+   setBonusReaction(-25)
+   Reply(435)
+   NAnswer(436,1,NodeGarage3)
+end
+
+procedure NodeGarage3 begin
+   setQuest(GVAR_RANGERS_QST_IMMIGRANTS,qEnd);
+   set_REP(3)
+   set_SLAVA(25)
+   setBonusReaction(10)
+   exp_add(500);
+   item_remove(dude_obj,PID_Q_RANGER_STAR_QST,1)
+
+   Reply(437)
+   NAnswer(438,1,Node999)
+   BAnswer(439,1,Node999)
+end
+
+procedure NodeGarage4 begin
+   Reply(441)
+   NAnswer(442,1,NodeGarage5)
+end
+
+procedure NodeGarage5 begin
+   Reply(443)
+   NAnswer(444,1,NodeGarage3)
+end
+
+//--- ЭПИДЕМИЯ
+
+procedure NodeMor10 begin
+   Reply(454)
+   if (global_var(GVAR_STATUS_RANGERS_FLICK) > 0) then begin
+   NAnswer(455,1,NodeMor11)
+   end
+   else begin
+   NAnswer(459,1,NodeMor12)
+   end
+end
+
+procedure NodeMor11 begin
+   setQuest(GVAR_RANGERS_QST_MOR,qEnd);
+   exp_add(250);
+   set_REP(1)
+   Reply(456)
+   NAnswer(457,1,Node999)
+   NAnswer(458,1,Node999)
+end
+
+procedure NodeMor12 begin
+   set_global_var(GVAR_RANGERS_QST_MOR_STATUS,2);
+   Reply(460)
+   NAnswer(461,1,Node999)
+   NAnswer(462,1,Node999)
+end
+
+procedure NodeMor20 begin
+   setQuest(GVAR_RANGERS_QST_MOR,qEnd);
+   exp_add(250);
+   set_REP(1)
+   setBonusReaction(10)
+   Reply(464)
+   NAnswer(465,1,Node999)
+end
+
+procedure NodeMor30 begin
+   setQuest(GVAR_RANGERS_QST_MOR,qEnd);
+   exp_add(500);
+   set_REP(3)
+   setBonusReaction(25)
+   set_SLAVA(20)
+   item_add(dude_obj,PID_M_STIMPAK,2)
+   item_add(dude_obj,PID_M_ANTIDOTE,1)
+   Reply(467)
+   zNAnswer(468,1,Node999)
+   NAnswer(469,1,Node999)
+end
+
+//--- ДОПОЛНИТЕЛЬНЫЕ КВЕСТЫ
+
+procedure NodeDopQst begin
+   Reply(401)
+
+   if (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qZero) then begin
+   NAnswer(410,1,NodeDopQst10)
+   end
+   if (getQuest(GVAR_RANGERS_QST_IMMIGRANTS) == qZero) then begin
+   NAnswer(420,1,NodeDopQst20)
+   end
+   if (getQuest(GVAR_RANGERS_QST_MOR) == qZero) then begin
+   NAnswer(450,1,NodeDopQst30)
+   end
+   NAnswer(402,1,Node999)
+end
+
+procedure NodeDopQst2 begin
+   Reply(414)
+   NAnswer(415,1,NodeDopQst)
+   NAnswer(416,1,Node999)
+end
+
+procedure NodeDopQst10 begin
+   Reply(411)
+   NAnswer(412,1,NodeDopQst11)
+   NAnswer(403,1,NodeDopQst)
+end
+
+procedure NodeDopQst11 begin
+   setQuest(GVAR_RANGERS_QST_RNGR_JCKL,qStart);
+   call NodeDopQst2;
+end
+
+procedure NodeDopQst20 begin
+   Reply(421)
+   NAnswer(422,1,NodeDopQst21)
+   NAnswer(403,1,NodeDopQst)
+end
+
+procedure NodeDopQst21 begin
+   setQuest(GVAR_RANGERS_QST_IMMIGRANTS,qStart);
+   call NodeDopQst2;
+end
+
+procedure NodeDopQst30 begin
+   Reply(451)
+   NAnswer(452,1,NodeDopQst31)
+   NAnswer(403,1,NodeDopQst)
+end
+
+procedure NodeDopQst31 begin
+   setQuest(GVAR_RANGERS_QST_MOR,qStart);
+   call NodeDopQst2;
+end

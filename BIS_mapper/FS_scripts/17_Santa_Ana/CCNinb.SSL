@@ -1,0 +1,389 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_CCNinb
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SANTA_ANA // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANTA_ANA_CTZN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CHILD              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_CHILD      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_HOME_NEW                   16321 // 16296  // точка размещения в поселении после спасения на кладбище
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog205;
+procedure NodeFstDialog206;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodePartyAdd;
+procedure NodePartyRemove;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+
+       if (global_var(GVAR_SANTAANA_STATUS_NINA) >= 2) then begin
+          set_obj_visibility(self_obj, 0);
+       end
+       else begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+          if (global_var(GVAR_SANTAANA_STATUS_NINA)<0) then begin
+          destroy_object(self_obj);
+          end
+       end
+
+       if (global_var(GVAR_SANTAANA_STATUS_NINA) == 3) then begin
+          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+       end
+
+       if (self_visible == false) then begin
+       end
+       else if (cur_map_index == MAP_SANTA_ANA_MONUMENT) then begin
+          set_local_var(LVAR_Home_Tile,self_tile);
+          add_timer_event(self_obj, 10, 3);
+       end
+       else if (cur_map_index == MAP_SANTA_ANA_GRAVE) then begin
+          set_local_var(LVAR_Home_Tile,self_tile);
+          add_timer_event(self_obj, 10, 4);
+       end
+       else if (global_var(GVAR_SANTAANA_STATUS_NINA) == 3) then begin
+          set_local_var(LVAR_Home_Tile,self_tile);
+          add_timer_event(self_obj, 2, 5);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+//This script was tweaked to standardize handling of the espanol perk - cambragol
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       if DudeTraitHas(TRAIT_espanol) then begin
+       floater(self_obj, 108, COLOR_MSG_NORMAL);
+       end
+   end
+   if (fixed_param == 4) then begin
+       if DudeTraitHas(TRAIT_espanol) then begin
+       floater(self_obj, 109, COLOR_MSG_NORMAL);
+       end
+   end
+   if (fixed_param == 5) then begin
+       if (global_var(GVAR_SANTAANA_STATUS_NINA) == 3) then begin
+          set_global_var(GVAR_SANTAANA_STATUS_NINA, 4);
+          setQuest(GVAR_SANTAANA_QST_NINA, qEnd);
+          set_local_var(LVAR_Home_Tile,TILE_HOME_NEW);
+          set_local_var(LVAR_Home_Rotat,5);
+          set_REP(5)
+          set_SLAVA(5)
+          exp_add(400);
+          display_mstr(107);
+          party_remove(self_obj);
+          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+          if DudeTraitHas(TRAIT_espanol) then begin
+            floater(self_obj, 102, COLOR_MSG_GREEN);
+          end
+          else begin
+            floater(self_obj, 103, COLOR_MSG_GREEN);
+          end
+
+          if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+          add_timer_event(self_obj, 30, 1);
+          end
+          else begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+          destroy_object(self_obj);
+          end
+       end
+   end
+
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_SANTAANA_STATUS_NINA) == 3) then begin
+   partyRunToDude
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_Q_SANTAANA_CORONA) then begin
+      script_overrides;
+      if (global_var(GVAR_SANTAANA_STATUS_NINA) >= 3) then begin
+      setQuest(GVAR_SANTAANA_QST_FIESTA, qEnd);
+      set_REP(3)
+      setBonusReaction(30)
+
+      if DudeTraitHas(TRAIT_espanol) then begin
+         floater(dude_obj, 115, COLOR_MSG_NORMAL);
+      end
+      else begin
+         floater(dude_obj, 105, COLOR_MSG_NORMAL);
+      end
+      display_mstr(104);
+      exp_add(100);
+      item_remove(dude_obj, objUsedPid, 1)
+      end
+      else begin
+         if DudeTraitHas(TRAIT_espanol) then begin
+            floater(dude_obj, 116, COLOR_MSG_NORMAL);
+         end
+         else begin
+            floater(dude_obj, 106, COLOR_MSG_NORMAL);
+         end
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+      set_global_var(GVAR_SANTAANA_STATUS_NINA, -3);
+   if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+      set_global_var(GVAR_SANTAANA_STATUS_NINA, -1);
+   end
+
+   setQuest(GVAR_SANTAANA_QST_NINA, qStop);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if (global_var(GVAR_SANTAANA_STATUS_NINA) >= 4) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+      floater(self_obj, 102, COLOR_MSG_GREEN);
+      end
+      else begin
+      floater(self_obj, 103, COLOR_MSG_GREEN);
+      end
+   end
+   else begin
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ДИАЛОГ НА ПЛОЩАДИ ДО ЦЕРЕМОНИИ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if DudeTraitHas(TRAIT_espanol) then begin
+   call NodeFstDialog201;
+   end
+   else begin
+   call NodeFstDialog101;
+   end
+end
+
+procedure NodeFstDialog101 begin
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(213)
+   NAnswer(207,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(214)
+   NAnswer(209,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(215)
+   NAnswer(211,1,NodePartyAdd)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(220)
+   NAnswer(221,1,NodeFstDialog202)
+end
+
+procedure NodeFstDialog202 begin
+   Reply(222)
+   NAnswer(223,1,NodeFstDialog203)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(224)
+   NAnswer(225,1,NodeFstDialog204)
+end
+
+procedure NodeFstDialog204 begin
+   Reply(226)
+   NAnswer(227,1,NodeFstDialog205)
+end
+
+procedure NodeFstDialog205 begin
+   Reply(228)
+   NAnswer(229,1,NodeFstDialog206)
+end
+
+procedure NodeFstDialog206 begin
+   Reply(230)
+   NAnswer(231,1,NodePartyAdd)
+   NAnswer(232,1,Node999)
+end
+
+//--- ДИАЛОГ В ПОДЗЕМЕЛЬЕ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_SANTAANA_STATUS_NINA) == 3) then begin
+   call NodeSndDialog2;
+   end
+   else begin
+   call NodeSndDialog3;
+   end
+end
+
+procedure NodeSndDialog2 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(245)
+      NAnswer(247,1,NodePartyRemove)
+      NAnswer(248,1,Node999)
+   end
+   else begin
+      Reply(240)
+      NAnswer(242,1,NodePartyRemove)
+      NAnswer(243,1,Node999)
+   end
+end
+
+procedure NodeSndDialog3 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(246)
+      NAnswer(249,1,NodePartyAdd)
+      NAnswer(247,1,Node999)
+   end
+   else begin
+      Reply(244)
+      NAnswer(241,1,NodePartyAdd)
+      NAnswer(242,1,Node999)
+   end
+
+end
+
+procedure NodePartyAdd begin
+   set_global_var(GVAR_SANTAANA_STATUS_NINA, 3);
+   rm_timer_event(self_obj);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   party_add(self_obj);
+   call Node999;
+end
+
+procedure NodePartyRemove begin
+   if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+   set_global_var(GVAR_SANTAANA_STATUS_NINA, 4);
+   end
+   else begin
+   set_global_var(GVAR_SANTAANA_STATUS_NINA, 2);
+   end
+   party_remove(self_obj);
+   call Node999;
+end

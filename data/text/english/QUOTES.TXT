@@ -1,0 +1,117 @@
+;
+; To display text in the main menu, press Shift + Credits
+;
+
+#FALLOUT SONORA
+#Sources of inspiration and references
+
+1950s Sci-Fi:
+
+@Harvey (1950)
+@Atom Man vs. Superman (1950)
+@The Day the Earth Stood Still (1951)
+@The Thing from Another World (1951)
+@Donovan's Brain (1953)
+@Them! (1954)
+@Creature from the Black Lagoon (1954), Revenge of the Creature (1955)
+@The Creature Walks Among Us (1956)
+@Target Earth (1954)
+@Gojira (1954), Godzilla, King of the Monsters! (1956) @Tarantula (1955) @Day the World Ended (1955) @Forbidden Planet (1956) @Invasion of the Body Snatchers (1956) @The Deadly Mantis (1957) @The Incredible Shrinking Man (1957) @The Monster That Challenged the World (1957) @The Land Unknown (1957) @Kronos (1957) @The Fly ( 1958) @Tingler (1959) @The Time Machine (1960) @The Twilight Zone (1959-1964): @- Season 1, Episode 8 @- Season 1, Episode 14 @- Season 2, Episode 24 @- Season 3, Episode 3 @- Season 3, Episode 17
+
+Dramas, thrillers, war films of the 40s-60s:
+
+@The Man with the Scar (1932)
+@Meet Me in St. Louis (1944)
+@The Big Clock (1948)
+@Border Incident (1949)
+@At War with the Army (1950)
+@Panic in the Streets (1950)
+@The Wild One (1953)
+@Lassie (TV series, ended 1954)
+@Salt of the Earth (1954)
+@Bad Day at Black Rock (1955)
+@Highway Patrol (TV series 1955-1959)
+@Jailhouse Rock (1957)
+@Thunder Road (1958)
+@Machine Gun Kelly (1958)
+@The Last Mile (1959)
+@Fear City (1959)
+@Pork Chop Hill (1959)
+@Ten Seconds to Hell (1959)
+@Psycho (1960)
+@The Misfits (1961)
+
+Post-apocalypse, nuclear threat:
+
+@Dr. Strangelove (1964)
+@A Boy and His Dog (1974)
+@Logan's Run (1976)
+@Cursed Valley (1977)
+@Mad Max (1979) and its sequels
+@Escape from New York (1981), Escape from L.A. (1996)
+@Blade Runner (1981), Blade Runner 2049 (2017)
+@Atomic Cafe (1982)
+@The Terminator (1984) and its sequels
+@Six-String Samurai (1998)
+@Sin City (2005)
+@Resident Evil 3 (2007)
+@The Book of Eli (2010)
+@The Divider (2012)
+@Philosophers. Survival Lesson (2013)
+
+@Short Films:
+@- Target You (1950)
+@- Duck and Cover (1952)
+@- Self Preservation In An Atomic Attack (1950)
+@- Survival Under Atomic Attack (1951)
+@- Warning Red (1956)
+@- Nuclear War (1959)
+
+American Civil War Westerns:
+
+@The Mark of Zorro (1940)
+@The Three Godfathers (1948)
+@Red River (1948)
+@The Lone Ranger (1949-1957 TV series and 1948 comics)
+@Winester '73 (1950)
+@The Baron of Arizona (1950)
+@Bonanza (TV series 1959-1973)
+@Gunsmoke (TV series 1955-1975)
+@Gunsmoke in Tucson (1958)
+@3-10 to Yuma (1957)
+@Heads Unbowed (1958)
+@Fort Bowie (1958)
+@High Plains Drifter (1973)
+
+Mexico:
+
+@Vamonos con Pancho Villa (1935)
+@El nino perdido (1947)
+@Gangsters contra charros (1948)
+@The Treasure of the Sierra Madre (1948)
+@Los Olvidados (1950)
+@Mariachi (1950)
+@Simbad el mareado (1950)
+@El Ceniciento (1951)
+@El revoltoso (1951)
+@Que ha dado esa mujer (1951) @Viva Zapata! (1952) @Ride, Vaquero! (1953)
+@The Littlest Outlaw (1955)
+@El jinete sin cabeza (1957)
+@Touch of Evil (1958)
+@La cabeza viviente (1963)
+
+Others:
+
+@Metropolis (1927)
+@Mexicali Rose (1929)
+@Mexicali Rose (1939)
+@Flying Padre (1951)
+@Speedy Gonzales (1955)
+@The Three Caballeros (1945)
+@The Brother from Another Planet (1984)
+@Taken (TV series 2002)
+@The Island (2005)
+@Cry of Silence (TV series "The Outer Limits", 1964)
+@Star Trek (TV series 1966-1969)
+
+And much, much more...

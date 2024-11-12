@@ -1,0 +1,611 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_HCPrisnr
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PARTY_PANCHO       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure push_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodePartyAdd;
+procedure NodePartyNon;
+procedure NodePartyNon2;
+procedure NodeParty2;
+procedure NodeParty3;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer102b;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer200;
+procedure NodeStopDialog;
+procedure NodeStopDialog100;
+procedure NodeStopDialog101;
+procedure NodeStopDialog102;
+procedure NodeStopDialog103;
+procedure NodeStopDialog104;
+procedure NodeStopDialog105;
+procedure NodeStopDialog106;
+procedure NodeStopDialog200;
+procedure NodeStopDialog201;
+procedure NodeStopDialog202;
+procedure NodeStopDialog203;
+procedure NodeStopDialog204;
+procedure NodeStopDialog205;
+
+//---------------------
+
+#define LVAR_Stop_Run                   (6) // возможность оставить персонажа одного
+#define LVAR_Puerto_Visit               (7) // статус нахождения в Пуэрто:
+                                               /*
+                                               0 - не на месте,
+                                               1 - оказались на месте и персонаж выводит первый диалог,
+                                               2 - персонаж закончил первый диалог и остается на месте ждать
+                                               */
+#define LVAR_Villa_Visit                (8) // посещение Виллы в квестовом порядке
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (local_var(LVAR_Puerto_Visit) == 2) then begin
+       set_local_var(LVAR_Puerto_Visit,3);
+       end
+       //set_local_var(LVAR_Home_Tile, 0);
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
+       rm_timer_event(self_obj);
+       end
+       add_timer_event(self_obj,3,3);
+   end
+end
+
+procedure look_at_p_proc begin
+   //lookProcMsg
+   script_overrides;
+   if (getQuest(GVAR_HERMO_QST_PARTY) == qZero) then begin
+   display_mstr(100);
+   end
+   else begin
+   display_mstr(102);
+   end
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+   if (fixed_param == 3) then begin
+       if (local_var(LVAR_Puerto_Visit) == 0) then begin
+          if ((getQuest(GVAR_HERMO_QST_PARTY) == qZero) or (getQuest(GVAR_HERMO_QST_PARTY) == qStart)) then begin
+          if ((cur_map_index == MAP_PUERTO_DESTROY) or (cur_map_index == MAP_PUERTO_DOCS)) then begin
+          set_local_var(LVAR_Puerto_Visit,1);
+          terminate_combat;
+          dialogue_system_enter;
+          end
+          end
+       end
+       if (cur_map_index == MAP_VILLA_PLAZA) then begin
+          floater(self_obj, 103, COLOR_MSG_NORMAL);
+       end
+       if (cur_map_index == MAP_VILLA_GARD) then begin
+          floater(self_obj, 104, COLOR_MSG_NORMAL);
+       end
+       if (cur_map_index == MAP_VILLA_CRYPT) then begin
+          floater(self_obj, 105, COLOR_MSG_NORMAL);
+       end
+       if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+          floater(self_obj, 106, COLOR_MSG_NORMAL);
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
+       if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+         call NodePartyNon2;
+       end
+       if (local_var(LVAR_Stop_Run) == 0) then begin
+         partyRunToDude
+       end
+   end
+end
+
+procedure push_p_proc begin
+   if (global_var(GVAR_HERMO_STATUS_PARTY) != 1) then begin
+   script_overrides;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_HERMO_STATUS_PARTY,-1);
+   if (getQuest(GVAR_HERMO_QST_PARTY) == qStart) then begin
+   setQuest(GVAR_HERMO_QST_PARTY,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Attitude to the main character (1 - positive character, -1 negative, 0 neutral)
+
+   // is this correct? - cambragol
+   if (local_var(LVAR_Puerto_Visit) == 2) then begin
+   set_local_var(LVAR_Puerto_Visit,3);
+   end
+
+   if (local_var(LVAR_Puerto_Visit) == 2) then begin
+   floater(self_obj,358,COLOR_MSG_NORMAL);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+   /*
+   if (local_var(LVAR_Puerto_Visit) == 2) then begin
+   set_obj_visibility(self_obj, 1);
+   display_mstr(367);
+   end
+   */
+end
+
+procedure NodeStartDialog begin
+   if (local_var(LVAR_Puerto_Visit) == 3) then begin
+      call NodeStopDialog203;
+   end
+   else if (local_var(LVAR_Puerto_Visit) == 1) then begin
+      call NodeStopDialog;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+      if (bitDialog(bit_2) == 0) then begin
+      call NodeFstDialog;
+      end
+      else begin
+      call NodeFstDialog5;
+      end
+   end
+   else begin
+      if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
+      call NodeSndDialog;
+      end
+      else begin
+      call NodeSndDialog2;
+      end
+   end
+end
+
+//--- ПАРТИЯ
+
+procedure NodePartyAdd begin
+   //if (party_member_count(0) > 1) then begin
+   if party_limit then begin
+   Reply(236)
+   NAnswer(237,1,Node999)
+   NAnswer(238,1,Node999)
+   end
+   else begin
+   set_global_var(GVAR_HERMO_STATUS_PARTY,1);
+   set_local_var(LVAR_Home_Tile, 0);
+   bitDialogExp(bit_1,0)
+   rm_timer_event(self_obj);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   party_add(self_obj);
+   Reply(226)
+   NAnswer(227,1,Node999)
+   end
+end
+
+procedure NodePartyNon begin
+   call NodePartyNon2;
+   Reply(228)
+   NAnswer(229,1,Node999)
+end
+
+procedure NodePartyNon2 begin
+   set_global_var(GVAR_HERMO_STATUS_PARTY,0);
+   rm_timer_event(self_obj);
+   party_remove(self_obj);
+   set_local_var(LVAR_Home_Tile, self_tile);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+end
+
+procedure NodeParty2 begin
+   inven_unwield(self_obj);
+   Reply(231)
+   NAnswer(232,1,NodeSndDialog)
+end
+
+procedure NodeParty3 begin
+   item_remove_armor(self_obj)
+   Reply(234)
+   NAnswer(235,1,NodeSndDialog)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   //bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(202,1,NodeFstDialog2)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   bitDialogExp(bit_2,0)
+   Reply(203)
+   NAnswer(204,1,NodeFstDialog3)
+   NAnswer(206,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+   NAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   NAnswer(209,1,NodePartyAdd)
+   NAnswer(214,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(211,1,NodeFstDialog3)
+   NAnswer(212,1,NodeFstDialog4)
+   NAnswer(213,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+/*
+After being expelled from the BS - a more detailed and honest story about who he is and why he got involved in dangerous spy games.
+*/
+
+   if (getQuest(GVAR_HERMO_QST_PARTY) == qZero) then begin
+      if ((cur_map_index != MAP_HERMO_CASA) and (cur_map_index != MAP_HERMO_FUERTE)) then begin
+      GAnswer(319,1,NodeAnswer102b)
+      end
+      NAnswer(300,1,NodeAnswer100)
+   end
+   else if (getQuest(GVAR_HERMO_QST_PARTY) == qStart) then begin
+      NAnswer(320,1,NodeAnswer107)
+   end
+
+   NAnswer(250,1,NodeAnswer200)
+
+   if weapon_invn_self then begin
+   NAnswer(230,1,NodeParty2)
+   end
+   if (inven_armor(self_obj) > 0) then begin
+   NAnswer(233,1,NodeParty3)
+   end
+
+   NAnswer(222,1,NodePartyNon)
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(223)
+   NAnswer(224,1,NodePartyAdd)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(301)
+   NAnswer(302,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(303)
+   NAnswer(304,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   Reply(305)
+   if ((cur_map_index != MAP_HERMO_CASA) and (cur_map_index != MAP_HERMO_FUERTE)) then begin
+   GAnswer(319,1,NodeAnswer102b)
+   end
+   else begin
+   NAnswer(306,1,Node999)
+   end
+end
+
+procedure NodeAnswer102b begin
+   Reply(307)
+   NAnswer(308,1,NodeAnswer103)
+end
+
+procedure NodeAnswer103 begin
+   setQuest(GVAR_HERMO_QST_PARTY,qStart);
+   mark_on_map(AREA_PUERTO_STEEL)
+   Reply(309)
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   NAnswer(324,1,NodeAnswer108)
+   end
+   NAnswer(310,1,NodeAnswer104)
+   NAnswer(313,1,NodeAnswer105)
+   NAnswer(316,1,NodeAnswer106)
+end
+
+procedure NodeAnswer104 begin
+   setBonusReaction(10)
+   Reply(311)
+   NAnswer(312,1,Node999)
+end
+
+procedure NodeAnswer105 begin
+   setBonusReaction(-10)
+   Reply(314)
+   NAnswer(315,1,Node999)
+end
+
+procedure NodeAnswer106 begin
+   Reply(317)
+   NAnswer(318,1,Node999)
+end
+
+procedure NodeAnswer107 begin
+   Reply(321)
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   NAnswer(324,1,NodeAnswer108)
+   end
+   NAnswer(322,1,Node999)
+   NAnswer(323,1,Node999)
+end
+
+procedure NodeAnswer108 begin
+   Reply(325)
+   NAnswer(326,1,Node999)
+   NAnswer(327,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   if ((cur_map_index == MAP_HERMO_RANCHO) or (cur_map_index == MAP_HERMO_CASA) or (cur_map_index == MAP_HERMO_FUERTE)) then begin
+   Reply(253)
+   end
+
+   else if ((cur_map_index == MAP_PHOENIX_SIGN) or (cur_map_index == MAP_PHOENIX_CENTER)) then begin
+   Reply(254)
+   end
+   else if ((cur_map_index == MAP_PHOENIX_BNDCS) or (cur_map_index == MAP_PHOENIX_ELECTR) or (cur_map_index == MAP_PHOENIX_DSTROY)) then begin
+   Reply(255)
+   end
+   else if ((cur_map_index == MAP_PHOENIX_CHURCH) or (cur_map_index == MAP_PHOENIX_PLAZA)) then begin
+   Reply(261)
+   end
+   else if (cur_map_index == MAP_PHOENIX_VAULT) then begin
+   Reply(266)
+   end
+   else if (cur_map_index == MAP_PHOENIX_ANAL) then begin
+   Reply(256)
+   end
+
+   else if ((cur_map_index == MAP_CASA_NUEVA_CITY) or (cur_map_index == MAP_CASA_NUEVA_PLANT) or (cur_map_index == MAP_CASA_NUEVA_LAB) or (cur_map_index == MAP_CASA_NUEVA_GIDROPONIC)) then begin
+   Reply(259)
+   end
+   else if ((cur_map_index == MAP_CASA_GRANDE_WATER) or (cur_map_index == MAP_CASA_GRANDE_CITY) or (cur_map_index == MAP_CASA_GRANDE_GRAVE)) then begin
+   Reply(258)
+   end
+   else if ((cur_map_index == MAP_TWO_SUN_CITY) or (cur_map_index == MAP_TWO_SUN_WORKSHOP)) then begin
+   Reply(257)
+   end
+
+   else if (cur_map_index == MAP_PUERTO_DESTROY) then begin
+   Reply(263)
+   end
+   else if ((cur_map_index == MAP_PUERTO_SIGN) or (cur_map_index == MAP_PUERTO_DOCS) or (cur_map_index == MAP_PUERTO_BASA)) then begin
+   Reply(264)
+   end
+   else if ((cur_map_index == MAP_INFIERNO_ROAD) or (cur_map_index == MAP_INFIERNO_CITY) or (cur_map_index == MAP_INFIERNO_SHOP) or (cur_map_index == MAP_INFIERNO_POLICE) or (cur_map_index == MAP_INFIERNO_CHURCH) or (cur_map_index == MAP_INFIERNO_MONUMENT)) then begin
+   Reply(265)
+   end
+   else if (cur_map_index == MAP_OLD_MOTEL) then begin
+   Reply(262)
+   end
+
+   else if ((worldmap_ypos < 550) and (getQuest(GVAR_HERMO_QST_PARTY) >= qStart) and (getQuest(GVAR_HERMO_QST_PARTY) < qEnd)) then begin
+   Reply(260)
+   end
+   else begin
+   Reply(251)
+   end
+
+   NAnswer(252,1,NodeSndDialog)
+end
+
+//--- ДИАЛОГ В ПУЭРТО
+
+procedure NodeStopDialog begin
+   set_local_var(LVAR_Puerto_Visit,2);
+   if (cur_map_index == MAP_PUERTO_DESTROY) then begin
+   Reply(330)
+   NAnswer(331,1,NodeStopDialog100)
+   end
+   else begin
+   Reply(350)
+   NAnswer(351,1,NodeStopDialog200)
+   end
+end
+
+procedure NodeStopDialog100 begin
+   Reply(332)
+   NAnswer(333,1,NodeStopDialog101)
+end
+
+procedure NodeStopDialog101 begin
+   Reply(334)
+   NAnswer(335,1,NodeStopDialog102)
+end
+
+procedure NodeStopDialog102 begin
+   Reply(336)
+   NAnswer(337,1,NodeStopDialog103)
+end
+
+procedure NodeStopDialog103 begin
+   set_local_var(LVAR_Puerto_Visit,4);
+   setQuest(GVAR_HERMO_QST_PARTY,qStop);
+   exp_add(350);
+   Reply(338)
+   NAnswer(339,1,NodeStopDialog104)
+   NAnswer(342,1,NodeStopDialog105)
+end
+
+procedure NodeStopDialog104 begin
+   if (local_var(LVAR_Villa_Visit) == 0) then begin
+   set_local_var(LVAR_Villa_Visit,1);
+   end
+   Reply(340)
+   NAnswer(341,1,NodePartyAdd)
+end
+
+procedure NodeStopDialog105 begin
+   Reply(343)
+   NAnswer(345,1,NodeStopDialog104)
+   BAnswer(344,1,NodeStopDialog106)
+end
+
+procedure NodeStopDialog106 begin
+   call NodePartyNon2;
+   call Node999;
+end
+
+procedure NodeStopDialog200 begin
+   Reply(352)
+   NAnswer(353,1,NodeStopDialog201)
+end
+
+procedure NodeStopDialog201 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_20);
+   game_time_advance(ONE_GAME_HOUR*3);
+   PLAY_FADE
+   Reply(354)
+   NAnswer(355,1,NodeStopDialog202)
+end
+
+procedure NodeStopDialog202 begin
+   if ((map_var(MVAR_PUERTO_PATRLBOSS_DEAD)<0) or town_rep_is_vilified) then begin
+   set_local_var(LVAR_Puerto_Visit,4);
+   setQuest(GVAR_HERMO_QST_PARTY,qStop);
+   exp_add(350);
+   Reply(359)
+   NAnswer(339,1,NodeStopDialog104)
+   NAnswer(342,1,NodeStopDialog105)
+   end
+   else begin
+   Reply(356)
+   NAnswer(357,1,NodePartyNon)
+   end
+end
+
+procedure NodeStopDialog203 begin
+   Reply(360)
+   if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) >= qEnd) then begin
+   NAnswer(361,1,NodeStopDialog204)
+   end
+   else if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) <= qStop) then begin
+   NAnswer(366,1,NodeStopDialog204)
+   end
+   else if (map_var(MVAR_PUERTO_JECK_DIALOG_FLAG) > 0) then begin
+   NAnswer(368,1,NodeStopDialog204)
+   end
+   NAnswer(365,1,Node999)
+end
+
+procedure NodeStopDialog204 begin
+   Reply(362)
+   NAnswer(363,1,NodeStopDialog205)
+end
+
+procedure NodeStopDialog205 begin
+   set_local_var(LVAR_Puerto_Visit,4);
+   setQuest(GVAR_HERMO_QST_PARTY,qEnd);
+   exp_add(500);
+   Reply(364)
+   NAnswer(339,1,NodeStopDialog104)
+   NAnswer(342,1,NodeStopDialog105)
+end

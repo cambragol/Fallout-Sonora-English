@@ -1,0 +1,75 @@
+====================================================================
+=============== Identifiers used by the F2 engine
+================= Authors: Mr.Stalin, Alexander Poshelyuzhin
+=======================================================================================
+
+>> Items
+
+PID_MIRROR_SHADES - +1 to charisma when in the player's hand slot
+PID_SHIV (383) - in the engine marked as MISC item (corrected to WEAPON in sfall).
+PID_SOLAR_SCORCHER (390) - automatic and free charge.
+PID_SUPER_CATTLE_PROD (399) + PID_MEGA_POWER_FIST (407) - cost of 2 ammo per 1 attack.
+PID_FLARE (79) - weapon that has the lowest priority when choosing for AI.
+PID_ACTIVE_FLARE (205) - used as a flashlight when equipped by a critter.
+PID_ACTIVE_DYNAMITE + PID_ACTIVE_PLASTIC_EXPLOSIVE - items cannot be used and cannot be bartered
+PID_POWERED_ARMOR (3) + PID_HARDENED_POWER_ARMOR (232) + PID_ADVANCED_POWER_ARMOR (348) + PID_ADVANCED_POWER_ARMOR_MK2 (349) - the weight of these items is divided by 2.
+PID_STIMPAK (40) + PID_SUPER_STIMPAK (144) + PID_HEALING_POWDER (273) - used in AI.
+PID_DOCTORS_BAG (91) + PID_PARAMEDICS_BAG (409) + PID_FIRST_AID_KIT (47) + PID_FIELD_MEDIC_KIT (408) - engine mechanics of healing.
+PID_JESSE_CONTAINER (467) - used as a temporary container in the barter system.
+PID_MOTION_SENSOR (59) + PID_GEIGER_COUNTER + PID_ACTIVE_GEIGER_COUNTER + PID_STEALTH_BOY + PID_ACTIVE_STEALTH_BOY - engine mechanics.
+PID_FIRST_AID_BOOK (80) + PID_SCOUT_HANDBOOK (86) + PID_GUNS_AND_BULLETS (102) + PID_BIG_BOOK_OF_SCIENCE (73) + PID_DEANS_ELECTRONICS (76) - engine mechanics of books.
+PID_MOLOTOV_COCKTAIL (159) - used for forced fire animation of death.
+PID_SMALL_ENERGY_CELL (38) + PID_MICRO_FUSION_CELL (39) - used for refueling the car. Moreover, regardless of where the car is, whether the main character has it at all and what exactly the item is used for (for example, you can use it on a wall or a burning barrel, this will also be counted).
+PID_CAR_TRUNK (455) - used in the metarule function (and therefore the trunk cannot be made under a different PID).
+PID_CATS_PAW_ISSUE_5 (331) + PID_RAMIREZ_BOX_CLOSED (431) + PID_RAIDERS_MAP (444) + PID_DERMAL_PIP_BOY_DISK (499) + PID_PIP_BOY_MEDICAL_ENHANCER (516) + PID_SURVEY_MAP (523) - when using the item, it is automatically deleted.
+
+Limited use for chemistry (no more than two pieces) and addictive effects:
+
+ PID_NUKA_COLA (106) > GVAR_NUKA_COLA_ADDICT (21)
+ PID_BUFFOUT (87) > GVAR_BUFF_OUT_ADDICT (22)
+ PID_MENTATS (53) > GVAR_MENTATS_ADDICT (23)
+ PID_PSYCHO (110) > GVAR_PSYCHO_ADDICT (24)
+ PID_RADAWAY (48) > GVAR_RADAWAY_ADDICT (25)
+ PID_BEER (124) > GVAR_ALCOHOL_ADDICT (26)
+ PID_BOOZE (125) > GVAR_ALCOHOL_ADDICT (26)
+ PID_JET (259) > GVAR_ADDICT_JET (296)
+PID_DECK_OF_TRAGIC_CARDS(304) > GVAR_ADDICT_TRAGIC (295)
+
+PID_JET_ANTIDOTE(260) - removes GVAR_ADDICT_JET dependency
+
+>> Scenery
+
+PID_DRIVABLE_CAR - used when inspecting (binoculars) an object.
+PID_NS_PAIN_FIELD (491) - used for forced electric death animation.
+PID_RAD_GOO_1 (985) + PID_RAD_GOO_2 (986) + PID_RAD_GOO_3(987) + PID_RAD_GOO_4(988) - used for automatic bypass when constructing a movement path.
+
+>> Critter
+PID_MALE_ENCALVE_PATROL - unclear
+PID_GORIS - uses a special animation for entering/leaving combat. Exception: can search for weapons in its inventory, while "animal" criteria types cannot do this.
+PID_MARCUS - cannot search (put on) armor in its inventory (using the button in the control panel).
+PID_AUTO_GAT_GUN - does not check the safety of the shot (shooting at friendly fire).
+PID_CYBERDOG + PID_DOGMEAT + PID_PARIAH_DOG - used for separate messages (proto.msg lines 677/678) for dogs when equipped with an item in the partner's control panel.
+
+>> Variables
+
+0 - general reputation in Fallout 1, aka karma in Fallout 2. Displayed in the GG characteristic.
+47-57, 59-66, 294, 308 - city reputation variables. Each location is assigned a specific variable by the engine.
+Important: reputation 60 (Navarro) and 62 (Enclave) are not displayed in the GG's characteristics.
+Important: Arroyo's reputation GVAR_TOWN_REP_ARROYO (47) decreases with each new Hakunin video by 15.
+GVAR_ENEMY_ARROYO (7) - Arroyo's enemy, used by the engine to show a video (Hakunin's speech) with subsequent forced completion of the game.
+Car:
+GVAR_CAR_GOT_PLAYER (18) - records the purchase of a car.
+GVAR_CAR_BLOWER (439) - upgrade in the NCR for speed.
+GVAR_CAR_FUEL_CELL_REGULATOR (453) - upgrade in the Hole for energy consumption.
+GVAR_NEW_RENO_CAR_UPGRADE (455) - first upgrade in Reno for speed.
+GVAR_NEW_RENO_SUPER_CAR (456) - second upgrade in Reno for speed after the end of the game (RAM batteries).
+GVAR_MODOC_SHITTY_DEATH (491) - used by the engine for a special death slide when the toilet explodes in Modoc.
+The zero local variable of any critter in battle is set by the engine to -3.
+
+>> Maps
+
+[Map 021] - the name and number of the starting map ARTEMPLE.MAP are hardcoded in the engine.
+The starting coordinates of the main character on the world map are written in the engine, and changing them via city.txt results in the initial cell being marked as visited.
+[Map 19] and [Map 37] - at some point the entry point level changes via the map script.
+[Map 149] - a map of a forced meeting with Horrigan.
+[Area 22] - destroyed Arroyo, appears instead of Arroyo after showing one of Hakunin's dreams.

@@ -1,0 +1,437 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCGhlMat
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer109;
+procedure NodeAnswer110;
+procedure NodeAnswer111;
+procedure NodeAnswer112;
+procedure NodeAnswer113;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+
+//---------------------
+
+#define LVAR_GameFinal                (6) // результат игры в шахматы
+#define LVAR_BookQst                  (7) // квест на поиск книги
+#define LVAR_RobotProgramm            (8) // получение программы для робота
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       bitDialogZero(bit_4)
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if ((itemTypeUseDude == 2) or (itemTypeUseDude == 3) or (itemTypeUseDude == 4)) then begin
+   bitDialogExp(bit_4,0)
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (local_var(LVAR_RobotProgramm) == 0) then begin
+   item_add(self_obj,PID_Q_DAYGLOW_CODE_HANDY,1)
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,80) // поправка к отношению за принадлежность к фракции
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(205,0,NodeFstDialog3)
+   GAnswer(207,7,NodeFstDialog4)
+   BAnswer(201,0,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(-10)
+   Reply(213)
+   NAnswer(214,0,NodeSndDialog)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(217)
+   NAnswer(218,0,NodeSndDialog)
+   NAnswer(219,0,NodeSndDialog)
+end
+
+procedure NodeFstDialog4 begin
+   setBonusReaction(10)
+   Reply(215)
+   NAnswer(216,0,NodeSndDialog)
+end
+
+/*
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(205,0,NodeFstDialog3)
+   GAnswer(207,7,NodeFstDialog4)
+   BAnswer(201,0,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,0,NodeSndDialog)
+   BAnswer(204,0,NodeSndDialog)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(206)
+   NAnswer(203,0,NodeSndDialog)
+   BAnswer(204,0,NodeSndDialog)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   NAnswer(203,0,NodeSndDialog)
+   BAnswer(204,0,NodeSndDialog)
+end
+*/
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   NAnswer(220,0,NodeAnswer100)
+      if (bitDialog(bit_2) != 0) then begin
+         if (local_var(LVAR_GameFinal) == 0) then begin
+         // fixed NodeAnswer103 to 104 - cambragol
+         NAnswerSkill(241,3,NodeAnswer103,SKILL_GAMBLING,30,227,NodeAnswer104)
+         //NAnswerSkill(228,3,NodeAnswer103,SKILL_GAMBLING,100,227,NodeAnswer103)
+         end
+      end
+
+   NAnswer(250,3,NodeAnswer200)
+      if (bitDialog(bit_3) != 0) then begin
+         if (local_var(LVAR_BookQst) == 0) then begin
+         NAnswer(255,0,NodeAnswer202)
+         end
+         if (local_var(LVAR_BookQst) == 1) then begin
+         if (item_amnt(dude_obj,PID_Q_DAYGLOW_BOOK_SANDIEGO)>0) then begin
+         zGAnswer(265,0,NodeAnswer205)
+         end
+         end
+      end
+
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_26) != 0) then begin
+      if (local_var(LVAR_RobotProgramm) == 0) then begin
+      if (bitDialog(bit_2) != 0) then begin
+      NAnswer(280,0,NodeAnswer109)
+      end
+      end
+   end
+
+   NAnswer(211,0,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(222,0,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(224,0,NodeAnswer102)
+   end
+   else begin
+   NAnswer(224,0,NodeSndDialog)
+   end
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,0)
+   Reply(225)
+   NAnswer(226,0,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(229)
+   if (has_skill(dude_obj,SKILL_GAMBLING) >= 30) then begin
+   NAnswer(230,0,NodeAnswer106)
+   end
+   //NAnswer(230,0,NodeAnswer104)
+   NAnswer(232,0,Node999)
+end
+
+procedure NodeAnswer104 begin
+   Reply(231)
+   if (has_skill(dude_obj,SKILL_GAMBLING) >= 100) then begin
+   GAnswer(233,0,NodeAnswer105)
+   end
+   NAnswer(232,0,Node999)
+end
+
+procedure NodeAnswer105 begin
+   Reply(234)
+   zNAnswer(236,0,NodeAnswer106)
+   NAnswer(235,0,Node999)
+end
+
+procedure NodeAnswer106 begin
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR);
+   play_sfx("DICE1");
+   setBonusReaction(50)
+   if (has_skill(dude_obj,SKILL_GAMBLING) >= 100) then begin
+   set_local_var(LVAR_GameFinal, 1);
+   end
+   if (bitDialog(bit_4) != 0) then begin
+   if (has_skill(dude_obj,SKILL_GAMBLING) >= 90) then begin
+   set_local_var(LVAR_GameFinal, 1);
+   end
+   end
+   if (has_skill(dude_obj,SKILL_GAMBLING) >= 70) then begin
+   if (is_success(do_check(dude_obj, STAT_iq, 0)) == true) then begin
+   set_local_var(LVAR_GameFinal, 1);
+   end
+   end
+
+   if (local_var(LVAR_GameFinal) == 1) then begin
+   Reply(240)
+   NAnswer(242,0,NodeAnswer107)
+   zNAnswer(243,0,NodeAnswer107)
+   end
+   else begin
+   Reply(237)
+   NAnswer(239,0,NodeSndDialog)
+   NAnswer(238,0,Node999)
+   end
+end
+
+procedure NodeAnswer107 begin
+   Reply(244)
+   NAnswer(245,0,NodeAnswer108)
+end
+
+procedure NodeAnswer108 begin
+   PLAY_FADE
+   exp_add(500);
+           skill_up(SKILL_SMALL_GUNS,2);
+           skill_up(SKILL_BIG_GUNS,2);
+           skill_up(SKILL_ENERGY_WEAPONS,2);
+           skill_up(SKILL_UNARMED_COMBAT,2);
+           skill_up(SKILL_MELEE,2);
+           skill_up(SKILL_THROWING,2);
+           skill_up(SKILL_FIRST_AID,2);
+           skill_up(SKILL_DOCTOR,2);
+           skill_up(SKILL_SNEAK,2);
+           skill_up(SKILL_LOCKPICK,2);
+           skill_up(SKILL_STEAL,2);
+           skill_up(SKILL_TRAPS,2);
+           skill_up(SKILL_SCIENCE,2);
+           skill_up(SKILL_REPAIR,2);
+           skill_up(SKILL_CONVERSANT,2);
+           skill_up(SKILL_BARTER,2);
+           skill_up(SKILL_GAMBLING,2);
+           skill_up(SKILL_SCOUT,2);
+   call Node999;
+end
+
+procedure NodeAnswer109 begin
+   Reply(281)
+   NAnswer(282,0,NodeAnswer110)
+end
+
+procedure NodeAnswer110 begin
+   Reply(283)
+   if (item_amnt(dude_obj,PID_BOOK_OLD)>=5) then begin
+   GAnswer(285,0,NodeAnswer111)
+   end
+   NAnswerRep(293,3,NodeAnswer112,20,288,NodeAnswer113)
+   NAnswer(284,0,Node999)
+end
+
+procedure NodeAnswer111 begin
+   item_remove(dude_obj,PID_BOOK_OLD,5)
+   Reply(286)
+   NAnswer(287,0,NodeAnswer112)
+end
+
+procedure NodeAnswer112 begin
+   PLAY_FADE
+   set_local_var(LVAR_RobotProgramm, 1);
+   item_add(dude_obj,PID_Q_DAYGLOW_CODE_HANDY,1)
+   call Node999;
+end
+
+procedure NodeAnswer113 begin
+   Reply(289)
+   if (item_amnt(dude_obj,PID_BOOK_OLD)>=5) then begin
+   GAnswer(292,0,NodeAnswer111)
+   end
+   BAnswer(290,0,Node999)
+   NAnswer(291,0,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(251)
+   if (local_var(LVAR_BookQst) == 0) then begin
+   NAnswer(252,0,NodeAnswer201)
+   end
+   else begin
+   NAnswer(254,0,NodeSndDialog)
+   end
+end
+
+procedure NodeAnswer201 begin
+   bitDialogExp(bit_3,0)
+   Reply(253)
+   NAnswer(254,0,NodeSndDialog)
+end
+
+procedure NodeAnswer202 begin
+   Reply(random(270,274))
+   NAnswer(257,0,NodeAnswer203)
+   NAnswer(258,0,NodeSndDialog)
+end
+
+procedure NodeAnswer203 begin
+   set_local_var(LVAR_BookQst, 1);
+   Reply(259)
+   NAnswer(260,0,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   Reply(261)
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_BOOK_SANDIEGO)>0) then begin
+   GAnswer(264,0,NodeAnswer205)
+   end
+   NAnswer(262,0,Node999)
+   NAnswer(263,0,Node999)
+end
+
+procedure NodeAnswer205 begin
+   set_local_var(LVAR_BookQst, 2);
+   item_remove(dude_obj,PID_Q_DAYGLOW_BOOK_SANDIEGO,1)
+   item_add(dude_obj,PID_BOOTLE_CAPS,100)
+   exp_add(500);
+   Reply(266)
+   NAnswer(267,0,Node999)
+end

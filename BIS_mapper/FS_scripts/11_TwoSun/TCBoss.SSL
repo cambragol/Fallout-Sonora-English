@@ -1,0 +1,777 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TCBoss
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD*5      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog401;
+procedure NodeFstDialog402;
+procedure NodeFstDialog403;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeQstEnd;
+procedure NodeQstEnd2;
+procedure NodeQstEnd3;
+procedure NodeBanda100;
+procedure NodeBanda101;
+procedure NodeBanda102;
+procedure NodeBanda200;
+procedure NodeBanda201;
+procedure NodeBanda202;
+procedure NodeBanda203;
+procedure NodeBanda204;
+procedure NodeBanda205;
+procedure NodeBanda206;
+procedure NodeBanda300;
+procedure NodeBanda301;
+procedure NodeGrande100;
+procedure NodeGrande101;
+procedure NodeGrande102;
+procedure NodeGrande103;
+procedure NodeGrande104;
+procedure NodeGrande105;
+procedure NodeCody;
+procedure NodeCody2;
+procedure NodeCody3;
+procedure NodeCody4;
+procedure NodeCody5;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer500;
+procedure NodeAnswer501;
+procedure NodeRoadWar;
+procedure NodeRoadWar2;
+procedure NodeRoadWar3;
+procedure NodeRoadWar4;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   dec_global_var(GVAR_TWOSUN_STATUS_CTZN);
+   set_global_var(GVAR_TWOSUN_STATUS_BOSS,-1);
+   set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_27);
+   if (getQuest(GVAR_TWOSUN_QST_ZAX)<qEnd) then begin
+   setQuest(GVAR_TWOSUN_QST_ZAX,qStop);
+   end
+   if (global_var(GVAR_TWOSUN_QST_BAND_SLAVES) < 10) then begin
+   setQuest(GVAR_TWOSUN_QST_BAND_SLAVES,0);
+   end
+   kill_critter_opt
+   kill_critter_dude_reply(102,0)
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_BOS,80) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,-50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-10) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-40) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,HEAD_TWO_SUN_BOSS,BACKGROUND_WASTELND)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   BAnswer(217,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog2 begin
+   if (getQuest(GVAR_MAIN_QUEST_TWOSUN) < qStart) then begin
+   setQuest(GVAR_MAIN_QUEST_TWOSUN,qStart);
+   end
+   if (getQuest(GVAR_TWOSUN_QST_PADRE) < qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_PADRE,qStart);
+   end
+   if (getQuest(GVAR_TWOSUN_QST_ZAX) < qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_ZAX,qStart);
+   end
+
+   Reply(202)
+   if (global_var(GVAR_TITUL_BOS) >0) then begin
+   GAnswer(207,1,NodeFstDialog403)
+   end
+   if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
+   GAnswer(205,1,NodeFstDialog402)
+   end
+   else if (getQuest(GVAR_PHENIX_QST_OWRS_HOLO) == qStart) then begin
+   NAnswer(212,1,NodeFstDialog402)
+   end
+   BAnswer(203,1,NodeFstDialog401)
+end
+
+procedure NodeFstDialog401 begin
+   Reply(204)
+   NAnswer(209,1,NodeFstDialog5)
+   BAnswer(216,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog402 begin
+   Reply(206)
+   NAnswer(209,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog403 begin
+   Reply(208)
+   NAnswer(209,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(211,1,NodeAnswer)
+   BAnswer(213,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   zReply(214)
+   NAnswer(215,1,Node998)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+
+   //--- Расспросы
+   NAnswer(211,1,NodeAnswer)
+   if (map_var(MVAR_TWOSUN_AgentKnow) == 1) then begin
+   NAnswer(233,1,NodeAnswer101)
+   end
+
+   //--- Квест на Запретную Зону
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+   if (getQuest(GVAR_TWOSUN_QST_ZAX) < qEnd) then begin
+      GAnswer(300,1,NodeQstEnd)
+   end
+   end
+
+   //--- Квесты фракции
+   if (getQuest(GVAR_TWOSUN_QST_BAND_SLAVES) == 0) then begin
+      if (getQuest(GVAR_TWOSUN_QST_ZAX) >= qEnd) then begin
+      GAnswer(390,1,NodeBanda100)
+      end
+   end
+   else if (getQuest(GVAR_TWOSUN_QST_BAND_SLAVES) == 1) then begin
+      if (gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_2) != 0) then begin
+      zGAnswer(400,1,NodeBanda200)
+      end
+   end
+   else if (getQuest(GVAR_TWOSUN_QST_BAND_SLAVES) == 2) then begin
+      NAnswer(416,1,NodeBanda201)
+      if ((gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_3) != 0) or (gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_4) != 0)) then begin
+      NAnswer(420,1,NodeBanda300)
+      end
+   end
+
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+      if (item_amnt(dude_obj,PID_Q_NEIRO_CHIP)>0) then begin
+      NAnswer(430,1,NodeGrande101)
+      end
+   end
+
+   //--- Коди
+   if (getQuest(GVAR_TWOSUN_QST_FAMILY_PIP) == qStart) then begin
+      if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_4) == 0) then begin
+         if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_3) != 0) then begin
+         NAnswer(350,1,NodeCody)
+         end
+         else if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_2) != 0) then begin
+         NAnswer(350,1,NodeCody)
+         end
+      end
+   end
+
+   if (getQuest(GVAR_RAIDER_QST_CONTRACT) == qStart) then begin
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_27) == 0) then begin
+         NAnswer(370,1,NodeRoadWar)
+      end
+   end
+
+   NAnswer(221,1,Node999)
+end
+
+
+procedure NodeQstEnd begin
+   if (getQuest(GVAR_MAIN_QUEST_TWOSUN) < qEnd) then begin
+   setQuest(GVAR_MAIN_QUEST_TWOSUN,qEnd);
+   end
+   setQuest(GVAR_TWOSUN_QST_ZAX,qEnd);
+   set_SLAVA(50)
+   set_REP(30)
+
+   Reply(301)
+   NAnswer(302,1,NodeQstEnd2)
+   BAnswer(303,1,NodeQstEnd2)
+end
+
+procedure NodeQstEnd2 begin
+   Reply(304)
+   NAnswer(306,1,NodeQstEnd3)
+   NAnswer(305,1,Node999)
+end
+
+procedure NodeQstEnd3 begin
+   Reply(307)
+   NAnswer(308,1,NodeQstEnd2)
+   BAnswer(309,1,Node999)
+end
+
+//--- КВЕСТ БЕГЛЫХ РАБОВ
+
+procedure NodeBanda100 begin
+   Reply(391)
+   NAnswer(392,1,NodeBanda101)
+end
+
+procedure NodeBanda101 begin
+   Reply(393)
+   NAnswer(394,1,NodeBanda102)
+   zBAnswer(395,1,NodeBanda102)
+end
+
+procedure NodeBanda102 begin
+   setQuest(GVAR_TWOSUN_QST_BAND_SLAVES,1);
+   Reply(396)
+   NAnswer(397,1,Node999)
+end
+
+procedure NodeBanda200 begin
+   Reply(401)
+   NAnswer(402,1,NodeBanda201)
+end
+
+procedure NodeBanda201 begin
+   setQuest(GVAR_TWOSUN_QST_BAND_SLAVES,2);
+   Reply(403)
+   NAnswer(404,1,NodeBanda202)
+   NAnswer(406,1,NodeBanda203)
+   NAnswer(408,1,NodeBanda204)
+   if (bitDialog(bit_7) == 0) then begin
+   NAnswerSkill(410,3,NodeBanda205,SKILL_CONVERSANT,40,410,NodeBanda206)
+   end
+   NAnswer(414,1,Node999)
+   NAnswer(415,1,Node999)
+end
+
+procedure NodeBanda202 begin
+   Reply(405)
+   NAnswer(406,1,NodeBanda203)
+   NAnswer(408,1,NodeBanda204)
+   if (bitDialog(bit_7) == 0) then begin
+   NAnswerSkill(410,3,NodeBanda205,SKILL_CONVERSANT,40,410,NodeBanda206)
+   end
+   NAnswer(414,1,Node999)
+   NAnswer(415,1,Node999)
+end
+
+procedure NodeBanda203 begin
+   Reply(407)
+   NAnswer(404,1,NodeBanda202)
+   NAnswer(408,1,NodeBanda204)
+   if (bitDialog(bit_7) == 0) then begin
+   NAnswerSkill(410,3,NodeBanda205,SKILL_CONVERSANT,40,410,NodeBanda206)
+   end
+   NAnswer(414,1,Node999)
+   NAnswer(415,1,Node999)
+end
+
+procedure NodeBanda204 begin
+   Reply(409)
+   NAnswer(404,1,NodeBanda202)
+   NAnswer(406,1,NodeBanda203)
+   if (bitDialog(bit_7) == 0) then begin
+   NAnswerSkill(410,3,NodeBanda205,SKILL_CONVERSANT,40,410,NodeBanda206)
+   end
+   NAnswer(414,1,Node999)
+   NAnswer(415,1,Node999)
+end
+
+procedure NodeBanda205 begin
+   bitDialogExp(bit_7,20)
+   item_add(dude_obj,PID_TOOL_NV_GLASSES,1)
+   Reply(411)
+   NAnswer(404,1,NodeBanda202)
+   NAnswer(406,1,NodeBanda203)
+   NAnswer(408,1,NodeBanda204)
+   NAnswer(414,1,Node999)
+   NAnswer(415,1,Node999)
+end
+
+procedure NodeBanda206 begin
+   Reply(412)
+   NAnswer(404,1,NodeBanda202)
+   NAnswer(406,1,NodeBanda203)
+   NAnswer(408,1,NodeBanda204)
+   NAnswer(414,1,Node999)
+   NAnswer(415,1,Node999)
+end
+
+procedure NodeBanda300 begin
+   Reply(421)
+   NAnswer(422,1,NodeBanda301)
+end
+
+procedure NodeBanda301 begin
+   setQuest(GVAR_TWOSUN_QST_BAND_SLAVES,10);
+   setBonusReaction(55)
+   exp_add(1500);
+   set_REP(10)
+   display_mstr(425);
+
+   if (gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_3) != 0) then begin
+   Reply(423)
+   end
+   else begin
+   Reply(429)
+   end
+   NAnswer(424,1,NodeGrande100)
+end
+
+//--- КВЕСТ ПОТЕРЯННОГО ЖЕСТЯНЩИКА В КАСА-ГРАНДЕ
+
+procedure NodeGrande100 begin
+   setQuest(GVAR_TWOSUN_QST_LOST_TIN,qStart);
+   Reply(426)
+   BAnswer(427,1,Node999)
+   NAnswer(428,1,Node999)
+end
+
+procedure NodeGrande101 begin
+   item_remove(dude_obj,PID_Q_NEIRO_CHIP,1)
+   Reply(431)
+   NAnswer(432,1,NodeGrande102)
+end
+
+procedure NodeGrande102 begin
+   Reply(433)
+   NAnswer(434,1,NodeGrande103)
+end
+
+procedure NodeGrande103 begin
+   Reply(435)
+   NAnswer(436,1,NodeGrande104)
+end
+
+procedure NodeGrande104 begin
+   setQuest(GVAR_TWOSUN_QST_LOST_TIN,qEnd);
+   set_global_var(GVAR_TWOSUN_STATUS_BOSS,1);
+   setBonusReaction(35)
+   set_REP(5)
+   exp_add(1200);
+
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+      Reply(437)
+      NAnswer(438,1,Node999)
+   end
+   else begin
+      mark_on_map(AREA_PUERTO_STEEL)
+      Reply(439)
+      GAnswer(441,1,NodeGrande105)
+      NAnswer(440,1,Node999)
+   end
+end
+
+procedure NodeGrande105 begin
+   setBonusReaction(10)
+   call Node999;
+end
+
+//--- КВЕСТ КОДИ
+
+/*
+
+СТАРАЯ ВЕРСИЯ:
+
+{350}{}{Я хочу поговорить о Коди.}
+{351}{}{Коди... Проблемный член нашего коллектива. Его ассимиляция происходила в недостаточно малом возрасте, он помнит слишком много из своего прошлого. Эта память словно ржавчина пожирает его изнутри. Очевидно, он говорил с тобой. В таком случае тебе следует знать, что Коди - один из нас. Осложняя ему жизнь, ты осложняешь жизнь всем нам. И это не в твоих интересах.}
+{352}{}{Если вы не хотите потерять члена своего коллектива, лучше раскрыть его историю полностью. Иначе он потеряет к вам доверие.}
+{353}{}{Я понимаю, к чему ты ведешь. Похоже, нам лучше закрыть этот разговор прямо сейчас.}
+{354}{}{Тебе не запугать меня. Я все равно докопаюсь до истины.}
+
+{355}{}{Это не твое дело. Убирайся.}
+{356}{}{Э...}
+{357}{}{Хм... Бесполезная трата времени... Коди не достаточно окреп для путешествия в пустоши, эмоции могут овладеть им. Это губительно скажется на его поведении внутри коллектива.}
+{358}{}{Так пусть семья прибудет к нему в Ту-Сан.}
+{359}{}{Это приемлемо... хотя бесперспективно. Мы обеспечим сопровождение караваном.}
+{360}{}{Отлично, я передам ему новость...}
+{361}{}{... Возможно, только так он избавится от своего прошлого, в котором не было никаких перспектив. Его семья не давала необходимых навыков, а поселение погибало без нашей помощи. Только наш коллектив смог спасти ему жизнь и дать перспективы развития. Не нарушай этой программы, чужак.}
+{362}{}{Возможно, он сам решит.}
+
+*/
+
+procedure NodeCody begin
+   Reply(351)
+   NAnswer(352,1,NodeCody2)
+end
+
+procedure NodeCody2 begin
+   Reply(353)
+   NAnswer(354,1,NodeCody3)
+end
+
+procedure NodeCody3 begin
+   Reply(355)
+   NAnswer(356,1,NodeCody4)
+end
+
+procedure NodeCody4 begin
+   Reply(357)
+   NAnswer(358,1,NodeCody5)
+end
+
+procedure NodeCody5 begin
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_4);
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_5);
+   Reply(359)
+   NAnswer(360,1,Node999)
+   BAnswer(361,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer begin
+   Reply(230)
+
+   if (getQuest(GVAR_MAIN_QUEST_TWOSUN) < qEnd) then begin
+   NAnswer(240,1,NodeAnswer100)
+   end
+   if (bitDialog(bit_2) != 0) then begin
+   NAnswer(242,1,NodeAnswer200)
+   end
+   NAnswer(253,1,NodeAnswer300)
+   if (town_known(AREA_PHOENIX) == MARK_STATE_VISITED) then begin
+   NAnswer(255,1,NodeAnswer400)
+   end
+   if (town_known(AREA_FLAGSTAFF) == MARK_STATE_VISITED) then begin
+   NAnswer(257,1,NodeAnswer500)
+   end
+
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_2,0)
+   Reply(241)
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 0) then begin
+   NAnswer(263,1,NodeAnswer206)
+   end
+   BAnswer(261,1,NodeAnswer205)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(234)
+   NAnswer(235,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   inc_map_var(MVAR_TWOSUN_AgentKnow);
+   Reply(236)
+   NAnswer(237,1,NodeAnswer)
+   NAnswer(238,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(243)
+   NAnswer(244,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(245)
+   if (global_var(GVAR_TITUL_BOS) == 0) then begin
+   NAnswer(246,1,NodeAnswer202)
+   end
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   NAnswer(265,1,NodeAnswer207)
+   end
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   Reply(247)
+   NAnswer(248,1,NodeAnswer203)
+   if ((town_known(AREA_PUERTO_STEEL) == MARK_STATE_UNKNOWN) and (town_known(AREA_PUERTO_DESTROY) == MARK_STATE_UNKNOWN)) then begin
+   NAnswer(250,1,NodeAnswer204)
+   end
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   NAnswer(265,1,NodeAnswer207)
+   end
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   bitDialogExp(bit_3,50)
+   Reply(249)
+   if ((town_known(AREA_PUERTO_STEEL) == MARK_STATE_UNKNOWN) and (town_known(AREA_PUERTO_DESTROY) == MARK_STATE_UNKNOWN)) then begin
+   NAnswer(250,1,NodeAnswer204)
+   end
+   BAnswer(271,1,NodeAnswer302)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer204 begin
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+      if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+      mark_on_map(AREA_PUERTO_DESTROY)
+      end
+      else begin
+      mark_on_map(AREA_PUERTO_STEEL)
+      end
+      Reply(252)
+   end
+   else begin
+      zReply(251)
+   end
+   NAnswer(248,1,NodeAnswer203)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer205 begin
+   Reply(262)
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 0) then begin
+   NAnswer(263,1,NodeAnswer206)
+   end
+   BAnswer(270,1,Node998)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer206 begin
+   Reply(264)
+   BAnswer(261,1,NodeAnswer205)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer207 begin
+   Reply(266)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   Reply(254)
+   NAnswer(248,1,NodeAnswer301)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer301 begin
+   bitDialogExp(bit_3,50)
+   Reply(249)
+   BAnswer(271,1,NodeAnswer302)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer302 begin
+   Reply(272)
+   NAnswer(275,1,NodeAnswer)
+   if (bitDialog(bit_8) == 0) then begin
+   GAnswer(276,6,NodeAnswer303)
+   end
+   BAnswer(273,1,Node998)
+   NAnswer(274,1,Node999)
+end
+
+procedure NodeAnswer303 begin
+   bitDialogExp(bit_8,25)
+   setBonusReaction(10)
+   Reply(277)
+   NAnswer(278,1,NodeAnswer)
+end
+
+procedure NodeAnswer400 begin
+   bitDialogExp(bit_4,10)
+   Reply(256)
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswer(267,1,NodeAnswer401)
+   end
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer401 begin
+   Reply(268)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer500 begin
+   bitDialogExp(bit_5,10)
+   Reply(258)
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   NAnswer(259,1,NodeAnswer501)
+   end
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer501 begin
+   Reply(260)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeRoadWar begin
+   Reply(371)
+   NAnswer(372,1,NodeRoadWar2)
+end
+
+procedure NodeRoadWar2 begin
+   Reply(373)
+   // fixed 378 to 379, which would be the correct response for Zax being disabled/destroyed - cambragol
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+   NAnswer(379,1,NodeRoadWar4)
+   end
+   else begin
+   NAnswerRep(378,1,NodeRoadWar4,15,375,NodeRoadWar3)
+   end
+   NAnswer(374,1,Node999)
+end
+
+procedure NodeRoadWar3 begin
+   Reply(376)
+   NAnswer(377,1,Node999)
+end
+
+procedure NodeRoadWar4 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_27);
+   Reply(368)
+   NAnswer(369,1,Node999)
+end

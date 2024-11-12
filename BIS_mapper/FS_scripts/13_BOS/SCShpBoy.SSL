@@ -1,0 +1,357 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_SCShpBoy
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CHILD              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_CHILD      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_BOS              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      25 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeFstDialog9;
+procedure NodeFstDialog10;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+
+//---------------------
+
+#define LVAR_Time_Invis                     (6) // время до исчезновения с карты развалин
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (cur_map_index == MAP_PUERTO_DESTROY) then begin
+          set_obj_visibility(self_obj, 1);
+          if (gvar_bit(GVAR_ENCOUNTERS_FLAGS_BIT, bit_3) != 0) then begin
+          set_obj_visibility(self_obj, 0);
+          end
+       end
+       else begin
+          if (gvar_bit(GVAR_ENCOUNTERS_FLAGS_BIT, bit_3) != 0) then begin
+          set_obj_visibility(self_obj, 1);
+          end
+       end
+
+       if (local_var(LVAR_Time_Invis) > 0) then begin
+       if (local_var(LVAR_Time_Invis) < game_time) then begin
+       if (getQuest(GVAR_PUERTO_QST_TOY) >= qEnd) then begin
+          set_obj_visibility(self_obj, 1);
+       end
+       end
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (cur_map_index == MAP_PUERTO_DESTROY) then begin
+       //timer_move_to_home
+       end
+       else begin
+       timer_move_random_home(3)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if self_enemy_dude then begin
+   BarklyAttakDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+
+   if (objUsedPid == PID_Q_HORSE) then begin
+      script_overrides;
+      if (getQuest(GVAR_PUERTO_QST_TOY) < qEnd) then begin
+         if (cur_map_index == MAP_PUERTO_DESTROY) then begin
+         floater(self_obj, 285, COLOR_MSG_GREEN);
+         exp_add(350);
+         if (local_var(LVAR_Time_Invis) == 0) then begin
+         set_local_var(LVAR_Time_Invis, ONE_GAME_DAY + game_time);
+         end
+         setQuest(GVAR_PUERTO_QST_TOY,qEnd);
+         item_remove(dude_obj, objUsedPid, 1)
+         end
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   BarklyAttakDude
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_off(GVAR_ENCOUNTERS_FLAGS_BIT, bit_3);
+   setQuest(GVAR_PUERTO_QST_TOY,qStop);
+   item_add(self_obj,PID_KEY_DESTROYER,1)
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (cur_map_index == MAP_PUERTO_DESTROY) then begin
+      floater(self_obj, 284, COLOR_MSG_RED);
+      if (local_var(LVAR_Time_Invis) == 0) then begin
+      set_local_var(LVAR_Time_Invis, ONE_GAME_DAY + game_time);
+      end
+   end
+   else if town_rep_is_hated then begin
+      floater(self_obj, 103, COLOR_MSG_RED);
+   end
+   else begin
+      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   Reply(200)
+   NAnswer(202,5,NodeFstDialog2)
+   BAnswer(208,1,NodeFstDialog4)
+   NAnswer(207,1,NodeFstDialog3)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   BAnswer(204,1,NodeFstDialog4)
+   GAnswer(mstr(205)+dude_name+mstr(206),1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(20)
+   zReply(209)
+   BAnswer(212,1,NodeFstDialog6)
+   GAnswer(210,1,NodeFstDialog5)
+end
+
+// fixed incorrect reply here. Should match NodeFstDialog3 - cambragol
+procedure NodeFstDialog4 begin
+   setBonusReaction(-20)
+   zReply(209)
+   BAnswer(212,1,NodeFstDialog6)
+   GAnswer(210,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(211)
+   NAnswer(214,1,NodeFstDialog7)
+end
+
+procedure NodeFstDialog6 begin
+   setBonusReaction(-20)
+   Reply(213)
+   NAnswer(214,1,NodeFstDialog7)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(215)
+   NAnswer(218,1,NodeFstDialog9)
+   BAnswer(216,1,NodeFstDialog8)
+end
+
+procedure NodeFstDialog8 begin
+   setBonusReaction(-20)
+   Reply(217)
+   NAnswer(220,1,NodeFstDialog10)
+end
+
+procedure NodeFstDialog9 begin
+   zReply(219)
+   NAnswer(220,1,NodeFstDialog10)
+end
+
+procedure NodeFstDialog10 begin
+   bitDialogExp(bit_1,50)
+   Reply(221)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(102)
+   end
+   else begin
+   Reply(random(250,253))
+   end
+   NAnswer(260,1,NodeAnswer100)
+   NAnswer(263,1,NodeAnswer101)
+   if (getQuest(GVAR_PUERTO_QST_TOY) == qZero) then begin
+   NAnswer(266,1,NodeAnswer102)
+   end
+   if (getQuest(GVAR_PUERTO_QST_TOY) == qStart) then begin
+   if (item_amnt(dude_obj,PID_Q_HORSE)>0) then begin
+   NAnswer(272,1,NodeAnswer104)
+   end
+   end
+   if (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) != 0) then begin
+   NAnswer(280,0,NodeAnswer107)
+   end
+   NAnswer(255,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(261)
+   NAnswer(262,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(264)
+   NAnswer(265,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(267)
+   NAnswer(269,1,NodeAnswer103)
+   NAnswer(268,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   setQuest(GVAR_PUERTO_QST_TOY,qStart);
+   Reply(270)
+   NAnswer(271,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   setQuest(GVAR_PUERTO_QST_TOY,qEnd);
+   item_remove(dude_obj,PID_Q_HORSE,1)
+   Reply(273)
+   NAnswer(274,1,NodeAnswer105)
+   BAnswer(277,1,NodeAnswer106)
+end
+
+procedure NodeAnswer105 begin
+   exp_add(350);
+   set_SLAVA(10)
+   set_REP(2)
+   setBonusReaction(50)
+   zReply(275)
+   NAnswer(276,1,Node999)
+end
+
+procedure NodeAnswer106 begin
+   exp_add(350);
+   set_SLAVA(-10)
+   set_REP(-2)
+   setBonusReaction(-50)
+   //item_remove(self_obj,PID_KEY_DESTROYER,1)
+   item_add(dude_obj,PID_KEY_DESTROYER,1)
+   Reply(278)
+   NAnswer(279,1,Node999)
+end
+
+procedure NodeAnswer107 begin
+   zReply(281)
+   NAnswer(282,1,NodeAnswer108)
+   NAnswer(283,1,Node999)
+end
+
+procedure NodeAnswer108 begin
+   set_gvar_bit_on(GVAR_ENCOUNTERS_FLAGS_BIT, bit_3);
+   if (getQuest(GVAR_PUERTO_QST_TOY) < qEnd) then begin
+   setQuest(GVAR_PUERTO_QST_TOY,qStop);
+   end
+   set_SLAVA(5)
+   bitDialogExp(bit_2,100)
+   set_obj_visibility(self_obj, 1);
+   call Node999;
+end

@@ -1,0 +1,486 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_NCHimadr
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_NUEVA // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        11  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BOX_TILE_B                      12  // номер тайла с ящиком для временных предметов
+
+#define NUM_TEAM                        TEAM_CASANUEVA_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      55 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeBarter;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+#define CoaBox                            tile_contains_pid_obj(BOX_TILE_B,0,PID_CNTR_BARTER_BOX) \
+
+variable ReplyNum;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (tile_contains_obj_pid(BOX_TILE_B,0,PID_CNTR_BARTER_BOX) == false) then begin
+       create_object_sid(PID_CNTR_BARTER_BOX,BOX_TILE_B,0,-1);
+       end
+       move_obj_inven_to_obj(self_obj,CoaBox);
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_WEEK)
+       move_obj_inven_to_obj(CoaBox,self_obj);
+   end
+end
+
+procedure setBarterA begin
+   //До раскрытия товара не торгует
+end
+
+procedure setBarterB begin
+        if (getQuest(GVAR_NUEVA_QST_PLANT_INSECT) > qEnd) then begin
+        check_restock_item(PID_AGAVE_JUICE, 5, 10, 100)
+        end
+        else begin
+        check_restock_item(PID_AGAVE_JUICE, 3, 5, 100)
+        end
+        //- крышки
+        check_restock_many(120,180)
+
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+   script_overrides;
+   if (bitDialog(bit_1) == 0) then begin
+   display_mstr(100);
+   end
+   else begin
+   display_mstr(105);
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(3)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+// modified for standardized handling of the espanol perk - cambragol
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_BOS,25) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-35) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,20) // Поправка к отношению за принадлежность к фракциям
+
+   if (game_time_hour < 0600) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj,104,COLOR_MSG_RED);
+      end
+      else begin
+         floater(self_obj,112,COLOR_MSG_RED);
+      end
+   end
+   else begin
+   move_obj_inven_to_obj(self_obj,CoaBox);
+   dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
+   move_obj_inven_to_obj(CoaBox,self_obj);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_10) != 0) then begin
+      if ((game_time_hour >= 0600) and (game_time_hour < 1800)) then begin
+      ReplyNum := 217;
+      end
+      else begin
+      ReplyNum := 216;
+      end
+
+      if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+            if DudeTraitHas(TRAIT_espanol) then begin
+               ReplyNum := 282;
+            end
+            else begin
+               ReplyNum := 280;
+            end
+      end
+   end
+   else begin
+      if ((game_time_hour >= 0600) and (game_time_hour < 1800)) then begin
+      ReplyNum := 211;
+      end
+      else begin
+      ReplyNum := 210;
+      end
+
+      if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+            if DudeTraitHas(TRAIT_espanol) then begin
+               ReplyNum := 283;
+            end
+            else begin
+               ReplyNum := 281;
+            end
+      end
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+      Reply(2200)
+      NAnswer(mstr(109)+dude_name+mstr(110),4,NodeFstDialog4)
+      BAnswer(111,4,NodeFstDialog4)
+      BAnswer(214,4,Node999)
+   end
+   else begin
+      zReply(200)
+      NAnswer(mstr(205)+dude_name+mstr(206),4,NodeFstDialog4)
+      NAnswer(212,4,Node999)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   setReaction(-25)
+   set_REP(-2)
+   ReplyNum := 219;
+   Reply(202)
+   NAnswer(203,4,NodeSndDialog)
+   BAnswer(204,4,NodeSndDialog)
+end
+
+procedure NodeFstDialog3 begin
+   setReaction(25)
+   set_REP(1)
+   ReplyNum := 219;
+   zReply(207)
+   NAnswer(208,4,NodeSndDialog)
+   BAnswer(209,4,NodeSndDialog)
+end
+
+procedure NodeFstDialog4 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      zReply(269)
+      GAnswer(272,4,NodeFstDialog5)
+   end
+   else begin
+      zReply(270)
+      NAnswer(271,4,Node999)
+   end
+end
+
+procedure NodeFstDialog5 begin
+   bitDialogExp(bit_10,0)
+   Reply(273)
+   NAnswer(mstr(107)+dude_name+mstr(108),4,NodeFstDialog3)
+   BAnswer(201,4,NodeFstDialog2)
+end
+
+procedure NodeFstDialog6 begin
+   bitDialogExp(bit_10,0)
+   ReplyNum := 219;
+   Reply(273)
+   NAnswer(279,0,NodeSndDialog)
+end
+
+//--- ВТОРОЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (ReplyNum>0) then begin
+      Reply(ReplyNum)
+   end
+   else begin
+      Reply(218)
+   end
+
+   if (bitDialog(bit_10) == 0) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+      GAnswer(272,4,NodeFstDialog6)
+      end
+   end
+
+   if (bitDialog(bit_10) != 0) then begin
+      NAnswer(220,4,NodeAnswer100)
+      NAnswer(223,4,NodeAnswer101)
+      NAnswer(230,4,NodeAnswer200)
+      NAnswer(250,4,NodeAnswer300)
+   end
+   else begin
+      if (get_BarterDopusk == 0) then begin
+      NAnswer(274,4,NodeAnswer204)
+      end
+   end
+
+   if (get_BarterDopusk != 0) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         NAnswer(2213,4,NodeBarter)
+      end
+      else begin
+         NAnswer(213,4,NodeBarter)
+      end
+   end
+
+   if (bitDialog(bit_10) != 0) then begin
+   NAnswer(215,4,Node999)
+   end else begin
+   NAnswer(212,4,Node999)
+   end
+   BAnswer(214,-3,Node999)
+end
+
+procedure NodeBarter begin
+   goBarterMod;
+   call NodeSndDialog;
+end
+
+procedure NodeAnswer100 begin
+   ReplyNum := 265;
+   Reply(221)
+   NAnswer(222,4,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   ReplyNum := 265;
+   Reply(224)
+   NAnswer(225,4,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   Reply(226)
+   NAnswer(227,7,NodeAnswer103)
+   NAnswer(229,4,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_2,50)
+   ReplyNum := 265;
+   zReply(228)
+   NAnswer(229,4,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   ReplyNum := 265;
+   Reply(231)
+   NAnswer(232,4,NodeAnswer201)
+   NAnswer(233,5,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(234)
+   NAnswer(235,4,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   Reply(236)
+   NAnswer(237,4,NodeAnswer203)
+   if (get_BarterDopusk == 0) then begin
+   NAnswer(239,4,NodeAnswer204)
+   end
+   NAnswer(241,4,NodeSndDialog)
+end
+
+procedure NodeAnswer203 begin
+   Reply(238)
+   NAnswer(263,4,NodeAnswer207)
+   if (get_BarterDopusk == 0) then begin
+   NAnswer(239,4,NodeAnswer204)
+   end
+   NAnswer(241,4,NodeSndDialog)
+end
+
+procedure NodeAnswer204 begin
+      call NodeAnswer206;
+      /*
+   if ((get_REP>=5) or DudeTraitHas(TRAIT_espanol)) then begin
+      call NodeAnswer206;
+   end
+   else begin
+      if (bitDialog(bit_10) != 0) then begin
+      Reply(240)
+      end
+      else begin
+      zReply(275)
+      end
+
+      if (get_BarterDopusk == 0) then begin
+      NAnswerSkill(246,4,NodeAnswer206,SKILL_BARTER,50,242,NodeAnswer205)
+      NAnswerRep(249,4,NodeAnswer206,15,262,NodeAnswer205)
+      end
+
+
+      NAnswer(237,4,NodeAnswer203)
+      NAnswer(241,4,NodeSndDialog)
+   end
+   */
+end
+
+procedure NodeAnswer205 begin
+   if (bitDialog(bit_10) != 0) then begin
+   Reply(243)
+   NAnswer(245,4,NodeAnswer100)
+   end
+   else begin
+   zReply(276)
+   end
+   NAnswer(244,4,NodeSndDialog)
+end
+
+procedure NodeAnswer206 begin
+   call setBarterB;
+   if (bitDialog(bit_10) != 0) then begin
+   Reply(247)
+   NAnswer(248,4,NodeBarter)
+   end
+   else begin
+   zReply(277)
+   NAnswer(278,4,NodeBarter)
+   end
+end
+
+procedure NodeAnswer207 begin
+   Reply(264)
+   if (get_BarterDopusk == 0) then begin
+   NAnswer(239,4,NodeAnswer204)
+   end
+   NAnswer(241,4,NodeSndDialog)
+end
+
+procedure NodeAnswer300 begin
+   ReplyNum := 265;
+   Reply(251)
+   NAnswer(253,4,NodeAnswer301)
+   NAnswer(252,4,NodeSndDialog)
+end
+
+procedure NodeAnswer301 begin
+   Reply(254)
+   zNAnswer(255,4,NodeAnswer302)
+   NAnswer(257,5,NodeAnswer303)
+   NAnswer(252,4,NodeSndDialog)
+end
+
+procedure NodeAnswer302 begin
+   Reply(256)
+   NAnswer(257,5,NodeAnswer303)
+   NAnswer(260,4,NodeSndDialog)
+end
+
+procedure NodeAnswer303 begin
+   bitDialogExp(bit_3,25)
+   Reply(258)
+   NAnswer(261,4,NodeAnswer302)
+   NAnswer(259,4,NodeSndDialog)
+end

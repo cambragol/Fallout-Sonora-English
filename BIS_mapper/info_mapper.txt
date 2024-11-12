@@ -1,0 +1,77 @@
+== ... You can move already placed and configured objects across map levels by holding them with the cursor and pressing Page Up or Page Down.
+To make the pro-file editor work, you need to create a folder in the root disk: DISK/fallout2/dev/PROTO/... (instead of the ellipsis of the profile folder: CRITTERS, SCENERY, etc.)
+In the Fallout 2 file system, no more than 8 characters are allowed in the file name, otherwise such a file will not be found by the engine or script. This applies to anything - sprites, sounds, scripts, location maps, etc.
+
+>> For the world map (works only in pseudo-game mode):
+
+D - displays the names of encounters for each tile, when pressed again, removes the inscriptions and makes all tiles covered with fog of war again.
+F - initiates a random encounter at the hero's current position on the world map. Shift+F allows you to select a specific encounter from the WORLDMAP.TXT list (first, the Encounter Table number is selected, then the encounter number enc_ inside it)
+H - displays all available locations on the world map, except for hidden ones. Shift+H also displays hidden locations (marked with start_state=Off in CITY.TXT).
+C - toggles between walking and driving.
+Alt+LMB - teleports the hero to the click point on the map.
+F1 - displays the cursor coordinates on the world map (relevant for the city.txt file).
+
+>> For local maps:
+
+Ctrl+Enter - calls the window for adding items to the hero's inventory.
+Alt+LMB - teleports the hero to the click point on the map (only in pseudo-game mode).
+F8 - enters or exits the game mode (after exiting the game mode, you must reopen the map).
+I - shows the names of their scripts above the objects.
+U - opens/closes the selected door or container.
+K - kills/resurrects the selected critter (K+Shift - kills with a choice of death type).
+S - creates a new trigger (after pressing, click the mouse on the target hex of the map to place the trigger there).
+
+>> Indices of sounds of opening/closing containers (parameter Sound ID):
+
+A - refrigerator
+B - metal cabinet, built-in wall safe
+C - icebox, wooden chest, protruding wall safe, floor safe
+D - metal chest, army box for weapons
+E - grave
+
+>> Indices of sounds of opening/closing doors and portals (parameter Sound ID):
+Note: PIDs of objects in Fallout 2 are given in brackets.
+Note: Sound files of the type xxDOORSz, where xx is the index of the door operation (SC closing, SO opening, SL locked, SN jammed) and z is the door type index from A to T (decryption below)
+
+A - regular vault doors (17,18,141,142), external doors of Vault City houses (1386-1391), small doors of the Enclave (1572,1573)
+B - vault 13 interior security doors (7)
+C - regular old door (331,332,405,847-849), NCR half-round top farmhouse door (1530-1535)
+D - Vika's door (1), regular warehouse/garage door (480,481), ornate farmhouse door (961)
+E - regular double door (257-260,853-860)
+F - large entrance doors of the Overlord's Cathedral (345), front doors of the Nuclear Power Plant (877), mine elevator doors (1744)
+G - half-round interior doors of the Overlord's Cathedral (436,437)
+H - entrance door to the Mariposa base in F1 (447)
+I - sewer manhole cover (143)
+J - round doors in the Brotherhood bunker (150,151), garage doors at Rangers in NCR (1433,1434)
+K - Brotherhood bunker doors with and without the BS symbol (152,153) (1357), Vault elevators (420,469), Nuclear Power Plant round interior doors (980-983,1168,1169), Vault City street entrance gates (1336)
+L - pen gate (76,86-88), Modoc toilet drain (994), mesh gate (1465,1466), Reno casino front doors (1478,1479,1490,1491), Broken Hills gates (1817,1818)
+M - stone secret wall door (194,824), secret stairwell in the Overlord's Cathedral (485), stone door to Emperor Shi (1448)
+N - wooden hatch (195)
+O - large cog door of the shelter (172), large doors of the Enclave (1574,1575)
+P - curtains (360,361)
+Q - barred prison door (580,644), doors on the tanker (1708,1709)
+R - armored door of the bank in the Hub (825)
+S - stone door in the Temple of Trials (933)
+T - large warehouse/garage doors (1416,1417)
+
+>> Sound indices for weapons:
+
+0 - vibroknife Ripper
+1 - brass knuckles, power fist
+2 - rocks, plant thorn
+3 - various knives
+4 - throwing knife, flare
+5 - crowbar, wrench, bat
+6 - baton police
+7 - sledgehammers
+8 - spears and stakes
+9 - cattle prod
+A - 10mm pistol
+B - desert eagle, 9mm mauser
+C - laser pistol, phaser, solar scorcher
+D - 10mm PP, Grease Gun
+E - magnum revolver, 14mm pistol, .223 pistol
+F - plasma pistol
+G - rifles (hunting, sniper, homemade)
+H - automatic rifles (G11, G11e, P90c, Tommy gun, FN FAL, assault, XL70E)
+I - fire

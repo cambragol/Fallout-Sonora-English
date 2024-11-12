@@ -1,0 +1,250 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TCPost
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      80 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeCurier;
+procedure NodeCurierSkidka;
+procedure NodeCurier1;
+procedure NodeCurier2;
+procedure NodeCurierEnd;
+
+//---------------------
+
+#define LVAR_Coast_Express              (6) // цена за посылку в Феникс (устанавливается при первом запуске, затем меняется по ходу диалога)
+
+variable dialogCityCurier;              // пункт назначения для отправки посылки
+variable dialogCityCoast;               // модификатор цены на пересылку
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,random(55,75))
+       set_local_var(LVAR_Coast_Express,350);
+       end
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_3);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_6) == 0) then begin
+      call NodeFstDialog;
+   end
+   else if (bitDialog(bit_3) == 0) then begin
+      call NodeDialog;
+   end
+   else begin
+      if ((global_var(GVAR_TITUL_BOS_TRAITOR) >0) or (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd)) then begin
+      call NodeDialog2;
+      end
+      else begin
+      call NodeDialog;
+      end
+   end
+end
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_6,0)
+   Reply(230)
+   // added below dialogue switch to handle players who have already learned of the Sonora Express - cambragol
+   if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_7) != 0) then begin
+   NAnswer(236,1,NodeFstDialog3)
+   end
+   else begin
+   NAnswer(231,1,NodeFstDialog2)
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_7);
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(232)
+   NAnswer(233,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(234)
+   NAnswer(235,1,Node999)
+end
+
+//--- ДИАЛОГ
+
+procedure NodeDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   zReply(200)
+   bitDialogExp(bit_1,0)
+   end
+   else begin
+   Reply(202)
+   end
+
+   /*
+   if (town_known(AREA_PHOENIX) > MARK_STATE_UNKNOWN) then begin
+   NAnswer(203,1,NodeCurier1)
+   end
+   if (town_known(AREA_FLAGSTAFF) > MARK_STATE_UNKNOWN) then begin
+   NAnswer(204,1,NodeCurier2)
+   end
+   */
+   if ((bitDialog(bit_3) == 0) and (getQuest(GVAR_PUERTO_BOS_DESTROY) < qEnd)) then begin
+      if (global_var(GVAR_TITUL_BOS) >0) then begin
+      NAnswer(220,1,NodeCurierSkidka)
+      end
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   set_local_var(LVAR_Coast_Express,local_var(LVAR_Coast_Express)*2);
+   bitDialogZero(bit_3)
+   Reply(223)
+   NAnswer(224,1,Node999)
+end
+
+//--- ОТПРАВКА ПОСЫЛКИ
+
+procedure NodeCurier begin
+   Reply(mstr(210)+dialogCityCoast+mstr(211))
+   NAnswer(212,1,NodeCurierEnd)
+   NAnswer(213,1,Node999)
+end
+
+procedure NodeCurierSkidka begin
+   bitDialogExp(bit_3,50)
+   set_local_var(LVAR_Coast_Express,local_var(LVAR_Coast_Express)/2);
+   Reply(221)
+   NAnswer(222,1,NodeDialog)
+end
+
+procedure NodeCurier1 begin
+   dialogCityCurier := bit_5;
+   dialogCityCoast := local_var(LVAR_Coast_Express)*1;
+   call NodeCurier;
+end
+
+procedure NodeCurier2 begin
+   dialogCityCurier := bit_4;
+   dialogCityCoast := local_var(LVAR_Coast_Express)*2;
+   call NodeCurier;
+end
+
+procedure NodeCurierEnd begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= dialogCityCoast) then begin
+      item_remove(dude_obj,PID_BOOTLE_CAPS,dialogCityCoast)
+      item_add(self_obj,PID_BOOTLE_CAPS,dialogCityCoast)
+      play_sfx("BELLBOX1");
+      set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, dialogCityCurier);
+      Reply(217)
+      NAnswer(218,1,Node999)
+   end
+   else begin
+      Reply(214)
+      NAnswer(215,1,NodeDialog)
+      NAnswer(216,1,Node999)
+   end
+end

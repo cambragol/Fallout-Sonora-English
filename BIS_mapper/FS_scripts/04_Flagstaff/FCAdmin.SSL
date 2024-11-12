@@ -1,0 +1,556 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCAdmin
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_CITIZEN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure stopQuiest;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog3;
+procedure NodeStopDialog4;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeQuestInfo;
+procedure NodeQuest000;
+procedure NodeQuest001;
+procedure NodeQuest002;
+procedure NodeQuest100;
+procedure NodeQuest101;
+procedure NodeQuest102;
+procedure NodeQuest200;
+procedure NodeQuest201;
+procedure NodeQuest202;
+procedure NodeQuest203;
+procedure NodeQuest204;
+procedure NodeQuest999;
+
+procedure NodeSelf;
+procedure NodeSelf1;
+procedure NodeSelf2;
+procedure NodeSelf3;
+procedure NodeSelf4;
+procedure NodeSelf5;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,random(35,50))
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+       timer_float_reply(120,129)
+       end else begin
+       timer_float_reply(110,119)
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   // - added to match fcbarmen - cambragol
+   if (objUsedPid == PID_M_BRAHMIN_POTROH) then begin
+   if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
+      script_overrides;
+      if ((global_var(GVAR_STATUS_FLAGSTAFF_ADMIN) != 0) or (global_var(GVAR_FLAGSTAFF_TIMER_DINNER)<game_time)) then begin
+         floater(self_obj, 105, COLOR_MSG_RED);
+      end
+      else begin
+         item_remove(dude_obj,objUsedPid,1)
+         setBonusReaction(20)
+         floater(self_obj, 104, COLOR_MSG_GREEN);
+         display_mstr(106);
+         set_global_var(GVAR_STATUS_FLAGSTAFF_ADMIN, 1);
+      end
+   end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure stopQuiest begin
+   if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) <= qStart) then begin
+      if (global_var(GVAR_FLAGSTAFF_ROBOT_STATUS) >0) then begin
+      setQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR,qEnd);
+      end
+      else begin
+      setQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR,qStop);
+      end
+   end
+   if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) <= qStart) then begin
+      if (global_var(GVAR_FLAGSTAFF_RAT_KING_LIFE) != 0) then begin
+      setQuest(GVAR_FLAGSTAFF_RAT_KING_QST,qEnd);
+      end
+      else begin
+      setQuest(GVAR_FLAGSTAFF_RAT_KING_QST,qStop);
+      end
+   end
+end
+
+procedure destroy_p_proc begin
+   call stopQuiest;
+   set_global_var(GVAR_STATUS_FLAGSTAFF_ADMIN, -1);
+   kill_critter_opt
+   if (bitDialog(bit_1) != 0) then begin
+   kill_critter_dude_reply(103,0)
+   end
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_STATUS_FLAGSTAFF_FABER) < 0) then begin
+   call NodeStopDialog;
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   call NodeStopDialog3;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//----- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   Reply(300)
+
+   if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) == qStart) then begin
+   NAnswer(302,1,NodeStopDialog2)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qStart) then begin
+   NAnswer(302,1,NodeStopDialog2)
+   end
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) == qStart) then begin
+   NAnswer(233,1,NodeAnswer101)
+   end
+
+   NAnswer(301,1,Node999)
+end
+
+procedure NodeStopDialog2 begin
+   call stopQuiest;
+   Reply(303)
+   NAnswer(304,1,Node999)
+end
+
+procedure NodeStopDialog3 begin
+   Reply(237)
+
+   if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) == qStart) then begin
+   NAnswer(239,1,NodeStopDialog4)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qStart) then begin
+   NAnswer(239,1,NodeStopDialog4)
+   end
+
+   NAnswer(238,1,Node999)
+end
+
+procedure NodeStopDialog4 begin
+   call stopQuiest;
+   Reply(240)
+   NAnswer(241,1,Node999)
+end
+
+//----- ПЕРВЫЙ ДИАЛОГ (знакомство)
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,25)
+   Reply(200)
+   BAnswer(201,1,NodeFstDialog1)
+   NAnswer(202,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog1 begin
+   setBonusReaction(-10)
+   Reply(203)
+   BAnswer(204,1,NodeFstDialog2)
+   NAnswer(202,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(-10)
+   set_REP(-1)
+   Reply(205)
+   NAnswer(206,1,NodeSndDialog)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(207)
+   NAnswer(208,1,NodeSndDialog)
+end
+
+procedure NodeFstDialog4 begin
+   set_global_var(GVAR_STATUS_FLAGSTAFF_ADMIN, 1);
+   setBonusReaction(20)
+   // - added to match fcbarmen - cambragol
+   item_remove(dude_obj,PID_M_BRAHMIN_POTROH,1)
+   zReply(243)
+   NAnswer(244,1,Node999)
+end
+
+//----- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+      NAnswer(236,1,NodeStopDialog3)
+   end
+   else begin
+      if (getQuest(GVAR_FLAGSTAFF_MERPSWDR) == qStart) then begin
+      if (bitDialog(bit_4) == 0) then begin
+      NAnswer(250,1,NodeQuest000)
+      end
+      end
+      if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) == qStart) then begin
+      NAnswer(260,1,NodeQuest100)
+      end
+      if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qStart) then begin
+      NAnswer(270,1,NodeQuest200)
+      end
+   end
+
+   if (bitDialog(bit_2) == 0) then begin
+      NAnswer(212,1,NodeSelf)
+   end
+   if (getQuest(GVAR_MAIN_QUEST_PHENIX) == qStart) then begin
+      NAnswer(230,1,NodeAnswer100)
+   end
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) == qStart) then begin
+      NAnswer(233,1,NodeAnswer101)
+   end
+   if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qStart) then begin
+      NAnswer(245,1,NodeAnswer102)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qZero) then begin
+      if (map_var(MVAR_FLAG_SlavMineDlg) == 1) then begin
+      NAnswer(245,1,NodeAnswer102)
+      end
+   end
+   // - added to match fcbarmen - cambragol
+   if (item_amnt(dude_obj,PID_M_BRAHMIN_POTROH) > 0) then begin
+   if (global_var(GVAR_STATUS_FLAGSTAFF_ADMIN) == 0) then begin
+   if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
+   if (global_var(GVAR_FLAGSTAFF_TIMER_DINNER)>=game_time) then begin
+   NAnswer(242,1,NodeFstDialog4)
+   end
+   end
+   end
+   end
+   NAnswer(290,1,NodeQuestInfo)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(231)
+   NAnswer(232,1,NodeStartDialog) // не NodeSndDialog!
+end
+
+procedure NodeAnswer101 begin
+   Reply(234)
+   NAnswer(235,1,NodeStartDialog) // не NodeSndDialog!
+end
+
+procedure NodeAnswer102 begin
+   Reply(246)
+   NAnswer(247,1,Node999)
+end
+
+//----- ЗАДАНИЯ В ШАХТАХ
+
+procedure NodeQuestInfo begin
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   Reply(293)
+   end
+   else if (global_var(GVAR_STATUS_FLAGSTAFF_FABER) == -1) then begin
+   Reply(294)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) == qEnd) then begin
+   Reply(295)
+   end
+   else if ((getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) == qEnd) and (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qEnd)) then begin
+   Reply(296)
+   end
+   else begin
+   Reply(297)
+   end
+
+   if (bitDialog(bit_4) == 0) then begin
+   NAnswer(298,1,NodeQuest001)
+   end
+   NAnswer(291,1,NodeSndDialog)
+   NAnswer(292,1,Node999)
+end
+
+procedure NodeQuest000 begin
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) < qEnd) then begin
+   Reply(251)
+   NAnswer(252,1,NodeQuest001)
+   end
+   else begin
+   Reply(299)
+   NAnswer(292,1,Node999)
+   end
+end
+
+procedure NodeQuest001 begin
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) < qEnd) then begin
+   Reply(253)
+   NAnswer(254,1,NodeQuest002)
+   end
+   else begin
+   Reply(299)
+   NAnswer(292,1,Node999)
+   end
+end
+
+procedure NodeQuest002 begin
+   bitDialogExp(bit_4,0)
+   if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) < qStart) then begin
+   setQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR,qStart);
+   end
+   if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) < qStart) then begin
+   setQuest(GVAR_FLAGSTAFF_RAT_KING_QST,qStart);
+   end
+
+   Reply(255)
+   NAnswer(256,1,Node999)
+end
+
+procedure NodeQuest100 begin
+   Reply(261)
+   NAnswer(262,2,NodeQuest101)
+   if (global_var(GVAR_FLAGSTAFF_ROBOT_STATUS) == 1) then begin
+   NAnswer(264,1,NodeQuest102)
+   end
+   NAnswer(257,1,NodeSndDialog)
+end
+
+procedure NodeQuest101 begin
+   Reply(263)
+   NAnswer(257,1,NodeSndDialog)
+end
+
+procedure NodeQuest102 begin
+   setQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR,qEnd);
+   item_add(dude_obj,PID_BOOTLE_CAPS,200)
+   set_REP(5)
+   Reply(265)
+   NAnswer(266,1,NodeQuest999)
+end
+
+procedure NodeQuest200 begin
+   Reply(271)
+   if (global_var(GVAR_FLAGSTAFF_RAT_KING_LIFE) != 0) then begin
+   NAnswer(272,1,NodeQuest202)
+   end
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswerSkill(275,4,NodeQuest201,SKILL_CONVERSANT,60,275,NodeQuest204)
+   end
+   NAnswer(257,1,NodeSndDialog)
+end
+
+procedure NodeQuest201 begin
+   if (item_amnt(self_obj,PID_KEY_FLAGSTAFF_MINE) >0) then begin
+   bitDialogExp(bit_3,50)
+   item_add(dude_obj,PID_KEY_FLAGSTAFF_MINE,1)
+   item_remove(self_obj, PID_KEY_FLAGSTAFF_MINE, 1)
+   Reply(276)
+   NAnswer(277,1,Node999)
+   end
+   else begin
+   Reply(279)
+   NAnswer(280,1,Node999)
+   NAnswer(283,1,Node999)
+   end
+end
+
+procedure NodeQuest202 begin
+   Reply(273)
+   if (item_amnt(dude_obj,PID_TOOTHS_RAT_KING) >0) then begin
+   NAnswer(274,1,NodeQuest203)
+   end
+   NAnswer(257,1,NodeSndDialog)
+end
+
+procedure NodeQuest203 begin
+   setQuest(GVAR_FLAGSTAFF_RAT_KING_QST,qEnd);
+   exp_add(250);
+   item_remove(dude_obj, PID_TOOTHS_RAT_KING, 1)
+   item_add(dude_obj,PID_BOOTLE_CAPS,200)
+   set_REP(5)
+   Reply(281)
+   NAnswer(282,1,NodeQuest999)
+end
+
+procedure NodeQuest204 begin
+   Reply(278)
+   NAnswer(258,1,NodeSndDialog)
+end
+
+procedure NodeQuest999 begin
+   if ((getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) >= qEnd) and (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) >= qEnd)) then begin
+      if (global_var(GVAR_STATUS_FLAGSTAFF_FABER) == -1) then begin
+      call Node999;
+      end
+      else begin
+      setQuest(GVAR_FLAGSTAFF_MERPSWDR,qEnd);
+      Reply(267)
+      NAnswer(268,1,Node999)
+      NAnswer(269,1,Node999)
+      end
+   end
+   else begin
+      call Node999;
+   end
+end
+
+//----- ПРО СЕБЯ
+
+procedure NodeSelf begin
+   Reply(213)
+   NAnswer(223,1,NodeSelf1)
+   NAnswer(214,4,NodeSelf2)
+   NAnswer(222,1,NodeSndDialog)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeSelf1 begin
+   Reply(224)
+   NAnswer(214,4,NodeSelf2)
+   NAnswer(222,1,NodeSndDialog)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeSelf2 begin
+   Reply(215)
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswerSkill(216,4,NodeSelf3,SKILL_CONVERSANT,60,216,NodeSelf4)
+   end
+   NAnswer(222,1,NodeSndDialog)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeSelf3 begin
+   Reply(217)
+   NAnswer(218,1,NodeSelf5)
+end
+
+procedure NodeSelf4 begin
+   Reply(221)
+   NAnswer(222,1,NodeSndDialog)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeSelf5 begin
+   bitDialogExp(bit_2,75)
+   setBonusReaction(20)
+   set_REP(1)
+   Reply(219)
+   NAnswer(220,1,NodeSndDialog)
+   NAnswer(209,1,Node999)
+end
