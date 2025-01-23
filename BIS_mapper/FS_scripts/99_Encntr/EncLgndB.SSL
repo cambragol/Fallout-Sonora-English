@@ -1,0 +1,31 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_EncLgndB
+
+procedure start;
+procedure damage_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         display_mstr(120);
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_emp) then begin
+         display_mstr(120);
+      end
+      else begin
+         inc_map_var(MVAR_ENC_LEGENDCITY_POINT);
+         display_msg(mstr(110)+(map_var(MVAR_ENC_LEGENDCITY_POINT))+mstr(111));
+         floater(self_obj,random(112,119),COLOR_MSG_GREY);
+
+         set_obj_visibility(self_obj, 1);
+         //!!! смена дислокации если будет нарисована новая графика
+         create_object_sid(self_PID, self_tile, 0, NAME);
+         destroy_object(self_obj);
+      end
+   end
+end

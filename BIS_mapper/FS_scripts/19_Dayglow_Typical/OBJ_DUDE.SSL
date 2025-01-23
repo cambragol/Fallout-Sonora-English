@@ -1,0 +1,1001 @@
+#include "..\headers\define.h"
+#include "..\headers\updatmap.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_OBJ_DUDE
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure map_exit_p_proc;
+procedure critter_p_proc;
+procedure description_p_proc;
+procedure CHIT_BONUS_loot;
+procedure CHIT_BONUS_car;
+procedure CHIT_BONUS_stat;
+procedure CHIT_BONUS_perk;
+procedure timed_event_p_proc;
+procedure is_dropping_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure map_stop_proc;
+//procedure express_box_enter;
+
+#define LVAR_Last_Digest_Time           (0) // рудимент F2, не трогать на всякий случай
+#define LVAR_RAD_TIMER                  (1) // Таймер облучения ГГ на локациях (параметры облучения задаются в скрипте карт ZTMap)
+
+variable elevation_dude_var;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   //call express_box_enter;
+   elevation_dude_var := dude_elevation;
+
+   if (is_loading_game == false) then begin
+       if ((cur_map_index != MAP_VILLA_HOME) and (cur_map_index != MAP_VILLA_CAVE)) then begin
+          if (item_amnt(dude_obj,PID_RELICT_VILLA_FAMILY) > 0) then begin
+          item_add(dude_obj,PID_M_WATER_FLASK,1)
+          item_remove(dude_obj, PID_RELICT_VILLA_FAMILY, 1)
+          end
+       end
+       if (item_amnt(dude_obj,PID_ACTIVE_FLARE) > 0) then begin
+       item_remove(dude_obj, PID_ACTIVE_FLARE, 1000)
+       end
+       if (item_amnt(dude_obj,PID_TEST) > 0) then begin
+       item_remove(dude_obj, PID_TEST, 1000)
+       end
+       add_timer_event(self_obj, 2, 1);
+   end
+end
+
+procedure map_update_p_proc begin
+   //--- Обнуление фрейма анимации
+   /*
+   Замечание: Актуально в случаях, когда ГГ перемещается по лестнице на другой уровень в рамках одной карты.
+   В этом случае его изображение почему-то остаётся на последнем кадре подъема (недоработки движка).
+   */
+   if (elevation_dude_var != dude_elevation) then begin
+   animate_stand_obj(dude_obj);
+   //animate_set_frame(0);
+   reg_anim_clear(dude_obj);
+   end
+   elevation_dude_var := dude_elevation;
+
+   //--- Поправка к репутации Виллы в обход движковой опции с роликами-напоминалками
+   if ((global_var(GVAR_TOWN_REP_VILLA) >-90) and (global_var(GVAR_TOWN_REP_VILLA) <-15)) then begin
+   set_global_var(GVAR_TOWN_REP_VILLA,-15);
+   end
+
+   //--- Нанесение травмы от превышении веса
+   if (who_carry_amount(dude_obj)>(50*dude_strength)+500) then begin
+       if ((critter_state(dude_obj) bwand DAM_CRIP_LEG_LEFT) or (critter_state(dude_obj) bwand DAM_CRIP_LEG_RIGHT)) then begin
+       end else begin
+            dam_to_dude_LEG
+            display_mstr(154);
+            floater(dude_obj,155,COLOR_MSG_RED);
+       end
+   end
+
+   //--- сокращение радиации при гулификации
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+      if (get_critter_stat(dude_obj, STAT_current_rad) >0) then begin
+      radiation_dec(dude_obj, 10);
+      end
+   end
+
+   //--- снижение здоровья из-за высокого облучения
+   if ((has_trait(TRAIT_PERK, dude_obj, PERK_radiactiv_hp_I) == 0) and (get_critter_stat(dude_obj,STAT_current_rad)>=500)) then begin
+       play_sfx("IISXXXX1");
+       display_mstr(202);
+       floater(dude_obj,204,COLOR_MSG_RED);
+       critter_add_trait(dude_obj,TRAIT_PERK,PERK_radiactiv_hp_I,1);
+   end
+   else if ((has_trait(TRAIT_PERK, dude_obj, PERK_radiactiv_hp_II) == 0) and (get_critter_stat(dude_obj,STAT_current_rad)>=750)) then begin
+       play_sfx("IISXXXX1");
+       display_mstr(203);
+       floater(dude_obj,205,COLOR_MSG_RED);
+       critter_add_trait(dude_obj,TRAIT_PERK,PERK_radiactiv_hp_II,1);
+   end
+
+   if (get_critter_stat(dude_obj,STAT_current_rad)>=200) then begin
+       set_global_var(GVAR_ENDGAME_DEATH_RAD,1);
+   end
+
+   if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) < qEnd) then begin
+       if (is_loading_game == false) then begin
+       if (global_var(GVAR_OIL_STATUS_SOIL_GOLD) == 0) then begin
+         if (item_amnt(dude_obj,PID_Q_GOLD_MAP)>=4) then begin
+         play_sfx("IISXXXX1");
+         display_mstr(161);
+         if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) == qZero) then begin
+         setQuest(GVAR_OIL_PLATFORM_QST_GOLD, qStart);
+         end
+         set_global_var(GVAR_OIL_STATUS_SOIL_GOLD, 1);
+         item_remove(dude_obj,PID_Q_GOLD_MAP,4)
+         end
+       end
+       end
+   end
+
+   //--- начисление опыта за бой
+   if (combat_is_initialized == false) then begin
+   if (is_loading_game == false) then begin
+      if (global_var(GVAR_EXPOINT_COMBAT_CHECK)>0) then begin
+      exp_add(global_var(GVAR_EXPOINT_COMBAT_CHECK));
+      set_global_var(GVAR_EXPOINT_COMBAT_CHECK,0);
+      end
+   end
+   end
+end
+
+procedure map_exit_p_proc begin
+   /*
+   Если здесь сработает, то прописывать здесь порог специальных встреч.
+   */
+end
+
+procedure critter_p_proc begin
+   //--- Проверка оружия в руке
+   /*
+   Замечание: В Fallout 2 проверка оружия проводилась через critter_inven_obj.
+              Однако в случае отсутствия в руках оружия в debug log выносится ошибка,
+              хотя на игре она, похоже, никак не сказывается.
+              Это можно обойти контр-проверкой critter_inven_obj>0,
+              но в таком случае не получится свести макрос в одну строку.
+              Аналогично для других предметов в руках и для брони.
+   */
+   set_global_var(GVAR_DUDE_WPN_TO_HAND,0);
+   if (inven_hand_R(dude_obj) > 0) then begin
+       if (obj_item_subtype(inven_hand_R(dude_obj)) == item_type_weapon) then begin
+       set_global_var(GVAR_DUDE_WPN_TO_HAND,inven_hand_R(dude_obj));
+       end
+   end
+   else if (inven_hand_L(dude_obj) > 0) then begin
+       if (obj_item_subtype(inven_hand_L(dude_obj)) == item_type_weapon) then begin
+       set_global_var(GVAR_DUDE_WPN_TO_HAND,inven_hand_L(dude_obj));
+       end
+   end
+
+   set_global_var(GVAR_DUDE_STEALTH_TO_HAND,0);
+   if (inven_hand_R(dude_obj) > 0) then begin
+       if (obj_pid(inven_hand_R(dude_obj)) == PID_ACTIVE_STEALTH_BOY) then begin
+       set_global_var(GVAR_DUDE_STEALTH_TO_HAND,1);
+       end
+   end
+   else if (inven_hand_L(dude_obj) > 0) then begin
+       if (obj_pid(inven_hand_L(dude_obj)) == PID_ACTIVE_STEALTH_BOY) then begin
+       set_global_var(GVAR_DUDE_STEALTH_TO_HAND,1);
+       end
+   end
+
+   set_global_var(GVAR_DUDE_PID_ARMOR,0);
+   if (inven_armor(dude_obj) >0) then begin
+   set_global_var(GVAR_DUDE_PID_ARMOR,armor_pid_dude);
+   end
+
+   //--- Облучение по таймеру на локациях
+   if (global_var(GVAR_RADIOACTIV_GLBLTIMER) < game_time) then begin
+       //! сюда можно добавить облучение предметами из инвентаря
+       if (item_amnt(dude_obj,PID_RAD_ITEM) >0) then begin
+       set_global_var(GVAR_RADIOACTIV_GLOBAL, global_var(GVAR_RADIOACTIV_GLOBAL) + 10);
+       end
+       if DudePerkHas(PERK_ghouling_fiziology) then begin
+       set_global_var(GVAR_RADIOACTIV_GLOBAL,0);
+       end
+       if (global_var(GVAR_RADIOACTIV_GLOBAL) != 0) then begin
+       radiation_inc(dude_obj, global_var(GVAR_RADIOACTIV_GLOBAL));
+       end
+
+       if (DudePerkHas(PERK_ranger) or (partyPidTsn!=0) or (partyPidMr1!=0) or (partyPidMr2!=0)) then begin
+          if (difficulty_level > 1) then begin
+          set_global_var(GVAR_RADIOACTIV_GLBLTIMER, (ONE_GAME_SECOND*60) + game_time);
+          end
+          else if (difficulty_level == 1) then begin
+          set_global_var(GVAR_RADIOACTIV_GLBLTIMER, (ONE_GAME_SECOND*70) + game_time);
+          end
+          else begin
+          set_global_var(GVAR_RADIOACTIV_GLBLTIMER, (ONE_GAME_SECOND*120) + game_time);
+          end
+       end
+       else begin
+          if (difficulty_level > 1) then begin
+          set_global_var(GVAR_RADIOACTIV_GLBLTIMER, (ONE_GAME_SECOND*30) + game_time);
+          end
+          else if (difficulty_level == 1) then begin
+          set_global_var(GVAR_RADIOACTIV_GLBLTIMER, (ONE_GAME_SECOND*45) + game_time);
+          end
+          else begin
+          set_global_var(GVAR_RADIOACTIV_GLBLTIMER, (ONE_GAME_SECOND*60) + game_time);
+          end
+       end
+   end
+
+   //--- Поправка к освещению на локациях через очки
+   if (global_var(GVAR_LIGHT_MAP_NVGLASS_TIMER) < game_time) then begin
+       if (global_var(GVAR_LIGHT_MAP_BONUS) > 0) then begin
+       display_mstr(135);
+       set_global_var(GVAR_LIGHT_MAP_BONUS,0);
+       set_global_var(GVAR_LIGHT_MAP_NVGLASS_TIMER,0);
+       setGlblMapLight
+       end
+   end
+
+   //--- Реализация эффекта от перка "Знаток Соноры"
+   if DudePerkHas(PERK_Sonora_expert) then begin
+       if (gvar_bit(GVAR_PERKS_FLAGS_BIT, bit_3) == 0) then begin
+          /*
+          Замечание: локации показываются в обратном порядке,
+          чтобы после срабатывания скрипта игрок пролистывал список
+          от ближайшей по сюжету карты к дальней (снизу вверх)
+          */
+
+           mark_on_map(AREA_INFIERNO)
+           mark_on_map(AREA_HERMOSILLO)
+           mark_on_map(AREA_SANTA_ANA)
+           //mark_on_map(AREA_SAN_FELIPE)
+           mark_on_map(AREA_OIL_PLATFORM)
+           if (getQuest(GVAR_PUERTO_BOS_DESTROY) < qEnd) then begin
+           mark_on_map(AREA_PUERTO_STEEL)
+           end
+           mark_on_map(AREA_CASA_NUEVA)
+           mark_on_map(AREA_TWO_SUN)
+           mark_on_map(AREA_RAIDERS)
+           mark_on_map(AREA_CASA_GRANDE)
+           mark_on_map(AREA_OLD_MOTEL)
+           mark_on_map(AREA_PHOENIX)
+           mark_on_map(AREA_QUARTZ)
+           mark_on_map(AREA_RANGERS)
+           mark_on_map(AREA_SAN_BRAHMIN)
+           mark_on_map(AREA_WINON)
+           mark_on_map(AREA_FLAGSTAFF)
+           mark_on_map(AREA_GARAGE)
+           mark_on_map(AREA_JACKALS)
+           mark_on_map(AREA_VILLA)
+
+           //1400x1800 (ранее 1400х1500)
+           mark_world_subtile_visited(400, 400, 8);
+           mark_world_subtile_visited(800, 400, 8);
+           mark_world_subtile_visited(950, 400, 8);
+
+           mark_world_subtile_visited(400, 1100, 8);
+           mark_world_subtile_visited(800, 1100, 8);
+           mark_world_subtile_visited(950, 1100, 8);
+
+           mark_world_subtile_visited(400, 1350, 8);
+           mark_world_subtile_visited(800, 1350, 8);
+           mark_world_subtile_visited(950, 1350, 8);
+
+           set_gvar_bit_on(GVAR_PERKS_FLAGS_BIT, bit_3);
+       end
+   end
+
+   //--- Реализация эффекта от перка "Уроки Пустошей"
+   if DudePerkHas(PERK_wasteland_school) then begin
+       if (gvar_bit(GVAR_PERKS_FLAGS_BIT, bit_1) == 0) then begin
+           skill_up(SKILL_SMALL_GUNS,2);
+           skill_up(SKILL_BIG_GUNS,2);
+           skill_up(SKILL_ENERGY_WEAPONS,2);
+           skill_up(SKILL_UNARMED_COMBAT,2);
+           skill_up(SKILL_MELEE,2);
+           skill_up(SKILL_THROWING,2);
+           skill_up(SKILL_FIRST_AID,2);
+           skill_up(SKILL_DOCTOR,2);
+           skill_up(SKILL_SNEAK,2);
+           skill_up(SKILL_LOCKPICK,2);
+           skill_up(SKILL_STEAL,2);
+           skill_up(SKILL_TRAPS,2);
+           skill_up(SKILL_SCIENCE,2);
+           skill_up(SKILL_REPAIR,2);
+           skill_up(SKILL_CONVERSANT,2);
+           skill_up(SKILL_BARTER,2);
+           skill_up(SKILL_GAMBLING,2);
+           skill_up(SKILL_SCOUT,2);
+
+           set_gvar_bit_on(GVAR_PERKS_FLAGS_BIT, bit_1);
+       end
+   end
+
+   //--- Обработка титула "Миролюбивый странник"
+   if ((dude_level>=12) and (combat_is_initialized == false)) then begin
+       if ((player_kill_count(KILL_TYPE_men)+player_kill_count(KILL_TYPE_women)+player_kill_count(KILL_TYPE_children)) <= dude_level/2) then begin
+          if (global_var(GVAR_REPUTATION_PELGRIM) == 0) then begin
+             display_mstr(212);
+             set_global_var(GVAR_REPUTATION_PELGRIM,1);
+          end
+       end
+       else begin
+          if (global_var(GVAR_REPUTATION_PELGRIM) == 1) then begin
+             display_mstr(213);
+             set_global_var(GVAR_REPUTATION_PELGRIM,0);
+          end
+       end
+   end
+
+   //--- Реализация эффекта от перка "Забытые заслуги"
+   if DudePerkHas(PERK_forgotten_hero) then begin
+       if (gvar_bit(GVAR_PERKS_FLAGS_BIT, bit_2) == 0) then begin
+           set_global_var(GVAR_REPUTATION_GRAVES_CK,0);
+           set_global_var(GVAR_TITUL_DUDE_IS_SLAVE,0);
+           set_global_var(GVAR_REPUTATION_PELGRIM,0);
+           set_global_var(GVAR_REPUTATION_CHILDKILLER,0);
+           set_global_var(GVAR_REPUTATION_KILLER_CK,0);
+           set_global_var(GVAR_REPUTATION_KILLER,0);
+           set_global_var(GVAR_REPUTATION_HUNTER_CK,0);
+           set_global_var(GVAR_REPUTATION_HUNTER,0);
+           set_global_var(GVAR_REPUTATION_MUTAKILLER_CK,0);
+           set_global_var(GVAR_REPUTATION_MUTAKILLER,0);
+           set_global_var(GVAR_REPUTATION_GOOD,0);
+           set_global_var(GVAR_REPUTATION_BAD,0);
+           set_global_var(GVAR_REPUTATION_PLAYER,0);
+
+           set_gvar_bit_on(GVAR_PERKS_FLAGS_BIT, bit_2);
+       end
+   end
+
+end
+
+procedure description_p_proc begin
+   //exp_add(20000);
+   //call CHIT_BONUS_loot;
+   //call CHIT_BONUS_stat;
+   //call CHIT_BONUS_perk;
+   //call CHIT_BONUS_car;
+   //world_map;
+   //car_give_to_party;
+   //load_map(MAP_PHOENIX_CENTER, -1);
+
+   //set_global_var(GVAR_DAYGLOW_MAIN_C,1);
+   //exp_add(10000);
+   //load_map(MAP_DAYGLOW_CAMP_OLD_TOWN, -1);
+   //critter_add_trait(dude_obj,TRAIT_PERK,PERK_ghouling_fiziology,1);
+
+   /*
+   item_add(dude_obj,PID_ARMOR_POWER_B,1)
+   item_add(dude_obj,PID_TOOL_PLASTIC_EXPLOSIVES,10)
+   load_map(MAP_INFIERNO_CHURCH, -1);
+   */
+
+   /* Тест концовок:
+   set_global_var(GVAR_GAME_END,0);
+   set_global_var(GVAR_VILLA_ALLIANCE_PIP,2);
+   critter_add_trait(dude_obj,TRAIT_PERK,PERK_game_dont_finish,1);
+   load_map(MAP_VILLA_GARD, -1);
+   */
+
+   /*
+   set_global_var(GVAR_VILLA_STATUS_SANCHO,2);
+   set_global_var(GVAR_VILLA_STATUS_HUGO,2);
+   set_global_var(GVAR_VILLA_STATUS_PADRE,1);
+   set_global_var(GVAR_VILLA_STATUS_MADRE,1);
+   setQuest(GVAR_MAIN_QUEST_SYNOD_VILLA,qZero);
+   setQuest(GVAR_MAIN_QUEST_FLAGSTAFF,qEnd);
+   */
+
+   /*
+   setQuest(GVAR_PHENIX_CULT_DESTROY,qEnd);
+   setQuest(GVAR_PUERTO_BOS_DESTROY,qEnd);
+   setQuest(GVAR_RANGERS_DUMB_DESTROY,qEnd);
+   */
+
+   /*
+   item_add(dude_obj,PID_ARMOR_PURPLE_ROBE_B,1)
+   item_add(dude_obj,PID_NUKE_BOMB_DETONATOR,1)
+   item_add(dude_obj,PID_KEY_PHENIX_CULT,1)
+   item_add(dude_obj,PID_KEY_VAULT25_RED,1)
+   load_map(MAP_PHOENIX_VAULT, -1);
+   */
+
+
+/*
+   if (global_var(GVAR_PIP_BOY_UPGRD_RADIOMETR) > 0) then begin
+   script_overrides;
+   display_msg(mstr(151)+dude_is_irradiated+".");
+   end
+*/
+
+/*
+   script_overrides;
+   display_msg("party "+party_member_count(0)+"/"+party_member_count(1));
+*/
+
+/*
+   play_gmovie(0);
+   play_gmovie(1);
+   play_gmovie(2);
+   play_gmovie(3);
+   play_gmovie(4);
+   play_gmovie(5);
+   play_gmovie(6);
+   play_gmovie(7);
+   play_gmovie(8);
+   play_gmovie(9);
+   play_gmovie(10);
+   play_gmovie(11);
+   play_gmovie(12);
+   play_gmovie(13);
+   play_gmovie(14);
+   play_gmovie(15);
+   play_gmovie(16);
+*/
+
+end
+
+procedure CHIT_BONUS_loot begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,10000)
+   item_add(dude_obj,PID_M_STIMPAK,10)
+   item_add(dude_obj,PID_M_RADAWAY,10)
+   item_add(dude_obj,PID_W_SMG_UZI,1)
+   item_add(dude_obj,PID_AMMO_10_MM,100)
+   item_add(dude_obj,PID_W_GRENADE_NUKE,10)
+   item_add(dude_obj,PID_TOOL_GAS_MASK,3)
+   item_add(dude_obj,PID_TOOL_PLASTIC_EXPLOSIVES,3)
+   item_add(dude_obj,PID_ARMOR_COMBAT_BOS,1)
+end
+
+procedure CHIT_BONUS_car begin
+   set_global_var(GVAR_CAR_GOT_PLAYER,1);
+   set_global_var(GVAR_CAR_MAP_INDEX,-999);
+   item_add(dude_obj,PID_TOOL_CAR_GAZ,2)
+   item_add(dude_obj,PID_MOTO_KEY,1)
+   item_add(dude_obj,PID_MOTO_LUMP,1)
+   item_add(dude_obj,PID_MOTO_BAG,1)
+   item_add(dude_obj,PID_SCULL_DEATHCLAW,1)
+   //car_give_to_party;
+
+   item_add(dude_obj,PID_TOOL_PLASTIC_EXPLOSIVES,2)
+   item_add(dude_obj,PID_ARMOR_ROAD,1)
+      load_map(MAP_RAIDERS_BASA, -1);
+end
+
+procedure CHIT_BONUS_stat begin
+   set_critter_stat(dude_obj, STAT_st, 1);
+   set_critter_stat(dude_obj, STAT_pe, 1);
+   set_critter_stat(dude_obj, STAT_en, 1);
+   set_critter_stat(dude_obj, STAT_ch, 1);
+   set_critter_stat(dude_obj, STAT_iq, 1);
+   set_critter_stat(dude_obj, STAT_ag, 1);
+   set_critter_stat(dude_obj, STAT_lu, 1);
+end
+
+procedure CHIT_BONUS_perk begin
+   critter_add_trait(dude_obj,TRAIT_PERK,0,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,1,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,2,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,3,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,4,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,5,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,6,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,7,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,8,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,9,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,10,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,11,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,12,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,13,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,14,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,15,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,16,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,17,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,18,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,19,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,20,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,21,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,22,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,23,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,24,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,25,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,26,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,27,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,28,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,29,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,30,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,31,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,32,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,33,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,34,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,35,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,36,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,37,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,38,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,39,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,40,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,41,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,42,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,43,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,44,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,45,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,46,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,47,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,48,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,49,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,50,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,51,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,52,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,73,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,74,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,75,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,76,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,77,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,78,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,79,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,80,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,81,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,82,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,83,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,84,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,85,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,86,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,87,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,88,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,89,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,90,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,91,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,92,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,93,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,94,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,95,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,96,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,97,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,98,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,99,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,100,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,101,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,102,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,103,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,104,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,105,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,106,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,107,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,108,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,109,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,110,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,111,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,112,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,113,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,114,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,115,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,116,1);
+
+/*
+   critter_add_trait(dude_obj,TRAIT_PERK,53,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,54,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,55,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,56,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,57,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,58,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,59,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,60,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,61,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,62,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,63,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,64,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,65,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,66,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,67,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,68,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,69,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,70,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,71,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,72,1);
+
+   critter_add_trait(dude_obj,TRAIT_PERK,117,1);
+   critter_add_trait(dude_obj,TRAIT_PERK,118,1);
+*/
+
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       call map_stop_proc;
+   end
+   /*
+   if (fixed_param >100) then begin
+       if (obj_is_carrying_obj_pid(dude_obj, fixed_param) >0) then begin
+           remove_pid_qty(dude_obj, fixed_param, 1)
+       end
+   end
+   */
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseFAid
+end
+
+procedure is_dropping_p_proc begin
+   //--- Сброс предметов
+   if (obj_pid(source_obj) == PID_Q_DAYGLOW_CODE_CORONADO) then begin
+       script_overrides;
+   end
+   if (obj_pid(source_obj) == PID_Q_DAYGLOW_HOLO_GUSTAVO) then begin
+       script_overrides;
+   end
+
+   if (obj_pid(source_obj) == PID_RELICT_VILLA_FAMILY) then begin
+       display_mstr(140);
+   end
+   if (obj_pid(source_obj) == PID_BOOTLE_CAPS) then begin
+       display_mstr(141);
+   end
+   if (obj_pid(source_obj) == PID_MANY) then begin
+       display_mstr(142);
+   end
+   if ((obj_pid(source_obj) == PID_M_MEAT_JERKY) or (obj_pid(source_obj) == PID_M_IGUANA)) then begin
+       if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+          if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) == 0) then begin
+          display_mstr(144);
+          set_map_var(MVAR_SANTA_MEAT_TILE,dude_tile);
+          end
+       end
+       if (cur_map_index == MAP_CASA_NUEVA_CEMENT) then begin
+          if (global_var(GVAR_NUEVA_STATUS_EL_GIGANTO) == 0) then begin
+          display_mstr(144);
+          set_map_var(MVAR_NUEVA_MEAT_TILE,dude_tile);
+          end
+       end
+       if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
+          if (global_var(GVAR_DAYGLOW_STATUS_EL_TEMOR_ROJO) == 0) then begin
+          display_mstr(144);
+          set_map_var(MVAR_DIEGOHEART_MEAT_HEX,dude_tile);
+          end
+       end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   /*
+   if (objUsedPid == PID_BOOK_OLD) then begin
+       script_overrides;
+       skill_up(random(0,17),2);
+       item_remove(dude_obj, objUsedPid, 1)
+   end
+   */
+
+   //--- Инструментарий:
+
+   if (objUsedPid == PID_M_NUKA_COLA_RAD) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,1)
+       display_mstr(113);
+   end
+   else if (objUsedPid == PID_M_NUKA_COLA) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,1)
+       display_mstr(113);
+   end
+   else if (objUsedPid == PID_TOOL_DOCTORS_BAG) then begin
+       script_overrides;
+       /*if (combat_is_initialized == true) then begin
+          g_display_mstr(431);
+       end
+       else */
+       if (item_amnt(dude_obj,objUsedPid) < 1) then begin
+          g_display_mstr(485);
+       end
+       else if dude_is_crippled then begin
+          critter_uninjure_full(dude_obj);
+          //стоит ли вылечивать ОЗ?
+          g_display_mstr(483);
+          item_remove(dude_obj, objUsedPid, 1)
+       end
+       else begin
+          g_display_mstr(488);
+       end
+   end
+   else if (objUsedPid == PID_TOOL_BOOTS) then begin
+       script_overrides;
+
+       if (item_amnt(dude_obj,objUsedPid) > 0) then begin
+          if (global_var(GVAR_BOOTS_DAMAGE) >= 50) then begin
+          display_mstr(132);
+          end
+          else begin
+          set_global_var(GVAR_BOOTS_DAMAGE,100);
+          play_sfx("ARMRLTH");
+          display_mstr(131);
+          item_remove(dude_obj, objUsedPid, 1)
+          end
+       end
+       else begin
+          display_mstr(119);
+       end
+   end
+   else if (objUsedPid == PID_SANDALS) then begin
+       script_overrides;
+       display_mstr(158);
+       /*
+       if (item_amnt(dude_obj,objUsedPid) > 0) then begin
+          if (global_var(GVAR_BOOTS_DAMAGE) > 80) then begin
+          display_mstr(132);
+          end
+          else begin
+          inc_global_var_amt(GVAR_BOOTS_DAMAGE,20);
+          play_sfx("ARMRLTH");
+          display_mstr(143);
+          item_remove(dude_obj, objUsedPid, 1)
+          end
+       end
+       else begin
+          display_mstr(119);
+       end
+       */
+   end
+   else if (objUsedPid == PID_MEX_TORPEDOS) then begin
+       script_overrides;
+       display_mstr(159);
+   end
+   else if (objUsedPid == PID_TOOL_GAS_MASK) then begin
+       script_overrides;
+
+       if (item_amnt(dude_obj,objUsedPid) > 0) then begin
+          if (global_var(GVAR_GAZ_MASK_ACTIVE) >= 50) then begin
+          display_mstr(137);
+          end
+          else begin
+          set_global_var(GVAR_GAZ_MASK_ACTIVE,100);
+          play_sfx("ARMRLTH");
+          display_mstr(138);
+          item_remove(dude_obj, objUsedPid, 1)
+          end
+       end
+       else begin
+          display_mstr(119);
+       end
+   end
+   else if (objUsedPid == PID_TOOL_NV_GLASSES) then begin
+       script_overrides;
+
+       if (item_amnt(dude_obj,objUsedPid) > 0) then begin
+          if (global_var(GVAR_LIGHT_MAP_BONUS) >= 15) then begin
+          display_mstr(133);
+          end
+          else begin
+          set_global_var(GVAR_LIGHT_MAP_NVGLASS_TIMER, (ONE_GAME_MINUTE*10) + game_time);
+          set_global_var(GVAR_LIGHT_MAP_BONUS,30);
+          play_sfx("ARMRLTH");
+          display_mstr(134);
+          setGlblMapLight
+          item_remove(dude_obj, objUsedPid, 1)
+          end
+       end
+       else begin
+          display_mstr(119);
+       end
+   end
+   else if (objUsedPid == PID_TOOL_ZIPPER) then begin
+       script_overrides;
+       display_mstr(130);
+   end
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+       script_overrides;
+       if dude_is_female then begin
+       display_mstr(1129);
+       end
+       else begin
+       display_mstr(129);
+       end
+   end
+   else if (objUsedPid == PID_GLASSES) then begin
+       script_overrides;
+       if dude_is_female then begin
+       display_mstr(1136);
+       end
+       else begin
+       display_mstr(136);
+       end
+   end
+   else if (objUsedPid == PID_TOOL_STEALTH_BOY) then begin
+       script_overrides;
+       display_mstr(118);
+   end
+   else if (objUsedPid == PID_ACTIVE_STEALTH_BOY) then begin
+       script_overrides;
+       display_mstr(118);
+   end
+   else if (objUsedPid == PID_TOOL_GEIGER_COUNTER) then begin
+       script_overrides;
+       display_mstr(118);
+   end
+   else if (objUsedPid == PID_TOOL_MOTION_SENSOR) then begin
+       script_overrides;
+       display_mstr(118);
+   end
+   else if (objUsedPid == PID_TOOL_RADIO) then begin
+       script_overrides;
+       display_mstr(118);
+   end
+
+   //--- Реликвии:
+
+   else if (objUsedPid == PID_RELICT_VILLA_FAMILY) then begin
+       script_overrides;
+       display_mstr(111);
+   end
+   else if ((objUsedPid >= PID_RELICT_MUSIC_BOX) and (objUsedPid <= PID_RELICT_GAMEDISK)) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+
+   //--- Квестовые предметы:
+
+   else if (objUsedPid == PID_POCKET_TRASH) then begin
+       script_overrides;
+       display_mstr(120);
+   end
+   else if (objUsedPid == PID_ZAX_UPGRADE) then begin
+       script_overrides;
+       display_mstr(121);
+   end
+   else if (objUsedPid == PID_NUKE_BOMB_DETONATOR) then begin
+       script_overrides;
+       display_mstr(122);
+   end
+   else if (objUsedPid == PID_KEY_FABER_PASSWORD) then begin
+       script_overrides;
+       display_mstr(123);
+   end
+   else if (objUsedPid == PID_LETTER_CULT_FLAGSTAFF) then begin
+       script_overrides;
+       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+       exp_add(50);
+       display_mstr(124);
+       if (get_SLAVA < 0) then begin
+       floater(dude_obj,126,COLOR_MSG_RED);
+       end else begin
+       floater(dude_obj,127,COLOR_MSG_NORMAL);
+       end
+       item_remove(dude_obj, objUsedPid, 1)
+       end
+       else begin
+       display_mstr(125);
+       end
+   end
+   else if (objUsedPid == PID_AGAVE_JUICE) then begin
+       script_overrides;
+       display_mstr(128);
+   end
+   else if (objUsedPid == PID_SCULL_DEATHCLAW) then begin
+       script_overrides;
+       display_mstr(139);
+   end
+   else if (objUsedPid == PID_Q_GOLD_MAP) then begin
+       script_overrides;
+       display_mstr(160);
+   end
+
+   //--- Рядовые предметы:
+   else if ((objUsedPid == PID_BOOTLE_CAPS) or (objUsedPid == PID_MANY) or (objUsedPid == PID_POKER_FISH)) then begin
+       script_overrides;
+       display_mstr(112);
+   end
+   else if (objUsedPid == PID_TABACO) then begin
+       script_overrides;
+       display_mstr(114);
+   end
+   else if (objUsedPid == PID_COFFEE) then begin
+       script_overrides;
+       display_mstr(114);
+   end
+   else if (objUsedPid == PID_CORN_FLOUR) then begin
+       script_overrides;
+       display_mstr(114);
+   end
+   else if (objUsedPid == PID_WAT_WIPES) then begin
+       script_overrides;
+       display_mstr(114);
+   end
+
+end
+
+procedure damage_p_proc begin
+   //--- Получение бонуса "Закаленный боец"
+   if (fixed_param>0) then begin
+       /*
+       if (weapon_dmg_type(target_obj) == DMG_normal_dam) then begin
+       inc_global_var_amt(GVAR_DUDE_DAMAGE_AMT,fixed_param);
+       end
+       */
+       inc_global_var_amt(GVAR_DUDE_DAMAGE_AMT,fixed_param);
+
+       if DudePerkHas(PERK_dermal_armor) then begin
+       end
+       else begin
+          if (global_var(GVAR_DUDE_DAMAGE_AMT)>=1500) then begin
+          play_sfx("IISXXXX1");
+          display_mstr(206);
+          floater(dude_obj,207,COLOR_MSG_GREEN);
+          critter_add_trait(dude_obj,TRAIT_PERK,PERK_dermal_armor,1);
+          end
+       end
+       //display_msg("всего урона: "+global_var(GVAR_DUDE_DAMAGE_AMT));
+   end
+end
+
+procedure map_stop_proc begin
+   variable mapStopIndx;
+   mapStopIndx := 0;
+
+   //--- Поправки на уничтожаемые локации
+   //Актуально для случая когда игрок использует чит-кнопки в окне загрузки локации
+
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+       if (cur_map_index == MAP_FLAGSTAFF_CAVE) then begin
+       mapStopIndx := MAP_FLAGSTAFF_MINE;
+       end
+   end
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+       if (cur_map_index == MAP_RANGERS_DAMBA) then begin
+       mapStopIndx := MAP_RANGERS_BASA;
+       end
+   end
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+       if (cur_map_index == MAP_PUERTO_SIGN) then begin
+       mapStopIndx := MAP_PUERTO_DESTROY;
+       end
+       if (cur_map_index == MAP_PUERTO_DOCS) then begin
+       mapStopIndx := MAP_PUERTO_DESTROY;
+       end
+       if (cur_map_index == MAP_PUERTO_BASA) then begin
+       mapStopIndx := MAP_PUERTO_DESTROY;
+       end
+   end
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+       if (cur_map_index == MAP_PHOENIX_VAULT) then begin
+       mapStopIndx := MAP_PHOENIX_SIGN;
+       end
+       if (cur_map_index == MAP_PHOENIX_CHURCH) then begin
+       mapStopIndx := MAP_PHOENIX_SIGN;
+       end
+   end
+   if (global_var(GVAR_NUEVA_STATUS_LABA) != 0) then begin
+       if (cur_map_index == MAP_CASA_NUEVA_GIDROPONIC) then begin
+       mapStopIndx := MAP_CASA_NUEVA_LAB;
+       end
+   end
+   if (getQuest(GVAR_OIL_PLATFORM_STATUS) >= qEnd) then begin
+       if (cur_map_index == MAP_OIL_PLATFORM) then begin
+       mapStopIndx := MAP_OIL_CITY;
+       end
+       if (cur_map_index == MAP_OIL_PLATFORMROOMS) then begin
+       mapStopIndx := MAP_OIL_CITY;
+       end
+       if (cur_map_index == MAP_OIL_PLATFORMDRILL) then begin
+       mapStopIndx := MAP_OIL_CITY;
+       end
+   end
+
+   //--- Принудительный выброс с карты
+   if (mapStopIndx>0) then begin
+       play_sfx("IISXXXX1");
+       display_mstr(157);
+       addExpressBoxToDude
+       load_map(mapStopIndx, -1);
+   end
+end
+
+//-----------------------------------------------------------------------------
+//-------------   Управление почтовыми ящиками Сонора Экспресс
+//-----------------------------------------------------------------------------
+
+   /*
+procedure express_box_enter begin
+   //display_msg("express - enter proc");
+   if (item_amnt(dude_obj,PID_CNTR_EXPRESSBOX_F) >0) then begin
+       //display_msg("express 1 - move "+obj_carrying_pid_obj(dude_obj, PID_CNTR_EXPRESSBOX_F));
+       drop_obj(obj_carrying_pid_obj(dude_obj, PID_CNTR_EXPRESSBOX_F));
+       move_to(tile_contains_pid_obj(dude_tile, self_elevation, PID_CNTR_EXPRESSBOX_F), TILE_EXPRESS_BOX, 0);
+   end
+   if (item_amnt(dude_obj,PID_CNTR_EXPRESSBOX_P) >0) then begin
+       //display_msg("express 2 - move "+obj_carrying_pid_obj(dude_obj, PID_CNTR_EXPRESSBOX_P));
+       drop_obj(obj_carrying_pid_obj(dude_obj, PID_CNTR_EXPRESSBOX_P));
+       move_to(tile_contains_pid_obj(dude_tile, self_elevation, PID_CNTR_EXPRESSBOX_P), TILE_EXPRESS_BOX, 0);
+   end
+   if (item_amnt(dude_obj,PID_CNTR_EXPRESSBOX_T) >0) then begin
+       //display_msg("express 3 - move "+obj_carrying_pid_obj(dude_obj, PID_CNTR_EXPRESSBOX_T));
+       drop_obj(obj_carrying_pid_obj(dude_obj, PID_CNTR_EXPRESSBOX_T));
+       move_to(tile_contains_pid_obj(dude_tile, self_elevation, PID_CNTR_EXPRESSBOX_T), TILE_EXPRESS_BOX, 0);
+   end
+end
+   */

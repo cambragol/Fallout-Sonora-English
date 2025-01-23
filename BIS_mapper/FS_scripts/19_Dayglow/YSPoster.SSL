@@ -1,0 +1,58 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSPoster
+#define POSTERS_AMNT_LIMIT      7
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure info_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call info_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call info_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure info_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+      inc_global_var(GVAR_DAYGLOW_PROPAGANDA_POSTERS);
+      display_msg(mstr(100)+global_var(GVAR_DAYGLOW_PROPAGANDA_POSTERS)+mstr(101)+POSTERS_AMNT_LIMIT+mstr(102));
+      if (global_var(GVAR_DAYGLOW_PROPAGANDA_POSTERS) == POSTERS_AMNT_LIMIT) then begin
+      exp_add_msg(1000, NAME, 104, 105);
+      end
+      if (partyPidMr1 != 0) then begin
+      floater(partyPidMr1, 106, COLOR_MSG_NORMAL);
+      end
+      else if (partyPidMr2 != 0) then begin
+      floater(partyPidMr2, 106, COLOR_MSG_NORMAL);
+      end
+      else if (partyPidMtn != 0) then begin
+      floater(partyPidMtn, 107, COLOR_MSG_NORMAL);
+      end
+      inc_local_var(LVAR_Status);
+   end
+   else begin
+      display_msg(mstr(100)+global_var(GVAR_DAYGLOW_PROPAGANDA_POSTERS)+mstr(101)+POSTERS_AMNT_LIMIT+mstr(103));
+   end
+end

@@ -1,0 +1,128 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                    SCRIPT_AFBoat
+#define SKILL_LIMIT                     50
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+procedure swim_proc;
+
+#define LVAR_Repair_Energy              (2) // заряд аккумулятора
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (cur_map_index == MAP_OIL_PLATFORM) then begin
+   display_mstr(118);
+   end
+   else if (getQuest(GVAR_OIL_PLATFORM_STATUS) >= qEnd) then begin
+   display_mstr(116);
+   end
+   else if (local_var(LVAR_Status) == 0) then begin
+   display_mstr(110);
+   end
+   else if (local_var(LVAR_Repair_Energy) <= 0) then begin
+   display_mstr(111);
+   end
+   else begin
+   display_mstr(112);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   //RepairSkillRepair
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (cur_map_index == MAP_OIL_PLATFORM) then begin
+      display_mstr(118);
+      end
+      else begin
+      RepairSkillRepairOptn(573)
+      end
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      if (cur_map_index == MAP_OIL_PLATFORM) then begin
+      call swim_proc;
+      end
+      else if (getQuest(GVAR_OIL_PLATFORM_STATUS) >= qStart) then begin
+      display_mstr(116);
+      end
+      else if (getQuest(GVAR_OIL_PLATFORM_QST_A) == qZero) then begin
+      display_mstr(116);
+      end
+      else if (local_var(LVAR_Status) == 0) then begin
+      display_mstr(110);
+      end
+      else if (local_var(LVAR_Repair_Energy) <= 0) then begin
+      display_mstr(111);
+      end
+      else if (who_carry_amount(dude_obj) > 200) then begin
+      display_mstr(117);
+      end
+      else begin
+      call swim_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20)
+   if (objUsedPid == PID_TOOL_CAR_GAZ) then begin
+      if (cur_map_index == MAP_OIL_PLATFORM) then begin
+      display_mstr(119);
+      end
+      else if (local_var(LVAR_Repair_Energy) >0) then begin
+      display_mstr(115);
+      end
+      else begin
+      play_sfx("WOR1XXX1");
+      item_remove(dude_obj,objUsedPid,1)
+      display_mstr(114);
+      set_local_var(LVAR_Repair_Energy, 100);
+      end
+   end
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_OIL_PLATFORM_BOAT_REPAIR, 1);
+   gfade_out(ONE_GAME_SECOND);
+    game_time_advance(ONE_GAME_HOUR);
+   gfade_in(ONE_GAME_SECOND);
+   RepairProcRepair(113,200,"FIXSTILL")
+end
+
+procedure swim_proc begin
+   if (cur_map_index == MAP_OIL_CITY) then begin
+      set_map_var(MVAR_OIL_PLATFORM_BOAT_REPAIR, 2);
+      set_local_var(LVAR_Repair_Energy, 0);
+      //set_map_start((dude_tile % 200), (dude_tile / 200), 0, dude_cur_rot);
+      set_map_var(MVAR_OIL_PLATFORM_NEWHEX, dude_tile);
+      dude_teleport_map(1,1,MAP_OIL_PLATFORM,1);
+   end
+   if (cur_map_index == MAP_OIL_PLATFORM) then begin
+      if (getQuest(GVAR_OIL_PLATFORM_STATUS) >= qStart) then begin
+      item_remove(dude_obj,PID_KEY_OILPLATFORM,1)
+      play_sfx("WAVES");
+      play_sfx("GUSTWIND");
+      play_sfx("HOWITZER");
+      play_sfx("FLAMETHR");
+      exp_add(1500);
+      setQuest(GVAR_OIL_PLATFORM_STATUS,qEnd);
+      end
+      dude_teleport_map(1,1,MAP_OIL_CITY,1);
+   end
+end

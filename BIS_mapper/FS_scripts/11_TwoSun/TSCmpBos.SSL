@@ -1,0 +1,159 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_TSCmpBos
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog200;
+procedure NodeDialog300;
+procedure NodeDialog400;
+procedure NodeDialog500;
+procedure NodeDialog510;
+procedure NodeDialog511;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(80)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(160)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   if ((getQuest(GVAR_GARAGE_QST_BOSS_TRADE) > 2) or (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) > 2)) then begin
+   NAnswer(230,1,NodeDialog500)
+   end
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(216,1,NodeDialog200)
+   NAnswer(218,3,NodeDialog300)
+   if (getQuest(GVAR_TWOSUN_QST_FAMILY_PIP) > qZero) then begin
+      if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_3) != 0) then begin
+      NAnswer(220,1,NodeDialog400)
+      end
+      else if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_2) != 0) then begin
+      NAnswer(220,1,NodeDialog400)
+      end
+   end
+   if (getQuest(GVAR_TWOSUN_QST_KARLOS) == qStart) then begin
+   NAnswer(232,3,NodeDialog510)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog101)
+   NAnswer(214,1,NodeDialog102)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   Reply(213)
+   NAnswer(214,1,NodeDialog102)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog102 begin
+   if (getQuest(GVAR_MAIN_QUEST_PHENIX) < qStart) then begin
+   setQuest(GVAR_MAIN_QUEST_PHENIX,qStart);
+   end
+   if (getQuest(GVAR_MAIN_QUEST_TWOSUN) < qStart) then begin
+   setQuest(GVAR_MAIN_QUEST_TWOSUN,qStart);
+   end
+   if (getQuest(GVAR_TWOSUN_QST_PADRE) < qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_PADRE,qStart);
+   end
+   Reply(215)
+   NAnswer(212,1,NodeDialog101)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog200 begin
+   mark_on_map(AREA_FLAGSTAFF)
+   mark_on_map(AREA_PHOENIX)
+   mark_on_map(AREA_CASA_GRANDE)
+   mark_on_map(AREA_CASA_NUEVA)
+   Reply(217)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog300 begin
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) < qEnd) then begin
+   mark_on_map(AREA_PUERTO_STEEL)
+   end
+   Reply(219)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog400 begin
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_5);
+   Reply(221)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog500 begin
+   Reply(231)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog510 begin
+   Reply(233)
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_9) == 0) then begin
+   NAnswer(234,5,NodeDialog511)
+   end
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog511 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_9);
+   Reply(235)
+   NAnswer(236,1,NodeDialog)
+end

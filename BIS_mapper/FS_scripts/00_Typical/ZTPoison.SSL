@@ -1,0 +1,101 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ZTPoison
+#define DAMAG_MIN                       4                // уровень отравления
+
+procedure start;
+procedure map_enter_p_proc;
+procedure critter_p_proc;
+procedure talk_p_proc;
+
+#define LVAR_TIMER                     (0) // Таймер отравления
+
+variable varPoisoning;
+
+/*
+
+ВАЖНО: скрипт вешать на криттера, тригером он работать не будет.
+
+Используется на весь уровень, на котором размещен (убежище 27, купол КасаНуэва).
+
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+end
+
+procedure critter_p_proc begin
+   varPoisoning := 0;
+   varPoisoning := random(DAMAG_MIN,DAMAG_MIN*2);
+
+   //--- Нейтрализация газа:
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   varPoisoning := 0;
+   end
+   else if (global_var(GVAR_RADIOACTIV_STOP)>0) then begin
+   varPoisoning := 0; // обнуление на время диалога
+   end
+   else if ((getQuest(GVAR_VAULT27_POISON) >= qEnd) and (cur_map_index == MAP_VAULT_27_INTERIER)) then begin
+   varPoisoning := 0;
+   end
+   else if (armor_pid_dude_var == PID_ARMOR_POWER_A) then begin
+   varPoisoning := 0;
+   end
+   else if (armor_pid_dude_var == PID_ARMOR_POWER_B) then begin
+   varPoisoning := 0;
+   end
+   else if (armor_pid_dude_var == PID_ARMOR_POWER_C) then begin
+   varPoisoning := 0;
+   end
+
+   if (cur_map_index == MAP_CASA_NUEVA_GIDROPONIC) then begin
+      if ((self_elevation == 0) and (map_var(MVAR_NUEVA_LAB_CLIMAT_A) != 0)) then begin
+      varPoisoning := 0;
+      end
+      if ((self_elevation == 1) and (map_var(MVAR_NUEVA_LAB_CLIMAT_B) != 0)) then begin
+      varPoisoning := 0;
+      end
+      if ((self_elevation == 2) and (map_var(MVAR_NUEVA_LAB_CLIMAT_C) != 0)) then begin
+      varPoisoning := 0;
+      end
+   end
+
+   //--- Действие газа
+   if ((local_var(LVAR_TIMER) < game_time) and (game_ui_is_disabled == false) and (self_elevation == dude_elevation)) then begin
+
+       if (varPoisoning >0) then begin
+       if (global_var(GVAR_GAZ_MASK_ACTIVE)>0) then begin
+          dec_global_var_amt(GVAR_GAZ_MASK_ACTIVE,varPoisoning);
+
+          if (global_var(GVAR_GAZ_MASK_ACTIVE)<=0) then begin
+          display_mstr(101);
+          end
+          else if (global_var(GVAR_GAZ_MASK_ACTIVE)<=10) then begin
+          display_mstr(100);
+          end
+          else begin
+          //display_msg(mstr(102)+global_var(GVAR_GAZ_MASK_ACTIVE)+mstr(103)); - инфа нужная, но переполняет лог
+          end
+          varPoisoning := 0;
+       end
+       end
+
+       if (varPoisoning >0) then begin
+       poison(dude_obj, varPoisoning);
+       end
+
+       if DudePerkHas(PERK_ranger) then begin
+       set_local_var(LVAR_TIMER, (ONE_GAME_SECOND*20) + game_time);
+       end else begin
+       set_local_var(LVAR_TIMER, (ONE_GAME_SECOND*10) + game_time);
+       end
+   end
+end
+
+procedure talk_p_proc begin
+   floater(self_obj,104,random(COLOR_MSG_NORMAL,COLOR_MSG_LIGHT_GREY));
+end

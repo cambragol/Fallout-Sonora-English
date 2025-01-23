@@ -1,0 +1,214 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_RSCmpSrv
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog100;
+procedure NodeDialog110;
+procedure NodeDialog111;
+procedure NodeDialog112;
+procedure NodeDialog120;
+procedure NodeDialog121;
+procedure NodeDialog130;
+procedure NodeDialog131;
+procedure NodeDialog132;
+procedure NodeDialog133;
+procedure NodeDialog134;
+procedure NodeDialog135;
+procedure NodeDialog136;
+procedure NodeDialog140;
+
+#define LVAR_DialogStatus               (2) // Доступ к серверу
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(50)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+   else CompUsedKey(PID_KEY_DUMBA,0)
+end
+
+procedure sience_proc begin
+   CompProcSience(100)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   if (local_var(LVAR_DialogStatus) == 0) then begin
+   NAnswer(203,1,NodeDialog2)
+   end
+   else begin
+   NAnswer(210,1,NodeDialog100)
+   end
+   /*
+   !!!
+   совещания старейшин?
+   предистория рейнджеров?
+   */
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   inc_local_var(LVAR_DialogStatus);
+   Reply(204)
+   NAnswer(205,1,NodeDialog)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog110)
+   NAnswer(230,1,NodeDialog120)
+   NAnswer(250,1,NodeDialog130)
+   NAnswer(290,1,NodeDialog140)
+   NAnswer(202,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog110 begin
+   Reply(213)
+   NAnswer(214,1,NodeDialog111)
+end
+
+procedure NodeDialog111 begin
+   Reply(215)
+   NAnswer(216,1,NodeDialog112)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog112 begin
+   if ((global_var(GVAR_JACKALS_RANGER_CONTRAKT) < 0) or (global_var(GVAR_JACKALS_DEAD) >= LIMIT_JACKALS_DEAD)) then begin
+   Reply(217)
+   end
+   else if (global_var(GVAR_JACKALS_RANGER_CONTRAKT) == 1) then begin
+   Reply(218)
+   end
+   else begin
+   Reply(219)
+   end
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog120 begin
+   Reply(231)
+   NAnswer(232,1,NodeDialog121)
+   //!!! 236 - диверсия на Вилле
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog121 begin
+   if (getQuest(GVAR_VILLA_ALLIANCE_BOS) >= qEnd) then begin
+   Reply(233)
+   end
+   else if (getQuest(GVAR_VILLA_ALLIANCE_RANGER) < qZero) then begin
+   Reply(237)
+   end
+   else if (getQuest(GVAR_VILLA_ALLIANCE_RANGER) >= qEnd) then begin
+   Reply(234)
+   end
+   else begin
+   Reply(235)
+   end
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog130 begin
+   Reply(251)
+   NAnswer(252,1,NodeDialog131)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog131 begin
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   Reply(253)
+   end
+   else begin
+   Reply(254)
+   NAnswer(255,7,NodeDialog132)
+   end
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog132 begin
+   Reply(211)
+   NAnswer(257,1,NodeDialog133)
+   NAnswer(259,1,NodeDialog134)
+   NAnswer(261,1,NodeDialog135)
+   NAnswer(263,1,NodeDialog136)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog133 begin
+   Reply(258)
+   NAnswer(202,1,NodeDialog132)
+end
+
+procedure NodeDialog134 begin
+   Reply(260)
+   NAnswer(202,1,NodeDialog132)
+end
+
+procedure NodeDialog135 begin
+   Reply(262)
+   NAnswer(202,1,NodeDialog132)
+end
+
+procedure NodeDialog136 begin
+   Reply(264)
+   NAnswer(202,1,NodeDialog132)
+end
+
+procedure NodeDialog140 begin
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   Reply(291)
+   end
+   else if (getQuest(GVAR_RANGERS_QST_PUERTO) >= qStart) then begin
+   Reply(292)
+   end
+   else begin
+   Reply(293)
+   end
+   NAnswer(202,1,NodeDialog100)
+end

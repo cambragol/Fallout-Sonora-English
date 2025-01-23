@@ -1,0 +1,206 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_EncLgndA
+#define TOWN_REP_VAR                    -1                    // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_ROBOTS           // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (bitDialog(bit_1) == 0) then begin
+       timer_move_to_home
+       end
+       else begin
+       timer_move_random_home(3)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (bitDialog(bit_1) == 0) then begin
+   dialogue_system_forcing(3)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+   skillUseScience(50)
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,3,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   set_local_var(LVAR_Home_Tile, 15893);
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(random(200,202))
+   NAnswer(203,1,NodeSndDialog)
+   NAnswer(204,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   zReply(210)
+   NAnswer(220,1,NodeAnswer100)
+   NAnswer(222,1,NodeAnswer101)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(230,1,NodeAnswer104)
+   NAnswer(225,1,NodeAnswer100)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   zReply(227)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(230,1,NodeAnswer104)
+   NAnswer(225,1,NodeAnswer100)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   zReply(229)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(236,1,NodeAnswer104)
+   NAnswer(225,1,NodeAnswer100)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   zReply(231)
+   NAnswer(232,1,NodeAnswer105)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(225,1,NodeAnswer100)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer105 begin
+   zReply(233)
+   NAnswer(234,1,Node999)
+   NAnswer(235,1,Node999)
+end
+
+

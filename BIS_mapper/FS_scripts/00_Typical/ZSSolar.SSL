@@ -1,0 +1,114 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSSolar
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+procedure damage_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+       rm_timer_event(self_obj);
+       add_timer_event(self_obj, 10, 1);
+   end
+end
+
+procedure look_at_p_proc begin
+   //lookProcMsg
+end
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       //при близком расположении ГГ издают звук искры?
+
+       if (local_var(LVAR_Status) == 0) then begin
+          if (random(0,30) == 1) then begin
+              obj_set_light_level(self_obj, 100, 5);
+              add_timer_event(self_obj, random(50,80), 1);
+          end
+          else begin
+              if (random(0,1) == 1) then begin
+              obj_set_light_level(self_obj, random(20,30), 5);
+              end
+              else begin
+              obj_set_light_level(self_obj, random(80,90), 5);
+              end
+              add_timer_event(self_obj, random(1,3), 1);
+          end
+       end
+
+   end
+end
+
+procedure use_skill_on_p_proc begin
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       if (local_var(LVAR_Status) == 0) then begin
+           display_msg(mstr(110)+self_name+mstr(111));
+       end
+       else begin
+           display_msg(mstr(112)+self_name+mstr(113));
+       end
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       if (local_var(LVAR_Status) == 0) then begin
+           call repair_proc;
+       end
+       else begin
+           display_msg(mstr(114)+self_name+mstr(115));
+       end
+   end
+
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   if (has_skill(dude_obj, SKILL_REPAIR) < 25) then begin
+       skill_display_mstr(118,SKILL_REPAIR,25)
+   end
+   else if (random(0,100) <= has_skill(dude_obj, SKILL_REPAIR)) then begin
+       if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+       set_map_var(MVAR_CGRANDE_REPAIR_LAMP,1);
+       end
+       display_msg(mstr(116)+self_name+mstr(117));
+       exp_add(50);
+       play_sfx("ZAPPER1");
+       obj_set_light_level(self_obj, 100, 6);
+       rm_timer_event(self_obj);
+       set_local_var(LVAR_Status,1);
+   end
+   else begin
+       display_mstr(119);
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+       if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+       play_sfx("ZAPPER1");
+       set_obj_visibility(self_obj, 1);
+       create_object_sid(self_PID, self_tile, self_elevation, -1);
+       destroy_object(self_obj);
+       end
+   end
+end

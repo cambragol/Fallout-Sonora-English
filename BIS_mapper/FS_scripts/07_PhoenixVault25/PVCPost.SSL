@@ -1,0 +1,246 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PVCPost
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CULT // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CULT_ATOMIC      // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_PHENIX        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_PNXCULT          // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+variable attakParam;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       bitDialogZero(bit_5)
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   attakParam := 1;
+
+   if ((map_var(MVAR_PnxVlt_Dopusk) == 0) and (dude_elevation == self_elevation)) then begin
+      if (tile_distance(dude_tile, 16098) <= 10) then begin
+          if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+          end
+          else if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) then begin
+          end
+          else if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) then begin
+          end
+          else if (global_var(GVAR_DUDE_STEALTH_TO_HAND) > 0) then begin
+          end
+          else begin
+             if (bitDialog(bit_3) == 0) then begin
+             floater(self_obj,107,COLOR_MSG_RED);
+             bitDialogExp(bit_2,0)
+             bitDialogExp(bit_3,0)
+             set_map_var(MVAR_PnxVlt_Alarm,1);
+             attack(dude_obj);
+             end
+          end
+      end
+      else if (tile_distance_objs(self_obj, dude_obj) <= 10) then begin
+          if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+          end
+          else if (bitDialog(bit_2) == 0) then begin
+             if (global_var(GVAR_DUDE_STEALTH_TO_HAND) > 0) then begin
+             floater(self_obj,108,COLOR_MSG_RED);
+             end
+             else begin
+             floater(self_obj,106,COLOR_MSG_RED);
+             end
+             bitDialogExp(bit_2,0)
+          end
+      end
+   end
+
+   if (getQuest(GVAR_PHENIX_PARTY_ATTAKTOAARON) == qStart) then begin
+   attakParam := 2;
+   end
+
+   set_critter_options(attakParam,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_PnxVlt_Alarm,1);
+   set_map_var(MVAR_PnxVlt_Dopusk,0);
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (global_var(GVAR_PHENIX_MATIAS_NONATTAK) > 0) then begin
+   kill_critter_opt_norep
+   end
+   else begin
+   kill_critter_opt
+   end
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_PnxVlt_Dopusk) == 0) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj,105,COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_map_var(MVAR_PnxVlt_Alarm,1);
+   set_map_var(MVAR_PnxVlt_Dopusk,0);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeFstDialog;
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   //bitDialogExp(bit_1,0)
+   Reply(200)
+
+   if (getQuest(GVAR_PHENIX_CULT_ARON_DOPUSK) == qStart) then begin
+      GAnswer(206,1,NodeFstDialog5)
+   end
+   else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+      zGAnswer(201,1,NodeFstDialog2)
+   end
+   else begin
+      NAnswerSkill(202,1,NodeFstDialog4,SKILL_CONVERSANT,75,202,NodeFstDialog3)
+      NAnswerSkill(205,1,NodeFstDialog4,SKILL_SCIENCE,50,205,NodeFstDialog3)
+      if (getQuest(GVAR_PHENIX_CULT_ARON_DOPUSK) >= qStart) then begin
+      NAnswer(224,1,NodeFstDialog4)
+      end
+
+      if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) then begin
+         NAnswer(203,1,NodeFstDialog2)
+         end
+         else if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) then begin
+         NAnswer(203,1,NodeFstDialog2)
+         end
+
+      BAnswer(204,1,NodeFstDialog3)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   set_map_var(MVAR_PnxVlt_Dopusk,1);
+   bitDialogExp(bit_4,200)
+   zReply(213)
+   if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+   NAnswer(214,1,Node999)
+   end
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(210)
+   NAnswer(211,1,Node998)
+   NAnswer(212,1,Node998)
+end
+
+procedure NodeFstDialog4 begin
+   set_map_var(MVAR_PnxVlt_Dopusk,1);
+   bitDialogExp(bit_4,200)
+   Reply(222)
+   if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+   NAnswer(214,1,Node999)
+   end
+   NAnswer(223,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   set_map_var(MVAR_PnxVlt_Dopusk,1);
+   bitDialogExp(bit_4,200)
+   Reply(207)
+   if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+   NAnswer(214,1,Node999)
+   end
+   NAnswer(215,1,Node999)
+end

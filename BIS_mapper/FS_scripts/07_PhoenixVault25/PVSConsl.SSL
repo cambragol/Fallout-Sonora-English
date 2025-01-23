@@ -1,0 +1,23 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_PVSConsl
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(110);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+   script_overrides;
+   display_mstr(110);
+   end
+end

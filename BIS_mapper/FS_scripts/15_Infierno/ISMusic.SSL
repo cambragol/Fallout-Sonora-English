@@ -1,0 +1,86 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_ISMusic
+#define SKILL_LIMIT                     50
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+procedure damage_p_proc;
+
+#define LVAR_Exp                        (2) // опыт
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_var(MVAR_INF_MUSIC_PLAY)>0) then begin
+       set_local_var(LVAR_Status,0);
+       set_map_var(MVAR_INF_MUSIC_PLAY,0);
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_INF_MUSIC_PLAY)>0) then begin
+      reg_anim_begin();
+      reg_anim_animate_forever(self_obj, ANIM_stand);
+      reg_anim_end();
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      floater(self_obj,random(120,125),COLOR_MSG_GREY);
+      add_timer_event(self_obj,70,1);
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_INF_MUSIC_PLAY,15686);
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj,10,1);
+
+   if (local_var(LVAR_Exp) == 0) then begin
+   RepairProcRepair(112,50,"SALOON1")
+   set_local_var(LVAR_Exp,1);
+   end
+   else begin
+   RepairProcRepair(112,0,"SALOON1")
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+       if (map_var(MVAR_INF_MUSIC_PLAY)>0) then begin
+       play_sfx("ZAPPER1");
+       set_map_var(MVAR_INF_MUSIC_PLAY,-1);
+       display_mstr(113);
+       create_object_sid(self_PID, self_tile, self_elevation, -1);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end

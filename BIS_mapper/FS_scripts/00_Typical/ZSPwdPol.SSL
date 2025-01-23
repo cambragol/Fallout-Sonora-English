@@ -1,0 +1,184 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSPwdPol
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure decoding_proc;
+procedure repair_proc;
+procedure damage_p_proc;
+procedure pole_proc;
+procedure pole_gener;
+
+#define LVAR_PoleTyp                    (1) // Ремжим: 0 - зелтый, 1 - красный
+#define LVAR_Exp                        (2) // Опыт за первый взлом
+#define LVAR_Lockpick_Flag              (3) // Был ли использован декодер: 0 - нет, >0 - да
+
+variable poleA;
+variable poleB;
+variable poleTile;
+
+/*
+ВАЖНО: Этот скрипт будет работать в отношении обычных силовых полей для сэта убежища. Силовые поля иного типа (Анклав, полосы) не учитываются.
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       call decoding_proc;
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+       call repair_proc;
+   end
+   else begin
+       display_mstr(111);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (combat_is_initialized == true) then begin
+      script_overrides;
+      display_mstr(116);
+   end
+
+   else if (local_var(LVAR_Status) > 0) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+
+   else if (objUsedPid == PID_TOOL_LOCKPICKS_EL) then begin
+      script_overrides;
+      if (local_var(LVAR_Lockpick_Flag) == 0) then begin
+         set_local_var(LVAR_Lockpick_Flag,-40);
+         play_sfx("WOR1XXX1");
+         dude_floater_OK;
+         display_mstr(117);
+         item_remove(dude_obj, objUsedPid, 1)
+      end
+      else begin
+         dude_floater_NON;
+         display_mstr(118);
+      end
+   end
+
+end
+
+procedure decoding_proc begin
+   if (local_var(LVAR_Status) > 0) then begin
+       display_mstr(110);
+   end
+   else if (has_skill(dude_obj, SKILL_SCIENCE) < (80+local_var(LVAR_Lockpick_Flag))) then begin
+       skill_display_mstr(119,SKILL_SCIENCE,(80+local_var(LVAR_Lockpick_Flag)))
+   end
+   else begin
+       play_sfx("ZAPPER1");
+       if (local_var(LVAR_PoleTyp) == 0) then begin
+       set_local_var(LVAR_PoleTyp,1);
+       end
+       else begin
+       set_local_var(LVAR_PoleTyp,0);
+       end
+       if (local_var(LVAR_Exp) == 0) then begin
+       exp_add(100);
+       inc_local_var(LVAR_Exp);
+       end
+       display_mstr(112);
+       call pole_proc;
+       call pole_proc; //! повтор процедуры является уловкой для конвертации полей
+   end
+end
+
+procedure repair_proc begin
+   if (local_var(LVAR_Status) > 0) then begin
+       display_mstr(110);
+   end
+   else if (has_skill(dude_obj, SKILL_REPAIR) < 80) then begin
+       skill_display_mstr(113,SKILL_REPAIR,80)
+   end
+   else begin
+       play_sfx("ZAPPER1");
+       if (local_var(LVAR_Exp) == 0) then begin
+       exp_add(100);
+       inc_local_var(LVAR_Exp);
+       end
+       //display_mstr(114);
+       //display_mstr(115);
+       call pole_proc;
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+       if ((weapon_dmg_type(target_obj) == DMG_explosion) or (weapon_dmg_type(target_obj) == DMG_emp)) then begin
+           if (local_var(LVAR_Status) == 0) then begin
+           play_sfx("ZAPPER1");
+           call pole_proc;
+           set_local_var(LVAR_Status,1);
+           end
+       end
+   end
+end
+
+
+#define tile_num_SS                             tile_num_in_direction(self_tile, 2, 2)
+
+#define tile_num_WE                             tile_num_in_direction(tile_num_in_direction(self_tile, 4, 1), 3, 1)
+
+#define set_pole_param(pid,yellow,red,tile)     if (self_PID == pid) then begin \
+                                                    poleA := yellow;            \
+                                                    poleB := red;               \
+                                                    poleTile := tile;           \
+                                                end                             \
+
+#define selfPole(pid)                           (tile_contains_obj_pid(poleTile,self_elevation,pid) == true) \
+
+procedure pole_proc begin
+   poleA := 0;
+   poleB := 0;
+   poleTile := 0;
+
+   //--- Индексация
+   set_pole_param(50332498,PID_POWER_POLE_AA,PID_POWER_POLE_BA,tile_num_WE)
+   set_pole_param(50332424,PID_POWER_POLE_AA,PID_POWER_POLE_BA,tile_num_WE)
+   set_pole_param(50332365,PID_POWER_POLE_AA,PID_POWER_POLE_BA,tile_num_WE)
+
+   set_pole_param(50332499,PID_POWER_POLE_AB,PID_POWER_POLE_BB,tile_num_SS)
+   set_pole_param(50332425,PID_POWER_POLE_AB,PID_POWER_POLE_BB,tile_num_SS)
+   set_pole_param(50332366,PID_POWER_POLE_AB,PID_POWER_POLE_BB,tile_num_SS)
+
+   if ((poleA > 0) and (poleB > 0) and (poleTile > 0)) then begin
+   call pole_gener;
+   end
+end
+
+procedure pole_gener begin
+
+   if selfPole(poleA) then begin
+      destroy_object(tile_contains_pid_obj(poleTile, self_elevation, poleA));
+   end
+   else if selfPole(poleB) then begin
+      destroy_object(tile_contains_pid_obj(poleTile, self_elevation, poleB));
+   end
+   else if (local_var(LVAR_Status) != 0) then begin
+   end
+   else begin
+      if (local_var(LVAR_PoleTyp) == 0) then begin
+      create_object_sid(poleA, poleTile, self_elevation, -1);
+      end
+      else begin
+      create_object_sid(poleB, poleTile, self_elevation, -1);
+      end
+   end
+end

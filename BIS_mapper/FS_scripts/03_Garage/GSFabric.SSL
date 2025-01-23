@@ -1,0 +1,20 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_GSFabric
+
+procedure start;
+procedure map_enter_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (global_var(GVAR_GAME_END)!=0) then begin
+      if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) >= 4) then begin
+      if (getQuest(GVAR_GARAGE_STANOK_DESTROY) < qEnd) then begin
+      animate_stand_obj(self_obj);
+      end
+      end
+   end
+end

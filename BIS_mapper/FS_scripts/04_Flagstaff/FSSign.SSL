@@ -1,0 +1,122 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_FSSign
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog200;
+procedure NodeDialog300;
+procedure NodeDialog400;
+procedure NodeDialog401;
+procedure NodeDialog402;
+
+#define LVAR_DialogBit                  (0) // Переменная в диалоге
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      if (combat_is_initialized == true) then begin
+      g_display_mstr(551);
+      end
+      else begin
+      call talk_p_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+   if (lvar_bit(LVAR_DialogBit, bit_1) == 0) then begin
+   exp_add(50);
+   set_lvar_bit_on(LVAR_DialogBit, bit_1);
+   end
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(220,1,NodeDialog200)
+   NAnswer(222,1,NodeDialog300)
+   if (lvar_bit(LVAR_DialogBit, bit_2) == 0) then begin
+   //NAnswer(230,7,NodeDialog400)
+   NAnswerSkill(230,7,NodeDialog400,SKILL_SCIENCE,25,230,NodeDialog402)
+   end
+   NAnswer(202,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(220,1,NodeDialog200)
+   NAnswer(222,1,NodeDialog300)
+   if (lvar_bit(LVAR_DialogBit, bit_2) == 0) then begin
+   //NAnswer(230,7,NodeDialog400)
+   NAnswerSkill(230,7,NodeDialog400,SKILL_SCIENCE,25,230,NodeDialog402)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog200 begin
+   Reply(221)
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(222,1,NodeDialog300)
+   if (lvar_bit(LVAR_DialogBit, bit_2) == 0) then begin
+   //NAnswer(230,7,NodeDialog400)
+   NAnswerSkill(230,7,NodeDialog400,SKILL_SCIENCE,25,230,NodeDialog402)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog300 begin
+   if (global_var(GVAR_STATUS_FLAGSTAFF_RANGER) == 0) then begin
+   Reply(223)
+   end
+   else begin
+   Reply(224)
+   end
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(220,1,NodeDialog200)
+   if (lvar_bit(LVAR_DialogBit, bit_2) == 0) then begin
+   //NAnswer(230,7,NodeDialog400)
+   NAnswerSkill(230,7,NodeDialog400,SKILL_SCIENCE,25,230,NodeDialog402)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog400 begin
+   Reply(231)
+   NAnswer(232,1,NodeDialog401)
+   NAnswer(236,1,NodeDialog)
+end
+
+procedure NodeDialog401 begin
+   set_lvar_bit_on(LVAR_DialogBit, bit_2);
+   exp_add(50);
+   set_SLAVA(3)
+   Reply(233)
+   NAnswer(234,1,NodeDialog)
+end
+
+procedure NodeDialog402 begin
+   Reply(235)
+   NAnswer(236,1,Node999)
+end

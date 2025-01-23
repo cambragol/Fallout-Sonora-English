@@ -1,0 +1,176 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCCasGrd
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GUARDS             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_CASINO           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      70 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure weapon_stop;
+procedure weapon_stop_float;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Weapon_Timer              (6) // таймер проверки в руках ГГ оружия
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       //inven_unwield(self_obj);
+       set_local_var(LVAR_Weapon_Timer,0);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   script_overrides;
+   display_mstr(100+random(101,109));
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure weapon_stop begin
+   //замечание: следи, чтобы проверки не дублировались перед call weapon_stop в critter_p_proc
+   if (combat_is_initialized == false) then begin
+      if self_can_see_dude then begin
+         if weapon_invn_dude then begin
+            if (dude_elevation > 0) then begin
+            end
+            else if (tile_distance(HomeTile,self_tile) > 5) then begin
+            end
+            else if (tile_distance(20489,dude_tile) <= 10) then begin
+               if (tile_distance(HomeTile,18487) <= 3) then begin
+               floater(self_obj,115,COLOR_MSG_RED);
+               end
+            end
+            else begin
+               call weapon_stop_float;
+            end
+         end
+      end
+   end
+end
+
+procedure weapon_stop_float begin
+   if (local_var(LVAR_Weapon_Timer) > 0) then begin
+      if weapon_invn_dude then begin
+      if (local_var(LVAR_Weapon_Timer) >= (ONE_GAME_SECOND*2)*12) then begin
+      floater(self_obj,112,COLOR_MSG_RED);
+      self_attack_dude;
+      end
+      else if (local_var(LVAR_Weapon_Timer) >= (ONE_GAME_SECOND*2)*6) then begin
+      floater(self_obj,111,COLOR_MSG_RED);
+      end
+      else begin
+      floater(self_obj,110,COLOR_MSG_RED);
+      end
+      end
+   end
+   inc_local_var(LVAR_Weapon_Timer);
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   if ((global_var(GVAR_PHENIX_STATUS_DIEGO) <= 0) and (global_var(GVAR_TITUL_PHENIX_CASINO) <= 0)) then begin
+      if (map_var(MVAR_PNX_CASINO_PSWD) > 0) then begin
+      end
+      else if (map_var(MVAR_PNX_CASINO_BACK) > 0) then begin
+         self_attack_dude;
+      end
+      else begin
+         set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+         if ((tile_distance(self_tile,13680) < 10) and (dude_tile == 13680)) then begin
+         floater(self_obj,113,COLOR_MSG_RED);
+         end
+         if ((tile_distance(dude_tile,13885) < 3) and (tile_distance(self_tile,13885) < 12) and (tile_distance(self_tile,HomeTile) < 3)) then begin
+         floater(self_obj,114,COLOR_MSG_RED);
+         end
+      end
+      call weapon_stop;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   floater(self_obj,random(280,289),COLOR_MSG_RED);
+   end
+   else if weapon_invn_dude then begin
+   floater(self_obj,random(290,299),COLOR_MSG_RED);
+   end
+   else if (town_rep_is_hated or (global_var(GVAR_TOWN_REP_PHOENIX) <= -30)) then begin
+   floater(self_obj,random(250,259),COLOR_MSG_RED);
+   end
+   else begin
+   floater(self_obj,random(200,214),COLOR_MSG_NORMAL);
+   end
+end

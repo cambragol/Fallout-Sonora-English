@@ -1,0 +1,53 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_ISFair
+#define SKILL_LIMIT                     50
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+#define LVAR_Exp                        (2) // опыт
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_var(MVAR_INF_FAIR_SIGNAL)>0) then begin
+       set_local_var(LVAR_Status,0);
+       set_map_var(MVAR_INF_FAIR_SIGNAL,0);
+       end
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_INF_FAIR_SIGNAL,18099);
+
+   if (local_var(LVAR_Exp) == 0) then begin
+   RepairProcRepair(112,50,"BIGWIN")
+   set_local_var(LVAR_Exp,1);
+   end
+   else begin
+   RepairProcRepair(112,0,"BIGWIN")
+   end
+end

@@ -1,0 +1,145 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_SSCmpBos
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog202;
+procedure NodeDialog203;
+procedure NodeDialog204;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog302;
+procedure NodeDialog303;
+
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(100)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(250)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(220,3,NodeDialog200)
+   NAnswer(240,3,NodeDialog300)
+   if (getQuest(GVAR_PUERTO_QST_FAREWELL) == qStart) then begin
+   NAnswer(210,1,NodeDialog100)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,5,NodeDialog101)
+   NAnswer(202,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog101 begin
+   setQuest(GVAR_PUERTO_QST_FAREWELL,qEnd);
+   Reply(213)
+   NAnswer(214,1,Node999)
+end
+
+procedure NodeDialog200 begin
+   Reply(221)
+   NAnswer(228,1,NodeDialog204)
+   NAnswer(222,1,NodeDialog201)
+   NAnswer(224,1,NodeDialog202)
+   NAnswer(226,1,NodeDialog203)
+   NAnswer(204,1,NodeDialog)
+end
+
+procedure NodeDialog201 begin
+   Reply(223)
+   NAnswer(202,1,NodeDialog200)
+end
+
+procedure NodeDialog202 begin
+   Reply(225)
+   NAnswer(202,1,NodeDialog200)
+end
+
+procedure NodeDialog203 begin
+   Reply(227)
+   NAnswer(202,1,NodeDialog200)
+end
+
+procedure NodeDialog204 begin
+   Reply(229)
+   NAnswer(202,1,NodeDialog200)
+end
+
+procedure NodeDialog300 begin
+   Reply(241)
+   NAnswer(246,1,NodeDialog301)
+   NAnswer(245,1,NodeDialog)
+end
+
+procedure NodeDialog301 begin
+   Reply(242)
+   NAnswer(246,1,NodeDialog302)
+   NAnswer(245,1,NodeDialog)
+end
+
+procedure NodeDialog302 begin
+   Reply(243)
+   NAnswer(246,1,NodeDialog303)
+   NAnswer(245,1,NodeDialog)
+end
+
+procedure NodeDialog303 begin
+   Reply(244)
+   NAnswer(245,1,NodeDialog)
+end

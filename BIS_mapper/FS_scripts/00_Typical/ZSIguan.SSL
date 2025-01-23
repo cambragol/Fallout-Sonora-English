@@ -1,0 +1,91 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSIguan
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure open_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+      script_overrides;
+
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+
+      display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_STEAL) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+      script_overrides;
+      display_mstr(110);
+      end
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+         if (has_skill(dude_obj, SKILL_TRAPS) >= 20) then begin
+         call open_proc;
+         end
+         else begin
+         skill_display_mstr(112,SKILL_TRAPS,20)
+         end
+      end
+      else begin
+         display_mstr(113);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+
+   else if (objUsedPid == PID_TOOL_IGUANA_TRACK) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+         display_mstr(114);
+      end
+      else begin
+         item_remove(dude_obj, objUsedPid, 1)
+         play_sfx("WOM1XXX1");
+         display_mstr(115);
+         set_local_var(LVAR_Status,0);
+      end
+   end
+end
+
+procedure open_proc begin
+   item_add(self_obj,PID_M_IGUANA,random(1,2))
+   if (has_skill(dude_obj, SKILL_SCOUT) >= 100) then begin
+   item_add(self_obj,PID_M_IGUANA,1)
+   end
+   if (has_skill(dude_obj, SKILL_SCOUT) >= 80) then begin
+   item_add(self_obj,PID_M_IGUANA,1)
+   end
+   if (has_skill(dude_obj, SKILL_SCOUT) >= 60) then begin
+   item_add(self_obj,PID_M_IGUANA,1)
+   end
+   play_sfx("WOM1XXX1");
+   display_mstr(111);
+   set_local_var(LVAR_Status,1);
+end

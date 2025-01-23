@@ -1,0 +1,128 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_ZCBandit // SCRIPT_YCBandit
+#define TOWN_REP_VAR                    -1   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BANDITS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure ghoul_body;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+//#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
+#define LVAR_Ghoul_Body                 (7) // создание тела гуля
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_local_var(LVAR_Home_Tile,self_tile); //- сделано для того, чтобы нпс не возвращались на исходные позиции
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+
+       if ((cur_map_index == MAP_DAYGLOW_NATIONALCITY) and (self_elevation == 1)) then begin
+          if (getQuest(GVAR_DAYGLOW_RADIO) >= 3) then begin
+              set_obj_visibility(self_obj, 0);
+              if ((gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_15) != 0) and (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) == 0) and (map_var(MVAR_DIEGOCAFE_MUTANT_QST) == 0)) then begin
+              set_obj_visibility(self_obj, 1);
+              end
+              else begin
+              call ghoul_body;
+              end
+          end
+       end
+   end
+end
+
+procedure ghoul_body begin
+   variable ghoulBodyObj;
+   if (map_var(MVAR_DIEGOCAFE_GHOUL_BODY) == 0) then begin
+      ghoulBodyObj := create_object_sid(PID_GHOUL_A, tile_num_in_direction(self_tile, random(0,5), random(2,3)), self_elevation, SCRIPT_ZCGhoul);
+      kill_critter(ghoulBodyObj, ANIM_fall_back_blood_sf);
+      ghoulBodyObj := 0;
+      inc_map_var(MVAR_DIEGOCAFE_GHOUL_BODY);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   script_overrides;
+   display_mstr(102);
+end

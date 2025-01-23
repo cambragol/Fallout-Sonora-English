@@ -1,0 +1,244 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSDumTrs
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialogStart;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog2_1;
+procedure NodeDialog2_2;
+procedure NodeDialog2_3;
+procedure NodeDialog2_4;
+procedure NodeDialog2_5;
+procedure NodeDialog2_6;
+procedure NodeDialog2_7;
+procedure NodeDialog3;
+procedure NodeDialog3_OK;
+procedure NodeDialog3_NO;
+procedure NodeDialogFinish;
+procedure NodeDialogFinish2;
+procedure NodeDialogFinish3;
+
+variable randomBit;
+variable replyNumber;
+variable replySwitch;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   if (map_first_run == true) then begin
+       randomBit := random(1,3);
+
+       if (randomBit == 1) then begin
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_BIT, bit_1);
+       end
+       if (randomBit == 2) then begin
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_BIT, bit_2);
+       end
+       if (randomBit == 3) then begin
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_BIT, bit_3);
+       end
+
+       randomBit := random(4,7);
+
+       if (randomBit == 4) then begin
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_BIT, bit_4);
+       end
+       if (randomBit == 5) then begin
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_BIT, bit_5);
+       end
+       if (randomBit == 6) then begin
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_BIT, bit_6);
+       end
+       if (randomBit == 7) then begin
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_BIT, bit_7);
+       end
+
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, bit_1);
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, bit_2);
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, bit_3);
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, bit_4);
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, bit_5);
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, bit_6);
+       set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, bit_7);
+   end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (global_var(GVAR_DAYGLOW_TURBINA) > 4) then begin
+   display_mstr(111);
+   end
+   else if (global_var(GVAR_DAYGLOW_TURBINA) == 4) then begin
+   call talk_p_proc; //display_mstr(114);
+   end
+   else begin
+   display_mstr(113);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_SCIENCE) or (action_being_used == SKILL_REPAIR)) then begin
+      script_overrides;
+      if (global_var(GVAR_DAYGLOW_TURBINA) > 4) then begin
+      display_mstr(111);
+      end
+      else if (global_var(GVAR_DAYGLOW_TURBINA) == 4) then begin
+      call talk_p_proc; //call repair_proc;
+      end
+      else begin
+      display_mstr(110);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   exp_add(2500);
+   display_mstr(112);
+   if (getQuest(GVAR_DAYGLOW_MUTGOPSTROP) == qZero) then begin
+   setQuest(GVAR_DAYGLOW_MUTGOPSTROP, qStart);
+   end
+   play_sfx("COOLANT");
+   play_sfx("ELECTRI1");
+   obj_set_light_level(self_obj, 100, 8);
+   inc_global_var(GVAR_DAYGLOW_TURBINA);
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialogStart)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialogStart begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(202,0,NodeDialog2)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog2 begin
+   Reply(200)
+
+   NAnswer(211,0,NodeDialog2_1)
+   NAnswer(212,0,NodeDialog2_2)
+   NAnswer(213,0,NodeDialog2_3)
+   NAnswer(214,0,NodeDialog2_4)
+   NAnswer(215,0,NodeDialog2_5)
+   NAnswer(216,0,NodeDialog2_6)
+   NAnswer(217,0,NodeDialog2_7)
+
+   NAnswer(230,0,NodeDialogFinish)
+   NAnswer(201,0,Node999)
+end
+
+
+procedure NodeDialog2_1 begin
+   replyNumber := 211;
+   replySwitch := bit_1;
+   call NodeDialog3;
+end
+
+procedure NodeDialog2_2 begin
+   replyNumber := 212;
+   replySwitch := bit_2;
+   call NodeDialog3;
+end
+
+procedure NodeDialog2_3 begin
+   replyNumber := 213;
+   replySwitch := bit_3;
+   call NodeDialog3;
+end
+
+procedure NodeDialog2_4 begin
+   replyNumber := 214;
+   replySwitch := bit_4;
+   call NodeDialog3;
+end
+
+procedure NodeDialog2_5 begin
+   replyNumber := 215;
+   replySwitch := bit_5;
+   call NodeDialog3;
+end
+
+procedure NodeDialog2_6 begin
+   replyNumber := 216;
+   replySwitch := bit_6;
+   call NodeDialog3;
+end
+
+procedure NodeDialog2_7 begin
+   replyNumber := 217;
+   replySwitch := bit_7;
+   call NodeDialog3;
+end
+
+
+
+procedure NodeDialog3 begin
+   if (mvar_bit(MVAR_DIEGODUM_PAS_NEW,replySwitch) == 0) then begin
+   Reply(mstr(210)+mstr(replyNumber)+mstr(223))
+   NAnswer(220,0,NodeDialog3_OK)
+   end
+   else begin
+   Reply(mstr(210)+mstr(replyNumber)+mstr(224))
+   NAnswer(221,0,NodeDialog3_NO)
+   end
+   NAnswer(222,0,NodeDialog2)
+end
+
+procedure NodeDialog3_OK begin
+   set_mvar_bit_on(MVAR_DIEGODUM_PAS_NEW, replySwitch);
+   call NodeDialog3;
+end
+
+procedure NodeDialog3_NO begin
+   set_mvar_bit_off(MVAR_DIEGODUM_PAS_NEW, replySwitch);
+   call NodeDialog3;
+end
+
+
+
+procedure NodeDialogFinish begin
+   if (map_var(MVAR_DIEGODUM_PAS_NEW) == map_var(MVAR_DIEGODUM_PAS_BIT)) then begin
+   call NodeDialogFinish3;
+   end
+   else begin
+   call NodeDialogFinish2;
+   end
+end
+
+procedure NodeDialogFinish2 begin
+   Reply(231)
+   NAnswer(232,0,NodeDialog2)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialogFinish3 begin
+   call repair_proc;
+   call Node999;
+end

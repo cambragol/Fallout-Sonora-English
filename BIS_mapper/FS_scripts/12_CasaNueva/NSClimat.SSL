@@ -1,0 +1,66 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_NSClimat
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure ClimatUp;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call ClimatUp;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure ClimatUp begin
+   if (global_var(GVAR_NUEVA_STATUS_CLIMAT) == 0) then begin
+      display_mstr(110);
+      floater(source_obj, 102, COLOR_MSG_NORMAL);
+   end
+   else if ((self_elevation == 0) and (map_var(MVAR_NUEVA_LAB_CLIMAT_A) == 0)) then begin
+      play_sfx("STEAM");
+      display_mstr(112);
+      dude_floater_OK;
+      inc_map_var(MVAR_NUEVA_LAB_CLIMAT_A);
+   end
+   else if ((self_elevation == 1) and (map_var(MVAR_NUEVA_LAB_CLIMAT_B) == 0)) then begin
+      play_sfx("STEAM1");
+      display_mstr(113);
+      dude_floater_OK;
+      inc_map_var(MVAR_NUEVA_LAB_CLIMAT_B);
+   end
+   else if ((self_elevation == 2) and (map_var(MVAR_NUEVA_LAB_CLIMAT_C) == 0)) then begin
+      play_sfx("STEAM1");
+      display_mstr(114);
+      dude_floater_OK;
+      inc_map_var(MVAR_NUEVA_LAB_CLIMAT_C);
+   end
+   else begin
+      display_mstr(111);
+      dude_floater_NON;
+   end
+end

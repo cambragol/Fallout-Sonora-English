@@ -1,0 +1,116 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_ZSNwsppr
+#define SKILL_LIMIT                     25
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+procedure lootTSun;
+procedure lootPnx;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   //RepairProcUsing(110,111)
+   if (local_var(LVAR_Status) == 0) then begin
+   //if (obj_is_locked(self_obj) == true) then begin
+   script_overrides;
+   display_mstr(103);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+      //if (obj_is_locked(self_obj) == true) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+         if dude_skill(SKILL_LOCKPICK,35) then begin
+         call repair_proc;
+         end
+         else begin
+         skill_display_mstr(104,SKILL_LOCKPICK,35)
+         end
+      end
+      else begin
+         display_mstr(102);
+      end
+   end
+   if (action_being_used == SKILL_STEAL) then begin
+      //if (obj_is_locked(self_obj) == true) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+      script_overrides;
+      display_mstr(103);
+      end
+   end
+   RepairSkillRepairB
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      call repair_proc;
+   end
+end
+
+procedure repair_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+      obj_unlock(self_obj);
+      if (cur_map_index == MAP_PHOENIX_PLAZA) then begin
+      call lootPnx;
+      end
+      if (cur_map_index == MAP_TWO_SUN_DSTR) then begin
+      call lootTSun;
+      end
+      RepairProcRepair(105,10,"PEBBLE")
+   end
+   else begin
+      display_mstr(102);
+   end
+end
+
+procedure lootTSun begin
+   if ((dude_luck >= 3) or DudePerkHas(PERK_marauder)) then begin
+   item_add(self_obj,PID_BOOTLE_CAPS,3)
+   end
+   if ((dude_luck >= 5) or DudePerkHas(PERK_marauder)) then begin
+   item_add(self_obj,PID_MANY,1)
+   end
+   if ((dude_luck >= 7) or DudePerkHas(PERK_marauder)) then begin
+   item_add(self_obj,PID_MANY,1)
+   end
+   if ((dude_luck >= 9) or DudePerkHas(PERK_marauder)) then begin
+   floater(dude_obj,106,COLOR_MSG_NORMAL);
+   item_add(self_obj,PID_BOOK_OLD,1)
+   end
+   item_add(self_obj,PID_BOOK_OLD,1)
+end
+
+procedure lootPnx begin
+   if ((dude_luck >= 9) or DudePerkHas(PERK_marauder)) then begin
+   floater(dude_obj,106,COLOR_MSG_NORMAL);
+   item_add(self_obj,PID_M_PSYCHO,1)
+   end
+   else if ((dude_luck >= 4) or DudePerkHas(PERK_marauder)) then begin
+   item_add(self_obj,PID_W_KNUCKLES_SPIKED,1)
+   end
+   else begin
+   item_add(self_obj,PID_W_BROCK,1)
+   end
+end

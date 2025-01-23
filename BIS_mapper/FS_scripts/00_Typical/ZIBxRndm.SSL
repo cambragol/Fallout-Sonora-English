@@ -1,0 +1,235 @@
+#include "..\headers\define.h"
+#include "..\headers\updatmap.h"
+#define NAME                    SCRIPT_ZIBxRndm
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_obj_on_p_proc;
+procedure conteiner_invis_proc;
+procedure conteiner_invis;
+procedure loot_gener;
+procedure loot_gener_zero;
+procedure loot_gener_trash;
+procedure loot_gener_normal;
+procedure loot_gener_good;
+procedure loot_gener_super;
+
+variable randomVar;
+variable randomIndx;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+
+      if (map_first_run) then begin
+
+          // Создание блокиратора под контейнером (актуально в основном для случайных карт в связи с периодическим удалением контейнера)
+          if (tile_contains_pid_obj(self_tile, self_elevation, PID_HEX_BLOCKING) == 0) then begin
+              if ((self_PID == 248) or (self_PID == 267) or (self_PID == 268) or (self_PID == 279) or (self_PID == 280) or (self_PID == 281) or (self_PID == 282)) then begin
+              create_object_sid(PID_HEX_BLOCKING,self_tile,self_elevation,-1);
+              end
+          end
+
+          // Просчет вероятности на появление лута
+          randomVar := random(0,10);
+          if DudePerkHas(PERK_marauder) then begin
+          randomVar -= 4;
+          end
+
+          // Генерация лута
+          if (dude_luck >= randomVar) then begin
+              call loot_gener;
+              //Генерация маркеров для миникарты
+              if DudePerkHas(PERK_marauder) then begin
+                 if (tile_contains_obj_pid(self_tile,self_elevation,PID_HEX_MAPEXIT) == false) then begin
+                 create_object_sid(PID_HEX_MAPEXIT, self_tile, self_elevation, -1);
+                 create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 1, 1), self_elevation, -1);
+                 create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 2, 1), self_elevation, -1);
+                 end
+              end
+          end
+          else begin
+              call conteiner_invis_proc;
+          end
+
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+//---------------------------------------------------------------
+//--- Вероятностные просчеты
+//---------------------------------------------------------------
+
+#define get_conteiner_invis(map)       if (cur_map_index == map) then begin     \
+                                       call conteiner_invis;                    \
+                                       end                                      \
+
+// Вероятное исчезновение с карты
+procedure conteiner_invis_proc begin
+        get_conteiner_invis(MAP_RND_DESERT_1)
+   else get_conteiner_invis(MAP_RND_DESERT_2)
+   else get_conteiner_invis(MAP_RND_DESERT_3)
+   else get_conteiner_invis(MAP_RND_DESERT_4)
+   else get_conteiner_invis(MAP_RND_DESERT_9)
+   else get_conteiner_invis(MAP_RND_ROAD_1)
+   else get_conteiner_invis(MAP_RND_ROAD_2)
+   else get_conteiner_invis(MAP_RND_ROAD_3)
+   else get_conteiner_invis(MAP_RND_ROAD_4)
+   else get_conteiner_invis(MAP_RND_ROAD_5)
+   else get_conteiner_invis(MAP_RND_CITY_1)
+   else get_conteiner_invis(MAP_RND_CITY_2)
+   else get_conteiner_invis(MAP_RND_CITY_3)
+   else get_conteiner_invis(MAP_RND_CITY_4)
+   else get_conteiner_invis(MAP_RND_CITY_9)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_1)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_2)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_3)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_4)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_5)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_6)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_7)
+   else get_conteiner_invis(MAP_RND_MOUNTAIN_8)
+   else get_conteiner_invis(MAP_RND_COAST_1)
+   else get_conteiner_invis(MAP_RND_COAST_2)
+   else get_conteiner_invis(MAP_RND_COAST_3)
+   else get_conteiner_invis(MAP_RND_COAST_4)
+end
+
+procedure conteiner_invis begin
+   if (tile_contains_pid_obj(self_tile, self_elevation, PID_HEX_BLOCKING) != 0) then begin
+   destroy_object(tile_contains_pid_obj(self_tile, self_elevation, PID_HEX_BLOCKING));
+   end
+   set_obj_visibility(self_obj, 1);
+end
+
+//---------------------------------------------------------------
+//--- Генерация лута
+//---------------------------------------------------------------
+
+procedure loot_gener begin
+   randomVar := has_skill(dude_obj, SKILL_SCOUT);
+   if DudePerkHas(PERK_marauder) then begin
+   randomVar += 20;
+   end
+
+   if (randomVar >= 100) then begin
+       call loot_gener_good;
+       call loot_gener_super;
+   end
+   else if (randomVar >= 80) then begin
+       call loot_gener_super;
+   end
+   else if (randomVar >= 60) then begin
+       call loot_gener_good;
+   end
+   else if (randomVar >= 40) then begin
+       call loot_gener_normal;
+   end
+   else if (randomVar >= 20) then begin
+       call loot_gener_trash;
+   end
+   else begin
+       call loot_gener_zero;
+   end
+
+   randomVar := 0;
+end
+
+#define item_gener_to_self(indx,pid,x)      if (randomIndx == indx) then begin  \
+                                            item_add(self_obj,pid,x)            \
+                                            end                                 \
+
+
+   //Выживание <0
+procedure loot_gener_zero begin
+   randomIndx := random(0,1);
+
+   item_gener_to_self(0,PID_W_BROCK,random(1,2))
+   item_gener_to_self(1,PID_M_SLUGS,random(1,3))
+end
+
+   //Выживание 20
+procedure loot_gener_trash begin
+   randomIndx := random(0,4);
+
+   item_gener_to_self(0,PID_BOOTLE_CAPS,random(1,2))
+   item_gener_to_self(1,PID_M_SLUGS,random(1,3))
+   item_gener_to_self(2,PID_W_BROCK,random(1,4))
+   item_gener_to_self(3,PID_W_KNIFE,1)
+   item_gener_to_self(4,PID_M_NUKA_COLA_RAD,1)
+end
+
+   //Выживание 40
+procedure loot_gener_normal begin
+   randomIndx := random(0,11);
+
+   item_gener_to_self(0,PID_BOOTLE_CAPS,random(1,5))
+   item_gener_to_self(1,PID_MANY,random(1,2))
+   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,random(1,2))
+   item_gener_to_self(3,PID_AMMO_22_LR,random(1,2)) // в пачке 5 патронов
+   item_gener_to_self(4,PID_AMMO_10_MM,random(1,4))
+   item_gener_to_self(5,PID_AMMO_44_MAGNUM,random(1,2))
+   item_gener_to_self(6,PID_AMMO_5_MM,1) // в пачке 5 патронов
+   item_gener_to_self(7,PID_AMMO_308,random(1,2))
+   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,random(1,2))
+   item_gener_to_self(9,PID_W_KNUCKLES_BRASS,1)
+   item_gener_to_self(10,PID_W_CROWBAR,1)
+   item_gener_to_self(11,PID_M_NUKA_COLA,1)
+end
+
+   //Выживание 60
+procedure loot_gener_good begin
+   randomIndx := random(0,16);
+
+   item_gener_to_self(0,PID_BOOTLE_CAPS,random(5,10))
+   item_gener_to_self(1,PID_MANY,random(1,4))
+   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,random(1,4))
+   item_gener_to_self(3,PID_AMMO_22_LR,random(1,3)) // в пачке 5 патронов
+   item_gener_to_self(4,PID_AMMO_10_MM,random(1,7))
+   item_gener_to_self(5,PID_AMMO_44_MAGNUM,random(1,5))
+   item_gener_to_self(6,PID_AMMO_5_MM,1) // в пачке 5 патронов
+   item_gener_to_self(7,PID_AMMO_308,random(1,5))
+   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,random(1,2))
+   item_gener_to_self(9,PID_AMMO_SIGNAL_A,1)
+   item_gener_to_self(10,PID_W_THROWING_KNIFE,1)
+   item_gener_to_self(11,PID_W_KNUCKLES_SPIKED,1)
+   item_gener_to_self(12,PID_M_NUKA_COLA,random(1,2))
+   item_gener_to_self(13,PID_SCORPION_TAIL,1)
+   item_gener_to_self(14,PID_HYPO,1)
+   item_gener_to_self(15,PID_W_KNUCKLES_BRASS,1)
+   item_gener_to_self(16,PID_W_CROWBAR,1)
+end
+
+   //Выживание 80
+procedure loot_gener_super begin
+   randomIndx := random(0,18);
+
+   item_gener_to_self(0,PID_BOOTLE_CAPS,random(10,25))
+   item_gener_to_self(1,PID_MANY,random(1,7))
+   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,random(2,6))
+   item_gener_to_self(3,PID_AMMO_22_LR,random(2,5)) // в пачке 5 патронов
+   item_gener_to_self(4,PID_AMMO_10_MM,random(3,9))
+   item_gener_to_self(5,PID_AMMO_44_MAGNUM,random(2,7))
+   item_gener_to_self(6,PID_AMMO_5_MM,1) // в пачке 5 патронов
+   item_gener_to_self(7,PID_AMMO_308,random(2,6))
+   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,random(1,5))
+   item_gener_to_self(9,PID_AMMO_SIGNAL_A,random(1,2))
+
+   item_gener_to_self(10,PID_W_THROWING_KNIFE,1)
+   item_gener_to_self(11,PID_W_KNUCKLES_SPIKED,1)
+   item_gener_to_self(12,PID_M_NUKA_COLA,random(1,3))
+   item_gener_to_self(13,PID_SCORPION_TAIL,1)
+   item_gener_to_self(14,PID_HYPO,1)
+   item_gener_to_self(15,PID_W_GRENADE_FRAG,1)
+   item_gener_to_self(16,PID_M_WATER_FLASK,1)
+   item_gener_to_self(17,PID_CLEAR,1)
+   item_gener_to_self(18,PID_TABACO,1)
+end

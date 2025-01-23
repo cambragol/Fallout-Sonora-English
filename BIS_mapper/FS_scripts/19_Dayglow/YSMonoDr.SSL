@@ -1,0 +1,158 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSMonoDr
+//--- Двери поезда
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeStn1;
+procedure NodeStn2;
+procedure NodeStn3;
+procedure NodeStn4;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_obj_visibility(self_obj, 0);
+      if (cur_map_index != MAP_DAYGLOW_CAMP_OLD_TOWN) then begin
+      if (getQuest(GVAR_DAYGLOW_STATUS_MONORAIL) < qEnd) then begin
+      set_obj_visibility(self_obj, 1); //!!! уточнить условия появления на картах
+      end
+      end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       play_sfx("SCDOORSO");
+       set_global_var(GVAR_DAYGLOW_MONORAIL_MOVETO, MAP_DAYGLOW_CAMP_SAN_ISIDRO);
+       dude_teleport_map(0,0,MAP_DAYGLOW_CAMP_SAN_ISIDRO,1);
+   end
+   if (fixed_param == 2) then begin
+       play_sfx("SCDOORSO");
+       set_global_var(GVAR_DAYGLOW_MONORAIL_MOVETO, MAP_DAYGLOW_CHULAVISTA);
+       dude_teleport_map(0,0,MAP_DAYGLOW_CHULAVISTA,1);
+   end
+   if (fixed_param == 3) then begin
+       play_sfx("SCDOORSO");
+       set_global_var(GVAR_DAYGLOW_MONORAIL_MOVETO, MAP_DAYGLOW_CITYHEART);
+       dude_teleport_map(0,0,MAP_DAYGLOW_CITYHEART,1);
+   end
+   if (fixed_param == 4) then begin
+       play_sfx("SCDOORSO");
+       set_global_var(GVAR_DAYGLOW_MONORAIL_MOVETO, MAP_DAYGLOW_CAMP_OLD_TOWN);
+       dude_teleport_map(0,0,MAP_DAYGLOW_CAMP_OLD_TOWN,1);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) == qZero) then begin
+      setQuest(GVAR_DAYGLOW_MONORAIL_ENERGY, qStart);
+   end
+
+   if ((getQuest(GVAR_DAYGLOW_STATUS_MONORAIL) < qEnd) and (getQuest(GVAR_DAYGLOW_MONORAIL_APPARAT) >= qEnd) and (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) >= qEnd)) then begin
+      exp_add(2500);
+      display_mstr(103);
+      setQuest(GVAR_DAYGLOW_STATUS_MONORAIL, qEnd);
+   end
+   else if (getQuest(GVAR_DAYGLOW_STATUS_MONORAIL) >= qEnd) then begin
+      call talk_p_proc;
+   end
+   else if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) < qEnd) then begin
+      display_mstr(101);
+   end
+   else if (getQuest(GVAR_DAYGLOW_MONORAIL_APPARAT) < qEnd) then begin
+      display_mstr(102);
+   end
+   else begin
+      call talk_p_proc;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+   else if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+   else if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+      display_mstr(100);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_TEST) then begin
+      script_overrides;
+      setQuest(GVAR_DAYGLOW_MONORAIL_ENERGY, qEnd);
+      setQuest(GVAR_DAYGLOW_STATUS_MONORAIL, qEnd);
+      setQuest(GVAR_DAYGLOW_MONORAIL_APPARAT, qEnd);
+      display_mstr(104);
+   end
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(110)
+
+   if (cur_map_index != MAP_DAYGLOW_CAMP_SAN_ISIDRO) then begin
+   NAnswer(112,1,NodeStn1)
+   end
+
+   if (cur_map_index != MAP_DAYGLOW_CHULAVISTA) then begin
+   NAnswer(113,1,NodeStn2)
+   end
+
+   if (cur_map_index != MAP_DAYGLOW_CITYHEART) then begin
+   NAnswer(114,1,NodeStn3)
+   end
+
+   if (cur_map_index != MAP_DAYGLOW_CAMP_OLD_TOWN) then begin
+   NAnswer(115,1,NodeStn4)
+   end
+
+   NAnswer(111,1,Node999)
+end
+
+procedure NodeStn1 begin
+   add_timer_event(self_obj, 5, 1);
+   call Node999;
+end
+
+procedure NodeStn2 begin
+   add_timer_event(self_obj, 5, 2);
+   call Node999;
+end
+
+procedure NodeStn3 begin
+   add_timer_event(self_obj, 5, 3);
+   call Node999;
+end
+
+procedure NodeStn4 begin
+   add_timer_event(self_obj, 5, 4);
+   call Node999;
+end

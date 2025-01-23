@@ -1,0 +1,617 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_BCRanger
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      (SLAVA_KILL_GOOD*2)   // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_RANGER           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      80 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog110;
+procedure NodeFstDialog111;
+procedure NodeSndDialog;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst300;
+procedure NodeQst300b;
+procedure NodeQst301;
+procedure NodeQst302;
+procedure NodeQst303;
+procedure NodeQst304;
+procedure NodeQst305;
+procedure NodeQst305b;
+procedure NodeQst306;
+procedure NodeQst307;
+procedure NodeChites1;
+procedure NodeChites2;
+procedure NodeChites3;
+procedure NodeChites4;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+/*
+ВАЖНО!!! Синхронизировать скрипт с BCWarA.SSL.
+*/
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if (global_var(GVAR_BRAHMIN_STATUS_RANGER)!=0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+       if (getQuest(GVAR_BRAHMIN_QST_RANGER) == qStop) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+       if (getQuest(GVAR_BRAHMIN_ATTAK) == qStart) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_BRAHMIN_STATUS_RANGER,-2);
+   setQuest(GVAR_BRAHMIN_ATTAK,qStop);
+   if (getQuest(GVAR_BRAHMIN_QST_RANGER) == qStart) then begin
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-25) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,20) // Поправка к отношению за принадлежность к фракциям
+
+   if (global_var(GVAR_BRAHMIN_STATUS_RANGER) < 0) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else if (getQuest(GVAR_BRAHMIN_QST_RANGER) <= qStop) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_BRAHMIN_STATUS_RANGER) > 0) then begin
+   floater(self_obj,104,COLOR_MSG_GREEN);
+   end
+   else if (getQuest(GVAR_BRAHMIN_QST_RANGER) >= qEnd) then begin
+   floater(self_obj,104,COLOR_MSG_GREEN);
+   end
+   else if (getQuest(GVAR_BRAHMIN_ATTAK) == qStart) then begin
+   floater(self_obj,107,COLOR_MSG_NORMAL);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   //!!! реакция если ГГ стал врагом рейнджеров
+
+   if (global_var(GVAR_TOWN_REP_SAN_BRAHMIN) <= -30) then begin
+      call NodeStopDialog;
+   end
+   else if (getQuest(GVAR_BRAHMIN_QST_RANGER) == qZero) then begin
+      if ((armor_pid_dude_var == PID_ARMOR_LEATHER_RANGER) or (global_var(GVAR_TITUL_ARIZONA_RANGER)>0)) then begin
+      call NodeFstDialog4;
+      end
+      else if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B)) then begin
+      call NodeFstDialog2;
+      end
+      else begin
+      call NodeFstDialog;
+      end
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   Reply(250)
+   NAnswer(251,1,Node999)
+   BAnswer(253,1,Node998)
+   BAnswer(252,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(210)
+
+   call NodeChites1;
+
+   if (getQuest(GVAR_RANGERS_QST_SBRAHMIN) == qStart) then begin
+   GAnswer(228,1,NodeFstDialog106)
+   end
+   if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) == qStart) then begin
+   NAnswer(224,1,NodeFstDialog104)
+   end
+   //NAnswer(224,1,NodeFstDialog105)
+
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(212,1,NodeFstDialog100)
+   BAnswer(217,1,NodeFstDialog102)
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(242)
+   NAnswer(243,1,NodeFstDialog3)
+   NAnswer(244,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(245)
+   NAnswer(246,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(247)
+   if (getQuest(GVAR_RANGERS_QST_SBRAHMIN) == qStart) then begin
+   GAnswer(228,1,NodeFstDialog106)
+   end
+   GAnswer(248,1,NodeFstDialog107)
+   NAnswer(249,1,Node999)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(213)
+   NAnswer(214,1,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   bitDialogExp(bit_2,0)
+   Reply(215)
+   NAnswer(216,1,Node999)
+end
+
+procedure NodeFstDialog102 begin
+   setBonusReaction(-10)
+   Reply(218)
+   NAnswer(221,1,NodeFstDialog100)
+   NAnswer(219,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(220)
+   NAnswer(223,1,NodeFstDialog101)
+   NAnswer(222,1,Node999)
+end
+
+procedure NodeFstDialog104 begin
+   if (getReaction>0) then begin
+   Reply(225)
+   end
+   else begin
+   Reply(226)
+   end
+   NAnswer(227,1,NodeFstDialog107)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(225)
+   NAnswer(227,1,NodeFstDialog107)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(229)
+   NAnswer(227,1,NodeFstDialog107)
+end
+
+procedure NodeFstDialog107 begin
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qStart);
+   Reply(230)
+   NAnswer(231,1,NodeFstDialog108)
+   BAnswer(232,1,NodeFstDialog110)
+end
+
+procedure NodeFstDialog108 begin
+   Reply(233)
+   NAnswer(234,1,NodeFstDialog109)
+end
+
+procedure NodeFstDialog109 begin
+   Reply(235)
+   NAnswer(236,1,NodeFstDialog110)
+end
+
+procedure NodeFstDialog110 begin
+   Reply(237)
+   NAnswer(238,1,NodeFstDialog111)
+end
+
+procedure NodeFstDialog111 begin
+   Reply(239)
+   NAnswer(240,1,Node999)
+   NAnswer(241,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER)>0) then begin
+   Reply(302)
+   end
+   else if ((getQuest(GVAR_BRAHMIN_ATTAK) >= qEnd) and (global_var(GVAR_BRAHMIN_STATUS_RANGER) >= 0)) then begin
+   zReply(303)
+   end
+   else begin
+   Reply(300)
+   end
+
+   //--- Расспросы
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) == 0) then begin
+      NAnswer(310,3,NodeAnswer100)
+   end
+
+   //--- Сюжетная линия
+   if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) <= qStop) then begin
+      if (global_var(GVAR_BRAHMIN_STATUS_COMMANDER) < 0) then begin
+      NAnswer(330,1,NodeQst101)
+      end
+      else begin
+      NAnswer(330,1,NodeQst100)
+      end
+   end
+
+   if (getQuest(GVAR_BRAHMIN_QST_RNGRGOHOME) == qStart) then begin
+   if (getQuest(GVAR_BRAHMIN_QST_RANGER) < qEnd) then begin
+      if (global_var(GVAR_BRAHMIN_STATUS_RANGER) == 0) then begin
+      BAnswer(260,3,NodeQst200)
+      end
+   end
+   end
+
+   if (getQuest(GVAR_BRAHMIN_QST_RANGER) == qStart) then begin
+   if (getQuest(GVAR_BRAHMIN_ATTAK) == qZero) then begin
+      NAnswer(254,1,NodeFstDialog111)
+
+      if (map_var(MVAR_BRAHMIN_FIRST_AID)>=3) then begin
+      GAnswer(350,1,NodeQst307)
+      end
+
+      if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) < 0) then begin
+      NAnswer(353,1,NodeQst305)
+      end
+      else if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) == 1) then begin
+      NAnswer(340,1,NodeQst300)
+      end
+      else if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) > 1) then begin
+      //! Чатто стал новым лидером. - Это очень плохо. Первым делом он наладит союз с Фениксом. Поэтому остаётся только одно - его придется убить.
+      end
+   end
+   end
+
+   call NodeChites1;
+   NAnswer(301,1,Node999)
+end
+
+//--- ЗАДАНИЯ
+
+procedure NodeQst100 begin
+   Reply(331)
+   NAnswer(332,1,NodeQst101)
+   NAnswer(333,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qEnd);
+   set_global_var(GVAR_BRAHMIN_STATUS_RANGER, 1);
+   set_gvar_bit_on(GVAR_RANGERS_RECOMMENDATION, bit_3);
+   if (global_var(GVAR_BRAHMIN_QST_GERONIMO) == 10) then begin
+   set_global_var(GVAR_BRAHMIN_QST_GERONIMO, 20);
+   end
+   exp_add(500);
+
+   if (getQuest(GVAR_RANGERS_QST_SBRAHMIN) >= qStart) then begin
+   Reply(334)
+   NAnswer(335,1,Node999)
+   end
+   else begin
+   mark_on_map(AREA_RANGERS)
+   Reply(336)
+   NAnswer(337,1,Node999)
+   end
+end
+
+procedure NodeQst200 begin
+   Reply(261)
+   NAnswer(262,1,NodeQst201)
+end
+
+procedure NodeQst201 begin
+   Reply(263)
+   NAnswerSkill(264,1,NodeQst202,SKILL_CONVERSANT,70,268,NodeQst203)
+   NAnswerSkill(272,1,NodeQst202,SKILL_SCOUT,50,273,NodeQst203)
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+   BAnswer(274,1,NodeQst202)
+   end
+   if (global_var(GVAR_BRAHMIN_STATUS_HEAD_GERONIMO)>0) then begin
+   NAnswer(275,9,NodeQst202)
+   end
+   /*
+   ? Явно не хватает возможностей для Шпиона и Ученого:
+   - шпион (скрытность, взлом, кража, ловушки): подложить что-то для обмана + взрыв штанов
+   - ученый (доктор, наука, ремонт): убедить уйти на лечение + убедить научным доводом
+   275 - "Всё кончено. Верховный вождь отвернулся от рейнджеров."
+   */
+   NAnswer(355,1,NodeQst306)
+end
+
+procedure NodeQst202 begin
+   set_global_var(GVAR_BRAHMIN_STATUS_RANGER,-1);
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qStop);
+   setQuest(GVAR_BRAHMIN_ATTAK,qEnd);
+   Reply(265)
+   NAnswer(266,1,Node999)
+   BAnswer(267,1,Node999)
+end
+
+procedure NodeQst203 begin
+   Reply(269)
+   NAnswer(271,1,Node999)
+   BAnswer(270,1,Node999)
+end
+
+procedure NodeQst300 begin
+   Reply(341)
+   NAnswer(342,1,NodeQst301)
+end
+
+procedure NodeQst300b begin
+   Reply(341)
+   NAnswer(342,1,NodeQst304)
+end
+
+procedure NodeQst301 begin
+   Reply(343)
+   if (map_var(MVAR_BRAHMIN_FIRST_AID)>=3) then begin
+   GAnswer(350,1,NodeQst304)
+   end
+   NAnswer(344,1,NodeQst302)
+   NAnswer(347,1,NodeQst303)
+end
+
+procedure NodeQst302 begin
+   Reply(345)
+   NAnswer(346,1,Node999)
+end
+
+procedure NodeQst303 begin
+   Reply(348)
+   NAnswer(349,1,Node999)
+end
+
+procedure NodeQst304 begin
+   setQuest(GVAR_BRAHMIN_ATTAK,qStart);
+   Reply(351)
+   NAnswer(352,1,Node999)
+end
+
+procedure NodeQst305 begin
+   Reply(354)
+   NAnswer(342,1,NodeQst301)
+end
+
+procedure NodeQst305b begin
+   Reply(354)
+   NAnswer(342,1,NodeQst304)
+end
+
+procedure NodeQst306 begin
+   setQuest(GVAR_BRAHMIN_ATTAK,qStart);
+   Reply(356)
+   NAnswer(357,1,Node999)
+end
+
+procedure NodeQst307 begin
+   Reply(358)
+
+      if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) < 0) then begin
+      NAnswer(353,1,NodeQst305b)
+      end
+      else if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) == 1) then begin
+      NAnswer(340,1,NodeQst300b)
+      end
+      else if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) > 1) then begin
+      //! Чатто стал новым лидером. - Это очень плохо. Первым делом он наладит союз с Фениксом. Поэтому остаётся только одно - его придется убить.
+      end
+
+   NAnswer(359,1,Node999)
+end
+
+//--- ЧИТЫ
+
+procedure NodeChites1 begin
+   //Reply(200)
+   /*
+   NAnswer(202,1,NodeChites2)
+   NAnswer(203,1,NodeChites3)
+   NAnswer(204,1,NodeChites4)
+   NAnswer(201,1,Node999)
+   */
+end
+
+procedure NodeChites2 begin
+   set_global_var(GVAR_BRAHMIN_STATUS_RANGER,-1);
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeChites3 begin
+   set_global_var(GVAR_BRAHMIN_STATUS_RANGER,1);
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qEnd);
+   setQuest(GVAR_BRAHMIN_QST_COMMANDER,qStop);
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeChites4 begin
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qStart);
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(311)
+   NAnswer(312,3,NodeAnswer101)
+   NAnswer(315,4,NodeAnswer102)
+   NAnswer(317,3,NodeAnswer103)
+   BAnswer(319,3,NodeAnswer104)
+   NAnswer(321,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   if (getQuest(GVAR_RANGERS_QST_SBRAHMIN) > qZero) then begin
+   Reply(314)
+   end
+   else begin
+   Reply(313)
+   end
+   NAnswer(315,4,NodeAnswer102)
+   NAnswer(317,3,NodeAnswer103)
+   BAnswer(319,3,NodeAnswer104)
+   NAnswer(321,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(316)
+   NAnswer(312,3,NodeAnswer101)
+   NAnswer(317,3,NodeAnswer103)
+   BAnswer(319,3,NodeAnswer104)
+   NAnswer(321,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(318)
+   NAnswer(312,3,NodeAnswer101)
+   NAnswer(315,4,NodeAnswer102)
+   BAnswer(319,3,NodeAnswer104)
+   NAnswer(321,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(320)
+   NAnswer(312,3,NodeAnswer101)
+   NAnswer(315,4,NodeAnswer102)
+   NAnswer(317,3,NodeAnswer103)
+   NAnswer(321,1,NodeSndDialog)
+end

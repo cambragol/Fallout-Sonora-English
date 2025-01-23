@@ -1,0 +1,26 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_MIBonus
+
+procedure start;
+procedure map_enter_p_proc;
+procedure item_gener;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_first_run) then begin
+       call item_gener;
+       end
+   end
+end
+
+procedure item_gener begin
+   if DudePerkHas(PERK_marauder) then begin
+   item_add(self_obj,PID_AMMO_22_LR,12) // в одной пачке 5 патронов
+   item_add(self_obj,PID_W_SMG_22,1)
+   end
+end

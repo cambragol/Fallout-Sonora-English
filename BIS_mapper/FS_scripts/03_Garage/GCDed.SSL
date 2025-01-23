@@ -1,0 +1,723 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_GCDed
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE   // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        10  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения от 1 до 10; не может совпадать с чужими ящиками на одной локации)
+
+#define NUM_TEAM                        TEAM_GARAGE_CITIZEN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+/*
+procedure NodeAnswer305;
+procedure NodeAnswer306;
+procedure NodeAnswer307;
+procedure NodeAnswer307b;
+*/
+procedure NodeAnswer308;
+procedure NodeAnswer309;
+procedure NodeAnswer310;
+procedure NodeAnswer311;
+procedure NodeIguana;
+procedure NodeIguana101;
+procedure NodeIguana102;
+procedure NodeIguana103;
+procedure NodeIguana104;
+procedure NodeIguana104b;
+procedure NodeIguana105;
+procedure NodeIguana110;
+procedure NodeIguana110b;
+procedure NodeIguana111;
+procedure NodeIguana112;
+procedure NodeIguana113;
+procedure NodeIguana114;
+procedure NodeIguana115;
+procedure NodeIguana116;
+procedure NodeIguana117;
+procedure NodeIguana200;
+procedure NodeIguana201;
+procedure NodeIguana202;
+procedure NodeIguana203;
+procedure NodeIguana204;
+procedure NodeIguana205a;
+procedure NodeIguana205b;
+procedure NodeIguana205c;
+procedure NodeIguana206;
+procedure NodeIguana207;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+variable replyParam;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_WEEK)
+   end
+end
+
+procedure setBarterA begin
+   check_restock_item(PID_M_IGUANA, 3, 5, 100)
+   check_restock_many(28,35)
+end
+
+procedure setBarterB begin
+   check_restock_item(PID_M_IGUANA, 5, 7, 100)
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+       //timer_move_random
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   kill_critter_box
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   replyParam := 0;
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if town_rep_is_hated then begin
+      Reply(200)
+      NAnswer(201,1,NodeFstDialog2)
+      NAnswer(204,1,NodeFstDialog3)
+      if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>0) then begin
+      NAnswer(228,1,NodeFstDialog1)
+      end
+   end
+   else if town_rep_is_liked then begin
+      Reply(207)
+      BAnswer(208,1,NodeFstDialog4)
+      NAnswer(212,1,NodeFstDialog5)
+   end
+   else begin
+      Reply(216)
+      NAnswerStat(221,1,NodeFstDialog8,STAT_st,7,221,NodeFstDialog7)
+      NAnswer(217,1,NodeFstDialog6)
+      if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>0) then begin
+      GAnswer(228,1,NodeFstDialog1)
+      end
+   end
+end
+
+procedure NodeFstDialog1 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>0) then begin
+   replyParam := 234;
+   setBonusReaction(5)
+   item_remove(dude_obj,PID_BOOTLE_CAPS,1)
+   call NodeSndDialog;
+   end
+   else begin
+   setBonusReaction(-5)
+   Reply(229)
+   BAnswer(203,1,NodeSndDialog)
+   NAnswer(206,1,NodeSndDialog)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   BAnswer(203,1,NodeSndDialog)
+   NAnswer(206,1,NodeSndDialog)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   BAnswer(203,1,NodeSndDialog)
+   NAnswer(206,1,NodeSndDialog)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(209)
+   NAnswer(210,1,NodeSndDialog)
+   BAnswer(211,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(213)
+   NAnswer(214,1,NodeSndDialog)
+   BAnswer(215,1,Node999)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(218)
+   NAnswer(219,1,NodeSndDialog)
+   BAnswer(220,1,Node999)
+end
+
+procedure NodeFstDialog7 begin
+   setBonusReaction(-20)
+   set_REP(-2)
+   Reply(225)
+   NAnswer(226,1,NodeSndDialog)
+   NAnswer(227,1,Node999)
+end
+
+procedure NodeFstDialog8 begin
+   bitDialogExp(bit_2,50)
+   item_add(dude_obj,PID_M_IGUANA,1)
+   item_remove(self_obj, PID_M_IGUANA, 1)
+   setBonusReaction(-20)
+   set_SLAVA(-5)
+   set_REP(-2)
+   Reply(222)
+   zNAnswer(223,1,NodeSndDialog)
+   NAnswer(224,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (replyParam>0) then begin
+   Reply(replyParam)
+   end
+   else if (getReaction>0) then begin
+   Reply(231)
+   end
+   else begin
+   Reply(230)
+   end
+
+   NAnswer(240,1,NodeAnswer100)
+
+   if (bitDialog(bit_4) != 0) then begin
+      if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
+      NAnswer(270,1,NodeAnswer200)
+      end
+      NAnswer(280,3,NodeAnswer300)
+
+      if (getQuest(GVAR_GARAGE_QST_IGUANA) == qZero) then begin
+      NAnswer(320,3,NodeIguana)
+      end
+      if (getQuest(GVAR_GARAGE_QST_IGUANA) == qStart) then begin
+      NAnswer(360,1,NodeIguana116)
+      if (item_amnt(dude_obj,PID_Q_FUNGUS)>0) then begin
+      NAnswer(370,1,NodeIguana200)
+      end
+      end
+   end
+
+   if (getQuest(GVAR_GARAGE_QST_APPARAT) == qStart) then begin
+   //NAnswer(266,1,NodeAnswer107)
+   end
+
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   replyParam := 239;
+   if (bitDialog(bit_3) == 0) then begin
+   Reply(241)
+   bitDialogExp(bit_3,0)
+   end
+   else begin
+   Reply(242)
+   end
+
+   NAnswer(245,1,NodeAnswer101)
+   NAnswer(247,1,NodeAnswer102)
+   NAnswer(252,1,NodeAnswer103)
+   NAnswer(243,1,NodeSndDialog)
+   NAnswer(244,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   bitDialogExp(bit_4,0)
+   Reply(246)
+   NAnswer(251,1,NodeAnswer102)
+   NAnswer(254,1,NodeAnswer103)
+   NAnswer(249,1,NodeSndDialog)
+   NAnswer(250,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(248)
+   NAnswer(255,1,NodeAnswer101)
+   NAnswer(254,1,NodeAnswer103)
+   if (bitDialog(bit_5) == 0) then begin
+   if (item_amnt(dude_obj,PID_POCKET_TRASH) > 0) then begin
+   GAnswer(260,1,NodeAnswer105)
+   end
+   end
+   NAnswer(249,1,NodeSndDialog)
+   NAnswer(250,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(253)
+   NAnswer(257,5,NodeAnswer104)
+   NAnswer(255,1,NodeAnswer101)
+   NAnswer(256,1,NodeAnswer102)
+   NAnswer(249,1,NodeSndDialog)
+   NAnswer(250,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   Reply(258)
+   NAnswer(259,1,NodeAnswer101)
+   NAnswer(256,1,NodeAnswer102)
+   NAnswer(249,1,NodeSndDialog)
+   NAnswer(250,1,Node999)
+end
+
+procedure NodeAnswer105 begin
+   Reply(261)
+   if (item_amnt(dude_obj,PID_POCKET_TRASH) > 0) then begin
+   NAnswer(262,1,NodeAnswer106)
+   end
+   NAnswer(265,1,Node999)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_5,100)
+   item_remove(dude_obj, PID_POCKET_TRASH, 1)
+
+   item_add(dude_obj,PID_BOOTLE_CAPS,2)
+   item_add(dude_obj,PID_MANY,1)
+   item_add(dude_obj,PID_AMMO_22_LR,1)
+   //item_add(dude_obj,PID_M_RAD_X,1)
+
+   Reply(263)
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeAnswer107 begin
+   set_map_var(MVAR_GARAGE_APPARAT_KNOW,1);
+   replyParam := 269;
+   Reply(267)
+   NAnswer(268,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   replyParam := 276;
+   Reply(271)
+   NAnswer(272,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(273)
+   NAnswer(274,1,NodeSndDialog)
+   NAnswer(275,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   replyParam := 310;
+   Reply(281)
+
+   NAnswer(284,1,NodeAnswer301)
+   NAnswer(290,1,NodeAnswer304)
+   NAnswer(300,1,NodeAnswer308)
+   NAnswer(282,1,NodeSndDialog)
+   NAnswer(283,1,Node999)
+end
+
+procedure NodeAnswer301 begin
+   Reply(285)
+   NAnswer(286,1,NodeAnswer302)
+end
+
+procedure NodeAnswer302 begin
+   Reply(287)
+   NAnswer(288,1,NodeAnswer303)
+end
+
+procedure NodeAnswer303 begin
+   bitDialogExp(bit_6,20)
+   Reply(289)
+   NAnswer(282,1,NodeSndDialog)
+   NAnswer(283,1,Node999)
+end
+
+procedure NodeAnswer304 begin
+   Reply(291)
+   /*
+   NAnswer(294,1,NodeAnswer306)
+   NAnswer(292,1,NodeAnswer305)
+   */
+   NAnswer(293,1,NodeSndDialog)
+   NAnswer(283,1,Node999)
+end
+
+/*
+procedure NodeAnswer305 begin
+   Reply(295)
+   NAnswer(296,1,NodeAnswer307)
+end
+
+procedure NodeAnswer306 begin
+   Reply(295)
+   NAnswer(296,1,NodeAnswer307)
+end
+
+procedure NodeAnswer307 begin
+   Reply(297)
+   NAnswer(298,5,NodeAnswer307b)
+   NAnswer(282,1,NodeSndDialog)
+   NAnswer(283,1,Node999)
+end
+
+procedure NodeAnswer307b begin
+   bitDialogExp(bit_7,50)
+   Reply(299)
+   NAnswer(282,1,NodeSndDialog)
+   NAnswer(283,1,Node999)
+end
+*/
+procedure NodeAnswer308 begin
+   Reply(301)
+   NAnswer(302,1,NodeAnswer309)
+end
+
+procedure NodeAnswer309 begin
+   Reply(303)
+   NAnswer(304,1,NodeAnswer310)
+end
+
+procedure NodeAnswer310 begin
+   Reply(305)
+   NAnswer(306,1,NodeAnswer311)
+end
+
+procedure NodeAnswer311 begin
+   bitDialogExp(bit_8,50)
+   Reply(307)
+   NAnswer(308,1,NodeSndDialog)
+   NAnswer(309,1,NodeSndDialog)
+end
+
+procedure NodeIguana begin
+   replyParam := 323;
+   Reply(321)
+   NAnswer(324,3,NodeIguana101)
+   NAnswer(326,3,NodeIguana102)
+   NAnswer(328,3,NodeIguana103)
+   NAnswer(322,1,NodeSndDialog)
+end
+
+procedure NodeIguana101 begin
+   Reply(325)
+   NAnswer(326,3,NodeIguana102)
+   NAnswer(328,3,NodeIguana103)
+   NAnswer(330,3,NodeIguana104)
+   NAnswer(322,1,NodeSndDialog)
+end
+
+procedure NodeIguana102 begin
+   Reply(327)
+   NAnswer(324,3,NodeIguana101)
+   NAnswer(328,3,NodeIguana103)
+   NAnswer(330,3,NodeIguana104)
+   NAnswer(322,1,NodeSndDialog)
+end
+
+procedure NodeIguana103 begin
+   Reply(329)
+   NAnswer(324,3,NodeIguana101)
+   NAnswer(326,3,NodeIguana102)
+   NAnswer(330,3,NodeIguana104)
+   NAnswer(322,1,NodeSndDialog)
+end
+
+procedure NodeIguana104 begin
+   Reply(331)
+   NAnswerReaction(333,3,NodeIguana112,1,333,NodeIguana110)
+   NAnswerSlava(334,3,NodeIguana112,100,334,NodeIguana110)
+   NAnswer(335,3,NodeIguana105)
+   NAnswer(324,3,NodeIguana101)
+   NAnswer(326,3,NodeIguana102)
+   NAnswer(328,3,NodeIguana103)
+   NAnswer(322,1,NodeIguana104b)
+end
+
+procedure NodeIguana104b begin
+   replyParam := 332;
+   call NodeSndDialog;
+end
+
+procedure NodeIguana105 begin
+   /*
+   if ((getQuest(GVAR_GARAGE_QST_LUCS_TRADE) >= 4) or (getQuest(GVAR_GARAGE_QST_BOSS_TRADE) >= 4)) then begin
+   Reply(343)
+   end
+   else begin
+   Reply(342)
+   end
+   */
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=25) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,25)
+   item_add(self_obj,PID_BOOTLE_CAPS,25)
+   call NodeIguana111;
+   end
+   else begin
+   replyParam := 345;
+   Reply(336)
+   NAnswer(337,1,NodeSndDialog)
+   end
+end
+
+procedure NodeIguana110 begin
+   Reply(338)
+   NAnswer(339,1,NodeIguana110b)
+   NAnswer(341,1,NodeSndDialog)
+end
+
+procedure NodeIguana110b begin
+   replyParam := 340;
+   call NodeSndDialog;
+end
+
+procedure NodeIguana111 begin
+   call NodeIguana112;
+end
+
+procedure NodeIguana112 begin
+   setQuest(GVAR_GARAGE_QST_IGUANA,qStart);
+   Reply(346)
+   NAnswer(349,1,NodeIguana114)
+   BAnswer(347,1,NodeIguana113)
+end
+
+procedure NodeIguana113 begin
+   setReaction(-5)
+   Reply(348)
+   NAnswer(350,1,NodeIguana114)
+end
+
+procedure NodeIguana114 begin
+   replyParam := 353;
+   Reply(351)
+   NAnswer(354,1,NodeIguana115)
+   NAnswer(352,1,NodeSndDialog)
+end
+
+procedure NodeIguana115 begin
+   replyParam := 353;
+   Reply(355)
+   NAnswer(358,1,Node999)
+   BAnswer(356,1,Node999)
+   NAnswer(357,1,NodeSndDialog)
+end
+
+procedure NodeIguana116 begin
+   replyParam := 365;
+   Reply(361)
+   NAnswer(363,1,NodeIguana117)
+   NAnswer(362,1,NodeSndDialog)
+end
+
+procedure NodeIguana117 begin
+   Reply(364)
+   NAnswer(362,1,NodeSndDialog)
+end
+
+procedure NodeIguana200 begin
+   if (item_amnt(dude_obj,PID_Q_FUNGUS) <= 0) then begin
+   replyParam := 345;
+   Reply(371)
+   NAnswer(372,1,NodeSndDialog)
+   end
+   else if (item_amnt(dude_obj,PID_Q_FUNGUS) >= 3) then begin
+   call NodeIguana201;
+   end
+   else begin
+   Reply(366)
+   NAnswer(367,1,Node999)
+   NAnswer(368,1,Node999)
+   end
+end
+
+procedure NodeIguana201 begin
+   item_remove(dude_obj,PID_Q_FUNGUS,3)
+   Reply(373)
+   NAnswer(374,1,NodeIguana202)
+end
+
+procedure NodeIguana202 begin
+   Reply(375)
+   NAnswer(376,1,NodeIguana203)
+end
+
+procedure NodeIguana203 begin
+   Reply(377)
+   NAnswer(378,1,NodeIguana204)
+   NAnswer(379,1,NodeIguana204)
+end
+
+procedure NodeIguana204 begin
+   Reply(380)
+   NAnswer(381,1,NodeIguana205a)
+   NAnswer(382,1,NodeIguana205b)
+   NAnswer(383,1,NodeIguana205c)
+end
+
+procedure NodeIguana205a begin
+   if (is_skill_tagged(SKILL_SCOUT) == true) then begin
+   skill_up(SKILL_SCOUT,4);
+   end
+   else begin
+   skill_up(SKILL_SCOUT,3);
+   end
+   call NodeIguana206;
+end
+
+procedure NodeIguana205b begin
+   if (is_skill_tagged(SKILL_TRAPS) == true) then begin
+   skill_up(SKILL_TRAPS,4);
+   end
+   else begin
+   skill_up(SKILL_TRAPS,3);
+   end
+   call NodeIguana206;
+end
+
+procedure NodeIguana205c begin
+   if (is_skill_tagged(SKILL_REPAIR) == true) then begin
+   skill_up(SKILL_REPAIR,4);
+   end
+   else begin
+   skill_up(SKILL_REPAIR,3);
+   end
+   call NodeIguana206;
+end
+
+procedure NodeIguana206 begin
+   Reply(384)
+   NAnswer(385,1,NodeIguana207)
+end
+
+procedure NodeIguana207 begin
+   setQuest(GVAR_GARAGE_QST_IGUANA,qEnd);
+   set_BarterDopusk;
+   setReaction(20)
+   PLAY_FADE
+   item_add(dude_obj,PID_M_IGUANA,1)
+   game_time_advance(ONE_GAME_HOUR*12);
+   call Node999;
+end

@@ -1,0 +1,50 @@
+#include "..\headers\define.h"
+#include "..\headers\updatmap.h"
+#define NAME                    SCRIPT_ZIPostB
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure box_inven_to;
+
+/*
+   Это ящик для отправки посылок в другие города.
+   См подробности в скрипте ГГ, процедура express_box_proc.
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   call box_inven_to;
+end
+
+procedure box_inven_to begin
+   variable boxPID;
+   boxPID := 0;
+
+   //- Идентификация ящика
+   if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_4) != 0) then begin
+      boxPID := PID_CNTR_EXPRESSBOX_F;
+      set_gvar_bit_off(GVAR_EXPRESS_FLAGS_BIT, bit_4);
+   end
+   else if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_5) != 0) then begin
+      boxPID := PID_CNTR_EXPRESSBOX_P;
+      set_gvar_bit_off(GVAR_EXPRESS_FLAGS_BIT, bit_5);
+   end
+   else if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_6) != 0) then begin
+      boxPID := PID_CNTR_EXPRESSBOX_T;
+      set_gvar_bit_off(GVAR_EXPRESS_FLAGS_BIT, bit_6);
+   end
+
+   //- Перенос лута
+   if (express_box_obj(boxPID) > 0) then begin
+      move_obj_inven_to_obj(self_obj, express_box_obj(boxPID));
+      //display_msg("Express box "+boxPID+" GO!");
+   end
+end

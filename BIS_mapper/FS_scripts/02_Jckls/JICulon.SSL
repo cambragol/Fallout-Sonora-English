@@ -1,0 +1,17 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_JICulon
+
+procedure start;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   item_add(dude_obj,PID_AMMO_308,6)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,8)
+   display_mstr(100);
+   scr_return(1);
+end

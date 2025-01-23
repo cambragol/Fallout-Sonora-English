@@ -1,0 +1,350 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_GCEugPap
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_GARAGE_CITIZEN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeKid100;
+procedure NodeKid101;
+procedure NodeKid101b;
+procedure NodeKid102;
+procedure NodeKid102b;
+procedure NodeKid103;
+procedure NodeKid103b;
+procedure NodeKid104;
+procedure NodeKid104b;
+procedure NodeKid105;
+procedure NodeKid106;
+procedure NodeKid110;
+procedure NodeKid111;
+procedure NodeKid112;
+procedure NodeKid113;
+
+//---------------------
+
+#define LVAR_Stop_Run                   (6) // возможность оставить персонажа одного
+#define LVAR_MSG_reply                  (7) // номера реплик в диалоге
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       KillScorpTail(103) // фраза над жертвой (-1 если не нужна)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   UsedToCrit_Scorp(102,3) // фраза над жертвой (-1 если не нужна), номер таймера
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_GARAGE_EUGENE_PAP_STATUS,-1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-60) // Поправка к отношению за принадлежность к фракциям
+
+   //--- Диалог
+   ScorpPoisonFlt
+   else if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 0) then begin
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+      floater(self_obj,105,COLOR_MSG_RED);
+   end
+
+   //--- Удаление контракта
+   if (item_amnt(dude_obj,PID_Q_EUGENE_CONTRACT) >0) then begin
+      if (global_var(GVAR_GARAGE_EUGENE_PAP_STATUS) == 0) then begin
+      display_mstr(104);
+      set_global_var(GVAR_GARAGE_EUGENE_PAP_STATUS,1);
+      end
+      item_remove(dude_obj, PID_Q_EUGENE_CONTRACT, 1)
+   end
+   if (item_amnt(self_obj,PID_Q_EUGENE_CONTRACT) >0) then begin
+      item_remove(self_obj, PID_Q_EUGENE_CONTRACT, 1)
+   end
+   if (tile_contains_obj_pid(dude_tile, dude_elevation, PID_Q_EUGENE_CONTRACT) == TRUE) then begin
+      destroy_object(tile_contains_pid_obj(dude_tile, dude_elevation, PID_Q_EUGENE_CONTRACT));
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeSndDialog)
+   BAnswer(204,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(212,1,NodeAnswer100)
+
+   if ((global_var(GVAR_GARAGE_EUGENE_STATUS) == 0) and (global_var(GVAR_GARAGE_EUGENE_PAP_STATUS) == 0)) then begin
+      NAnswer(214,1,NodeAnswer101)
+      if (bitDialog(bit_2) != 0) then begin
+      NAnswer(218,1,NodeAnswer103)
+      end
+      if (map_var(MVAR_GARAGE_EUGENE_QST) != 0) then begin
+      BAnswer(250,1,NodeKid100)
+      end
+   end
+   NAnswer(211,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(213)
+   NAnswer(224,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(215)
+   NAnswer(216,1,NodeAnswer102)
+   NAnswer(223,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,0)
+   Reply(217)
+   NAnswer(223,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(219)
+   NAnswer(221,1,NodeAnswer104)
+   NAnswer(220,1,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_3,50)
+   Reply(222)
+   NAnswer(223,1,NodeSndDialog)
+end
+
+//--- КВЕСТ
+
+procedure NodeKid100 begin
+   Reply(251)
+   NAnswerSkill(252,3,NodeKid101,SKILL_CONVERSANT,20,252,NodeKid101b)
+   NAnswer(270,1,NodeKid110)
+   NAnswerRep(263,1,NodeKid105,30,263,NodeKid106)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid101 begin
+   Reply(253)
+   NAnswerSkill(254,3,NodeKid102,SKILL_CONVERSANT,40,254,NodeKid102b)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid101b begin
+   Reply(253)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid102 begin
+   Reply(255)
+   NAnswerSkill(256,3,NodeKid103,SKILL_CONVERSANT,60,256,NodeKid103b)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid102b begin
+   Reply(255)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid103 begin
+   Reply(257)
+   NAnswerSkill(258,3,NodeKid104,SKILL_CONVERSANT,80,258,NodeKid104b)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid103b begin
+   Reply(257)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid104 begin
+   set_global_var(GVAR_GARAGE_EUGENE_PAP_STATUS,1);
+   bitDialogExp(bit_4,200)
+   Reply(259)
+   NAnswer(260,1,Node999)
+end
+
+procedure NodeKid104b begin
+   Reply(262)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid105 begin
+   set_global_var(GVAR_GARAGE_EUGENE_PAP_STATUS,1);
+   bitDialogExp(bit_4,200)
+   Reply(259)
+   NAnswer(260,1,Node999)
+end
+
+procedure NodeKid106 begin
+   Reply(262)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeKid110 begin
+   Reply(271)
+   NAnswer(272,1,NodeKid111)
+   NAnswer(252,1,NodeKid101)
+   NAnswer(273,1,Node999)
+end
+
+procedure NodeKid111 begin
+   if (item_amnt(dude_obj,PID_Q_EUGENE_CONTRACT) > 0) then begin
+   end
+   else if (item_amnt(self_obj,PID_Q_EUGENE_CONTRACT) > 0) then begin
+   end
+   else if (tile_contains_obj_pid(dude_tile, dude_elevation, PID_Q_EUGENE_CONTRACT) == TRUE) then begin
+   end
+   else begin
+   item_add(self_obj,PID_Q_EUGENE_CONTRACT,1)
+   end
+
+   goBarter(0);
+
+   call NodeKid112;
+end
+
+procedure NodeKid112 begin
+   Reply(278)
+   NAnswer(279,1,NodeKid113)
+end
+
+procedure NodeKid113 begin
+   if (item_amnt(dude_obj,PID_Q_EUGENE_CONTRACT) >0) then begin
+   Reply(276)
+   NAnswer(277,1,Node999)
+   end
+   else begin
+   Reply(274)
+   NAnswer(275,1,Node999)
+   end
+end

@@ -1,0 +1,97 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_PSAnlCom
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure OpenDoor;
+procedure talk_p_proc;
+
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (combat_is_initialized == true) then begin
+   g_display_mstr(551);
+   end
+   else if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   display_mstr(104);
+   end
+   else if (tile_contains_obj_pid(10700,self_elevation,33555556) == false) then begin
+   display_mstr(103);
+   end
+   else if (global_var(GVAR_PHENIX_STATUS_MARCOS) < 0) then begin
+   display_mstr(106);
+   end
+   else if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_16) != 0) then begin
+   call OpenDoor;
+   display_mstr(102);
+   end
+   else begin
+   call talk_p_proc;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+      display_mstr(105);
+   end
+end
+
+procedure OpenDoor begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_16);
+   obj_unlock(tile_contains_pid_obj(10700,self_elevation,33555556));
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeStartDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   //!!! ЧИТ
+   //NAnswer(204,1,NodeDialog3)
+   //!!!
+
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_19) != 0) then begin
+   NAnswer(208,1,NodeDialog3)
+   end
+   if (getQuest(GVAR_RANGERS_QST_PHOENIX) == qStart) then begin
+   NAnswer(207,1,NodeDialog3)
+   end
+   NAnswer(201,1,NodeDialog2)
+end
+
+procedure NodeDialog2 begin
+   Reply(202)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeDialog3 begin
+   call OpenDoor;
+   Reply(205)
+   NAnswer(206,1,Node999)
+end

@@ -1,0 +1,464 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_BCBosKid
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_BRAHMIN // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANBRAHMIN_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_BRAHMIN       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog100;
+procedure NodeStopDialog101;
+procedure NodeStopDialog102;
+procedure NodeStopDialog200;
+procedure NodeStopDialog201;
+procedure NodeStopDialog202;
+procedure NodeStopDialog203;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+procedure NodeQst107;
+procedure NodeQst108;
+procedure NodeQst109;
+procedure NodeQstEnd;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst205;
+procedure NodeQst206;
+procedure NodeQst207;
+procedure NodeQst208;
+procedure NodeQst209;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_BRAHMIN_STATUS_CHATTO,-1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) == 1) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else if ((map_var(MVAR_BRAHMIN_Scena) == 0) and (global_var(GVAR_BRAHMIN_STATUS_HEAD_MANGAS) == 0)) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) >= 10) then begin
+   call NodeStopDialog200;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((global_var(GVAR_BRAHMIN_STATUS_HEAD_GERONIMO) < 0) and (global_var(GVAR_BRAHMIN_STATUS_CHATTO) == 0)) then begin
+   call NodeStopDialog100;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog100 begin
+   Reply(260)
+   NAnswer(261,1,NodeStopDialog101)
+end
+
+procedure NodeStopDialog101 begin
+   Reply(262)
+   NAnswer(264,1,NodeStopDialog102)
+   NAnswer(263,1,Node999)
+end
+
+procedure NodeStopDialog102 begin
+   call NodeQstEnd;
+   Reply(265)
+   NAnswer(266,1,Node999)
+end
+
+procedure NodeStopDialog200 begin
+   Reply(270)
+   if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) != 10) then begin
+      if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) == qStart) then begin
+      NAnswer(272,1,NodeStopDialog201)
+      end
+   end
+   if (getQuest(GVAR_GARAGE_QST_BARMEN_SB) == qStart) then begin
+      if (map_var(MVAR_BRAHMIN_Garage) < 3) then begin
+      NAnswer(276,3,NodeStopDialog202)
+      end
+   end
+   if (getQuest(GVAR_BRAHMIN_QST_RNGRGOHOME) == qStart) then begin
+      if (global_var(GVAR_BRAHMIN_STATUS_RANGER) == 0) then begin
+      NAnswer(258,3,NodeStopDialog203)
+      end
+   end
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeStopDialog201 begin
+   call NodeQstEnd;
+   Reply(273)
+   NAnswer(274,1,Node999)
+   NAnswer(275,1,Node999)
+end
+
+procedure NodeStopDialog202 begin
+   set_map_var(MVAR_BRAHMIN_Garage,3);
+   Reply(277)
+   NAnswer(275,1,Node999)
+end
+
+procedure NodeStopDialog203 begin
+   set_global_var(GVAR_BRAHMIN_STATUS_RANGER,-1);
+   setQuest(GVAR_BRAHMIN_QST_RANGER,qStop);
+   setQuest(GVAR_BRAHMIN_ATTAK,qEnd);
+   Reply(259)
+   NAnswer(223,1,Node999)
+   BAnswer(224,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   set_local_var(LVAR_Home_Tile,19294);
+   set_local_var(LVAR_Home_Rotat,0);
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   zReply(206)
+   NAnswer(207,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(208)
+   NAnswer(209,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(102)
+   end
+   else if (getReaction<0) then begin
+   zReply(221)
+   end
+   else begin
+   zReply(220)
+   end
+
+   if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) == 0) then begin
+      if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) == qStart) then begin
+      NAnswer(230,4,NodeQst100)
+      end
+      if (getQuest(GVAR_BRAHMIN_QST_RANGER) == qStart) then begin
+      NAnswer(280,3,NodeQst200)
+      end
+   end
+
+   NAnswer(222,1,Node999)
+end
+
+procedure NodeQst100 begin
+   Reply(231)
+   NAnswer(232,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(233)
+   NAnswer(234,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(235)
+   NAnswer(236,1,NodeQst103)
+end
+
+procedure NodeQst103 begin
+   Reply(237)
+   GAnswer(239,4,NodeQst104)
+   NAnswer(238,1,Node999)
+end
+
+procedure NodeQst104 begin
+   Reply(240)
+   BAnswerSkill(250,3,NodeQst108,SKILL_CONVERSANT,55,242,NodeQst105)
+   NAnswer(241,1,Node999)
+end
+
+procedure NodeQst105 begin
+   if (bitDialog(bit_2) == 0) then begin
+      Reply(243)
+      NAnswer(245,3,NodeQst106)
+      NAnswerSkill(306,3,NodeQst109,SKILL_GAMBLING,90,306,NodeQst208)
+      NAnswer(244,1,Node999)
+   end
+   else begin
+      call NodeQst107;
+   end
+end
+
+procedure NodeQst106 begin
+   Reply(246)
+   NAnswer(247,1,NodeQst107)
+end
+
+procedure NodeQst107 begin
+   bitDialogExp(bit_2,0)
+   Reply(248)
+   NAnswer(249,1,Node999)
+end
+
+procedure NodeQst108 begin
+   Reply(251)
+   NAnswer(253,4,NodeQst109)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeQst109 begin
+   bitDialogExp(bit_3,250)
+   call NodeQstEnd;
+   set_global_var(GVAR_BRAHMIN_STATUS_HEAD_GERONIMO,-10);
+   Reply(254)
+   NAnswer(255,1,Node999)
+end
+
+procedure NodeQstEnd begin
+   set_global_var(GVAR_BRAHMIN_STATUS_CHATTO,10);
+   setQuest(GVAR_BRAHMIN_QST_GERONIMO,10);
+   set_local_var(LVAR_Home_Tile,15503);
+   set_local_var(LVAR_Home_Rotat,2);
+   move_to(self_obj,HomeTile,2);
+end
+
+procedure NodeQst200 begin
+   Reply(281)
+   NAnswerSkill(288,3,NodeQst203,SKILL_CONVERSANT,55,283,NodeQst201)
+   NAnswer(282,1,Node999)
+end
+
+procedure NodeQst201 begin
+   Reply(284)
+   NAnswer(285,1,NodeQst202)
+   NAnswer(282,1,Node999)
+end
+
+procedure NodeQst202 begin
+   Reply(286)
+
+   if (global_var(GVAR_HOLODISK_07) != 0) then begin
+   NAnswer(278,1,NodeQst207)
+   end
+
+   if (global_var(GVAR_HOLODISK_04) != 0) then begin
+   NAnswer(268,1,NodeQst205)
+   end
+
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) >= qStart) then begin
+   NAnswer(269,1,NodeQst206)
+   end
+   else if (getQuest(GVAR_MAIN_QUEST_PHENIX) >= qStart) then begin
+   NAnswer(256,1,NodeQst206)
+   end
+   else if (getQuest(GVAR_MAIN_QUEST_TWOSUN) >= qStart) then begin
+   NAnswer(257,1,NodeQst206)
+   end
+
+   if (getQuest(GVAR_FLAGSTAFF_QST_FARM) != qZero) then begin
+   NAnswer(296,1,NodeQst206)
+   end
+   else if (global_var(GVAR_STATUS_FLAGSTAFF_RANGER) > 0) then begin
+   NAnswer(296,1,NodeQst206)
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_QST_TRAPERS) >= qStart) then begin
+   NAnswer(296,1,NodeQst206)
+   end
+
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswer(267,1,NodeQst205)
+   end
+   else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
+   NAnswer(225,1,NodeQst205)
+   end
+
+   NAnswerSkill(300,1,NodeQst209,SKILL_GAMBLING,90,300,NodeQst208)
+
+   NAnswer(287,1,Node999)
+end
+
+procedure NodeQst203 begin
+   Reply(289)
+   NAnswer(290,1,NodeQst204)
+end
+
+procedure NodeQst204 begin
+   zReply(291)
+   NAnswer(293,1,NodeQst205)
+   NAnswer(292,1,Node999)
+end
+
+procedure NodeQst205 begin
+   set_global_var(GVAR_BRAHMIN_STATUS_CHATTO,1);
+   set_REP(5)
+   set_SLAVA(25)
+   exp_add(100);
+
+   zReply(294)
+   NAnswer(295,1,Node999)
+end
+
+procedure NodeQst206 begin
+   Reply(297)
+   NAnswer(298,1,NodeQst205)
+   NAnswer(299,1,Node999)
+end
+
+procedure NodeQst207 begin
+   Reply(279)
+   NAnswer(298,1,NodeQst205)
+   //NAnswer(299,1,Node999)
+end
+
+procedure NodeQst208 begin
+   Reply(301)
+   NAnswer(302,1,Node999)
+end
+
+procedure NodeQst209 begin
+   Reply(303)
+   NAnswer(298,1,NodeQst205)
+   NAnswer(305,1,Node999)
+end

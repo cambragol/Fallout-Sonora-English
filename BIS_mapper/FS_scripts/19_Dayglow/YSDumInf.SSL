@@ -1,0 +1,93 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSDumTrs // SCRIPT_YSDumInf
+
+procedure start;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure info_look;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure look_at_p_proc begin
+   script_overrides;
+   display_mstr(260);
+end
+
+procedure description_p_proc begin
+   script_overrides;
+   display_mstr(261);
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (global_var(GVAR_DAYGLOW_TURBINA) > 4) then begin
+   display_mstr(262);
+   end
+   else begin
+   call info_look;
+   end
+end
+
+procedure info_look begin
+   script_overrides;
+   display_mstr(250);
+
+   //- Сан-Исидро:
+
+   if (mvar_bit(MVAR_DIEGODUM_PAS_BIT,bit_1) != 0) then begin
+   display_msg(mstr(211)+mstr(258)+mstr(251));
+   display_msg(mstr(212)+mstr(258)+mstr(252));
+   display_msg(mstr(213)+mstr(258)+mstr(253));
+   end
+   if (mvar_bit(MVAR_DIEGODUM_PAS_BIT,bit_2) != 0) then begin
+   display_msg(mstr(211)+mstr(258)+mstr(252));
+   display_msg(mstr(212)+mstr(258)+mstr(251));
+   display_msg(mstr(213)+mstr(258)+mstr(253));
+   end
+   if (mvar_bit(MVAR_DIEGODUM_PAS_BIT,bit_3) != 0) then begin
+   display_msg(mstr(213)+mstr(258)+mstr(251));
+   display_msg(mstr(212)+mstr(258)+mstr(252));
+   display_msg(mstr(211)+mstr(258)+mstr(253));
+   end
+
+   //- Старый Город:
+
+   if (mvar_bit(MVAR_DIEGODUM_PAS_BIT,bit_4) != 0) then begin
+   display_msg(mstr(214)+mstr(258)+mstr(254));
+   display_msg(mstr(215)+mstr(258)+mstr(255));
+   display_msg(mstr(216)+mstr(258)+mstr(256));
+   display_msg(mstr(217)+mstr(258)+mstr(257));
+   end
+   if (mvar_bit(MVAR_DIEGODUM_PAS_BIT,bit_5) != 0) then begin
+   display_msg(mstr(215)+mstr(258)+mstr(254));
+   display_msg(mstr(214)+mstr(258)+mstr(255));
+   display_msg(mstr(216)+mstr(258)+mstr(256));
+   display_msg(mstr(217)+mstr(258)+mstr(257));
+   end
+   if (mvar_bit(MVAR_DIEGODUM_PAS_BIT,bit_6) != 0) then begin
+   display_msg(mstr(216)+mstr(258)+mstr(254));
+   display_msg(mstr(215)+mstr(258)+mstr(255));
+   display_msg(mstr(214)+mstr(258)+mstr(256));
+   display_msg(mstr(217)+mstr(258)+mstr(257));
+   end
+   if (mvar_bit(MVAR_DIEGODUM_PAS_BIT,bit_7) != 0) then begin
+   display_msg(mstr(217)+mstr(258)+mstr(254));
+   display_msg(mstr(215)+mstr(258)+mstr(255));
+   display_msg(mstr(216)+mstr(258)+mstr(256));
+   display_msg(mstr(214)+mstr(258)+mstr(257));
+   end
+
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_SCIENCE) or (action_being_used == SKILL_REPAIR)) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end

@@ -1,0 +1,614 @@
+#include "..\headers\define.h"
+//--------------------- жрец Мангас на площади
+
+#define NAME                            SCRIPT_BCHeadC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_BRAHMIN // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANBRAHMIN_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_BRAHMIN       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure generLoot;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog100;
+procedure NodeStopDialog101;
+procedure NodeStopDialog102;
+procedure NodeStopDialog200;
+procedure NodeStopDialog201;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeSndDialog;
+procedure NodeBarter;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+procedure NodeAnswer305;
+procedure NodeAnswer306;
+procedure NodeAnswer307;
+procedure NodeAnswer308;
+procedure NodeAnswer309;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+procedure NodeQst107;
+procedure NodeQst108;
+procedure NodeQst109;
+procedure NodeQst110;
+procedure NodeQst111;
+
+//---------------------
+
+#define LVAR_LOOT_GENER                     (6) // фиксирует генерацию лута для бартера
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //if (bitDialog(bit_1) == 0) then begin
+       if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) < qEnd) then begin
+       if (global_var(GVAR_BRAHMIN_STATUS_HEAD_MANGAS) == 0) then begin
+       timer_float_reply(110,126)
+       end
+       end
+       //end
+   end
+   if (fixed_param == 3) then begin
+       set_REP(-5)
+       set_SLAVA(-25)
+       //explosion(self_tile,self_elevation,100);
+       call destroy_p_proc;
+       critter_dmg(self_obj, 100, DMG_normal_dam); // тип урона DMG_explosion приводит к тому, что весь лут выпадает на землю, а это плохо, так как Мангас обладает мини-товаром
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_BRAHMIN_Scena,-1);
+   set_global_var(GVAR_BRAHMIN_STATUS_HEAD_MANGAS,-1);
+   if (getQuest(GVAR_BRAHMIN_QST_TEQILA) == qStart) then begin
+   setQuest(GVAR_BRAHMIN_QST_TEQILA,qStop);
+   end
+   kill_critter_opt
+   call generLoot;
+end
+
+procedure generLoot begin
+   if (local_var(LVAR_LOOT_GENER) == 0) then begin
+      item_add(self_obj,PID_BOOK_OLD,2)
+      item_add(self_obj,PID_W_GRENADE_FRAG,1)
+      item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,random(14,20))
+      item_add(self_obj,PID_AMMO_22_LR,3)
+      item_add(self_obj,PID_M_TEQUILA,3)
+      item_add(self_obj,PID_M_RADAWAY,1)
+      item_add(self_obj,PID_M_STIMPAK,2)
+      item_add(self_obj,PID_BOOTLE_CAPS,random(35,45))
+      inc_local_var(LVAR_LOOT_GENER);
+   end
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-10) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-10) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   set_map_var(MVAR_BRAHMIN_Scena,1);
+
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_5) == 0) and (getQuest(GVAR_BRAHMIN_QST_GERONIMO) == 10) and (global_var(GVAR_BRAHMIN_STATUS_HEAD_MANGAS) == 0)) then begin
+   call NodeStopDialog200;
+   end
+   else if ((bitDialog(bit_2) == 0) and (global_var(GVAR_CAR_MAP_INDEX) == cur_map_index)) then begin
+   call NodeStopDialog100;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog100 begin
+   bitDialogExp(bit_2,0)
+   Reply(200)
+   zBAnswer(205,1,NodeStopDialog102)
+   NAnswer(201,1,NodeStopDialog101)
+end
+
+procedure NodeStopDialog101 begin
+   Reply(202)
+   NAnswer(203,1,NodeStartDialog)
+   BAnswer(204,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog102 begin
+   setBonusReaction(-25)
+   set_REP(-2)
+   call NodeStopDialog101;
+end
+
+procedure NodeStopDialog200 begin
+   bitDialogExp(bit_5,0)
+   Reply(300)
+   BAnswer(301,1,NodeStopDialog201)
+end
+
+procedure NodeStopDialog201 begin
+   Reply(302)
+   NAnswer(303,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(210)
+   NAnswer(211,1,NodeFstDialog100)
+   NAnswer(212,1,NodeFstDialog200)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(213)
+   NAnswer(211,1,NodeFstDialog101)
+   NAnswer(212,1,NodeFstDialog200)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(214)
+   NAnswer(211,1,NodeFstDialog102)
+   NAnswer(212,1,NodeFstDialog200)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(215)
+   NAnswer(211,1,NodeFstDialog103)
+   NAnswer(212,1,NodeFstDialog200)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(216)
+   NAnswer(211,1,NodeFstDialog104)
+   NAnswer(212,1,NodeFstDialog200)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(217)
+   NAnswer(225,1,NodeFstDialog200)
+end
+
+procedure NodeFstDialog200 begin
+   if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) then begin
+   setBonusReaction(-20)
+   Reply(219)
+   end
+   else if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) then begin
+   setBonusReaction(-20)
+   Reply(219)
+   end
+   else if (global_var(GVAR_TITUL_PHENIX_CULT)>0) then begin
+   Reply(219)
+   end
+   else begin
+   Reply(218)
+   end
+   NAnswer(220,1,NodeFstDialog201)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(221)
+   NAnswer(222,1,NodeFstDialog202)
+   NAnswer(223,1,NodeFstDialog203)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeFstDialog202 begin
+   setBonusReaction(10)
+   call Node999;
+end
+
+procedure NodeFstDialog203 begin
+   setBonusReaction(-10)
+   call Node999;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getReaction>0) then begin
+   zReply(230)
+   end
+   else begin
+   Reply(231)
+   end
+
+   NAnswer(240,3,NodeAnswer100)
+   if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) == 0) then begin
+      if (bitDialog(bit_4) == 0) then begin
+      NAnswer(250,3,NodeAnswer200)
+      end
+      else begin
+      BAnswer(264,4,NodeAnswer206)
+      end
+   end
+   NAnswer(270,3,NodeAnswer300)
+
+   if (getQuest(GVAR_BRAHMIN_QST_TEQILA) == qStart) then begin
+      if (getQuest(GVAR_PHENIX_ALCOHOL_DESTROY) >= qEnd) then begin
+      GAnswer(290,1,NodeAnswer308)
+      end
+   end
+
+   if ((getQuest(GVAR_BRAHMIN_QST_GERONIMO) == qStart) and (global_var(GVAR_BRAHMIN_STATUS_HEAD_MANGAS)<=0)) then begin
+   NAnswer(310,3,NodeQst100)
+   end
+
+   NAnswer(232,1,Node999)
+end
+
+procedure NodeBarter begin
+   //goBarterMod;
+   goBarter(0);
+   call NodeSndDialog;
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(241)
+   NAnswer(243,3,NodeAnswer101)
+   NAnswer(245,3,NodeAnswer102)
+   zNAnswer(242,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(244)
+   zNAnswer(242,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(246)
+   NAnswer(247,3,NodeAnswer103)
+   NAnswer(243,3,NodeAnswer101)
+   zNAnswer(242,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_3,20)
+   Reply(248)
+   NAnswer(243,3,NodeAnswer101)
+   zNAnswer(242,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   zReply(251)
+   NAnswer(253,1,NodeAnswer201)
+   BAnswer(256,1,NodeAnswer202)
+   GAnswer(259,1,NodeAnswer203)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   Reply(254)
+   NAnswer(255,1,NodeAnswer204)
+end
+
+procedure NodeAnswer202 begin
+   setBonusReaction(-20)
+   Reply(257)
+   NAnswer(258,1,NodeAnswer204)
+end
+
+procedure NodeAnswer203 begin
+   setBonusReaction(20)
+   Reply(260)
+   NAnswer(261,1,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   bitDialogExp(bit_4,0)
+   call generLoot;
+   call NodeAnswer205;
+end
+
+procedure NodeAnswer205 begin
+   Reply(262)
+   NAnswer(263,1,NodeBarter)
+   NAnswer(249,1,NodeSndDialog)
+end
+
+procedure NodeAnswer206 begin
+   Reply(265)
+   NAnswer(268,1,NodeAnswer205)
+   if (item_amnt(self_obj,PID_W_GRENADE_FRAG)>0) then begin
+   BAnswer(269,7,NodeAnswer207)
+   //NAnswerReaction(266,6,NodeAnswer207,25,269,NodeAnswer207)
+   end
+   NAnswer(267,1,NodeSndDialog)
+end
+
+procedure NodeAnswer207 begin
+   item_remove(self_obj,PID_W_GRENADE_FRAG,1)
+   add_timer_event(self_obj,15,3);
+   call Node999;
+end
+
+procedure NodeAnswer300 begin
+   Reply(271)
+   NAnswer(273,1,NodeAnswer301)
+   NAnswer(275,1,NodeAnswer302)
+   NAnswer(277,1,NodeAnswer303)
+   NAnswer(279,1,NodeAnswer304)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswer301 begin
+   Reply(274)
+   NAnswer(275,1,NodeAnswer302)
+   NAnswer(277,1,NodeAnswer303)
+   NAnswer(279,1,NodeAnswer304)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswer302 begin
+   Reply(276)
+   NAnswer(273,1,NodeAnswer301)
+   NAnswer(277,1,NodeAnswer303)
+   NAnswer(279,1,NodeAnswer304)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswer303 begin
+   Reply(278)
+   NAnswer(273,1,NodeAnswer301)
+   NAnswer(275,1,NodeAnswer302)
+   NAnswer(279,1,NodeAnswer304)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswer304 begin
+   Reply(280)
+   if (getQuest(GVAR_BRAHMIN_QST_TEQILA) == qZero) then begin
+   NAnswer(281,3,NodeAnswer305)
+   end
+   NAnswer(273,1,NodeAnswer301)
+   NAnswer(275,1,NodeAnswer302)
+   NAnswer(277,1,NodeAnswer303)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswer305 begin
+   Reply(282)
+   GAnswer(283,3,NodeAnswer306)
+   BAnswer(287,3,NodeAnswer307)
+end
+
+procedure NodeAnswer306 begin
+   setQuest(GVAR_BRAHMIN_QST_TEQILA,qStart);
+   setBonusReaction(5)
+   Reply(284)
+   NAnswer(286,1,NodeSndDialog)
+   NAnswer(285,1,Node999)
+end
+
+procedure NodeAnswer307 begin
+   Reply(288)
+   NAnswer(286,1,NodeSndDialog)
+   NAnswer(285,1,Node999)
+end
+
+procedure NodeAnswer308 begin
+   Reply(291)
+   NAnswer(292,1,NodeAnswer309)
+   NAnswer(293,1,NodeAnswer309)
+end
+
+procedure NodeAnswer309 begin
+   setQuest(GVAR_BRAHMIN_QST_TEQILA,qEnd);
+   exp_add(500);
+   setBonusReaction(75)
+   set_REP(2)
+   set_SLAVA(10)
+
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,20)
+   item_add(dude_obj,PID_M_STIMPAK,2)
+   item_add(dude_obj,PID_M_RADAWAY,2)
+   item_add(dude_obj,PID_BOOTLE_CAPS,35)
+
+   Reply(294)
+   NAnswer(295,1,Node999)
+end
+
+//--- СЮЖЕТКА
+
+procedure NodeQst100 begin
+   Reply(311)
+   NAnswer(312,1,NodeQst101)
+   NAnswer(313,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   zReply(314)
+   NAnswerSkill(319,3,NodeQst103,SKILL_CONVERSANT,90,315,NodeQst102)
+   NAnswerReaction(327,3,NodeQst105,70,326,NodeQst102)
+   NAnswer(329,1,NodeQst106)
+end
+
+procedure NodeQst102 begin
+   Reply(316)
+   NAnswer(317,1,Node999)
+   NAnswer(318,1,Node999)
+end
+
+procedure NodeQst103 begin
+   Reply(320)
+   NAnswer(321,1,NodeQst104)
+   NAnswer(322,1,Node999)
+end
+
+procedure NodeQst104 begin
+   set_global_var(GVAR_BRAHMIN_STATUS_HEAD_MANGAS,1);
+   exp_add(200);
+   setBonusReaction(25)
+
+   Reply(324)
+   NAnswer(325,1,Node999)
+end
+
+procedure NodeQst105 begin
+   Reply(328)
+   NAnswer(321,1,NodeQst104)
+   NAnswer(322,1,Node999)
+end
+
+procedure NodeQst106 begin
+   Reply(330)
+   NAnswer(332,1,NodeQst107)
+   NAnswer(331,1,Node999)
+end
+
+procedure NodeQst107 begin
+   call NodeQst108;
+end
+
+procedure NodeQst108 begin
+   Reply(333)
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY)>=qEnd) then begin
+   NAnswer(335,1,NodeQst109)
+   end
+   if (global_var(GVAR_JACKALS_RANGER_CONTRAKT)<0) then begin
+   NAnswer(338,1,NodeQst110)
+   end
+   if (getQuest(GVAR_RANGERS_QST_IMMIGRANTS)>qZero) then begin
+   NAnswer(341,1,NodeQst111)
+   end
+   NAnswer(334,1,Node999)
+end
+
+procedure NodeQst109 begin
+   Reply(336)
+   NAnswer(337,1,NodeQst104)
+end
+
+procedure NodeQst110 begin
+   Reply(339)
+   NAnswer(340,1,NodeQst104)
+end
+
+procedure NodeQst111 begin
+   set_SLAVA(-15) // штраф к славе за враньё
+   Reply(342)
+   NAnswer(343,1,NodeQst104)
+end

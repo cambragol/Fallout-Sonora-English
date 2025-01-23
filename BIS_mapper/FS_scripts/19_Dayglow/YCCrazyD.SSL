@@ -1,0 +1,165 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCCrazyD
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      -20  // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Flag_Msg                     (5)
+#define LVAR_Box_Amnt                     (6)
+#define LVAR_Film_Status                  (7)
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_local_var(LVAR_Flags, 0);
+       off_enemy_dude;
+       critter_set_flee_state(self_obj, 1);
+       if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_27) != 0) then begin
+       if (local_var(LVAR_Film_Status) == 0) then begin
+       item_add(self_obj,PID_Q_DAYGLOW_FILM,1)
+       inc_local_var(LVAR_Film_Status);
+       end
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(2)
+   end
+   if (fixed_param == 2) then begin
+       //
+   end
+end
+
+procedure critter_p_proc begin
+   if (local_var(LVAR_Film_Status) == 1) then begin
+      if (item_amnt(self_obj,PID_Q_DAYGLOW_FILM)<=0) then begin
+      set_REP(-5)
+      display_mstr(105);
+      floater(self_obj, 106, COLOR_MSG_RED);
+      set_local_var(LVAR_Film_Status,-1);
+      end
+   end
+   if (local_var(LVAR_Film_Status) == -1) then begin
+      if (item_amnt(self_obj,PID_Q_DAYGLOW_FILM)>0) then begin
+      set_REP(5)
+      display_mstr(107);
+      floater(self_obj, 108, COLOR_MSG_GREEN);
+      set_local_var(LVAR_Film_Status,1);
+      end
+   end
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   //pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+
+   if (objUsedPid == PID_CLEAR) then begin
+      script_overrides;
+      exp_add(75);
+      display_mstr(102);
+      floater(self_obj, 103, COLOR_MSG_GREEN);
+      inc_local_var(LVAR_Box_Amnt);
+      item_remove(dude_obj, objUsedPid, 1)
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,2,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_global_var(GVAR_DAYGLOW_PASS, -1);
+   end
+   kill_critter_opt
+   item_add(self_obj,PID_CLEAR,local_var(LVAR_Box_Amnt)+5)
+   if (local_var(LVAR_Film_Status) == 0) then begin
+   item_add(self_obj,PID_Q_DAYGLOW_FILM,1)
+   inc_local_var(LVAR_Film_Status);
+   end
+end
+
+procedure talk_p_proc begin
+   inc_local_var(LVAR_Flag_Msg);
+   if (local_var(LVAR_Flag_Msg) < 110) then begin
+   set_local_var(LVAR_Flag_Msg, 110);
+   end
+   if (local_var(LVAR_Flag_Msg) > 119) then begin
+   set_local_var(LVAR_Flag_Msg, 119);
+   end
+
+   if (item_amnt(self_obj,PID_Q_DAYGLOW_FILM)<0) then begin
+      floater(self_obj, 106, COLOR_MSG_RED);
+   end
+   else if (local_var(LVAR_Flag_Msg) == 119) then begin
+      if (local_var(LVAR_Box_Amnt) > 0) then begin
+      floater(self_obj, 104, COLOR_MSG_GREEN);
+      end else begin
+      floater(self_obj, local_var(LVAR_Flag_Msg), COLOR_MSG_RED);
+      end
+   end else begin
+      floater(self_obj, local_var(LVAR_Flag_Msg), COLOR_MSG_NORMAL);
+   end
+end

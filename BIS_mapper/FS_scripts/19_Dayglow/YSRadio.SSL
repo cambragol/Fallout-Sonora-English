@@ -1,0 +1,70 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSRadio
+#define SKILL_LIMIT                     150
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_Q_RADIO_LUMP,200) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+   else if (objUsedPid == PID_TOOL_PARTS_ELECTRONIC) then begin
+   script_overrides;
+   display_mstr(113);
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+   script_overrides;
+   display_mstr(113);
+   end
+   else if (objUsedPid == PID_Q_DAYGLOW_PATRUL_CODES) then begin
+   script_overrides;
+   display_mstr(114);
+   end
+end
+
+procedure repair_proc begin
+   if (global_var(GVAR_DAYGLOW_RADIO) == 0) then begin
+   set_global_var(GVAR_DAYGLOW_RADIO,1);
+   end
+   gfade_out(ONE_GAME_SECOND);
+    game_time_advance(ONE_GAME_HOUR);
+    set_obj_visibility(self_obj, 1);
+    create_object_sid(self_PID+1, self_tile, self_elevation, SCRIPT_YSRadIsd);
+    create_object_sid(PID_HEX_SOLAR, tile_num_in_direction(self_tile,2,3), self_elevation, -1);
+   gfade_in(ONE_GAME_SECOND);
+
+   RepairProcRepair(112,1000,"FIXSTILL")
+      if (partyPidMr1 != 0) then begin
+      floater(partyPidMr1, 115, COLOR_MSG_NORMAL);
+      end
+      else if (partyPidMr2 != 0) then begin
+      floater(partyPidMr2, 115, COLOR_MSG_NORMAL);
+      end
+      else if (partyPidMtn != 0) then begin
+      floater(partyPidMtn, 116, COLOR_MSG_NORMAL);
+      end
+   destroy_object(self_obj);
+end

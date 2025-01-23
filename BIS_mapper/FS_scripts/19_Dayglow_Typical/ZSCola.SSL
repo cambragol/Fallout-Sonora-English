@@ -1,0 +1,165 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_ZSCola
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure unlock_proc;
+
+#define LVAR_Open                       (0) // Сломан ли замок
+#define LVAR_Lockpick                   (1) // Были ли использованы отмычки: 0 - нет, >0 - да
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+         if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_CORONADO)) then begin
+         item_add(self_obj,PID_M_NUKA_COLA_RAD,random(5,5+dude_luck))
+         end
+         else if ((cur_map_index == MAP_INFIERNO_CITY) or (cur_map_index == MAP_INFIERNO_SHOP) or (cur_map_index == MAP_INFIERNO_POLICE) or (cur_map_index == MAP_INFIERNO_CHURCH)) then begin
+         item_add(self_obj,PID_M_NUKA_COLA_RAD,random(2,2+dude_luck))
+         end
+         else begin
+         item_add(self_obj,PID_M_NUKA_COLA,random(2,2+dude_luck))
+         end
+         item_add(self_obj,PID_BOOTLE_CAPS,random(1,5+dude_luck))
+      end
+   end
+end
+
+procedure use_p_proc begin
+   if (local_var(LVAR_Open) == 0) then begin
+       script_overrides;
+
+       reg_anim_begin();
+       reg_anim_clear(self_obj);
+       reg_anim_clear(source_obj);
+       reg_anim_end();
+
+       display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   variable skillcheck;
+   skillcheck := 50;
+   if (local_var(LVAR_Lockpick) != 0) then begin
+   skillcheck -= local_var(LVAR_Lockpick);
+   end
+
+   if (action_being_used == SKILL_STEAL) then begin
+      if (local_var(LVAR_Open) == 0) then begin
+         obj_lock(self_obj);
+      end
+
+      if SELF_IS_LOCKED then begin
+         script_overrides;
+         display_mstr(110);
+      end
+   end
+
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+
+      if (local_var(LVAR_Open) > 0) then begin
+         dude_floater_NON;
+         display_mstr(111);
+      end
+      else if (has_skill(dude_obj, SKILL_LOCKPICK) < skillcheck) then begin
+         skill_display_mstr(113,SKILL_LOCKPICK,skillcheck)
+      end
+      else begin
+         item_add(self_obj,PID_MANY,1)
+         call unlock_proc;
+      end
+   end
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+
+      if (local_var(LVAR_Open) > 0) then begin
+         dude_floater_NON;
+         display_mstr(111);
+      end
+      else if (has_skill(dude_obj, SKILL_REPAIR) < 50) then begin
+         skill_display_mstr(122,SKILL_REPAIR,50)
+      end
+      else begin
+         call unlock_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   variable itemPID;
+
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_LOCKPICKS_MH) then begin
+      script_overrides;
+      if (local_var(LVAR_Lockpick) == 0) then begin
+         inc_local_var_amt(LVAR_Lockpick,20);
+         play_sfx("WOR1XXX1");
+         dude_floater_OK;
+         display_mstr(114);
+         item_remove(dude_obj, objUsedPid, 1)
+      end
+      else begin
+         display_mstr(115);
+      end
+   end
+
+   else if (objUsedPid == PID_TOOL_LOCKPICKS_EL) then begin
+      script_overrides;
+      dude_floater_NON;
+      display_mstr(116);
+   end
+
+   else if (objUsedPid == PID_MANY) then begin
+      script_overrides;
+      itemPID := 0;
+
+      if (item_amnt(self_obj,PID_M_NUKA_COLA_RAD) >0) then begin
+      itemPID := PID_M_NUKA_COLA_RAD;
+      end
+      if (item_amnt(self_obj,PID_M_NUKA_COLA) >0) then begin
+      itemPID := PID_M_NUKA_COLA;
+      end
+
+      if (itemPID >0) then begin
+         item_add(self_obj,objUsedPid,1)
+         item_remove(dude_obj, objUsedPid, 1)
+         item_add(dude_obj,itemPID,1)
+         item_remove(self_obj, itemPID, 1)
+
+         play_sfx("BEER");
+         //dude_floater_OK;
+         display_mstr(119);
+      end
+      else begin
+         dude_floater_NON;
+         display_mstr(120);
+      end
+   end
+end
+
+procedure unlock_proc begin
+   set_local_var(LVAR_Open,1);
+   obj_unlock(self_obj);
+   play_sfx("WOR1XXX1");
+   exp_add(65);
+   dude_floater_OK;
+   display_mstr(117);
+end

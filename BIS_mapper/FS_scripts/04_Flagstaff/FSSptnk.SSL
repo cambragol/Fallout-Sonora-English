@@ -1,0 +1,59 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_FSSptnk
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,110)
+   floater(dude_obj,116,COLOR_MSG_NORMAL);
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+      display_mstr(113);
+      dude_floater_NON;
+      end
+      else begin
+      set_local_var(LVAR_Status,0);
+      item_remove(dude_obj, objUsedPid, 1)
+      display_mstr(114);
+      floater(dude_obj,115,COLOR_MSG_NORMAL);
+      end
+   end
+end
+
+procedure repair_proc begin
+   gfade_out(ONE_GAME_SECOND);
+    set_obj_visibility(self_obj, 1);
+    create_object_sid(PID_ZERO_NUMBER+1750, self_tile, self_elevation, -1);
+    //create_object_sid(PID_TOOL_PARTS_MECHANICAL, dude_tile, self_elevation, -1);
+    create_object_sid(PID_TOOL_PARTS_MECHANICAL, tile_num_in_direction(self_tile, 2, 2), dude_elevation, -1);
+   gfade_in(ONE_GAME_SECOND);
+
+   RepairProcRepair(112,0,"FIXSTILL")
+   destroy_object(self_obj);
+end

@@ -1,0 +1,320 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TCSlvTlk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_TWOSUN_SLAVES    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      25  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer102;
+procedure NodeAnswer102b;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer106b;
+procedure NodeAnswer106c;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeParty1;
+procedure NodeParty2;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (bitDialog(bit_1) != 0) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+       end
+       if (map_var(MVAR_TWOSUN_PartyGhoul) >0) then begin
+       rm_timer_event(self_obj);
+       move_to(self_obj, (tile_num_in_direction(dude_tile,random(0,5),1)), dude_elevation);
+       end
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) != 0) then begin
+       set_map_var(MVAR_TWOSUN_PartyGhoul,0);
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (map_var(MVAR_TWOSUN_PartyGhoul) >0) then begin
+   partyRunToDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_TWOSUN_PartyGhoul,0);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_REBIRTH,50) // поправка к отношению за принадлежность к фракции
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   Reply(200)
+   NAnswer(201,4,NodeFstDialog2)
+   BAnswer(202,0,Node998)
+   NAnswer(206,0,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(204,4,NodeFstDialog3)
+   BAnswer(205,0,Node998)
+   NAnswer(206,0,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(207)
+   NAnswerSkill(208,4,NodeFstDialog4,SKILL_CONVERSANT,40,212,NodeFstDialog5)
+   if (global_var(GVAR_TITUL_REBIRTH) > 0) then begin
+   NAnswer(211,0,NodeFstDialog4)
+   end
+   BAnswer(205,0,Node998)
+   NAnswer(206,0,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   bitDialogExp(bit_1,200)
+   rm_timer_event(self_obj);
+   //!!! вхождение в партию
+   Reply(209)
+   NAnswer(210,0,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(213)
+   BAnswer(205,0,Node998)
+   NAnswer(206,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+   NAnswer(230,4,NodeAnswer100)
+   NAnswer(260,4,NodeAnswer200)
+   if (map_var(MVAR_TWOSUN_PartyGhoul) == 0) then begin
+   NAnswer(250,0,NodeParty1)
+   end else begin
+   NAnswer(253,0,NodeParty2)
+   end
+   if (town_known(AREA_INFIERNO) == MARK_STATE_VISITED) then begin
+   if (bitDialog(bit_9) == 0) then begin
+   NAnswer(248,4,NodeAnswer106c)
+   end
+   end
+   NAnswer(221,0,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(231)
+   NAnswerSkill(233,3,NodeAnswer103,SKILL_CONVERSANT,20,233,NodeAnswer102)
+   NAnswer(244,1,NodeAnswer108)
+   NAnswer(232,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(231)
+   NAnswer(232,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102b begin
+   Reply(247)
+   NAnswer(232,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_3,20)
+   setBonusReaction(10)
+   Reply(234)
+   NAnswerSkill(235,3,NodeAnswer104,SKILL_CONVERSANT,40,235,NodeAnswer102b)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_4,40)
+   setBonusReaction(10)
+   Reply(236)
+   NAnswerSkill(237,3,NodeAnswer105,SKILL_CONVERSANT,60,237,NodeAnswer102b)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_5,60)
+   setBonusReaction(10)
+   Reply(238)
+   NAnswerSkill(239,3,NodeAnswer106,SKILL_CONVERSANT,80,239,NodeAnswer102b)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_6,80)
+   setBonusReaction(10)
+   Reply(240)
+   if (town_known(AREA_INFIERNO) == MARK_STATE_VISITED) then begin
+   if (bitDialog(bit_9) == 0) then begin
+   NAnswer(248,1,NodeAnswer106b)
+   end
+   end
+   NAnswerSkill(241,3,NodeAnswer107,SKILL_CONVERSANT,100,241,NodeAnswer102b)
+end
+
+procedure NodeAnswer106b begin
+   bitDialogExp(bit_9,50)
+   Reply(249)
+   NAnswerSkill(241,3,NodeAnswer107,SKILL_CONVERSANT,100,241,NodeAnswer102b)
+end
+
+procedure NodeAnswer106c begin
+   bitDialogExp(bit_9,50)
+   Reply(249)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeAnswer107 begin
+   bitDialogExp(bit_7,100)
+   setBonusReaction(10)
+   Reply(242)
+   NAnswer(243,1,NodeSndDialog)
+end
+
+procedure NodeAnswer108 begin
+   Reply(245)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(261)
+   NAnswer(262,1,NodeAnswer201)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   Reply(263)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+//--- ПАРТИЯ
+
+procedure NodeParty1 begin
+   bitDialogExp(bit_10,250)
+   set_map_var(MVAR_TWOSUN_PartyGhoul,1);
+   Reply(251)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeParty2 begin
+   set_map_var(MVAR_TWOSUN_PartyGhoul,0);
+   Reply(254)
+   NAnswer(255,1,Node999)
+end

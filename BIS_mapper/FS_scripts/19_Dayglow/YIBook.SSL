@@ -1,0 +1,26 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YIBook
+
+procedure start;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_11) != 0) then begin
+       display_mstr(101);
+   end
+   else begin
+       PLAY_FADE
+       //play_sfx("IACCUXX1");
+       exp_add(100);
+       display_mstr(100);
+       floater(dude_obj, 102, COLOR_MSG_NORMAL);
+       set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_11);
+   end
+end

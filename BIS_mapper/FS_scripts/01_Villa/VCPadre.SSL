@@ -1,0 +1,417 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_VCPadre
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_VILLA   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_VILLA_PEASAN     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_TRIBLE_VILLA       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      -100       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1   // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1   // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+procedure NodeSndDialog5;
+procedure NodeSndDialog6;
+procedure NodeQuest;
+procedure NodeQuest1;
+procedure NodeQuest2;
+procedure NodeQuest3;
+procedure NodeQuest4;
+procedure NodeQuest5;
+procedure NodeKey;
+procedure NodeKey2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+
+//---------------------
+
+#define LVAR_Vault                        (6) // разговор про убежище 27
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+
+       if (global_var(GVAR_VILLA_STATUS_PADRE) > 0) then begin
+          if (bitDialog(bit_2) == 0) then begin
+          display_mstr(105);
+          set_lvar_bit_on(LVAR_Dialog_Status, bit_2);
+          end
+          set_obj_visibility(self_obj, 0);
+       end
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (map_var(MVAR_Plaza_Council) > 0) then begin
+       timer_move_to_tile(0,12487,2)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (map_var(MVAR_Plaza_Council) > 0) then begin
+      if (self_visible == true) then begin
+      if (self_tile != 12487) then begin
+      reg_anim_clear(self_obj);
+      move_to(self_obj,12487,0);
+      end
+      end
+   end
+   set_critter_options(3,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_VILLA_STATUS_PADRE,-2);
+   kill_critter_opt
+   kill_critter_dude_reply(102,103)
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_GAME_END) != 0) then begin
+      if (global_var(GVAR_TITUL_VILLA_TRADITION)>0) then begin
+      z_floater(self_obj,106,COLOR_MSG_GREEN);
+      end
+      else if (global_var(GVAR_TITUL_VILLA_DISTROY)>0) then begin
+      z_floater(self_obj,107,COLOR_MSG_RED);
+      end
+      else begin
+      floater(self_obj,108,COLOR_MSG_NORMAL);
+      end
+   end
+   else begin
+      setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      fracReaction(GVAR_TITUL_VILLA_TRADITION,50) // Поправка к отношению за принадлежность к фракциям
+      fracReaction(GVAR_TITUL_VILLA_DISTROY,-50) // Поправка к отношению за принадлежность к фракциям
+      dialog_proc(0,104,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((global_var(GVAR_TITUL_REBIRTH) > 0) and (bitDialog(bit_3) == 0)) then begin
+   call NodeSndDialog2;
+   end
+   else if ((partyPidSnc!=0) and (bitDialog(bit_6) == 0)) then begin
+   call NodeSndDialog4;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,500)
+   setQuest(GVAR_MAIN_QUEST_TWOSUN,qEnd); // для контроля на всякий случай
+   Reply(200)
+   NAnswer(201,1,NodeStartDialog)
+end
+
+//--- ВТОРОЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) == qStart) then begin
+   NAnswer(270,1,NodeAnswer301)
+   end
+   if (getQuest(GVAR_GARAGE_STANOK_DESTROY) == qStart) then begin
+   NAnswer(273,1,NodeAnswer302)
+   end
+
+   if (getQuest(GVAR_VILLA_ALLIANCE_RANGER) >= qEnd) then begin
+   NAnswer(276,1,NodeAnswer303)
+   end
+   else if (getQuest(GVAR_VILLA_ALLIANCE_BOS) >= qEnd) then begin
+   NAnswer(279,1,NodeAnswer304)
+   end
+
+   NAnswer(250,1,NodeQuest)
+   NAnswer(220,1,NodeAnswer100)
+   if (getQuest(GVAR_VILLA_QST_CHRIS) == qStart) then begin
+   NAnswer(234,1,NodeAnswer102)
+   end
+   if (map_var(MVAR_Plaza_SaifPswrd) == 0) then begin
+   NAnswer(240,1,NodeKey)
+   end
+   if (local_var(LVAR_Vault) == 0) then begin
+      if (global_var(GVAR_HOLODISK_01) != 0) then begin
+      NAnswer(300,1,NodeAnswer200)
+      end
+      if (global_var(GVAR_HOLODISK_02) != 0) then begin
+      NAnswer(305,1,NodeAnswer202)
+      end
+   end
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(206)
+   NAnswer(207,1,NodeSndDialog3)
+end
+
+procedure NodeSndDialog3 begin
+   bitDialogExp(bit_3,0)
+   Reply(208)
+   NAnswer(209,1,NodeSndDialog)
+end
+
+procedure NodeSndDialog4 begin
+   Reply(228)
+   NAnswer(229,1,NodeSndDialog5)
+end
+
+procedure NodeSndDialog5 begin
+   Reply(230)
+   NAnswer(231,1,NodeSndDialog6)
+end
+
+procedure NodeSndDialog6 begin
+   bitDialogExp(bit_6,0)
+   setBonusReaction(-20)
+   Reply(232)
+   NAnswer(233,1,Node999)
+end
+
+//--- КВЕСТЫ
+
+procedure NodeQuest begin
+   if (getQuest(GVAR_MAIN_QUEST_SYNOD_VILLA) == qZero) then begin
+   call NodeQuest1;
+   end
+   else if (getQuest(GVAR_MAIN_QUEST_SYNOD_VILLA) == qStart) then begin
+   Reply(266)
+   NAnswer(267,1,Node999)
+   end
+   else begin
+   Reply(258)
+   NAnswer(259,1,Node999)
+   end
+end
+
+procedure NodeQuest1 begin
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
+      Reply(251)
+      BAnswer(253,1,NodeQuest2)
+      NAnswer(252,1,Node999)
+   end
+   else if (global_var(GVAR_VILLA_STATUS_MADRE) < 1) then begin
+      Reply(255)
+      if (global_var(GVAR_VILLA_STATUS_MADRE) < 0) then begin
+      NAnswer(257,1,NodeQuest3)
+      end
+      NAnswer(256,1,Node999)
+   end
+   else if (getQuest(GVAR_MAIN_QUEST_SYNOD_VILLA) == qZero) then begin
+      call NodeQuest4;
+   end
+   else begin
+      Reply(258)
+      NAnswer(259,1,Node999)
+   end
+end
+
+procedure NodeQuest2 begin
+   zReply(254)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeQuest3 begin
+   Reply(260)
+   NAnswer(261,1,NodeQuest4)
+end
+
+procedure NodeQuest4 begin
+   Reply(262)
+   NAnswer(263,1,NodeQuest5)
+end
+
+procedure NodeQuest5 begin
+   if (getQuest(GVAR_MAIN_QUEST_SYNOD_VILLA) == qZero) then begin
+   setQuest(GVAR_MAIN_QUEST_SYNOD_VILLA,qStart);
+   end
+   Reply(264)
+   NAnswer(265,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeKey begin
+   set_map_var(MVAR_Plaza_SaifPswrd,1);
+   Reply(241)
+   GAnswer(242,1,NodeKey2)
+   NAnswer(243,1,Node999)
+end
+
+procedure NodeKey2 begin
+   setBonusReaction(5)
+   call Node999;
+end
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_4,100)
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(238)
+   NAnswer(239,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(235)
+   NAnswer(239,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(301)
+   NAnswer(302,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(303)
+   NAnswer(304,1,NodeSndDialog)
+end
+
+procedure NodeAnswer202 begin
+   inc_local_var(LVAR_Vault);
+   bitDialogExp(bit_5,350)
+   Reply(306)
+   BAnswer(307,1,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   zReply(308)
+   NAnswer(309,1,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   Reply(310)
+   NAnswer(311,1,NodeAnswer205)
+end
+
+procedure NodeAnswer205 begin
+   Reply(312)
+   BAnswer(313,1,NodeAnswer206)
+   GAnswer(314,1,NodeAnswer207)
+end
+
+procedure NodeAnswer206 begin
+   Reply(315)
+   NAnswer(316,1,Node999)
+   BAnswer(317,1,Node999)
+end
+
+procedure NodeAnswer207 begin
+   Reply(318)
+   NAnswer(316,1,Node999)
+   BAnswer(317,1,Node999)
+end
+
+procedure NodeAnswer301 begin
+   Reply(271)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswer302 begin
+   Reply(274)
+   NAnswer(275,1,NodeSndDialog)
+end
+
+procedure NodeAnswer303 begin
+   Reply(277)
+   NAnswer(278,1,NodeSndDialog)
+end
+
+procedure NodeAnswer304 begin
+   Reply(280)
+   NAnswer(281,1,NodeSndDialog)
+end

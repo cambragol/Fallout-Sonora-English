@@ -1,0 +1,51 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSMeat
+#define SKILLCHECK              30
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure culinar_proc;
+
+variable skillcheck;                    // требуемый уровень навыка Наука
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   //skill_display_mstr(110,SKILL_SCOUT,SKILLCHECK)
+   //floater(dude_obj,111,COLOR_MSG_NORMAL);
+   call use_skill_on_p_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   if (has_skill(dude_obj, SKILL_SCOUT) < SKILLCHECK) then begin
+   skill_display_mstr(112,SKILL_SCOUT,SKILLCHECK)
+   end
+   else begin
+   call culinar_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure culinar_proc begin
+   exp_add(50);
+   item_add(dude_obj,PID_M_MEAT_JERKY,3)
+   play_sfx("ARMRLTH");
+   skill_display_mstr(113,SKILL_SCOUT,SKILLCHECK)
+   dude_floater_OK;
+   set_obj_visibility(self_obj, 1);
+   destroy_object(self_obj);
+end

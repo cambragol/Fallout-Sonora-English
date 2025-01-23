@@ -1,0 +1,110 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_AFCmpGrd
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(0)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(25)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   if (global_var(GVAR_OIL_PLATFORM_TURRELS) >= 0) then begin
+   NAnswer(210,1,NodeDialog100)
+   end
+   if (global_var(GVAR_OIL_PLATFORM_TURRELS) < 0) then begin
+   NAnswer(214,1,NodeDialog102)
+   end
+
+   if (global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK) == 0) then begin
+   NAnswer(220,1,NodeDialog103)
+   end
+
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog101)
+   NAnswer(205,1,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   set_global_var(GVAR_OIL_PLATFORM_TURRELS, -1);
+   Reply(213)
+   NAnswer(204,1,NodeDialog)
+end
+
+procedure NodeDialog102 begin
+   set_global_var(GVAR_OIL_PLATFORM_TURRELS, 0);
+   Reply(215)
+   NAnswer(204,1,NodeDialog)
+end
+
+procedure NodeDialog103 begin
+   Reply(221)
+   NAnswer(mstr(222)+dude_name+mstr(223)+dude_age+mstr(224),1,NodeDialog104)
+   NAnswer(205,1,NodeDialog)
+end
+
+procedure NodeDialog104 begin
+   set_global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK, 1);
+   Reply(225)
+   NAnswer(204,1,NodeDialog)
+end

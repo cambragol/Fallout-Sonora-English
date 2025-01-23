@@ -1,0 +1,80 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_FSRobot
+#define SKILL_LIMIT                     100
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+procedure repair_start;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   //   display_msg("skill " + local_var(LVAR_Status));
+   //   display_msg("bonus " + local_var(LVAR_SkillBonus));
+   if (combat_is_initialized == false) then begin
+      if (global_var(GVAR_FLAGSTAFF_ROBOT_STATUS) > 0) then begin
+      reg_anim_begin();
+      reg_anim_animate_forever(self_obj, ANIM_stand);
+      reg_anim_end();
+      end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      reg_anim_begin();
+      reg_anim_animate_forever(self_obj, ANIM_stand);
+      reg_anim_end();
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20)
+end
+
+procedure repair_proc begin
+
+   // fixed to include original intent of fade in and out, without the 'can't repair that' message -cambragol
+   gfade_out(ONE_GAME_SECOND);
+   game_time_advance(ONE_GAME_HOUR*5);
+   gfade_in(ONE_GAME_SECOND);
+   //PLAY_FADE
+   //game_time_advance(ONE_GAME_HOUR*5); -- из-за проигрыша времени почему-то вылазит фраза "Ремонту не подлежит". Похоже на конфликт скрипта с движком.
+   script_overrides;
+   RepairProcRepair(112,500,"FIXSTILL")
+   call repair_start;
+end
+
+procedure repair_start begin
+      reg_anim_begin();
+      reg_anim_animate_forever(self_obj, ANIM_stand);
+      reg_anim_end();
+      add_timer_event(self_obj, 3, 1);
+      obj_set_light_level(self_obj, 100, 8);
+      display_mstr(113);
+      set_global_var(GVAR_FLAGSTAFF_ROBOT_STATUS,1);
+end

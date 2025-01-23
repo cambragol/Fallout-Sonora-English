@@ -1,0 +1,180 @@
+#include "..\headers\define.h"
+#include "..\headers\rangers.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCWshBnd
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BANDITS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeDialog1;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeDialog4;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if DUDE_ESCAPED then begin
+       move_to(self_obj, 9760, 0);
+       set_gvar_bit_off(GVAR_RANGERS_QST_CADET_MASK, bit_8);
+       end
+       set_obj_visibility(self_obj, 1);
+   end
+end
+
+procedure map_update_p_proc begin
+   if (BANDIT_VISIBLE and BANDIT_LIFE) then begin
+      set_obj_visibility(self_obj, 0);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       timer_floater(110,118,COLOR_MSG_RED,random(50,120))
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (BANDIT_DEAD or BANDIT_RUN) then begin
+   end
+   else if self_can_see_dude then begin
+   dialogue_system_forcing(10)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_on(GVAR_RANGERS_QST_CADET_MASK, bit_2);
+   set_gvar_bit_off(GVAR_RANGERS_QST_CADET_MASK, bit_13);
+   //obj_unlock(tile_contains_pid_obj(20938, 0, 33555340));
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-80) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswerSkill(202,1,NodeDialog1,SKILL_CONVERSANT,50,202,NodeDialog2)
+   if MILTON_ESCAPED then begin
+   NAnswer(207,1,NodeDialog4)
+   end
+   BAnswer(201,1,Node998)
+end
+
+procedure NodeDialog1 begin
+   Reply(205)
+   NAnswer(206,1,NodeDialog3)
+end
+
+procedure NodeDialog2 begin
+   Reply(203)
+   BAnswer(204,1,Node998)
+end
+
+procedure NodeDialog3 begin
+   set_gvar_bit_on(GVAR_RANGERS_QST_CADET_MASK, bit_2);
+   set_gvar_bit_off(GVAR_RANGERS_QST_CADET_MASK, bit_13);
+   //obj_unlock(tile_contains_pid_obj(20938, 0, 33555340));
+   rm_timer_event(self_obj);
+   move_to(self_obj, 9760, 0);
+   set_obj_visibility(self_obj, 1);
+   bitDialogExp(bit_2,250)
+   call Node999;
+end
+
+procedure NodeDialog4 begin
+   Reply(208)
+   NAnswer(209,1,NodeDialog3)
+end

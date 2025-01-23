@@ -1,0 +1,16 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_MSTank
+
+procedure start;
+procedure map_enter_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (getQuest(GVAR_RAIDER_OIL_DESTROY) >= qEnd) then begin
+   animate_stand_obj(self_obj);
+   end
+end

@@ -1,0 +1,377 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCGopStp
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      10 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeCapsMove;
+procedure NodeFstDialogRun;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog101b;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog110;
+procedure NodeFstDialog111;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+variable capsdude;
+variable stopDialog;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_lvar_bit_off(LVAR_Self_Flags, bit_1);
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(3)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       floater(self_obj, 104, COLOR_MSG_RED);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   //--- Принудительный диалог
+   if (bitDialog(bit_1) == 0) then begin
+      if self_can_see_dude then begin
+         stopDialog := 1;
+
+         if (armor_pid_dude_var > 0) then begin
+            if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+            stopDialog := 0;
+            end
+         end
+         if (get_REP >= 15) then begin
+            stopDialog := 0;
+         end
+         if DudePerkHas(PERK_ghouling_fiziology) then begin
+            stopDialog := 0;
+         end
+
+         if (stopDialog > 0) then begin
+            dialogue_system_forcing(7)
+         end
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+
+   if (bitDialog(bit_1) == 0) then begin
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+      if (bitDialog(bit_3) != 0) then begin
+      z_floater(self_obj, 105, COLOR_MSG_NORMAL);
+      end
+      else if (bitDialog(bit_2) == 0) then begin
+      z_floater(self_obj, 103, COLOR_MSG_RED);
+      end
+      else begin
+      z_floater(self_obj, 102, COLOR_MSG_NORMAL);
+      end
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_INFIERNO_GHOUL);
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   capsdude := 0;
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   call NodeFstDialog200;
+   end
+   else begin
+   call NodeFstDialog100;
+   end
+end
+
+procedure NodeCapsMove begin
+   bitDialogExp(bit_2,0)
+   if (capsdude == 0) then begin
+   capsdude := item_amnt(dude_obj,PID_BOOTLE_CAPS);
+   end
+   if (capsdude > 0) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,capsdude)
+   item_add(self_obj,PID_BOOTLE_CAPS,capsdude)
+   end
+end
+
+procedure NodeFstDialogRun begin
+   set_REP(-2)
+   add_timer_event(self_obj, 5, 3);
+   call Node999;
+end
+
+procedure NodeFstDialog100 begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>0) then begin
+   NAnswer(201,0,NodeFstDialog101)
+   end
+   BAnswer(216,0,NodeFstDialog108)
+   BAnswer(227,0,NodeFstDialog111)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(202)
+
+   NAnswer(234,3,NodeFstDialog101b)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) <= 0) then begin
+   BAnswer(232,0,NodeFstDialog108)
+   end
+   else if (item_amnt(dude_obj,PID_BOOTLE_CAPS) > 10) then begin
+   NAnswer(206,0,NodeFstDialog103)
+   end
+   else if (item_amnt(dude_obj,PID_BOOTLE_CAPS) == 10) then begin
+   NAnswer(203,0,NodeFstDialog102)
+   end
+   else begin
+   NAnswer(214,0,NodeFstDialog107)
+   end
+
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) > 0) then begin
+   BAnswer(232,0,NodeFstDialog108)
+   end
+
+   BAnswer(233,0,Node998)
+end
+
+procedure NodeFstDialog101b begin
+   Reply(235)
+
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) <= 0) then begin
+   BAnswer(232,0,NodeFstDialog108)
+   end
+   else if (item_amnt(dude_obj,PID_BOOTLE_CAPS) > 10) then begin
+   NAnswer(206,0,NodeFstDialog103)
+   end
+   else if (item_amnt(dude_obj,PID_BOOTLE_CAPS) == 10) then begin
+   NAnswer(203,0,NodeFstDialog102)
+   end
+   else begin
+   NAnswer(214,0,NodeFstDialog107)
+   end
+
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) > 0) then begin
+   BAnswer(232,0,NodeFstDialog108)
+   end
+
+   BAnswer(233,0,Node998)
+end
+
+procedure NodeFstDialog102 begin
+   capsdude := 10;
+   call NodeCapsMove;
+   Reply(204)
+   NAnswer(205,0,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   capsdude := 10;
+   call NodeCapsMove;
+   Reply(207)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 10) then begin
+   NAnswer(208,0,NodeFstDialog104)
+   end
+   else begin
+   NAnswer(209,0,NodeFstDialog105)
+   end
+   NAnswer(211,0,NodeFstDialog106)
+   BAnswer(226,0,NodeFstDialogRun)
+end
+
+procedure NodeFstDialog104 begin
+   capsdude := 10;
+   call NodeCapsMove;
+   Reply(204)
+   NAnswer(205,0,Node999)
+end
+
+procedure NodeFstDialog105 begin
+   call NodeCapsMove;
+   Reply(204)
+   NAnswer(205,0,Node999)
+end
+
+procedure NodeFstDialog106 begin
+   set_REP(-2)
+   Reply(212)
+   NAnswer(213,0,Node999)
+end
+
+procedure NodeFstDialog107 begin
+   call NodeCapsMove;
+   Reply(215)
+   NAnswer(216,0,Node999)
+end
+
+procedure NodeFstDialog108 begin
+   Reply(217)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) > 0) then begin
+   NAnswer(218,0,NodeFstDialog109)
+   end
+   else begin
+   NAnswer(222,0,NodeFstDialog110)
+   end
+   BAnswer(225,0,Node998)
+   BAnswer(226,0,NodeFstDialogRun)
+end
+
+procedure NodeFstDialog109 begin
+   set_REP(-1)
+   call NodeCapsMove;
+   Reply(219)
+   NAnswer(220,0,Node999)
+   BAnswer(221,0,Node998)
+end
+
+procedure NodeFstDialog110 begin
+   bitDialogExp(bit_2,0)
+   Reply(223)
+   NAnswer(224,0,Node999)
+end
+
+procedure NodeFstDialog111 begin
+   Reply(228)
+   BAnswer(226,0,NodeFstDialogRun)
+   BAnswer(230,0,NodeFstDialog101)
+end
+
+procedure NodeFstDialog200 begin
+   zReply(250)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 10) then begin
+   NAnswer(251,0,NodeFstDialog201)
+   end
+   NAnswer(252,0,Node999)
+end
+
+procedure NodeFstDialog201 begin
+   bitDialogExp(bit_1,0)
+   bitDialogExp(bit_3,0)
+   set_REP(1)
+   capsdude := 10;
+   call NodeCapsMove;
+   Reply(253)
+   NAnswer(254,0,Node999)
+   NAnswer(255,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(256)
+   NAnswer(257,0,Node999)
+end

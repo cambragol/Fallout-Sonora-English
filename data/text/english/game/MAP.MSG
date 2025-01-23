@@ -949,7 +949,7 @@
 {1529}{}{Coast}
 {1530}{}{Puerto}
 {1531}{}{Gold!}
-{1532}{}{Henry Beamis}
+{1532}{}{Henry Bemis}
 {1533}{}{Roadside Cafe}
 {1534}{}{Bomber}
 {1535}{}{Petro-Chico Truck}

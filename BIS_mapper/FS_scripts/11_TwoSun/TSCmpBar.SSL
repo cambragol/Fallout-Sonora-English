@@ -1,0 +1,100 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_TSCmpBar
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure use_p_proc;
+procedure timed_event_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+variable itemUsed;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_map_var(MVAR_TWOSUN_BARIER,0);
+
+       if (getQuest(GVAR_TWOSUN_QST_ZONA) < qStart) then begin
+       setQuest(GVAR_TWOSUN_QST_ZONA,qStart);
+       end
+
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) != 0) then begin
+       setQuest(GVAR_TWOSUN_QST_ZONA,qEnd);
+       end
+
+       if (global_var(GVAR_TWOSUN_STATUS_DUDE) >= 10) then begin
+       add_timer_event(self_obj, 5, 3);
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_TWOSUN_BARIER) != 0) then begin
+       if (dude_elevation != 0) then begin
+       set_map_var(MVAR_TWOSUN_BARIER,0);
+       end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(114);
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       itemUsed := create_object_sid(PID_BOOTLE_CAPS, self_tile, self_elevation, -1);
+                   use_obj_on_obj(itemUsed, self_obj);
+                   destroy_object(itemUsed);
+                   itemUsed := 0;
+   end
+   if (fixed_param == 2) then begin
+       play_sfx("ELECTRIC");
+       display_mstr(112);
+       set_map_var(MVAR_TWOSUN_BARIER,0);
+       add_timer_event(self_obj, 1, 1);
+   end
+   if (fixed_param == 3) then begin
+       move_to(dude_obj, 21323, 0);
+       dec_global_var_amt(GVAR_TWOSUN_STATUS_DUDE,10);
+       gfade_in(ONE_GAME_SECOND);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_SCIENCE) or (action_being_used == SKILL_REPAIR)) then begin
+       script_overrides;
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) != 0) then begin
+       display_mstr(113);
+       end
+       else if (map_var(MVAR_TWOSUN_BARIER) == 0) then begin
+       call sience_proc;
+       end
+       else begin
+       display_mstr(111);
+       end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_BOOTLE_CAPS) then begin
+      script_overrides;
+   end
+end
+
+procedure sience_proc begin
+   set_map_var(MVAR_TWOSUN_BARIER,1);
+   play_sfx("ELECTRIC");
+   display_mstr(110);
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 2, 1);
+   add_timer_event(self_obj, 50, 2);
+end

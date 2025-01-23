@@ -1,0 +1,66 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YTHolLvl
+
+procedure start;
+procedure spatial_p_proc;
+procedure movefale;
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       if (combat_is_initialized == true) then begin
+       terminate_combat;
+       end
+       call movefale;
+   end
+end
+
+procedure movefale begin
+   gfade_out(ONE_GAME_SECOND);
+
+       move_to(dude_obj,dude_tile,0);
+       critter_dmg(dude_obj, random(3,10), DMG_normal_dam);
+       if (random(0,100) <= (10-dude_luck)) then begin
+       dam_to_dude_LEG
+       end
+       reg_anim_begin();
+       reg_anim_clear(dude_obj);
+        reg_anim_animate(dude_obj,ANIM_fall_front,-1);
+       reg_anim_end();
+
+       if trapObj(33556724) then begin
+       end
+       else begin
+       create_object_sid(33556724,self_tile,self_elevation,-1);
+       end
+
+       add_timer_event(self_obj,5,1);
+       add_timer_event(self_obj,10,2);
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       play_sfx("iocntnre");
+       play_sfx("ORE1");
+       play_sfx("PEBBLE1");
+       if dude_is_female then begin
+       play_sfx("HFXXXXBB");
+       end
+       else begin
+       play_sfx("HMXXXXBB");
+       end
+   end
+   if (fixed_param == 2) then begin
+      gfade_in(ONE_GAME_SECOND);
+
+       reg_anim_clear(dude_obj);
+       reg_anim_begin();
+       reg_anim_animate(dude_obj,ANIM_prone_to_standing,-1);
+       reg_anim_end();
+   end
+end

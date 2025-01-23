@@ -1,0 +1,334 @@
+#include "..\headers\define.h"
+//--------------------- Сектанты на жд станции
+
+#define NAME                            SCRIPT_PCPrtznE
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CULT // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CULT_ATOMIC      // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_PHENIX        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeFstDialog9;
+procedure NodeFstDialog10;
+//procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_A) != qStart) or (global_var(GVAR_PHENIX_STATUS_SPYPARTY) < 0) or (global_var(GVAR_PHENIX_STATUS_SPYPARTY) >= 2)) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   if ((map_var(MVAR_PNX_RUINS_SPY) == 0) and (global_var(GVAR_PHENIX_STATUS_SPYPARTY) == 0)) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+
+   if ((map_var(MVAR_PNX_RUINS_SPY) == 0) and (global_var(GVAR_PHENIX_STATUS_SPYPARTY) == 1)) then begin
+   set_critter_options(2,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+   else begin
+   set_critter_options(0,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_PNX_RUINS_SPY) > 0) then begin
+      if (global_var(GVAR_TITUL_PHENIX_CULT)>0) then begin
+      floater(self_obj,104,COLOR_MSG_NORMAL);
+      end
+      else if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A)) then begin
+      floater(self_obj,104,COLOR_MSG_NORMAL);
+      end
+      else begin
+      floater(self_obj,103,COLOR_MSG_NORMAL);
+      end
+   end
+   else if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) == 1) then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else begin
+      setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeFstDialog;
+   /*
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+   */
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (global_var(GVAR_TITUL_PHENIX_CULT)>0) then begin
+   Reply(250)
+   GAnswer(251,1,NodeFstDialog10)
+   NAnswer(254,1,Node999)
+   end
+   else if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A)) then begin
+   Reply(260)
+   GAnswer(251,3,NodeFstDialog10)
+   BAnswer(261,1,Node998)
+   NAnswer(262,1,Node999)
+   end
+   else begin
+   Reply(200)
+   NAnswer(220,3,NodeFstDialog5)
+   NAnswer(205,1,NodeFstDialog3)
+   BAnswer(201,1,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   BAnswer(203,1,Node998)
+   NAnswer(204,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(206)
+   NAnswer(207,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   BAnswer(209,1,Node998)
+   NAnswer(210,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(221)
+   NAnswerSkill(228,1,NodeFstDialog8,SKILL_CONVERSANT,60,229,NodeFstDialog7)
+   NAnswerSlava(222,1,NodeFstDialog6,1,222,NodeFstDialog7)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(223)
+   BAnswer(225,1,Node998)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(226)
+   BAnswer(227,1,Node998)
+end
+
+procedure NodeFstDialog8 begin
+   Reply(230)
+   NAnswer(231,1,NodeFstDialog9)
+end
+
+procedure NodeFstDialog9 begin
+   inc_map_var(MVAR_PNX_RUINS_SPY);
+   Reply(232)
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeFstDialog10 begin
+   inc_map_var(MVAR_PNX_RUINS_SPY);
+   Reply(252)
+   NAnswer(253,1,Node999)
+end
+
+/*
+procedure NodeFstDialog11 begin
+   Reply(264)
+   BAnswer(265,1,Node998)
+end
+*/
+
+
+/*
+
+#Первый диалог
+{200}{}{Стой. Именем Священного Огня, отвечай, что ты здесь делаешь.}
+{201}{}{Я, э, ищу полезные вещи.}
+{202}{}{В таком случае ты выбрал не лучший день для этого, мусорщик.}
+{203}{}{А что случилось?}
+{204}{}{Это мое дело, и вас оно не касается.}
+{205}{}{Слова достойные еретика и богохульника. Не думай, что мы об этом забудем.}
+{206}{}{А что случилось?}
+{207}{}{У меня назначена здесь встреча. Вы кого-нибудь видели?}
+{208}{}{Необычно опасное место для встреч. Ты вызываешь подозрения.}
+{209}{}{Вы тоже кого-то ищете?}
+{210}{}{Мы ищем опасного шпиона. Он прячется где-то в этих руинах. Если ты поможешь его найти, то в награду сможешь забрать себе его оружие.}
+{211}{}{Чем же он так опасен?}
+{212}{}{У нашей церкви есть много врагов. Он один из них. Просто скажи нам, где его найти, если ты это знаешь.}
+{213}{}{Дай мне время. Я попробую найти этого сукина сына.}
+{214}{}{Очень хорошо. Да озарит тебя Священный Огонь.}
+{215}{}{Э, увидимся.}
+{216}{}{Что-то мне подсказывает, что не стоит ввязываться в дела церкви. Я пойду своей дорогой.}
+{217}{}{Конечно. Ступай с миром. Но не вздумай встовать на пути нашей церкви.}
+{218}{}{Э, пока.}
+{219}{}{}
+
+#Повторный диалог
+{230}{}{Опять ты? Во имя Священного Огня, рассказывай все, что знаешь.}
+{231}{}{Я ничего не знаю о вашем шпионе. Пока.}
+
+
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   BAnswer(204,1,NodeFstDialog3)
+   NAnswer(207,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   NAnswer(209,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(211,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(212)
+   NAnswer(213,1,NodeFstDialog7)
+   BAnswer(216,1,NodeFstDialog8)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(214)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeFstDialog8 begin
+   Reply(217)
+   NAnswer(218,1,Node999)
+end
+
+*/
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+/*
+procedure NodeSndDialog begin
+   Reply(211)
+   NAnswer(212,1,Node999)
+end
+*/

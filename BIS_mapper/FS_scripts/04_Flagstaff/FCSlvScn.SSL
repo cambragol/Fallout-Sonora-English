@@ -1,0 +1,292 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCSlvScn
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF_MERC // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_MERC  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_WIMPY       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog202;
+procedure NodeDialog203;
+procedure NodeDialog204;
+procedure NodeDialog205;
+procedure NodeDialog206;
+procedure NodeDialog207;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog302;
+procedure NodeDialog400;
+procedure NodeDialog401;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       /*if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end*/
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(1)
+   end
+   if (fixed_param == 2) then begin
+       timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   call NodeAnswer;
+end
+
+procedure NodeSndDialog begin
+   Reply(207)
+   call NodeAnswer;
+end
+
+procedure NodeAnswer begin
+   NAnswer(250,1,NodeDialog300)
+   NAnswer(208,1,NodeDialog200)
+
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON) < qEnd) then begin
+   NAnswer(201,1,NodeDialog100)
+   end
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
+   NAnswer(263,1,NodeDialog401)
+   end
+   if ((map_var(MVAR_UmnikDialog) == 2) and (bitDialog(bit_8) == 0)) then begin
+   NAnswer(254,1,NodeDialog302)
+   end
+   if ((global_var(GVAR_STATUS_FLAGSTAFF_FABER) == -1) and (bitDialog(bit_9) == 0)) then begin
+   NAnswer(260,1,NodeDialog400)
+   end
+
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   if (map_var(MVAR_UmnikDialog) == 0) then begin
+   set_map_var(MVAR_UmnikDialog,1);
+   end
+   Reply(202)
+   NAnswer(203,4,NodeDialog101)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog101 begin
+   bitDialogExp(bit_2,10)
+   Reply(204)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog200 begin
+   if (global_var(GVAR_FLAGSTAFF_RADIO_MARK) == 0) then begin
+      Reply(209)
+      NAnswer(210,3,NodeDialog201)
+      NAnswer(219,3,NodeDialog204)
+   end
+   else begin
+      Reply(258)
+   end
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog201 begin
+   Reply(211)
+   NAnswerSkill(227,3,NodeDialog202,SKILL_REPAIR,20,227,NodeDialog203)
+   NAnswer(219,3,NodeDialog204)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog202 begin
+   bitDialogExp(bit_6,35)
+   Reply(229)
+   NAnswer(219,3,NodeDialog204)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog203 begin
+   Reply(228)
+   NAnswer(219,3,NodeDialog204)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog204 begin
+   bitDialogExp(bit_4,20)
+   Reply(220)
+   if ((map_var(MVAR_RadioSlave) == 0) and (bitDialog(bit_5) == 0)) then begin
+   NAnswer(221,4,NodeDialog205)
+   end
+   NAnswer(210,3,NodeDialog201)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog205 begin
+   Reply(222)
+   NAnswerSkill(223,4,NodeDialog206,SKILL_CONVERSANT,70,223,NodeDialog207)
+   NAnswer(210,3,NodeDialog201)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog206 begin
+   bitDialogExp(bit_5,100)
+   item_add(dude_obj,PID_KEY_FABER_PASSWORD,1)
+   Reply(225)
+   NAnswer(226,1,Node999)
+end
+
+procedure NodeDialog207 begin
+   Reply(224)
+   NAnswer(230,1,Node999)
+end
+
+procedure NodeDialog300 begin
+   Reply(251)
+   NAnswer(252,4,NodeDialog301)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog301 begin
+   bitDialogExp(bit_7,10)
+   Reply(253)
+   NAnswer(205,1,NodeSndDialog)
+   zNAnswer(206,1,Node999)
+end
+
+procedure NodeDialog302 begin
+   set_map_var(MVAR_UmnikDialog,3);
+   bitDialogExp(bit_8,50)
+   Reply(255)
+   zBAnswer(256,1,Node999)
+   NAnswer(257,1,Node999)
+end
+
+procedure NodeDialog400 begin
+   bitDialogExp(bit_9,0)
+   Reply(261)
+   NAnswer(262,1,Node999)
+end
+
+procedure NodeDialog401 begin
+   Reply(264)
+   NAnswer(265,1,Node999)
+end

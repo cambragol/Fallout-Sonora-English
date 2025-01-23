@@ -1,0 +1,856 @@
+#include "..\headers\define.h"
+//--------------------- ОРУЖЕЙНЫЙ МАГАЗИН
+
+#define NAME                            SCRIPT_PCBrtrA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        10                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CITIZEN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      120 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeStopDialog100;
+procedure NodeStopDialog101;
+procedure NodeStopDialog200;
+procedure NodeStopDialog201;
+procedure NodeStopDialog202;
+procedure NodeStopDialog203;
+procedure NodeStopDialog204;
+procedure NodeStopDialog205;
+procedure NodeSndDialog;
+procedure NodeBarter;
+procedure NodeQstCult;
+procedure NodeQstCult2;
+procedure NodeQstCult3;
+procedure NodeQstCult4;
+procedure NodeQstCult5;
+procedure NodeQstCult6;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeBarter100;
+procedure NodeBarter101;
+procedure NodeBarter102;
+procedure NodeBarter103;
+procedure NodeBarter104;
+procedure NodeBarter105;
+procedure NodeBarterNext;
+procedure NodeSkillUp100;
+procedure NodeSkillUp101;
+procedure NodeSkillUp102;
+procedure NodeSkillUp103;
+procedure NodeUpAmmo;
+procedure NodeUpAmmo10;
+procedure NodeUpAmmo11;
+procedure NodeUpAmmo12;
+procedure NodeUpAmmo20;
+procedure NodeUpAmmo21;
+procedure NodeUpAmmo22;
+procedure NodeUpAmmo23;
+procedure NodeUpAmmo24;
+procedure NodeUpAmmo25;
+procedure NodeUpAmmo29;
+procedure NodeUpAmmoFinal;
+procedure NodeUpAmmoFinal2;
+procedure NodeUpAmmoFinal3;
+procedure NodeUp;
+procedure NodeUp10;
+procedure NodeUp11;
+procedure NodeUp12;
+procedure NodeUp13;
+procedure NodeUp14;
+procedure NodeUpPrevFinal;
+procedure NodeUpFinal;
+
+//---------------------
+
+#define LVAR_SkillUp_A                  (8) // обучение стрельбе из легкого оружия
+#define LVAR_SkillUp_B                  (9) // обучение стрельбе из тяжелого оружия
+#define LVAR_SkillUp_C                 (10) // обучение стрельбе из энергооружия
+#define LVAR_MOD_RIFLE                 (11) // мод: установка оптики на винтовку
+#define LVAR_MOD_SMG22                 (12) // мод: установка магазина на ПП 022
+#define LVAR_MOD_CATTLE_PROD           (13) // мод: усиление скотной тыколки
+#define LVAR_MOD_RIFLE_ASSAULT         (14) // мод: установка магазина на автомат 5 мм
+
+variable up_coast;                      // используется для расчета цены
+variable up_amnt;                       // число предметов для апгрейда
+variable up_pid_a;                      // pid исходного предмета
+variable up_pid_b;                      // pid конечного предмета
+variable up_lvar;                       // номер LVAR который будет инкремирован при улучшении предмета
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_WEEK)
+   end
+end
+
+procedure setBarterA begin
+        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 1, 2, 100)
+        check_restock_item(PID_TOOL_FLARE, 2, 5, 100)
+        check_restock_item(PID_W_GRENADE_FRAG, 3, 6, 100)
+        check_restock_item(PID_W_KNUCKLES_BRASS, 1, 5, 100)
+        check_restock_item(PID_W_KNUCKLES_SPIKED, 1, 3, 100)
+        check_restock_item(PID_W_KNUCKLES_THORNS, 1, 1, 100)
+        check_restock_item(PID_W_CLUB, 1, 3, 100)
+        check_restock_item(PID_W_KNIFE, 1, 4, 100)
+        check_restock_item(PID_W_COMBAT_KNIFE, 1, 1, 100)
+        check_restock_item(PID_W_THROWING_KNIFE, 1, 4, 100)
+        check_restock_item(PID_W_SPEAR, 1, 2, 100)
+
+        check_restock_item(PID_W_SMG_22, 1, 1, 100)
+           check_restock_item(PID_AMMO_22_LR, 10, 15, 100)
+        check_restock_item(PID_W_REVOLVER_OLD, 1, 2, 100)
+        check_restock_item(PID_W_REVOLVER_POLICE, 1, 2, 100)
+           check_restock_item(PID_AMMO_44_MAGNUM, 16, 32, 100)
+        check_restock_item(PID_W_PISTOL_10, 1, 2, 100)
+           check_restock_item(PID_AMMO_10_MM, 32, 48, 100)
+        check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
+           check_restock_item(PID_AMMO_308, 12, 24, 100)
+        check_restock_item(PID_W_SHOTGUN_DUBLET, 1, 1, 100)
+           check_restock_item(PID_AMMO_SHOTGUN_SHELLS, 12, 24, 100)
+
+           check_restock_item(PID_AMMO_SIGNAL_A, 6, 10, 100)
+           check_restock_item(PID_AMMO_5_MM, 20, 30, 100) // в пачке 5 патронов
+           //check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 20, 40, 100)
+
+        //- крышки
+        check_restock_many(1200,1500)
+end
+
+procedure setBarterB begin
+        check_restock_item(PID_W_KNUCKLES_PNEUMATIC, 1, 1, 100)
+        check_restock_item(PID_W_GRENADE_PLASMA, 1, 3, 100)
+           check_restock_item(PID_AMMO_SHOTGUN_SHELLS_BULLET, 6, 12, 100)
+
+        check_restock_item(PID_W_SMG_10, 1, 1, 100)
+        check_restock_item(PID_W_PISTOL_50, 1, 1, 100)
+           check_restock_item(PID_AMMO_50_AE, 8, 16, 100)
+        check_restock_item(PID_W_RIFLE_COMBAT, 1, 1, 100)
+        check_restock_item(PID_W_SHOTGUN_COMBAT, 1, 1, 100)
+        check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
+        check_restock_item(PID_W_LASER_PISTOL, 1, 2, 100)
+
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_PNX_BARTER_A,-1);
+   kill_critter_opt
+   kill_critter_box
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-10) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+
+   if ((global_var(GVAR_ADDICT_NUKA_COLA) > 0) or (global_var(GVAR_ADDICT_BUFF_OUT) > 0) or (global_var(GVAR_ADDICT_MENTATS) > 0) or (global_var(GVAR_ADDICT_PSYCHO) > 0)) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else begin
+   dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_20) == 0)) then begin
+   incBarterMod(20);
+   bitDialogExp(bit_20,0)
+   end
+   if ((global_var(GVAR_GAME_END)!=0) and (bitDialog(bit_9) == 0)) then begin
+   item_add(self_obj,PID_W_MICROWAVE_PISTOL,1) // бонус после финала игры
+   bitDialogExp(bit_9,0)
+   end
+
+   if ((bitDialog(bit_8) == 0) and (global_var(GVAR_PHENIX_STATUS_MERCBOSS) < 0)) then begin
+   call NodeStopDialog204;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_3) != 0) and (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd)) then begin
+   call NodeStopDialog100;
+   end
+   else if ((bitDialog(bit_7) == 0) and town_rep_is_vilified) then begin
+   call NodeStopDialog202;
+   end
+   else if ((bitDialog(bit_6) == 0) and town_rep_is_idolized) then begin
+   call NodeStopDialog200;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeStartDialog)
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog100 begin
+   bitDialogZero(bit_3)
+   setBonusReaction(-40)
+   incBarterMod(50);
+   Reply(290)
+   NAnswer(291,1,NodeStopDialog101)
+end
+
+procedure NodeStopDialog101 begin
+   set_map_var(MVAR_PNX_GUNSSHOP_STOP,1);
+   Reply(292)
+   NAnswer(293,1,NodeStartDialog)
+   BAnswer(294,1,Node999)
+   NAnswer(295,1,Node999)
+end
+
+procedure NodeStopDialog200 begin
+   bitDialogExp(bit_6,0)
+   decBarterMod(20);
+   setBonusReaction(20)
+   Reply(280)
+   NAnswer(281,1,NodeStopDialog201)
+end
+
+procedure NodeStopDialog201 begin
+   Reply(282)
+   NAnswer(283,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog202 begin
+   bitDialogExp(bit_7,0)
+   incBarterMod(20);
+   setBonusReaction(-20)
+   Reply(284)
+   NAnswer(285,1,NodeStopDialog203)
+end
+
+procedure NodeStopDialog203 begin
+   Reply(286)
+   NAnswer(287,1,NodeStartDialog)
+   BAnswer(288,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog204 begin
+   bitDialogExp(bit_8,0)
+   Reply(213)
+   NAnswer(214,1,NodeStopDialog205)
+end
+
+procedure NodeStopDialog205 begin
+   Reply(215)
+   NAnswer(216,1,Node999)
+   BAnswer(217,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   //--- Расспросы
+   NAnswer(220,1,NodeAnswer100)
+
+   //--- Раскрытие товара
+   if (get_BarterDopusk == 0) then begin
+      if (bitDialog(bit_5) == 0) then begin
+      NAnswer(230,1,NodeBarter100)
+      end else begin
+      NAnswer(235,1,NodeBarter101)
+      end
+   end
+
+   //--- Услуги
+   NAnswer(350,1,NodeUp)
+
+   //--- Нападение на Последователей
+   if (bitDialog(bit_4) == 0) then begin
+      if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+         if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) > 0) and (global_var(GVAR_PHENIX_QST_CULT_A_BIT) < 10)) then begin
+         NAnswer(400,1,NodeQstCult)
+         end
+      end
+   end
+
+   NAnswer(202,1,NodeBarter)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeBarter begin
+   goBarterMod;
+   Reply(260)
+   NAnswer(261,1,NodeSndDialog)
+   NAnswer(262,1,Node999)
+end
+
+//--- НАПАДЕНИЕ НА ПОСЛЕДОВАТЕЛЕЙ
+
+procedure NodeQstCult begin
+   bitDialogExp(bit_4,0)
+   Reply(401)
+   NAnswer(402,1,NodeQstCult2)
+   BAnswer(405,1,NodeQstCult3)
+end
+
+procedure NodeQstCult2 begin
+   Reply(403)
+   NAnswer(404,1,NodeQstCult4)
+end
+
+procedure NodeQstCult3 begin
+   setBonusReaction(-20)
+   Reply(406)
+   NAnswer(407,1,NodeQstCult4)
+end
+
+procedure NodeQstCult4 begin
+   Reply(408)
+   NAnswer(409,1,NodeQstCult5)
+end
+
+procedure NodeQstCult5 begin
+   Reply(410)
+   BAnswer(411,1,NodeQstCult6)
+   NAnswer(412,1,Node999)
+end
+
+procedure NodeQstCult6 begin
+   setBonusReaction(-10)
+   call Node999;
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
+   NAnswer(226,1,NodeAnswer103)
+   end
+   else begin
+   NAnswer(222,1,NodeAnswer101)
+   end
+   if ((local_var(LVAR_SkillUp_A) == 0) or (local_var(LVAR_SkillUp_B) == 0) or (local_var(LVAR_SkillUp_C) == 0)) then begin
+   NAnswer(300,1,NodeSkillUp100)
+   end
+   NAnswer(212,1,NodeStartDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(224,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,20)
+   Reply(225)
+   NAnswer(212,1,NodeStartDialog)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(227)
+   NAnswer(212,1,NodeStartDialog)
+   NAnswer(211,1,Node999)
+end
+
+//--- РАСКРЫТИЕ ТОВАРА
+
+procedure NodeBarter100 begin
+   Reply(231)
+   NAnswer(232,1,NodeBarter102)
+end
+
+procedure NodeBarter101 begin
+   Reply(236)
+   NAnswer(237,1,NodeBarter102)
+   NAnswer(258,1,NodeStartDialog)
+end
+
+procedure NodeBarter102 begin
+   bitDialogExp(bit_5,0)
+   Reply(233)
+
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswer(243,3,NodeBarterNext)
+   end
+   else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+   zNAnswer(244,1,NodeBarter105)
+   end
+   else if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_17) != 0) then begin
+   NAnswer(259,1,NodeBarterNext)
+   end
+
+   if (global_var(GVAR_TITUL_ARENA_MASTER) > 0) then begin
+   NAnswer(245,1,NodeBarterNext)
+   end
+   else if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   NAnswer(246,1,NodeBarterNext)
+   end
+   else if (global_var(GVAR_PHENIX_STATUS_DIEGO) > 0) then begin
+   NAnswer(247,1,NodeBarterNext)
+   end
+
+   NAnswerSkill(253,3,NodeBarterNext,SKILL_BARTER,70,249,NodeBarter103)
+   NAnswerRep(255,3,NodeBarterNext,30,254,NodeBarter103)
+   NAnswerSlava(256,3,NodeBarter103,-100,257,NodeBarter104)
+
+   NAnswer(239,1,NodeBarter)
+   NAnswer(238,1,Node999)
+end
+
+procedure NodeBarter103 begin
+   Reply(250)
+   NAnswer(251,1,NodeBarter)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeBarter104 begin
+   setBonusReaction(-20)
+   set_REP(-1)
+   call NodeBarterNext;
+end
+
+procedure NodeBarter105 begin
+   bitDialogExp(bit_3,0)
+   call NodeBarterNext;
+end
+
+procedure NodeBarterNext begin
+   call setBarterB;
+   Reply(240)
+   NAnswer(241,1,NodeBarter)
+   NAnswer(242,1,NodeBarter)
+end
+
+//--- ОБУЧЕНИЕ
+
+procedure NodeSkillUp100 begin
+   Reply(301)
+
+   if (local_var(LVAR_SkillUp_A) == 0) then begin
+   NAnswer(302,1,NodeSkillUp101)
+   end
+   if (local_var(LVAR_SkillUp_B) == 0) then begin
+   NAnswer(303,1,NodeSkillUp102)
+   end
+   if (local_var(LVAR_SkillUp_C) == 0) then begin
+   NAnswer(304,1,NodeSkillUp103)
+   end
+   NAnswer(306,1,NodeStartDialog)
+   NAnswer(307,1,Node999)
+end
+
+procedure NodeSkillUp101 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 500) then begin
+      item_remove(dude_obj,PID_BOOTLE_CAPS,500)
+      item_add(self_obj,PID_BOOTLE_CAPS,500)
+      inc_local_var(LVAR_SkillUp_A);
+      PLAY_FADE
+      game_time_advance(ONE_GAME_HOUR*2);
+      if (is_skill_tagged(SKILL_SMALL_GUNS) == true) then begin
+      skill_up(SKILL_SMALL_GUNS,6);
+      end
+      else begin
+      skill_up(SKILL_SMALL_GUNS,5);
+      end
+      call Node999;
+   end
+   else begin
+      Reply(308)
+      NAnswer(309,1,NodeStartDialog)
+   end
+end
+
+procedure NodeSkillUp102 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 1000) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,1000)
+   item_add(self_obj,PID_BOOTLE_CAPS,1000)
+   inc_local_var(LVAR_SkillUp_B);
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR*2);
+   skill_up(SKILL_BIG_GUNS,5);
+   call Node999;
+   end
+   else begin
+   Reply(308)
+   NAnswer(309,1,NodeStartDialog)
+   end
+end
+
+procedure NodeSkillUp103 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 2000) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,2000)
+   item_add(self_obj,PID_BOOTLE_CAPS,2000)
+   inc_local_var(LVAR_SkillUp_C);
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR*2);
+   skill_up(SKILL_ENERGY_WEAPONS,5);
+   call Node999;
+   end
+   else begin
+   Reply(308)
+   NAnswer(309,1,NodeStartDialog)
+   end
+end
+
+/*
+procedure NodeSkillUp104 begin
+   ! Отказ - опция переносится тренеру в трущобах.
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 250) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,250)
+   item_add(self_obj,PID_BOOTLE_CAPS,250)
+   inc_local_var(LVAR_SkillUp_D);
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR*2);
+   skill_up(SKILL_THROWING,5);
+   call Node999;
+   end
+   else begin
+   Reply(308)
+   NAnswer(309,1,NodeStartDialog)
+   end
+end
+*/
+
+//--- УСЛУГИ
+
+procedure NodeUp begin
+   up_coast := 0;
+   up_amnt := 0;
+   up_pid_a := 0;
+   up_pid_b := 0;
+   up_lvar := 0;
+
+   Reply(351)
+   if (local_var(LVAR_MOD_RIFLE) == 0) then begin
+      if (item_amnt(dude_obj,PID_W_RIFLE_HUNTING) > 0) then begin
+      NAnswer(355,1,NodeUp10)
+      end
+   end
+   if (local_var(LVAR_MOD_SMG22) == 0) then begin
+      if (item_amnt(dude_obj,PID_W_SMG_22) > 0) then begin
+      NAnswer(365,1,NodeUp11)
+      end
+   end
+   if (local_var(LVAR_MOD_CATTLE_PROD) == 0) then begin
+      if (item_amnt(dude_obj,PID_W_CATTLE_PROD_A) > 0) then begin
+      NAnswer(368,1,NodeUp12)
+      end
+   end
+   if (local_var(LVAR_MOD_RIFLE_ASSAULT) == 0) then begin
+      if (item_amnt(dude_obj,PID_W_RIFLE_ASSAULT) > 0) then begin
+      NAnswer(371,1,NodeUp13)
+      end
+   end
+   if (item_amnt(dude_obj,PID_W_SIGNAL_PISTOL) > 0) then begin
+      NAnswer(376,1,NodeUp14)
+   end
+   NAnswer(330,1,NodeUpAmmo)
+   NAnswer(352,1,NodeStartDialog)
+end
+
+procedure NodeUp10 begin
+   up_coast := 250;
+   up_pid_a := PID_W_RIFLE_HUNTING;
+   up_pid_b := PID_W_RIFLE_HUNTING_UNERTL;
+   up_lvar := LVAR_MOD_RIFLE;
+   Reply(356)
+   NAnswer(357,1,NodeUpPrevFinal)
+end
+
+procedure NodeUp11 begin
+   up_coast := 250;
+   up_pid_a := PID_W_SMG_22;
+   up_pid_b := PID_W_SMG_22_UPGD;
+   up_lvar := LVAR_MOD_SMG22;
+   Reply(366)
+   NAnswer(357,1,NodeUpPrevFinal)
+end
+
+procedure NodeUp12 begin
+   up_coast := 250;
+   up_pid_a := PID_W_CATTLE_PROD_A;
+   up_pid_b := PID_W_CATTLE_PROD_B;
+   up_lvar := LVAR_MOD_CATTLE_PROD;
+   Reply(369)
+   NAnswer(357,1,NodeUpPrevFinal)
+end
+
+procedure NodeUp13 begin
+   up_coast := 250;
+   up_pid_a := PID_W_RIFLE_ASSAULT;
+   up_pid_b := PID_W_RIFLE_ASSAULT_UPD;
+   up_lvar := LVAR_MOD_RIFLE_ASSAULT;
+   Reply(372)
+   NAnswer(357,1,NodeUpPrevFinal)
+end
+
+procedure NodeUp14 begin
+   up_coast := 120;
+   up_pid_a := PID_W_SIGNAL_PISTOL;
+   up_pid_b := PID_W_SIGNAL_PISTOL_UP;
+   up_lvar := -1;
+   Reply(377)
+   NAnswer(357,1,NodeUpPrevFinal)
+end
+
+procedure NodeUpPrevFinal begin
+   Reply(up_coast+mstr(358))
+   NAnswer(370,1,NodeUpFinal)
+   NAnswer(353,1,NodeStartDialog)
+end
+
+procedure NodeUpFinal begin
+   if ((item_amnt(dude_obj,up_pid_a) < 1) or (item_amnt(dude_obj,PID_BOOTLE_CAPS) < up_coast)) then begin
+      Reply(360)
+      NAnswer(361,1,NodeStartDialog)
+   end
+   else begin
+      if (up_lvar>0) then begin
+      inc_local_var(up_lvar);
+      end
+      item_remove(dude_obj,up_pid_a,1)
+      item_add(dude_obj,up_pid_b,1)
+      item_remove(dude_obj,PID_BOOTLE_CAPS,up_coast)
+      item_add(self_obj,PID_BOOTLE_CAPS,up_coast)
+      play_sfx("WRE1XXX1");
+
+      Reply(362)
+      NAnswer(363,1,NodeStartDialog)
+      NAnswer(364,1,Node999)
+   end
+end
+
+procedure NodeUpAmmo begin
+   up_coast := 0;
+   up_amnt := 0;
+   up_pid_a := 0;
+   up_pid_b := 0;
+   up_lvar := 0;
+
+   Reply(331)
+
+   NAnswer(332,1,NodeUpAmmo10)
+   NAnswer(333,1,NodeUpAmmo11)
+   NAnswer(334,1,NodeUpAmmo12)
+
+   NAnswer(339,1,NodeStartDialog)
+end
+
+#define NodeAmmoAmnt(msg,amnt,node)      if ((item_amnt(dude_obj,up_pid_a) >=amnt) and (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=(up_coast*amnt))) then begin \
+                                         NAnswer(msg,1,node) \
+                                         end \
+
+procedure NodeUpAmmo10 begin
+   up_coast := 1;
+   up_amnt := 1;
+   up_pid_a := PID_AMMO_SIGNAL_A;
+   up_pid_b := PID_AMMO_SIGNAL_B;
+
+   Reply(335)
+
+   if (item_amnt(dude_obj,up_pid_a) >0) then begin
+   NodeAmmoAmnt(345,1,NodeUpAmmo21)
+   NodeAmmoAmnt(346,2,NodeUpAmmo22)
+   NodeAmmoAmnt(347,3,NodeUpAmmo23)
+   NodeAmmoAmnt(348,4,NodeUpAmmo24)
+   NodeAmmoAmnt(349,5,NodeUpAmmo25)
+   NodeAmmoAmnt(374,10,NodeUpAmmo20)
+   NodeAmmoAmnt(375,item_amnt(dude_obj,up_pid_a),NodeUpAmmo29)
+   end
+
+   NAnswer(337,1,NodeStartDialog)
+end
+
+procedure NodeUpAmmo11 begin
+   up_coast := 2;
+   up_amnt := 1;
+   up_pid_a := PID_AMMO_SIGNAL_B;
+   up_pid_b := PID_AMMO_SIGNAL_C;
+
+   Reply(336)
+
+   if (item_amnt(dude_obj,up_pid_a) >0) then begin
+   NodeAmmoAmnt(345,1,NodeUpAmmo21)
+   NodeAmmoAmnt(346,2,NodeUpAmmo22)
+   NodeAmmoAmnt(347,3,NodeUpAmmo23)
+   NodeAmmoAmnt(348,4,NodeUpAmmo24)
+   NodeAmmoAmnt(349,5,NodeUpAmmo25)
+   NodeAmmoAmnt(374,10,NodeUpAmmo20)
+   NodeAmmoAmnt(375,item_amnt(dude_obj,up_pid_a),NodeUpAmmo29)
+   end
+
+   NAnswer(337,1,NodeStartDialog)
+end
+
+procedure NodeUpAmmo12 begin
+   up_coast := 2;
+   up_amnt := 1;
+   up_pid_a := PID_AMMO_SHOTGUN_SHELLS;
+   up_pid_b := PID_AMMO_SHOTGUN_SHELLS_BULLET;
+
+   Reply(336)
+
+   if (item_amnt(dude_obj,up_pid_a) >0) then begin
+   NodeAmmoAmnt(345,1,NodeUpAmmo21)
+   NodeAmmoAmnt(346,2,NodeUpAmmo22)
+   NodeAmmoAmnt(347,3,NodeUpAmmo23)
+   NodeAmmoAmnt(348,4,NodeUpAmmo24)
+   NodeAmmoAmnt(349,5,NodeUpAmmo25)
+   NodeAmmoAmnt(374,10,NodeUpAmmo20)
+   NodeAmmoAmnt(375,item_amnt(dude_obj,up_pid_a),NodeUpAmmo29)
+   end
+
+   NAnswer(337,1,NodeStartDialog)
+end
+
+procedure NodeUpAmmo20 begin
+   up_amnt := 10;
+   call NodeUpAmmoFinal;
+end
+procedure NodeUpAmmo21 begin
+   up_amnt := 1;
+   call NodeUpAmmoFinal;
+end
+procedure NodeUpAmmo22 begin
+   up_amnt := 2;
+   call NodeUpAmmoFinal;
+end
+procedure NodeUpAmmo23 begin
+   up_amnt := 3;
+   call NodeUpAmmoFinal;
+end
+procedure NodeUpAmmo24 begin
+   up_amnt := 4;
+   call NodeUpAmmoFinal;
+end
+procedure NodeUpAmmo25 begin
+   up_amnt := 5;
+   call NodeUpAmmoFinal;
+end
+procedure NodeUpAmmo29 begin
+   up_amnt := item_amnt(dude_obj,up_pid_a);
+   call NodeUpAmmoFinal;
+end
+
+procedure NodeUpAmmoFinal begin
+   if ((item_amnt(dude_obj,up_pid_a) < up_amnt) or (item_amnt(dude_obj,PID_BOOTLE_CAPS) < (up_coast*up_amnt))) then begin
+      call NodeUpAmmoFinal3;
+   end
+   else begin
+      item_remove(dude_obj,up_pid_a,up_amnt)
+      item_add(dude_obj,up_pid_b,up_amnt)
+      item_remove(dude_obj,PID_BOOTLE_CAPS,(up_coast*up_amnt))
+      item_add(self_obj,PID_BOOTLE_CAPS,(up_coast*up_amnt))
+      play_sfx("WRE1XXX1");
+      call NodeUpAmmoFinal2;
+   end
+end
+
+procedure NodeUpAmmoFinal2 begin
+   Reply(340)
+   NAnswer(341,1,NodeUpAmmo)
+   NAnswer(342,1,NodeStartDialog)
+   NAnswer(343,1,Node999)
+end
+
+procedure NodeUpAmmoFinal3 begin
+   Reply(344)
+   NAnswer(342,1,NodeStartDialog)
+   NAnswer(343,1,Node999)
+end

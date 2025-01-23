@@ -1,0 +1,22 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSFonars
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   obj_set_light_level(self_obj, 0, 0);
+   if ((getQuest(GVAR_DAYGLOW_MAIN_A) >= qEnd) or (global_var(GVAR_DAYGLOW_TURBINA) >= 5)) then begin
+   obj_set_light_level(self_obj, 100, 8);
+   end
+end

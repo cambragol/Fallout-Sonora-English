@@ -1,0 +1,39 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSBootl
+
+procedure start;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_TRAPS) or (action_being_used == SKILL_REPAIR) or (action_being_used == SKILL_SCIENCE)) then begin
+      script_overrides;
+      //play_sfx("WOM1XXX1");
+
+      item_add(dude_obj,PID_BOOTLE_CAPS,random(1,dude_luck))
+
+      if ((cur_map_index == MAP_PHOENIX_BNDCS) and (self_elevation == 2)) then begin
+      item_add(dude_obj,PID_W_GRENADE_MOLOTOV,1)
+      display_mstr(102);
+      end
+      else if (cur_map_index == MAP_OIL_PLATFORMROOMS) then begin
+      item_add(dude_obj,PID_M_NUKA_COLA,1)
+      display_mstr(101);
+      end
+      else begin
+      display_mstr(100);
+      end
+
+      set_obj_visibility(self_obj, 1);
+      destroy_object(self_obj);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

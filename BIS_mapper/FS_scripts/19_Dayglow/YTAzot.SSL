@@ -1,0 +1,134 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_ZTMin
+#define TRAP_ACTIV              33556734
+#define TRAP_DSTR               33556733
+#define TRAP_SCRIPT             SCRIPT_YTAzot
+
+procedure start;
+procedure map_enter_p_proc;
+procedure spatial_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure step_proc;
+procedure trap_destroy;
+procedure trap_install;
+procedure trap_vis;
+procedure trap_invis;
+
+variable critter_source;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run == true) then begin
+      create_object_sid(TRAP_DSTR,self_tile,self_elevation,TRAP_SCRIPT);
+      end
+   end
+end
+
+procedure spatial_p_proc begin
+   critter_source := source_obj;
+
+   //--- Прохождение криттера по ловушке:
+   //if (source_tile == self_tile) then begin
+      if trapObj(TRAP_ACTIV) then begin
+         if (critter_source == dude_obj) then begin
+         end
+         else begin
+         call step_proc;
+         end
+      end
+   //end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (self_PID == TRAP_ACTIV) then begin
+   display_mstr(120);
+   end
+   else begin
+   display_mstr(124);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+
+      if trapObj(TRAP_ACTIV) then begin
+         display_mstr(116);
+         call trap_destroy;
+      end
+      else if trapObj(TRAP_DSTR) then begin
+         display_mstr(118);
+         call trap_install;
+      end
+      else begin
+         display_mstr(119);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      call trap_destroy;
+   end
+end
+
+procedure step_proc begin
+   //--- Обновление ловушки
+   call trap_invis;
+   play_sfx("WHO1XXX1");
+
+   //--- Травмирование
+   critter_dmg(critter_source, random(50,75), DMG_plasma);
+
+   //--- Отчет
+   display_msg(obj_name(critter_source)+mstr(112));
+   destroy_object(self_obj);
+end
+
+procedure trap_destroy begin
+   if trapObj(TRAP_DSTR) then begin
+   end
+   else begin
+   create_object_sid(TRAP_DSTR,self_tile,self_elevation,TRAP_SCRIPT);
+   end
+   call trap_invis;
+   //destroy_object(self_obj);
+end
+
+procedure trap_install begin
+   set_obj_visibility(self_obj, 1);
+   if trapObj(TRAP_ACTIV) then begin
+   end
+   else begin
+   create_object_sid(TRAP_ACTIV,self_tile,self_elevation,TRAP_SCRIPT);
+   end
+   destroy_object(self_obj);
+end
+
+procedure trap_vis begin
+   if (trapObj(TRAP_ACTIV) or trapObj(TRAP_DSTR)) then begin
+   end
+   else begin
+   create_object_sid(TRAP_ACTIV,self_tile,self_elevation,TRAP_SCRIPT);
+   end
+end
+
+procedure trap_invis begin
+   if trapObj(TRAP_ACTIV) then begin
+   destroy_object(tile_contains_pid_obj(self_tile, self_elevation, TRAP_ACTIV));
+   end
+end

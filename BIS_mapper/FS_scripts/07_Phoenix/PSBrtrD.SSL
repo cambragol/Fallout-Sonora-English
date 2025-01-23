@@ -1,0 +1,25 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_PSBrtrD
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_var(MVAR_PNX_BARTER_D) < 0) then begin
+       set_obj_visibility(self_obj, 1);
+       create_object_sid(self_PID+1,self_tile,0,-1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

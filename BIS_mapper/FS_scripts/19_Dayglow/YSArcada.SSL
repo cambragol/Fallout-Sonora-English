@@ -1,0 +1,1031 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSArcada
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure set_LVAR_CHECK_GAMER;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialogStart;
+procedure NodeDialog;
+procedure NodeDialog999;
+procedure NodeDialogInfo;
+procedure NodeDialogInfo2;
+procedure NodeGameStart;
+procedure NodeGameHardcoreOn;
+procedure NodeGameHardcoreOn2;
+procedure NodeGameHardcoreOn3;
+procedure NodeGameHardcoreOff;
+procedure NodeGameStep;
+procedure NodeGameA;
+procedure NodeGameW;
+procedure NodeGameD;
+procedure NodeGameBomb;
+procedure NodeGameBombNot;
+procedure NodeGameBombBUM;
+procedure NodeGameBombX;
+procedure NodeGameExit;
+procedure NodeGameStop;
+procedure NodeGameOver;
+procedure NodeGameCost;
+procedure NodeGameCost1;
+procedure NodeGameCost2;
+procedure NodeGameCost3;
+procedure NodeGameCost4;
+procedure NodeGameNext;
+procedure NodeSetLineUp;
+procedure NodeSetLineA;
+procedure NodeSetLineB;
+procedure NodeSetLineC;
+procedure NodeSetLineX;
+procedure NodeSetLineAzero;
+procedure NodeSetLineBzero;
+procedure NodeSetLineCzero;
+procedure NodeGameVictory;
+procedure NodeGameVictory2;
+procedure NodeGameVictory01;
+procedure NodeGameVictory02;
+procedure NodeGameVictory03;
+procedure NodeGameVictory04;
+procedure NodeGameVictory05;
+procedure NodeGameVictory06;
+procedure NodeGameVictory07;
+procedure NodeGameVictory08;
+procedure NodeGameVictoryEnd;
+
+#define LVAR_CHECK_GAMER            (1)
+#define LVAR_CHECK_DUDE             (2)
+#define LVAR_VICTORY                (3)
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       if (combat_is_initialized == false) then begin
+          if (local_var(LVAR_VICTORY) == 0) then begin
+          item_remove(dude_obj, objUsedPid, 1)
+          end
+          call set_LVAR_CHECK_GAMER;
+          call talk_p_proc;
+       end
+       else begin
+          g_display_mstr(551);
+       end
+   end
+end
+
+procedure set_LVAR_CHECK_GAMER begin
+   if (local_var(LVAR_CHECK_GAMER) == 0) then begin
+   set_local_var(LVAR_CHECK_GAMER, 1000-(dude_luck*20));
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   //display_mstr(101);
+   if (local_var(LVAR_VICTORY) == 0) then begin
+      call set_LVAR_CHECK_GAMER;
+      if (local_var(LVAR_CHECK_DUDE) >= local_var(LVAR_CHECK_GAMER)) then begin
+      display_msg(mstr(102)+local_var(LVAR_CHECK_DUDE)+mstr(104)+dude_name+mstr(105));
+      end
+      else begin
+      display_msg(mstr(102)+local_var(LVAR_CHECK_GAMER)+mstr(103));
+      end
+   end
+   else begin
+      add_timer_event(self_obj,2,1);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_MANY) then begin
+       script_overrides;
+       add_timer_event(self_obj,2,1);
+   end
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialogStart)
+end
+
+variable gameExp;  // заработанные очки
+variable gameStep; // Текущий шаг с начала игры
+variable gameLine; // Текущая линия полёта, их всего 3.
+variable gameLive; // число жизней
+variable gameBomb; // число зарядов
+variable gameBombX; // возможность супервыстрела, очищающего весь уровень
+variable gameHardcor; // режим: 0 обычный, 1 сложный
+variable gameHardcorVisLine; // право осмотреть пути до следующего хода
+
+variable gameA01;
+variable gameA02;
+variable gameA03;
+variable gameA04;
+variable gameA05;
+variable gameA06;
+variable gameA07;
+variable gameA08;
+variable gameA09;
+variable gameA10;
+variable gameA11;
+
+variable gameB01;
+variable gameB02;
+variable gameB03;
+variable gameB04;
+variable gameB05;
+variable gameB06;
+variable gameB07;
+variable gameB08;
+variable gameB09;
+variable gameB10;
+variable gameB11;
+
+variable gameC01;
+variable gameC02;
+variable gameC03;
+variable gameC04;
+variable gameC05;
+variable gameC06;
+variable gameC07;
+variable gameC08;
+variable gameC09;
+variable gameC10;
+variable gameC11;
+
+procedure Node999 begin
+   if (local_var(LVAR_CHECK_DUDE) < gameExp) then begin
+      set_local_var(LVAR_CHECK_DUDE,gameExp);
+   end
+end
+
+procedure NodeDialogStart begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   gameStep := 0;
+   gameExp := 0;
+   gameLine := 2;
+   gameLive := 3;
+   if (gameHardcor > 0) then begin
+   gameLive *= 2;
+   end
+   gameBomb := 3;
+   if (gameHardcor > 0) then begin
+   gameBomb *= 2;
+   end
+   gameBombX := 0;
+   gameHardcorVisLine := 0;
+   call NodeSetLineAzero;
+   call NodeSetLineBzero;
+   call NodeSetLineCzero;
+
+   Reply(200)
+   NAnswer(201,0,NodeGameStart)
+   if (local_var(LVAR_VICTORY) > 0) then begin
+      if (gameHardcor == 0) then begin
+      NAnswer(273,0,NodeGameHardcoreOn)
+      end
+      else begin
+      NAnswer(274,0,NodeGameHardcoreOff)
+      end
+   end
+   NAnswer(202,0,NodeDialogInfo)
+   if (local_var(LVAR_VICTORY) == 0) then begin
+   NAnswer(203,0,NodeDialog999)
+   end
+   else begin
+   NAnswer(204,0,NodeDialog999)
+   end
+end
+
+procedure NodeGameHardcoreOn begin
+   gameHardcor := 1;
+   Reply(283)
+   NAnswer(284,0,NodeGameHardcoreOn2)
+   NAnswer(285,0,NodeDialog)
+end
+
+procedure NodeGameHardcoreOn2 begin
+   Reply(286)
+   NAnswer(284,0,NodeGameHardcoreOn3)
+   NAnswer(285,0,NodeDialog)
+end
+
+procedure NodeGameHardcoreOn3 begin
+   Reply(287)
+   NAnswer(285,0,NodeDialog)
+end
+
+procedure NodeGameHardcoreOff begin
+   gameHardcor := 0;
+   call NodeDialog;
+end
+
+procedure NodeDialog999 begin
+   item_add(dude_obj,PID_MANY,1)
+   call Node999;
+end
+
+procedure NodeDialogInfo begin
+   Reply(mstr(210)+mstr(220)+mstr(211)+mstr(221)+mstr(212))
+   NAnswer(219,0,NodeDialogInfo2)
+end
+
+procedure NodeDialogInfo2 begin
+   Reply(mstr(214)+mstr(222)+mstr(215)+mstr(223)+mstr(216)+mstr(225)+mstr(217))
+   if (gameStep == 0) then begin
+   NAnswer(218,0,NodeDialog)
+   end
+   else begin
+   NAnswer(218,0,NodeGameStop)
+   end
+end
+
+procedure NodeGameStart begin
+   call NodeGameStep;
+end
+
+procedure NodeGameStep begin
+
+   if (gameLine == 3) then begin
+      if (gameHardcor>0) then begin
+      Reply(mstr(228)+gameExp+mstr(226)+mstr(220)+mstr(gameC01)+mstr(gameC02)+mstr(gameC03)+mstr(gameC04)+mstr(gameC05)+mstr(gameC06)+mstr(gameC07)+mstr(gameC08)+mstr(gameC09)+mstr(gameC10)+mstr(gameC11))
+      end
+      else begin
+      Reply(mstr(228)+gameExp+mstr(226)+mstr(220)+mstr(gameC01)+mstr(gameC02)+mstr(gameC03)+mstr(gameC04)+mstr(gameC05)+mstr(gameC06)+mstr(gameC07)+mstr(gameC08)+mstr(gameC09))
+      end
+   end
+   else if (gameLine == 2) then begin
+      if (gameHardcor>0) then begin
+      Reply(mstr(228)+gameExp+mstr(226)+mstr(220)+mstr(gameB01)+mstr(gameB02)+mstr(gameB03)+mstr(gameB04)+mstr(gameB05)+mstr(gameB06)+mstr(gameB07)+mstr(gameB08)+mstr(gameB09)+mstr(gameB10)+mstr(gameB11))
+      end
+      else begin
+      Reply(mstr(228)+gameExp+mstr(226)+mstr(220)+mstr(gameB01)+mstr(gameB02)+mstr(gameB03)+mstr(gameB04)+mstr(gameB05)+mstr(gameB06)+mstr(gameB07)+mstr(gameB08)+mstr(gameB09))
+      end
+   end
+   else begin
+      if (gameHardcor>0) then begin
+      Reply(mstr(228)+gameExp+mstr(226)+mstr(220)+mstr(gameA01)+mstr(gameA02)+mstr(gameA03)+mstr(gameA04)+mstr(gameA05)+mstr(gameA06)+mstr(gameA07)+mstr(gameA08)+mstr(gameA09)+mstr(gameA10)+mstr(gameA11))
+      end
+      else begin
+      Reply(mstr(228)+gameExp+mstr(226)+mstr(220)+mstr(gameA01)+mstr(gameA02)+mstr(gameA03)+mstr(gameA04)+mstr(gameA05)+mstr(gameA06)+mstr(gameA07)+mstr(gameA08)+mstr(gameA09))
+      end
+   end
+
+   if (gameLine > 1) then begin
+   NAnswer(230,0,NodeGameA)
+   end else begin
+   NAnswer(233,0,NodeGameStep)
+   end
+
+   NAnswer(231,0,NodeGameW)
+
+   if (gameLine < 3) then begin
+   NAnswer(232,0,NodeGameD)
+   end else begin
+   NAnswer(234,0,NodeGameStep)
+   end
+
+   if (gameBombX > 0) then begin
+      NAnswer(237,0,NodeGameBombX)
+   end
+   else if (gameBomb > 0) then begin
+      NAnswer(mstr(235)+gameBomb+mstr(238),0,NodeGameBomb)
+      if (gameHardcor > 0) then begin
+      NAnswer(mstr(239)+gameBomb+mstr(238),0,NodeGameBombBUM)
+      end
+   end
+   else begin
+      NAnswer(236,0,NodeGameBombNot)
+      if (gameHardcor > 0) then begin
+      NAnswer(249,0,NodeGameBombNot)
+      end
+   end
+
+   if (gameHardcor > 0) then begin
+      NAnswer(290,0,NodeGameCost)
+   end
+
+   NAnswer(240,0,NodeGameStop)
+end
+
+procedure NodeGameA begin
+   gameLine -= 1;
+   if ((gameHardcor > 0) and (gameHardcorVisLine <= 0)) then begin
+   call NodeGameNext;
+   end
+   else begin
+   call NodeGameStep;
+   end
+end
+
+procedure NodeGameW begin
+   call NodeGameNext;
+end
+
+procedure NodeGameD begin
+   gameLine += 1;
+   if ((gameHardcor > 0) and (gameHardcorVisLine <= 0)) then begin
+   call NodeGameNext;
+   end
+   else begin
+   call NodeGameStep;
+   end
+end
+
+procedure NodeGameBomb begin
+   if (gameLine == 1) then begin
+           if (gameA01 != 224) then begin
+      gameA01 := 224;
+      end
+      else if (gameA02 != 224) then begin
+      gameA02 := 224;
+      end
+      else if (gameA03 != 224) then begin
+      gameA03 := 224;
+      end
+      else if (gameA04 != 224) then begin
+      gameA04 := 224;
+      end
+      else if (gameA05 != 224) then begin
+      gameA05 := 224;
+      end
+      else if (gameA06 != 224) then begin
+      gameA06 := 224;
+      end
+      else if (gameA07 != 224) then begin
+      gameA07 := 224;
+      end
+      else if (gameA08 != 224) then begin
+      gameA08 := 224;
+      end
+      else if (gameA09 != 224) then begin
+      gameA09 := 224;
+      end
+      else if (gameA10 != 224) then begin
+      gameA10 := 224;
+      end
+      else if (gameA11 != 224) then begin
+      gameA11 := 224;
+      end
+   end
+   if (gameLine == 2) then begin
+           if (gameB01 != 224) then begin
+      gameB01 := 224;
+      end
+      else if (gameB02 != 224) then begin
+      gameB02 := 224;
+      end
+      else if (gameB03 != 224) then begin
+      gameB03 := 224;
+      end
+      else if (gameB04 != 224) then begin
+      gameB04 := 224;
+      end
+      else if (gameB05 != 224) then begin
+      gameB05 := 224;
+      end
+      else if (gameB06 != 224) then begin
+      gameB06 := 224;
+      end
+      else if (gameB07 != 224) then begin
+      gameB07 := 224;
+      end
+      else if (gameB08 != 224) then begin
+      gameB08 := 224;
+      end
+      else if (gameB09 != 224) then begin
+      gameB09 := 224;
+      end
+      else if (gameB10 != 224) then begin
+      gameB10 := 224;
+      end
+      else if (gameB11 != 224) then begin
+      gameB11 := 224;
+      end
+   end
+   if (gameLine == 3) then begin
+           if (gameC01 != 224) then begin
+      gameC01 := 224;
+      end
+      else if (gameC02 != 224) then begin
+      gameC02 := 224;
+      end
+      else if (gameC03 != 224) then begin
+      gameC03 := 224;
+      end
+      else if (gameC04 != 224) then begin
+      gameC04 := 224;
+      end
+      else if (gameC05 != 224) then begin
+      gameC05 := 224;
+      end
+      else if (gameC06 != 224) then begin
+      gameC06 := 224;
+      end
+      else if (gameC07 != 224) then begin
+      gameC07 := 224;
+      end
+      else if (gameC08 != 224) then begin
+      gameC08 := 224;
+      end
+      else if (gameC09 != 224) then begin
+      gameC09 := 224;
+      end
+      else if (gameC10 != 224) then begin
+      gameC10 := 224;
+      end
+      else if (gameC11 != 224) then begin
+      gameC11 := 224;
+      end
+   end
+
+   gameBomb -= 1;
+   play_sfx("WAS1XXX1");
+   call NodeGameStep;
+end
+
+procedure NodeGameBombNot begin
+   play_sfx("WOY1XXX1");
+   call NodeGameStep;
+end
+
+procedure NodeGameBombBUM begin
+   if (gameLine == 1) then begin
+           if (gameA01 != 224) then begin
+      gameA01 := 224;
+      gameB01 := 224;
+      gameC01 := 224;
+      end
+      else if (gameA02 != 224) then begin
+      gameA02 := 224;
+      gameB02 := 224;
+      gameC02 := 224;
+      end
+      else if (gameA03 != 224) then begin
+      gameA03 := 224;
+      gameB03 := 224;
+      gameC03 := 224;
+      end
+      else if (gameA04 != 224) then begin
+      gameA04 := 224;
+      gameB04 := 224;
+      gameC04 := 224;
+      end
+      else if (gameA05 != 224) then begin
+      gameA05 := 224;
+      gameB05 := 224;
+      gameC05 := 224;
+      end
+      else if (gameA06 != 224) then begin
+      gameA06 := 224;
+      gameB06 := 224;
+      gameC06 := 224;
+      end
+      else if (gameA07 != 224) then begin
+      gameA07 := 224;
+      gameB07 := 224;
+      gameC07 := 224;
+      end
+      else if (gameA08 != 224) then begin
+      gameA08 := 224;
+      gameB08 := 224;
+      gameC08 := 224;
+      end
+      else if (gameA09 != 224) then begin
+      gameA09 := 224;
+      gameB09 := 224;
+      gameC09 := 224;
+      end
+      else if (gameA10 != 224) then begin
+      gameA10 := 224;
+      gameB10 := 224;
+      gameC10 := 224;
+      end
+      else if (gameA11 != 224) then begin
+      gameA11 := 224;
+      gameB11 := 224;
+      gameC11 := 224;
+      end
+   end
+   if (gameLine == 2) then begin
+           if (gameB01 != 224) then begin
+      gameA01 := 224;
+      gameB01 := 224;
+      gameC01 := 224;
+      end
+      else if (gameB02 != 224) then begin
+      gameA02 := 224;
+      gameB02 := 224;
+      gameC02 := 224;
+      end
+      else if (gameB03 != 224) then begin
+      gameA03 := 224;
+      gameB03 := 224;
+      gameC03 := 224;
+      end
+      else if (gameB04 != 224) then begin
+      gameA04 := 224;
+      gameB04 := 224;
+      gameC04 := 224;
+      end
+      else if (gameB05 != 224) then begin
+      gameA05 := 224;
+      gameB05 := 224;
+      gameC05 := 224;
+      end
+      else if (gameB06 != 224) then begin
+      gameA06 := 224;
+      gameB06 := 224;
+      gameC06 := 224;
+      end
+      else if (gameB07 != 224) then begin
+      gameA07 := 224;
+      gameB07 := 224;
+      gameC07 := 224;
+      end
+      else if (gameB08 != 224) then begin
+      gameA08 := 224;
+      gameB08 := 224;
+      gameC08 := 224;
+      end
+      else if (gameB09 != 224) then begin
+      gameA09 := 224;
+      gameB09 := 224;
+      gameC09 := 224;
+      end
+      else if (gameB10 != 224) then begin
+      gameA10 := 224;
+      gameB10 := 224;
+      gameC10 := 224;
+      end
+      else if (gameB11 != 224) then begin
+      gameA11 := 224;
+      gameB11 := 224;
+      gameC11 := 224;
+      end
+   end
+   if (gameLine == 3) then begin
+           if (gameC01 != 224) then begin
+      gameA01 := 224;
+      gameB01 := 224;
+      gameC01 := 224;
+      end
+      else if (gameC02 != 224) then begin
+      gameA02 := 224;
+      gameB02 := 224;
+      gameC02 := 224;
+      end
+      else if (gameC03 != 224) then begin
+      gameA03 := 224;
+      gameB03 := 224;
+      gameC03 := 224;
+      end
+      else if (gameC04 != 224) then begin
+      gameA04 := 224;
+      gameB04 := 224;
+      gameC04 := 224;
+      end
+      else if (gameC05 != 224) then begin
+      gameA05 := 224;
+      gameB05 := 224;
+      gameC05 := 224;
+      end
+      else if (gameC06 != 224) then begin
+      gameA06 := 224;
+      gameB06 := 224;
+      gameC06 := 224;
+      end
+      else if (gameC07 != 224) then begin
+      gameA07 := 224;
+      gameB07 := 224;
+      gameC07 := 224;
+      end
+      else if (gameC08 != 224) then begin
+      gameA08 := 224;
+      gameB08 := 224;
+      gameC08 := 224;
+      end
+      else if (gameC09 != 224) then begin
+      gameA09 := 224;
+      gameB09 := 224;
+      gameC09 := 224;
+      end
+      else if (gameC10 != 224) then begin
+      gameA10 := 224;
+      gameB10 := 224;
+      gameC10 := 224;
+      end
+      else if (gameC11 != 224) then begin
+      gameA11 := 224;
+      gameB11 := 224;
+      gameC11 := 224;
+      end
+   end
+
+   gameBomb -= 1;
+   play_sfx("WAS1XXX1");
+   call NodeGameStep;
+end
+
+procedure NodeGameBombX begin
+   if (gameLine == 3) then begin
+   call NodeSetLineCzero;
+   end
+   if (gameLine == 2) then begin
+   call NodeSetLineBzero;
+   end
+   if (gameLine == 1) then begin
+   call NodeSetLineAzero;
+   end
+   play_sfx("WAS1XXX1");
+   gameBombX -= 1;
+   call NodeGameStep;
+end
+
+#define coast01   30
+#define coast02   100
+#define coast03   100
+#define coast04   5
+
+procedure NodeGameCost begin
+   Reply(mstr(291)+gameExp+mstr(292))
+   NAnswer(mstr(294)+coast01+mstr(297),0,NodeGameCost1)
+   NAnswer(mstr(295)+coast02+mstr(297),0,NodeGameCost2)
+   NAnswer(mstr(296)+coast03+mstr(297),0,NodeGameCost3)
+   NAnswer(mstr(298)+coast04+mstr(297),0,NodeGameCost4)
+   NAnswer(293,0,NodeGameStep)
+end
+
+procedure NodeGameCost1 begin
+   if (gameExp >= coast01) then begin
+   gameBomb += 1;
+   gameExp -= coast01;
+   end
+   call NodeGameCost;
+end
+
+procedure NodeGameCost2 begin
+   if (gameExp >= coast02) then begin
+   gameBombX += 1;
+   gameExp -= coast02;
+   end
+   call NodeGameCost;
+end
+
+procedure NodeGameCost3 begin
+   if (gameExp >= coast03) then begin
+   gameLive += 1;
+   gameExp -= coast03;
+   end
+   call NodeGameCost;
+end
+
+procedure NodeGameCost4 begin
+   if (gameExp >= coast04) then begin
+   gameHardcorVisLine += 1;
+   gameExp -= coast04;
+   end
+   call NodeGameCost;
+end
+
+procedure NodeGameNext begin
+   gameStep += 1;
+   if (gameHardcor > 0) then begin
+   gameExp += 1;
+   end
+   if (gameHardcorVisLine > 0) then begin
+   gameHardcorVisLine -= 1;
+   end
+   call NodeSetLineA;
+   call NodeSetLineB;
+   call NodeSetLineC;
+
+   if (gameLive <= 0) then begin
+   call NodeGameOver;
+   end
+   /*else if ((local_var(LVAR_CHECK_GAMER) < 0) and (gameExp >= local_var(LVAR_CHECK_DUDE))) then begin
+   call NodeGameVictory3;
+   end*/
+   else if ((local_var(LVAR_VICTORY) == 0) and (gameExp >= local_var(LVAR_CHECK_GAMER))) then begin
+   call NodeGameVictory;
+   end
+   else begin
+   call NodeGameStep;
+   end
+end
+
+procedure NodeGameStop begin
+   Reply(mstr(241)+gameLive+mstr(242)+gameBomb+mstr(243)+gameExp+mstr(244)+local_var(LVAR_CHECK_DUDE)+mstr(245))
+   NAnswer(202,0,NodeDialogInfo)
+   NAnswer(250,0,NodeGameStep)
+   NAnswer(251,0,NodeGameExit)
+end
+
+procedure NodeGameExit begin
+   Reply(mstr(252)+gameExp+mstr(253))
+   NAnswer(254,0,NodeGameStep)
+   NAnswer(255,0,Node999)
+end
+
+procedure NodeGameOver begin
+   Reply(256)
+   NAnswer(257,0,Node999)
+   NAnswer(258,0,Node999)
+end
+
+procedure NodeSetLineAzero begin
+   gameA01 := 224;
+   gameA02 := 224;
+   gameA03 := 224;
+   gameA04 := 224;
+   gameA05 := 224;
+   gameA06 := 224;
+   gameA07 := 224;
+   gameA08 := 224;
+   gameA09 := 224;
+   gameA10 := 224;
+   gameA11 := 224;
+end
+
+procedure NodeSetLineBzero begin
+   gameB01 := 224;
+   gameB02 := 224;
+   gameB03 := 224;
+   gameB04 := 224;
+   gameB05 := 224;
+   gameB06 := 224;
+   gameB07 := 224;
+   gameB08 := 224;
+   gameB09 := 224;
+   gameB10 := 224;
+   gameB11 := 224;
+end
+
+procedure NodeSetLineCzero begin
+   gameC01 := 224;
+   gameC02 := 224;
+   gameC03 := 224;
+   gameC04 := 224;
+   gameC05 := 224;
+   gameC06 := 224;
+   gameC07 := 224;
+   gameC08 := 224;
+   gameC09 := 224;
+   gameC10 := 224;
+   gameC11 := 224;
+end
+
+#define SetLine(var)       if (var == 221) then begin \
+                           gameLive -= 1; \
+                           play_sfx("IISXXXX1"); \
+                           end \
+                           if (var == 222) then begin \
+                           gameExp += random(10,25); \
+                           play_sfx("ICSXXXX1"); \
+                           end \
+                           if (var == 223) then begin \
+                           gameBomb += 1; \
+                           play_sfx("ICSXXXX1"); \
+                           end \
+                           if (var == 225) then begin \
+                           gameLive += 1; \
+                           play_sfx("IACCUXX1"); \
+                           end \
+                           if (var == 227) then begin \
+                           gameBombX := 1; \
+                           play_sfx("ICSXXXX1"); \
+                           end \
+// (var == 221) SKEYBUZ1
+
+variable gameX11; // временная переменная для передачи данных, чтобы сократить объем кода
+
+procedure NodeSetLineUp begin
+   if (gameX11 == 221) then begin
+   gameLive -= 1;
+   play_sfx("IISXXXX1");
+   end
+   if (gameX11 == 222) then begin
+   gameExp += random(10,25);
+   play_sfx("ICSXXXX1");
+   end
+   if (gameX11 == 223) then begin
+   gameBomb += 1;
+   play_sfx("ICSXXXX1");
+   end
+   if (gameX11 == 225) then begin
+   gameLive += 1;
+   play_sfx("IACCUXX1");
+   end
+   if (gameX11 == 227) then begin
+   gameBombX := 1;
+   play_sfx("ICSXXXX1");
+   end
+end
+
+procedure NodeSetLineA begin
+   if (gameLine == 1) then begin
+   gameX11 := gameA01;
+   call NodeSetLineUp;
+   end
+
+   gameA01 := gameA02;
+   gameA02 := gameA03;
+   gameA03 := gameA04;
+   gameA04 := gameA05;
+   gameA05 := gameA06;
+   gameA06 := gameA07;
+   gameA07 := gameA08;
+   gameA08 := gameA09;
+   gameA09 := gameA10;
+   gameA10 := gameA11;
+
+   call NodeSetLineX;
+   gameA11 := gameX11;
+end
+
+procedure NodeSetLineB begin
+   if (gameLine == 2) then begin
+   gameX11 := gameB01;
+   call NodeSetLineUp;
+   end
+
+   gameB01 := gameB02;
+   gameB02 := gameB03;
+   gameB03 := gameB04;
+   gameB04 := gameB05;
+   gameB05 := gameB06;
+   gameB06 := gameB07;
+   gameB07 := gameB08;
+   gameB08 := gameB09;
+   gameB09 := gameB10;
+   gameB10 := gameB11;
+
+   call NodeSetLineX;
+   gameB11 := gameX11;
+end
+
+procedure NodeSetLineC begin
+   if (gameLine == 3) then begin
+   gameX11 := gameC01;
+   call NodeSetLineUp;
+   end
+
+   gameC01 := gameC02;
+   gameC02 := gameC03;
+   gameC03 := gameC04;
+   gameC04 := gameC05;
+   gameC05 := gameC06;
+   gameC06 := gameC07;
+   gameC07 := gameC08;
+   gameC08 := gameC09;
+   gameC09 := gameC10;
+   gameC10 := gameC11;
+
+   call NodeSetLineX;
+   gameC11 := gameX11;
+end
+
+procedure NodeSetLineX begin
+      gameX11 := 224;
+
+   if (random(1,500) <= 1) then begin
+      gameX11 := 225;
+   end
+   else if (random(1,100) > 95) then begin
+      if (random(1,100) > 95) then begin
+      gameX11 := 227;
+      end
+      else begin
+      gameX11 := random(222,223);
+      end
+   end
+   else if ((random(1,100) >= 60) and (gameHardcor == 0)) then begin
+      gameX11 := 221;
+   end
+   else if ((random(1,100) >= 70) and (gameHardcor > 0)) then begin
+      gameX11 := 221;
+   end
+end
+
+//--- ПОБЕДА
+
+procedure NodeGameVictory begin
+   play_sfx("STARGAME");
+   Reply(276)
+   NAnswer(277,0,NodeGameVictory2)
+   NAnswer(278,0,NodeGameVictory2)
+end
+
+procedure NodeGameVictory2 begin
+   Reply(279)
+
+   NAnswer(261,0,NodeGameVictoryEnd)
+
+   if (dude_strength<10) then begin
+   NAnswer(262,0,NodeGameVictory01)
+   end
+   if (dude_perception<10) then begin
+   NAnswer(263,0,NodeGameVictory02)
+   end
+   if (dude_endurance<10) then begin
+   NAnswer(264,0,NodeGameVictory03)
+   end
+   if (dude_charisma<10) then begin
+   NAnswer(265,0,NodeGameVictory04)
+   end
+   if (dude_iq<10) then begin
+   NAnswer(266,0,NodeGameVictory05)
+   end
+   if (dude_agility<10) then begin
+   NAnswer(267,0,NodeGameVictory06)
+   end
+   if (dude_luck<10) then begin
+   NAnswer(268,0,NodeGameVictory07)
+   end
+   NAnswer(269,0,NodeGameVictory08)
+
+   //!!! последняя строка выпопадает за экран
+end
+
+procedure NodeGameVictory01 begin
+   set_critter_stat(dude_obj, STAT_st, 1);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictory02 begin
+   set_critter_stat(dude_obj, STAT_pe, 1);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictory03 begin
+   set_critter_stat(dude_obj, STAT_en, 1);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictory04 begin
+   set_critter_stat(dude_obj, STAT_ch, 1);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictory05 begin
+   set_critter_stat(dude_obj, STAT_iq, 1);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictory06 begin
+   set_critter_stat(dude_obj, STAT_ag, 1);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictory07 begin
+   set_critter_stat(dude_obj, STAT_lu, 1);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictory08 begin
+   skill_up(SKILL_GAMBLING,20);
+   call NodeGameVictoryEnd;
+end
+
+procedure NodeGameVictoryEnd begin
+   set_local_var(LVAR_CHECK_GAMER, -1000);
+   set_local_var(LVAR_VICTORY, 1);
+   exp_add(1000);
+   Reply(280)
+   NAnswer(281,0,Node999)
+   NAnswer(282,0,Node999)
+end
+
+/*
+procedure NodeGameVictory3 begin
+   exp_add(100);
+   Reply(270)
+   NAnswer(271,0,NodeGameStep)
+   NAnswer(272,0,Node999)
+end
+*/

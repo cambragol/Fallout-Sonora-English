@@ -1,0 +1,25 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSMonoJk
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_obj_visibility(self_obj, 0);
+      if (getQuest(GVAR_DAYGLOW_STATUS_MONORAIL) >= qEnd) then begin
+      set_obj_visibility(self_obj, 1);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

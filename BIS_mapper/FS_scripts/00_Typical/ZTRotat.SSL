@@ -1,0 +1,44 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZTRotat
+#define MAXDISTAN               10 // максимальная дистанция до ГГ, на которой происходит разворот
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+
+variable distanSnd;
+
+/*
+ВАЖНО:
+   - Cкрипт вешать на криттера, тригером он работать не будет.
+   - Криттера повернуть в том направлении, в котором нужно установить ГГ.
+   - По умолчанию дистанция воздействия на ГГ равна MAXDISTAN. Чтобы задать более точно,
+     нужно положить в инвентарь бутылочные крышки числом, равным требуемой дистанции.
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   distanSnd := MAXDISTAN;
+       if (item_amnt(self_obj,PID_BOOTLE_CAPS) > 0) then begin
+       distanSnd := item_amnt(self_obj,PID_BOOTLE_CAPS);
+       end
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+       distanSnd := item_amnt(self_obj,PID_TEST);
+       end
+   set_obj_visibility(self_obj, 1);
+   if (is_loading_game == false) then begin
+   add_timer_event(self_obj,1,1);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      if (tile_distance_objs(self_obj, dude_obj) <= distanSnd) then begin
+      anim(dude_obj, ANIMATE_ROTATION, obj_get_rot(self_obj));
+      end
+   end
+end

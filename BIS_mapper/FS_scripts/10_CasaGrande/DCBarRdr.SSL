@@ -1,0 +1,146 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_DCBarRdr
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_GRANDE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_WAR_ROADS        // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_WAR_ROAD           // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Flag_Street                (6) // стоит на месте (0) или патрулирует (>0)
+
+import variable box_stop_use;
+import variable obj_critter_b; // указатель на рейдеров
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run == true) then begin
+       inc_map_var(MVAR_CGRANDE_BAR_RDRLIFE);
+       end
+       if (item_amnt(self_obj,PID_TEST) == 1) then begin
+       set_local_var(LVAR_Flag_Street,12104);
+       end
+       item_remove(self_obj,PID_TEST,999)
+       set_obj_visibility(self_obj, 0);
+       if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) != qStart) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (map_var(MVAR_CGRANDE_BAR_RUN) > 0) then begin
+       timer_move_random_tile(8310,3) // 8909
+       end
+       else if (local_var(LVAR_Flag_Street) > 0) then begin
+       timer_move_patrol(HomeTile,local_var(LVAR_Flag_Street))
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   if (self_visible == true) then begin
+      obj_critter_b := self_obj;
+   end
+   set_using_stop
+   if (map_var(MVAR_CGRANDE_BAR_RUN) == 0) then begin
+      if self_can_see_dude then begin
+      if (tile_distance(dude_tile,16700) > 15) then begin
+      self_attack_dude;
+      end
+      end
+   end
+   set_critter_options(map_var(MVAR_CGRANDE_BAR_RDR),0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (obj_critter_b == self_obj) then begin
+   obj_critter_b := 0;
+   end
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_CGRANDE_BAR_RDR,2);
+   end
+   dec_map_var(MVAR_CGRANDE_BAR_RDRLIFE);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_CGRANDE_BAR_RUN) > 0) then begin
+   floater(self_obj,118,COLOR_MSG_RED);
+   end
+   else begin
+   floater(self_obj,random(110,116),COLOR_MSG_RED);
+   end
+end

@@ -82,7 +82,7 @@
 {500}{}{Disable the force field}  
 {501}{}{Locate your padre in the Forbidden Zone}  
 {502}{}{Free Villa's people from the Forbidden Zone}  
-{503}{}{Convince Carlos, or eliminate him if necessary, at the padre's request}  
+{503}{}{Convince Carlos, or eliminate him if necessary, at your padre's request}  
 {504}{}{Deactivate the security of the Forbidden Zone for the Tinsmiths}  
 {505}{}{Identify and stop whoever attacked the caravan}  
 {506}{}{Find the missing Tinsmith in Casa Grande}  
@@ -114,7 +114,7 @@
 {702}{}{Fix the equipment at the power plant}  
 {703}{}{Escort the young mechanic from Garage City to the power plant}  
 {704}{}{Expand the radio station's broadcast range}  
-{705}{}{Deliver the report to a ranger in San Brahmin}  
+{705}{}{Retrieve a report from the ranger in San Brahmin}
 {706}{}{Escort the outcast family to the ferry}  
 {707}{}{Locate the missing reconnaissance party in the northern desert}  
 {708}{}{Investigate what happened to the people of Quartz}  
@@ -176,8 +176,8 @@
 {1002}{}{Deal with the commotion in an abandoned bar}  
 {1003}{}{Confront highwaymen in Casa Grande}  
 {1004}{}{Rescue the villager at the train station}  
-{1005}{}{Destroy the mainline fuel depot}  
-{1006}{}{Claim the mayor's bounty for the head of the Blue Shields leader}  
+{1005}{}{Destroy the Blue Shields' fuel depot}  
+{1006}{}{Claim the mayor's bounty for the head of the Blue Shields' leader}  
 {1007}{}{}  
 {1008}{}{}  
 {1009}{}{}  
@@ -259,7 +259,7 @@
 {1900}{}{Speak with the villagers about the holiday}  
 {1901}{}{Recover the missing ceremonial crown}  
 {1902}{}{Find and bring Lucia back}  
-{1903}{}{Stop Warden Hilario's schemes}  
+{1903}{}{Stop Headman Hilario's schemes}  
 {1904}{}{Forge a trade alliance with Casa Nueva}  
 
 #---------------------------------------------------------------- --------  

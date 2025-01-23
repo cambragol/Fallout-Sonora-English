@@ -327,7 +327,12 @@ procedure NodeFstDialog begin
 end
 
 procedure NodeFstDialog2 begin
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   Reply(209)
+   end
+   else begin
    Reply(210)
+   end
 
    if (getQuest(GVAR_RANGERS_QST_PUERTO) == qStart) then begin
    GAnswer(225,0,NodeFstDialog101)
@@ -442,10 +447,10 @@ procedure NodeFstDialog207 begin
    
    // added this for the tiny bit of spanish spoken by the general - cambragol
    if DudeTraitHas(TRAIT_espanol) then begin
-      Reply(209)
+      Reply(208)
    end
    else begin
-      Reply(255)
+      zReply(255)
    end
    NAnswer(256,0,NodeFstDialog208)
 end
@@ -579,7 +584,20 @@ end
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
-   Reply(300)
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+      if (getReaction>=80) then begin
+      Reply(304)
+      end
+      else if (getReaction<0) then begin
+      Reply(303)
+      end
+      else begin
+      Reply(302)
+      end
+   end
+   else begin
+      Reply(300)
+   end
 
    //--- Расспросы
    NAnswerReaction(354,4,NodeAnswer100,50,350,NodeAnswer101)
@@ -606,7 +624,7 @@ procedure NodeSndDialog begin
 
    //--- Титул
    if (global_var(GVAR_TITUL_BOS) == 0) then begin
-      NAnswer(420,0,NodeTitul)
+      NAnswer(420,4,NodeTitul)
    end
 
    NAnswer(301,0,Node999)
@@ -701,10 +719,16 @@ procedure NodeTitul begin
    end
 
 
-   if (titulParam >= 100) then begin
-      Reply(437)
-      NAnswer(438,0,NodeTitul2)
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+      zReply(439)
+      NAnswer(440,4,Node999)
+      BAnswer(441,4,Node999)
    end
+   else if (titulParam >= 100) then begin
+      Reply(437)
+      NAnswer(438,4,NodeTitul2)
+   end
+
    else begin
       if (getQuest(GVAR_PUERTO_QST_RANGERS) >= qEnd) then begin
       Reply(432)
@@ -712,22 +736,22 @@ procedure NodeTitul begin
       else begin
       Reply(434)
       end
-      GAnswer(435,0,Node999)
-      NAnswer(436,0,Node999)
+      GAnswer(435,4,Node999)
+      NAnswer(436,4,Node999)
    end
 end
 
 procedure NodeTitul2 begin
    Reply(421)
-   NAnswer(mstr(422)+dude_name+mstr(423),0,NodeTitul3)
+   NAnswer(mstr(422)+dude_name+mstr(423),4,NodeTitul3)
 end
 
 procedure NodeTitul3 begin
    Reply(424)
-   NAnswer(425,0,NodeTitul4)
-   NAnswer(426,0,NodeTitul5)
-   NAnswer(427,0,NodeTitul6)
-   NAnswer(428,0,NodeTitul7)
+   NAnswer(425,4,NodeTitul4)
+   NAnswer(426,4,NodeTitul5)
+   NAnswer(427,4,NodeTitul6)
+   NAnswer(428,4,NodeTitul7)
 end
 
 procedure NodeTitul4 begin
@@ -758,7 +782,7 @@ procedure NodeTitul8 begin
 
    exp_add(1000);
    Reply(mstr(429)+dude_name+mstr(430))
-   NAnswer(431,0,Node999)
+   NAnswer(431,4,Node999)
 end
 
 //--- РАССПРОСЫ

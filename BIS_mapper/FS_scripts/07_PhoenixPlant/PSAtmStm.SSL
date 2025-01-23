@@ -1,0 +1,45 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_PSAtmStm
+#define SKILL_LIMIT                     100
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   set_global_var(GVAR_PHENIX_STATUS_PLANT,1);
+   gfade_out(ONE_GAME_SECOND);
+    set_obj_visibility(self_obj, 1);
+    create_object_sid(self_PID+1, self_tile, self_elevation, -1);
+    game_time_advance(ONE_GAME_HOUR*12);
+   gfade_in(ONE_GAME_SECOND);
+
+   RepairProcRepair(112,350,"FIXSTILL")
+   destroy_object(self_obj);
+end

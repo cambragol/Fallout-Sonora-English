@@ -42,7 +42,7 @@
 {142}{}{Carnivorous Plant}
 {143}{}{Deathclaw}
 {144}{}{Robot}
-{145}{}{Reaver}
+{145}{}{Ghoul}#Crazed Local and Reavers use this, so... ghoul
 {146}{}{Mysterious Stranger}
 {147}{}{Lab}
 {148}{}{Granny Adonisia}
@@ -435,8 +435,8 @@
 {535}{}{Rebel}
 {536}{}{Collapse}
 {537}{}{Fugitive}
-{538}{}{Henry Beamis}
-{539}{}{Beamis Glasses}
+{538}{}{Henry Bemis}
+{539}{}{Bemis' Glasses}
 {540}{}{Book}
 {541}{}{Cafe Resident}
 {542}{}{Cafe Resident}
@@ -553,7 +553,7 @@
 {653}{}{Cabin Boy}
 {654}{}{Janitor}
 {655}{}{Maura}
-{656}{}{Clerk}
+{656}{}{Scribe}
 {657}{}{Medic}
 {658}{}{Bell}
 {659}{}{Corwin}
@@ -588,7 +588,7 @@
 {688}{}{Worker}
 {689}{}{Pottery Wheel}
 {690}{}{Mayor Alvaro}
-{691}{}{Himador}
+{691}{}{Agave Farmer}
 {692}{}{Nestor}
 {693}{}{Scarecrow}
 {694}{}{Sporebearer}
@@ -695,7 +695,7 @@
 {795}{}{Casa Nueva Resident}
 {796}{}{Girl}
 {797}{}{Scavenger}
-{798}{}{Overseer Whip}
+{798}{}{Overseer Lash}
 {799}{}{Power Armor}
 {800}{}{Padre}
 {801}{}{Security Robot}
@@ -794,7 +794,7 @@
 {894}{}{Trader}
 {895}{}{Boat Keeper}
 {896}{}{Village Resident}
-{897}{}{Pescador}
+{897}{}{Fisherman}
 {898}{}{Motorboat}
 {899}{}{Thelma}
 {900}{}{Tin-Tan}
@@ -889,11 +889,11 @@
 {989}{}{Ghoul Guard}
 {990}{}{Rogue Scavenger}
 {991}{}{Wounded Ghoul}
-{992}{}{Zerach}
+{992}{}{Zerah}
 {993}{}{Mr. Nurse}
 {994}{}{Autodoc}
 {995}{}{Mailbox}
-{996}{}{Zerach}
+{996}{}{Zerah}
 {997}{}{Mr. Nurse}
 {998}{}{Trucker}
 {999}{}{Rutger}

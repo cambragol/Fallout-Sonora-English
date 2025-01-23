@@ -1,0 +1,128 @@
+#include "..\headers\define.h"
+//#define NAME                    SCRIPT_DSGrave
+#define NAME                    SCRIPT_ZSGrvGen
+
+#define TILE_IN_GRAVE           18880 // сверяться с SCRIPT_DSGravB!
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure shovel_proc;
+procedure moveDude;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      if dude_is_female then begin
+      play_sfx("HFXXXXBB");
+      end
+      else begin
+      play_sfx("HMXXXXBB");
+      end
+   end
+   if (fixed_param == 2) then begin
+      gfade_in(ONE_GAME_SECOND);
+
+       reg_anim_clear(dude_obj);
+       reg_anim_begin();
+       reg_anim_animate(dude_obj,ANIM_prone_to_standing,-1);
+       reg_anim_end();
+
+      if (get_SLAVA>0) then begin
+      floater(dude_obj,119,COLOR_MSG_RED);
+      end
+      else begin
+      floater(dude_obj,118,COLOR_MSG_RED);
+      end
+
+      set_obj_visibility(self_obj, 1);
+      if (self_PID >= 215) then begin
+      create_object_sid(33556166,self_tile,self_elevation,SCRIPT_DSGravB);
+      end else begin
+      create_object_sid(33556165,self_tile,self_elevation,SCRIPT_DSGravB);
+      end
+      destroy_object(self_obj);
+
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   reg_anim_begin();
+   reg_anim_clear(self_obj);
+   reg_anim_clear(source_obj);
+   reg_anim_end();
+
+   if (combat_is_initialized == true) then begin
+      display_mstr(111);
+   end
+   else begin
+      display_mstr(114);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_STEAL) then begin
+      script_overrides;
+      if (SELF_IS_OPEN or (local_var(LVAR_Status) != 0)) then begin
+      display_mstr(120);
+      end
+      else begin
+      display_mstr(114);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+
+      if (combat_is_initialized == true) then begin
+      display_mstr(111);
+      end
+      else if (SELF_IS_OPEN or (local_var(LVAR_Status) != 0)) then begin
+      display_mstr(116);
+      call moveDude;
+      end
+      else begin
+      call shovel_proc;
+      end
+   end
+end
+
+procedure shovel_proc begin
+   inc_local_var(LVAR_Status);
+   gfade_out(ONE_GAME_SECOND);
+
+      animate_set_frame(1);
+      play_sfx("iocntnre");
+      play_sfx("ORE1");
+      play_sfx("PEBBLE1");
+      call moveDude;
+      reg_anim_begin();
+      reg_anim_clear(dude_obj);
+       reg_anim_animate(dude_obj,ANIM_fall_front,-1);
+      reg_anim_end();
+      display_mstr(117);
+      add_timer_event(self_obj,10,1);
+      add_timer_event(self_obj,20,2);
+end
+
+procedure moveDude begin
+      anim(dude_obj, ANIMATE_ROTATION, 4);
+      move_to(dude_obj,TILE_IN_GRAVE,1);
+end

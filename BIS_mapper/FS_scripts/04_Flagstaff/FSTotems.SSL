@@ -1,0 +1,72 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_FSTotems
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure zipper_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_first_run) then begin
+       inc_map_var(MVAR_FLAG_WINON_TOTEMS);
+       end
+       if (global_var(GVAR_FLAGSTAFF_STATUS_SAVAGE)<0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      play_sfx("WH21WXX1");
+      call zipper_proc; //?
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      play_sfx("WH21WXX1");
+      call zipper_proc; //?
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_ZIPPER) then begin
+      script_overrides;
+      play_sfx("ZAPPER2");
+      call zipper_proc;
+   end
+end
+
+procedure zipper_proc begin
+   dec_map_var(MVAR_FLAG_WINON_TOTEMS);
+   if (map_var(MVAR_FLAG_WINON_TOTEMS)<=0) then begin
+      if (global_var(GVAR_FLAGSTAFF_STATUS_SAVAGE) <= 0) then begin
+      floater(dude_obj, 112, COLOR_MSG_RED);
+      set_global_var(GVAR_FLAGSTAFF_WINONA_PARTY, -1);
+      set_global_var(GVAR_FLAGSTAFF_STATUS_SAVAGE,-100);
+      end
+      else begin
+      floater(dude_obj, 113, COLOR_MSG_RED);
+      end
+   end
+   if (global_var(GVAR_FLAGSTAFF_STATUS_SAVAGE) == 0) then begin
+      display_mstr(111);
+   end
+   set_obj_visibility(self_obj, 1);
+   //create_object_sid(self_PID+1, self_tile, self_elevation, -1);
+   destroy_object(self_obj);
+end

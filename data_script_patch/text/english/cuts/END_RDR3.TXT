@@ -1,0 +1,3 @@
+1: With a new source of wealth, most members of the Blue Shields agree to leave the caravans in peace.
+2: Some do not agree with the new order and leave the gang.
+3: Eventually, the fuel in the tanks runs out, and the former raiders use their acquired goods to found a small hunting settlement in the mountains to the east.

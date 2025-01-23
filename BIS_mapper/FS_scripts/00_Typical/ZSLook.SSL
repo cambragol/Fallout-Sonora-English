@@ -1,0 +1,287 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSLook
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure id_proc;
+procedure science_proc;
+
+variable skillcheck;                    // требуемый уровень навыка Наука
+variable scienceMsg;                    // номер строки с инфой при успешном изучении
+variable scienceIndx;                   // индекс особой процедуры
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_obj_visibility(self_obj, 0);
+
+      if ((self_PID == 33555607) and (global_var(GVAR_VILLA_STATUS_PADRE) != 0)) then begin
+      set_obj_visibility(self_obj, 1); // удаление символа культа на стене Виллы
+      end
+      if ((self_PID == 33556396) and (getQuest(GVAR_PUERTO_BOS_DESTROY)>=qEnd) and (global_var(GVAR_GAME_END) != 0)) then begin
+      set_obj_visibility(self_obj, 1);
+      create_object_sid(self_PID+1,self_tile,self_elevation,-1); // вандализ биллборда в Каса-Нуэвa
+      destroy_object(self_obj);
+      end
+   end
+end
+
+procedure use_p_proc begin
+   if (self_PID == 33555601) then begin
+   script_overrides;
+   display_mstr(114);
+   floater(dude_obj,115,COLOR_MSG_NORMAL);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillcheck := 0;
+   scienceMsg := 110;
+   scienceIndx := -1;
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call id_proc;
+       if (has_skill(source_obj, SKILL_SCIENCE) < skillcheck) then begin
+         if (source_obj == dude_obj) then begin
+         skill_display_mstr(110,SKILL_SCIENCE,skillcheck)
+         end else begin
+         skill_display_mstr(116,SKILL_SCIENCE,skillcheck)
+         end
+         floater(source_obj,111,COLOR_MSG_NEAR_WHITE);
+       end
+       else begin
+         call science_proc;
+       end
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(113);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure damage_p_proc begin
+   if (cur_map_index == MAP_OIL_CITY) then begin
+      if (self_PID == 33555622) then begin
+         play_sfx("CLANK");
+         set_obj_visibility(self_obj, 1);
+         create_object_sid(self_PID-1, self_tile, self_elevation, -1);
+         //destroy_object(self_obj);
+      end
+   end
+end
+
+
+#define setObjScience(check,msg,pid,map,indx)        if ((pid <= 0) or ((self_PID == pid) and (pid>0))) then begin       \
+                                                      if ((map <= 0) or ((cur_map_index == map) and (map>0))) then begin \
+                                                      skillcheck := check;       \
+                                                      scienceMsg := msg;         \
+                                                      scienceIndx := indx;       \
+                                                      end                        \
+                                                     end                         \
+
+procedure id_proc begin
+   /* Описание макроса:
+      check - уровень навыка (при <=0 опыт не выдается, при >0 выдается как check*2)
+      msg - строка для лога (при <=0 не выдается)
+      pid - проверка PID объекта (при <=0 игнорируется)
+      map - карта размещения объекта (при <=0 игнорируется)
+      indx - индекс особой процедуры (при <=0 игнорируется)
+   */
+
+   //--- Вилла и ее окрестности
+   setObjScience(-50,200,33555691,MAP_VILLA_HOME,0)
+   setObjScience(10,202,33555139,MAP_VILLA_CAVE,0)
+   setObjScience(10,204,33555601,MAP_VILLA_CAVE,0)
+   setObjScience(10,206,33555607,MAP_VILLA_PLAZA,0)
+   setObjScience(10,208,33555869,MAP_VILLA_PLAZA,0)
+   setObjScience(20,218,-1,MAP_JACKALS,0)
+
+   //--- Флагпул
+   setObjScience(20,220,33555623,MAP_FLAGSTAFF_CITY,0)
+   setObjScience(20,222,33555637,MAP_FLAGSTAFF_MINE,0)
+   setObjScience(20,224,33555619,MAP_FLAGSTAFF_MINE,0)
+   setObjScience(20,226,33555638,MAP_FLAGSTAFF_MUSEUM,0)
+   if (map_var(MVAR_FLAGMUS_BONES_BONUS) == 0) then begin
+   setObjScience(0,228,33556180,MAP_FLAGSTAFF_MUSEUM,12)
+   end
+   else begin
+   setObjScience(0,230,33556180,MAP_FLAGSTAFF_MUSEUM,0)
+   end
+
+   //--- ТуСан
+   setObjScience(30,250,33555745,MAP_TWO_SUN_WORKSHOP,0)
+   setObjScience(40,252,33555841,MAP_TWO_SUN_DSTR,0)
+
+   //--- Рейнджеры и их окрестности
+   setObjScience(20,260,33555846,MAP_RANGERS_ROAD,0)
+   if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_13) == 0) then begin
+   setObjScience(0,264,33555898,MAP_RANGERS_RADIO,-1)
+   end else begin
+   setObjScience(0,262,33555898,MAP_RANGERS_RADIO,2)
+   end
+   setObjScience(20,266,33555107,MAP_RANGERS_RADIO,0)
+   setObjScience(20,268,33555964,MAP_RANGERS_BASA,0)
+   setObjScience(10,274,33555966,MAP_RANGERS_BASA,0)
+   setObjScience(50,270,33555515,MAP_RANGERS_QUARTZ,3)
+   setObjScience(10,272,33555962,MAP_RANGERS_QUARTZ,0)
+   //setObjScience(10,276,33555...,MAP_RANGERS_CAVE,0) -- дорожный указатель у дороги возле хижины
+
+   //--- Феникс
+   setObjScience(30,240,-1,MAP_PHOENIX_CHURCH,0)
+   setObjScience(20,248,-1,MAP_PHOENIX_PLAZA,0)
+   setObjScience(70,242,33555536,MAP_PHOENIX_CENTER,4)
+   if (global_var(GVAR_TEQUILA_INFO) == 0) then begin
+   setObjScience(50,244,33556071,MAP_PHOENIX_CENTER,5)
+   end else begin
+   setObjScience(-100,246,33556071,MAP_PHOENIX_CENTER,0)
+   end
+   setObjScience(55,282,-1,MAP_PHOENIX_COLA,7)
+
+   //--- Каса-Гранде
+   setObjScience(50,254,33555104,MAP_CASA_GRANDE_CITY,8)
+   if (self_elevation == 0) then begin
+   setObjScience(0,288,33556183,MAP_CASA_GRANDE_CITY,0)
+   end
+   else begin
+   setObjScience(55,256,33556183,MAP_CASA_GRANDE_CITY,9)
+   end
+
+   //--- Каса-Нуэвa
+   setObjScience(0,284,33556396,MAP_CASA_NUEVA_CITY,0)
+
+   //--- Пуэрто
+   setObjScience(10,298,-1,MAP_PUERTO_SIGN,0)
+   setObjScience(50,296,33556320,MAP_PUERTO_BASA,0)
+   if (self_elevation == 1) then begin
+   setObjScience(100,290,-1,MAP_PUERTO_DOCS,10)
+   end
+   if (self_elevation == 2) then begin
+   setObjScience(100,294,-1,MAP_PUERTO_DOCS,11)
+   end
+
+   //--- Прочие локации
+   setObjScience(40,258,-1,MAP_VAULT_27_INTERIER,1)
+   setObjScience(0,280,-1,MAP_HERMO_CASA,0)
+   setObjScience(0,216,-1,MAP_SPECIAL_GOLD,6)
+   setObjScience(0,232,-1,MAP_SPECIAL_DRIVE_IN,0)
+   setObjScience(70,214,-1,MAP_IN_GAME_MOVIE,0)
+   setObjScience(25,286,-1,MAP_OLD_MOTEL,0)
+
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY)>=qEnd) then begin
+   setObjScience(0,302,-1,MAP_OIL_CITY,0)
+   end
+   else begin
+   setObjScience(10,300,-1,MAP_OIL_CITY,13)
+   end
+end
+
+procedure science_proc begin
+
+   //--- Стандартные процедуры
+   if (local_var(LVAR_Status) == 0) then begin
+      if (skillcheck>0) then begin
+      exp_add(skillcheck*2);
+      end
+   end
+   if (scienceMsg>0) then begin
+      display_mstr(scienceMsg);
+      floater(dude_obj,scienceMsg+1,COLOR_MSG_NEAR_WHITE);
+      //play_sfx("WA31XXX1");
+   end
+
+   //--- Особые процедуры
+   if (scienceIndx == -1) then begin
+      set_local_var(LVAR_Status,0);
+   end
+   else if (scienceIndx == 1) then begin
+      set_global_var(GVAR_VAULT27_KILL_KNOW,1);
+   end
+   else if (scienceIndx == 2) then begin
+      mark_world_subtile_visited(400, 450, 4);
+      //mark_on_map(AREA_JACKALS) -- рейнджеры не знают местоположение шакалов!
+      mark_on_map(AREA_GARAGE)
+      mark_on_map(AREA_FLAGSTAFF)
+      mark_on_map(AREA_QUARTZ)
+      mark_on_map(AREA_SAN_BRAHMIN)
+      mark_on_map(AREA_PHOENIX)
+      if (local_var(LVAR_Status) == 0) then begin
+         if (is_skill_tagged(SKILL_SCOUT) == true) then begin
+         skill_up(SKILL_SCOUT,6);
+         end
+         else begin
+         skill_up(SKILL_SCOUT,5);
+         end
+      end
+   end
+   else if (scienceIndx == 3) then begin
+      set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_12);
+   end
+   else if (scienceIndx == 4) then begin
+      set_map_var(MVAR_PNX_ROULETTE, 15);
+   end
+   else if (scienceIndx == 5) then begin
+      set_global_var(GVAR_TEQUILA_INFO,1);
+   end
+   else if (scienceIndx == 6) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+      exp_add(250);
+      end
+   end
+   else if (scienceIndx == 7) then begin
+      set_map_var(MVAR_PHX_COLA_ROBOT,1);
+   end
+   else if (scienceIndx == 8) then begin
+      mark_on_map(AREA_TWO_SUN)
+   end
+   else if (scienceIndx == 9) then begin
+      set_map_var(MVAR_CGRANDE_SAIF_CODE,1);
+   end
+   else if (scienceIndx == 10) then begin
+      set_gvar_bit_on(GVAR_RADIO_FLAGS_BIT, bit_7);
+   end
+   else if (scienceIndx == 11) then begin
+      mark_world_subtile_visited(550, 1200, 5);
+      //mark_world_subtile_visited(550, 1450, 5);
+      mark_on_map(AREA_INFIERNO)
+      mark_on_map(AREA_RANGERS)
+      mark_on_map(AREA_PHOENIX)
+      mark_on_map(AREA_CASA_GRANDE)
+      mark_on_map(AREA_TWO_SUN)
+      mark_on_map(AREA_CASA_NUEVA)
+      mark_on_map(AREA_OIL_PLATFORM)
+      //mark_on_map(AREA_HERMOSILLO)
+      if (local_var(LVAR_Status) == 0) then begin
+         if (is_skill_tagged(SKILL_SCOUT) == true) then begin
+         skill_up(SKILL_SCOUT,6);
+         end
+         else begin
+         skill_up(SKILL_SCOUT,5);
+         end
+      end
+   end
+   else if (scienceIndx == 12) then begin
+      if (map_var(MVAR_FLAGMUS_BONES_BONUS) == 0) then begin
+      //create_object_sid(PID_W_GRENADE_FRAG, dude_tile, self_elevation, -1); -- предмет будет не виден игроку, если ГГ окажется позади монумента
+      item_add(dude_obj,PID_W_GRENADE_FRAG,1)
+      inc_map_var(MVAR_FLAGMUS_BONES_BONUS);
+      end
+   end
+   else if (scienceIndx == 13) then begin
+      mark_on_map(AREA_PUERTO_STEEL)
+   end
+
+   set_local_var(LVAR_Status,1);
+end

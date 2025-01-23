@@ -1,0 +1,50 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_TSWrkTbB
+#define SKILL_LIMIT                     55
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_MEX_TORPEDOS) then begin
+       script_overrides;
+       item_add(dude_obj,PID_AMMO_SIGNAL_A,20)
+       item_remove(dude_obj, objUsedPid, 1)
+       play_sfx("TANKS");
+       dude_floater_OK;
+       display_mstr(102);
+   end
+end
+
+procedure repair_proc begin
+   item_add(dude_obj,PID_W_SPEAR_PNEUMATIC,1)
+   RepairProcRepair(112,0,"FIXSTILL")
+end

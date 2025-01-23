@@ -1,0 +1,99 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSArena
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure impuls_proc;
+
+import variable obj_critter_a;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (local_var(LVAR_Status) >= 99) then begin
+      display_mstr(111);
+   end
+   else if (local_var(LVAR_Status) < 0) then begin
+      display_mstr(104);
+   end
+   else if (local_var(LVAR_Status) == 0) then begin
+      display_mstr(102);
+   end
+   else begin
+      call impuls_proc;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_REPAIR) or (action_being_used == SKILL_SCIENCE)) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) >= 99) then begin
+         display_mstr(111);
+      end
+      else if (local_var(LVAR_Status) < 0) then begin
+         display_mstr(105);
+         set_local_var(LVAR_Status,0);
+      end
+      else if (local_var(LVAR_Status) == 0) then begin
+         display_mstr(102);
+      end
+      else begin
+         call impuls_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_GENERATOR_ENERGY) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) >= 99) then begin
+         display_mstr(111);
+      end
+      else if (local_var(LVAR_Status) < 0) then begin
+         display_mstr(108);
+      end
+      else if (local_var(LVAR_Status) == 0) then begin
+         item_remove(dude_obj, objUsedPid, 1)
+         display_mstr(110);
+         set_local_var(LVAR_Status,1);
+      end
+      else begin
+         display_mstr(109);
+      end
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_normal_dam) then begin
+      display_mstr(106);
+      set_local_var(LVAR_Status,-1);
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      display_mstr(106);
+      set_local_var(LVAR_Status,-1);
+      end
+   end
+end
+
+procedure impuls_proc begin
+   set_local_var(LVAR_Status,99);
+   display_mstr(107);
+   if (obj_critter_a != 0) then begin
+      exp_add(100);
+      critter_dmg(obj_critter_a, random(60,80), DMG_emp);
+      //Урон зависит от дистанции? + учесть защиту от ЭМИ?
+   end
+   play_sfx("ELECTRIC");
+   play_sfx("WHQ1XXX1");
+end

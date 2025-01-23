@@ -1,0 +1,68 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_RSRetrns
+#define SKILL_LIMIT                     20
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepairB
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(113);
+      item_add(dude_obj,PID_TOOL_PARTS_ELECTRONIC,1)
+      item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,5)
+      call repair_proc;
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      display_mstr(113);
+      item_add(dude_obj,PID_TOOL_PARTS_ELECTRONIC,1)
+      item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,5)
+      call repair_proc;
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (obj_item_subtype(obj_being_used_with)== item_type_weapon) then begin
+   call repair_proc;
+   end
+end
+
+procedure damage_p_proc begin
+   call repair_proc;
+end
+
+procedure repair_proc begin
+   set_global_var(GVAR_RANGER_RADIOTRANSLTR,1);
+   exp_add(100);
+   display_mstr(112);
+   play_sfx("FLRTRAP");
+   set_obj_visibility(self_obj, 1);
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1);
+   destroy_object(self_obj);
+end

@@ -1,0 +1,207 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCBarMrd
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_BANDITS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   1                     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+
+//---------------------
+
+#define LVAR_TileBarCombat                 (6) // номер тайла для размещения в баре на время драки
+#define LVAR_FlagBarAttak                  (7) // сигнал атаки на караванщиков
+
+import variable obj_critter_a; // указатель на караванщиков в баре
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if ((map_var(MVAR_DIEGO_C_BAR_COMBAT) < 0) or (map_var(MVAR_DIEGO_C_BAR_COMBAT) >= 2)) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+
+       if (HomeTile == 14706) then begin
+       set_local_var(LVAR_TileBarCombat,17715);
+       end
+       else if (HomeTile == 15106) then begin
+       set_local_var(LVAR_TileBarCombat,17717);
+       end
+       else if (HomeTile == 15108) then begin
+       set_local_var(LVAR_TileBarCombat,17719);
+       end
+       if ((map_var(MVAR_DIEGO_C_BAR_COMBAT) == 1) and (local_var(LVAR_TileBarCombat) > 0)) then begin
+       move_to(self_obj, local_var(LVAR_TileBarCombat), 0);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((map_var(MVAR_DIEGO_C_BAR_COMBAT) == 1) and (local_var(LVAR_TileBarCombat) > 0)) then begin
+       timer_move_to_tile(1,local_var(LVAR_TileBarCombat),5)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   if (self_visible == true) then begin
+       if (map_var(MVAR_DIEGO_C_BAR_COMBAT) == 1) then begin
+       if (local_var(LVAR_FlagBarAttak) > 0) then begin
+          if (obj_critter_a > 0) then begin
+          attack(obj_critter_a);
+          end
+       end
+       end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (map_var(MVAR_DIEGO_C_BAR_COMBAT) == 1) then begin
+   set_map_var(MVAR_DIEGO_C_BAR_COMBAT, 2);
+   end
+   else begin
+   set_map_var(MVAR_DIEGO_C_BAR_COMBAT, -1);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_DIEGO_C_BAR_COMBAT) == 1) then begin
+   //floater(self_obj, 103, COLOR_MSG_RED);
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else if (map_var(MVAR_DIEGO_C_BAR_COMBAT) < 0) then begin
+   floater(self_obj, 104, COLOR_MSG_RED);
+   end
+   else if (map_var(MVAR_DIEGO_C_BAR_COMBAT) >= 2) then begin
+   floater(self_obj, 105, COLOR_MSG_RED);
+   end
+   else begin
+   floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   set_local_var(LVAR_FlagBarAttak, 1);
+   call NodeDialog100;
+end
+
+procedure NodeDialog100 begin
+   Reply(200)
+   NAnswer(202,1,NodeDialog101)
+   BAnswer(201,1,Node998)
+end
+
+procedure NodeDialog101 begin
+   Reply(203)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=100) then begin
+   NAnswer(209,1,NodeDialog103)
+   end
+   NAnswerSkill(204,1,NodeDialog102,SKILL_CONVERSANT,50,204,Node998)
+   BAnswer(208,1,Node998)
+end
+
+procedure NodeDialog102 begin
+   set_map_var(MVAR_DIEGO_C_BAR_COMBAT, -1);
+   set_local_var(LVAR_FlagBarAttak, 0);
+   exp_add(400);
+   Reply(205)
+   NAnswer(206,1,Node999)
+   NAnswer(207,1,Node999)
+end
+
+procedure NodeDialog103 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,100)
+   set_map_var(MVAR_DIEGO_C_BAR_COMBAT, -1);
+   set_local_var(LVAR_FlagBarAttak, 0);
+   exp_add(400);
+   call Node999;
+end

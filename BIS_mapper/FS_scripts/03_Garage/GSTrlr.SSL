@@ -1,0 +1,25 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_GSTrlr
+
+procedure start;
+procedure map_enter_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      /*
+      set_obj_visibility(self_obj, 1);
+      if (getQuest(GVAR_GARAGE_QST_FAKECAPS) != qZero) then begin
+      set_obj_visibility(self_obj, 0);
+      end
+      else if (getQuest(GVAR_GARAGE_QST_DOGS) <= qStop) then begin
+      set_obj_visibility(self_obj, 0);
+      end
+      */
+      set_obj_visibility(self_obj, 0); // ! так и быть - пусть народ имеет неограниченный доступ в погреб, во избежание провисания в квестах
+   end
+end

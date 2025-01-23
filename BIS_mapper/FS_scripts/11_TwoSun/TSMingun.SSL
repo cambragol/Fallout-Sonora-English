@@ -1,0 +1,42 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_TSMingun
+#define SKILL_LIMIT                     40
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   set_obj_visibility(self_obj, 1);
+   //item_add(dude_obj,PID_W_MINIGUN,1)
+   create_object_sid(PID_W_MINIGUN, self_tile, self_elevation, -1);
+
+   RepairProcRepair(112,100,"FIXSTILL")
+   destroy_object(self_obj);
+end

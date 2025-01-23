@@ -1,0 +1,330 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_SCBell
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_PALADIN        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_BOS              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      25 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure timerScenaMedic;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeSndDialog100;
+procedure NodeSndDialog101;
+procedure NodeSndDialog102;
+
+//---------------------
+
+#define LVAR_Diagnos                    (6) // постановка диагноза
+
+import variable obj_critter_a; // указатель на доктора
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+       if (obj_critter_a>0) then begin
+          if ((combat_is_initialized == false) and (getQuest(GVAR_PUERTO_QST_BELL) < qEnd)) then begin
+          call timerScenaMedic;
+          end
+       end
+       add_timer_event(self_obj,50,2);
+   end
+end
+
+procedure timerScenaMedic begin
+       floater(obj_critter_a,110,COLOR_MSG_NORMAL);
+       floater(self_obj,110,COLOR_MSG_NORMAL);
+
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 1) then begin
+       floater(self_obj,111,COLOR_MSG_RED);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 2) then begin
+       floater(obj_critter_a,112,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 3) then begin
+       floater(self_obj,113,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 4) then begin
+       floater(obj_critter_a,114,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 5) then begin
+       floater(self_obj,115,COLOR_MSG_RED);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 6) then begin
+       floater(obj_critter_a,116,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 7) then begin
+       floater(self_obj,117,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 8) then begin
+       floater(obj_critter_a,118,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 9) then begin
+       floater(self_obj,119,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 10) then begin
+       floater(obj_critter_a,120,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 11) then begin
+       floater(self_obj,121,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 12) then begin
+       floater(obj_critter_a,122,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 13) then begin
+       floater(self_obj,123,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 14) then begin
+       floater(obj_critter_a,124,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 15) then begin
+       floater(self_obj,125,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 16) then begin
+       floater(obj_critter_a,126,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 17) then begin
+       floater(self_obj,127,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 18) then begin
+       floater(obj_critter_a,128,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 19) then begin
+       floater(self_obj,129,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) == 20) then begin
+       floater(obj_critter_a,130,COLOR_MSG_NORMAL);
+       end
+
+       if (map_var(MVAR_PUERTO_MEDIC_FLOAT) >= 20) then begin
+       set_map_var(MVAR_PUERTO_MEDIC_FLOAT,-3);
+       end
+       inc_map_var(MVAR_PUERTO_MEDIC_FLOAT);
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if self_enemy_dude then begin
+   BarklyAttakDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+   if (action_being_used == SKILL_DOCTOR) then begin
+   if (getQuest(GVAR_PUERTO_QST_BELL) == qStart) then begin
+      if (local_var(LVAR_Diagnos) == 0) then begin
+      script_overrides;
+      if (has_skill(dude_obj, SKILL_DOCTOR) < 50) then begin
+      g_skill_display_mstr(147,SKILL_DOCTOR,50)
+      end
+      else begin
+      floater(dude_obj,103,COLOR_MSG_NORMAL);
+      display_mstr(102);
+      inc_local_var(LVAR_Diagnos);
+      end
+      end
+   end
+   end
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_M_MENTATS) then begin
+      script_overrides;
+      if ((getQuest(GVAR_PUERTO_QST_BELL) == qStart) and (local_var(LVAR_Diagnos) == 0)) then begin
+      item_remove(dude_obj, objUsedPid, 1)
+      floater(dude_obj,103,COLOR_MSG_NORMAL);
+      display_mstr(102);
+      inc_local_var(LVAR_Diagnos);
+      end
+      else begin
+      display_mstr(106);
+      end
+   end
+   //!!! использование черепа эль гиганто?
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   BarklyAttakDude
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (getQuest(GVAR_PUERTO_QST_BELL) == qStart) then begin
+   setQuest(GVAR_PUERTO_QST_BELL,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (getQuest(GVAR_PUERTO_QST_BELL) >= qEnd) then begin
+   floater(self_obj,105,COLOR_MSG_GREEN);
+   end
+   else if (local_var(LVAR_Diagnos) == 0) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,100)
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_32);
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+   NAnswer(204,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+   NAnswer(207,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   NAnswer(209,1,NodeFstDialog5)
+   NAnswer(210,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(211)
+   NAnswer(212,1,NodeFstDialog6)
+   NAnswer(213,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(214)
+   NAnswer(215,1,Node999)
+   NAnswer(216,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+   if (global_var(GVAR_NUEVA_STATUS_EL_GIGANTO)<0) then begin
+   if (item_amnt(dude_obj,PID_SCULL_DEATHCLAW)>0) then begin
+   NAnswer(230,1,NodeSndDialog100)
+   end
+   NAnswer(231,1,NodeSndDialog100)
+   end
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeSndDialog100 begin
+   Reply(232)
+   NAnswer(233,1,NodeSndDialog101)
+   NAnswer(234,1,NodeSndDialog101)
+end
+
+procedure NodeSndDialog101 begin
+   Reply(235)
+   NAnswer(236,1,NodeSndDialog102)
+   NAnswer(237,1,NodeSndDialog102)
+end
+
+procedure NodeSndDialog102 begin
+   setQuest(GVAR_PUERTO_QST_BELL,qEnd);
+   item_add(dude_obj,PID_AMMO_10_MM_NSP,35)
+   exp_add(500);
+   set_REP(5)
+   Reply(238)
+   NAnswer(239,1,Node999)
+   NAnswer(240,1,Node999)
+end

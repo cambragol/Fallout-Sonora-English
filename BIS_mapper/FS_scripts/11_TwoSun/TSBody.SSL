@@ -1,0 +1,84 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_TSBody
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_gvar_bit_on(GVAR_TWOSUN_QST_BAND_STATUS, bit_1);
+      if (gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_2) != 0) then begin
+      set_obj_visibility(self_obj, 1);
+      end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       dude_teleport_map(-1,-1,MAP_TWO_SUN_DSTR,5);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(110);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+
+      if (combat_is_initialized == true) then begin
+      display_mstr(112);
+      end
+      else if (global_var(GVAR_TWOSUN_QST_BAND_SLAVES) == 1) then begin
+      call talk_p_proc;
+      end
+      else begin
+      display_mstr(111);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(201,1,NodeDialog2)
+end
+
+procedure NodeDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeDialog3)
+   NAnswer(204,1,Node999)
+end
+
+procedure NodeDialog3 begin
+   add_timer_event(self_obj, 2, 1);
+   call Node999;
+end

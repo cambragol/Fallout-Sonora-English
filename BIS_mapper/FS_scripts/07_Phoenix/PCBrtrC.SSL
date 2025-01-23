@@ -1,0 +1,474 @@
+#include "..\headers\define.h"
+//--------------------- ТОРГОВЕЦ НАРЯДАМИ
+
+#define NAME                            SCRIPT_PCBrtrC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        12                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CITIZEN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure setBarterC;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeBarter;
+procedure NodeQstCult;
+procedure NodeQstCult2;
+procedure NodeQstCult3;
+procedure NodeQstCult4;
+procedure NodeQstCult5;
+procedure NodeQstCult6;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodeCombez;
+procedure NodeCombez2;
+procedure NodeCombez3;
+procedure NodeCombez4;
+procedure NodeCombez5;
+
+//---------------------
+
+#define LVAR_Combez                     (8) // квестик на получение комбеза: 0 - не известно, 1 - ГГ поговорил про комбенизоны, квест получен, 2 - ГГ отнес один комбез, 3 - ГГ отнес второй комбез, квест завершен, 4 - ГГ поговорил про комбезы
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_WEEK)
+   end
+end
+
+procedure setBarterA begin
+        check_restock_item(PID_SANDALS, 3, 5, 100)
+        check_restock_item(PID_TOOL_BOOTS, 2, 4, 100)
+        check_restock_item(PID_TOOL_GAS_MASK, 1, 2, 100)
+        check_restock_item(PID_TOOL_ROPE, 1, 3, 100)
+        check_restock_item(PID_TOOL_LOCKPICKS_MH, 3, 5, 100)
+        check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
+        check_restock_item(PID_ARMOR_JACKET_B, 1, 1, 100)
+        check_restock_item(PID_ARMOR_JACKET_A, 1, 3, 100)
+
+        //- крышки
+        check_restock_many(200,260)
+end
+
+procedure setBarterB begin
+   if (get_BarterDopusk == 0) then begin
+        check_restock_item(PID_ARMOR_METALIC_A, 1, 1, 100)
+   end
+   set_BarterDopusk;
+end
+
+procedure setBarterC begin
+   if (get_BarterDopusk_B == 0) then begin
+      //замечание: эти предметы должны появляться в товаре лишь раз
+      item_add(self_obj,PID_ARMOR_PURPLE_ROBE_A,2)
+      item_add(self_obj,PID_ARMOR_PURPLE_ROBE_B,1)
+      set_BarterDopusk_B;
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_PNX_BARTER_C,-1);
+   kill_critter_opt
+   kill_critter_box
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_PHENIX_CULT,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-10) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_20) == 0)) then begin
+   incBarterMod(20);
+   call setBarterC;
+   bitDialogExp(bit_20,0)
+   end
+
+   if ((local_var(LVAR_Combez) == 0) and (armor_pid_dude_var == PID_ARMOR_VAULT)) then begin
+   call NodeCombez;
+   end
+   else if ((local_var(LVAR_Combez) == 0) and (armor_pid_dude_var <= 0)) then begin
+   call NodeCombez;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeStartDialog)
+   BAnswer(202,1,NodeStartDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   NAnswer(220,1,NodeAnswer100)
+   NAnswer(230,1,NodeAnswer200)
+
+   //--- Про комбенизон из убежища
+   if (local_var(LVAR_Combez) == 1) then begin
+      NAnswer(290,3,NodeAnswer103)
+      if (armor_pid_dude == PID_ARMOR_VAULT) then begin
+      //! блокировка на случай если единственный экземпляр комбенизона размещен на теле ГГ, иначе статы от брони останутся на ГГ навсегда (баг движка)
+      end
+      else if (item_amnt(dude_obj,PID_ARMOR_VAULT) > 0) then begin
+      NAnswer(286,1,NodeCombez3)
+      end
+   end
+   else if (local_var(LVAR_Combez) > 1) then begin
+      if (armor_pid_dude == PID_ARMOR_VAULT) then begin
+      //! блокировка на случай если единственный экземпляр комбенизона размещен на теле ГГ, иначе статы от брони останутся на ГГ навсегда (баг движка)
+      end
+      else if (item_amnt(dude_obj,PID_ARMOR_VAULT) > 0) then begin
+      NAnswer(295,1,NodeCombez5)
+      end
+   end
+
+   //--- Нападение на Последователей
+   if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+      if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) or (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3)) then begin
+      NAnswer(300,1,NodeQstCult)
+      end
+   end
+
+   NAnswer(212,1,NodeBarter)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeBarter begin
+   goBarterMod;
+   call NodeSndDialog;
+end
+
+//--- НАПАДЕНИЕ НА ПОСЛЕДОВАТЕЛЕЙ
+
+procedure NodeQstCult begin
+   Reply(301)
+   NAnswerSkill(309,3,NodeQstCult5,SKILL_CONVERSANT,40,307,NodeQstCult4)
+   BAnswer(303,3,NodeQstCult2)
+   NAnswer(302,1,Node999)
+end
+
+procedure NodeQstCult2 begin
+   set_REP(-1)
+   set_SLAVA(-5)
+   setBonusReaction(-20)
+   Reply(304)
+   NAnswer(305,1,NodeQstCult3)
+   BAnswer(306,1,NodeQstCult3)
+end
+
+procedure NodeQstCult3 begin
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) then begin
+   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,2);
+   display_mstr(315);
+   end
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3) then begin
+   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,5);
+   display_mstr(316);
+   end
+   call Node999;
+end
+
+procedure NodeQstCult4 begin
+   Reply(308)
+   BAnswer(303,3,NodeQstCult2)
+   NAnswer(302,1,Node999)
+end
+
+procedure NodeQstCult5 begin
+   Reply(310)
+   NAnswer(311,1,NodeQstCult6)
+end
+
+procedure NodeQstCult6 begin
+   Reply(312)
+   NAnswer(313,1,NodeQstCult3)
+   BAnswer(314,1,NodeQstCult3)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(223,1,NodeAnswer101)
+   if (bitDialog(bit_5) == 0) then begin
+   NAnswerSkill(225,3,NodeAnswer102,SKILL_SCIENCE,35,228,NodeAnswer105)
+   end
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   bitDialogExp(bit_4,25)
+   Reply(224)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_5,35)
+   Reply(226)
+   NAnswer(227,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(291)
+   NAnswer(292,1,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_6,100)
+   Reply(293)
+   NAnswer(294,1,NodeSndDialog)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_5,0)
+   Reply(229)
+   NAnswer(227,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(231)
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(232,1,NodeAnswer201)
+   end
+   if (get_BarterDopusk == 0) then begin
+   NAnswer(240,1,NodeAnswer300)
+   end
+   if (get_BarterDopusk_B == 0) then begin
+      if (global_var(GVAR_TITUL_PHENIX_CULT) <= 0) then begin
+      BAnswer(260,1,NodeAnswer400)
+      end
+   end
+   NAnswer(233,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   item_add(self_obj,PID_GLASSES,1)
+   bitDialogExp(bit_3,0)
+   if (self_charisma < 6) then begin
+   Reply(236)
+   end
+   else if (global_var(GVAR_TITUL_REBIRTH) >0) then begin
+   Reply(235)
+   end
+   else begin
+   Reply(234)
+   end
+   NAnswer(238,1,NodeBarter)
+   NAnswer(237,1,NodeSndDialog)
+end
+
+procedure NodeAnswer300 begin
+   Reply(241)
+   NAnswer(242,1,NodeAnswer301)
+   NAnswerSkill(243,1,NodeAnswer303,SKILL_BARTER,30,243,NodeAnswer302)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeAnswer301 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 50) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,50)
+   call NodeAnswer303;
+   end
+   else begin
+   Reply(250)
+   NAnswer(251,1,Node999)
+   end
+end
+
+procedure NodeAnswer302 begin
+   Reply(244)
+   BAnswer(239,1,NodeBarter)
+   NAnswer(245,1,NodeSndDialog)
+end
+
+procedure NodeAnswer303 begin
+   call setBarterB;
+   Reply(247)
+   BAnswer(248,1,NodeBarter)
+   NAnswer(249,1,NodeBarter)
+end
+
+procedure NodeAnswer400 begin
+   Reply(261)
+   NAnswerSkill(262,1,NodeAnswer402,SKILL_BARTER,100,262,NodeAnswer401)
+   NAnswer(265,1,NodeSndDialog)
+   NAnswer(266,1,NodeSndDialog)
+end
+
+procedure NodeAnswer401 begin
+   Reply(264)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeAnswer402 begin
+   bitDialogExp(bit_2,50)
+   call setBarterC;
+   Reply(269)
+   NAnswer(270,1,NodeBarter)
+end
+
+//--- КОМБЕЗ Убежища
+
+procedure NodeCombez begin
+   inc_local_var(LVAR_Combez);
+   Reply(280)
+   zNAnswer(281,1,NodeCombez2)
+   NAnswer(282,1,NodeCombez2)
+end
+
+procedure NodeCombez2 begin
+   Reply(283)
+   NAnswer(284,1,NodeStartDialog)
+   NAnswer(285,1,Node999)
+end
+
+procedure NodeCombez3 begin
+   if (item_amnt(dude_obj,PID_ARMOR_VAULT) > 0) then begin
+   call NodeCombez4;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeCombez4 begin
+   inc_local_var(LVAR_Combez);
+   setBonusReaction(20)
+   exp_add(350);
+   art_change_fid_num(self_obj, FID_NWVALT);
+   item_remove(dude_obj,PID_ARMOR_VAULT,1)
+   item_add(dude_obj,PID_BOOTLE_CAPS,(proto_data(PID_ARMOR_VAULT, it_cost)*3))
+
+   Reply(287)
+   NAnswer(288,1,Node999)
+   NAnswer(289,1,Node999)
+end
+
+procedure NodeCombez5 begin
+   inc_local_var(LVAR_Combez);
+   setBonusReaction(2)
+   exp_add(50);
+   item_remove(dude_obj,PID_ARMOR_VAULT,1)
+   item_add(dude_obj,PID_BOOTLE_CAPS,(proto_data(PID_ARMOR_VAULT, it_cost)*3))
+
+   Reply(296)
+   NAnswer(298,1,NodeSndDialog)
+   NAnswer(297,1,Node999)
+end

@@ -1,0 +1,53 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                    SCRIPT_ZSTblUzi
+#define SKILL_LIMIT                     60
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (local_var(LVAR_Status) > 0) then begin
+      if (cur_map_index == MAP_HERMO_CASA) then begin
+      item_add(dude_obj,PID_W_SMG_UZI,1)
+      display_msg(proto_data(PID_W_SMG_UZI, it_name)+mstr(113));
+      end
+      else begin
+      item_add(dude_obj,PID_W_SMG_10,1)
+      display_msg(proto_data(PID_W_SMG_10, it_name)+mstr(113));
+      end
+      set_obj_visibility(self_obj, 1);
+      create_object_sid(33555382, self_tile, self_elevation, -1);
+      destroy_object(self_obj);
+   end
+   else begin
+      RepairProcUsing(110,111)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20)
+end
+
+procedure repair_proc begin
+   RepairProcRepair(112,0,"WRD1XXX1")
+end

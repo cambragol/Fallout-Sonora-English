@@ -1,0 +1,45 @@
+#include "..\headers\define.h"
+//#define NAME                            SCRIPT_GSStanok
+#define NAME                            SCRIPT_GSCmptr
+
+procedure start;
+procedure map_enter_p_proc;
+procedure damage_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure damage_p_proc begin
+   //display_mstr(103);
+   /*
+   Замечание: Мне очень не хочется вводить ограничение на наличие квеста.
+   Но без него игрок может уничтожить станок случайно во время боя (бросив граната во врага)
+   или просто причуды ради, нарушая логику событий.
+   Тем более, что возврат к станку происходит спустя почти всю игру.
+   */
+   if (getQuest(GVAR_GARAGE_STANOK_DESTROY) == qStart) then begin
+      if (target_obj != 0) then begin
+         if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+
+         destroy_object(tile_contains_pid_obj(15500, self_elevation, 33556012));
+         destroy_object(tile_contains_pid_obj(15296, self_elevation, 33556013));
+         create_object_sid(33556422,15500,self_elevation,-1);
+         create_object_sid(33556423,15296,self_elevation,-1);
+         create_object_sid(33556424,15703,self_elevation,-1);
+
+         set_SLAVA(-50)
+         exp_add(750);
+         display_mstr(102);
+         play_sfx("CLANK1");
+         play_sfx("CLANG1");
+         set_map_var(MVAR_GARAGE_LUCAS_ENEMY,2); // мусорщики на заводе становятся враждебны
+         setQuest(GVAR_GARAGE_STANOK_DESTROY,qEnd);
+         end
+      end
+   end
+end

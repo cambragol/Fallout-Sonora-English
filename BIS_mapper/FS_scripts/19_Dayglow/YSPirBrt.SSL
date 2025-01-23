@@ -1,0 +1,103 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSPirBrt
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure partyNonMariachi;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (cur_map_index == MAP_DAYGLOW_PIRS) then begin
+      if (map_var(MVAR_DIEGOPIRS_RETARN_HEX)>0) then begin
+      move_to(dude_obj, map_var(MVAR_DIEGOPIRS_RETARN_HEX), 0);
+      set_map_var(MVAR_DIEGOPIRS_RETARN_HEX,0);
+      end
+      end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       call partyNonMariachi;
+       dude_teleport_map(1,1,MAP_DAYGLOW_CORONADO,1);
+   end
+   if (fixed_param == 2) then begin
+       call partyNonMariachi;
+       dude_teleport_map(1,1,MAP_DAYGLOW_PIRS,0);
+   end
+end
+
+procedure partyNonMariachi begin
+   if (partyPidMr1!=0) then begin
+   party_remove(partyPidMr1);
+   end
+   if (partyPidMr2!=0) then begin
+   party_remove(partyPidMr2);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if ((global_var(GVAR_DAYGLOW_CORONADO_STATUS) != 0) and (cur_map_index == MAP_DAYGLOW_PIRS)) then begin
+   display_mstr(103);
+   end
+   else if ((global_var(GVAR_DAYGLOW_CORONADO_CODE_SIGNAL) == 1) or (cur_map_index != MAP_DAYGLOW_PIRS)) then begin
+   call talk_p_proc;
+   end
+   else begin
+   display_mstr(102);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   call use_p_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(110)
+   if (cur_map_index == MAP_DAYGLOW_PIRS) then begin
+   NAnswer(111,1,NodeDialog2)
+   end
+   if (cur_map_index == MAP_DAYGLOW_CORONADO) then begin
+   NAnswer(113,1,NodeDialog3)
+   end
+   NAnswer(112,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   set_map_var(MVAR_DIEGOPIRS_RETARN_HEX,20318);
+   add_timer_event(self_obj, 2, 1);
+   call Node999;
+end
+
+procedure NodeDialog3 begin
+   add_timer_event(self_obj, 2, 2);
+   call Node999;
+end

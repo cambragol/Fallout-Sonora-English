@@ -1,0 +1,122 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSBooks
+
+procedure start;
+procedure map_enter_p_proc;
+procedure skill_check;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure reading_proc;
+
+#define LVAR_SkillUp                    (0) // сколько изучений было совершено
+#define LVAR_SkillControl               (1) // контроль на случай генерации объекта "на ходу"
+#define LVAR_SkillA                     (2) // навык №1
+#define LVAR_SkillB                     (3) // навык №2
+#define LVAR_SkillC                     (4) // навык №3
+#define LVAR_SkillD                     (5) // навык №4
+#define LVAR_SkillE                     (6) // навык №5
+
+/*
+     Собрания (всего 7 штук на игру):
+
+         - Вилла         2й этаж ратуши         книжное собрание
+         - Флагпул       церковь Св Огня        книжное собрание
+         - Убежище 25    научный отдел          электронный терминал
+         - Убежище 27    библиотека             электронный терминал
+         - КНуэвa        школа Последователей   книжное собрание
+         - Пуэрто        секция писарей         электронный терминал
+         - Инферно       2й этаж Особняка       книжное собрание ("собрание облученных книг")
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+      call skill_check;
+      end
+   end
+end
+
+procedure skill_check begin
+   set_local_var(LVAR_SkillA,random(0,5));
+   set_local_var(LVAR_SkillB,random(6,8));
+   set_local_var(LVAR_SkillC,random(9,11));
+   set_local_var(LVAR_SkillD,random(12,14));
+   set_local_var(LVAR_SkillE,random(15,17));
+   set_local_var(LVAR_SkillControl,1);
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(110);
+end
+
+#define setBibl(varbit,msg,map)    if ((gvar_bit(GVAR_BIBL_FLAGS_BIT, varbit) == 0) and (cur_map_index == map)) then begin \
+                                   passworkMsg := msg;                          \
+                                   end                                          \
+
+procedure use_skill_on_p_proc begin
+   variable passworkMsg;
+   passworkMsg := 0;
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+
+      setBibl(bit_1,0,MAP_VILLA_PLAZA) // Вилла (допуск не требуется)
+      setBibl(bit_2,121,MAP_FLAGSTAFF_CITY) // Флагпул
+      setBibl(bit_3,122,MAP_PHOENIX_VAULT) // убежище 25
+      setBibl(bit_4,123,MAP_VAULT_27_INTERIER) // убежище 27
+      setBibl(bit_5,124,MAP_CASA_NUEVA_CITY) // КНуэвa
+      setBibl(bit_6,125,MAP_PUERTO_BASA) // Пуэрто
+      setBibl(bit_7,126,MAP_INFIERNO_CHURCH) // Инферно
+
+      if (passworkMsg != 0) then begin
+      display_mstr(passworkMsg);
+      end
+      else if (dude_iq < 3) then begin
+      stat_display_mstr(112,STAT_iq,3)
+      end
+      else if (has_skill(dude_obj, SKILL_SCIENCE) < 20) then begin
+      skill_display_mstr(111,SKILL_SCIENCE,20)
+      end
+      else if (local_var(LVAR_SkillUp) == 0) then begin
+      call reading_proc;
+      end
+      else begin
+      display_mstr(114);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if ((objUsedPid == PID_KEY_VAULT25_YLW) or (objUsedPid == PID_KEY_VAULT25_RED)) then begin
+      if (cur_map_index == MAP_PHOENIX_VAULT) then begin
+      script_overrides;
+      display_mstr(115);
+      set_gvar_bit_on(GVAR_BIBL_FLAGS_BIT, bit_3);
+      end
+   end
+end
+
+procedure reading_proc begin
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR*(24-dude_iq));
+
+   if (local_var(LVAR_SkillControl) == 0) then begin
+   call skill_check;
+   end
+   skill_up(local_var(LVAR_SkillA),2);
+   skill_up(local_var(LVAR_SkillB),2);
+   skill_up(local_var(LVAR_SkillC),2);
+   skill_up(local_var(LVAR_SkillD),2);
+   skill_up(local_var(LVAR_SkillE),2);
+
+   display_mstr(113);
+   inc_local_var(LVAR_SkillUp);
+end

@@ -1,0 +1,61 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_VSPolka
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure open_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if SELF_IS_LOCKED then begin
+      script_overrides;
+      display_mstr(110);
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      call open_proc;
+   end
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      call open_proc;
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      call open_proc;
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      call open_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure damage_p_proc begin
+   call open_proc;
+end
+
+procedure open_proc begin
+   if SELF_IS_LOCKED then begin
+      script_overrides;
+      obj_unlock(self_obj);
+      dude_floater_OK;
+      display_mstr(113);
+   end
+end

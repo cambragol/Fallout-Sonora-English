@@ -1,0 +1,93 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VIBonus
+
+procedure start;
+procedure map_enter_p_proc;
+procedure ItemBonusPeace;
+procedure ItemBonusCombat;
+
+#define LVAR_ItemAmnt                     (0) // число патронов в сундуке
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_first_run) then begin
+           if (dude_luck >= 9) then begin
+           item_add(self_obj,PID_M_STIMPAK,1)
+           end
+           call ItemBonusPeace;
+           call ItemBonusCombat;
+       end
+   end
+end
+
+procedure ItemBonusCombat begin
+
+   if (is_skill_tagged(SKILL_SMALL_GUNS) == true) then begin
+            if (random(0,1) == 0) then begin
+            item_add(self_obj,PID_AMMO_10_MM,dude_luck)
+            end
+            else begin
+            item_add(self_obj,PID_AMMO_44_MAGNUM,dude_luck)
+            end
+   end
+
+   if (is_skill_tagged(SKILL_BIG_GUNS) == true) then begin
+            item_add(self_obj,PID_AMMO_308,dude_luck/2)
+   end
+
+   if ((is_skill_tagged(SKILL_ENERGY_WEAPONS) == true) or (is_skill_tagged(SKILL_REPAIR) == true)) then begin
+            item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,dude_luck/2)
+   end
+
+   if (is_skill_tagged(SKILL_UNARMED_COMBAT) == true) then begin
+            item_add(self_obj,PID_W_KNUCKLES_BRASS,1)
+   end
+
+   if (is_skill_tagged(SKILL_MELEE) == true) then begin
+            if (dude_luck >= 9) then begin
+            item_add(self_obj,PID_W_COMBAT_KNIFE,1)
+            end
+            else begin
+            item_add(self_obj,PID_W_KNIFE,1)
+            end
+   end
+
+   if (is_skill_tagged(SKILL_THROWING) == true) then begin
+            item_add(self_obj,PID_W_THROWING_KNIFE,1)
+            if (dude_luck >= 6) then begin
+            item_add(self_obj,PID_W_THROWING_KNIFE,1)
+            end
+            if (dude_luck >= 9) then begin
+            item_add(self_obj,PID_W_GRENADE_FRAG,1)
+            end
+   end
+
+end
+
+procedure ItemBonusPeace begin
+
+   //Замечание: бонуса к навыку Выживания здесь нет, так как он дается в начале игры на локации Спальный район (скриптом карты, см map_first_proc в ZTMap)
+
+   if (is_skill_tagged(SKILL_TRAPS) == true) then begin
+            //item_add(self_obj,PID_TOOL_IGUANA_TRACK,1)
+   end
+
+   if ((is_skill_tagged(SKILL_CONVERSANT) == true) or (is_skill_tagged(SKILL_BARTER) == true) or (is_skill_tagged(SKILL_GAMBLING) == true)) then begin
+            item_add(self_obj,PID_M_BOOZE,1)
+   end
+
+   if ((is_skill_tagged(SKILL_DOCTOR) == true) or (is_skill_tagged(SKILL_FIRST_AID) == true) or (is_skill_tagged(SKILL_SCIENCE) == true)) then begin
+            item_add(self_obj,PID_WAT_WIPES,1)
+            item_add(self_obj,PID_HYPO,1)
+   end
+
+   if ((is_skill_tagged(SKILL_SNEAK) == true) or (is_skill_tagged(SKILL_LOCKPICK) == true) or (is_skill_tagged(SKILL_STEAL) == true)) then begin
+            item_add(self_obj,PID_TOOL_LOCKPICKS_MH,1)
+   end
+
+end

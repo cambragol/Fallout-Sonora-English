@@ -1,0 +1,38 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSRolBar
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   item_add(dude_obj, PID_OIL, 1)
+   RepairProcRepair(114,0,"PEBBLE")
+end

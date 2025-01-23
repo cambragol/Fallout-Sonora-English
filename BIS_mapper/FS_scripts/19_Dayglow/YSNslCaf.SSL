@@ -1,0 +1,47 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSNslCaf
+
+procedure start;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure damage_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   if (map_var(MVAR_DIEGOCAFE_GHOUL_STATUS) == 0) then begin
+      script_overrides;
+      display_mstr(100);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if ((objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_SLEDGEHAMMER) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE)) then begin
+      if (map_var(MVAR_DIEGOCAFE_GHOUL_STATUS) == 0) then begin
+      script_overrides;
+      inc_map_var(MVAR_DIEGOCAFE_GHOUL_STATUS);
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (map_var(MVAR_DIEGOCAFE_GHOUL_STATUS) == 0) then begin
+      script_overrides;
+      display_mstr(100);
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (map_var(MVAR_DIEGOCAFE_GHOUL_STATUS) == 0) then begin
+      script_overrides;
+      inc_map_var(MVAR_DIEGOCAFE_GHOUL_STATUS);
+      end
+   end
+end

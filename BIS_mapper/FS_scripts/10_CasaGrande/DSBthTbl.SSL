@@ -1,0 +1,38 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_DSBthTbl
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_obj_on_p_proc;
+procedure solar_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) >= 2) then begin
+          call solar_proc;
+       end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure solar_proc begin
+   set_obj_visibility(self_obj,1);
+   if (self_PID == 33555383) then begin
+   create_object_sid(PID_HEX_SOLAR,26718,0,-1);
+   create_object_sid(PID_HEX_SOLAR,26103,0,-1);
+   create_object_sid(PID_HEX_SOLAR,26110,0,-1);
+   create_object_sid(self_PID-1,self_tile,self_elevation,-1);
+   end
+   else begin
+   create_object_sid(self_PID+1,self_tile,self_elevation,-1);
+   end
+   destroy_object(self_obj);
+end

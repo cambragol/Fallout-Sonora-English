@@ -1,0 +1,429 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_JCSuka
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_JACKALS // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        5  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_JACKALS_PEASAN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_JACKALS       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD*5        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialogNon;
+procedure NodeFstDialogEnd;
+
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeQuest;
+procedure NodeQuest100;
+procedure NodeQuest101;
+procedure NodeQuest102;
+procedure NodeQuest200;
+procedure NodeQuest201;
+procedure NodeQuest202;
+procedure NodeQuest203;
+procedure NodeQuest204;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       kill_to_ranger_proc
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (bitDialog(bit_1) == 0) then begin
+      if self_can_see_dude then begin
+      dialogue_system_forcing(10)
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_SCORPION_TAIL) then begin
+   script_overrides;
+   floater(self_obj,104,COLOR_MSG_RED);
+   set_enemy_dude;
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(4,0,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_Jkls_Dopusk,-1);
+   end
+end
+
+procedure destroy_p_proc begin
+   inc_global_var(GVAR_JACKALS_DEAD);
+   kill_critter_opt
+   kill_critter_dude_reply(103,0)
+   setQuest(GVAR_JACKALS_UNION_CITY,qStop);
+   if ((global_var(GVAR_JACKALS_RANGER_CONTRAKT) == 1) and (getQuest(GVAR_JACKALS_UNION_CITY) == qEnd)) then begin
+   set_global_var(GVAR_JACKALS_RANGER_CONTRAKT,0);
+   end
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,HEAD_JACALS_BOSS,BACKGROUND_WASTELND)
+end
+
+procedure Node998 begin
+   set_global_var(TOWN_REP_VAR,-100);
+   set_map_var(MVAR_Jkls_Dopusk,-1);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (map_var(MVAR_Jkls_Dopusk) < 0) then begin
+   call NodeStopDialog;
+   end
+   else if (map_var(MVAR_Jkls_Dopusk) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeStopDialog begin
+   set_map_var(MVAR_Jkls_Dopusk,-1);
+   bitDialogExp(bit_1,100)
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   zReply(201)
+   end
+   else begin
+   zReply(200)
+   end
+   NAnswer(202,1,Node998)
+   BAnswer(203,1,Node998)
+end
+
+//--- ПЕРВАЯ ВСТРЕЧА
+
+procedure NodeFstDialog begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(228)
+   zNAnswer(211,1,NodeFstDialog101)
+   end
+   else begin
+   call NodeFstDialog100;
+   end
+end
+
+procedure NodeFstDialog100 begin
+   zReply(210)
+   zNAnswer(211,1,NodeFstDialog101)
+   GAnswer(212,1,NodeFstDialog101)
+   BAnswer(213,1,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   zReply(214)
+   BAnswer(215,1,NodeFstDialog102)
+   BAnswer(216,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(217)
+   NAnswer(218,1,NodeFstDialog103)
+   NAnswer(219,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog103 begin
+   zReply(220)
+
+   if (inven_armor(dude_obj) <= 0) then begin
+   zGAnswer(230,7,NodeFstDialog104)
+   end
+   if (global_var(GVAR_TITUL_REBIRTH) > 0) then begin
+   GAnswer(235,3,NodeFstDialog106)
+   end
+
+   NAnswerSkill(239,1,NodeFstDialog107,SKILL_CONVERSANT,75,238,NodeFstDialogNon)
+   NAnswerSkill(243,1,NodeFstDialog108,SKILL_SCIENCE,75,242,NodeFstDialogNon)
+
+   BAnswer(221,1,NodeStopDialog)
+   NAnswer(222,1,NodeStopDialog)
+end
+
+procedure NodeFstDialog104 begin
+   setBonusReaction(10)
+   Reply(231)
+   NAnswer(232,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(233)
+   NAnswer(234,1,NodeFstDialogEnd)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(236)
+   NAnswer(237,1,NodeFstDialogEnd)
+end
+
+procedure NodeFstDialog107 begin
+   Reply(240)
+   NAnswer(241,1,NodeFstDialogEnd)
+   BAnswer(246,1,NodeStopDialog)
+end
+
+procedure NodeFstDialog108 begin
+   Reply(244)
+   NAnswer(245,1,NodeFstDialogEnd)
+end
+
+procedure NodeFstDialogNon begin
+   Reply(223)
+   NAnswer(224,1,NodeFstDialog103)
+   BAnswer(225,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialogEnd begin
+   set_map_var(MVAR_Jkls_Dopusk,1);
+   bitDialogExp(bit_1,250)
+   if (global_var(TOWN_REP_VAR)<0) then begin
+   set_global_var(TOWN_REP_VAR,0);
+   end
+   setBonusReaction(25)
+
+   Reply(226)
+   NAnswer(227,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getQuest(GVAR_JACKALS_UNION_CITY) >= qEnd) then begin
+   Reply(253)
+   end
+   else if (getReaction>=20) then begin
+   Reply(250)
+   end
+   else begin
+   Reply(251)
+   end
+
+   NAnswer(300,1,NodeAnswer)
+
+   if (getQuest(GVAR_JACKALS_UNION_CITY) < qEnd) then begin
+   NAnswer(260,1,NodeQuest)
+   end
+
+   if (getQuest(GVAR_JACKALS_UNION_CITY) >= qEnd) then begin
+   if (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qStart) then begin
+   if (global_var(GVAR_JACKALS_STATUS_RANGER) == 0) then begin
+   NAnswer(274,1,NodeQuest204)
+   end
+   end
+   end
+
+   NAnswer(252,1,Node999)
+end
+
+//--- ВОПРОСЫ
+
+procedure NodeAnswer begin
+   Reply(301)
+   NAnswer(303,1,NodeAnswer100)
+   NAnswer(314,1,NodeAnswer104)
+   NAnswer(317,1,NodeAnswer105)
+   NAnswer(302,1,NodeSndDialog)
+end
+
+procedure NodeAnswer100 begin
+   Reply(304)
+   NAnswer(306,4,NodeAnswer101)
+   NAnswer(305,1,NodeAnswer)
+end
+
+procedure NodeAnswer101 begin
+   Reply(307)
+   NAnswer(308,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   Reply(309)
+   if ((getQuest(GVAR_VAULT25_VISITED) >= qEnd) or (getQuest(GVAR_VAULT27_VISITED) >= qEnd)) then begin
+   NAnswer(311,5,NodeAnswer103)
+   end
+   NAnswer(310,3,NodeAnswer)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_3,100)
+   Reply(312)
+   NAnswer(313,1,NodeAnswer)
+end
+
+procedure NodeAnswer104 begin
+   Reply(315)
+   //Или ты просто что-то скрываешь от меня?
+   NAnswer(316,1,NodeAnswer)
+end
+
+procedure NodeAnswer105 begin
+   Reply(318)
+   NAnswer(319,1,NodeAnswer106)
+end
+
+procedure NodeAnswer106 begin
+   Reply(320)
+   NAnswer(321,1,NodeAnswer)
+end
+
+//--- НАЙТИ СОЮЗНИКА
+
+procedure NodeQuest begin
+   Reply(261)
+   if (getQuest(GVAR_JACKALS_UNION_CITY) == qZero) then begin
+   NAnswer(263,1,NodeQuest100)
+   end
+   if (getQuest(GVAR_JACKALS_UNION_CITY) == qStart) then begin
+   if (global_var(GVAR_JACKALS_RANGER_CONTRAKT) == 1) then begin
+   BAnswer(270,1,NodeQuest200)
+   end
+   end
+   NAnswer(262,1,NodeSndDialog)
+end
+
+procedure NodeQuest100 begin
+   Reply(264)
+   NAnswer(265,1,NodeQuest101)
+end
+
+procedure NodeQuest101 begin
+   Reply(266)
+   NAnswer(267,1,NodeQuest102)
+end
+
+procedure NodeQuest102 begin
+   setQuest(GVAR_JACKALS_UNION_CITY,qStart);
+   zReply(268)
+   NAnswer(269,1,Node999)
+end
+
+procedure NodeQuest200 begin
+   Reply(271)
+   GAnswer(272,1,NodeQuest201)
+end
+
+procedure NodeQuest201 begin
+   Reply(273)
+   if (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qStart) then begin
+   if (global_var(GVAR_JACKALS_STATUS_RANGER) == 0) then begin
+   NAnswer(274,1,NodeQuest202)
+   end
+   end
+   NAnswer(275,1,NodeQuest203)
+end
+
+procedure NodeQuest202 begin
+   Reply(276)
+   NAnswer(275,1,NodeQuest203)
+end
+
+procedure NodeQuest203 begin
+   setQuest(GVAR_JACKALS_UNION_CITY,qEnd);
+   set_map_var(MVAR_JKLS_TRAPS_VSBL,1);
+   exp_add(2000);
+   set_REP(30)
+   set_SLAVA(50)
+   setBonusReaction(35)
+
+   Reply(277)
+   NAnswer(278,1,Node999)
+end
+
+procedure NodeQuest204 begin
+   Reply(276)
+   NAnswer(278,1,Node999)
+end

@@ -1,0 +1,68 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSMonoPw
+//--- Подстанция монорельса
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) >= qEnd) then begin
+      display_mstr(104);
+   end
+   else if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) == qStart) then begin
+      display_mstr(103);
+   end
+   else begin
+      display_mstr(102);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (global_var(GVAR_DAYGLOW_TURBINA) <= 4) then begin
+      display_mstr(106);
+      end
+      else if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) >= qEnd) then begin
+      display_mstr(104);
+      end
+      else if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) == qStart) then begin
+      play_sfx("ELECTRIC");
+      play_sfx("ZAPPER1");
+      play_sfx("COOLANT");
+      display_mstr(105);
+      setQuest(GVAR_DAYGLOW_MONORAIL_ENERGY, qEnd);
+      end
+      else begin
+      display_mstr(102);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

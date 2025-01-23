@@ -1,0 +1,52 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_DSBthRpr
+#define SKILL_LIMIT                     30
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) < 1) then begin
+   script_overrides;
+   display_mstr(114);
+   end
+   else begin
+   RepairProcUsing(110,111)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) > 0) then begin
+   RepairVarCheck
+   RepairSkillRepair
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) > 0) then begin
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+   end
+end
+
+procedure repair_proc begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_25);
+   gfade_out(ONE_GAME_SECOND);
+    game_time_advance(ONE_GAME_HOUR*2);
+   gfade_in(ONE_GAME_SECOND);
+
+   RepairProcRepair(112,100,"FIXSTILL")
+end

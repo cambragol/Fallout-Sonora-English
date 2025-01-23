@@ -1,0 +1,371 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_ZCRobot
+#define TOWN_REP_VAR                    -1   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_ROBOTS           // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
+
+variable attakParam;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+
+       if (self_TEAM == TEAM_PLAYER) then begin
+           if (HomeTile >0) then begin
+           move_to(self_obj, HomeTile, self_elevation);
+           anim(self_obj, ANIMATE_ROTATION, HomeRotat);
+           end
+           rm_timer_event(self_obj);
+           add_timer_event(self_obj, random(10,30), 1);
+           add_timer_event(self_obj, random(30,70), 2);
+       end
+
+       if (self_TEAM != TEAM_PLAYER) then begin
+           if ((cur_map_index == MAP_PUERTO_BASA) or (cur_map_index == MAP_PUERTO_DOCS) or (cur_map_index == MAP_PUERTO_SIGN)) then begin
+           critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_BROTHERS_STEEL);
+           end
+       end
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+           if (cur_map_index == MAP_PHOENIX_COLA) then begin
+              if (item_amnt(self_obj,PID_TEST) == 1) then begin
+              set_local_var(LVAR_Tile_B,21689); // робот снаружи склада
+              end
+           end
+           if ((cur_map_index == MAP_DAYGLOW_PATRUL) and (self_elevation == 2)) then begin
+              if (item_amnt(self_obj,PID_TEST) == 1) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,5,15)); // робот на блокпосту через мост на трассе 805
+              end
+              if (item_amnt(self_obj,PID_TEST) == 2) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,2,15)); // робот на блокпосту через мост на трассе 805
+              end
+           end
+           if ((cur_map_index == MAP_DAYGLOW_PIRS) and (self_elevation == 0)) then begin
+              if (item_amnt(self_obj,PID_TEST) == 1) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,2,10));
+              end
+              if (item_amnt(self_obj,PID_TEST) == 2) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,5,10));
+              end
+              if ((global_var(GVAR_DAYGLOW_CORONADO_CODE_SIGNAL) > 0) or (global_var(GVAR_DAYGLOW_CORONADO_STATUS) > 0)) then begin
+              rm_timer_event(self_obj);
+              set_obj_visibility(self_obj, 1);
+              end
+           end
+           if (cur_map_index == MAP_DAYGLOW_BONITA_DUM) then begin
+              if (item_amnt(self_obj,PID_TEST) == 1) then begin
+              set_local_var(LVAR_Tile_B,19302); // робот у ворот
+              end
+              if (item_amnt(self_obj,PID_TEST) == 2) then begin
+              set_local_var(LVAR_Tile_B,20707); // робот снизу
+              end
+              if (item_amnt(self_obj,PID_TEST) == 3) then begin
+              set_local_var(LVAR_Tile_B,15292); // робот сверху
+              end
+           end
+           if (cur_map_index == MAP_DAYGLOW_CORONADO) then begin
+              if (item_amnt(self_obj,PID_TEST) == 1) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,2,15)); // робот у склада боеприпасов, ур 0
+              end
+              if (item_amnt(self_obj,PID_TEST) == 2) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,5,15)); // робот у ангара с рабочей гаубицей, ур 0
+              end
+              if (item_amnt(self_obj,PID_TEST) == 3) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,2,15)); // робот у ангара с нерабочими гаубицами, ур 0
+              end
+              if (item_amnt(self_obj,PID_TEST) == 4) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,5,15)); // робот возле спуска в бункер, ур 0
+              end
+              if (item_amnt(self_obj,PID_TEST) == 11) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,5,20)); // робот в транспортном каридоре, ур 1
+              end
+              if (item_amnt(self_obj,PID_TEST) == 21) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,5,12)); // робот на складах слева, ур 2
+              end
+              if (item_amnt(self_obj,PID_TEST) == 22) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(HomeTile,2,15)); // робот на складах справа, ур 2
+              end
+           end
+           item_remove(self_obj,PID_TEST,999)
+       end
+
+       if (cur_map_index == MAP_DAYGLOW_BONITA_DUM) then begin
+           if (self_elevation == 0) then begin
+               if ((map_var(MVAR_DIEGODUM_ROBOTS) == 0) and (getQuest(GVAR_DAYGLOW_MAIN_A) >= qEnd)) then begin
+               set_map_var(MVAR_DIEGODUM_ROBOTS,1);
+               end
+               if (map_var(MVAR_DIEGODUM_ROBOTS) > 0) then begin
+                  rm_timer_event(self_obj);
+                  set_obj_visibility(self_obj, 1);
+                  /*
+                  if (local_var(LVAR_Tile_B) == 19302) then begin
+                  set_local_var(LVAR_Home_Tile,20488); // робот у ворот
+                  end
+                  if (local_var(LVAR_Tile_B) == 20707) then begin
+                  set_local_var(LVAR_Home_Tile,22696); // робот снизу
+                  end
+                  if (local_var(LVAR_Tile_B) == 15292) then begin
+                  set_local_var(LVAR_Home_Tile,20496); // робот сверху
+                  end
+                  set_local_var(LVAR_Tile_B,0);
+                  */
+                  /*
+                  if (local_var(LVAR_Tile_B) > 0) then begin
+                  rm_timer_event(self_obj);
+                  set_obj_visibility(self_obj, 1);
+                  end
+                  */
+               end
+           end
+       end
+
+       if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
+           if ((self_elevation == 0) or (self_elevation == 2)) then begin
+               if (global_var(GVAR_DAYGLOW_PATRUL_SIGNAL_NON) > 0) then begin
+               rm_timer_event(self_obj);
+               set_obj_visibility(self_obj, 1);
+               end
+           end
+       end
+
+       if (cur_map_index == MAP_DAYGLOW_PIRS) then begin
+           if (self_elevation == 0) then begin
+           if ((global_var(GVAR_DAYGLOW_CORONADO_CODE_SIGNAL) > 0) or (global_var(GVAR_DAYGLOW_CORONADO_STATUS) != 0)) then begin
+           rm_timer_event(self_obj);
+           set_obj_visibility(self_obj, 1);
+           end
+           end
+       end
+   end
+
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((cur_map_index == MAP_DAYGLOW_BONITA_DUM) and (self_elevation == 0) and (map_var(MVAR_DIEGODUM_ALARMA) > 0)) then begin
+       timer_move_random
+       end
+       else if ((cur_map_index == MAP_DAYGLOW_START) and (self_elevation == 2)) then begin
+       timer_move_random
+       end
+       else if ((cur_map_index == MAP_DAYGLOW_PATRUL) and (self_elevation == 0)) then begin
+       timer_move_random
+       end
+       else if (local_var(LVAR_Tile_B) > 0) then begin
+       timer_move_patrol(HomeTile,local_var(LVAR_Tile_B))
+       end
+       else if ((cur_map_index == MAP_PUERTO_BASA) and (map_var(MVAR_PUERTO_ALARM_A) > 0) and (self_elevation == 2)) then begin
+       //timer_move_random_tile(19884,3)
+       timer_move_random
+       end
+       else if ((cur_map_index == MAP_DAYGLOW_PIRS) and (self_elevation == 0)) then begin
+       timer_move_random
+       end
+       else if (cur_map_index == MAP_SPECIAL_DRIVE_IN) then begin
+       timer_move_random_home(1)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       if (cur_map_index == MAP_SPECIAL_DRIVE_IN) then begin
+       timer_float_reply(110,128)
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   attakParam := 2;
+
+   if (cur_map_index == MAP_DAYGLOW_CORONADO) then begin
+       if (global_var(GVAR_DAYGLOW_CORONADO_STATUS) > 0) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+
+   if ((cur_map_index == MAP_OIL_PLATFORM) or (cur_map_index == MAP_OIL_PLATFORMDRILL) or (cur_map_index == MAP_OIL_PLATFORMROOMS)) then begin
+      if (global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK)>0) then begin
+      attakParam := 0;
+      critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+      end
+      else begin
+      critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+      end
+   end
+
+   if (cur_map_index == MAP_OIL_PLATFORM) then begin
+      if (map_var(MVAR_OIL_PLATFORM_TUREL_VERT) > 0) then begin
+      set_obj_visibility(self_obj, 0);
+      end
+      else begin
+      set_obj_visibility(self_obj, 1);
+      end
+   end
+   else if (cur_map_index == MAP_OIL_PLATFORMDRILL) then begin
+      if (map_var(MVAR_OIL_PLATFORM_TUREL_DRILL) > 0) then begin
+      set_obj_visibility(self_obj, 0);
+      end
+      else begin
+      set_obj_visibility(self_obj, 1);
+      end
+   end
+   else if (cur_map_index == MAP_OIL_PLATFORMROOMS) then begin
+      if (global_var(GVAR_OIL_PLATFORM_TURRELS)<0) then begin
+      set_obj_visibility(self_obj, 1);
+      end
+      else begin
+      set_obj_visibility(self_obj, 0);
+      end
+   end
+
+   if (cur_map_index == MAP_PHOENIX_COLA) then begin
+      if (map_var(MVAR_PHX_COLA_ROBOT)>0) then begin
+      attakParam := 0;
+      end
+   end
+   else if (cur_map_index == MAP_PUERTO_BASA) then begin
+      if (map_var(MVAR_PUERTO_ALARM_A) <= 0) then begin
+      attakParam := 0;
+      end
+   end
+   else if (cur_map_index == MAP_SPECIAL_DRIVE_IN) then begin
+      attakParam := 0;
+   end
+   else if ((cur_map_index == MAP_DAYGLOW_BONITA_DUM) and (map_var(MVAR_DIEGODUM_ROBOTS) > 0)) then begin
+      attakParam := 0;
+   end
+   else if ((cur_map_index == MAP_DAYGLOW_PATRUL) and (global_var(GVAR_DAYGLOW_PATRUL_SIGNAL_NON) > 0) and (self_elevation == 0)) then begin
+      attakParam := 0;
+   end
+
+   /*
+   if ((partyPidMtn != 0) and (attakParam == 2)) then begin
+      if (obj_can_see_obj(self_obj, partyPidMtn) == true) then begin
+         if dude_is_sneaking then begin
+            if (tile_distance_objs(self_obj,partyPidMtn) <= self_perception/2) then begin
+            attack(partyPidMtn);
+            end
+         end
+         else begin
+            if (tile_distance_objs(self_obj,partyPidMtn) <= self_perception) then begin
+            attack(partyPidMtn);
+            end
+         end
+      end
+   end
+   */
+
+   set_critter_options(attakParam,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+   skillUseScience(80)
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,3,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+
+   if ((cur_map_index == MAP_DAYGLOW_BONITA_DUM) and (map_var(MVAR_DIEGODUM_ALARMA) == 0)) then begin
+      display_mstr(132);
+      floater(self_obj, 131, COLOR_MSG_RED);
+      play_sfx("BIGWIN");
+      set_map_var(MVAR_DIEGODUM_ALARMA,1);
+   end
+
+   if (source_obj == dude_obj) then begin
+      if (self_TEAM == TEAM_PLAYER) then begin
+         critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+      end
+      if ((cur_map_index == MAP_OIL_PLATFORM) or (cur_map_index == MAP_OIL_PLATFORMDRILL) or (cur_map_index == MAP_OIL_PLATFORMROOMS)) then begin
+         if (global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK)>0) then begin
+         display_mstr(130);
+         set_global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK,0);
+         end
+      end
+      if (cur_map_index == MAP_PHOENIX_COLA) then begin
+         if (map_var(MVAR_PHX_COLA_ROBOT)>0) then begin
+         set_map_var(MVAR_PHX_COLA_ROBOT,0);
+         end
+      end
+   end
+end
+
+procedure destroy_p_proc begin
+   if ((cur_map_index == MAP_DAYGLOW_START) and (self_elevation == 2)) then begin
+   set_global_var(GVAR_DAYGLOW_STATUS_ROBOT, -1);
+   end
+   if (cur_map_index == MAP_TWO_SUN_GRAVE) then begin
+   item_add(self_obj, PID_AMMO_MICRO_FUSION_CELL, random(2,5))
+   end
+   if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
+       if (self_elevation == 2) then begin
+       inc_map_var(MVAR_DIEGOPTRL_ROBOT_BRIDGE);
+       end
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (cur_map_index == MAP_SPECIAL_DRIVE_IN) then begin
+   floater(self_obj,random(110,128),COLOR_MSG_NORMAL);
+   end
+   else begin
+   g_display_mstr(518);
+   end
+end

@@ -1,77 +1,125 @@
-== ... You can move already placed and configured objects across map levels by holding them with the cursor and pressing Page Up or Page Down.
-To make the pro-file editor work, you need to create a folder in the root disk: DISK/fallout2/dev/PROTO/... (instead of the ellipsis of the profile folder: CRITTERS, SCENERY, etc.)
-In the Fallout 2 file system, no more than 8 characters are allowed in the file name, otherwise such a file will not be found by the engine or script. This applies to anything - sprites, sounds, scripts, location maps, etc.
+======================================================================
+=============  Fallout Sonora: Клавиши и опции редактора
+=============  Составитель: Александр Пошелюжин
+======================================================================
 
->> For the world map (works only in pseudo-game mode):
+>> Замечания:
 
-D - displays the names of encounters for each tile, when pressed again, removes the inscriptions and makes all tiles covered with fog of war again.
-F - initiates a random encounter at the hero's current position on the world map. Shift+F allows you to select a specific encounter from the WORLDMAP.TXT list (first, the Encounter Table number is selected, then the encounter number enc_ inside it)
-H - displays all available locations on the world map, except for hidden ones. Shift+H also displays hidden locations (marked with start_state=Off in CITY.TXT).
-C - toggles between walking and driving.
-Alt+LMB - teleports the hero to the click point on the map.
-F1 - displays the cursor coordinates on the world map (relevant for the city.txt file).
+	Редактор ведёт себя некорректно, если активна клавиша CapsLock.
+	Можно перемещать уже размещенные и настроенные объекты по уровням карты, зажав их курсором и нажимая на Page Up или Page Down.
+	Чтобы заработал редактор про-файлов, нужно создать папку в корневом диске: ДИСК/fallout2/dev/PROTO/... (вместо троеточия папки профайлов: CRITTERS, SCENERY и др.)
+	В файловой системе Fallout 2 допускается не более 8 символов в названии файлов, иначе такой файл не будет найден движком или скриптом. Это относится к чему угодно - спрайты, звуки, скрипты, карты локаций и т.д.
 
->> For local maps:
+>> Для карты мира (работает только в режиме псевдоигры):
 
-Ctrl+Enter - calls the window for adding items to the hero's inventory.
-Alt+LMB - teleports the hero to the click point on the map (only in pseudo-game mode).
-F8 - enters or exits the game mode (after exiting the game mode, you must reopen the map).
-I - shows the names of their scripts above the objects.
-U - opens/closes the selected door or container.
-K - kills/resurrects the selected critter (K+Shift - kills with a choice of death type).
-S - creates a new trigger (after pressing, click the mouse on the target hex of the map to place the trigger there).
+	D - отображает названия встреч каждого тайла, при повторном нажатии убирает надписи и делает все тайлы вновь покрытыми туманом войны.
+	F - инициирует случайную встречу в текущей позиции героя на карте мира. Shift+F позволяет выбрать определенную встречу из списка WORLDMAP.TXT (сначала выбирается номер Encounter Table, затем номер встречи enc_ внутри него)
+	H - отображает все доступные локации на карте мира, кроме скрытых. Shift+H отображает также скрытые локации (отмеченные start_state=Off в CITY.TXT).
+	C - переключает пеший ход и автомобиль.
+	Alt+ЛКМ - телепортация героя в точку клика на карте.
+	F1 - отображает координаты курсора на карте мира (актуально для файла city.txt).
 
->> Indices of sounds of opening/closing containers (parameter Sound ID):
+>> Для локальных карт:
 
-A - refrigerator
-B - metal cabinet, built-in wall safe
-C - icebox, wooden chest, protruding wall safe, floor safe
-D - metal chest, army box for weapons
-E - grave
+	Ctrl+Enter - вызывает окно добавления предметов в инвентарь героя.
+	Alt+ЛКМ - телепортация героя в точку клика на карте (только в режиме псевдоигры).
+	F8 - вход в режим игры или выход из него (после выхода из режима игры необходимо заново открыть карту).
+	I - показывает над объектами названия их скриптов.
+	U - открывает/закрывает выбранную дверь или контейнер.
+	K - убивает/воскрешает выбранного криттера (K+Shift - убивает с выбором вида смерти).
+	S - создает новый тригер (после нажатия следует кликнуть мышью на целевой гекс карты, чтобы разместить туда тригер).
 
->> Indices of sounds of opening/closing doors and portals (parameter Sound ID):
-Note: PIDs of objects in Fallout 2 are given in brackets.
-Note: Sound files of the type xxDOORSz, where xx is the index of the door operation (SC closing, SO opening, SL locked, SN jammed) and z is the door type index from A to T (decryption below)
+>> Индексы звуков открывания/закрывания контейнеров (параметр Sound ID):
 
-A - regular vault doors (17,18,141,142), external doors of Vault City houses (1386-1391), small doors of the Enclave (1572,1573)
-B - vault 13 interior security doors (7)
-C - regular old door (331,332,405,847-849), NCR half-round top farmhouse door (1530-1535)
-D - Vika's door (1), regular warehouse/garage door (480,481), ornate farmhouse door (961)
-E - regular double door (257-260,853-860)
-F - large entrance doors of the Overlord's Cathedral (345), front doors of the Nuclear Power Plant (877), mine elevator doors (1744)
-G - half-round interior doors of the Overlord's Cathedral (436,437)
-H - entrance door to the Mariposa base in F1 (447)
-I - sewer manhole cover (143)
-J - round doors in the Brotherhood bunker (150,151), garage doors at Rangers in NCR (1433,1434)
-K - Brotherhood bunker doors with and without the BS symbol (152,153) (1357), Vault elevators (420,469), Nuclear Power Plant round interior doors (980-983,1168,1169), Vault City street entrance gates (1336)
-L - pen gate (76,86-88), Modoc toilet drain (994), mesh gate (1465,1466), Reno casino front doors (1478,1479,1490,1491), Broken Hills gates (1817,1818)
-M - stone secret wall door (194,824), secret stairwell in the Overlord's Cathedral (485), stone door to Emperor Shi (1448)
-N - wooden hatch (195)
-O - large cog door of the shelter (172), large doors of the Enclave (1574,1575)
-P - curtains (360,361)
-Q - barred prison door (580,644), doors on the tanker (1708,1709)
-R - armored door of the bank in the Hub (825)
-S - stone door in the Temple of Trials (933)
-T - large warehouse/garage doors (1416,1417)
+	A - холодильник
+	B - шкафчик металлический, сейф настенный встроенный
+	C - ледник, сундук деревянный, сейф настенный выпирающий, сейф напольный
+	D - сундучок металлический, ящик армейский для оружия
+	E - могила
 
->> Sound indices for weapons:
+>> Индексы звуков открывания/закрывания дверей и порталов (параметр Sound ID):
+	Прим.: В скобках указаны PID объектов в Fallout 2.
+	Прим.: Файлы звуков вида xxDOORSz, где xx - индекс операции с дверью (SC закрытие, SO открытие, SL заперта, SN заклинило) и z - индекс типа двери от A до T (расшифровка ниже)
 
-0 - vibroknife Ripper
-1 - brass knuckles, power fist
-2 - rocks, plant thorn
-3 - various knives
-4 - throwing knife, flare
-5 - crowbar, wrench, bat
-6 - baton police
-7 - sledgehammers
-8 - spears and stakes
-9 - cattle prod
-A - 10mm pistol
-B - desert eagle, 9mm mauser
-C - laser pistol, phaser, solar scorcher
-D - 10mm PP, Grease Gun
-E - magnum revolver, 14mm pistol, .223 pistol
-F - plasma pistol
-G - rifles (hunting, sniper, homemade)
-H - automatic rifles (G11, G11e, P90c, Tommy gun, FN FAL, assault, XL70E)
-I - fire
+	A - обычные двери убежища (17,18,141,142), внешние двери домов Города Убежища (1386-1391), малые двери Анклава (1572,1573)
+	B - внутренние защитные двери убежища 13 (7)
+	C - обычная старая дверь (331,332,405,847-849), сельская дверь в НКР с полукруглым верхом (1530-1535)
+	D - дверь Вика (1), дверь обычного склада/гаража (480,481), узорчатая сельская дверь (961)
+	E - обычная двустворчатая дверь (257-260,853-860)
+	F - большие входные двери Собора Повелителя (345), парадные двери АЭС (877), двери шахтного лифта (1744)
+	G - полукруглые внутренние двери Собора Повелителя (436,437)
+	H - входная дверь на базу Марипоза в F1 (447)
+	I - крышка люка канализации (143)
+	J - круглые двери в бункере Братства (150,151), гаражные ворота у рейнджеров в НКР (1433,1434)
+	K - двери бункеров Братства с символом БС (152,153) и без него (1357), лифты в убежищах (420,469), круглые внутренние двери АЭС (980-983,1168,1169), входные уличные ворота Города Убежища (1336)
+	L - калитка загона (76,86-88), спуск в туалет Модока (994), сетчатая калитка (1465,1466), парадные двери казино в Рино (1478,1479,1490,1491), ворота Броккен-Хиллс (1817,1818)
+	M - каменная потайная дверь-стена (194,824), потайной лестничный спуск в Соборе Повелителя (485), каменная дверь к Императору Ши (1448)
+	N - деревянный люк (195)
+	O - большая дверь-шестеренка убежища (172), большие двери Анклава (1574,1575)
+	P - занавески (360,361)
+	Q - решетчатая тюремная дверь (580,644), двери на танкере (1708,1709)
+	R - бронированная дверь банка в Хабе (825)
+	S - каменная дверь в Храме Испытаний (933)
+	T - большие складские/гаражные ворота (1416,1417)
+
+>> Индексы звуков для оружия:
+
+	0 - вибронож Потрошитель
+	1 - кастеты, силовой кулак
+	2 - камни, шип растения
+	3 - различные ножи
+	4 - метательный нож, фальшфейер
+	5 - монтировка, гаечный ключ, бита
+	6 - дубинка полицейская
+	7 - кувалды
+	8 - копья и колья
+	9 - погонялка для скота
+	A - пистолет 10 мм
+	B - дезерт игл, маузер 9 мм
+	C - лазерный пистолет, фазер, солнечный скорчер
+	D - ПП 10 мм, Гриз Ган
+	E - револьвер магнум, пистолет 14 мм, пистолет 0,223
+	F - плазменный пистолет
+	G - винтовки (охотничья, снайперская, самопал)
+	H - автоматические винтовки (G11, G11e, P90c, Томмиган, FN FAL, штурмовая, XL70E)
+	I - огнемёт, огненное дыхание
+	J - лазерное ружьё
+	K - плазменное ружьё
+	L - миниганы (Миниган, Мститель, Виндикатор) и пулемёты (Легкий, Бозар)
+	M - гатлинг-лазер
+	N - гранатомёт
+	O - осколочная граната
+	P - плазменная и святая граната
+	Q - импульсная граната
+	R - все дробовики, обрез и М60
+	S - бластер пришельцев
+	T - (нет)
+	U - пневматические ружья
+	V - пистолет-самопал
+	W - гаусс-винтовка
+	X - импульсное ружьё
+	Y - гаусс-пистолет
+	Z - пистолет-инъектор
+	! - (нет)
+	@ - плазмопушка Хорригана
+	# - импульсный пистолет
+	$ - нож Хорригана
+	_ - (нет)
+
+>> Флаги 2го порядка для криттеров:
+	_Steal		- нельзя обворовать существо
+	_Drop		- нельзя сбрасывать предметы
+	_Limbs		- нельзя травмировать конечности
+	_Ages		- тело после смерти не исчезает
+	_Heal		- не восстанавливает ОЗ со временем
+	Invuln.		- существо неуязвимо в бою
+	_Flatten	- не помещать труп на задний план (плоскость земли) после смерти
+	Special		- есть особый вид смерти (использовалось только у Хорригана)
+	Rng		- возможна рукопашная атака на расстоянии
+	_Knock		- нельзя сбить с ног
+
+>> CRITTERS.LST
+	hapowr,21,1 
+		hapowr - корень имен FRM-файлов
+		21 - идентификатор FRM-файлов для некоторых видов смерти (плазма, огонь) и прицельной картинки
+		1 - возможность бега в бою (при 1 бегает, при отсутствии ходит)

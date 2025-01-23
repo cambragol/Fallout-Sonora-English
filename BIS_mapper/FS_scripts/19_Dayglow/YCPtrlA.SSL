@@ -1,0 +1,363 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCPtrlA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog102b;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog205;
+procedure NodeFstDialog206;
+procedure NodeFstDialog207;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (7) //
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       obj_set_light_level(self_obj, 100, 8);
+       if (global_var(GVAR_DAYGLOW_PASS) >= 2) then begin
+       set_local_var(LVAR_Home_Tile, 14501);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_DAYGLOW_PASS) < 2) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_Q_DAYGLOW_BORDERBADGE_A) then begin
+       script_overrides;
+       if (bitDialog(bit_2) == 0) then begin
+          exp_add(200);
+          set_REP(1)
+          setBonusReaction(25)
+          display_mstr(105);
+          floater(self_obj, 104, COLOR_MSG_GREEN);
+          item_remove(dude_obj, objUsedPid, 1)
+          bitDialogExp(bit_2,0)
+       end
+       else begin
+          display_mstr(106);
+       end
+   end
+   else if (objUsedPid == PID_Q_DAYGLOW_BORDERBADGE_B) then begin
+       script_overrides;
+       if (bitDialog(bit_2) == 0) then begin
+          exp_add(400);
+          set_REP(2)
+          setBonusReaction(35)
+          display_mstr(105);
+          floater(self_obj, 104, COLOR_MSG_GREEN);
+          item_remove(dude_obj, objUsedPid, 1)
+          bitDialogExp(bit_2,0)
+       end
+       else begin
+          display_mstr(106);
+       end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,2,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (getQuest(GVAR_DAYGLOW_QST_ROBOT) < qEnd) then begin
+   setQuest(GVAR_DAYGLOW_QST_ROBOT,qStop);
+   end
+   if (source_obj == dude_obj) then begin
+   set_global_var(GVAR_DAYGLOW_PASS, -1);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   if ((global_var(GVAR_DAYGLOW_PASS) >= 10) and (getQuest(GVAR_DAYGLOW_QST_ROBOT) >= qEnd)) then begin
+   floater(self_obj, 250, COLOR_MSG_NORMAL);
+   end
+   else if ((global_var(GVAR_DAYGLOW_PASS) >= 2) and (getQuest(GVAR_DAYGLOW_QST_ROBOT) >= qEnd)) then begin
+   floater(self_obj, 252, COLOR_MSG_NORMAL); // 250?
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_global_var(GVAR_DAYGLOW_PASS, -1);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+       if DudePerkHas(PERK_ghouling_fiziology) then begin
+       call NodeFstDialog202;
+       end
+       else begin
+       call NodeFstDialog;
+       end
+   end
+   else begin
+       call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   if (global_var(GVAR_DAYGLOW_PASS) == 0) then begin
+   set_global_var(GVAR_DAYGLOW_PASS, 1);
+   end
+
+   if (getQuest(GVAR_DAYGLOW_VISITED) >= qEnd) then begin
+      Reply(247)
+      if (getQuest(GVAR_DAYGLOW_QST_ROBOT) == qStart) then begin
+      if (global_var(GVAR_DAYGLOW_STATUS_ROBOT) != 0) then begin
+      GAnswer(229,1,NodeFstDialog200)
+      end
+      end
+      NAnswer(248,1,Node999)
+   end
+   else if (getQuest(GVAR_DAYGLOW_QST_ROBOT) == qStart) then begin
+      Reply(228)
+      if (getQuest(GVAR_DAYGLOW_QST_ROBOT) == qStart) then begin
+      if (global_var(GVAR_DAYGLOW_STATUS_ROBOT) != 0) then begin
+      GAnswer(229,1,NodeFstDialog200)
+      end
+      end
+      BAnswer(213,1,Node998)
+      NAnswer(214,1,Node999)
+   end
+   else begin
+      Reply(210)
+      NAnswer(215,1,NodeFstDialog102b)
+      BAnswer(211,1,NodeFstDialog101)
+   end
+end
+
+procedure NodeFstDialog101 begin
+   Reply(212)
+   NAnswer(215,1,NodeFstDialog102)
+   BAnswer(213,1,Node998)
+   NAnswer(214,1,Node999)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(216)
+   zNAnswer(217,1,NodeFstDialog103)
+   BAnswer(213,1,Node998)
+   NAnswer(214,1,Node999)
+end
+
+procedure NodeFstDialog102b begin
+   Reply(216)
+   zNAnswer(217,1,NodeFstDialog103)
+   BAnswer(211,1,NodeFstDialog101)
+   NAnswer(218,1,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(219)
+   NAnswer(220,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(221)
+   BAnswer(222,1,Node998)
+   //NAnswerStat(223,1,NodeFstDialog105,STAT_ch,7,223,Node999)
+   if (global_var(GVAR_DAYGLOW_STATUS_ROBOT) != 0) then begin
+   GAnswer(226,1,NodeFstDialog200)
+   end
+   GAnswer(223,1,NodeFstDialog105)
+   NAnswer(227,1,Node999)
+end
+
+procedure NodeFstDialog105 begin
+   if (getQuest(GVAR_DAYGLOW_QST_ROBOT) == qZero) then begin
+   setQuest(GVAR_DAYGLOW_QST_ROBOT,qStart);
+   end
+   Reply(224)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeFstDialog200 begin
+   bitDialogExp(bit_1,0)
+   setQuest(GVAR_DAYGLOW_QST_ROBOT,qEnd);
+   set_global_var(GVAR_DAYGLOW_PASS, 10);
+   set_local_var(LVAR_Home_Tile, 14501);
+   set_REP(3)
+   box_stop_use := 0;
+
+   if (getQuest(GVAR_DAYGLOW_VISITED) >= qEnd) then begin
+   Reply(249)
+   NAnswer(231,1,Node999)
+   BAnswer(232,1,NodeFstDialog201)
+   end
+   else begin
+   Reply(230)
+   NAnswer(231,1,Node999)
+   BAnswer(232,1,NodeFstDialog201)
+   end
+end
+
+procedure NodeFstDialog201 begin
+   set_REP(-1)
+   call Node999;
+end
+
+procedure NodeFstDialog202 begin
+   zReply(233)
+   NAnswer(234,1,NodeFstDialog203)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(235)
+   GAnswer(236,1,NodeFstDialog204)
+   zNAnswer(237,1,Node999)
+end
+
+procedure NodeFstDialog204 begin
+   Reply(238)
+   NAnswer(mstr(239)+dude_name+mstr(240),1,NodeFstDialog205)
+end
+
+procedure NodeFstDialog205 begin
+   Reply(241)
+   NAnswer(242,1,NodeFstDialog206)
+end
+
+procedure NodeFstDialog206 begin
+   Reply(243)
+   NAnswer(244,1,NodeFstDialog207)
+end
+
+procedure NodeFstDialog207 begin
+   bitDialogExp(bit_1,0)
+   set_global_var(GVAR_DAYGLOW_PASS, 10);
+   set_local_var(LVAR_Home_Tile, 14501);
+   box_stop_use := 0;
+   Reply(245)
+   NAnswer(246,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_DAYGLOW_PASS) >= 10) then begin
+   Reply(250)
+   NAnswer(251,1,Node999)
+   end
+   else if (global_var(GVAR_DAYGLOW_PASS) >= 2) then begin
+   Reply(250) // 252?
+   NAnswer(251,1,Node999)
+   end
+   else begin
+   Reply(210)
+   NAnswer(211,1,Node999)
+   end
+
+   if (getQuest(GVAR_DAYGLOW_QST_ROBOT) == qStart) then begin
+      if (global_var(GVAR_DAYGLOW_STATUS_ROBOT) != 0) then begin
+      GAnswer(229,1,NodeFstDialog200)
+      end
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_ROBOT) == qZero) then begin
+      //NAnswer(253,1,NodeFstDialog104b)
+   end
+end

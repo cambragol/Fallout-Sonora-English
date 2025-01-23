@@ -1,0 +1,152 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCRadKid
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_CITIZEN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CHILD              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_CHILD      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_RadAway_Using              (6) // число использованных антирадинов
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) == (qEnd+1)) and (global_var(GVAR_STATUS_FLAGSTAFF_PASTOR) >= 0) and (game_time_hour > 0600) and (game_time_hour <= 1200)) then begin
+       timer_move_to_tile(0,13484,3)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   variable skillcheck;
+   skillcheck := 50;
+   if (local_var(LVAR_RadAway_Using) != 0) then begin
+   skillcheck -= local_var(LVAR_RadAway_Using);
+   end
+
+   skillUseSteal
+
+   if ((action_being_used == SKILL_DOCTOR) or (action_being_used == SKILL_FIRST_AID)) then begin
+      if (getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) == qStart) then begin
+         script_overrides;
+
+         if (has_skill(dude_obj, SKILL_DOCTOR) >= skillcheck) then begin
+            exp_add(350);
+            display_mstr(119);
+            floater(dude_obj,120,COLOR_MSG_GREEN);
+            setQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS,qEnd);
+         end
+         else begin
+            skill_display_mstr(104,SKILL_DOCTOR,skillcheck)
+            floater(dude_obj,116,COLOR_MSG_NORMAL);
+         end
+      end
+      else begin
+         skillUseFAid
+      end
+   end
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+
+   if (objUsedPid == PID_M_RADAWAY) then begin
+      if (getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) == qStart) then begin
+         script_overrides;
+         display_mstr(117);
+         floater(dude_obj,118,COLOR_MSG_NORMAL);
+         item_remove(dude_obj, objUsedPid, 1)
+         inc_local_var_amt(LVAR_RadAway_Using,20);
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   setQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS,-1);
+end
+
+procedure talk_p_proc begin
+   if (getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) >= qEnd) then begin
+      floater(self_obj,113,COLOR_MSG_NORMAL);
+   end
+   else if (getQuest(GVAR_FLAGSTAFF_RAD_KID_STATUS) == qStart) then begin
+      floater(self_obj,112,COLOR_MSG_NORMAL);
+   end
+   else if (game_time_hour <= 0600) then begin
+      floater(self_obj,111,COLOR_MSG_NORMAL);
+   end
+   else begin
+      floater(self_obj,110,COLOR_MSG_NORMAL);
+   end
+end

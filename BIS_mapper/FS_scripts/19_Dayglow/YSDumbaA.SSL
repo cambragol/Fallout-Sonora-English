@@ -1,0 +1,94 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSDumbaA
+//--- машинный зал - клапан гидроагрегата
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (global_var(GVAR_DAYGLOW_TURBINA) > 0) then begin
+      display_mstr(117);
+   end
+   else if (global_var(GVAR_DAYGLOW_TURBINA) == 0) then begin
+      if (local_var(LVAR_Status) > 0) then begin
+      call repair_proc;
+      end
+      else if (partyPidMtn!=0) then begin
+      call repair_proc;
+      end
+      else if (dude_strength >= 9) then begin
+      call repair_proc;
+      end
+      else begin
+      stat_display_mstr(111,STAT_st,9)
+      end
+   end
+   else begin
+      display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if ((objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_SLEDGEHAMMER) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE)) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+         script_overrides;
+         if (random(0,100) >= (dude_strength*10)) then begin
+         display_mstr(112);
+         play_sfx("WH21FXX1");
+         set_local_var(LVAR_Status, 1);
+         end
+         else begin
+         display_mstr(random(113,116));
+         end
+      end
+   end
+end
+
+procedure damage_p_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+      display_mstr(112);
+      play_sfx("WH21FXX1");
+      set_local_var(LVAR_Status, 1);
+   end
+end
+
+procedure repair_proc begin
+   display_mstr(117);
+   floater(dude_obj, random(118, 120), COLOR_MSG_NORMAL);
+   play_sfx("CLANK"); // ??? другой звук
+   play_sfx("CHEMICAL");
+   animate_stand;
+   inc_global_var(GVAR_DAYGLOW_TURBINA);
+end

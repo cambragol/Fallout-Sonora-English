@@ -1,0 +1,466 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCBezhA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CITIZEN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog110;
+procedure NodeFstDialog111;
+procedure NodeFstDialog112;
+procedure NodeFstDialog113;
+procedure NodeFstDialog114;
+procedure NodeFstDialog115;
+procedure NodeFstDialog116;
+procedure NodeFstDialog117;
+procedure NodeFstDialog118;
+procedure NodeGoParom;
+procedure NodeSndDialog;
+procedure NodeSndDialog100;
+procedure NodeSndDialog101;
+procedure NodeSndDialog102;
+procedure NodeSndDialog103;
+procedure NodeSndDialog104;
+procedure NodeSndDialog105;
+procedure NodeSndDialog106;
+procedure NodeFinal;
+procedure NodeFinal2;
+procedure NodeFinal3;
+procedure NodeFinal4;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (getQuest(GVAR_RANGERS_QST_FAMILY) > qZero) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+       end
+       set_obj_visibility(self_obj, 1);
+
+       if (cur_map_index == MAP_RANGERS_PAROM) then begin
+          rm_timer_event(self_obj);
+          party_remove(self_obj);
+       end
+
+       if ((getQuest(GVAR_RANGERS_QST_FAMILY) == qZero) or (getQuest(GVAR_RANGERS_QST_FAMILY) == qStart)) then begin
+          if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_2) == 0) then begin
+          set_obj_visibility(self_obj, 0);
+          end
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+   if (fixed_param == 3) then begin
+       setQuest(GVAR_RANGERS_QST_FAMILY,qStart);
+       gfade_out(ONE_GAME_SECOND);
+       party_add(self_obj);
+       add_timer_event(self_obj, 10, 4);
+   end
+   if (fixed_param == 4) then begin
+       dude_teleport_map(0,1,MAP_RANGERS_PAROM,5);
+   end
+   if (fixed_param == 5) then begin
+       move_to(dude_obj, 12090, 0);
+       anim(dude_obj, ANIMATE_ROTATION, 5);
+       set_SLAVA(25)
+       exp_add(750);
+       party_remove(self_obj);
+       move_to(self_obj, 7476, 0);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(tile_contains_pid_obj(11893,0,33555929));
+       gfade_in(ONE_GAME_SECOND);
+       destroy_object(self_obj);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   //--- следует за ГГ
+   if (getQuest(GVAR_RANGERS_QST_FAMILY) == qStart) then begin
+       partyRunToDude
+   end
+
+   //--- бежит к телу ребенка когда тот мертв
+   if (cur_map_index == MAP_RANGERS_PAROM) then begin
+       if ((gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_2) != 0) and (map_var(MVAR_RNGRS_kid_tile) > 0)) then begin
+          if (combat_is_initialized == false) then begin
+             if (anim_busy(self_obj) == false) then begin
+                 if (tile_distance(self_tile, map_var(MVAR_RNGRS_kid_tile)) > 3) then begin
+                 reg_anim_begin();
+                 animate_run_to_tile_force(tile_num_in_direction(map_var(MVAR_RNGRS_kid_tile),random(0,5),1));
+                 reg_anim_end();
+                 end
+             end
+          end
+       end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_1);
+   set_gvar_bit_off(GVAR_RANGERS_BIT_FAMILY, bit_4);
+   setQuest(GVAR_RANGERS_QST_FAMILY,-1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_2) != 0) then begin
+      if (cur_map_index == MAP_RANGERS_PAROM) then begin
+      floater(self_obj,104,COLOR_MSG_RED);
+      end else begin
+      floater(self_obj,103,COLOR_MSG_RED);
+      end
+   end
+   else if (getQuest(GVAR_RANGERS_QST_FAMILY) >= qEnd) then begin
+      floater(self_obj,102,COLOR_MSG_GREEN);
+   end
+   else begin
+      fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+      fracReaction(GVAR_TITUL_WARRIOR_ROAD,20) // Поправка к отношению за принадлежность к фракциям
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (cur_map_index == MAP_RANGERS_PAROM) then begin
+   call NodeSndDialog;
+   end
+   else begin
+   call NodeFstDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ (карта рейнджеров перед дамбой)
+
+procedure NodeFstDialog begin
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_4) == 0) then begin
+      call NodeFstDialog106;
+      end
+      else begin
+      call NodeFstDialog109;
+      end
+   end
+   else begin
+      if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_4) == 0) then begin
+      call NodeFstDialog100;
+      end
+      else begin
+      call NodeFstDialog103;
+      end
+   end
+end
+
+procedure NodeFstDialog100 begin
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog101)
+   NAnswer(202,1,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(203)
+   NAnswer(204,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(205)
+   call NodeFstDialog105;
+end
+
+procedure NodeFstDialog103 begin
+   Reply(206)
+   call NodeFstDialog105;
+end
+
+procedure NodeFstDialog104 begin
+   Reply(216)
+   call NodeFstDialog105;
+end
+
+procedure NodeFstDialog105 begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_4);
+
+   if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_5) != 0) then begin
+   GAnswer(220,1,NodeFstDialog114)
+   end
+
+   if (global_var(GVAR_STATUS_RANGERS_GENERAL) == -1) then begin
+   NAnswer(228,1,NodeFstDialog116)
+   end
+   else if ((map_var(MVAR_RNGRS_PostA) != 0) and (map_var(MVAR_RNGRS_PostB) != 0)) then begin
+   NAnswer(226,1,NodeFstDialog117)
+   end
+   else if town_rep_is_antipaty then begin
+   NAnswer(240,1,NodeFstDialog118)
+   end
+
+   NAnswer(208,1,NodeFstDialog110)
+   NAnswer(213,1,NodeFstDialog112)
+   NAnswer(217,1,NodeFstDialog113)
+   NAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog106 begin
+   zReply(230)
+   NAnswer(231,1,NodeFstDialog107)
+   NAnswer(232,1,NodeFstDialog107)
+end
+
+procedure NodeFstDialog107 begin
+   Reply(233)
+   NAnswer(234,1,NodeFstDialog108)
+end
+
+procedure NodeFstDialog108 begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_4);
+   Reply(235)
+   NAnswer(236,1,NodeGoParom)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeFstDialog109 begin
+   zReply(238)
+   NAnswer(236,1,NodeGoParom)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeFstDialog110 begin
+   Reply(209)
+   NAnswer(210,1,NodeFstDialog111)
+end
+
+procedure NodeFstDialog111 begin
+   Reply(211)
+   NAnswer(212,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog112 begin
+   Reply(214)
+   NAnswer(215,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog113 begin
+   Reply(218)
+   NAnswer(219,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog114 begin
+   Reply(221)
+   NAnswer(222,1,NodeFstDialog115)
+end
+
+procedure NodeFstDialog115 begin
+   Reply(223)
+   NAnswer(224,1,NodeGoParom)
+   NAnswer(225,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog116 begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_5);
+   Reply(229)
+   NAnswer(239,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog117 begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_5);
+   Reply(227)
+   NAnswer(239,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog118 begin
+   set_gvar_bit_on(GVAR_RANGERS_BIT_FAMILY, bit_5);
+   Reply(241)
+   NAnswer(239,1,NodeFstDialog104)
+end
+
+procedure NodeGoParom begin
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 5, 3);
+   call Node999;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ (карта переправы)
+
+procedure NodeSndDialog begin
+   Reply(300)
+
+   if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_7) != 0) then begin
+   NAnswer(330,1,NodeFinal)
+   end
+
+   NAnswer(310,3,NodeSndDialog100)
+   NAnswer(314,3,NodeSndDialog102)
+   NAnswer(318,3,NodeSndDialog104)
+
+   if ((bitDialog(bit_2) == 0) and (global_var(GVAR_REPUTATION_CHILDKILLER) > 0)) then begin
+   NAnswer(301,1,NodeSndDialog106)
+   end
+   else begin
+   NAnswer(301,1,Node999)
+   end
+end
+
+procedure NodeSndDialog100 begin
+   Reply(311)
+   NAnswer(312,5,NodeSndDialog101)
+   NAnswer(302,1,NodeSndDialog)
+end
+
+procedure NodeSndDialog101 begin
+   bitDialogExp(bit_3,20)
+   Reply(313)
+   NAnswer(324,1,NodeSndDialog)
+   BAnswer(325,1,NodeSndDialog)
+end
+
+procedure NodeSndDialog102 begin
+   Reply(315)
+   NAnswer(316,5,NodeSndDialog103)
+   NAnswer(302,1,NodeSndDialog)
+end
+
+procedure NodeSndDialog103 begin
+   bitDialogExp(bit_4,20)
+   Reply(317)
+   NAnswer(323,1,NodeSndDialog)
+end
+
+procedure NodeSndDialog104 begin
+   Reply(319)
+   NAnswer(320,5,NodeSndDialog105)
+   NAnswer(302,1,NodeSndDialog)
+end
+
+procedure NodeSndDialog105 begin
+   bitDialogExp(bit_5,20)
+   Reply(321)
+   NAnswer(322,1,NodeSndDialog)
+end
+
+procedure NodeSndDialog106 begin
+   bitDialogExp(bit_2,0)
+   Reply(303)
+   NAnswer(304,1,Node999)
+   BAnswer(305,1,Node999)
+end
+
+procedure NodeFinal begin
+   Reply(331)
+   NAnswer(332,1,NodeFinal2)
+end
+
+procedure NodeFinal2 begin
+   Reply(333)
+   NAnswer(334,1,NodeFinal3)
+end
+
+procedure NodeFinal3 begin
+   Reply(335)
+   NAnswer(336,1,NodeFinal4)
+end
+
+procedure NodeFinal4 begin
+   setQuest(GVAR_RANGERS_QST_FAMILY,qEnd);
+   rm_timer_event(self_obj);
+   gfade_out(ONE_GAME_SECOND);
+   play_sfx("GUSTWIND");
+   add_timer_event(self_obj, 20, 5);
+   call Node999;
+end

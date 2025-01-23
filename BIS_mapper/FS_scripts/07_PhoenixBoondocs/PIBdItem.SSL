@@ -1,0 +1,66 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_PIBdItem
+
+procedure start;
+procedure map_enter_p_proc;
+procedure item_gener;
+
+#define LVAR_ItemGener                     (0) // фиксирует размещение лута
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (local_var(LVAR_ItemGener) == 0) then begin
+       if (getQuest(GVAR_PHENIX_QST_BNDCS_C) >= qEnd) then begin
+       call item_gener;
+       end
+       end
+   end
+end
+
+procedure item_gener begin
+
+   if (item_amnt(self_obj,PID_M_NUKA_COLA_RAD)>0) then begin
+   item_add(self_obj,PID_M_NUKA_COLA,item_amnt(self_obj,PID_M_NUKA_COLA_RAD))
+   item_remove(self_obj,PID_M_NUKA_COLA_RAD,item_amnt(self_obj,PID_M_NUKA_COLA_RAD))
+   end
+   if (item_amnt(self_obj,PID_M_ROACH)>0) then begin
+   if (item_amnt(self_obj,PID_M_ROACH)<5) then begin
+   item_remove(self_obj,PID_M_ROACH,item_amnt(self_obj,PID_M_ROACH))
+   end
+   end
+
+   if (random(0,1) == 1) then begin
+   item_add(self_obj,PID_M_TEQUILA,1)
+   end
+   else begin
+   item_add(self_obj,PID_M_NUKA_COLA,random(3,4))
+   end
+
+   if (random(0,1) == 1) then begin
+   item_add(self_obj,PID_M_MEAT_JERKY,random(2,3))
+   end
+   else begin
+   item_add(self_obj,PID_M_IGUANA,random(4,5))
+   end
+
+   if (random(0,1) == 1) then begin
+   item_add(self_obj,PID_M_SOUP_RAT,random(2,3))
+   end
+   else begin
+   item_add(self_obj,PID_M_FRUIT,random(2,3))
+   end
+
+   if (dude_luck >= 9) then begin
+   item_add(self_obj,PID_M_TV_DINNER,1) // бонус от Удачи!
+   end
+   else begin
+   item_add(self_obj,PID_M_NOODLES,1)
+   end
+
+   set_local_var(LVAR_ItemGener,1);
+end

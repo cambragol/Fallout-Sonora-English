@@ -1,0 +1,151 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSHrtCmp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+procedure NodeDialog104b;
+procedure NodeDialog104c;
+procedure NodeDialog105;
+procedure NodeDialog106;
+procedure NodeDialog107;
+
+#define LVAR_DialogCompBit            (2)
+
+
+
+procedure start begin
+   set_local_var(LVAR_Status, 1);
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(0)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(35)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+   if (lvar_bit(LVAR_DialogCompBit, bit_20) == 0) then begin
+      if ((lvar_bit(LVAR_DialogCompBit, bit_1)+lvar_bit(LVAR_DialogCompBit, bit_2)+lvar_bit(LVAR_DialogCompBit, bit_3)+lvar_bit(LVAR_DialogCompBit, bit_4)+lvar_bit(LVAR_DialogCompBit, bit_5)+lvar_bit(LVAR_DialogCompBit, bit_6)+lvar_bit(LVAR_DialogCompBit, bit_7)) >= 7) then begin
+      exp_add(7*65);
+      display_mstr(102);
+      set_lvar_bit_on(LVAR_DialogCompBit, bit_20);
+      end
+   end
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog101)
+   NAnswer(214,1,NodeDialog102)
+   NAnswer(216,1,NodeDialog103)
+   NAnswer(218,1,NodeDialog104)
+   NAnswer(222,1,NodeDialog105)
+   NAnswer(224,1,NodeDialog106)
+   NAnswer(226,1,NodeDialog107)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   set_lvar_bit_on(LVAR_DialogCompBit, bit_1);
+   Reply(213)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog102 begin
+   set_lvar_bit_on(LVAR_DialogCompBit, bit_2);
+   Reply(215)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog103 begin
+   set_lvar_bit_on(LVAR_DialogCompBit, bit_3);
+   Reply(217)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog104 begin
+   Reply(219)
+   NAnswer(203,1,NodeDialog104b)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog104b begin
+   Reply(220)
+   NAnswer(203,1,NodeDialog104c)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog104c begin
+   set_lvar_bit_on(LVAR_DialogCompBit, bit_4);
+   Reply(221)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog105 begin
+   set_lvar_bit_on(LVAR_DialogCompBit, bit_5);
+   Reply(223)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog106 begin
+   set_lvar_bit_on(LVAR_DialogCompBit, bit_6);
+   Reply(225)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog107 begin
+   set_lvar_bit_on(LVAR_DialogCompBit, bit_7);
+   Reply(227)
+   NAnswer(202,1,NodeDialog100)
+end

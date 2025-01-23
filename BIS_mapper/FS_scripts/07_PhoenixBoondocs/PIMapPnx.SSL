@@ -1,0 +1,26 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_PIMapPnx
+
+procedure start;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   mark_world_subtile_visited(850, 600, 2);
+      mark_on_map(AREA_PHOENIX)
+      mark_on_map(AREA_SAN_BRAHMIN)
+      mark_on_map(AREA_CASA_GRANDE)
+   exp_add(100);
+   if (is_skill_tagged(SKILL_SCOUT) == true) then begin
+   skill_up(SKILL_SCOUT,6);
+   end
+   else begin
+   skill_up(SKILL_SCOUT,5);
+   end
+   scr_return(1);
+end

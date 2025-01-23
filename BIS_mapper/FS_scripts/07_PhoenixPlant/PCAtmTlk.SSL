@@ -1,0 +1,459 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCAtmTlk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_PLANT   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_PLANT    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+//#define NUM_AI                          AI_GUARD_ELECTR       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      65 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog3;
+procedure NodeStopDialog4;
+procedure NodeStopDialog5;
+procedure NodeStopDialog6;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (getQuest(GVAR_PHENIX_QST_PLANT_ATTAK) == qStart) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_CULT_ATOMIC);
+       end
+       if (getQuest(GVAR_PHENIX_QST_PLANT_ATTAK) >= qEnd) then begin
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (getQuest(GVAR_PHENIX_QST_PLANT_ATTAK) == qStart) then begin
+      if (HomeTile != 15304) then begin
+      bitDialogExp(bit_1,0)
+      critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_CULT_ATOMIC);
+      set_local_var(LVAR_Home_Tile,15304);
+      set_local_var(LVAR_Home_Rotat,2);
+      move_to(self_obj,HomeTile,self_elevation);
+      end
+
+      if (map_var(MVAR_PNX_PLANT_VENTIL) > 0) then begin
+      move_to(self_obj,HomeTile,self_elevation);
+      call destroy_p_proc;
+      kill_critter(self_obj, ANIM_fall_front_sf);
+      end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (bitDialog(bit_1) == 0) then begin
+   dialogue_system_forcing(10)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_PHENIX_STATUS_PLANT_SPY,-1);
+   if (getQuest(GVAR_PHENIX_QST_PLANT_TEODOR) == qStart) then begin
+   setQuest(GVAR_PHENIX_QST_PLANT_TEODOR,qStop);
+   end
+   if (getQuest(GVAR_PHENIX_QST_PLANT) == qStart) then begin
+   if ((global_var(GVAR_PHENIX_STATUS_PLANT_BOSS)<0) and (global_var(GVAR_PHENIX_STATUS_PLANT_SPY)<0)) then begin
+   setQuest(GVAR_PHENIX_QST_PLANT,qStop);
+   end
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_PLANT_ATTAK) != qStart) then begin
+   kill_critter_reput // взамен kill_critter_opt
+   end
+   destroy_critter_inventar
+end
+
+procedure talk_p_proc begin
+   if (getQuest(GVAR_PHENIX_QST_PLANT_ATTAK) >= qEnd) then begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else if (getQuest(GVAR_PHENIX_QST_PLANT_TEODOR) >= qEnd) then begin
+   floater(self_obj,103,COLOR_MSG_GREEN);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+   set_map_var(MVAR_PNX_PLANT_DOPUSK,1);
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_PHENIX_QST_PLANT_REPAIR) != qZero) then begin
+   bitDialogExp(bit_1,0) // опция для удобства теста в маппере
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_PLANT_ATTAK) == qStart) then begin
+   call NodeStopDialog;
+   end
+   else if (getQuest(GVAR_PHENIX_QST_PLANT_TEODOR) == qStart) then begin
+   call NodeQst200;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (bitDialog(bit_2) == 0) then begin
+   call NodeSndDialog2;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   Reply(250)
+   BAnswer(251,1,NodeStopDialog2)
+   NAnswer(255,1,NodeStopDialog3)
+end
+
+procedure NodeStopDialog2 begin
+   Reply(252)
+   NAnswer(253,1,Node998)
+   BAnswer(254,1,Node998)
+end
+
+procedure NodeStopDialog3 begin
+   Reply(256)
+   NAnswerSkill(260,3,NodeStopDialog5,SKILL_CONVERSANT,75,258,NodeStopDialog4)
+   BAnswer(257,1,Node998)
+end
+
+procedure NodeStopDialog4 begin
+   Reply(259)
+   NAnswer(253,1,Node998)
+   BAnswer(254,1,Node998)
+end
+
+procedure NodeStopDialog5 begin
+   Reply(261)
+   NAnswer(262,1,NodeStopDialog6)
+   BAnswer(263,1,Node998)
+end
+
+procedure NodeStopDialog6 begin
+   setQuest(GVAR_PHENIX_QST_PLANT_ATTAK,qEnd);
+   Reply(264)
+   NAnswer(265,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   Reply(210)
+   BAnswer(211,1,NodeFstDialog5)
+   end
+   else begin
+   Reply(200)
+   BAnswer(201,1,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   zGAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   zReply(204)
+   NAnswer(205,1,NodeFstDialog4)
+   NAnswer(206,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(207)
+   NAnswer(208,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(212)
+   GAnswer(213,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(214)
+   BAnswer(215,1,NodeFstDialog4)
+   NAnswer(216,1,NodeFstDialog4)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+
+   NAnswer(230,1,NodeAnswer100)
+   NAnswer(236,1,NodeAnswer200)
+   if (map_is_known(MAP_FLAGSTAFF_MINE) == true) then begin
+      if (bitDialog(bit_4) == 0) then begin
+      zNAnswer(291,4,NodeAnswer102)
+      end
+   end
+   if (getQuest(GVAR_PHENIX_QST_PLANT_SPY) == qStart) then begin
+      if (bitDialog(bit_3) == 0) then begin
+      NAnswer(244,3,NodeAnswer300)
+      end
+      else begin
+      NAnswer(244,3,NodeAnswer303)
+      end
+   end
+   if (getQuest(GVAR_PHENIX_QST_PLANT_REPAIR) == qStart) then begin
+      NAnswer(266,3,NodeAnswer302)
+   end
+   if (getQuest(GVAR_PHENIX_QST_PLANT_SPY) == qEnd) then begin
+      NAnswer(270,1,NodeQst100)
+   end
+
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   bitDialogExp(bit_2,0)
+   Reply(217)
+   NAnswer(218,1,NodeSndDialog)
+end
+
+procedure NodeAnswer100 begin
+   Reply(231)
+   NAnswer(232,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(233)
+   NAnswer(234,1,NodeSndDialog)
+   NAnswer(235,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(292)
+   NAnswer(293,1,NodeAnswer103)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_4,25)
+   Reply(294)
+   NAnswer(295,1,NodeSndDialog)
+   NAnswer(296,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(237)
+   NAnswer(238,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(239)
+   NAnswer(240,1,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   Reply(241)
+   NAnswer(242,1,NodeSndDialog)
+   BAnswer(243,1,NodeSndDialog)
+end
+
+procedure NodeAnswer300 begin
+   bitDialogExp(bit_3,0)
+   Reply(245)
+   NAnswer(246,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   Reply(247)
+   NAnswer(248,1,Node999)
+end
+
+procedure NodeAnswer302 begin
+   Reply(267)
+   NAnswer(268,1,Node999)
+end
+
+procedure NodeAnswer303 begin
+   Reply(249)
+   NAnswer(248,1,Node999)
+end
+
+procedure NodeQst100 begin
+   Reply(271)
+   NAnswer(272,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   setQuest(GVAR_PHENIX_QST_PLANT_TEODOR,qStart);
+   PLAY_FADE
+   move_to(self_obj,26692,self_elevation);
+   move_to(dude_obj,26893,self_elevation);
+   Reply(273)
+   NAnswer(274,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(275)
+   NAnswer(276,1,NodeQst103)
+end
+
+procedure NodeQst103 begin
+   Reply(277)
+   NAnswer(278,1,NodeQst104)
+end
+
+procedure NodeQst104 begin
+   Reply(279)
+   NAnswer(280,1,NodeQst105)
+end
+
+procedure NodeQst105 begin
+   zReply(281)
+   NAnswer(282,1,Node999)
+end
+
+procedure NodeQst200 begin
+   Reply(283)
+   if (global_var(GVAR_PHENIX_STATUS_PLANT_BOSS)<0) then begin
+   GAnswer(288,1,NodeQst202)
+   end
+   NAnswer(285,1,NodeQst201)
+   NAnswer(284,1,Node999)
+end
+
+procedure NodeQst201 begin
+   Reply(286)
+   NAnswer(287,1,Node999)
+end
+
+procedure NodeQst202 begin
+   setQuest(GVAR_PHENIX_QST_PLANT,qEnd);
+   setQuest(GVAR_PHENIX_QST_PLANT_TEODOR,qEnd);
+   setQuest(GVAR_PHENIX_QST_PLANT_ATTAK,qStop);
+   inc_map_var(MVAR_PNX_PLANT_PRESENT);
+   set_REP(35)
+   exp_add(1000);
+
+   zReply(289)
+   NAnswer(290,1,Node999)
+end

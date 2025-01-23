@@ -1,0 +1,41 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_VSKerama
+#define SKILL_LIMIT                     35
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   gfade_out(ONE_GAME_SECOND);
+    item_add(dude_obj,PID_KERAMIC,3)
+   gfade_in(ONE_GAME_SECOND);
+
+   RepairProcRepair(112,65,"FIXSTILL")
+   floater(dude_obj,113,COLOR_MSG_NORMAL);
+end

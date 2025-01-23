@@ -1,0 +1,39 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_FSMeat
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure culinar_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call use_skill_on_p_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   call culinar_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure culinar_proc begin
+   item_add(dude_obj,PID_M_MEAT_JERKY,1)
+   play_sfx("ARMRLTH");
+   dude_floater_OK;
+   set_obj_visibility(self_obj, 1);
+   destroy_object(self_obj);
+end

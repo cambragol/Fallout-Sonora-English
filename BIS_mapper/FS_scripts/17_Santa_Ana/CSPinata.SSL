@@ -1,0 +1,67 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_CSPinata
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure dstr_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   anim(self_obj, ANIMATE_ROTATION, random(0,5));
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+   else if (objUsedPid == PID_W_HIKING_HATCHET) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+   else if (objUsedPid == PID_W_SLEDGEHAMMER) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+   else if (objUsedPid == PID_W_HAMMER) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+   else if (objUsedPid == PID_W_SUPER_SLEDGE) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+   else if (objUsedPid == PID_TOOL_ZIPPER) then begin
+      script_overrides;
+      call dstr_proc;
+   end
+end
+
+procedure dstr_proc begin
+   set_obj_visibility(self_obj, 1);
+   item_add(self_obj,PID_BOOTLE_CAPS,random(5,7+dude_luck))
+   obj_drop_everything(self_obj);
+   play_sfx("PEBBLE");
+   destroy_object(self_obj);
+end

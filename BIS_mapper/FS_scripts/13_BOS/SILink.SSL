@@ -1,0 +1,26 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_SILink
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (get_critter_stat(dude_obj,STAT_pe) < 10) then begin
+   set_critter_stat(dude_obj, STAT_pe, 1);
+   display_mstr(102);
+   end
+   skill_up(SKILL_SCIENCE,10);
+   display_mstr(100);
+   floater(dude_obj,101,COLOR_MSG_GREEN);
+   scr_return(1);
+end

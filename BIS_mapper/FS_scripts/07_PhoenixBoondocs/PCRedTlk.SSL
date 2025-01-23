@@ -1,0 +1,444 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCRedTlk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_BANDIT   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_ARENA                      16492
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeArena100;
+procedure NodeArena101;
+procedure NodeArena102;
+procedure NodeArena103;
+procedure NodeArena104;
+procedure NodeArena105;
+procedure NodeArena200;
+procedure NodeArena201;
+procedure NodeArena202;
+procedure NodeArena203;
+procedure NodeArena204;
+procedure NodeArena205;
+procedure NodeArena206;
+procedure NodeArena207;
+procedure NodeArena300;
+procedure NodeArena301;
+procedure NodeArena500;
+procedure NodeArena501;
+procedure NodeArena502;
+procedure NodeArena503;
+
+//---------------------
+
+#define LVAR_Flag_Dialog                     (6) // диалог про агентуру: 0 - не состоялся, 1 - Мерфи ждет ГГ у арены, 2 - диалог состоялся, Мерфи вернулся назад, 3 - конец квеста
+
+import variable obj_critter_a; // указатель на Мерфи
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,random(30,40))
+       end
+       if (self_elevation == 1) then begin
+       move_to(self_obj,TILE_ARENA,1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (self_elevation == 1) then begin
+       timer_move_to_tile(0,TILE_ARENA,3)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+end
+
+procedure critter_p_proc begin
+   if (obj_critter_a>0) then begin
+      if (map_var(MVAR_PNX_CARDINALS_ATTAK)>0) then begin
+         bitDialogExp(bit_2,0)
+         critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_CULT_ATOMIC);
+         critter_add_trait(obj_critter_a,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PHOENIX_BANDIT);
+         if (self_elevation != 2) then begin
+         move_to(self_obj,HomeTile,2);
+         end
+         attack(obj_critter_a);
+      end
+   end
+   set_critter_options(0,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_PNX_CARDINALS_ATTAK,-10);
+   set_global_var(GVAR_PHENIX_PUSHER_MERFY,0);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARENA_MASTER,40) // Поправка к отношению за принадлежность к фракциям
+
+   if (local_var(LVAR_Flag_Dialog)>=10) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else if (map_var(MVAR_PNX_CARDINALS_ATTAK)>0) then begin
+   z_floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else if (bitDialog(bit_2) != 0) then begin
+   z_floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else if (map_var(MVAR_PNX_CARDINALS_DOPUSK)>0) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (local_var(LVAR_Flag_Dialog) >= 10) then begin
+   call NodeSndDialog2;
+   end
+   else if (local_var(LVAR_Flag_Dialog) > 0) then begin
+   call NodeArena200;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   Reply(2200)
+   end
+   else begin
+   zReply(200)
+   end
+   GAnswer(201,1,NodeFstDialog2)
+   NAnswer(207,1,NodeFstDialog3)
+   BAnswer(204,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(20)
+   Reply(202)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(208)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   setBonusReaction(-20)
+   zReply(205)
+   NAnswer(206,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getReaction>=50) then begin
+   Reply(214)
+   end
+   else if (getReaction>10) then begin
+   Reply(212)
+   end
+   else if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   Reply(2210)
+   end
+   else begin
+   zReply(210)
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) >= qEnd) then begin
+      if (local_var(LVAR_Flag_Dialog) == 0) then begin
+      NAnswer(224,1,NodeArena101)
+      end
+   end
+   else if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qStart) then begin
+      NAnswer(220,1,NodeArena100)
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_PLANT_SPY) == qStart) then begin
+      NAnswer(260,1,NodeArena500)
+   end
+
+   /*
+   !!! обучит ГГ взлому+скрытности+краже по выбору при хороших отношениях
+   */
+
+   NAnswer(250,3,NodeArena103)
+   NAnswer(253,3,NodeArena104)
+   NAnswer(256,4,NodeArena105)
+
+   if (getReaction>=50) then begin
+   NAnswer(215,1,Node999)
+   end
+   else if (getReaction>10) then begin
+   NAnswer(213,1,Node999)
+   end
+   else begin
+   NAnswer(211,1,Node999)
+   end
+end
+
+procedure NodeSndDialog2 begin
+   if (getReaction>=50) then begin
+   Reply(212)
+   end
+   else begin
+   Reply(216)
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_PLANT_SPY) == qStart) then begin
+   NAnswer(260,1,NodeArena500)
+   end
+
+   if (getReaction>=50) then begin
+   NAnswer(215,1,Node999)
+   end
+   else begin
+   NAnswer(217,1,Node999)
+   end
+end
+
+procedure NodeArena100 begin
+   Reply(221)
+   NAnswer(222,1,Node999)
+   BAnswer(223,1,Node999)
+end
+
+procedure NodeArena101 begin
+   //!!! здесь должна быть поправка на убийство Орриса
+   Reply(225)
+   BAnswer(226,3,NodeArena102)
+   NAnswer(227,1,Node999)
+end
+
+procedure NodeArena102 begin
+   set_local_var(LVAR_Flag_Dialog,1);
+   move_to(self_obj,TILE_ARENA,1);
+   display_mstr(106);
+   call Node999;
+end
+
+procedure NodeArena103 begin
+   Reply(251)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeArena104 begin
+   Reply(254)
+   NAnswer(255,1,NodeSndDialog)
+end
+
+procedure NodeArena105 begin
+   Reply(257)
+   NAnswer(258,1,NodeSndDialog)
+end
+
+procedure NodeArena200 begin
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   if (local_var(LVAR_Flag_Dialog) > 1) then begin
+      if (global_var(GVAR_PHENIX_STATUS_CARDINAL) < 0) then begin
+      Reply(245)
+      NAnswer(246,1,NodeArena300)
+      end
+      else begin
+      Reply(230)
+      NAnswer(259,1,NodeArena206)
+      NAnswer(231,1,Node999)
+      end
+   end
+   else if (local_var(LVAR_Flag_Dialog) == 1) then begin
+      call NodeArena201;
+   end
+   else begin
+      Reply(230)
+      NAnswer(231,1,Node999)
+   end
+end
+
+procedure NodeArena201 begin
+   inc_local_var(LVAR_Flag_Dialog);
+   Reply(232)
+   NAnswer(233,1,NodeArena202)
+end
+
+procedure NodeArena202 begin
+   Reply(234)
+   NAnswer(235,1,NodeArena203)
+end
+
+procedure NodeArena203 begin
+   Reply(236)
+   NAnswer(237,1,NodeArena204)
+end
+
+procedure NodeArena204 begin
+   Reply(238)
+   NAnswer(242,1,NodeArena206)
+   BAnswer(239,1,NodeArena205)
+end
+
+procedure NodeArena205 begin
+   Reply(240)
+   NAnswer(241,1,NodeArena207)
+end
+
+procedure NodeArena206 begin
+   if (global_var(GVAR_PHENIX_PUSHER_MERFY) == 0) then begin
+   set_global_var(GVAR_PHENIX_PUSHER_MERFY,1);
+   end
+   Reply(243)
+   NAnswer(244,1,NodeArena207)
+end
+
+procedure NodeArena207 begin
+   //PLAY_FADE
+   //move_to(self_obj,HomeTile,2);
+   call Node999;
+end
+
+procedure NodeArena300 begin
+   set_local_var(LVAR_Flag_Dialog,10);
+   set_map_var(MVAR_PNX_CARDINALS_ATTAK,-10);
+   setQuest(GVAR_PHENIX_QST_CARDINALS,qEnd+2);
+   exp_add(750);
+   set_SLAVA(35)
+   set_REP(3)
+   setBonusReaction(100)
+   set_CITY_REP(GVAR_TOWN_REP_PHOENIX_CULT,5)
+
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   Reply(249)
+   NAnswer(248,1,NodeArena301)
+   end
+   else begin
+   zReply(247)
+   NAnswer(248,1,NodeArena301)
+   end
+end
+
+procedure NodeArena301 begin
+   move_to(self_obj,HomeTile,2);
+   call Node999;
+end
+
+procedure NodeArena500 begin
+   Reply(261)
+   NAnswer(262,1,NodeArena501)
+end
+
+procedure NodeArena501 begin
+   Reply(263)
+   NAnswerSkill(272,3,NodeArena503,SKILL_CONVERSANT,70,271,NodeArena502)
+   NAnswerReaction(268,1,NodeArena503,35,265,NodeArena502)
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeArena502 begin
+   Reply(266)
+   NAnswer(267,1,Node999)
+end
+
+procedure NodeArena503 begin
+   setQuest(GVAR_PHENIX_QST_PLANT_SPY,qEnd);
+   exp_add(250);
+   Reply(269)
+   NAnswer(270,1,Node999)
+end

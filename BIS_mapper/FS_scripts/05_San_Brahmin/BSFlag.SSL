@@ -1,0 +1,16 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_BSFlag
+
+procedure start;
+procedure map_enter_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if ((global_var(GVAR_GAME_END) != 0) and (getQuest(GVAR_BRAHMIN_QST_COMMANDER) >= qEnd)) then begin
+   animate_stand_obj(self_obj);
+   end
+end

@@ -1,0 +1,160 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_JSTotem
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_JACKALS // привязка к репутации (-1, если не нужно)
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure locked_proc;
+procedure loot_gener;
+
+variable objContainer;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(110);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      call locked_proc;
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call locked_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+      call locked_proc;
+   end
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      call locked_proc;
+   end
+   else if (objUsedPid == PID_W_SLEDGEHAMMER) then begin
+      script_overrides;
+      call locked_proc;
+   end
+   else if (objUsedPid == PID_W_HAMMER) then begin
+      script_overrides;
+      call locked_proc;
+   end
+   else if (objUsedPid == PID_W_SUPER_SLEDGE) then begin
+      script_overrides;
+      call locked_proc;
+   end
+end
+
+procedure locked_proc begin
+   set_obj_visibility(self_obj, 1);
+   objContainer := create_object_sid(PID_CNTR_TOTEM, self_tile, self_elevation, -1);
+   create_object_sid(PID_HEX_BLOCKING, self_tile, self_elevation, -1);
+
+   set_SLAVA(1)
+   set_REP(-1)
+   play_sfx("WH21FXX1");
+   play_sfx("PEBBLE");
+   //display_mstr(111);
+   call loot_gener;
+
+   destroy_object(self_obj);
+end
+
+procedure loot_gener begin
+   variable itemParam;
+   itemParam := 0;
+
+   //--- Обязательное
+      if (random(0,1) == 0) then begin
+      item_add(objContainer,PID_W_BROCK,random(1,2))
+      end
+      if (map_var(MVAR_Jkls_Relict) == 0) then begin
+      item_add(objContainer,PID_RELICT_MUSIC_BOX,1)
+      inc_map_var(MVAR_Jkls_Relict);
+      end
+
+   //--- Валюта
+   itemParam := random(0,2);
+
+           if (itemParam == 0) then begin
+      item_add(objContainer,PID_BOOTLE_CAPS,random(1,dude_luck))
+      end
+      else if (itemParam == 1) then begin
+      //item_add(objContainer,PID_MANY,1)
+      end
+      else if (itemParam == 2) then begin
+      item_add(objContainer,PID_BOOTLE_CAPS,random(1,3))
+      end
+
+   //--- Вещи
+   itemParam := random(0,3);
+
+           if (itemParam == 0) then begin
+      item_add(objContainer,PID_M_SLUGS,random(1,3))
+      end
+      else if (itemParam == 1) then begin
+      item_add(objContainer,PID_M_MEAT_JERKY,1)
+      end
+      else if (itemParam == 2) then begin
+      item_add(objContainer,PID_SCORPION_TAIL,1)
+      end
+
+   //--- Патроны и оружие
+   itemParam := random(0,dude_luck);
+
+           if (itemParam == 0) then begin
+      item_add(objContainer,PID_AMMO_22_LR,1)
+      end
+      else if (itemParam == 1) then begin
+      item_add(objContainer,PID_AMMO_10_MM,random(1,3))
+      end
+      else if (itemParam == 2) then begin
+      item_add(objContainer,PID_AMMO_44_MAGNUM,random(1,3))
+      end
+      else if (itemParam == 3) then begin
+      item_add(objContainer,PID_AMMO_308,random(1,2))
+      end
+      else if (itemParam == 4) then begin
+      item_add(objContainer,PID_AMMO_SHOTGUN_SHELLS,random(1,2))
+      end
+      else if (itemParam == 5) then begin
+      item_add(objContainer,PID_AMMO_5_MM,1) // в пачке 5 патронов
+      end
+      else if (itemParam == 6) then begin
+      item_add(objContainer,PID_AMMO_MICRO_FUSION_CELL,random(1,3))
+      end
+      else if (itemParam == 7) then begin
+      item_add(objContainer,PID_W_KNIFE,1)
+      end
+      else if (itemParam == 8) then begin
+      item_add(objContainer,PID_AMMO_SIGNAL_A,random(1,2))
+      end
+      else if (itemParam == 9) then begin
+      item_add(objContainer,PID_W_GRENADE_FRAG,1)
+      end
+      else if (itemParam == 10) then begin
+      item_add(objContainer,PID_AMMO_40_MM,1)
+      end
+end

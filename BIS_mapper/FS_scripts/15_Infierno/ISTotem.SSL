@@ -1,0 +1,82 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ISTotem
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure map_update_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_p_proc;
+procedure metagenGet;
+procedure metagenUp;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      call metagenGet;
+   end
+end
+
+procedure map_update_p_proc begin
+      call metagenGet;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_Q_DIANA_MUTAGEN) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+      item_remove(dude_obj, objUsedPid, 1)
+      call metagenUp;
+      end
+      else begin
+      display_mstr(111);
+      dude_floater_NON;
+      end
+   end
+end
+
+procedure use_p_proc begin
+   add_timer_event(self_obj, 10, 1);
+end
+
+procedure metagenGet begin
+   if (item_amnt(self_obj,PID_Q_DIANA_MUTAGEN)>0) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+      item_remove(self_obj, PID_Q_DIANA_MUTAGEN, 1)
+      call metagenUp;
+      end
+   end
+end
+
+procedure metagenUp begin
+   if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+   inc_map_var(MVAR_INF_TOTEM_A);
+   end
+   else if (cur_map_index == MAP_INFIERNO_POLICE) then begin
+   inc_map_var(MVAR_INF_TOTEM_B);
+   end
+   else if (cur_map_index == MAP_INFIERNO_SHOP) then begin
+   inc_map_var(MVAR_INF_TOTEM_C);
+   end
+   else if (cur_map_index == MAP_INFIERNO_CITY) then begin
+   inc_map_var(MVAR_INF_TOTEM_D);
+   end
+
+   if (combat_is_initialized == true) then begin
+   terminate_combat;
+   end
+
+   play_sfx("PEBBLE");
+   display_mstr(110);
+   dude_floater_OK;
+   inc_global_var(GVAR_INF_TOTEM_MUTAGEN);
+   inc_local_var(LVAR_Status);
+end

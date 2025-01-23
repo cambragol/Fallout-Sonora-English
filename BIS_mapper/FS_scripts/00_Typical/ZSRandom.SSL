@@ -1,0 +1,220 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSRandom
+
+procedure start;
+procedure map_enter_p_proc;
+
+variable randomVar;
+variable randomObjVar;
+
+#define generObj(x,pid)                      if (randomVar == x) then begin      \
+                                             randomObjVar := 0;                  \
+                                             randomObjVar := create_object_sid(pid, self_tile, self_elevation, -1); \
+                                             end                                 \
+
+#define generDistanObj(pid,rot,dist)         randomObjVar := create_object_sid(pid, tile_num_in_direction(self_tile, rot, dist), self_elevation, -1); \
+
+#define generDistanCriter(pid,rot,dist,scr)  randomObjVar := create_object_sid(pid, tile_num_in_direction(self_tile, rot, dist), self_elevation, scr); \
+                                             anim(randomObjVar, ANIMATE_ROTATION, random(0,5)); \
+                                             if (scr > 0) then begin              \
+                                             add_timer_event(randomObjVar,10,1);  \
+                                             end                                  \
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+
+   if (is_loading_game == false) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+
+          //--- Рекламный плакат на билборде, запад-восток
+          if (self_PID == PID_GENERATOR_POSTER_A) then begin
+              generObj(0,random(33554544,33554559))
+          end
+
+          //--- Рекламный плакат на билборде, север-юг
+          if (self_PID == PID_GENERATOR_POSTER_B) then begin
+              randomVar := 33554577+(random(1,16)*3);
+              generObj(randomVar,randomVar)
+              generDistanObj(randomVar+1,2,2)
+              generDistanObj(randomVar+2,2,4)
+          end
+
+          //--- Дорожный указатель на одном столбе
+          if (self_PID == PID_GENERATOR_ROADSIGN_A) then begin
+              generObj(0,random(33554631,33554647))
+              anim(randomObjVar, ANIMATE_ROTATION, obj_get_rot(self_obj));
+          end
+
+          //--- ??? Дорожный указатель на двух столбах
+          if (self_PID == PID_GENERATOR_ROADSIGN_B) then begin
+            //- Дополнительные блокираторы будут?
+          end
+
+          //--- Затопленный мусор в воде за чертой берега
+          if (self_PID == PID_GENERATOR_COAST_JUNK) then begin
+              randomVar := random(0,6);
+              generObj(0,33554765)
+              generObj(1,33555574)
+              generObj(2,33555575)
+              generObj(3,33555576)
+              generObj(4,33555577)
+              generObj(5,33555578)
+              generObj(6,33555579)
+          end
+
+          //--- Автомобильный мусор на дороге
+          if (self_PID == PID_GENERATOR_ROAD_JUNK) then begin
+              randomVar := random(0,8);
+              if (randomVar == 0) then begin
+              generObj(0,33554539) // конусы
+              generDistanObj(33554540,random(0,5),1)
+              generDistanObj(33554541,random(0,5),2)
+              end
+              generObj(1,33554684)
+              generObj(2,33554685)
+              generObj(3,33554686)
+              if (randomVar == 4) then begin
+              generObj(4, 33554687) // длинная автомобильная штука похожая на трубу
+              generDistanObj(PID_HEX_BLOCKING,1,1)
+              generDistanObj(PID_HEX_BLOCKING,4,1)
+              end
+              if (randomVar == 5) then begin
+              generObj(5,33554688) // колесная пара с одним колесом
+              generDistanObj(PID_HEX_BLOCKING,1,1)
+              generDistanObj(PID_HEX_BLOCKING,4,1)
+              end
+              generObj(6,33554689)
+              generObj(7,33555295)
+              generObj(8,33555296)
+          end
+
+          //--- Окружение пустыни
+          if (self_PID == PID_GENERATOR_DESERT_OBJ) then begin
+              randomVar := random(0,12);
+              generObj(0,33554482)
+              generObj(1,33554447)
+              generObj(2,33554494)
+              generObj(3,33554495)
+              generObj(4,33554496)
+              generObj(5,33554497)
+              generObj(6,33554498)
+              generObj(7,33554500)
+              generObj(8,33554501)
+              generObj(9,33554502)
+              generObj(10,33554504)
+              generObj(11,33554883)
+              generObj(12,33554891)
+          end
+
+          //--- Враги в пещерах
+          if (self_PID == PID_GENERATOR_CRITTERS_CAVE) then begin
+              randomVar := global_var(GVAR_RANDOM_CAVE_ENEMIES); // переменная задается в SCRIPT_ZTMap в map_enter_p_proc
+              if (random(0,100)>=85) then begin
+              randomVar := -1; // опция внесена для того, чтобы иногда в пещерах не было существ
+              end
+
+              if (randomVar == 0) then begin
+                    generDistanCriter(PID_RAT,5,random(1,2),SCRIPT_ZCRat)
+                    generDistanCriter(PID_RAT,4,random(1,2),SCRIPT_ZCRat)
+                    generDistanCriter(PID_RAT,3,random(1,2),SCRIPT_ZCRat)
+                    generDistanCriter(PID_RAT,2,random(1,2),SCRIPT_ZCRat)
+                    if (random(0,100) > (10*dude_luck)) then begin
+                    generDistanCriter(PID_RAT,1,random(1,2),SCRIPT_ZCRat)
+                    end
+                    //if (random(0,100) > (10*dude_luck)) then begin
+                    if (has_skill(dude_obj, SKILL_SCOUT) < random(0,100)) then begin
+                    generDistanCriter(PID_RAT,0,random(1,2),SCRIPT_ZCRat)
+                    end
+              end
+
+              if (randomVar == 1) then begin
+                    generDistanCriter(PID_RAT_PIG,5,random(1,2),SCRIPT_ZCRat)
+                    generDistanCriter(PID_RAT_PIG,3,random(1,2),SCRIPT_ZCRat)
+                    //if (random(0,100) > (10*dude_luck)) then begin
+                    if (has_skill(dude_obj, SKILL_SCOUT) < random(0,100)) then begin
+                    generDistanCriter(PID_RAT_PIG,1,random(1,2),SCRIPT_ZCRat)
+                    end
+              end
+
+              if (randomVar == 2) then begin
+                    generDistanCriter(PID_RAT_MOLE,5,random(1,2),SCRIPT_ZCRat)
+                    generDistanCriter(PID_RAT_MOLE,2,random(1,2),SCRIPT_ZCRat)
+              end
+
+              if (randomVar == 3) then begin
+                    generDistanCriter(PID_WOLF,5,random(1,2),SCRIPT_ZCDog)
+                    generDistanCriter(PID_WOLF,3,random(1,2),SCRIPT_ZCDog)
+                    //if (random(0,100) > (10*dude_luck)) then begin
+                    if (has_skill(dude_obj, SKILL_SCOUT) < random(0,100)) then begin
+                    generDistanCriter(PID_WOLF,1,random(1,2),SCRIPT_ZCDog)
+                    end
+              end
+
+              if (randomVar == 4) then begin
+                    generDistanCriter(PID_SCORPION_SMALL,5,random(1,2),SCRIPT_ZCScorp)
+                    generDistanCriter(PID_SCORPION_SMALL,3,random(1,2),SCRIPT_ZCScorp)
+                    //if (random(0,100) > (10*dude_luck)) then begin
+                    if (has_skill(dude_obj, SKILL_SCOUT) < random(0,100)) then begin
+                    generDistanCriter(PID_SCORPION_SMALL,1,random(1,2),SCRIPT_ZCScorp)
+                    end
+              end
+
+              if (randomVar == 5) then begin
+                    generDistanCriter(PID_SCORPION_BIG,5,random(1,2),SCRIPT_ZCScorp)
+                    generDistanCriter(PID_SCORPION_BIG,2,random(1,2),SCRIPT_ZCScorp)
+              end
+
+              if (randomVar == 6) then begin
+                    generDistanCriter(PID_SCOLOPENDRA,5,random(1,2),SCRIPT_ZCSclpnd)
+                    generDistanCriter(PID_SCOLOPENDRA,3,random(1,2),SCRIPT_ZCSclpnd)
+                    if (has_skill(dude_obj, SKILL_SCOUT) < random(0,100)) then begin
+                    generDistanCriter(PID_SCOLOPENDRA,1,random(1,2),SCRIPT_ZCSclpnd)
+                    end
+              end
+
+              if (randomObjVar != 0) then begin
+                  g_display_mstr(1403);
+
+                  if (has_skill(dude_obj, SKILL_SCOUT) >= random(0,100)) then begin
+                  generDistanCriter(PID_W_BROCK,random(0,5),random(1,3),-1)
+                  end
+                  if (has_skill(dude_obj, SKILL_SCOUT) >= random(0,100)) then begin
+                  generDistanCriter(PID_W_BROCK,random(0,5),random(1,3),-1)
+                  end
+                  if (has_skill(dude_obj, SKILL_SCOUT) >= random(0,100)) then begin
+                  generDistanCriter(PID_W_BROCK,random(0,5),random(1,3),-1)
+                  end
+              end
+          end
+
+          //--- Резерв
+          if (self_PID == PID_GENERATOR_RESERV_a) then begin
+            //- Дополнительные блокираторы будут?
+          end
+
+          //--- Резерв
+          if (self_PID == PID_GENERATOR_RESERV_b) then begin
+            //- Дополнительные блокираторы будут?
+          end
+
+          //--- Резерв
+          if (self_PID == PID_GENERATOR_RESERV_c) then begin
+            //- Дополнительные блокираторы будут?
+          end
+
+          //--- Резерв
+          if (self_PID == PID_GENERATOR_RESERV_d) then begin
+            //- Дополнительные блокираторы будут?
+          end
+
+          randomVar := 0;
+          randomObjVar := 0;
+          set_local_var(LVAR_Status,1);
+      end
+   end
+end

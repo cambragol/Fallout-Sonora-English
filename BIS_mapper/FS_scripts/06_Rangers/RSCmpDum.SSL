@@ -1,0 +1,84 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_RSCmpDum
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(100)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedKey(PID_KEY_DUMBA,0)
+end
+
+procedure sience_proc begin
+   CompProcSience(200)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   /*
+   !!!
+   информация о ГЭС?
+   открытие запертых дверей?
+   */
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) == qZero) then begin
+   NAnswer(210,1,NodeDialog100)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   if (global_var(GVAR_GAME_END) == 0) then begin
+   NAnswer(212,1,NodeDialog101)
+   end
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   Reply(213)
+   NAnswer(214,1,NodeDialog102)
+   NAnswer(217,1,Node999)
+end
+
+procedure NodeDialog102 begin
+   setQuest(GVAR_RANGERS_DUMB_DESTROY,qStart);
+   Reply(215)
+   NAnswer(216,1,Node999)
+end

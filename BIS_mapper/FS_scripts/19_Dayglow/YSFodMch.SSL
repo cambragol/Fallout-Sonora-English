@@ -1,0 +1,54 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSFodMch
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure food_proc;
+
+variable FoodCheck;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_skill_on_p_proc begin
+   FoodCheck := 0;
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+
+       //подсчет еды + мука + PID_AGAVE_JUICE + хвост скорпиона + протухшее блюдо
+
+       if (FoodCheck > 0) then begin
+       call food_proc;
+       end
+       else begin
+       display_mstr(110);
+       end
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(111);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure food_proc begin
+   PLAY_FADE
+   play_sfx("CHEMICA1");
+   game_time_advance(ONE_GAME_HOUR); // ! время расчитывать от размера FoodCheck
+   //удаление пищи
+   //создание смеси
+   //очистка ядерколы
+end

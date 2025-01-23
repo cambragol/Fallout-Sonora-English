@@ -1,0 +1,26 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_RSDumVen
+
+procedure start;
+procedure map_enter_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   reg_anim_begin();
+   reg_anim_animate_forever(self_obj, ANIM_stand);
+   reg_anim_end();
+
+   if (is_loading_game == false) then begin
+       obj_set_light_level(self_obj, 80, 2);
+       if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+       obj_set_light_level(self_obj, 0, 0);
+       set_obj_visibility(self_obj, 1);
+       create_object_sid(self_PID+1, self_tile, self_elevation, -1);
+       destroy_object(self_obj);
+       end
+   end
+end

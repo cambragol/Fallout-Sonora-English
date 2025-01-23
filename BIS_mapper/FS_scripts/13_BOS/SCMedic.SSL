@@ -1,0 +1,418 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_SCMedic
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_SCRIBE         // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_BOS              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      200 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeBell100;
+procedure NodeBell101;
+procedure NodeBell102;
+procedure NodeBell103;
+procedure NodeBell200;
+procedure NodeBell201;
+procedure NodeBell202;
+procedure NodeBell203;
+procedure NodeBell204;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+import variable box_stop_use;
+import variable obj_critter_a; // указатель на доктора
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(2)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   obj_critter_a := self_obj;
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if self_enemy_dude then begin
+   BarklyAttakDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   BarklyAttakDude
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   obj_critter_a := 0;
+   kill_critter_opt
+   kill_critter_BoS_item
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) != 0) then begin
+   floater(dude_obj,102,COLOR_MSG_GREY);
+   floater(self_obj,103,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,-90) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_3) == 0) and (getQuest(GVAR_PUERTO_QST_BELL) >= qEnd)) then begin
+   call NodeBell202;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (global_var(GVAR_TITUL_BOS) > 0) then begin
+   Reply(205)
+   GAnswer(206,1,NodeFstDialog3)
+   end
+   else begin
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeSndDialog)
+   NAnswer(204,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(207)
+   NAnswer(208,1,NodeSndDialog)
+   NAnswer(209,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_TITUL_BOS) > 0) then begin
+      Reply(212)
+      if (global_var(GVAR_TITUL_BOS_SCOUT) > 0) then begin
+      if (bitDialog(bit_2) == 0) then begin
+      NAnswer(240,1,NodeAnswer200)
+      end
+      end
+
+      if (dude_cur_hits<dude_max_hits) then begin
+      NAnswer(254,1,NodeAnswer301)
+      end
+      else if dude_is_crippled then begin
+      NAnswer(254,1,NodeAnswer301)
+      end
+      else if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
+      NAnswer(254,1,NodeAnswer301)
+      end
+      else if (get_poison(dude_obj) >0) then begin
+      NAnswer(254,1,NodeAnswer301)
+      end
+   end
+   else begin
+      Reply(210)
+      NAnswer(250,1,NodeAnswer300)
+   end
+
+   if (getQuest(GVAR_PUERTO_QST_FAREWELL) == qStart) then begin
+   NAnswer(220,1,NodeAnswer100)
+   end
+   if (getQuest(GVAR_PUERTO_QST_BELL) == qZero) then begin
+   NAnswer(260,1,NodeBell100)
+   end
+   if (getQuest(GVAR_PUERTO_QST_BELL) == qStart) then begin
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_32) != 0) then begin
+   NAnswer(272,1,NodeBell200)
+   end
+   end
+
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer begin
+   Reply(214)
+   NAnswer(215,1,NodeSndDialog)
+end
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(225,4,NodeAnswer102)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(226)
+   NAnswer(228,4,NodeAnswer103)
+   NAnswer(227,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(229)
+   if (item_amnt(dude_obj,PID_M_STIMPAK)>=5) then begin
+   NAnswer(231,1,NodeAnswer104)
+   end
+   if (item_amnt(dude_obj,PID_M_PSYCHO)>0) then begin
+   NAnswer(232,1,NodeAnswer105)
+   end
+   if (item_amnt(dude_obj,PID_M_BUFFOUT)>0) then begin
+   NAnswer(233,1,NodeAnswer106)
+   end
+   NAnswer(230,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   if (item_amnt(dude_obj,PID_M_STIMPAK)>=5) then begin
+   item_remove(dude_obj,PID_M_STIMPAK,5)
+   call NodeAnswer107;
+   end
+   else begin
+   call NodeAnswer103;
+   end
+end
+
+procedure NodeAnswer105 begin
+   if (item_amnt(dude_obj,PID_M_PSYCHO)>0) then begin
+   item_remove(dude_obj,PID_M_PSYCHO,1)
+   call NodeAnswer107;
+   end
+   else begin
+   call NodeAnswer103;
+   end
+end
+
+procedure NodeAnswer106 begin
+   if (item_amnt(dude_obj,PID_M_BUFFOUT)>0) then begin
+   item_remove(dude_obj,PID_M_BUFFOUT,1)
+   call NodeAnswer107;
+   end
+   else begin
+   call NodeAnswer103;
+   end
+end
+
+procedure NodeAnswer107 begin
+   setQuest(GVAR_PUERTO_QST_FAREWELL,qEnd);
+   Reply(234)
+   NAnswer(235,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(241)
+   NAnswer(242,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(243)
+   NAnswer(244,1,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   bitDialogExp(bit_2,0)
+   item_add(dude_obj,PID_M_RADAWAY,2)
+   item_add(dude_obj,PID_M_RAD_X,2)
+   item_add(dude_obj,PID_M_ANTIDOTE,2)
+   item_add(dude_obj,PID_M_STIMPAK,2)
+   Reply(245)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeAnswer300 begin
+   Reply(251)
+   NAnswer(252,1,Node999)
+   BAnswer(253,1,Node999)
+end
+
+procedure NodeAnswer301 begin
+   PLAY_FADE
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   poison(dude_obj,-(get_poison(dude_obj)));
+   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   Reply(255)
+   NAnswer(256,1,Node999)
+   BAnswer(257,1,Node999)
+end
+
+//--- ОФИЦЕР БЕЛЛ
+
+procedure NodeBell100 begin
+   Reply(261)
+   NAnswer(262,1,NodeBell101)
+   NAnswer(264,1,NodeBell102)
+   NAnswer(266,1,NodeBell103)
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeBell101 begin
+   Reply(263)
+   NAnswer(264,1,NodeBell102)
+   NAnswer(266,1,NodeBell103)
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeBell102 begin
+   Reply(265)
+   NAnswer(270,1,NodeBell101)
+   NAnswer(266,1,NodeBell103)
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeBell103 begin
+   setQuest(GVAR_PUERTO_QST_BELL,qStart);
+   Reply(267)
+   NAnswer(269,1,NodeBell102)
+   NAnswer(270,1,NodeBell101)
+   NAnswer(268,1,Node999)
+end
+
+procedure NodeBell200 begin
+   Reply(273)
+   NAnswer(274,1,NodeBell201)
+end
+
+procedure NodeBell201 begin
+   Reply(275)
+   NAnswer(276,1,Node999)
+end
+
+procedure NodeBell202 begin
+   zReply(277)
+   NAnswer(278,1,NodeBell203)
+end
+
+procedure NodeBell203 begin
+   Reply(279)
+   NAnswer(280,1,NodeBell204)
+   NAnswer(281,1,NodeBell204)
+end
+
+procedure NodeBell204 begin
+   bitDialogExp(bit_3,0)
+   item_add(dude_obj,PID_TOOL_DOCTORS_BAG,1)
+   item_add(dude_obj,PID_M_STIMPAK,2)
+   Reply(282)
+   NAnswer(283,1,Node999)
+end

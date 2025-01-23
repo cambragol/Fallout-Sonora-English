@@ -1,0 +1,41 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//#define NAME                    SCRIPT_YSHspCps
+#define NAME                            SCRIPT_YCHsptlC
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure caps_gener;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   if (map_var(MVAR_DIEGOHSPTL_CAPS) == 1) then begin
+   script_overrides;
+   call caps_gener;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_SCIENCE) or (action_being_used == SKILL_REPAIR)) then begin
+      if (map_var(MVAR_DIEGOHSPTL_CAPS) == 1) then begin
+      script_overrides;
+      call caps_gener;
+      end
+   end
+end
+
+procedure caps_gener begin
+   variable capsAmnt;
+   if (map_var(MVAR_DIEGOHSPTL_CAPS) == 1) then begin
+      capsAmnt := 2+dude_luck;
+      item_add(dude_obj, PID_MANY, capsAmnt)
+      display_msg(mstr(104)+capsAmnt+mstr(105));
+      play_sfx("PEBBLE");
+      inc_map_var(MVAR_DIEGOHSPTL_CAPS);
+   end
+end

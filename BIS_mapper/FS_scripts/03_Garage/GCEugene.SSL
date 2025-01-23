@@ -1,0 +1,534 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_GCEugene
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_GARAGE_CITIZEN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CHILD              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_CHILD      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog200;
+procedure NodeSndDialog201;
+procedure NodeSndDialog202;
+procedure NodeSndDialog203;
+procedure NodeSndDialog204;
+procedure NodeSndDialog205;
+procedure NodeSndDialog206;
+procedure NodeSndDialog207;
+procedure NodePartyAdd;
+procedure NodePartyDialog;
+procedure NodePartyOpt2;
+procedure NodePartyOpt3;
+procedure NodePartyOpt4;
+procedure NodePartyOpt5;
+procedure NodePartyOpt10;
+procedure NodePartyOpt11;
+procedure NodePartyOpt12;
+procedure NodePartyOpt13;
+procedure NodePartyOpt14;
+procedure NodePartyOpt15;
+
+//---------------------
+
+#define LVAR_Stop_Run                   (6) // возможность оставить персонажа одного
+#define LVAR_MSG_reply                  (7) // номера реплик в диалоге
+#define LVAR_Go_Home                    (8) // возвращение на родину
+
+variable dialogMsgReply;                // номера реплик для замены в стартовом сообщении
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+
+       if (global_var(GVAR_GARAGE_EUGENE_STATUS) > 1) then begin
+          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_RANGERS);
+       end
+       else if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
+          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+          add_timer_event(self_obj, 6, 3);
+       end
+
+       if (global_var(GVAR_GARAGE_EUGENE_STATUS) == -1) then begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+          destroy_object(self_obj);
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   /*if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
+       if (cur_map_index == MAP_RANGERS_DAMBA) then begin
+          if (self_elevation == 0) then begin
+          set_local_var(LVAR_Home_Tile,19894);
+          set_local_var(LVAR_Home_Rotat,0);
+          set_local_var(LVAR_Stop_Run,0);
+          display_mstr(104);
+          floater(self_obj,105,COLOR_MSG_GREEN);
+          party_remove(self_obj);
+          rm_timer_event(self_obj);
+          add_timer_event(self_obj, 10, 1);
+          set_global_var(GVAR_GARAGE_EUGENE_STATUS,2);
+          end
+       end
+   end*/
+
+   if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 2) then begin
+       if (cur_map_index == MAP_RANGERS_DAMBA) then begin
+          if (self_elevation == 0) then begin
+          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_RANGERS);
+          set_local_var(LVAR_Home_Tile,19894);
+          set_local_var(LVAR_Home_Rotat,0);
+          set_local_var(LVAR_Stop_Run,0);
+          rm_timer_event(self_obj);
+          add_timer_event(self_obj, 10, 1);
+          set_global_var(GVAR_GARAGE_EUGENE_STATUS,3);
+          end
+       end
+   end
+
+   if (global_var(GVAR_GARAGE_EUGENE_STATUS) != 1) then begin
+       party_remove(self_obj);
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+       if ((global_var(GVAR_GARAGE_EUGENE_STATUS) > 1) or (cur_map_index == MAP_RANGERS_DAMBA)) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_RANGERS);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (global_var(GVAR_GARAGE_EUGENE_STATUS) != 1) then begin
+       timer_move_random_home(2)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       if (local_var(LVAR_Go_Home) != 0) then begin
+       end
+       else if (combat_is_initialized == true) then begin
+       end
+       else if ((cur_map_index == MAP_GARAGE_SIGN) or (cur_map_index == MAP_GARAGE_HOMES) or (cur_map_index == MAP_GARAGE_FACTORY)) then begin
+       end
+       else if (cur_map_index == MAP_RANGERS_ROAD) then begin
+       end
+       else if (cur_map_index == MAP_RANGERS_CITY) then begin
+       end
+       else if (cur_map_index == MAP_RANGERS_BASA) then begin
+          if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+          floater(self_obj,130,COLOR_MSG_RED);
+          end
+          else begin
+          floater(self_obj,121,COLOR_MSG_GREEN);
+          end
+       end
+       else if (cur_map_index == MAP_RANGERS_RADIO) then begin
+       floater(self_obj,122,COLOR_MSG_GREEN);
+       end
+       else if (cur_map_index == MAP_RANGERS_DAMBA) then begin
+       floater(self_obj,123,COLOR_MSG_GREEN);
+       end
+       else if ((cur_map_index == MAP_VILLA_HOME) or (cur_map_index == MAP_VILLA_PLAZA) or (cur_map_index == MAP_VILLA_GARD) or (cur_map_index == MAP_VILLA_RUINS)) then begin
+       floater(self_obj,125,COLOR_MSG_LIGHT_GREY);
+       end
+       else if ((cur_map_index == MAP_PHOENIX_SIGN) or (cur_map_index == MAP_PHOENIX_CENTER) or (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+       floater(self_obj,126,COLOR_MSG_LIGHT_GREY);
+       end
+       else if ((cur_map_index == MAP_FLAGSTAFF_CITY) or (cur_map_index == MAP_FLAGSTAFF_SLAVE) or (cur_map_index == MAP_FLAGSTAFF_MUSEUM)) then begin
+       floater(self_obj,127,COLOR_MSG_LIGHT_GREY);
+       end
+       else if (cur_map_index == MAP_JACKALS) then begin
+       floater(self_obj,124,COLOR_MSG_LIGHT_GREY);
+       end
+       else if (cur_map_index == MAP_IN_GAME_MOVIE) then begin
+       floater(self_obj,129,COLOR_MSG_LIGHT_GREY);
+       end
+       else begin
+       floater(self_obj,128,COLOR_MSG_LIGHT_GREY);
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
+       if (local_var(LVAR_Stop_Run) == 0) then begin
+       partyRunToDude
+       end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_GARAGE_EUGENE_STATUS,-1);
+   kill_critter_opt
+   kill_critter_dude_reply(102,103) // a отрицательная слава, b положительная слава
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,70) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   dialogMsgReply := 0;
+
+   if (global_var(GVAR_GARAGE_EUGENE_STATUS) > 1) then begin
+      call NodeStopDialog;
+   end
+   else if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
+      if ((bitDialog(bit_3) == 0) and (get_SLAVA <= -100)) then begin
+      call NodePartyOpt14;
+      end
+      else begin
+      call NodePartyDialog;
+      end
+   end
+   else begin
+      if (local_var(LVAR_Go_Home) != 0) then begin
+      call NodeStopDialog2;
+      end
+      else if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+      end
+      else begin
+      call NodeSndDialog;
+      end
+   end
+end
+
+procedure NodeStopDialog begin
+   if (cur_map_index == MAP_RANGERS_DAMBA) then begin
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 10, 1);
+   end
+   Reply(190)
+   NAnswer(191,1,Node999)
+   NAnswer(192,1,Node999)
+end
+
+procedure NodeStopDialog2 begin
+   Reply(193)
+   NAnswer(194,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   BAnswer(203,1,NodeFstDialog3)
+   NAnswer(206,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(-20)
+   Reply(204)
+   NAnswer(205,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(207)
+   NAnswer(208,1,NodeSndDialog2)
+   NAnswer(209,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(215)
+   if (getQuest(GVAR_RANGERS_QST_EUGENE_DUM) == qStart) then begin
+      if (map_var(MVAR_GARAGE_EUGENE_QST) == 0) then begin
+      GAnswer(300,1,NodeSndDialog200)
+      end
+      else begin
+      NAnswer(307,1,NodeSndDialog203)
+      end
+   end
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
+      NAnswer(214,1,NodeFstDialog4)
+   end
+   NAnswer(216,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(210)
+   NAnswer(211,1,NodeSndDialog3)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(212)
+   NAnswer(213,1,Node999)
+end
+
+procedure NodeSndDialog200 begin
+   Reply(301)
+   NAnswer(302,1,NodeSndDialog201)
+end
+
+procedure NodeSndDialog201 begin
+   Reply(303)
+   NAnswer(304,1,NodeSndDialog202)
+end
+
+procedure NodeSndDialog202 begin
+   set_map_var(MVAR_GARAGE_EUGENE_QST,1);
+   Reply(305)
+   NAnswer(306,1,Node999)
+end
+
+procedure NodeSndDialog203 begin
+   Reply(308)
+   if (global_var(GVAR_GARAGE_EUGENE_PAP_STATUS) == 1) then begin
+   NAnswer(310,1,NodeSndDialog204)
+   end
+   if (global_var(GVAR_GARAGE_EUGENE_PAP_STATUS) == -1) then begin
+   NAnswer(313,1,NodeSndDialog205)
+   end
+   NAnswer(316,1,NodeSndDialog206)
+   NAnswer(318,1,NodeSndDialog207)
+   NAnswer(309,1,Node999)
+end
+
+procedure NodeSndDialog204 begin
+   //if (party_member_count(0) > 1) then begin
+   if party_limit then begin
+   display_mstr(239);
+   Reply(237)
+   NAnswer(238,1,Node999)
+   end
+   else begin
+   set_global_var(GVAR_GARAGE_EUGENE_STATUS,1);
+   Reply(311)
+   NAnswer(312,1,NodePartyAdd)
+   end
+end
+
+procedure NodeSndDialog205 begin
+   set_global_var(GVAR_GARAGE_EUGENE_STATUS,1);
+   Reply(314)
+   NAnswer(315,1,NodePartyAdd)
+end
+
+procedure NodeSndDialog206 begin
+   Reply(317)
+   NAnswer(318,1,NodeSndDialog207)
+   NAnswer(309,1,Node999)
+end
+
+procedure NodeSndDialog207 begin
+   Reply(319)
+   NAnswer(316,1,NodeSndDialog206)
+   NAnswer(309,1,Node999)
+end
+
+//--- ПРИОБЩЕНИЕ К ПАРТИИ
+
+procedure NodePartyAdd begin
+   display_mstr(106);
+   set_global_var(GVAR_GARAGE_EUGENE_STATUS,1);
+   rm_timer_event(self_obj);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   party_add(self_obj);
+   call Node999;
+end
+
+procedure NodePartyDialog begin
+   if (dialogMsgReply > 0) then begin
+   Reply(dialogMsgReply)
+   end
+   else if (local_var(LVAR_Go_Home) != 0) then begin
+   Reply(236)
+   end
+   else if ((cur_map_index == MAP_GARAGE_SIGN) or (cur_map_index == MAP_GARAGE_HOMES) or (cur_map_index == MAP_GARAGE_FACTORY)) then begin
+   Reply(220)
+   end
+   else if (cur_map_index == MAP_GARAGE_TRILER) then begin
+   Reply(217)
+   end
+   else begin
+   Reply(random(221,229))
+   end
+
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      if (local_var(LVAR_Go_Home) == 0) then begin
+         NAnswer(320,1,NodePartyOpt10)
+      end
+      else begin
+         if (cur_map_index == MAP_GARAGE_HOMES) then begin
+         NAnswer(328,1,NodePartyOpt13)
+         end
+      end
+   end
+
+   if weapon_invn_self then begin
+      NAnswer(232,1,NodePartyOpt4)
+   end
+   if (inven_armor(self_obj) > 0) then begin
+      NAnswer(234,1,NodePartyOpt5)
+   end
+
+   if (cur_map_index != MAP_RANGERS_DAMBA) then begin
+   //NAnswer(230,1,NodePartyOpt2)
+   end
+   NAnswer(231,1,NodePartyOpt3)
+end
+
+procedure NodePartyOpt2 begin
+   set_local_var(LVAR_Stop_Run,1);
+   call Node999;
+end
+
+procedure NodePartyOpt3 begin
+   set_local_var(LVAR_Stop_Run,0);
+   call Node999;
+end
+
+procedure NodePartyOpt4 begin
+   dialogMsgReply := 233;
+   inven_unwield(self_obj);
+   call NodePartyDialog;
+end
+
+procedure NodePartyOpt5 begin
+   dialogMsgReply := 235;
+   item_remove_armor(self_obj)
+   call NodePartyDialog;
+end
+
+procedure NodePartyOpt10 begin
+   set_local_var(LVAR_Go_Home,1);
+   Reply(321)
+   NAnswer(322,1,NodePartyOpt11)
+   BAnswer(323,1,NodePartyOpt12)
+end
+
+procedure NodePartyOpt11 begin
+   set_local_var(LVAR_Go_Home,2);
+   Reply(326)
+   NAnswer(327,1,Node999)
+end
+
+procedure NodePartyOpt12 begin
+   set_global_var(GVAR_GARAGE_EUGENE_STATUS,-1);
+   setQuest(GVAR_RANGERS_QST_EUGENE_DUM,qZero);
+   set_local_var(LVAR_Home_Tile,99);
+   set_obj_visibility(self_obj, 1);
+   set_SLAVA(-100)
+   Reply(324)
+   NAnswer(325,1,NodePartyOpt2)
+end
+
+procedure NodePartyOpt13 begin
+   set_global_var(GVAR_GARAGE_EUGENE_STATUS,0);
+   setQuest(GVAR_RANGERS_QST_EUGENE_DUM,qZero);
+   set_local_var(LVAR_Go_Home,3);
+   Reply(329)
+   NAnswer(330,1,NodePartyOpt2)
+   NAnswer(331,1,NodePartyOpt2)
+end
+
+procedure NodePartyOpt14 begin
+   bitDialogExp(bit_3,10)
+   Reply(195)
+   NAnswer(196,1,NodePartyOpt15)
+   NAnswer(197,1,NodePartyOpt15)
+end
+
+procedure NodePartyOpt15 begin
+   Reply(198)
+   NAnswer(199,1,Node999)
+end

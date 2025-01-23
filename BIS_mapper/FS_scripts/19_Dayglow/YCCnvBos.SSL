@@ -1,0 +1,413 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//--------------------- Завод - лидер старателей
+
+#define NAME                            SCRIPT_YCCnvBos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_BANDITS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeExit;
+procedure NodeSndDialog;
+procedure NodeQuest100;
+procedure NodeQuest101;
+procedure NodeQuest102;
+procedure NodeQuest103;
+procedure NodeQuestExit;
+procedure NodeQuest104;
+procedure NodeQuest105;
+procedure NodeQuest106;
+procedure NodeQuest107;
+procedure NodeQuest108;
+procedure NodeQuest109;
+procedure NodeQuest110;
+procedure NodeQuest201;
+procedure NodeQuest202;
+procedure NodeQuest203;
+procedure NodeQuest204;
+
+//---------------------
+
+#define LVAR_CHIP_AMNT                     (6) // число отданных микросхем
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run == true) then begin
+       inc_map_var(MVAR_DIEGOCAFE_FABRICA_LIFE);
+       end
+       set_obj_visibility(self_obj, 0);
+       if ((getQuest(GVAR_DAYGLOW_QST_MORODERS) >= qEnd) or (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) <= -100) or (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) >= qEnd) or (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) <= qStop)) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(map_var(MVAR_DIEGOCAFE_FABRICA_ENEMY),0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) >= qEnd) then begin
+      if (self_visible == true) then begin
+      set_obj_visibility(self_obj, 1);
+      end
+   end
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) == qZero) then begin
+      if self_can_see_dude then begin
+      dialogue_system_forcing(9)
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   if (map_var(MVAR_DIEGOCAFE_FABRICA_ENEMY) == 0) then begin
+   set_map_var(MVAR_DIEGOCAFE_FABRICA_ENEMY, 1);
+   end
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_DIEGOCAFE_FABRICA_ENEMY, 2);
+   end
+   dec_map_var(MVAR_DIEGOCAFE_FABRICA_LIFE);
+   if (map_var(MVAR_DIEGOCAFE_FABRICA_LIFE) <= 0) then begin
+   setQuest(GVAR_DAYGLOW_FABRICA_STATUS, qStop);
+   end
+   if (local_var(LVAR_CHIP_AMNT)>0) then begin
+   item_add(self_obj,PID_Q_DAYGLOW_CHIP,local_var(LVAR_CHIP_AMNT))
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) >= qEnd) then begin
+   floater(self_obj,102,COLOR_MSG_NORMAL);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setQuest(GVAR_DAYGLOW_FABRICA_STATUS, qZero);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) == qStart) then begin
+   call NodeQuest201;
+   end
+   else if (partyPidMtn!=0) then begin
+   call NodeFstDialog3;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(245)
+   end
+   else begin
+   zReply(200)
+   end
+   BAnswer(202,0,NodeFstDialog2)
+   if (getQuest(GVAR_DAYGLOW_QST_MORODERS) == qStart) then begin
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) == qZero) then begin
+   NAnswer(250,0,NodeQuest100)
+   end
+   end
+   NAnswer(201,0,NodeExit)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   if (getQuest(GVAR_DAYGLOW_QST_MORODERS) == qStart) then begin
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) == qZero) then begin
+   NAnswer(250,0,NodeQuest100)
+   end
+   end
+   BAnswer(205,0,Node998)
+   NAnswer(204,0,NodeExit)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(207)
+   BAnswer(209,0,Node998)
+   NAnswer(208,0,Node998)
+end
+
+procedure NodeExit begin
+   move_to(dude_obj, 13114, self_elevation);
+   anim(dude_obj, ANIMATE_ROTATION, 3);
+   call Node999;
+end
+
+procedure NodeSndDialog begin
+   zReply(206)
+   BAnswer(202,0,NodeFstDialog2)
+   if (getQuest(GVAR_DAYGLOW_QST_MORODERS) == qStart) then begin
+   if (getQuest(GVAR_DAYGLOW_FABRICA_STATUS) == qZero) then begin
+   NAnswer(250,0,NodeQuest100)
+   end
+   end
+   NAnswer(201,0,NodeExit)
+end
+
+procedure NodeQuest100 begin
+   Reply(251)
+   NAnswer(254,0,NodeQuest101)
+   zBAnswer(253,0,Node998)
+   NAnswer(252,0,NodeExit)
+end
+
+procedure NodeQuest101 begin
+   Reply(255)
+   NAnswer(256,0,NodeQuest102)
+end
+
+procedure NodeQuest102 begin
+   Reply(257)
+   NAnswer(258,0,NodeQuest103)
+end
+
+procedure NodeQuest103 begin
+   setQuest(GVAR_DAYGLOW_FABRICA_STATUS, qStart);
+   Reply(259)
+   BAnswer(261,0,Node998)
+   NAnswer(260,0,Node999)
+end
+
+
+procedure NodeQuest201 begin
+   Reply(234)
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP) == 1) then begin
+   NAnswer(237,0,NodeQuest202)
+   end
+   else if (item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP)>0) then begin
+   NAnswer(mstr(238)+item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP)+mstr(239),0,NodeQuest203)
+   end
+   NAnswer(236,0,Node999)
+   BAnswer(235,0,Node999)
+end
+
+procedure NodeQuest202 begin
+   item_remove(dude_obj,PID_Q_DAYGLOW_CHIP,1)
+   inc_local_var(LVAR_CHIP_AMNT);
+   call NodeQuest204;
+end
+
+procedure NodeQuest203 begin
+   variable itemChipAmnt;
+   itemChipAmnt := 0;
+   itemChipAmnt := item_amnt(dude_obj, PID_Q_DAYGLOW_CHIP);
+   item_remove(dude_obj,PID_Q_DAYGLOW_CHIP,itemChipAmnt)
+   inc_local_var_amt(LVAR_CHIP_AMNT,itemChipAmnt);
+   call NodeQuest204;
+end
+
+procedure NodeQuest204 begin
+   if (local_var(LVAR_CHIP_AMNT)>=10) then begin
+   setQuest(GVAR_DAYGLOW_FABRICA_STATUS, qEnd);
+   box_stop_use := 0; // на всякий случай
+   Reply(263)
+   BAnswer(265,0,Node999)
+   NAnswer(264,0,Node999)
+   end
+   else begin
+   Reply(mstr(240)+(10-local_var(LVAR_CHIP_AMNT))+mstr(241))
+   NAnswer(232,0,Node999)
+   BAnswer(233,0,Node998)
+   end
+end
+
+
+
+/*
+
+procedure NodeQuest100 begin
+   Reply(211)
+   А то, что для вас это очень плохо.
+   Вы должны отпустить гулей.
+   А то, что вы классные ребята. Я хочу с вами.
+
+   NAnswer(215,0,NodeQuest101)
+   NAnswer(218,0,NodeQuest102)
+   NAnswer(220,0,NodeQuest103)
+   NAnswer(212,0,NodeExit)
+end
+
+procedure NodeQuest101 begin
+   Reply(216)
+   NAnswer(218,0,NodeQuest102)
+   NAnswer(220,0,NodeQuest103)
+   NAnswer(217,0,NodeQuestExit)
+end
+
+procedure NodeQuest102 begin
+   Reply(219)
+   NAnswer(215,0,NodeQuest101)
+   NAnswer(220,0,NodeQuest103)
+   NAnswer(217,0,NodeQuestExit)
+end
+
+procedure NodeQuest103 begin
+   Reply(221)
+   NAnswer(215,0,NodeQuest101)
+   NAnswer(218,0,NodeQuest102)
+   NAnswer(217,0,NodeQuestExit)
+end
+
+procedure NodeQuestExit begin
+   Reply(222)
+   NAnswer(224,0,NodeQuest104)
+   NAnswer(223,0,NodeExit)
+end
+
+procedure NodeQuest104 begin
+   Reply(225)
+   NAnswer(230,0,NodeQuest106)
+   NAnswer(227,0,NodeQuest105)
+   BAnswer(226,0,Node998)
+end
+
+procedure NodeQuest105 begin
+   Reply(228)
+   NAnswer(229,0,NodeExit)
+end
+
+procedure NodeQuest106 begin
+   setQuest(GVAR_DAYGLOW_FABRICA_STATUS, qStart);
+   Reply(231)
+   NAnswer(232,0,Node999)
+   BAnswer(233,0,Node998)
+end
+
+procedure NodeQuest107 begin
+   Reply(234)
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP) == 1) then begin
+   NAnswer(237,0,NodeQuest108)
+   end
+   else if (item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP)>0) then begin
+   NAnswer(mstr(238)+item_amnt(dude_obj,PID_Q_DAYGLOW_CHIP)+mstr(239),0,NodeQuest109)
+   end
+   NAnswer(236,0,Node999)
+   BAnswer(235,0,Node998)
+end
+
+procedure NodeQuest108 begin
+   item_remove(dude_obj,PID_Q_DAYGLOW_CHIP,1)
+   inc_local_var(LVAR_CHIP_AMNT);
+   call NodeQuest110;
+end
+
+procedure NodeQuest109 begin
+   variable itemChipAmnt;
+   itemChipAmnt := 0;
+   itemChipAmnt := item_amnt(dude_obj, PID_Q_DAYGLOW_CHIP);
+   item_remove(dude_obj,PID_Q_DAYGLOW_CHIP,itemChipAmnt)
+   inc_local_var_amt(LVAR_CHIP_AMNT,itemChipAmnt);
+   call NodeQuest110;
+end
+
+procedure NodeQuest110 begin
+   if (local_var(LVAR_CHIP_AMNT)>=10) then begin
+   setQuest(GVAR_DAYGLOW_FABRICA_STATUS, qEnd);
+   box_stop_use := 0; // на всякий случай
+   Reply(242)
+   BAnswer(243,0,Node999)
+   NAnswer(244,0,Node999)
+   end
+   else begin
+   Reply(mstr(240)+(10-local_var(LVAR_CHIP_AMNT))+mstr(241))
+   NAnswer(232,0,Node999)
+   BAnswer(233,0,Node998)
+   end
+end
+*/

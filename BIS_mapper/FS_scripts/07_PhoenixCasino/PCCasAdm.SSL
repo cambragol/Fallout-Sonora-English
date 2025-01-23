@@ -1,0 +1,537 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCCasAdm
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_CASINO           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define COAST_DEBT                      (proto_data(PID_Q_COLA_BOX,it_cost)/2)
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFrand;
+procedure NodeFrand2;
+procedure NodeFrand3;
+procedure NodeFrand4;
+procedure NodeFrand5;
+procedure NodeFrand6;
+procedure NodeSndDialog;
+procedure NodeQst;
+procedure NodeQst2;
+procedure NodeQst3;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst300;
+procedure NodeQst301;
+procedure NodeQst302;
+procedure NodeQst303;
+procedure NodeQst304;
+procedure NodeDopusk;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeCassa;
+procedure NodeCassa2;
+procedure NodeCassa3;
+procedure NodeCassa4;
+procedure NodeCassa5;
+procedure NodeCassa6;
+
+//---------------------
+
+//#define LVAR_StopGame                     (6) // фиксирует отказ ГГ в игре в казино
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+end
+
+procedure critter_p_proc begin
+   if ((global_var(GVAR_PHENIX_STATUS_DIEGO) <= 0) and (global_var(GVAR_TITUL_PHENIX_CASINO) <= 0)) then begin
+   set_using_stop
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (getQuest(GVAR_PHENIX_QST_CASINO_DEBT) == qStart) then begin
+   setQuest(GVAR_PHENIX_QST_CASINO_DEBT,qStop);
+   end
+   if (map_var(MVAR_PNX_CASINO_LUX) == 0) then begin
+   item_add(self_obj,PID_KEY_PHENIX_CASINO_LUX,1)
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_PHENIX_CASINO,50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(1,102,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((global_var(GVAR_PHENIX_STATUS_DIEGO) > 0) and (bitDialog(bit_4) == 0)) then begin
+   call NodeFrand;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- СВОЙ ЧЕЛОВЕК В КАЗИНО
+
+procedure NodeFrand begin
+   bitDialogExp(bit_1,0)
+   bitDialogExp(bit_4,0)
+   if (getReaction < 0) then begin
+   Reply(295)
+   NAnswer(296,1,NodeFrand4)
+   BAnswer(297,1,NodeFrand3)
+   end
+   else begin
+   zReply(290)
+   NAnswer(291,1,NodeFrand4)
+   BAnswer(292,1,NodeFrand2)
+   end
+end
+
+procedure NodeFrand2 begin
+   Reply(293)
+   NAnswer(294,1,NodeFrand4)
+end
+
+procedure NodeFrand3 begin
+   Reply(298)
+   NAnswer(299,1,NodeFrand4)
+end
+
+procedure NodeFrand4 begin
+   if (map_var(MVAR_PNX_CASINO_LUX) > 0) then begin
+   call NodeFrand6;
+   end
+   else begin
+   call NodeFrand5;
+   end
+end
+
+procedure NodeFrand5 begin
+   set_map_var(MVAR_PNX_CASINO_LUX,1);
+   item_add(dude_obj,PID_KEY_PHENIX_CASINO_LUX,1)
+   Reply(300)
+   NAnswer(301,1,NodeFrand6)
+end
+
+procedure NodeFrand6 begin
+   Reply(302)
+   NAnswer(303,1,Node999)
+   BAnswer(304,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   BAnswer(201,1,NodeFstDialog2)
+   NAnswer(204,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(-10)
+   Reply(202)
+   NAnswer(203,1,NodeSndDialog)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   //--- Расспросы
+   NAnswer(250,1,NodeAnswer100)
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_2) == 0)) then begin
+   NAnswer(275,1,NodeAnswer201)
+   end
+   if ((global_var(GVAR_PHENIX_STATUS_DIEGO) < 0) and (bitDialog(bit_3) == 0)) then begin
+   NAnswer(270,1,NodeAnswer200)
+   end
+
+   //--- Нападение на Последователей
+   if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+   if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) or (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3)) then begin
+   NAnswer(280,1,NodeAnswer202)
+   end
+   end
+
+   //--- Квесты
+   if (getQuest(GVAR_PHENIX_QST_CASINO_DEBT) == qZero) then begin
+      if (global_var(GVAR_PHENIX_STATUS_DIEGO) < 0) then begin
+      NAnswer(320,1,NodeQst3)
+      end
+      else if (map_var(MVAR_PNX_CASINO_PSWD) > 0) then begin
+      //!!! Уточнить проверку: ГГ теперь работает на Диего
+      NAnswer(336,1,NodeQst2)
+      end
+      else begin
+      NAnswer(320,1,NodeQst)
+      end
+   end
+   if (getQuest(GVAR_PHENIX_QST_CASINO_DEBT) == qStart) then begin
+      NAnswer(356,1,NodeQst300)
+   end
+
+   //--- Мигель
+   if (getQuest(GVAR_PHENIX_MIGEL_KNOWN) == qStart) then begin
+   //!!! Я ищу своего родственника. Его зовут Мигель Техада.
+   end
+
+   //--- Запрет игры (размещать последним в процедуре перед Node999!)
+   if (map_var(MVAR_PNX_CASINO_STOP) == 1) then begin
+   NAnswer(220,1,NodeCassa)
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+//--- КВЕСТ И ДОПУСК К ДИЕГО
+
+procedure NodeQst begin
+   Reply(321)
+   NAnswer(323,3,NodeQst101)
+   NAnswerRep(330,3,NodeQst103,30,326,NodeQst102)
+   if (global_var(GVAR_TITUL_ARENA_MASTER) > 0) then begin
+   NAnswer(333,3,NodeQst104)
+   end
+   NAnswer(322,1,Node999)
+end
+
+procedure NodeQst2 begin
+   Reply(337)
+   NAnswer(338,1,NodeQst200)
+end
+
+procedure NodeQst3 begin
+   Reply(339)
+   NAnswer(338,1,NodeQst200)
+end
+
+procedure NodeQst101 begin
+   Reply(324)
+   NAnswer(325,1,NodeQst200)
+end
+
+procedure NodeQst102 begin
+   Reply(327)
+   BAnswer(328,1,Node999)
+   NAnswer(329,1,Node999)
+end
+
+procedure NodeQst103 begin
+   Reply(331)
+   NAnswer(332,1,NodeDopusk)
+end
+
+procedure NodeQst104 begin
+   Reply(334)
+   NAnswer(335,1,NodeDopusk)
+end
+
+procedure NodeQst200 begin
+   setQuest(GVAR_PHENIX_QST_CASINO_DEBT,qStart);
+   Reply(350)
+   NAnswer(351,1,NodeQst201)
+end
+
+procedure NodeQst201 begin
+   Reply(mstr(352)+COAST_DEBT+mstr(364))
+   NAnswer(COAST_DEBT+mstr(353),1,NodeQst202)
+end
+
+procedure NodeQst202 begin
+   Reply(354)
+   NAnswer(355,1,Node999)
+end
+
+procedure NodeQst300 begin
+   Reply(357)
+   NAnswer(359,1,NodeQst301)
+   NAnswer(362,1,NodeQst302)
+   if (global_var(GVAR_PHENIX_STATUS_LOH)<0) then begin
+   BAnswer(365,1,NodeQst303)
+   end
+   if ((getQuest(GVAR_PHENIX_QST_LOH) != qZero) and (getQuest(GVAR_PHENIX_QST_LOH) != qStart)) then begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=COAST_DEBT) then begin
+   GAnswer(mstr(368)+COAST_DEBT+mstr(369),1,NodeQst304)
+   end
+   end
+   BAnswer(358,1,Node999)
+end
+
+procedure NodeQst301 begin
+   Reply(360)
+   NAnswer(362,1,NodeQst302)
+   NAnswer(361,1,Node999)
+end
+
+procedure NodeQst302 begin
+   Reply(COAST_DEBT+mstr(363))
+   NAnswer(359,1,NodeQst301)
+   NAnswer(361,1,Node999)
+end
+
+procedure NodeQst303 begin
+   setQuest(GVAR_PHENIX_QST_CASINO_DEBT,qStop);
+   set_REP(-7)
+   setBonusReaction(-35)
+   Reply(366)
+   NAnswer(367,1,Node999)
+end
+
+procedure NodeQst304 begin
+   setQuest(GVAR_PHENIX_QST_CASINO_DEBT,qEnd);
+   set_REP(7)
+   setBonusReaction(35)
+   item_remove(dude_obj,PID_BOOTLE_CAPS,COAST_DEBT)
+   item_add(dude_obj,PID_BOOTLE_CAPS,(COAST_DEBT/5))
+   exp_add(500);
+   Reply(370)
+   if (map_var(MVAR_PNX_CASINO_PSWD)>0) then begin
+   NAnswer(371,1,Node999)
+   end
+   else begin
+   NAnswer(372,1,NodeDopusk)
+   end
+end
+
+procedure NodeDopusk begin
+   set_map_var(MVAR_PNX_CASINO_PSWD,1);
+   box_stop_use := 0;
+   Reply(340)
+   BAnswer(341,1,Node999)
+   NAnswer(342,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   if (global_var(GVAR_PHENIX_STATUS_DIEGO) == 0) then begin
+   Reply(251)
+   NAnswer(252,1,NodeAnswer101)
+   end
+   else begin
+   Reply(259)
+   end
+   NAnswer(253,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   zReply(254)
+   NAnswer(255,3,NodeAnswer102)
+   if (map_var(MVAR_PNX_CASINO_PSWD) <= 0) then begin
+   NAnswer(257,3,NodeAnswer103)
+   end
+   NAnswer(253,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(256)
+   if (map_var(MVAR_PNX_CASINO_PSWD) <= 0) then begin
+   NAnswer(257,3,NodeAnswer103)
+   end
+   NAnswer(253,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(258)
+   NAnswer(255,3,NodeAnswer102)
+   NAnswer(253,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   bitDialogExp(bit_3,20)
+   Reply(271)
+   NAnswer(272,1,NodeSndDialog)
+   BAnswer(273,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   bitDialogExp(bit_2,0)
+   Reply(276)
+   NAnswer(277,1,NodeSndDialog)
+   BAnswer(278,1,NodeSndDialog)
+end
+
+procedure NodeAnswer202 begin
+   Reply(281)
+   BAnswer(283,3,NodeAnswer203)
+   NAnswer(282,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   setBonusReaction(-5)
+   Reply(284)
+   BAnswer(285,1,Node999)
+   NAnswer(286,1,Node999)
+end
+
+//--- ЗАПРЕТ ИГРЫ
+
+procedure NodeCassa begin
+   Reply(222)
+   NAnswer(223,1,NodeCassa2)
+   NAnswer(224,1,NodeCassa2)
+end
+
+procedure NodeCassa2 begin
+   Reply(225)
+   BAnswer(226,1,NodeCassa3)
+   NAnswer(227,1,NodeCassa3)
+end
+
+procedure NodeCassa3 begin
+   Reply(228)
+   if (map_var(MVAR_PNX_CASINO_LUX) > 0) then begin
+   BAnswer(229,1,NodeCassa5)
+   NAnswer(230,1,NodeCassa5)
+   end
+   else begin
+   BAnswer(229,1,NodeCassa4)
+   NAnswer(230,1,NodeCassa4)
+   end
+end
+
+procedure NodeCassa4 begin
+   set_map_var(MVAR_PNX_CASINO_LUX,1);
+   item_add(dude_obj,PID_KEY_PHENIX_CASINO_LUX,1)
+   Reply(231)
+   BAnswer(232,1,NodeCassa5)
+   NAnswer(233,1,NodeCassa5)
+end
+
+procedure NodeCassa5 begin
+   set_map_var(MVAR_PNX_CASINO_STOP,2);
+   item_add(dude_obj,PID_M_VISKI,1)
+   setBonusReaction(50)
+   exp_add(500);
+
+   if ((global_var(GVAR_PHENIX_STATUS_DIEGO) == 0) and (map_var(MVAR_PNX_CASINO_PSWD) == 0)) then begin
+   call NodeCassa6;
+   end
+   else begin
+   Reply(237)
+   BAnswer(238,1,Node999)
+   NAnswer(239,1,Node999)
+   end
+end
+
+procedure NodeCassa6 begin
+   set_map_var(MVAR_PNX_CASINO_PSWD,1);
+   box_stop_use := 0;
+   Reply(234)
+   BAnswer(235,1,Node999)
+   NAnswer(236,1,Node999)
+end

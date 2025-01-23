@@ -1,0 +1,23 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_HSFonar
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_HERMO_SOLAR_A) == 0) then begin
+   obj_set_light_level(self_obj, 100, 8);
+   end
+   else begin
+   obj_set_light_level(self_obj, 0, 0);
+   end
+end

@@ -1,0 +1,54 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSDumbaB
+//--- машинный зал - провода
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (global_var(GVAR_DAYGLOW_TURBINA) > 1) then begin
+   display_mstr(111);
+   end
+   else if (global_var(GVAR_DAYGLOW_TURBINA) == 1) then begin
+   call repair_proc;
+   end
+   else begin
+   display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   display_mstr(112);
+   play_sfx("ZAPPER1");
+   //play_sfx("ELECTRI1");
+   inc_global_var(GVAR_DAYGLOW_TURBINA);
+end

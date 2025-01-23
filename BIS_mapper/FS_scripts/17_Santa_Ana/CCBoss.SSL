@@ -347,7 +347,7 @@ procedure NodeFstDialog200 begin
    setQuest(GVAR_SANTAANA_QST_FIESTA, qStart);
    // added to avoid the big 210 message being repeated each time this node is returned to. - cambragol
    if (bitDialog(bit_3) == 0) then begin
-      Reply(210)
+      zReply(210)
       bitDialogExp(bit_3,0)
    end
    else begin

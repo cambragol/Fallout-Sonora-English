@@ -1,0 +1,216 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_ZCDthclw
+#define TOWN_REP_VAR                    -1   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_DEATHCLAW        // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_DWCLW      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      300 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+
+import variable obj_critter_a; // указатель на криттера 1
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (cur_map_index == MAP_CASA_NUEVA_CEMENT) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+       if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   script_overrides;
+   if (self_PID == PID_LA_FANTASMA) then begin
+   display_mstr(109);
+   end
+   else if (self_PID == PID_EL_TEMOR_ROJO) then begin
+   display_mstr(108);
+   end
+   else if (self_PID == PID_LA_GARRA) then begin
+   display_mstr(104);
+   end
+   else if (self_PID == PID_EL_DIABLO) then begin
+   display_mstr(103);
+   end
+   else if (self_PID == PID_EL_GIGANTO) then begin
+   display_mstr(102);
+   end
+   else if (self_PID == PID_EL_MONSTRO) then begin
+   display_mstr(101);
+   end
+   else begin
+   display_mstr(100);
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (self_visible == false) then begin
+          add_timer_event(self_obj, 40, 1);
+       end
+       else if ((cur_map_index == MAP_SANTA_ANA_PLAZA) and (map_var(MVAR_SANTA_MEAT_TILE) > 0)) then begin
+          timer_move_to_tile(0,map_var(MVAR_SANTA_MEAT_TILE),random(0,5))
+          if (combat_is_initialized == false) then begin
+             floater(self_obj, 107, COLOR_MSG_GREY);
+          end
+          if (tile_distance(self_tile,map_var(MVAR_SANTA_MEAT_TILE)) <= 1) then begin
+             if (tile_contains_obj_pid(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_MEAT_JERKY) == true) then begin
+             destroy_object(tile_contains_pid_obj(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_MEAT_JERKY));
+             end
+             if (tile_contains_obj_pid(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_IGUANA) == true) then begin
+             destroy_object(tile_contains_pid_obj(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_IGUANA));
+             end
+            set_map_var(MVAR_SANTA_MEAT_TILE, 0);
+          end
+       end
+       else if ((cur_map_index == MAP_CASA_NUEVA_CEMENT) and (map_var(MVAR_NUEVA_MEAT_TILE) > 0)) then begin
+          timer_move_to_tile(0,map_var(MVAR_NUEVA_MEAT_TILE),random(0,5))
+          if (combat_is_initialized == false) then begin
+             floater(self_obj, 107, COLOR_MSG_GREY);
+          end
+          if (tile_distance(self_tile,map_var(MVAR_NUEVA_MEAT_TILE)) <= 1) then begin
+             if (tile_contains_obj_pid(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_MEAT_JERKY) == true) then begin
+             destroy_object(tile_contains_pid_obj(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_MEAT_JERKY));
+             end
+             if (tile_contains_obj_pid(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_IGUANA) == true) then begin
+             destroy_object(tile_contains_pid_obj(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_IGUANA));
+             end
+             set_map_var(MVAR_NUEVA_MEAT_TILE, 0);
+          end
+       end
+       else if ((cur_map_index == MAP_DAYGLOW_CITYHEART) and (map_var(MVAR_DIEGOHEART_MEAT_HEX) > 0)) then begin
+          timer_move_to_tile(0,map_var(MVAR_DIEGOHEART_MEAT_HEX),random(0,5))
+          if (combat_is_initialized == false) then begin
+             floater(self_obj, 107, COLOR_MSG_GREY);
+          end
+          if (tile_distance(self_tile,map_var(MVAR_DIEGOHEART_MEAT_HEX)) <= 1) then begin
+             if (tile_contains_obj_pid(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_MEAT_JERKY) == true) then begin
+             destroy_object(tile_contains_pid_obj(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_MEAT_JERKY));
+             end
+             if (tile_contains_obj_pid(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_IGUANA) == true) then begin
+             destroy_object(tile_contains_pid_obj(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_IGUANA));
+             end
+             set_map_var(MVAR_DIEGOHEART_MEAT_HEX, 0);
+          end
+       end
+       else begin
+          timer_move_random
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   invisToDude(12,105)
+
+   if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
+   if (map_var(MVAR_DIEGOHEART_DWCL_VISBL) > 0) then begin
+   if (self_visible == false) then begin
+       set_obj_visibility(self_obj, 0);
+   end
+   end
+   end
+
+   if (cur_map_index == MAP_SAN_BRAHMIN_CAVE) then begin
+   obj_critter_a := self_obj;
+   end
+   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   if (critter_is_fleeing(self_obj) != 0) then begin
+      if (random(0,100) <= (25-dude_luck)) then begin
+      display_mstr(106);
+      critter_set_flee_state(self_obj, 0);
+      terminate_combat;
+      end
+   end
+   effectAttak(0,0,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectIntimidationPerk
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+   else if ((cur_map_index == MAP_SANTA_ANA_PLAZA) or (cur_map_index == MAP_CASA_NUEVA_CEMENT) or (cur_map_index == MAP_DAYGLOW_CITYHEART)) then begin
+      if (fixed_param>0) then begin
+         set_damage_check
+         if (damage_amnt > 0) then begin
+         inc_global_var_amt(GVAR_EXPOINT_COMBAT_CHECK,damage_amnt);
+         end
+         damage_amnt := 0;
+      end
+   end
+end
+
+procedure destroy_p_proc begin
+   if (obj_critter_a == self_obj) then begin
+   obj_critter_a := 0;
+   end
+   item_add(self_obj,PID_SCULL_DEATHCLAW,1)
+   if (cur_map_index == MAP_CASA_NUEVA_CEMENT) then begin
+   set_global_var(GVAR_NUEVA_STATUS_EL_GIGANTO,-1);
+   end
+   if (cur_map_index == MAP_SAN_BRAHMIN_CAVE) then begin
+   set_global_var(GVAR_BRAHMIN_STATUS_EL_MONSTRO,-1);
+   end
+   if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+   set_CITY_REP(GVAR_TOWN_REP_SANTA_ANA,15)
+   set_global_var(GVAR_SANTAANA_STATUS_EL_DIABLO,-1);
+   end
+   if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
+   set_global_var(GVAR_DAYGLOW_STATUS_EL_TEMOR_ROJO,-1);
+   end
+   if (self_PID == PID_LA_FANTASMA) then begin
+   set_global_var(GVAR_ENCOUNTER_STATUS_LA_FANTASMA,-1);
+   end
+   kill_critter_opt
+end

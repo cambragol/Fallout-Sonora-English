@@ -1,0 +1,197 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSDumCnC
+//--- Бонита - главная панель управления
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+procedure NodeDialog105;
+procedure NodeDialog106;
+procedure NodeDialog107;
+procedure NodeDialog108;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (map_var(MVAR_DIEGODUM_CONSOLCENTER) > 0) then begin
+   set_local_var(LVAR_Status,1);
+   end
+
+   if (combat_is_initialized == true) then begin
+   g_display_mstr(551);
+   end
+   else if (local_var(LVAR_Status) != 0) then begin
+   call talk_p_proc;
+   end
+   else begin
+   display_mstr(209);
+   end
+
+end
+
+procedure use_skill_on_p_proc begin
+   if (map_var(MVAR_DIEGODUM_CONSOLCENTER) > 0) then begin
+   set_local_var(LVAR_Status,1);
+   end
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      if (combat_is_initialized == true) then begin
+      g_display_mstr(551);
+      end
+      else if (local_var(LVAR_Status) != 0) then begin
+      call talk_p_proc;
+      end
+      else if (has_skill(source_obj, SKILL_SCIENCE) < 90) then begin
+      skill_display_mstr(204,SKILL_SCIENCE,90)
+      floater(source_obj, 205, COLOR_MSG_NORMAL);
+      end
+      else begin
+      call sience_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_TOOL_LOCKPICKS_EL) then begin
+      script_overrides;
+      display_mstr(206);
+   end
+   if (objUsedPid == PID_Q_DAYGLOW_DUM_PLAN) then begin
+      script_overrides;
+      call sience_proc;
+      item_remove(dude_obj, objUsedPid, 1)
+   end
+end
+
+procedure sience_proc begin
+   set_map_var(MVAR_DIEGODUM_CONSOLCENTER, 1);
+   set_local_var(LVAR_Status,1);
+   play_sfx("SLDOORSA");
+   floater(dude_obj, 208, COLOR_MSG_NORMAL);
+   display_mstr(207);
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   NAnswer(211,0,NodeDialog100)
+   NAnswer(214,0,NodeDialog101)
+   NAnswer(217,0,NodeDialog102)
+
+   if (map_var(MVAR_DIEGODUM_SOLAR_A) == 0) then begin
+   NAnswer(223,0,NodeDialog106)
+   end
+   else begin
+   NAnswer(224,0,NodeDialog105)
+   end
+
+   if (map_var(MVAR_DIEGODUM_SOLAR_B) == 0) then begin
+   NAnswer(225,0,NodeDialog108)
+   end
+   else begin
+   NAnswer(226,0,NodeDialog107)
+   end
+
+   //NAnswer(227,0,NodeDialog109)
+
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(213)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   if (global_var(GVAR_DAYGLOW_TURBINA) >= 3) then begin
+   Reply(216)
+   end
+   else begin
+   Reply(215)
+   end
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog102 begin
+   if (global_var(GVAR_DAYGLOW_TURBINA) >= 4) then begin
+   Reply(219)
+   end
+   else begin
+   Reply(218)
+   end
+
+   if (global_var(GVAR_DAYGLOW_TURBINA) == 3) then begin
+   NAnswer(220,0,NodeDialog103)
+   end
+   if (global_var(GVAR_DAYGLOW_TURBINA) < 3) then begin
+   NAnswer(220,0,NodeDialog104)
+   end
+
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog103 begin
+   set_global_var(GVAR_DAYGLOW_TURBINA, 4);
+   play_sfx("ELECTRI1");
+   Reply(221)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog104 begin
+   Reply(222)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog105 begin
+   set_map_var(MVAR_DIEGODUM_SOLAR_A, 0);
+   Reply(221)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog106 begin
+   set_map_var(MVAR_DIEGODUM_SOLAR_A, 1);
+   Reply(221)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog107 begin
+   set_map_var(MVAR_DIEGODUM_SOLAR_B, 0);
+   Reply(221)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog108 begin
+   set_map_var(MVAR_DIEGODUM_SOLAR_B, 1);
+   Reply(221)
+   NAnswer(202,0,NodeDialog)
+end

@@ -1,0 +1,110 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                    SCRIPT_PVSSintz
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog1;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeDialog4;
+
+#define LVAR_Material                   (2) // Запас материала
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+      set_local_var(LVAR_Status,1);
+      set_local_var(LVAR_Material,100);
+      end
+   end
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(10)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedKey(PID_KEY_VAULT25_YLW,0)
+   else CompUsedKey(PID_KEY_VAULT25_RED,0)
+   /*
+   else if (objUsedPid == PID_SINTETIC) then begin
+      display_mstr(102);
+      set_local_var(LVAR_Material,100);
+   end
+   */
+end
+
+procedure sience_proc begin
+   CompProcSience(25)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(202,1,NodeDialog1)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog1 begin
+   if (local_var(LVAR_Material) >0) then begin
+      Reply(mstr(211)+local_var(LVAR_Material)+mstr(212))
+      if (local_var(LVAR_Material) >= 25) then begin
+      NAnswer(213,1,NodeDialog2)
+      end
+      if (local_var(LVAR_Material) >= 50) then begin
+      NAnswer(214,1,NodeDialog3)
+      end
+   end
+   else begin
+      Reply(210)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   item_add(dude_obj,PID_ARMOR_VAULT,1)
+   dec_local_var_amt(LVAR_Material,25);
+   call NodeDialog4;
+end
+
+procedure NodeDialog3 begin
+   item_add(dude_obj,PID_ARMOR_PURPLE_ROBE_A,1)
+   dec_local_var_amt(LVAR_Material,50);
+   call NodeDialog4;
+end
+
+procedure NodeDialog4 begin
+   //PLAY_FADE
+   play_sfx("STEAM1");
+   play_sfx("ZIPPER");
+   Reply(215)
+   NAnswer(202,1,NodeDialog1)
+   NAnswer(201,1,Node999)
+end

@@ -1,0 +1,26 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YTChlMsg
+
+procedure start;
+procedure map_update_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_update_p_proc begin
+   if (self_elevation == dude_elevation) then begin
+       if ((cur_map_index == MAP_DAYGLOW_VAULT) and (dude_elevation == 1)) then begin
+       display_mstr(101);
+       end
+       else if ((cur_map_index == MAP_DAYGLOW_VAULT) and (dude_elevation == 2)) then begin
+       display_mstr(102);
+       end
+       else if (cur_map_index == MAP_DAYGLOW_CHULAVISTA) then begin
+       display_mstr(100);
+       end
+       destroy_object(self_obj);
+   end
+end

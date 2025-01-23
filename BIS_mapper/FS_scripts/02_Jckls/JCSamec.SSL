@@ -1,0 +1,372 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_JCSamec
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_JACKALS // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        5  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_JACKALS_PEASAN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_JACKALS       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD*2      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeSndDialog;
+procedure NodeAnswer1;
+procedure NodeAnswer2;
+procedure NodeGruming;
+procedure NodeGruming1;
+procedure NodeGruming2;
+procedure NodeGruming3;
+procedure NodeCulon;
+procedure NodeCulon1;
+procedure NodeCulon2;
+procedure NodeCulon3;
+procedure NodeCulon4;
+procedure NodeCulon5;
+procedure NodeCulonEnd;
+procedure NodeCulonEnd2;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (global_var(GVAR_JACKALS_RANGER_CONTRAKT) == -2) then begin
+       set_local_var(LVAR_Home_Tile,17487);
+       set_local_var(LVAR_Home_Rotat,2);
+       end
+       set_start_home
+       kill_to_ranger_proc
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       timer_float_reply(120,125)
+   end
+   if (fixed_param == 3) then begin
+       critter_dmg(dude_obj, 10, DMG_normal_dam);
+   end
+   if (fixed_param == 4) then begin
+      display_mstr(249);
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+
+   if (map_var(MVAR_Jkls_Dopusk) < 0) then begin
+      set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+   else if (map_var(MVAR_Jkls_Dopusk) == 0) then begin
+      set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+      if self_can_see_dude then begin
+         if ((bitDialog(bit_1) == 0) and (getQuest(GVAR_JACKALS_MERC_ATAK) <= qZero)) then begin
+         dialogue_system_forcing(10)
+         end
+      end
+   end
+   else begin
+      set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(4,0,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_Jkls_Dopusk,-1);
+   end
+end
+
+procedure destroy_p_proc begin
+   inc_global_var(GVAR_JACKALS_DEAD);
+   kill_critter_opt
+   kill_critter_dude_reply(103,0)
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_Jkls_Dopusk) == -1) then begin
+       floater(self_obj,105,COLOR_MSG_RED);
+   end
+   else begin
+       setReaction(-1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+       fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+       dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_map_var(MVAR_Jkls_Dopusk,-1);
+   set_global_var(TOWN_REP_VAR,-100);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (bitDialog(bit_2) == 0) then begin
+   call NodeFstDialog5;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(214)
+   NAnswer(218,1,NodeFstDialog7)
+   BAnswer(215,1,NodeFstDialog6)
+   end
+   else begin
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog3)
+   BAnswer(202,1,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(213,1,NodeFstDialog3)
+   BAnswer(204,1,Node998)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+   BAnswer(202,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog4 begin
+   if (global_var(TOWN_REP_VAR)<-15) then begin
+   set_global_var(TOWN_REP_VAR,-15);
+   end
+   move_to(dude_obj, 21528, 1);
+   call Node999;
+end
+
+procedure NodeFstDialog5 begin
+   bitDialogExp(bit_2,0)
+   if (map_var(MVAR_Jkls_Dopusk) == 1) then begin
+   Reply(207)
+   NAnswer(208,1,NodeSndDialog)
+   end
+   else begin
+   Reply(209)
+   BAnswer(210,1,Node998)
+   end
+end
+
+procedure NodeFstDialog6 begin
+   Reply(216)
+   BAnswer(217,1,Node998)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(219)
+   NAnswer(206,1,NodeFstDialog4)
+   BAnswer(237,1,NodeFstDialog6)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(211)
+   NAnswer(250,1,NodeAnswer1)
+   NAnswer(252,1,NodeAnswer2)
+
+   if (item_amnt(self_obj,PID_AMMO_CULON) >0) then begin
+   NAnswer(220,1,NodeCulon)
+   end
+   if (bitDialog(bit_4) == 0) then begin
+   NAnswer(240,1,NodeGruming)
+   end
+   NAnswer(212,1,Node999)
+end
+
+//--- ВОПРОСЫ
+
+procedure NodeAnswer1 begin
+   Reply(251)
+   NAnswer(256,1,NodeSndDialog)
+end
+
+procedure NodeAnswer2 begin
+   Reply(253)
+   NAnswer(256,1,NodeSndDialog)
+end
+
+//--- ГРУМИНГ
+
+procedure NodeGruming begin
+   Reply(241)
+   NAnswerStat(242,1,NodeGruming1,STAT_ch,8,242,NodeGruming2)
+   NAnswer(243,1,NodeSndDialog)
+end
+
+procedure NodeGruming1 begin
+   zReply(244)
+   NAnswer(245,1,NodeGruming3)
+   NAnswer(246,1,Node999)
+end
+
+procedure NodeGruming2 begin
+   Reply(247)
+   NAnswer(248,1,NodeSndDialog)
+end
+
+procedure NodeGruming3 begin
+   bitDialogExp(bit_4,100)
+   PLAY_FADE
+   if (difficulty_level == 2) then begin
+   poison(dude_obj,15);
+   end
+   else if (difficulty_level == 1) then begin
+   poison(dude_obj,10);
+   end
+   else begin
+   poison(dude_obj,5);
+   end
+   set_REP(4)
+   set_SLAVA(-5)
+   setBonusReaction(25)
+   add_timer_event(self_obj, 2, 4);
+   call Node999;
+end
+
+//--- ОЖЕРЕЛЬЕ
+
+procedure NodeCulon begin
+   Reply(221)
+   NAnswerSkill(222,1,NodeCulon1,SKILL_CONVERSANT,40,222,NodeCulon2)
+   NAnswerSkill(225,1,NodeCulon3,SKILL_GAMBLING,10,225,NodeCulon4)
+   NAnswer(226,1,NodeSndDialog)
+end
+
+procedure NodeCulon1 begin
+   call NodeCulonEnd;
+   Reply(223)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeCulon2 begin
+   Reply(227)
+   NAnswer(226,1,NodeSndDialog)
+end
+
+procedure NodeCulon3 begin
+   Reply(228)
+   NAnswer(229,1,NodeCulon5)
+   NAnswer(230,1,NodeSndDialog)
+end
+
+procedure NodeCulon4 begin
+   Reply(235)
+   NAnswer(236,1,NodeSndDialog)
+end
+
+procedure NodeCulon5 begin
+   if (has_skill(dude_obj, SKILL_GAMBLING) >= random(20,120)) then begin
+   call NodeCulonEnd;
+   zReply(231)
+   NAnswer(232,1,Node999)
+   end
+   else begin
+   call NodeCulonEnd2;
+   Reply(233)
+   NAnswer(234,1,Node999)
+   end
+end
+
+procedure NodeCulonEnd begin
+   bitDialogExp(bit_3,100)
+   setBonusReaction(-10)
+   set_REP(-1)
+   if (item_amnt(self_obj,PID_AMMO_CULON) >0) then begin
+   create_object_sid(PID_AMMO_CULON, tile_num_in_direction(self_tile, obj_get_rot(self_obj), 1), self_elevation, SCRIPT_JICulon);
+   item_remove(self_obj, PID_AMMO_CULON, 1)
+   end
+end
+
+procedure NodeCulonEnd2 begin
+   add_timer_event(self_obj, 4, 3);
+   call Node999;
+end

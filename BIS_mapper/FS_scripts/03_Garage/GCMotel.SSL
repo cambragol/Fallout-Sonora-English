@@ -1,0 +1,538 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_GCMotel
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_GARAGE_CITIZEN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define COAST_MOTEL                     10 // Цена за номер в мотеле
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog10;
+procedure NodeStopDialog11;
+procedure NodeStopDialog12;
+procedure NodeStopDialog13;
+procedure NodeStopDialog14;
+procedure NodeStopDialog15;
+procedure NodeArmorDialog;
+procedure NodeArmorDialog2;
+procedure NodeArmorDialog3;
+procedure NodeArmorDialog4;
+procedure NodeArmorDialog5;
+procedure NodeArmorDialog6;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeRoom;
+procedure NodeRoom2;
+procedure NodeRoom3;
+procedure NodeRoom10;
+procedure NodeRoom11;
+procedure NodeRoom20;
+procedure NodeRoom30;
+procedure NodeRoom31;
+procedure NodeRoomGo;
+procedure NodeRoomGo2;
+procedure NodeVilla;
+procedure NodeVilla1;
+procedure NodeVilla2;
+procedure NodeVilla3;
+procedure NodeVilla4;
+procedure NodeVilla5;
+procedure NodeVilla6;
+procedure NodeVilla7;
+
+//---------------------
+
+#define LVAR_Motel_Coast                (6) // бонус или штраф к цене за номер COAST_MOTEL
+
+variable coast_check;                   // для просчета цены
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,random(20,30))
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((bitDialog(bit_7) == 0) and (map_var(MVAR_GARAGE_MOTEL_BOYS) <0)) then begin
+      call NodeStopDialog2;
+   end
+   else if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+      call NodeArmorDialog5;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else if ((bitDialog(bit_2) == 0) and (map_var(MVAR_GARAGE_BAR_COMBAT) >= 3)) then begin
+      call NodeStopDialog;
+   end
+   else if ((bitDialog(bit_3) == 0) and (armor_pid_dude_var == PID_ARMOR_VAULT)) then begin
+      call NodeArmorDialog;
+   end
+   else if ((bitDialog(bit_3) == 0) and (inven_armor(dude_obj) <= 0)) then begin
+      call NodeArmorDialog;
+   end
+   else if ((bitDialog(bit_4) == 0) and (armor_pid_dude_var == PID_ARMOR_LEATHER_RANGER)) then begin
+      call NodeArmorDialog3;
+   end
+   else if ((bitDialog(bit_5) == 0) and (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A)) then begin
+      call NodeArmorDialog4;
+   end
+   else if ((bitDialog(bit_5) == 0) and (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B)) then begin
+      call NodeArmorDialog4;
+   end
+   else if ((bitDialog(bit_6) == 0) and (armor_pid_dude_var == PID_ARMOR_ROAD)) then begin
+      call NodeArmorDialog6;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   bitDialogExp(bit_2,0)
+   inc_local_var_amt(LVAR_Motel_Coast,COAST_MOTEL);
+   setBonusReaction(-10)
+   Reply(180)
+   NAnswer(181,1,NodeStopDialog10)
+   NAnswer(189,1,NodeStopDialog12)
+   NAnswerRep(194,3,NodeStopDialog14,15,197,NodeStopDialog15)
+end
+
+procedure NodeStopDialog2 begin
+   bitDialogExp(bit_7,0)
+   Reply(202)
+   NAnswer(203,1,Node999)
+   BAnswer(204,1,Node999)
+end
+
+procedure NodeStopDialog10 begin
+   Reply(182)
+   NAnswer(183,1,NodeStopDialog11)
+   BAnswer(191,1,NodeStopDialog13)
+   NAnswer(187,1,NodeStartDialog)
+   NAnswer(188,1,Node999)
+end
+
+procedure NodeStopDialog11 begin
+   Reply(184)
+   NAnswer(186,1,NodeStartDialog)
+   NAnswer(185,1,Node999)
+end
+
+procedure NodeStopDialog12 begin
+   setBonusReaction(-20)
+   Reply(190)
+   NAnswer(183,1,NodeStopDialog11)
+   BAnswer(191,1,NodeStopDialog13)
+   NAnswer(187,1,NodeStartDialog)
+   NAnswer(188,1,Node999)
+end
+
+procedure NodeStopDialog13 begin
+   setBonusReaction(-20)
+   Reply(192)
+   BAnswer(193,1,Node999)
+end
+
+procedure NodeStopDialog14 begin
+   setBonusReaction(20)
+   dec_local_var_amt(LVAR_Motel_Coast,COAST_MOTEL);
+   Reply(195)
+   NAnswer(196,1,NodeStartDialog)
+end
+
+procedure NodeStopDialog15 begin
+   Reply(198)
+   NAnswer(199,1,NodeStartDialog)
+   BAnswer(193,1,Node999)
+end
+
+//--- РЕАКЦИЯ НА БРОНЮ
+
+procedure NodeArmorDialog begin
+   bitDialogExp(bit_3,0)
+   Reply(160)
+   NAnswer(161,1,NodeArmorDialog2)
+end
+
+procedure NodeArmorDialog2 begin
+   Reply(162)
+   BAnswer(163,1,NodeSndDialog)
+   NAnswer(164,1,NodeSndDialog)
+end
+
+procedure NodeArmorDialog3 begin
+   bitDialogExp(bit_4,0)
+   setBonusReaction(-10)
+   Reply(165)
+   BAnswer(166,1,NodeSndDialog)
+   NAnswer(167,1,NodeSndDialog)
+end
+
+procedure NodeArmorDialog4 begin
+   bitDialogExp(bit_5,0)
+   Reply(168)
+   BAnswer(169,1,NodeSndDialog)
+   NAnswer(170,1,NodeSndDialog)
+end
+
+procedure NodeArmorDialog5 begin
+   Reply(171)
+   BAnswer(172,1,Node999)
+   NAnswer(173,1,Node999)
+end
+
+procedure NodeArmorDialog6 begin
+   bitDialogExp(bit_6,0)
+   Reply(174)
+   BAnswer(175,1,NodeSndDialog)
+   NAnswer(176,1,NodeSndDialog)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   if (getQuest(GVAR_MAIN_QUEST_VILLA) < qEnd) then begin
+   NAnswer(220,1,NodeVilla)
+   end
+
+   NAnswer(250,1,NodeRoom)
+   if (bitDialog(bit_8) != 0) then begin
+   NAnswer(268,1,NodeRoom11)
+   end
+
+   if (getQuest(GVAR_GARAGE_QST_MOTEL_BOYS) == qStart) then begin
+   if (map_var(MVAR_GARAGE_MOTEL_BOYS) == 0) then begin
+   NAnswer(280,1,NodeRoom2)
+   end
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+//--- КОМНАТА
+
+procedure NodeRoom begin
+   Reply(251)
+   NAnswer(252,1,NodeRoom10)
+   NAnswer(254,1,NodeRoom20)
+   NAnswer(256,1,NodeRoom30)
+   //NAnswer(258,7,NodeRoom31)
+   NAnswer(260,1,NodeSndDialog)
+end
+
+procedure NodeRoom2 begin
+   Reply(281)
+   NAnswer(282,1,NodeRoom3)
+   BAnswer(283,1,NodeRoom3)
+end
+
+procedure NodeRoom3 begin
+   Reply(284)
+   BAnswer(285,1,Node999)
+   NAnswer(286,1,Node999)
+end
+
+procedure NodeRoom10 begin
+   Reply(253)
+   NAnswer(264,1,NodeRoom11)
+   NAnswer(265,1,NodeRoom11)
+   NAnswer(261,1,NodeSndDialog)
+end
+
+procedure NodeRoom11 begin
+   bitDialogExp(bit_8,0)
+
+   coast_check := COAST_MOTEL;
+   if (local_var(LVAR_Motel_Coast) != 0) then begin
+   coast_check += (local_var(LVAR_Motel_Coast));
+   end
+   if (coast_check < 5) then begin
+   coast_check := 5;
+   end
+
+   Reply(mstr(266)+coast_check+mstr(267))
+
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= coast_check) then begin
+   NAnswer(269,1,NodeRoomGo)
+   end
+   NAnswer(270,1,NodeSndDialog)
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeRoom20 begin
+   Reply(255)
+   NAnswer(252,1,NodeRoom10)
+   NAnswer(256,1,NodeRoom30)
+   NAnswer(262,1,NodeSndDialog)
+end
+
+procedure NodeRoom30 begin
+   Reply(257)
+   NAnswer(258,1,NodeRoom31)
+   NAnswer(252,1,NodeRoom10)
+   NAnswer(254,1,NodeRoom20)
+   NAnswer(262,1,NodeSndDialog)
+end
+
+procedure NodeRoom31 begin
+   Reply(259)
+   NAnswer(252,1,NodeRoom10)
+   NAnswer(254,1,NodeRoom20)
+   NAnswer(263,1,NodeSndDialog)
+end
+
+procedure NodeRoomGo begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= coast_check) then begin
+   call NodeRoomGo2;
+   end
+   else begin
+   call Node999;
+   end
+end
+
+procedure NodeRoomGo2 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,coast_check)
+   item_add(self_obj,PID_BOOTLE_CAPS,coast_check)
+   setBonusReaction(1)
+
+   /*
+   Замечание:
+      По изначальной задумке игрок должен был выкупать ключ от запертого номера через бартер.
+      Уже в самом номере следовало юзать кровать, чтобы совершить акт сна.
+      Номер выдавался на сутки, после чего кровать юзать было нельзя.
+      Такая система выглядит более заманчивой, но менее удобной в геймплее и чрезмерно усложненной в реализации.
+   */
+
+   critter_heal(dude_obj,dude_max_hits/4);
+      if (get_poison(dude_obj) > 0) then begin
+      poison(dude_obj,-(get_poison(dude_obj)));
+      end
+
+   gfade_out(ONE_GAME_SECOND);
+      inven_unwield(dude_obj);
+      anim(dude_obj, ANIMATE_ROTATION, 5);
+      if (random(0,2) == 0) then begin
+         move_to(dude_obj, 19531, 0); // левая верхняя комната
+      end
+      else if (random(0,1) == 0) then begin
+         move_to(dude_obj, 19523, 0); // средняя верхняя комната
+      end
+      else begin
+         move_to(dude_obj, 19515, 0); // правая верхняя комната
+      end
+
+      if (tile_contains_obj_pid(dude_tile,0,PID_HEX_SOLAR) == false) then begin
+      create_object_sid(PID_HEX_SOLAR, dude_tile, 0, -1);
+      end
+
+      game_time_advance(ONE_GAME_HOUR*8);
+   gfade_in(ONE_GAME_SECOND);
+
+   /*
+
+   Замечание:
+      Изначально предполагалось, что сон в отеле также повысит некоторые параметры на час, как это было в FoN.
+      Наиболее подходящие под сон параметры: Восприятие, Интеллект, Реакция.
+
+      move_to(self_obj, tile_num_in_direction(dude_tile, obj_get_rot(dude_obj),1), dude_elevation);
+      use_obj_on_obj(create_object_sid(PID_SLEEP_BONUS,0,0,-1), dude_obj);
+      move_to(self_obj, HomeTile, 0);
+      animate_rotation(HomeRotat);
+
+   */
+
+   if (getQuest(GVAR_GARAGE_QST_MOTEL_BOYS) == qZero) then begin
+      if (tile_contains_obj_pid(22321,0,PID_HEX_SOLAR) == false) then begin
+      create_object_sid(PID_HEX_SOLAR, 22321, 0, -1);
+      end
+      setQuest(GVAR_GARAGE_QST_MOTEL_BOYS, qStart);
+   end
+
+   display_mstr(102);
+
+   call Node999;
+end
+
+//--- ВИЛЛА
+
+procedure NodeVilla begin
+   Reply(228)
+   NAnswer(229,1,NodeVilla1)
+end
+
+procedure NodeVilla1 begin
+   Reply(221)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+   NAnswer(227,1,NodeVilla3)
+   end
+   BAnswer(223,1,NodeVilla2)
+   NAnswer(219,1,NodeSndDialog)
+   NAnswer(222,1,Node999)
+end
+
+procedure NodeVilla2 begin
+   Reply(224)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+   NAnswer(225,1,NodeVilla3)
+   end
+   NAnswer(226,1,Node999)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeVilla3 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 100) then begin
+   call NodeVilla4;
+   end
+   else begin
+   call Node999;
+   end
+end
+
+procedure NodeVilla4 begin
+   setQuest(GVAR_MAIN_QUEST_VILLA,qEnd);
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
+   setQuest(GVAR_MAIN_QUEST_FLAGSTAFF,qStart);
+   end
+   item_remove(dude_obj,PID_BOOTLE_CAPS,100)
+   item_add(self_obj,PID_BOOTLE_CAPS,100)
+   exp_add(250);
+   mark_on_map(AREA_FLAGSTAFF)
+
+   Reply(230)
+   NAnswer(231,1,NodeVilla5)
+   NAnswer(233,1,NodeVilla6)
+   NAnswer(235,1,NodeVilla7)
+end
+
+procedure NodeVilla5 begin
+   Reply(232)
+   NAnswer(233,1,NodeVilla6)
+   NAnswer(235,1,NodeVilla7)
+end
+
+procedure NodeVilla6 begin
+   Reply(234)
+   NAnswer(238,1,NodeVilla5)
+   NAnswer(235,1,NodeVilla7)
+end
+
+procedure NodeVilla7 begin
+   Reply(236)
+   NAnswer(238,1,NodeVilla5)
+   NAnswer(233,1,NodeVilla6)
+   NAnswer(239,1,Node999)
+end

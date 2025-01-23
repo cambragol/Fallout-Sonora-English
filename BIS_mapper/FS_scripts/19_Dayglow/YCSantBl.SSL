@@ -1,0 +1,160 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//--------------------- Черные старатели на территории ДеСанти
+
+#define NAME                            SCRIPT_YCSantBl
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_MERC   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   1                     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+
+//---------------------
+
+//#define LVAR_Flag_Many                     (5) //
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (getQuest(GVAR_DAYGLOW_QST_BANDITS) == qStart) then begin
+   set_obj_visibility(self_obj, 0);
+   end
+   set_critter_options(0,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   inc_map_var(MVAR_DIEGOPIRS_DESANTI_MRDR_KILL);
+   item_add(self_obj,PID_MANY,1)
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,-10) // поправка к отношению за принадлежность к фракции
+
+   if (getQuest(GVAR_DAYGLOW_QST_BANDITS) >= 20) then begin
+   floater(self_obj, 103, COLOR_MSG_NORMAL);
+   end
+   else if (getQuest(GVAR_DAYGLOW_QST_BANDITS) == qStart) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj, 102, COLOR_MSG_RED);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeDialog101;
+   end
+   else begin
+      call NodeDialog101;
+   end
+end
+
+procedure NodeDialog101 begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(203,0,NodeDialog102)
+   BAnswer(202,0,Node998)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog102 begin
+   Reply(204)
+   NAnswer(205,0,NodeDialog103)
+end
+
+procedure NodeDialog103 begin
+   Reply(206)
+   BAnswer(207,0,Node998)
+   NAnswer(208,0,Node999)
+end

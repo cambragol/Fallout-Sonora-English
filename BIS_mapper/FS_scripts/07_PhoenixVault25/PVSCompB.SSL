@@ -1,0 +1,214 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_PVSCompB
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeCity;
+procedure NodeVault;
+procedure NodeVault1;
+procedure NodeVault2;
+procedure NodeVault3;
+procedure NodeMed;
+procedure NodeMed1;
+procedure NodeMed2;
+procedure NodeGEKK;
+procedure NodeGEKK1;
+procedure NodeGEKK2;
+procedure NodeGEKK3;
+procedure NodeBomb;
+procedure NodeBomb1;
+procedure NodeBomb2;
+procedure NodeVilla;
+procedure NodeVilla2;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(60)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+   else CompUsedKey(PID_KEY_VAULT25_YLW,0)
+   else CompUsedKey(PID_KEY_VAULT25_RED,0)
+end
+
+procedure sience_proc begin
+   CompProcSience(120)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(210,1,NodeCity)
+   NAnswer(220,1,NodeVault)
+   NAnswer(230,1,NodeMed)
+   NAnswer(240,1,NodeGEKK)
+   NAnswer(250,1,NodeBomb)
+   NAnswer(260,3,NodeVilla)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeVilla begin
+   Reply(261)
+   NAnswer(262,1,NodeVilla2)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeVilla2 begin
+   if (getQuest(GVAR_MAIN_QUEST_PHENIX) < qEnd) then begin
+   setQuest(GVAR_MAIN_QUEST_PHENIX,qEnd);
+   end
+   if (getQuest(GVAR_MAIN_QUEST_TWOSUN) < qStart) then begin
+   setQuest(GVAR_MAIN_QUEST_TWOSUN,qStart);
+   end
+   Reply(263)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeCity begin
+   mark_on_map(AREA_FLAGSTAFF)
+   mark_on_map(AREA_SAN_BRAHMIN)
+   mark_on_map(AREA_RANGERS)
+   mark_on_map(AREA_CASA_GRANDE)
+   mark_on_map(AREA_TWO_SUN)
+   mark_on_map(AREA_VAULT_27)
+   Reply(211)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeGEKK begin
+   Reply(241)
+   NAnswer(242,1,NodeGEKK1)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeGEKK1 begin
+   Reply(243)
+   NAnswer(244,1,NodeGEKK2)
+   NAnswer(246,1,NodeGEKK3)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeGEKK2 begin
+   Reply(245)
+   NAnswer(246,1,NodeGEKK3)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeGEKK3 begin
+   if (getQuest(GVAR_VAULT27_VISITED) < qStart) then begin
+   setQuest(GVAR_VAULT27_VISITED,qStart);
+   end
+   mark_on_map(AREA_VAULT_27)
+   Reply(247)
+   NAnswer(244,1,NodeGEKK2)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeVault begin
+   Reply(221)
+   NAnswer(222,1,NodeVault1)
+   //NAnswer(226,1,NodeVault3)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeVault1 begin
+   Reply(223)
+   NAnswer(224,1,NodeVault2)
+   NAnswer(202,1,NodeVault)
+end
+
+procedure NodeVault2 begin
+   Reply(225)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeVault3 begin
+   Reply(227)
+   NAnswer(202,1,NodeVault)
+end
+
+procedure NodeMed begin
+   Reply(231)
+   NAnswer(232,1,NodeMed1)
+   NAnswer(234,1,NodeMed2)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeMed1 begin
+   Reply(233)
+   NAnswer(234,1,NodeMed2)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeMed2 begin
+   Reply(235)
+   NAnswer(232,1,NodeMed1)
+   NAnswer(202,1,NodeDialog)
+end
+
+#define tilePwrPole(pid)          (tile_contains_obj_pid(23490,1,pid) == true) \
+
+#define objPwrPole(pid)            tile_contains_pid_obj(23490,1,pid) \
+
+procedure NodeBomb begin
+   Reply(251)
+   if tilePwrPole(PID_POWER_POLE_AB) then begin
+   NAnswer(252,1,NodeBomb1)
+   end
+   if tilePwrPole(PID_POWER_POLE_BB) then begin
+   NAnswer(252,1,NodeBomb2)
+   end
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeBomb1 begin
+   destroy_object(objPwrPole(PID_POWER_POLE_AB));
+   Reply(253)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeBomb2 begin
+   destroy_object(objPwrPole(PID_POWER_POLE_BB));
+   Reply(253)
+   NAnswer(202,1,NodeDialog)
+end

@@ -1,0 +1,236 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCNslMtn
+#define TOWN_REP_VAR                    -1  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_MOTEL_MUTANT     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_SUPERMUTANT        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeDialog4;
+procedure NodeDialog5;
+procedure NodeDialog6;
+
+//---------------------
+
+//#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
+
+variable attakParam;
+variable numberMsg;
+
+//---------------------
+
+#define timer_floater_num(a,color,time)      if (combat_is_initialized == false) then begin        \
+                                                 if (self_elevation == dude_elevation) then begin  \
+                                                     if (self_visible == true) then begin          \
+                                                     floater(self_obj, a, color);                  \
+                                                     end                                           \
+                                                 end                                               \
+                                                 add_timer_event(self_obj, time, 2);               \
+                                             end else begin                                        \
+                                                 add_timer_event(self_obj, 20, 2);                 \
+                                             end                                                   \
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+       if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_15) != 0) then begin
+         if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) == 1) then begin
+         set_map_var(MVAR_DIEGOCAFE_MUTANT_LIFE, 0);
+         end
+         if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) == 0) then begin
+         set_obj_visibility(self_obj, 0);
+         end
+         else begin
+         destroy_object(self_obj);
+         end
+       end
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) == 0) then begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) == 0) then begin
+       numberMsg += 1;
+       if (numberMsg>119) then begin
+       numberMsg := 110;
+       end
+       if (numberMsg<110) then begin
+       numberMsg := 110;
+       end
+       timer_floater_num(numberMsg,COLOR_MSG_RED,60)
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   attakParam := 0;
+   if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) > 0) then begin
+   attakParam := 2;
+   end
+   set_critter_options(attakParam,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) < 0) then begin
+      if (self_tile != 23682) then begin
+      animate_move_to_tile(23682);
+      end
+      else begin
+      set_obj_visibility(self_obj, 1);
+      end
+   end
+   else if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) > 0) then begin
+      animate_run_to_tile(dude_tile);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   GomerAttakDude
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_DIEGOCAFE_MUTANT_LIFE,100);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) == -1) then begin
+      floater(self_obj, 104, COLOR_MSG_NORMAL);
+   end
+   else if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) < 0) then begin
+      floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+   else if (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) > 0) then begin
+      floater(self_obj, 103, COLOR_MSG_RED);
+   end
+   else begin
+      setReaction(-1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+      fracReaction(GVAR_TITUL_REBIRTH,50) // Поправка к отношению за принадлежность к фракциям
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_map_var(MVAR_DIEGOCAFE_MUTANT_LIFE,0);
+   GomerAttakDude
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(200)
+   NAnswer(201,0,Node999)
+   BAnswer(202,0,Node998)
+   NAnswer(203,0,NodeDialog2)
+   end
+   else if (partyPidMtn != 0) then begin
+   Reply(207)
+   NAnswer(209,0,NodeDialog3)
+   NAnswer(208,0,Node999)
+   end
+   else begin
+   Reply(212)
+   BAnswer(213,0,Node998)
+   GAnswerSkill(215,3,NodeDialog4,SKILL_CONVERSANT,25,214,Node998)
+   end
+end
+
+procedure NodeDialog2 begin
+   set_map_var(MVAR_DIEGOCAFE_MUTANT_LIFE,-100);
+   Reply(204)
+   NAnswer(205,0,Node999)
+   BAnswer(206,0,Node998)
+end
+
+procedure NodeDialog3 begin
+   set_map_var(MVAR_DIEGOCAFE_MUTANT_LIFE,-100);
+   Reply(210)
+   NAnswer(211,0,Node999)
+end
+
+procedure NodeDialog4 begin
+   Reply(216)
+   GAnswerSkill(219,3,NodeDialog5,SKILL_CONVERSANT,50,218,Node998)
+   NAnswer(217,0,Node998)
+end
+
+procedure NodeDialog5 begin
+   Reply(220)
+   NAnswer(221,0,NodeDialog6)
+   BAnswer(224,0,Node998)
+end
+
+procedure NodeDialog6 begin
+   set_map_var(MVAR_DIEGOCAFE_MUTANT_LIFE,-100);
+   Reply(222)
+   NAnswer(223,0,Node999)
+end

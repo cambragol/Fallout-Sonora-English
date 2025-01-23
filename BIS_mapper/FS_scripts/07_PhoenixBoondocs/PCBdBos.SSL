@@ -459,7 +459,7 @@ procedure NodeStopDialog200 begin
    bitDialogExp(bit_5,250)
    set_REP(3)
    set_SLAVA(5)
-   Reply(270)
+   zReply(270)
    NAnswer(271,1,NodeStopDialog201)
 end
 

@@ -1,0 +1,824 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ICMaster
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_INFERNO_CULT  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_INFIERNO_CULT    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      110 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeTitul;
+procedure NodeTitul2;
+procedure NodeTitul3;
+procedure NodeTitul4;
+procedure NodeFstDialog;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog110;
+procedure NodeFstDialog111;
+procedure NodeFstDialog112;
+procedure NodeFstDialog113;
+procedure NodeFstDialog114;
+procedure NodeFstDialog115;
+procedure NodeFstDialog116;
+procedure NodeFstDialog117;
+procedure NodeFstDialog118;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeSndDialog;
+procedure NodeAnswr100;
+procedure NodeAnswr101;
+procedure NodeAnswr102;
+procedure NodeAnswr103;
+procedure NodeAnswr104;
+procedure NodeAnswr105;
+procedure NodeAnswr106;
+procedure NodeAnswr106a;
+procedure NodeAnswr106b;
+procedure NodeAnswr107;
+procedure NodeAnswr108;
+procedure NodeAnswr109;
+procedure NodeAnswr200;
+procedure NodeAnswr201;
+procedure NodeAnswr202;
+procedure NodeAnswr203;
+procedure NodeAnswr204;
+procedure NodeAnswr205;
+procedure NodeAnswr206;
+procedure NodeAnswr207;
+procedure NodeAnswr208;
+procedure NodeAnswr209;
+procedure NodeAnswr210;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+procedure NodeQst107;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       PLAY_FADE
+       game_ui_disable;
+       move_to(self_obj, HomeTile, self_elevation);
+       anim(self_obj, ANIMATE_ROTATION, HomeRotat);
+       move_to(dude_obj, tile_num_in_direction(self_tile,HomeRotat,2), self_elevation);
+       anim(dude_obj, ANIMATE_ROTATION, 5);
+       tile_set_center(dude_tile);
+       add_timer_event(self_obj, 40, 4);
+   end
+
+   if (fixed_param == 4) then begin
+       floater(self_obj,110,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 30, 5);
+   end
+   if (fixed_param == 5) then begin
+       floater(self_obj,111,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 30, 6);
+   end
+   if (fixed_param == 6) then begin
+       floater(self_obj,112,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 30, 7);
+   end
+   if (fixed_param == 7) then begin
+       floater(self_obj,113,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 60, 8);
+   end
+   if (fixed_param == 8) then begin
+       floater(self_obj,114,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 30, 9);
+   end
+   if (fixed_param == 9) then begin
+       floater(self_obj,115,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 30, 10);
+   end
+   if (fixed_param == 10) then begin
+       floater(self_obj,116,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 30, 11);
+   end
+
+   if (fixed_param == 11) then begin
+       set_global_var(GVAR_TITUL_REBIRTH,999);
+       game_ui_enable;
+       dialogue_system_enter;
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_INF_STATUS_APOSTOL)<=0) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+/*
+   if (combat_is_initialized == false) then begin
+   if (partyPidBos != 0) then begin
+      if (elevation(partyPidBos) == self_elevation) then begin
+      //if (obj_can_see_obj(self_obj,partyPidBos) == true) then begin
+      if (tile_distance_objs(self_obj,partyPidBos) <= 13) then begin
+      if (getQuest(GVAR_INF_QST_PALADIN_A) < qEnd) then begin
+         if (getQuest(GVAR_INF_QST_APOSTOL_A) < qEnd) then begin
+         floater(partyPidBos,105,COLOR_MSG_RED);
+         attack(partyPidBos);
+         end
+      end
+      end
+      end
+   end
+   end
+*/
+   if ((map_var(MVAR_INF_DOPUSK) == 0) and (bitDialog(bit_1) == 0)) then begin
+   dialogue_system_forcing(10)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_INF_STATUS_APOSTOL,-1);
+   set_map_var(MVAR_INF_PWR_ADD,-1);
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) == qStart) then begin
+   setQuest(GVAR_INF_QST_APOSTOL_A,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_map_var(MVAR_INF_DOPUSK,-1);
+   set_map_var(MVAR_INF_PWR_ADD,-1);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+   set_map_var(MVAR_INF_DOPUSK,1);
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) != qZero) then begin
+   bitDialogExp(bit_1,0) // Опция для удобства теста в маппере
+   end
+
+   if (global_var(GVAR_TITUL_REBIRTH) == 999) then begin
+   call NodeTitul;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПОСВЯЩЕНИЕ
+
+procedure NodeTitul begin
+   zReply(360)
+   zNAnswer(361,1,NodeTitul2)
+end
+
+procedure NodeTitul2 begin
+   set_global_var(GVAR_TITUL_REBIRTH,1);
+   if (dude_cur_hits<dude_max_hits) then begin
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   end
+   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
+   if (get_poison(dude_obj)>0) then begin
+   poison(dude_obj,-(get_poison(dude_obj)));
+   end
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   //critter_add_trait(dude_obj,TRAIT_PERK,PERK_ghouling_start,1); -- !!! начало гулификации, завершение через месяц, прописать в скрипте ГГ
+   critter_add_trait(dude_obj,TRAIT_PERK,PERK_ghouling_fiziology,1);
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeTitul4;
+   call NodeQst203;
+   box_stop_use := 0;
+
+   zReply(362)
+   NAnswer(363,1,NodeTitul3)
+end
+
+procedure NodeTitul3 begin
+   Reply(364)
+   NAnswer(365,1,Node999)
+end
+
+procedure NodeTitul4 begin
+   if ((obj_pid(inven_hand_R(dude_obj)) == PID_GLASSES) or (obj_pid(inven_hand_L(dude_obj)) == PID_GLASSES)) then begin
+      if (dude_charisma>3) then begin
+      critter_add_trait(dude_obj,TRAIT_PERK,PERK_ghouling_charisma,1);
+      end
+   end
+   else if (dude_charisma>2) then begin
+      critter_add_trait(dude_obj,TRAIT_PERK,PERK_ghouling_charisma,1);
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(mstr(201)+dude_name+mstr(202),1,NodeFstDialog102)
+   BAnswer(203,1,NodeFstDialog101)
+   BAnswer(242,-3,NodeFstDialog201)
+end
+
+procedure NodeFstDialog101 begin
+   set_REP(-2)
+   setBonusReaction(-10)
+   call NodeFstDialog102;
+end
+
+procedure NodeFstDialog102 begin
+   if (dude_name == self_name) then begin
+   Reply(mstr(229)+mstr(204))
+   end
+   else begin
+   Reply(204)
+   end
+   GAnswer(205,1,NodeFstDialog103)
+   NAnswer(206,1,NodeFstDialog105)
+   BAnswer(208,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog103 begin
+   set_REP(1)
+   setBonusReaction(10)
+   call NodeFstDialog105;
+end
+
+procedure NodeFstDialog104 begin
+   set_REP(-2)
+   setBonusReaction(-10)
+   Reply(209)
+   BAnswer(210,1,NodeFstDialog106)
+   NAnswer(213,1,NodeFstDialog107)
+   if (getQuest(GVAR_PUERTO_QST_INFERNO) != qZero) then begin
+   NAnswer(216,1,NodeFstDialog108)
+   end
+end
+
+procedure NodeFstDialog105 begin
+   Reply(207)
+   BAnswer(210,1,NodeFstDialog106)
+   NAnswer(213,1,NodeFstDialog107)
+   if (getQuest(GVAR_PUERTO_QST_INFERNO) != qZero) then begin
+   NAnswer(216,1,NodeFstDialog108)
+   end
+end
+
+procedure NodeFstDialog106 begin
+   set_REP(-2)
+   setBonusReaction(-20)
+   Reply(211)
+   NAnswer(212,1,NodeFstDialog109)
+end
+
+procedure NodeFstDialog107 begin
+   Reply(214)
+   NAnswer(215,1,NodeFstDialog109)
+end
+
+procedure NodeFstDialog108 begin
+   Reply(217)
+   NAnswer(218,1,NodeFstDialog109)
+end
+
+procedure NodeFstDialog109 begin
+   Reply(219)
+   BAnswer(220,1,NodeFstDialog110)
+   GAnswer(222,1,NodeFstDialog111)
+   NAnswer(221,1,NodeFstDialog112)
+end
+
+procedure NodeFstDialog110 begin
+   set_REP(-1)
+   setBonusReaction(-10)
+   call NodeFstDialog112;
+end
+
+procedure NodeFstDialog111 begin
+   set_REP(1)
+   setBonusReaction(10)
+   call NodeFstDialog112;
+end
+
+procedure NodeFstDialog112 begin
+   Reply(223)
+   NAnswer(224,1,NodeFstDialog113)
+end
+
+procedure NodeFstDialog113 begin
+   Reply(225)
+   NAnswer(226,1,NodeFstDialog114)
+   GAnswer(228,1,NodeFstDialog115)
+   BAnswer(230,1,NodeFstDialog116)
+end
+
+procedure NodeFstDialog114 begin
+   Reply(227)
+   NAnswer(228,1,NodeFstDialog115)
+   BAnswer(230,1,NodeFstDialog116)
+end
+
+procedure NodeFstDialog115 begin
+   Reply(234)
+   NAnswer(235,1,NodeFstDialog117)
+end
+
+procedure NodeFstDialog116 begin
+   set_REP(-2)
+   setBonusReaction(-25)
+   Reply(231)
+   GAnswer(233,1,NodeFstDialog115)
+   NAnswer(232,1,Node998)
+end
+
+procedure NodeFstDialog117 begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) == qZero) then begin
+   setQuest(GVAR_INF_QST_APOSTOL_A,qStart);
+   end
+   Reply(236)
+   NAnswer(237,1,Node999)
+   BAnswer(238,1,NodeFstDialog118)
+end
+
+procedure NodeFstDialog118 begin
+   Reply(239)
+   NAnswer(240,1,Node998)
+   BAnswer(241,1,Node998)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(243)
+   NAnswer(244,1,NodeFstDialog204)
+   BAnswer(245,1,NodeFstDialog202)
+end
+
+procedure NodeFstDialog202 begin
+   Reply(246)
+   NAnswer(247,1,NodeFstDialog203)
+   NAnswer(244,1,NodeFstDialog204)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(248)
+   NAnswer(249,1,Node998)
+end
+
+procedure NodeFstDialog204 begin
+   Reply(252)
+   NAnswer(253,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   zReply(259)
+   end
+   else if (getQuest(GVAR_INF_QST_APOSTOL_A) >= qEnd) then begin
+   Reply(254)
+   end
+   else begin
+   Reply(250)
+   end
+
+   if (global_var(GVAR_TITUL_REBIRTH) <= 0) then begin
+      NAnswer(260,3,NodeAnswr100)
+
+      if (getQuest(GVAR_INF_QST_APOSTOL_A) >= qEnd) then begin
+      NAnswer(297,3,NodeAnswr200)
+      end
+      if (getQuest(GVAR_INF_QST_APOSTOL_A) == qStart) then begin
+      if (global_var(GVAR_INF_STATUS_APOC)>=0) then begin
+      NAnswer(290,3,NodeAnswr200)
+      end
+      end
+
+      if ((town_known(AREA_PUERTO_STEEL) >= MARK_STATE_VISITED) or (getQuest(GVAR_PUERTO_QST_INFERNO) != qZero)) then begin
+      NAnswer(300,3,NodeAnswr202)
+      end
+
+      /*
+      Позволь расспросить тебя об окружающих руинах.
+         предыстория Инферно (не дублировать Диану)
+         потрошители - "Так вы используете потрошителей для своих целей? - Они воспринимают меня как своего рода дьявола. И поэтому стараются принести мне жертву в знак признания."
+            Наша миссия требует жертв.
+      */
+   end
+
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == qEnd) then begin
+      NAnswer(310,1,NodeQst100)
+   end
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == (qEnd+1)) then begin
+      if (global_var(GVAR_INF_TOTEM_MUTAGEN)>=5) then begin
+      zNAnswer(350,1,NodeQst200)
+      end
+      else begin
+      NAnswer(366,1,NodeQst204)
+      end
+   end
+
+   if (item_amnt(self_obj,PID_Q_PWR_PROC) > 0) then begin
+   if (map_var(MVAR_INF_PWR_KNOW) > 0) then begin
+   NAnswer(255,1,NodeAnswr204)
+   end
+   end
+
+   NAnswer(251,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswr100 begin
+   Reply(261)
+   NAnswer(263,1,NodeAnswr101)
+   zNAnswer(262,1,NodeSndDialog)
+end
+
+procedure NodeAnswr101 begin
+   Reply(264)
+   NAnswer(265,1,NodeAnswr102)
+   NAnswer(270,1,NodeAnswr104)
+   NAnswer(280,1,NodeAnswr107)
+   NAnswer(282,1,NodeAnswr108)
+   if (town_known(AREA_PHOENIX) >= MARK_STATE_VISITED) then begin
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(284,1,NodeAnswr109)
+   end
+   end
+   zNAnswer(262,1,NodeSndDialog)
+end
+
+procedure NodeAnswr102 begin
+   Reply(266)
+   NAnswer(267,1,NodeAnswr103)
+end
+
+procedure NodeAnswr103 begin
+   Reply(268)
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(274,1,NodeAnswr105)
+   end
+   zNAnswer(269,1,NodeAnswr104)
+   NAnswer(280,1,NodeAnswr107)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswr104 begin
+   Reply(271)
+   NAnswer(273,1,NodeAnswr102)
+   NAnswer(280,1,NodeAnswr107)
+   NAnswer(286,1,NodeAnswr108)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswr105 begin
+   bitDialogExp(bit_2,25)
+   Reply(275)
+   GAnswer(278,1,NodeAnswr106b)
+   NAnswer(277,1,NodeAnswr106)
+   BAnswer(276,1,NodeAnswr106a)
+end
+
+procedure NodeAnswr106 begin
+   call NodeSndDialog;
+end
+
+procedure NodeAnswr106a begin
+   set_REP(-1)
+   setBonusReaction(-10)
+   call NodeSndDialog;
+end
+
+procedure NodeAnswr106b begin
+   set_REP(1)
+   setBonusReaction(10)
+   call NodeSndDialog;
+end
+
+procedure NodeAnswr107 begin
+   Reply(281)
+   NAnswer(265,1,NodeAnswr102)
+   NAnswer(270,1,NodeAnswr104)
+   NAnswer(282,1,NodeAnswr108)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswr108 begin
+   Reply(283)
+   NAnswer(265,1,NodeAnswr102)
+   NAnswer(270,1,NodeAnswr104)
+   NAnswer(280,1,NodeAnswr107)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswr109 begin
+   bitDialogExp(bit_3,25)
+   Reply(285)
+   NAnswer(265,1,NodeAnswr102)
+   NAnswer(270,1,NodeAnswr104)
+   NAnswer(280,1,NodeAnswr107)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswr200 begin
+   Reply(291)
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) == qStart) then begin
+   NAnswer(292,1,NodeAnswr201)
+   end
+   NAnswer(296,1,NodeSndDialog)
+end
+
+procedure NodeAnswr201 begin
+   Reply(293)
+   NAnswer(296,1,NodeSndDialog)
+end
+
+procedure NodeAnswr202 begin
+   Reply(301)
+   NAnswer(302,1,NodeAnswr203)
+end
+
+procedure NodeAnswr203 begin
+   Reply(303)
+   NAnswer(304,1,NodeSndDialog)
+end
+
+procedure NodeAnswr204 begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) < qEnd) then begin
+   call NodeAnswr206;
+   end
+   else if (item_amnt(self_obj,PID_Q_PWR_PROC) > 0) then begin
+   call NodeAnswr205;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeAnswr205 begin
+   item_add(dude_obj,PID_Q_PWR_PROC,1)
+   item_remove(self_obj,PID_Q_PWR_PROC,1)
+   Reply(256)
+   NAnswer(257,1,Node999)
+   NAnswer(258,1,NodeSndDialog)
+end
+
+procedure NodeAnswr206 begin
+   Reply(287)
+   //Я не выживу снаружи без этой брони. - Но ведь раньше тебе это удавалось?
+   NAnswer(288,1,NodeSndDialog)
+end
+
+procedure NodeAnswr207 begin
+   Reply(287)
+   NAnswerSkill(373,4,NodeAnswr209,SKILL_CONVERSANT,90,370,NodeAnswr208)
+   NAnswerSkill(378,4,NodeAnswr209,SKILL_SCIENCE,80,376,NodeAnswr210)
+   NAnswer(288,1,NodeSndDialog)
+end
+
+procedure NodeAnswr208 begin
+   Reply(371)
+   NAnswer(372,1,NodeSndDialog)
+end
+
+procedure NodeAnswr209 begin
+   item_add(dude_obj,PID_Q_PWR_PROC,1)
+   item_remove(self_obj,PID_Q_PWR_PROC,1)
+   Reply(374)
+   NAnswer(375,1,Node999)
+end
+
+procedure NodeAnswr210 begin
+   Reply(377)
+   NAnswer(372,1,NodeSndDialog)
+end
+
+//--- КВЕСТЫ
+
+procedure NodeQst100 begin
+   setQuest(GVAR_INF_QST_APOSTOL_B,qEnd+1);
+   /*
+   Reply(311)
+   NAnswer(312,1,NodeQst101)
+   */
+   call NodeQst101;
+end
+
+procedure NodeQst101 begin
+   Reply(330)
+   NAnswer(331,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(332)
+   NAnswer(343,1,NodeQst106)
+   GAnswer(338,3,NodeQst104)
+   BAnswer(333,1,NodeQst103)
+end
+
+procedure NodeQst103 begin
+   Reply(334)
+   //GAnswer(336,3,NodeQst104)
+   //NAnswer(337,1,NodeQst106)
+   BAnswer(335,1,Node998)
+end
+
+procedure NodeQst104 begin
+   Reply(339)
+   GAnswer(341,1,NodeQst105)
+   NAnswer(342,1,NodeQst106)
+   BAnswer(340,1,NodeQst103)
+end
+
+procedure NodeQst105 begin
+   add_timer_event(self_obj,5,3);
+   Reply(348)
+   NAnswer(349,1,Node999)
+end
+
+procedure NodeQst106 begin
+   Reply(344)
+   NAnswer(345,1,NodeQst107)
+end
+
+procedure NodeQst107 begin
+   item_add(dude_obj,PID_Q_DIANA_MUTAGEN,5)
+   Reply(346)
+   NAnswer(347,1,Node999)
+end
+
+/*
+
+procedure NodeQst101 begin
+   Reply(313)
+
+   Это слишком опасно. Может, есть другой вариант?
+      Хорошо. В таком случае остается лишь одно - ТЫ станешь подопытным. Прими мутаген, стань одним из нас.
+         Да ты бредишь. / Представь, какие возможности даст тебе вирус. Ты станешь бессмертным, сможешь выдержать радиоактивный фон даже в центре ядерной воронки, наконец ты обретешь верных друзей среди моей паствы. Что скажешь?
+            Нет. Ни в коем случае. Я не собираюсь жертвовать своей природой ради всего этого. / В таком случае делай то, что я прошу. Используй мутаген на потрошителях.
+            Во мне уже столь рад от местных руин, что я начинаю светится в темноте. Похоже, мне придется принять мутаген. / Очень хорошо. Позволь, я подготовлю церемонию.
+
+   NAnswer(322,1,NodeQst104)
+   NAnswer(315,1,NodeQst103)
+   BAnswer(314,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(316)
+   NAnswer(317,1,Node999)
+   BAnswer(318,1,Node999)
+end
+
+procedure NodeQst103 begin
+   Reply(319)
+   NAnswer(320,1,Node999)
+   BAnswer(321,1,Node999)
+end
+
+*/
+
+procedure NodeQst200 begin
+   Reply(351)
+   NAnswer(352,1,NodeQst201)
+   NAnswer(353,4,NodeQst201)
+end
+
+procedure NodeQst201 begin
+   Reply(354)
+   NAnswer(355,1,NodeQst202)
+end
+
+procedure NodeQst202 begin
+   call NodeQst203;
+
+   Reply(356)
+   NAnswer(357,1,Node999)
+   BAnswer(358,1,Node999)
+end
+
+procedure NodeQst203 begin
+   set_global_var(GVAR_INF_STATUS_APOSTOL,1);
+   setQuest(GVAR_INF_QST_APOSTOL_A,qEnd);
+   setQuest(GVAR_INF_QST_APOSTOL_B,qEnd+2);
+   exp_add(2500);
+   setBonusReaction(100)
+   set_REP(30)
+   set_SLAVA(35)
+   set_map_var(MVAR_INF_PWR_ADD,1);
+   box_stop_use := 0;
+end
+
+procedure NodeQst204 begin
+   Reply(367)
+   NAnswer(368,1,Node999)
+   NAnswer(369,1,Node999)
+end

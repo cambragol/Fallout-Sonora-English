@@ -1,0 +1,83 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_RSMapPnt
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure science_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+      inc_map_var(MVAR_Quartz_Point);
+      set_obj_visibility(self_obj, 1);
+      end
+
+      if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) != qZero) then begin
+         set_obj_visibility(self_obj, 0);
+
+         if DudePerkHas(PERK_marauder) then begin
+         if (tile_contains_obj_pid(tile_num_in_direction(self_tile, 1, 1),self_elevation,PID_HEX_MAPEXIT) == false) then begin
+         create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 1, 1), self_elevation, -1);
+         create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 3, 1), self_elevation, -1);
+         create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 5, 1), self_elevation, -1);
+         end
+         end
+      end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (local_var(LVAR_Status) == 0) then begin
+   display_mstr(100);
+   end
+   else begin
+   display_mstr(111);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+      call science_proc;
+      end
+      else begin
+      display_mstr(111);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure science_proc begin
+   inc_global_var(GVAR_RANGERS_QST_QUARTZMAP_POINT);
+   inc_local_var(LVAR_Status);
+   if (global_var(GVAR_RANGERS_QST_QUARTZMAP_POINT) >= map_var(MVAR_Quartz_Point)) then begin
+   setQuest(GVAR_RANGERS_QST_QUARTZMAP,qEnd);
+   end
+   exp_add(50);
+   display_msg(mstr(112)+global_var(GVAR_RANGERS_QST_QUARTZMAP_POINT)+mstr(113)+map_var(MVAR_Quartz_Point)+mstr(114));
+   dude_floater_OK;
+   play_sfx("GUSTWIN1");
+
+   /*
+   set_obj_visibility(self_obj, 1);
+   create_object_sid(self_PID, self_tile, self_elevation, -1);
+   destroy_object(self_obj);
+   */
+end

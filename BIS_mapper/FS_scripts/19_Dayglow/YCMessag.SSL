@@ -1,0 +1,109 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCMessag
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure critter_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (1) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure critter_p_proc begin
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20) == 0) then begin
+      game_ui_disable;
+      gfade_in(ONE_GAME_SECOND);
+      partyRunToDude // персонаж бегает вслед за ГГ
+      dialogue_system_forcing(3)
+   end
+   else begin
+      gfade_out(ONE_GAME_SECOND);
+      set_obj_visibility(self_obj, 1);
+      gfade_in(ONE_GAME_SECOND);
+      destroy_object(self_obj);
+   end
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20);
+end
+
+procedure talk_p_proc begin
+   game_ui_enable;
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20) == 0) then begin
+   dialog_proc_obj(NodeStartDialog)
+   end
+end
+
+procedure Node998 begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20);
+end
+
+procedure Node999 begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20);
+end
+
+procedure NodeStartDialog begin
+   call NodeDialog100;
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeDialog100 begin
+   if dude_is_female then begin
+   Reply(mstr(1200)+dude_name+mstr(201))
+   end
+   else begin
+   Reply(mstr(200)+dude_name+mstr(201))
+   end
+   NAnswer(202,4,NodeDialog101)
+   NAnswer(212,-3,NodeDialog101)
+end
+
+procedure NodeDialog101 begin
+   Reply(203)
+   NAnswer(204,0,NodeDialog102)
+end
+
+procedure NodeDialog102 begin
+   Reply(205)
+   NAnswer(206,0,NodeDialog103)
+end
+
+procedure NodeDialog103 begin
+   Reply(207)
+   NAnswer(208,0,NodeDialog104)
+end
+
+procedure NodeDialog104 begin
+   mark_on_map(AREA_INFIERNO)
+   Reply(209)
+   NAnswer(210,0,NodeDialog101)
+   NAnswer(211,0,Node999)
+end

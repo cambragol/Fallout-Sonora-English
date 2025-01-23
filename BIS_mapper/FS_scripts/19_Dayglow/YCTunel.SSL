@@ -1,0 +1,332 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCTunel
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog102b;
+procedure NodeFstDialog103;
+procedure NodeFstDialog103b;
+procedure NodeFstDialog104;
+procedure NodeFstDialog104b;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog108b;
+procedure NodeFstDialog109;
+procedure NodeFstDialog109a;
+procedure NodeFstDialog109b;
+procedure NodeFstDialog109c;
+procedure NodeFstDialog200;
+
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,2,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   if (global_var(GVAR_DAYGLOW_PASS) < 0) then begin
+   floater(self_obj, 102, COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_DAYGLOW_TUNEL_KNOW) > 0) then begin
+   z_floater(self_obj, 103, COLOR_MSG_RED);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_DAYGLOW_PASS) >= 2) then begin
+      if (bitDialog(bit_4) == 0) then begin
+      call NodeSndDialog;
+      end
+      else begin
+      call NodeSndDialog2;
+      end
+   end
+   else begin
+      if DudePerkHas(PERK_ghouling_fiziology) then begin
+      call NodeFstDialog200;
+      end
+      else if (bitDialog(bit_3) != 0) then begin
+      call NodeFstDialog108b;
+      end
+      else if (bitDialog(bit_2) != 0) then begin
+      call NodeFstDialog103b;
+      end
+      else if (bitDialog(bit_1) != 0) then begin
+      call NodeFstDialog101;
+      end
+      else begin
+      call NodeFstDialog100;
+      end
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog100 begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,0,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(202)
+   NAnswer(204,0,NodeFstDialog102)
+   NAnswer(203,0,Node999)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(205)
+   NAnswer(235,0,NodeFstDialog102b)
+   NAnswer(207,4,NodeFstDialog103)
+   NAnswer(206,0,Node999)
+end
+
+procedure NodeFstDialog102b begin
+   Reply(236)
+   NAnswer(207,4,NodeFstDialog103)
+   NAnswer(206,0,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   bitDialogExp(bit_2,0)
+   Reply(208)
+   NAnswer(209,0,NodeFstDialog104)
+   BAnswer(213,0,NodeFstDialog105)
+   call NodeFstDialog104b;
+   NAnswer(210,0,Node999)
+end
+
+procedure NodeFstDialog103b begin
+   Reply(230)
+   NAnswer(209,0,NodeFstDialog104)
+   BAnswer(213,0,NodeFstDialog105)
+   call NodeFstDialog104b;
+   NAnswer(210,0,Node999)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(211)
+   BAnswer(212,0,NodeFstDialog105)
+   call NodeFstDialog104b;
+   NAnswer(210,0,Node999)
+end
+
+procedure NodeFstDialog104b begin
+   if (map_var(MVAR_DIEGOSTART_DUDEMANY) > 0) then begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= map_var(MVAR_DIEGOSTART_DUDEMANY)) then begin
+   GAnswer(216,0,NodeFstDialog106)
+   end
+   end
+end
+
+procedure NodeFstDialog105 begin
+   if (map_var(MVAR_DIEGOSTART_DUDEMANY) >= 100) then begin
+      Reply(214)
+      call NodeFstDialog104b;
+      NAnswer(215,0,Node999)
+   end
+   else begin
+      call NodeFstDialog108;
+   end
+end
+
+procedure NodeFstDialog106 begin
+   if (map_var(MVAR_DIEGOSTART_DUDEMANY) > 0) then begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, map_var(MVAR_DIEGOSTART_DUDEMANY))
+   end
+   zReply(217)
+   NAnswer(218,0,NodeFstDialog107)
+   BAnswer(219,0,NodeFstDialog107)
+end
+
+procedure NodeFstDialog107 begin
+   load_map(MAP_DAYGLOW_CAMP_SAN_ISIDRO, 21276);
+   bitDialogExp(bit_4,0)
+   call Node999;
+end
+
+procedure NodeFstDialog108 begin
+   bitDialogExp(bit_3,0)
+   Reply(220)
+
+   if (item_amnt(dude_obj,PID_M_MEX_BEER) >= 3) then begin
+   GAnswer(224,0,NodeFstDialog109c)
+   end
+   if (item_amnt(dude_obj,PID_M_NUKA_COLA_RAD) >= 5) then begin
+   GAnswer(222,0,NodeFstDialog109a)
+   end
+   if (item_amnt(dude_obj,PID_M_NUKA_COLA) >= 5) then begin
+   GAnswer(223,0,NodeFstDialog109b)
+   end
+   NAnswer(221,0,Node999)
+end
+
+procedure NodeFstDialog108b begin
+   Reply(227)
+   if (item_amnt(dude_obj,PID_M_MEX_BEER) >= 3) then begin
+   GAnswer(224,0,NodeFstDialog109c)
+   end
+   if (item_amnt(dude_obj,PID_M_NUKA_COLA_RAD) >= 5) then begin
+   GAnswer(222,0,NodeFstDialog109a)
+   end
+   if (item_amnt(dude_obj,PID_M_NUKA_COLA) >= 5) then begin
+   GAnswer(223,0,NodeFstDialog109b)
+   end
+   zNAnswer(228,0,Node999)
+end
+
+procedure NodeFstDialog109 begin
+   Reply(225)
+   NAnswer(226,0,NodeFstDialog106)
+end
+
+procedure NodeFstDialog109a begin
+   item_remove(dude_obj, PID_M_NUKA_COLA_RAD, 5)
+   set_map_var(MVAR_DIEGOSTART_DUDEMANY, 0);
+   call NodeFstDialog109;
+end
+
+procedure NodeFstDialog109b begin
+   item_remove(dude_obj, PID_M_NUKA_COLA, 5)
+   set_map_var(MVAR_DIEGOSTART_DUDEMANY, 0);
+   call NodeFstDialog109;
+end
+
+procedure NodeFstDialog109c begin
+   item_remove(dude_obj, PID_M_MEX_BEER, 3)
+   set_map_var(MVAR_DIEGOSTART_DUDEMANY, 0);
+   call NodeFstDialog109;
+end
+
+procedure NodeFstDialog200 begin
+   bitDialogExp(bit_1,0)
+   Reply(233)
+   NAnswer(234,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(231)
+   NAnswer(232,0,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(231)
+   NAnswer(232,0,Node999)
+end

@@ -1,0 +1,79 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_PVSCnsl
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+procedure poleDestroy;
+
+#define tilePwrPole(pid,tile)           (tile_contains_obj_pid(tile,1,pid) == true) \
+
+#define objPwrPole(pid,tile)            tile_contains_pid_obj(tile,1,pid) \
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (local_var(LVAR_Status) == 0) then begin
+   g_display_mstr(550);
+   end
+   else if (combat_is_initialized == true) then begin
+   g_display_mstr(551);
+   end
+   else begin
+   call poleDestroy;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(50)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedKey(PID_KEY_VAULT25_RED,0)
+   else if (objUsedPid == PID_KEY_VAULT25_YLW) then begin
+   script_overrides;
+   display_mstr(103);
+   end
+end
+
+procedure sience_proc begin
+   CompProcSience(100)
+end
+
+#define dstrPwrPole(pid,tile)         if tilePwrPole(pid,tile) then begin       \
+                                      destroy_object(objPwrPole(pid,tile));     \
+                                      end                                       \
+
+procedure poleDestroy begin
+   dstrPwrPole(PID_POWER_POLE_AA,26692)
+   dstrPwrPole(PID_POWER_POLE_BA,26692)
+   dstrPwrPole(PID_POWER_POLE_AA,26700)
+   dstrPwrPole(PID_POWER_POLE_BA,26700)
+   dstrPwrPole(PID_POWER_POLE_AA,26708)
+   dstrPwrPole(PID_POWER_POLE_BA,26708)
+   display_mstr(102);
+end

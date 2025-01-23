@@ -1,0 +1,95 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_NSGidro
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure gidro_gener;
+
+#define LVAR_Flag_HIM                     (0) // факт выработки сока
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call gidro_gener;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_M_FRUIT) then begin
+   script_overrides;
+   display_mstr(113);
+   end
+   else if (objUsedPid == PID_AGAVE_JUICE) then begin
+   script_overrides;
+   display_mstr(114);
+   end
+end
+
+procedure gidro_gener begin
+   if (local_var(LVAR_Status) > 0) then begin
+       display_mstr(111);
+   end
+   else if (has_skill(dude_obj, SKILL_SCIENCE) < 10) then begin
+       skill_display_mstr(112,SKILL_SCIENCE,10)
+   end
+   else begin
+       exp_add(75);
+       play_sfx("CHEMICA1");
+         if (has_skill(dude_obj, SKILL_SCIENCE) >= 100) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,10)
+         display_mstr(129);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 90) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,9)
+         display_mstr(128);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 80) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,8)
+         display_mstr(127);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 70) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,7)
+         display_mstr(126);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 60) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,6)
+         display_mstr(125);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 50) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,5)
+         display_mstr(124);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 40) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,4)
+         display_mstr(123);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 30) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,3)
+         display_mstr(122);
+         end
+         else if (has_skill(dude_obj, SKILL_SCIENCE) >= 20) then begin
+         item_add(dude_obj,PID_AGAVE_JUICE,2)
+         display_mstr(121);
+         end
+         else begin
+         item_add(dude_obj,PID_AGAVE_JUICE,1)
+         display_mstr(120);
+         end
+       set_local_var(LVAR_Status,1);
+   end
+end

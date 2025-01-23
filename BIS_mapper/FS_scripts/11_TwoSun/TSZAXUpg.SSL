@@ -1,0 +1,72 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_TSZAXUpg
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN   // привязка к репутации (-1, если не нужно)
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(102);
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   display_mstr(102);
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_ZAX_UPGRADE) then begin
+      script_overrides;
+
+      if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 0) then begin
+         set_map_var(MVAR_TWOSUN_ZAX_TRAP,1);
+         set_global_var(GVAR_TWOSUN_STATUS_ZAX,1);
+         setQuest(GVAR_TWOSUN_QST_ZAX,qStop);
+         gfade_out(ONE_GAME_SECOND);
+         set_REP(-100)
+         play_sfx("ELEVATOR");
+         play_sfx("SELEVUX1");
+         if (global_var(GVAR_TWOSUN_STATUS_DUDE) == 0) then begin
+         exp_add(2500);
+         end
+         else begin
+         exp_add(3500);
+         end
+         display_mstr(105);
+         gfade_in(ONE_GAME_SECOND);
+      end
+      else if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+         display_mstr(104);
+      end
+      else begin
+         display_mstr(103);
+      end
+
+      item_remove(dude_obj, PID_KEY_ZAX, 2)
+      item_remove(dude_obj, objUsedPid, 1)
+   end
+end

@@ -1,0 +1,69 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_TSCnslTp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (local_var(LVAR_Status) == 0) then begin
+   g_display_mstr(550);
+   end
+   else if (combat_is_initialized == true) then begin
+   g_display_mstr(551);
+   end
+   else begin
+   set_map_var(MVAR_TWOSUN_ZAX_TRAP,1);
+   display_mstr(102);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+   script_overrides;
+   display_mstr(104);
+   end
+   else begin
+   CompVarCheck(60)
+   CompSkillScience
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else if (objUsedPid == PID_KEY_ZAX) then begin
+   script_overrides;
+   dude_floater_NON;
+   display_mstr(103);
+   end
+end
+
+procedure sience_proc begin
+   CompProcSience(120)
+   set_map_var(MVAR_TWOSUN_ZAX_TRAP,1);
+   display_mstr(102);
+end

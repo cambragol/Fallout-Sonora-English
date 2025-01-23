@@ -1,0 +1,79 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_BSStrBns
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure open_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if SELF_IS_LOCKED then begin
+      script_overrides;
+      display_mstr(110);
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(115);
+   end
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+      display_mstr(114);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(111);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      if (combat_is_initialized == true) then begin
+      g_display_mstr(328);
+      end
+      else if SELF_IS_LOCKED then begin
+      item_remove(dude_obj, objUsedPid, 1)
+      play_sfx("BRDSWELL");
+      call open_proc;
+      end
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      call open_proc;
+      end
+   end
+end
+
+procedure open_proc begin
+   if SELF_IS_LOCKED then begin
+      script_overrides;
+      obj_unlock(self_obj);
+      //dude_floater_OK;
+      display_mstr(113);
+      set_obj_visibility(self_obj, 1);
+      destroy_object(self_obj);
+   end
+end

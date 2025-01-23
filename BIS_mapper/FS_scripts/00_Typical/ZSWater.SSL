@@ -1,0 +1,52 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSWater
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure water_proc;
+
+#define LVAR_Status_Timer               (0) // Время до следующего набора воды
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call water_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   if (action_being_used == SKILL_SCIENCE) then begin
+   call water_proc;
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+   call water_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure water_proc begin
+   if (local_var(LVAR_Status_Timer) < game_time) then begin
+   display_mstr(102);
+   floater(dude_obj, 104, COLOR_MSG_NORMAL);
+   item_add(dude_obj,PID_M_WATER_FLASK,1)
+   //play_sfx("TANKS");
+   play_sfx("CHEMICA1");
+   set_local_var(LVAR_Status_Timer, (ONE_GAME_DAY*3) + game_time);
+   end
+   else begin
+   display_mstr(103);
+   end
+end

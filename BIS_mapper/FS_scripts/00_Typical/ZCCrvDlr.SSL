@@ -1,0 +1,290 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ZCCrvDlr
+#define TOWN_REP_VAR                    -1 // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CARAVAN_DRIVER     // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure generLoot;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeBarter;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure generLoot begin
+   variable itemGenerNum;
+   itemGenerNum := 0;
+
+   item_add(self_obj,PID_BOOTLE_CAPS,random(20,50))
+
+   if (bitDialog(bit_2) == 0) then begin
+
+      if (random(0,100) >= 50) then begin
+         itemGenerNum := random(0,4);
+
+         if (itemGenerNum == 0) then begin
+         item_add(self_obj,PID_W_CROWBAR,1)
+         end
+         if (itemGenerNum == 1) then begin
+         item_add(self_obj,PID_ARMOR_JACKET_A,1)
+         end
+         if (itemGenerNum == 2) then begin
+         item_add(self_obj,PID_TABACO,2)
+         end
+         if (itemGenerNum == 3) then begin
+         item_add(self_obj,PID_SANDALS,2)
+         end
+         if (itemGenerNum == 4) then begin
+         item_add(self_obj,PID_TOOL_SHOVEL,1)
+         end
+      end
+
+      if (random(0,100) >= 50) then begin
+         itemGenerNum := random(0,9);
+
+         if (itemGenerNum == 0) then begin
+         item_add(self_obj,PID_M_STIMPAK,1)
+         end
+         if (itemGenerNum == 1) then begin
+         item_add(self_obj,PID_M_RAD_X,1)
+         end
+         if (itemGenerNum == 2) then begin
+         item_add(self_obj,PID_M_RADAWAY,1)
+         end
+         if (itemGenerNum == 3) then begin
+         item_add(self_obj,PID_M_ANTIDOTE,1)
+         end
+         if (itemGenerNum == 4) then begin
+         item_add(self_obj,PID_M_MENTATS,1)
+         end
+         if (itemGenerNum == 5) then begin
+         item_add(self_obj,PID_M_BUFFOUT,1)
+         end
+         if (itemGenerNum == 6) then begin
+         item_add(self_obj,PID_M_PSYCHO,1)
+         end
+         if (itemGenerNum == 7) then begin
+         item_add(self_obj,PID_M_TV_DINNER,random(1,2))
+         end
+         if (itemGenerNum == 8) then begin
+         item_add(self_obj,PID_M_NUKA_COLA,random(3,6))
+         end
+         if (itemGenerNum == 9) then begin
+         item_add(self_obj,PID_M_NOODLES,random(1,3))
+         end
+      end
+
+      if (random(0,100) >= 25) then begin
+         itemGenerNum := random(0,7);
+
+         if (itemGenerNum == 0) then begin
+         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,random(8,16))
+         end
+         if (itemGenerNum == 1) then begin
+         item_add(self_obj,PID_AMMO_22_LR,random(4,6))
+         end
+         if (itemGenerNum == 2) then begin
+         item_add(self_obj,PID_AMMO_10_MM,random(9,15))
+         end
+         if (itemGenerNum == 3) then begin
+         item_add(self_obj,PID_AMMO_44_MAGNUM,random(6,12))
+         end
+         if (itemGenerNum == 4) then begin
+         item_add(self_obj,PID_AMMO_50_AE,6)
+         end
+         if (itemGenerNum == 5) then begin
+         item_add(self_obj,PID_AMMO_5_MM,random(4,6))
+         end
+         if (itemGenerNum == 6) then begin
+         item_add(self_obj,PID_AMMO_308,random(5,10))
+         end
+         if (itemGenerNum == 7) then begin
+         item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,random(5,10))
+         end
+      end
+
+      if (random(0,100) >= 10) then begin
+         itemGenerNum := random(0,7);
+
+         if (itemGenerNum == 0) then begin
+         item_add(self_obj,PID_W_GRENADE_FRAG,3)
+         end
+         if (itemGenerNum == 1) then begin
+         item_add(self_obj,PID_W_KNUCKLES_SPIKED,1)
+         end
+         if (itemGenerNum == 2) then begin
+         item_add(self_obj,PID_W_COMBAT_KNIFE,1)
+         end
+         if (itemGenerNum == 3) then begin
+         item_add(self_obj,PID_W_REVOLVER_OLD,1)
+         end
+         if (itemGenerNum == 4) then begin
+         item_add(self_obj,PID_W_PISTOL_10,1)
+         end
+         if (itemGenerNum == 5) then begin
+         item_add(self_obj,PID_W_RIFLE_HUNTING,1)
+         end
+         if (itemGenerNum == 6) then begin
+         item_add(self_obj,PID_W_SHOTGUN_DUBLET,1)
+         end
+         if (itemGenerNum == 7) then begin
+         item_add(self_obj,PID_W_THROWING_KNIFE,3)
+         end
+      end
+
+      bitDialogExp(bit_2,0)
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   inc_global_var(GVAR_ENCOUNTER_CARAVANS);
+   call generLoot;
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   dialog_proc(1,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call generLoot;
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (get_SLAVA>=250) then begin
+   Reply(202)
+   end
+   else if (get_SLAVA<0) then begin
+   Reply(201)
+   end
+   else begin
+   zReply(200)
+   end
+   NAnswer(204,1,NodeFstDialog2)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(205)
+   NAnswer(206,1,NodeBarter)
+end
+
+procedure NodeBarter begin
+   goBarterMod;
+   Reply(207)
+   NAnswer(208,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(204,1,NodeFstDialog2)
+   NAnswer(211,1,Node999)
+end

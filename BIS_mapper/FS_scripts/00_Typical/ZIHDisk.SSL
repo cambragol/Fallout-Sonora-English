@@ -1,0 +1,75 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ZIHDisk
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+
+#define PID_from_GVAR(pid,gvar)         if (self_PID == pid) then begin        \
+                                        numberGVAR := gvar;                    \
+                                        end                                    \
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   variable numberGVAR;
+   numberGVAR := 0;
+
+   script_overrides;
+
+   //--- Определение номера GVAR по PID голодиска
+   PID_from_GVAR(PID_HOLODSK_VILLA,GVAR_HOLODISK_01)
+   PID_from_GVAR(PID_HOLODSK_VAULT_27_DIARY,GVAR_HOLODISK_02)
+   PID_from_GVAR(PID_HOLODSK_VAULT_27_REPORT,GVAR_HOLODISK_03)
+   PID_from_GVAR(PID_HOLODSK_QUARTZ,GVAR_HOLODISK_04)
+   PID_from_GVAR(PID_HOLODSK_TWOSUN_ZAX,GVAR_HOLODISK_05)
+   PID_from_GVAR(PID_HOLODSK_CASA_GRANDE,GVAR_HOLODISK_06)
+   PID_from_GVAR(PID_HOLODSK_SAN_BRAHMIN,GVAR_HOLODISK_07)
+   PID_from_GVAR(PID_HOLODSK_VAULT_TEC,GVAR_HOLODISK_08)
+   PID_from_GVAR(PID_HOLODSK_OIL_PLATFORM,GVAR_HOLODISK_09)
+   PID_from_GVAR(PID_HOLODSK_VAULT_SANDIEGO,GVAR_HOLODISK_10)
+
+   //--- Собственно загрузка записи
+   /*
+   Проверка Науки удалена.
+   if (has_skill(dude_obj, SKILL_SCIENCE) < 0) then begin
+       skill_display_mstr(103,SKILL_SCIENCE,0)
+   end
+   else
+   */
+
+   if (numberGVAR <= 0) then begin
+       //play_sfx("IISXXXX1");
+       display_mstr(102);
+   end
+   else begin
+       if (global_var(numberGVAR) == 0) then begin
+       exp_add(75);
+       //play_sfx("IACCUXX1");
+       display_mstr(101);
+       set_global_var(numberGVAR,1);
+       end
+       else begin
+       //play_sfx("IISXXXX1");
+       display_mstr(100);
+       end
+   end
+
+   //--- Локальные поправки
+   if (self_PID == PID_HOLODSK_VILLA) then begin
+       set_gvar_bit_on(GVAR_RADIO_FLAGS_BIT, bit_8);
+       if (getQuest(GVAR_VAULT27_VISITED) == qZero) then begin
+       setQuest(GVAR_VAULT27_VISITED,qStart);
+       end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+   script_overrides;
+   call use_p_proc;
+   end
+end

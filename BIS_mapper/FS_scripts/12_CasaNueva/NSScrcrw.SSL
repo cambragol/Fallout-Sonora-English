@@ -1,0 +1,41 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_NSScrcrw
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_obj_on_p_proc;
+procedure insectUp;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if DudePerkHas(PERK_marauder) then begin
+   //!!! добавлять крышки или иной бонус при наличии перка "Чутье мусорщика"
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_Q_INSECTICIDES) then begin
+      script_overrides;
+      if (global_var(GVAR_NUEVA_USING_INSECTICIDES) == 0) then begin
+      call insectUp;
+      end
+      else begin
+      display_mstr(111);
+      dude_floater_NON;
+      end
+   end
+end
+
+procedure insectUp begin
+      play_sfx("PEBBLE");
+      play_sfx("CHEMICA1");
+      display_mstr(110);
+      dude_floater_OK;
+      item_remove(dude_obj, objUsedPid, 1)
+      inc_global_var(GVAR_NUEVA_USING_INSECTICIDES);
+end

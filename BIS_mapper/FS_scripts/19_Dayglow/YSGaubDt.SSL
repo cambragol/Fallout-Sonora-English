@@ -1,0 +1,36 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSGaubi //SCRIPT_YSGaubDt
+
+procedure start;
+procedure use_skill_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call repair_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+   script_overrides;
+   call repair_proc;
+   end
+end
+
+procedure repair_proc begin
+   if ((local_var(LVAR_Flags) == 0) and (self_tile == 13677)) then begin
+      play_sfx("JUNK");
+      //display_mstr(100);
+      create_object_sid(PID_Q_DAYGLOW_GAUBI_DETALS, tile_num_in_direction(self_tile,2,1), dude_elevation, -1);
+      set_local_var(LVAR_Flags,1);
+   end
+   else begin
+      display_mstr(113);
+   end
+end

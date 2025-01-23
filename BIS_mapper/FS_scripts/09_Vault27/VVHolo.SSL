@@ -1,0 +1,71 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_VVHolo
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_first_run) then begin
+           set_obj_visibility(self_obj, 1);
+           create_object_sid(self_PID+2, self_tile, self_elevation, -1);
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (is_loading_game == false) then begin
+      if (getQuest(GVAR_VAULT27_GENERATOR) >= qEnd) then begin
+           if (tile_contains_obj_pid(self_tile,self_elevation,self_PID+2) == true) then begin
+           destroy_object(tile_contains_pid_obj(self_tile, self_elevation, self_PID+2));
+           end
+           set_obj_visibility(self_obj, 0);
+      end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (getQuest(GVAR_VAULT27_GENERATOR) < qEnd) then begin
+      display_mstr(110);
+   end
+   else begin
+      set_map_var(MVAR_Vault_Music,1);
+      //play_sfx("SALOON1");
+      if (tile_contains_obj_pid(self_tile,self_elevation,33555119) == false) then begin
+      create_object_sid(33555119, self_tile, self_elevation, -1);
+      end
+      display_mstr(111);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

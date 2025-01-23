@@ -1,0 +1,399 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//--------------------- Южный лагерь
+
+#define NAME                            SCRIPT_YCShopA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+#define BOX_TILE                        11  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeBarter;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeWeapon;
+procedure NodeWeapon2;
+procedure NodeWeapon3;
+procedure NodeWeapon4;
+procedure NodeWeapon101;
+procedure NodeWeapon102;
+procedure NodeWeapon103;
+procedure NodeWeapon104;
+procedure NodeWeapon105;
+procedure NodeWeapon106;
+procedure NodeWeapon107;
+procedure NodeWeapon108;
+
+//---------------------
+
+#define LVAR_Film_Copy                     (8)
+
+import variable box_stop_use;
+
+variable ItemPidA;
+variable ItemPidB;
+variable ItemCost;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_MONTH)
+   end
+end
+
+procedure setBarterA begin
+        check_restock_many(2200,2500)
+
+        check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
+        check_restock_item(PID_ARMOR_JACKET_C, 1, 1, 100)
+        check_restock_item(PID_W_KNUCKLES_SPIKED, 1, 1, 100)
+        check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
+        check_restock_item(PID_TOOL_BOOTS, 5, 5, 100)
+        check_restock_item(PID_TOOL_SHOVEL, 2, 2, 100)
+        check_restock_item(PID_TOOL_ROPE, 2, 2, 100)
+        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 1, 1, 100)
+        check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
+        check_restock_item(PID_TOOL_LOCKPICKS_EL, 1, 1, 100)
+        check_restock_item(PID_W_GRENADE_FRAG, 5, 7, 100)
+        check_restock_item(PID_AMMO_44_MAGNUM, 60, 60, 100)
+        check_restock_item(PID_W_SPEAR_ELECTRO, 1, 1, 100)
+        check_restock_item(PID_W_RIPPER, 1, 1, 100)
+        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 40, 40, 100)
+        check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
+        check_restock_item(PID_AMMO_308, 50, 50, 100)
+        check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
+        check_restock_item(PID_AMMO_10_MM, 120, 120, 100)
+        check_restock_item(PID_W_SMG_UZI, 1, 1, 100)
+end
+
+procedure setBarterB begin
+   //! пока пусто
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(2)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if ((objUsedPid == PID_Q_DAYGLOW_BORDERBADGE_A) or (objUsedPid == PID_Q_DAYGLOW_BORDERBADGE_B)) then begin
+       script_overrides;
+       floater(self_obj, 104, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   kill_critter_box
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+
+   if (get_REP <= -15) then begin
+   floater(self_obj, 103, COLOR_MSG_NORMAL);
+   end
+   else if ((map_var(MVAR_DIEGO_A_SHOP) != 0) or (get_REP >= 15) or DudePerkHas(PERK_ghouling_fiziology) or (getQuest(GVAR_DAYGLOW_MAIN_A) != qZero)) then begin
+   dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   incBarterMod(50);
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(206)
+   NAnswer(207,0,NodeBarter)
+   end
+   else begin
+   incBarterMod(50);
+   Reply(200)
+   NAnswer(201,0,NodeBarter)
+   NAnswer(202,0,NodeBarter)
+   end
+end
+
+procedure NodeBarter begin
+   goBarterMod;
+   Reply(203)
+   NAnswer(205,0,NodeSndDialog)
+   NAnswer(208,0,NodeBarter)
+   NAnswer(204,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+      Reply(random(210,213))
+   end
+   else begin
+      if (get_REP >= 15) then begin
+      Reply(216)
+      end
+      else if (get_REP > 0) then begin
+      Reply(215)
+      end
+      else begin
+      Reply(214)
+      end
+   end
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_A)>0) then begin
+   NAnswer(220,0,NodeAnswer100)
+   end
+   if (local_var(LVAR_Film_Copy) == 0) then begin
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_FILM)>0) then begin
+   NAnswer(230,0,NodeAnswer103)
+   end
+   end
+   NAnswer(217,0,NodeBarter)
+   NAnswer(250,0,NodeWeapon)
+   NAnswer(218,0,Node999)
+end
+
+procedure NodeAnswer100 begin
+   if ((getReaction<20) or town_rep_is_antipaty) then begin
+   Reply(224)
+   end
+   else begin
+   Reply(221)
+   end
+   NAnswer(222,0,NodeAnswer101)
+   zNAnswer(223,0,Node999)
+end
+
+procedure NodeAnswer101 begin
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_A)>0) then begin
+   call NodeAnswer102;
+   end
+   else begin
+   call NodeAnswer100;
+   end
+end
+
+procedure NodeAnswer102 begin
+   PLAY_FADE
+   item_remove(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_A,1)
+   item_add(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_B,1)
+   Reply(225)
+   NAnswer(226,0,Node999)
+   NAnswer(227,0,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(231)
+   NAnswer(232,0,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   ItemCost := 100;
+   Reply(mstr(233)+ItemCost+mstr(234))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=ItemCost) then begin
+   NAnswer(236,0,NodeAnswer105)
+   end
+   NAnswer(235,0,Node999)
+   //BAnswer(237,0,Node999)
+end
+
+procedure NodeAnswer105 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) < ItemCost) then begin
+   call NodeAnswer104;
+   end
+   else begin
+   call NodeAnswer106;
+   end
+end
+
+procedure NodeAnswer106 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,ItemCost)
+   item_add(dude_obj,PID_Q_DAYGLOW_FILM,1)
+   inc_local_var(LVAR_Film_Copy);
+   PLAY_FADE
+   display_mstr(237);
+   call Node999;
+end
+
+#define itemNodeUprd(pid,cost,node)     if (item_amnt(dude_obj,pid)>0) then begin \
+                                        NAnswer(mstr(253)+proto_data(pid, it_name)+mstr(254)+(cost)+mstr(255),0,node) \
+                                        end \
+
+procedure NodeWeapon begin
+   ItemPidA := 0;
+   ItemPidB := 0;
+   ItemCost := 0;
+   Reply(251)
+   itemNodeUprd(PID_W_CATTLE_PROD_A,1000,NodeWeapon101)
+   itemNodeUprd(PID_W_SPEAR_ELECTRO,1000,NodeWeapon108)
+   itemNodeUprd(PID_W_SMG_22,700,NodeWeapon102)
+   itemNodeUprd(PID_W_RIFLE_HUNTING,1500,NodeWeapon105)
+   itemNodeUprd(PID_W_RIFLE_ASSAULT,1500,NodeWeapon106)
+   itemNodeUprd(PID_W_LASER_PISTOL,1000,NodeWeapon107)
+   itemNodeUprd(PID_W_PLASMA_RIFLE,10000,NodeWeapon103)
+   itemNodeUprd(PID_W_LAUNCHER,3000,NodeWeapon104)
+   NAnswer(252,0,NodeSndDialog)
+end
+
+procedure NodeWeapon2 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,ItemCost)
+   //item_add(self_obj,PID_BOOTLE_CAPS,ItemCost)
+   item_remove(dude_obj,ItemPidA,1)
+   item_add(dude_obj,ItemPidB,1)
+   Reply(256)
+   NAnswer(258,0,NodeWeapon)
+   NAnswer(257,0,Node999)
+end
+
+procedure NodeWeapon3 begin
+   Reply(259)
+   NAnswer(260,0,NodeSndDialog)
+end
+
+procedure NodeWeapon4 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) < ItemCost) then begin
+   call NodeWeapon3;
+   end
+   else begin
+   call NodeWeapon2;
+   end
+end
+
+#define itemNodeSet(a,b,cost)      ItemPidA := a; \
+                                   ItemPidB := b; \
+                                   ItemCost := cost; \
+                                   call NodeWeapon4; \
+
+procedure NodeWeapon101 begin
+   itemNodeSet(PID_W_CATTLE_PROD_A,PID_W_CATTLE_PROD_B,1000)
+end
+
+procedure NodeWeapon102 begin
+   itemNodeSet(PID_W_SMG_22,PID_W_SMG_22_UPGD,700)
+end
+
+procedure NodeWeapon103 begin
+   itemNodeSet(PID_W_PLASMA_RIFLE,PID_W_PLASMA_RIFLE_TURBO,10000)
+end
+
+procedure NodeWeapon104 begin
+   itemNodeSet(PID_W_LAUNCHER,PID_W_LAUNCHER_UPD,2500)
+end
+
+procedure NodeWeapon105 begin
+   itemNodeSet(PID_W_RIFLE_HUNTING,PID_W_RIFLE_HUNTING_UNERTL,1500)
+end
+
+procedure NodeWeapon106 begin
+   itemNodeSet(PID_W_RIFLE_ASSAULT,PID_W_RIFLE_ASSAULT_UPD,1500)
+end
+
+procedure NodeWeapon107 begin
+   itemNodeSet(PID_W_LASER_PISTOL,PID_W_LASER_PISTOL_UPGRD,700)
+end
+
+procedure NodeWeapon108 begin
+   itemNodeSet(PID_W_SPEAR_ELECTRO,PID_W_SPEAR_ELECTRO_UPGD,1000)
+end

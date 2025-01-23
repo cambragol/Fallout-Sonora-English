@@ -1,0 +1,74 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSTorped
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure activ_proc;
+procedure map_destroy_movie_dayglow;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   if (global_var(GVAR_DAYGLOW_DESTROY_TIMER) > 0) then begin
+      call map_destroy_movie_dayglow;
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (global_var(GVAR_DAYGLOW_DESTROY_TIMER) == 0) then begin
+   display_mstr(110);
+   floater(dude_obj,111,COLOR_MSG_NORMAL);
+   end
+   else begin
+   display_mstr(112);
+   floater(dude_obj,113,COLOR_MSG_RED);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      call activ_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure activ_proc begin
+   if (global_var(GVAR_DAYGLOW_DESTROY_TIMER) > 0) then begin
+       display_mstr(124);
+       set_global_var(GVAR_DAYGLOW_DESTROY_TIMER,0);
+   end
+   else if (global_var(GVAR_DAYGLOW_DESTROY_TIMER) == 0) then begin
+       display_mstr(123);
+       set_global_var(GVAR_DAYGLOW_DESTROY_TIMER, (ONE_GAME_MINUTE*5) + game_time);
+       display_msg(mstr(150)+((global_var(GVAR_DAYGLOW_DESTROY_TIMER)-game_time)/ONE_GAME_SECOND)+mstr(151));
+       if (partyPidMtn != 0) then begin
+       floater(partyPidMtn, 114, COLOR_MSG_NORMAL);
+       end
+   end
+end
+
+procedure map_destroy_movie_dayglow begin
+       if (global_var(GVAR_DAYGLOW_DESTROY_TIMER) < game_time) then begin
+           set_global_var(GVAR_DAYGLOW_DESTROY_TIMER,-1);
+           critter_dmg(dude_obj, 1000, (DMG_explosion BWOR DMG_BYPASS_ARMOR));
+       end
+       else begin
+           display_msg(mstr(150)+((global_var(GVAR_DAYGLOW_DESTROY_TIMER)-game_time)/ONE_GAME_SECOND)+mstr(151));
+       end
+end

@@ -1,0 +1,239 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ISGame
+#define TILE_ACTIV                      11103
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure game_start;
+procedure game_process;
+procedure game_finish;
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeDialog4;
+procedure NodeDialog5;
+procedure NodeDialog6;
+procedure NodeDialog7;
+procedure NodeDialog8;
+
+#define LVAR_GameFinish                 (0) // фиксирует факт выигрыша
+#define LVAR_GamePoint                  (1) // число заработанных игровых очков
+
+variable check_point;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      call game_finish;
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (self_tile == TILE_ACTIV) then begin
+   display_mstr(111);
+   end
+   else begin
+   display_mstr(110);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_MANY) then begin
+      script_overrides;
+      if (self_tile == TILE_ACTIV) then begin
+      call game_start;
+      end
+      else begin
+      display_mstr(110);
+      end
+   end
+end
+
+procedure game_start begin
+   check_point := 0;
+
+   if (local_var(LVAR_GameFinish) > 0) then begin
+       display_mstr(120);
+       floater(dude_obj,121,COLOR_MSG_NORMAL);
+   end
+   else if (dude_cur_hits <= 5) then begin
+       display_mstr(122);
+       floater(dude_obj,123,COLOR_MSG_NORMAL);
+   end
+   else if (combat_is_initialized == true) then begin
+       g_display_mstr(551);
+   end
+   else begin
+       item_remove(dude_obj,PID_MANY,1)
+       call game_process;
+   end
+
+   /*
+   Изначальная версия (НЕ для специальных встреч):
+
+   else if dude_skill(SKILL_GAMBLING,100) then begin
+       item_remove(dude_obj,PID_MANY,1)
+       call game_process;
+   end
+   else begin
+       skill_display_mstr(124,SKILL_GAMBLING,100)
+       floater(dude_obj,125,COLOR_MSG_NORMAL);
+   end
+   */
+end
+
+procedure game_process begin
+   check_point := 0;
+
+   if (has_skill(dude_obj, SKILL_GAMBLING) >= random(0,100)) then begin
+   check_point += 400;
+   end
+   else begin
+   check_point -= random(25,100);
+   //check_point += (dude_luck*10);
+   end
+   if (check_point != 0) then begin
+   inc_local_var_amt(LVAR_GamePoint,check_point);
+   end
+
+   if (local_var(LVAR_GamePoint) >= 1000) then begin
+       //call game_finish;
+       add_timer_event(self_obj,5,1);
+   end
+   else begin
+       if (check_point < 0) then begin
+       play_sfx("IISXXXX1");
+       display_msg(mstr(140)+(check_point)+mstr(141));
+       floater(dude_obj,random(142,149),COLOR_MSG_NORMAL);
+       end
+       else begin
+       play_sfx("ICSXXXX1");
+       display_msg(mstr(130)+(check_point)+mstr(131));
+       floater(dude_obj,random(134,139),COLOR_MSG_NORMAL);
+       end
+       display_msg(mstr(132)+local_var(LVAR_GamePoint)+mstr(133));
+   end
+
+   /*
+   Изначальная версия (НЕ для специальных встреч):
+
+   check_point := 0;
+
+   if (has_skill(dude_obj, SKILL_GAMBLING) >= random(30,130)) then begin
+   check_point += random(200,300);
+   end
+   else begin
+   check_point -= random(25,100);
+   end
+   inc_local_var_amt(LVAR_GamePoint,check_point);
+
+   if (local_var(LVAR_GamePoint) >= 1000) then begin
+       call game_finish;
+   end
+   else begin
+       if (check_point < 0) then begin
+       play_sfx("IISXXXX1");
+       display_msg(mstr(140)+(check_point)+mstr(141));
+       floater(dude_obj,random(142,149),COLOR_MSG_NORMAL);
+       end
+       else begin
+       play_sfx("ICSXXXX1");
+       display_msg(mstr(130)+(check_point)+mstr(131));
+       floater(dude_obj,random(134,139),COLOR_MSG_NORMAL);
+       end
+       display_msg(mstr(132)+local_var(LVAR_GamePoint)+mstr(133));
+   end
+   */
+end
+
+procedure game_finish begin
+   inc_local_var(LVAR_GameFinish);
+   //play_sfx("WINNER");
+   play_sfx("SWDKEYX1");
+   exp_add(1000);
+   call talk_p_proc;
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   if (dude_strength<10) then begin
+   NAnswer(201,1,NodeDialog2)
+   end
+   if (dude_perception<10) then begin
+   NAnswer(202,1,NodeDialog3)
+   end
+   if (dude_endurance<10) then begin
+   NAnswer(203,1,NodeDialog4)
+   end
+   if (dude_charisma<10) then begin
+   NAnswer(204,1,NodeDialog5)
+   end
+   if (dude_iq<10) then begin
+   NAnswer(205,1,NodeDialog6)
+   end
+   if (dude_agility<10) then begin
+   NAnswer(206,1,NodeDialog7)
+   end
+   if (dude_luck<10) then begin
+   NAnswer(207,1,NodeDialog8)
+   end
+
+   NAnswer(208,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   set_critter_stat(dude_obj, STAT_st, 1);
+   call Node999;
+end
+
+procedure NodeDialog3 begin
+   set_critter_stat(dude_obj, STAT_pe, 1);
+   call Node999;
+end
+
+procedure NodeDialog4 begin
+   set_critter_stat(dude_obj, STAT_en, 1);
+   call Node999;
+end
+
+procedure NodeDialog5 begin
+   set_critter_stat(dude_obj, STAT_ch, 1);
+   call Node999;
+end
+
+procedure NodeDialog6 begin
+   set_critter_stat(dude_obj, STAT_iq, 1);
+   call Node999;
+end
+
+procedure NodeDialog7 begin
+   set_critter_stat(dude_obj, STAT_ag, 1);
+   call Node999;
+end
+
+procedure NodeDialog8 begin
+   set_critter_stat(dude_obj, STAT_lu, 1);
+   call Node999;
+end

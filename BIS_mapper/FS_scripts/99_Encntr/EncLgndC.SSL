@@ -1,0 +1,52 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_EncLgndC
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure music_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call music_proc;
+end
+
+procedure map_update_p_proc begin
+   reg_anim_begin();
+   reg_anim_animate_forever(self_obj, ANIM_stand);
+   reg_anim_end();
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+   script_overrides;
+   call music_proc;
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+   script_overrides;
+   call music_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+end
+
+procedure music_proc begin
+   //play_sfx("WRZXXXX1");
+   if (map_var(MVAR_ENC_LEGENDCITY_MUSIC) >0) then begin
+   set_map_music(cur_map_index, "f1_dsrt");
+   display_mstr(103);
+   set_map_var(MVAR_ENC_LEGENDCITY_MUSIC,0);
+   end
+   else begin
+   set_map_music(cur_map_index, "akiss");
+   display_mstr(102);
+   set_map_var(MVAR_ENC_LEGENDCITY_MUSIC,1);
+   end
+end

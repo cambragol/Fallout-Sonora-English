@@ -1,0 +1,61 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_TSTObjct
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+/*
+
+-------------- общее:
+
+- Поправка на перк "Легкий шаг" для ловушек
+- Поправка на перк "Чутье мародера" для контейнеров
+- dude_floater_OK (при взломе, разминировании и т.д.)
+
+- ??? Тайник:
+   - о нём надо сначала узнать чтобы заюзать
+   - вокруг уже известного тайника формируются маркеры от сетки перехода для обнаружения через миникарту
+   - тайник юзается руками - объект убирается (над ГГ фраза о находке) и на его месте появляется контейнер с лутом
+   - Для удобства можно привязать тайники с битовым масам гвары, но это значит, что их всего будет не больше 32 на всю игру
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+   display_msg("PID "+self_PID);
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   //script_overrides; для некоторых контейнеров (товарные ящики, запертые контейнеры)
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_STEAL) then begin
+   // Обрывать навык кражи для контейнеров, пока те заперты
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   //блокировка во время боя
+   //Запрет на использование в бою. Вынести фразу в INFO.
+   //Для электронных систем, терминалов, замков - использование отмычек и декодера снижает минимальные требования к навыку, но только раз
+   //Ремонтируемое оборудование: использование металлолома или электр деталей снижает требуемый уровень навыка ремонта, но только раз
+end

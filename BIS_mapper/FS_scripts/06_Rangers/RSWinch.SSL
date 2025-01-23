@@ -1,0 +1,62 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_RSWinch
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure destroy_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) == qZero) then begin
+   display_mstr(110);
+   end
+   else begin
+   display_mstr(111);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   call use_p_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (getQuest(GVAR_RANGERS_DUMB_DESTROY) != qZero) then begin
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         call destroy_proc;
+      end
+      else begin
+         display_mstr(112);
+      end
+   end
+end
+
+procedure destroy_proc begin
+   if (global_var(GVAR_GAME_END) == 0) then begin
+   setQuest(GVAR_RANGERS_DUMB_DESTROY,qStart);
+   play_sfx("CLANK");
+   display_mstr(113);
+   floater(dude_obj,114,COLOR_MSG_RED);
+   end
+   else begin
+   display_mstr(112);
+   end
+end

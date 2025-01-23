@@ -1,0 +1,73 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YINslBns
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure CreateBodyDonovan;
+procedure selfvisible_proc;
+procedure use_obj_on_p_proc;
+
+#define LVAR_Flag_Donovan               (0) // отвечает за появление тела Донована
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_obj_visibility(self_obj, 1);
+       if (map_first_run == true) then begin
+          item_add(self_obj,PID_M_IRP,1)
+          item_add(self_obj,PID_M_RADAWAY,1)
+          item_add(self_obj,PID_M_STIMPAK,5)
+          item_add(self_obj,PID_W_GRENADE_PLASMA,2)
+          item_add(self_obj,PID_TOOL_STEALTH_BOY,1)
+          item_add(self_obj,PID_W_PLASMA_PISTOL,1)
+       end
+
+       if ((local_var(LVAR_Flag_Donovan) == 0) and (getQuest(GVAR_DAYGLOW_QST_DONOVAN) == qStart)) then begin
+       call CreateBodyDonovan;
+       end
+       call selfvisible_proc;
+   end
+end
+
+procedure map_update_p_proc begin
+   call selfvisible_proc;
+end
+
+procedure CreateBodyDonovan begin
+   variable tileRndm;
+   tileRndm := random(0,3);
+   if (tileRndm == 3) then begin
+   tileRndm := 15706; // на тротуаре
+   end
+   else if (tileRndm == 2) then begin
+   tileRndm := 15293; // на тротуаре возле ворот в ангар
+   end
+   else if (tileRndm == 1) then begin
+   tileRndm := 18291; // на тротуаре возле нижнего робота
+   end
+   else begin
+   tileRndm := 16476; // у дверей в ангар
+   end
+
+   create_object_sid(PID_Q_DAYGLOW_GHOULBODY, tileRndm, 0, -1);
+   inc_local_var(LVAR_Flag_Donovan);
+end
+
+procedure selfvisible_proc begin
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_18) != 0) then begin
+       set_obj_visibility(self_obj, 0);
+       if (tile_contains_obj_pid(self_tile,self_elevation,PID_HEX_BLOCKING) == false) then begin
+       create_object_sid(PID_HEX_BLOCKING, self_tile, self_elevation, -1);
+       end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

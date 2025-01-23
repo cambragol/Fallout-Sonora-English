@@ -1,0 +1,32 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_NSBlock
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_obj_visibility(self_obj, 1);
+      if ((global_var(GVAR_NUEVA_STATUS_LABA) != 0) or (global_var(GVAR_NUEVA_USING_INSECTICIDES) != 0)) then begin
+         set_obj_visibility(self_obj, 0);
+         /*
+         if (tile_contains_obj_pid(self_tile, self_elevation, 33555176) == false) then begin
+         create_object_sid(33555176,self_tile,self_elevation,SCRIPT_ANIMFVR);
+         end
+         */
+      reg_anim_begin();
+      reg_anim_animate_forever(self_obj, ANIM_stand);
+      reg_anim_end();
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

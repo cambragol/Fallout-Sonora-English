@@ -1,0 +1,110 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YTDumScn
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+
+variable critterA;
+variable critterB;
+variable tileDude;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+   if (is_loading_game == false) then begin
+   //add_timer_event(self_obj, 5, 1);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       if (global_var(GVAR_DAYGLOW_TURBINA) >= 5) then begin
+       if (combat_is_initialized == false) then begin
+       if (game_ui_is_disabled == false) then begin
+       if (dude_elevation == 2) then begin
+       add_timer_event(self_obj, 1, 2);
+       end
+       end
+       end
+       end
+   end
+   if (fixed_param == 2) then begin
+       game_ui_disable;
+       gfade_out(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 10, 3);
+   end
+   if (fixed_param == 3) then begin
+       tileDude := dude_tile;
+       move_to(dude_obj, 13878, 2);
+       set_obj_visibility(dude_obj, 1);
+       if (partyPidMtn!=0) then begin
+       set_obj_visibility(partyPidMtn, 1);
+       end
+       critterA := create_object_sid(PID_BOS_PALADIN,14080,2,-1);
+       critterB := create_object_sid(PID_BOS_PALADIN,13280,2,-1);
+       move_to(critterA, 13680, 2);
+       move_to(critterB, 14076, 2);
+       anim(critterA, ANIMATE_ROTATION, 1);
+       anim(critterB, ANIMATE_ROTATION, 4);
+       gfade_in(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 20, 4);
+   end
+   if (fixed_param == 4) then begin
+       floater(critterA, 111, COLOR_MSG_NORMAL);
+       floater(critterB, 110, COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 40, 5);
+   end
+   if (fixed_param == 5) then begin
+       floater(critterA, 110, COLOR_MSG_NORMAL);
+       floater(critterB, 112, COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 6);
+   end
+   if (fixed_param == 6) then begin
+       floater(critterA, 113, COLOR_MSG_NORMAL);
+       floater(critterB, 110, COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 7);
+   end
+   if (fixed_param == 7) then begin
+       floater(critterA, 110, COLOR_MSG_NORMAL);
+       floater(critterB, 114, COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 8);
+   end
+   if (fixed_param == 8) then begin
+       floater(critterA, 115, COLOR_MSG_NORMAL);
+       floater(critterB, 110, COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 9);
+   end
+   if (fixed_param == 9) then begin
+       floater(critterA, 116, COLOR_MSG_NORMAL);
+       floater(critterB, 110, COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 10);
+   end
+   if (fixed_param == 10) then begin
+       floater(critterA, 117, COLOR_MSG_NORMAL);
+       floater(critterB, 110, COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 11);
+   end
+   if (fixed_param == 11) then begin
+       gfade_out(ONE_GAME_SECOND);
+       floater(critterA, 110, COLOR_MSG_NORMAL);
+       floater(critterB, 110, COLOR_MSG_NORMAL);
+       destroy_object(critterA);
+       destroy_object(critterB);
+       critterA := 0;
+       critterB := 0;
+       set_obj_visibility(dude_obj, 0);
+       if (partyPidMtn!=0) then begin
+       set_obj_visibility(partyPidMtn, 0);
+       end
+       move_to(dude_obj, tileDude, 2);
+       gfade_in(ONE_GAME_SECOND);
+       game_ui_enable;
+       destroy_object(self_obj);
+   end
+end

@@ -1,0 +1,78 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZTRokot
+#define MAXDISTAN               8 // максимальная дистанция ГГ, на которой слышен звук
+
+procedure start;
+procedure map_enter_p_proc;
+procedure critter_p_proc;
+procedure snd_proc_day;
+procedure snd_proc_night;
+
+#define LVAR_SDN_TIMER                  (0) // Таймер звука
+
+variable distanSnd;
+
+/*
+ВАЖНО:
+   - Cкрипт вешать на криттера, тригером он работать не будет
+   - По умолчанию дистанция равна MAXDISTAN. Чтобы задать точно,
+     нужно положить в инвентарь бутылочные крышки числом, равным требуемой дистанции.
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+end
+
+procedure critter_p_proc begin
+   distanSnd := MAXDISTAN;
+   if (item_amnt(self_obj,PID_BOOTLE_CAPS) > 0) then begin
+   distanSnd := item_amnt(self_obj,PID_BOOTLE_CAPS);
+   end
+   if (item_amnt(self_obj,PID_TEST) > 0) then begin
+   distanSnd := item_amnt(self_obj,PID_TEST);
+   end
+
+   if (local_var(LVAR_SDN_TIMER) > game_time) then begin
+   end
+   else if (dude_elevation != self_elevation) then begin
+   end
+   else if (tile_distance_objs(self_obj, dude_obj) > distanSnd) then begin
+   end
+   else begin
+       if ((game_time_hour >= 0700) and (game_time_hour < 1800)) then begin
+       call snd_proc_day;
+       set_local_var(LVAR_SDN_TIMER, (ONE_GAME_SECOND*random(6,12)) + game_time);
+       end
+       else if ((game_time_hour >= 0600) and (game_time_hour < 0700)) then begin
+       end
+       else if ((game_time_hour >= 1800) and (game_time_hour < 1900)) then begin
+       end
+       else begin
+       call snd_proc_night;
+       set_local_var(LVAR_SDN_TIMER, (ONE_GAME_SECOND*random(3,6)) + game_time);
+       end
+   end
+end
+
+procedure snd_proc_day begin
+   if (random(0,1) == 0) then begin
+   play_sfx("RATTLE");
+   end
+   else begin
+   play_sfx("RATTLE1");
+   end
+end
+
+procedure snd_proc_night begin
+   if (random(0,1) == 0) then begin
+   play_sfx("CRICKET");
+   end
+   else begin
+   play_sfx("CRICKET1");
+   end
+end

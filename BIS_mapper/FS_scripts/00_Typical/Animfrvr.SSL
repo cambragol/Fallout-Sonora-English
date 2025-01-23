@@ -1,0 +1,34 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ANIMFVR
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (cur_map_index == MAP_PHOENIX_SIGN) then begin
+      if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+         if (tile_distance(self_tile,15295) <= 10) then begin
+         set_obj_visibility(self_obj, 1);
+         end
+      end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (self_obj > 0) then begin
+      reg_anim_begin();
+      reg_anim_animate_forever(self_obj, ANIM_stand);
+      reg_anim_end();
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

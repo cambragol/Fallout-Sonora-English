@@ -1,0 +1,28 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ANIMNGHT
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   if ((game_time_hour >= 1800) or (game_time_hour < 0600)) then begin
+   animate_stand_obj(self_obj);
+   end
+   else begin
+   animate_stand_reverse_obj(self_obj);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

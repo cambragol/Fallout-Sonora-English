@@ -1,0 +1,768 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCGomer
+#define TOWN_REP_VAR                    -1
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PARTY_GOMER        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure ghoul_enemy;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog2b;
+procedure NodeFstDialog3;
+procedure NodeFstDialog3b;
+procedure NodeFstDialog4;
+procedure NodeFstDialog4b;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeFstDialog8b;
+procedure NodeFstDialog9;
+procedure NodeFstDialog9b;
+procedure NodeSndDialog;
+procedure NodeCapDialog;
+procedure NodeCapDialog2;
+procedure NodeCapDialog3;
+procedure NodeCapDialog4;
+procedure NodeCapDialog5;
+procedure NodeCapDialog6;
+procedure NodeCapDialog7;
+procedure NodeCapDialog8;
+procedure NodeCapDialog9;
+procedure NodeCapDialog10;
+procedure NodeCapDialog11;
+procedure NodeCapDialog12;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer208;
+procedure NodeAnswer209;
+procedure NodeAnswer210;
+procedure NodeAnswer211;
+procedure NodeAnswer212;
+procedure NodeAnswer213;
+procedure NodeAnswer214;
+procedure NodeAnswer215;
+procedure NodeParty;
+procedure NodeParty2;
+procedure NodeParty2b;
+procedure NodeParty3;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+variable attakParam;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       bitDialogZero(bit_6)
+       if (self_TEAM == TEAM_PLAYER) then begin
+       add_timer_event(self_obj,3,3);
+       end
+       else if ((cur_map_index == MAP_DAYGLOW_CAMP_OLD_TOWN) and (self_elevation == 1)) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_MOTEL_MUTANT);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //
+   end
+   if (fixed_param == 3) then begin
+       if (cur_map_index == MAP_DAYGLOW_CAMP_SAN_ISIDRO) then begin
+          if (self_elevation == 0) then begin
+          floater(self_obj,150,COLOR_MSG_NORMAL);
+          end
+       end
+       if (cur_map_index == MAP_DAYGLOW_CAMP_OLD_TOWN) then begin
+          floater(self_obj,151,COLOR_MSG_NORMAL);
+       end
+       if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
+          floater(self_obj,152,COLOR_MSG_NORMAL);
+       end
+       if (cur_map_index == MAP_DAYGLOW_START) then begin
+          floater(self_obj,153,COLOR_MSG_NORMAL);
+       end
+       if (cur_map_index == MAP_DAYGLOW_PIRS) then begin
+          if ((self_elevation == 0) and (global_var(GVAR_DAYGLOW_CORONADO_STATUS) == 0)) then begin
+          floater(self_obj,154,COLOR_MSG_NORMAL);
+          end
+          if (self_elevation == 2) then begin
+          floater(self_obj,156,COLOR_MSG_NORMAL);
+          end
+       end
+   end
+   if (fixed_param == 666) then begin
+      if (self_TEAM == TEAM_PLAYER) then begin
+         call NodeParty2b;
+      end
+      if (bitDialog(bit_5) == 0) then begin
+         if DudePerkHas(PERK_ghouling_fiziology) then begin
+         floater(self_obj,random(106,108),COLOR_MSG_RED);
+         end else begin
+         floater(self_obj,random(102,104),COLOR_MSG_RED);
+         end
+         bitDialogExp(bit_5,0)
+      end
+      set_global_var(GVAR_DAYGLOW_STATUS_GOMER, -1);
+      set_enemy_dude;
+      self_attack_dude;
+   end
+end
+
+procedure ghoul_enemy begin
+   if (global_var(GVAR_TOWN_REP_DAYGLOW) <= -15) then begin
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) > 0) then begin
+   if (self_TEAM == TEAM_PLAYER) then begin
+         display_mstr(159);
+         floater(self_obj,158,COLOR_MSG_RED);
+         call NodeParty2b;
+         bitDialogExp(bit_7,0)
+   end
+   end
+   end
+end
+
+procedure critter_p_proc begin
+   attakParam := 0;
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == -1) then begin
+   attakParam := 2;
+   end
+   set_critter_options(attakParam,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   call ghoul_enemy;
+
+   if (getQuest(GVAR_DAYGLOW_MAIN_C) == qStart) then begin
+      if ((cur_map_index == MAP_DAYGLOW_CAMP_OLD_TOWN) and (self_elevation == 1)) then begin
+         if (map_var(MVAR_DIEGO_C_MUTANT_LIFE) > 0) then begin
+            if (bitDialog(bit_4) == 0) then begin
+            if DudePerkHas(PERK_ghouling_fiziology) then begin
+            floater(self_obj,109,COLOR_MSG_RED);
+            end
+            else begin
+            floater(self_obj,105,COLOR_MSG_RED);
+            end
+            bitDialogExp(bit_4,0)
+            end
+         end
+      end
+   end
+
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == 2) then begin
+   if dude_is_sneaking then begin
+      if (bitDialog(bit_6) == 0) then begin
+         floater(self_obj,157,COLOR_MSG_GREY);
+         bitDialogExp(bit_6,0)
+      end
+   end
+   else begin
+      if (bitDialog(bit_6) != 0) then begin
+      bitDialogZero(bit_6)
+      end
+   end
+   end
+
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == 2) then begin
+      partyRunToDude
+
+      if ((cur_map_index == MAP_DAYGLOW_PATRUL) and (self_elevation == 1)) then begin
+         if (map_var(MVAR_DIEGOPTRL_MUTNTLIFE) < 0) then begin
+         if (bitDialog(bit_3) == 0) then begin
+         floater(self_obj,116,COLOR_MSG_GREEN);
+         setBonusReaction(20)
+         bitDialogExp(bit_3,0)
+         end
+         end
+      end
+
+      if ((cur_map_index == MAP_DAYGLOW_PATRUL) and (self_elevation == 0)) then begin
+         if (global_var(GVAR_DAYGLOW_STATUS_GOMER_CAP) == 0) then begin
+         if (getQuest(GVAR_DAYGLOW_QST_GOMERSUPERMUT) == qStart) then begin
+         if (combat_is_initialized == false) then begin
+            if (map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 0) then begin
+            inc_map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG);
+            end
+            if (map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 1) then begin
+            dialogue_system_enter;
+            end
+         end
+         end
+         end
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   if (self_TEAM != TEAM_PLAYER) then begin
+   script_overrides;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   if (fixed_param == COMBAT_SUBTYPE_TURN) then begin
+   call ghoul_enemy;
+   end
+   effectAttak(0,0,5,5,5) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_DAYGLOW_STATUS_GOMER, -99);
+   set_global_var(GVAR_DAYGLOW_QST_GOMER, -1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (bitDialog(bit_7) != 0) then begin
+      if (global_var(GVAR_TOWN_REP_DAYGLOW) >= 0) then begin
+      bitDialogZero(bit_7)
+      end
+   end
+
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) < 0) then begin
+      floater(self_obj, 110, COLOR_MSG_RED);
+   end
+   else if (bitDialog(bit_7) != 0) then begin
+      floater(self_obj, 158, COLOR_MSG_RED);
+   end
+   else begin
+      setReaction(-1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+      fracReaction(GVAR_TITUL_REBIRTH,20) // поправка к отношению за принадлежность к фракции
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_global_var(GVAR_DAYGLOW_STATUS_GOMER, -1);
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 1) and (cur_map_index == MAP_DAYGLOW_PATRUL)) then begin
+      call NodeCapDialog;
+   end
+   else if ((global_var(GVAR_DAYGLOW_STATUS_GOMER_CAP) >= 2) and (global_var(GVAR_DAYGLOW_QST_GOMER) < 10)) then begin
+      call NodeCapDialog5;
+   end
+   else if ((global_var(GVAR_DAYGLOW_STATUS_GOMER_CAP) < 0) and (global_var(GVAR_DAYGLOW_QST_GOMER) < 11)) then begin
+      call NodeCapDialog7;
+   end
+   else if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == 0) then begin
+      if (bitDialog(bit_1) == 0) then begin
+         call NodeFstDialog;
+      end
+      else begin
+         if DudePerkHas(PERK_ghouling_fiziology) then begin
+         call NodeFstDialog9;
+         end
+         else begin
+         call NodeFstDialog4;
+         end
+      end
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   zReply(220)
+   BAnswer(221,0,NodeFstDialog7)
+   NAnswer(223,0,NodeFstDialog8)
+   end
+   else begin
+   Reply(200)
+   BAnswer(201,0,NodeFstDialog2)
+   NAnswer(211,0,NodeFstDialog2b)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(-10)
+   Reply(202)
+   NAnswer(203,0,NodeFstDialog3)
+   BAnswer(205,0,NodeFstDialog3b)
+end
+
+procedure NodeFstDialog2b begin
+   Reply(204)
+   NAnswer(207,0,NodeFstDialog4)
+   BAnswer(208,0,NodeFstDialog4b)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(207,0,NodeFstDialog4)
+   BAnswer(208,0,NodeFstDialog4b)
+end
+
+procedure NodeFstDialog3b begin
+   setBonusReaction(-10)
+   Reply(206)
+   NAnswer(207,0,NodeFstDialog4)
+   BAnswer(208,0,NodeFstDialog4b)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(209)
+   NAnswer(210,0,NodeFstDialog5)
+   NAnswer(212,0,NodeFstDialog5)
+   NAnswer(213,0,NodeFstDialog6)
+end
+
+procedure NodeFstDialog4b begin
+   setBonusReaction(-10)
+   call NodeFstDialog4;
+end
+
+procedure NodeFstDialog5 begin
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(225)
+   end
+   else begin
+   Reply(217)
+   end
+   NAnswer(218,0,NodeParty)
+   NAnswer(219,0,Node999)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(214)
+   NAnswer(216,0,NodeFstDialog5)
+   NAnswer(215,0,Node999)
+end
+
+procedure NodeFstDialog7 begin
+   setBonusReaction(-10)
+   Reply(222)
+   NAnswer(203,0,NodeFstDialog8)
+   BAnswer(205,0,NodeFstDialog8b)
+end
+
+procedure NodeFstDialog8 begin
+   Reply(206)
+   NAnswer(207,0,NodeFstDialog9)
+   BAnswer(208,0,NodeFstDialog9b)
+end
+
+procedure NodeFstDialog8b begin
+   setBonusReaction(-10)
+   call NodeFstDialog8;
+end
+
+procedure NodeFstDialog9 begin
+   Reply(209)
+   NAnswer(224,0,NodeFstDialog5)
+   NAnswer(213,0,Node999)
+end
+
+procedure NodeFstDialog9b begin
+   setBonusReaction(-10)
+   call NodeFstDialog9;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER_CAP) == 1) then begin
+   Reply(242)
+   end
+   else begin
+   Reply(240)
+   end
+
+   //- Команда
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == 0) then begin
+      NAnswer(216,0,NodeFstDialog5)
+   end
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == 1) then begin
+      NAnswer(226,0,NodeParty)
+   end
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == 2) then begin
+      NAnswer(229,0,NodeParty2)
+      if weapon_invn_self then begin
+      NAnswer(232,0,NodeParty3)
+      end
+   end
+
+   if (cur_map_index == MAP_DAYGLOW_CAMP_OLD_TOWN) then begin
+      if (map_var(MVAR_DIEGO_C_MUTANT_LIFE) > 0) then begin
+      if (global_var(GVAR_DAYGLOW_STATUS_RUTGER) == 0) then begin
+      if (getQuest(GVAR_DAYGLOW_MAIN_C) == qStart) then begin
+      NAnswer(253,0,NodeAnswer101)
+      end
+      end
+      end
+   end
+
+   //- Личный квест
+   if (global_var(GVAR_DAYGLOW_QST_GOMER) == 1) then begin
+      NAnswer(277,0,NodeAnswer208)
+   end
+   if (global_var(GVAR_DAYGLOW_QST_GOMER) == 2) then begin
+      NAnswer(279,0,NodeAnswer209)
+   end
+   if (global_var(GVAR_DAYGLOW_QST_GOMER) == 3) then begin
+      if (getQuest(GVAR_DAYGLOW_QST_GOMERSUPERMUT) == qStart) then begin
+      NAnswer(282,0,NodeAnswer210)
+      end
+   end
+
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) >= 1) then begin
+   if (global_var(GVAR_DAYGLOW_QST_GOMER) < 100) then begin
+      if (getQuest(GVAR_DAYGLOW_QST_GOMERSUPERMUT) <= -100) then begin
+      NAnswer(321,0,NodeCapDialog9)
+      end
+      if (getQuest(GVAR_DAYGLOW_QST_GOMERSUPERMUT) == 10) then begin
+      NAnswer(324,0,NodeCapDialog10)
+      end
+   end
+   end
+
+   //- Расспросы
+   if (cur_map_index == MAP_DAYGLOW_START) then begin
+      if (bitDialog(bit_2) == 0) then begin
+      NAnswer(250,0,NodeAnswer100)
+      end
+   end
+   NAnswer(260,0,NodeAnswer201)
+
+   NAnswer(241,0,Node999)
+end
+
+//---
+
+procedure NodeParty begin
+   set_global_var(GVAR_DAYGLOW_STATUS_GOMER, 2);
+   rm_timer_event(self_obj);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   party_add(self_obj);
+   Reply(227)
+   NAnswer(228,0,Node999)
+end
+
+procedure NodeParty2 begin
+   call NodeParty2b;
+   Reply(230)
+   NAnswer(231,0,Node999)
+end
+
+procedure NodeParty2b begin
+   set_global_var(GVAR_DAYGLOW_STATUS_GOMER, 1);
+   set_local_var(LVAR_Home_Tile, self_tile);
+   rm_timer_event(self_obj);
+   party_remove(self_obj);
+   if ((cur_map_index == MAP_DAYGLOW_CAMP_OLD_TOWN) and (self_elevation == 1)) then begin
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_MOTEL_MUTANT);
+   end
+   else begin
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   end
+end
+
+procedure NodeParty3 begin
+   inven_unwield(self_obj);
+   Reply(233)
+   NAnswer(234,0,NodeSndDialog)
+end
+
+//---
+
+procedure NodeCapDialog begin
+   inc_map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG);
+   Reply(300)
+   NAnswer(301,0,NodeCapDialog2)
+end
+
+procedure NodeCapDialog2 begin
+   Reply(302)
+   BAnswer(304,0,NodeCapDialog3)
+   GAnswer(303,0,Node999)
+end
+
+procedure NodeCapDialog3 begin
+   Reply(305)
+   BAnswer(307,0,NodeCapDialog4)
+   GAnswer(306,0,Node999)
+end
+
+procedure NodeCapDialog4 begin
+   Reply(308)
+   NAnswer(310,0,NodeParty2)
+   NAnswer(309,0,Node999)
+end
+
+procedure NodeCapDialog5 begin
+   set_global_var(GVAR_DAYGLOW_QST_GOMER,10);
+   Reply(311)
+   BAnswer(312,0,NodeCapDialog6)
+   NAnswer(313,0,NodeCapDialog6)
+end
+
+procedure NodeCapDialog6 begin
+   Reply(314)
+
+   if (global_var(GVAR_DAYGLOW_STATUS_GOMER) == 2) then begin
+   NAnswer(315,0,Node999)
+   end
+   else begin
+   NAnswer(315,0,NodeParty)
+   end
+end
+
+procedure NodeCapDialog7 begin
+   set_global_var(GVAR_DAYGLOW_QST_GOMER,11);
+   Reply(316)
+   if (getQuest(GVAR_DAYGLOW_QST_GOMERSUPERMUT) <= -100) then begin
+   NAnswer(317,0,NodeCapDialog8)
+   end
+   else begin
+   NAnswer(320,0,NodeCapDialog8)
+   end
+end
+
+procedure NodeCapDialog8 begin
+   Reply(318)
+   NAnswer(319,0,Node999)
+end
+
+procedure NodeCapDialog9 begin
+   set_global_var(GVAR_DAYGLOW_QST_GOMER, 100);
+   inc_global_var_amt(GVAR_TOWN_REP_DAYGLOW, 5);
+   exp_add(1000);
+   Reply(322)
+   NAnswer(323,0,Node999)
+end
+
+procedure NodeCapDialog10 begin
+   Reply(325)
+   NAnswer(326,0,NodeCapDialog11)
+   NAnswer(327,0,NodeCapDialog12)
+end
+
+procedure NodeCapDialog11 begin
+   set_global_var(GVAR_DAYGLOW_QST_GOMER, 200);
+   set_SLAVA(15)
+   exp_add(1000);
+   Reply(328)
+   NAnswer(329,0,Node999)
+end
+
+procedure NodeCapDialog12 begin
+   call NodeCapDialog9;
+end
+
+//---
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_2,0)
+   Reply(251)
+   NAnswer(252,0,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(254)
+   NAnswer(255,0,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   Reply(261)
+
+   NAnswer(263,0,NodeAnswer202)
+   NAnswer(271,0,NodeAnswer205)
+   //!!! Как ты относишься к гулям? - Что думаешь о Густаво? - Что думаешь о Батлере?
+   if (global_var(GVAR_DAYGLOW_QST_GOMER) < 10) then begin
+   NAnswer(275,0,NodeAnswer207)
+   end
+
+   NAnswer(262,0,NodeSndDialog)
+end
+
+procedure NodeAnswer202 begin
+   Reply(264)
+   NAnswer(265,0,NodeAnswer203)
+   NAnswer(262,0,NodeSndDialog)
+end
+
+procedure NodeAnswer203 begin
+   Reply(266)
+   if (getReaction>=50) then begin
+   //NAnswer(267,4,NodeAnswer204)
+   //!!! При хороших отношениях он расскажет про Собор, Создателя, исход, гонения на мутантов
+      //В диалоге он хвалится своей силой и как мутузил людишек. Его можно пристыдить, а можно ободрить.
+   end
+   NAnswer(262,0,NodeSndDialog)
+end
+
+procedure NodeAnswer205 begin
+   Reply(272)
+   NAnswer(273,0,NodeAnswer206)
+end
+
+procedure NodeAnswer206 begin
+   Reply(274)
+   NAnswer(263,0,NodeAnswer202)
+   if (global_var(GVAR_DAYGLOW_QST_GOMER) < 10) then begin
+   NAnswer(275,0,NodeAnswer207)
+   end
+   NAnswer(262,0,NodeSndDialog)
+end
+
+procedure NodeAnswer207 begin
+   Reply(276)
+   if (global_var(GVAR_DAYGLOW_QST_GOMER) <= 1) then begin
+   NAnswer(277,0,NodeAnswer208)
+   end
+   NAnswer(262,0,NodeSndDialog)
+end
+
+procedure NodeAnswer208 begin
+   set_global_var(GVAR_DAYGLOW_QST_GOMER,1);
+   Reply(278)
+
+   if (item_amnt(dude_obj,PID_TOOL_RADIO)>0) then begin
+      if (global_var(GVAR_DAYGLOW_RADIO) <= 0) then begin
+      NAnswer(289,0,NodeAnswer212)
+      end
+      else if ((cur_map_index == MAP_DAYGLOW_PIRS) and (self_elevation == 2)) then begin
+      NAnswer(289,0,NodeAnswer215)
+      end
+      else begin
+      NAnswer(289,0,NodeAnswer214)
+      end
+   end
+
+   if ((cur_map_index == MAP_DAYGLOW_CAMP_SAN_ISIDRO) and (self_elevation == 0) and (tile_distance(dude_tile,12495)<=5)) then begin
+      if (global_var(GVAR_DAYGLOW_RADIO) <= 0) then begin
+      NAnswer(295,0,NodeAnswer213)
+      end
+      else begin
+      NAnswer(295,0,NodeAnswer214)
+      end
+   end
+   else begin
+      NAnswer(294,0,Node999)
+   end
+
+   NAnswer(262,0,NodeSndDialog)
+end
+
+procedure NodeAnswer209 begin
+   Reply(280)
+   NAnswer(281,0,Node999)
+   NAnswer(287,0,Node999)
+end
+
+procedure NodeAnswer210 begin
+   Reply(283)
+   NAnswer(284,0,NodeAnswer211)
+end
+
+procedure NodeAnswer211 begin
+   inc_global_var(GVAR_DAYGLOW_QST_GOMER);
+   Reply(285)
+   NAnswer(286,0,Node999)
+end
+
+procedure NodeAnswer212 begin
+   Reply(290)
+   NAnswer(291,0,NodeSndDialog)
+end
+
+procedure NodeAnswer213 begin
+   Reply(296)
+   NAnswer(297,0,NodeSndDialog)
+end
+
+procedure NodeAnswer214 begin
+   inc_global_var(GVAR_DAYGLOW_QST_GOMER);
+   Reply(292)
+   NAnswer(293,0,Node999)
+end
+
+procedure NodeAnswer215 begin
+   Reply(298)
+   NAnswer(299,0,NodeSndDialog)
+end

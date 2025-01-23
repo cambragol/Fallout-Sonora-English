@@ -1,0 +1,75 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_PSDudWtd
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure destroy_self;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_obj_visibility(self_obj, 1);
+       if (global_var(GVAR_TOWN_REP_PHOENIX) <= -30) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+       if (global_var(GVAR_TOWN_REP_PHOENIX_CULT) <= -30) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+   end
+end
+
+procedure description_p_proc begin
+   script_overrides;
+   if (global_var(GVAR_TOWN_REP_PHOENIX) <= -75) then begin
+   display_mstr(105);
+   end
+   else if (global_var(GVAR_TOWN_REP_PHOENIX) <= -50) then begin
+   display_mstr(104);
+   end
+   else if (global_var(GVAR_TOWN_REP_PHOENIX) <= -30) then begin
+   display_mstr(103);
+   end
+   else if (global_var(GVAR_TOWN_REP_PHOENIX_CULT) <= -30) then begin
+   display_mstr(102);
+   end
+   else begin
+   display_mstr(101);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call description_p_proc;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call destroy_self;
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      call destroy_self;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_ZIPPER) then begin
+   script_overrides;
+   call destroy_self;
+   end
+end
+
+procedure destroy_self begin
+   display_mstr(106);
+   play_sfx("SHUFFLE");
+   set_obj_visibility(self_obj, 1);
+   destroy_object(self_obj);
+end

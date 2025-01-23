@@ -1,0 +1,68 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSChlGen
+#define SKILL_LIMIT                     10
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   display_mstr(110);
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_PARTS_ELECTRONIC) then begin
+   script_overrides;
+   display_mstr(111);
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+   script_overrides;
+   display_mstr(111);
+   end
+end
+
+procedure repair_proc begin
+   if (map_var(MVAR_DIEGOCHULA_ELECTR) == 0) then begin
+
+   //Генерация освещения:
+   obj_set_light_level(self_obj, 100, 8);
+   create_object_sid(PID_HEX_SOLAR, 26302, 0, -1); // фонарь у входа слева
+   create_object_sid(PID_HEX_SOLAR, 26294, 0, -1); // фонарь у входа справа
+   create_object_sid(PID_HEX_SOLAR, 23697, 0, -1); // парадный вход
+   create_object_sid(PID_HEX_SOLAR, 21698, 0, -1); // нижний вход в главное здание
+   create_object_sid(PID_HEX_SOLAR, 16298, 0, -1); // верхний вход в главное здание
+   create_object_sid(PID_HEX_SOLAR, 20908, 0, -1); // клумба слева
+   create_object_sid(PID_HEX_SOLAR, 21088, 0, -1); // клумба справа
+   create_object_sid(PID_HEX_SOLAR, 24107, 0, -1); // универмаг внизу
+   create_object_sid(PID_HEX_SOLAR, 17676, 0, -1); // вход в генераторную
+   create_object_sid(PID_HEX_SOLAR, 18288, 0, -1); // внутри главного здания
+   create_object_sid(PID_HEX_SOLAR, 18308, 0, -1); // внутри главного здания
+
+   display_mstr(112);
+   play_sfx("ELECTRIC");
+   play_sfx("ZAPPER1");
+   set_map_var(MVAR_DIEGOCHULA_ELECTR,1);
+   end
+   else begin
+   display_mstr(113);
+   end
+end

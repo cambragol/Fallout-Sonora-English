@@ -1,0 +1,226 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZTMin
+#define TRAP_ACTIV              PID_TRAP_Fa
+#define TRAP_DSTR               PID_TRAP_Fb
+#define TRAP_SCRIPT             SCRIPT_ZTFire
+
+procedure start;
+procedure map_enter_p_proc;
+procedure spatial_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure detected_proc;
+procedure step_proc;
+procedure trap_destroy;
+procedure trap_install;
+procedure trap_vis;
+procedure trap_invis;
+
+variable critter_source;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
+         if (map_first_run == true) then begin
+         create_object_sid(TRAP_DSTR,self_tile,self_elevation,TRAP_SCRIPT);
+         end
+      end
+      else begin
+         call trap_invis;
+      end
+   end
+end
+
+procedure spatial_p_proc begin
+   critter_source := source_obj;
+
+   //--- Обнаружение криттера:
+   if (source_obj == dude_obj) then begin
+      if (trapObj(TRAP_ACTIV) or trapObj(TRAP_DSTR)) then begin
+      end
+      else begin
+      call detected_proc;
+      end
+   end
+
+   //--- Прохождение криттера по ловушке:
+   //if (source_tile == self_tile) then begin
+      if trapObj(TRAP_DSTR) then begin
+      end
+      else begin
+         if (type_kill_source(KILL_TYPE_floater) or type_kill_source(KILL_TYPE_plant) or (source_PID == PID_ROBOT_EYEBALL)) then begin
+         end
+         else if ((cur_map_index == MAP_SANTA_ANA_PLAZA) and (critter_source == dude_obj)) then begin
+         end
+         else begin
+            if ((critter_source == dude_obj) and DudePerkHas(PERK_light_step)) then begin
+            display_mstr(113);
+            end
+            else begin
+            call step_proc;
+            end
+         end
+      end
+   //end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (self_PID == TRAP_ACTIV) then begin
+   display_mstr(120);
+   end
+   else begin
+   display_mstr(124);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+
+      if trapObj(TRAP_ACTIV) then begin
+         if (has_skill(dude_obj, SKILL_TRAPS) >= 30) then begin
+         exp_add(50);
+         dude_floater_OK;
+         display_mstr(116);
+         call trap_destroy;
+         end
+         else begin
+         skill_display_mstr(115,SKILL_TRAPS,30)
+         end
+      end
+      else if trapObj(TRAP_DSTR) then begin
+         if (has_skill(dude_obj, SKILL_TRAPS) >= 0) then begin
+         //dude_floater_OK;
+         display_mstr(118);
+         call trap_install;
+         end
+         else begin
+         skill_display_mstr(117,SKILL_TRAPS,0)
+         end
+      end
+      else begin
+         display_mstr(119);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   if (objUsedPid == PID_W_GRENADE_MOLOTOV) then begin
+      script_overrides;
+
+      if trapObj(TRAP_ACTIV) then begin
+         display_mstr(115);
+      end
+      else if trapObj(TRAP_DSTR) then begin
+         item_remove(dude_obj, objUsedPid, 1)
+         //dude_floater_OK;
+         display_mstr(118);
+         call trap_install;
+      end
+      else begin
+         display_mstr(119);
+      end
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      call trap_destroy;
+   end
+end
+
+procedure detected_proc begin
+   variable detected_var;
+
+   //--- Просчет вероятности
+   detected_var := dude_perception;
+   detected_var += (has_skill(dude_obj, SKILL_TRAPS)/5);
+   if (global_var(GVAR_LIGHT_MAP_GLOBAL) <= 20) then begin
+   detected_var -= 20;
+   end
+   else if (global_var(GVAR_LIGHT_MAP_GLOBAL) <= 50) then begin
+   detected_var -= 10;
+   end
+   if dude_is_sneaking then begin
+   detected_var += 20;
+   end
+   if DudePerkHas(PERK_light_step) then begin
+   detected_var += 100;
+   end
+
+   //--- Обнаружение ловушки
+   if (random(0,100) <= detected_var) then begin
+      call trap_vis;
+      floater(critter_source,110,COLOR_MSG_RED);
+      display_mstr(111);
+      reg_anim_clear(critter_source);
+   end
+end
+
+procedure step_proc begin
+   //--- Обновление ловушки
+   call trap_destroy;
+   play_sfx("WHO1XXX1");
+
+   //--- Травмирование
+   critter_dmg(critter_source, random(30,60), DMG_fire);
+
+   if (random(0,100) <= (40+(combat_difficulty*2))) then begin
+       if (get_critter_stat(critter_source,STAT_current_hp) <5) then begin
+       end
+       else if (critter_source == dude_obj) then begin
+          dam_to_dude_LEG
+       end
+       else begin
+          critter_injure(critter_source, DAM_BLIND);
+       end
+   end
+
+   //--- Отчет
+   display_msg(obj_name(critter_source)+mstr(112));
+   destroy_object(self_obj);
+end
+
+procedure trap_destroy begin
+   if trapObj(TRAP_DSTR) then begin
+   end
+   else begin
+   create_object_sid(TRAP_DSTR,self_tile,self_elevation,-1);
+   end
+   call trap_invis;
+   //destroy_object(self_obj);
+end
+
+procedure trap_install begin
+   set_obj_visibility(self_obj, 1);
+   if trapObj(TRAP_ACTIV) then begin
+   end
+   else begin
+   create_object_sid(TRAP_ACTIV,self_tile,self_elevation,TRAP_SCRIPT);
+   end
+   destroy_object(self_obj);
+end
+
+procedure trap_vis begin
+   if (trapObj(TRAP_ACTIV) or trapObj(TRAP_DSTR)) then begin
+   end
+   else begin
+   create_object_sid(TRAP_ACTIV,self_tile,self_elevation,TRAP_SCRIPT);
+   end
+end
+
+procedure trap_invis begin
+   if trapObj(TRAP_ACTIV) then begin
+   destroy_object(tile_contains_pid_obj(self_tile, self_elevation, TRAP_ACTIV));
+   end
+end

@@ -1,0 +1,261 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_BCRoll
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_BRAHMIN // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANBRAHMIN_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_BRAHMIN       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(2)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   setQuest(GVAR_BRAHMIN_QST_ROLLBAR,qStop);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,40) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   setQuest(GVAR_BRAHMIN_QST_ROLLBAR,qStart);
+   if (getReaction<0) then begin
+   zReply(201)
+   end
+   else begin
+   zReply(200)
+   end
+   NAnswer(202,1,NodeFstDialog100)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(203)
+   NAnswer(204,1,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(207)
+   NAnswer(208,1,NodeFstDialog103)
+   GAnswer(210,1,NodeFstDialog104)
+   BAnswer(214,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(209)
+   GAnswer(210,1,NodeFstDialog104)
+   BAnswer(214,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(211)
+   NAnswer(212,1,Node999)
+   NAnswer(213,1,Node999)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(215)
+   NAnswer(216,1,Node999)
+   NAnswer(217,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getReaction>=25) then begin
+   Reply(222)
+   end
+   else if (getReaction<0) then begin
+   zReply(221)
+   end
+   else begin
+   zReply(220)
+   end
+   NAnswer(250,1,NodeAnswer200)
+   NAnswer(253,1,NodeAnswer201)
+   if (getQuest(GVAR_BRAHMIN_QST_ROLLBAR) == qStart) then begin
+   if (map_var(MVAR_BRAHMIN_RprRoll)>0) then begin
+   NAnswer(230,1,NodeAnswer100)
+   end
+   end
+   NAnswer(260,4,NodeAnswer202)
+   NAnswer(223,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   setQuest(GVAR_BRAHMIN_QST_ROLLBAR,qEnd);
+   exp_add(200);
+   zReply(231)
+   NAnswer(232,1,NodeAnswer101)
+   GAnswer(238,1,NodeAnswer103)
+end
+
+procedure NodeAnswer101 begin
+   Reply(233)
+   NAnswer(234,1,NodeAnswer102)
+   NAnswer(235,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   item_add(dude_obj,PID_M_MEAT_JERKY,5)
+   setBonusReaction(-50)
+   Reply(236)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   setBonusReaction(50)
+   set_REP(3)
+   set_SLAVA(10)
+   Reply(239)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(251)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   Reply(254)
+   NAnswer(255,1,NodeSndDialog)
+end
+
+procedure NodeAnswer202 begin
+   Reply(261)
+   NAnswer(262,1,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   Reply(263)
+   NAnswer(264,1,NodeSndDialog)
+end

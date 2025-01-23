@@ -1,0 +1,244 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TSTCritr
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_VILLA   // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        10  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+
+#define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeParty;
+
+//---------------------
+
+/*
+Стандартные LVAR описаны в command_h. Нумерация:
+   0-4  для нпс без диалога (мутанты, животные, люди)
+   0-5  для говорящих нпс
+   0-7 для торговцев
+*/
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       //set_BarterBoxProc(ONE_GAME_WEEK)
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+   display_msg("PID "+self_PID);
+   /*
+   display_msg("lvar "+local_var(0));
+   display_msg("bit 000 "+lvar_bit(0,bit_ALL));
+   display_msg("bit 1 "+lvar_bit(0,bit_1));
+   display_msg("bit 2 "+lvar_bit(0,bit_2));
+   display_msg("bit 3 "+lvar_bit(0,bit_3));
+   display_msg("bit 4 "+lvar_bit(0,bit_4));
+   display_msg("bit 5 "+lvar_bit(0,bit_5));
+   display_msg("bit 6 "+lvar_bit(0,bit_6));
+   display_msg("bit 7 "+lvar_bit(0,bit_7));
+   display_msg("bit 8 "+lvar_bit(0,bit_8));
+   display_msg("bit 9 "+lvar_bit(0,bit_9));
+   display_msg("bit 10 "+lvar_bit(0,bit_10));
+   display_msg("bit 11 "+lvar_bit(0,bit_11));
+   display_msg("bit 12 "+lvar_bit(0,bit_12));
+   display_msg("bit 13 "+lvar_bit(0,bit_13));
+   display_msg("bit 14 "+lvar_bit(0,bit_14));
+   display_msg("bit 15 "+lvar_bit(0,bit_15));
+   display_msg("bit 16 "+lvar_bit(0,bit_16));
+   display_msg("bit 17 "+lvar_bit(0,bit_17));
+   display_msg("bit 18 "+lvar_bit(0,bit_18));
+   display_msg("bit 19 "+lvar_bit(0,bit_19));
+   display_msg("bit 20 "+lvar_bit(0,bit_20));
+   display_msg("bit 21 "+lvar_bit(0,bit_21));
+   display_msg("bit 22 "+lvar_bit(0,bit_22));
+   display_msg("bit 23 "+lvar_bit(0,bit_23));
+   display_msg("bit 24 "+lvar_bit(0,bit_24));
+   display_msg("bit 25 "+lvar_bit(0,bit_25));
+   display_msg("bit 26 "+lvar_bit(0,bit_26));
+   display_msg("bit 27 "+lvar_bit(0,bit_27));
+   display_msg("bit 28 "+lvar_bit(0,bit_28));
+   display_msg("bit 29 "+lvar_bit(0,bit_29));
+   display_msg("bit 30 "+lvar_bit(0,bit_30));
+   display_msg("bit 31 "+lvar_bit(0,bit_31));
+   display_msg("bit 32 "+lvar_bit(0,bit_32));
+   */
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+       //timer_move_random
+   end
+   if (fixed_param == 2) then begin
+       timer_float_reply(120,121)
+       /*
+       - Реплики о событиях в городе
+       - Реплики о событиях личной жизни
+       - Реакция на ГГ, когда видит:
+           фразы о силовой броне
+           фразы о мантии Феникса
+           фразы об оружии в руках
+           фразы о приборах в руках (счетчик Гейгера, радар, рация, стел-сбой)
+           фразы на титулы, статусы, звания, высокую или низкую славы/репутацию
+       */
+   end
+end
+
+procedure critter_p_proc begin
+   //the_var := self_obj // указатель на себя, если нужно
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   //invisToDude(0,0) // скрывание нпс от ГГ до некоторой дистанции, в скобках бонус к дальности и реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   //partyRunToDude // персонаж бегает вслед за ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+   skillUseScience(25) // взлом роботов
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,5,110) // толкать (точка отсчета, макс расстояние, фраза над нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   //облучают: радмуравьи, кентавр, светящийся гуль
+   //отравляют: растения, скорпы (если жало не травмировано), летун (очень сильно), спороносы
+   //травмы: собаги (по ногам), брамы (руки и ноги), летун (глаза), коготь (везде), гули (глаза), люди (везде)
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectIntimidationPerk
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   //set_damage_EMP //разовое снижение Силы и Восприятия при уроне ЭМИ (НЕ РАБОТАЕТ!!!)
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   //! обнуление указателя на себя, если таковой имеется
+   kill_critter_opt
+   kill_critter_box
+   //kill_critter_BoS_item
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   //fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // поправка к отношению за принадлежность к фракции
+   //fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
+   //fracReaction(GVAR_TITUL_VILLA_TRADITION,20) // Поправка к отношению за принадлежность к фракциям
+   //fracReaction(GVAR_TITUL_VILLA_DISTROY,-20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
+   /*
+   dialog_proc или dialog_proc_barter - диалог:
+      - реакция на оружие (0 не блокирует, 1 блокирует диалог)
+      - реакция на силовую броню (задается номер строки с репликой; но важно учесть принудительный вызов диалога)
+      - старт-процедура
+      - голова
+      - фон головы
+   */
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+   //setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   //Reply(200)
+   Reply("("+global_var(GVAR_PERSONAL_REACTION)+") "+mstr(200))
+   GAnswer(203,4,NodeParty)
+   BAnswer(201,1,Node998)
+   NAnswer(202,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   //Reply(200)
+   Reply("("+global_var(GVAR_PERSONAL_REACTION)+") "+mstr(200))
+   GAnswer(203,4,NodeParty)
+   BAnswer(201,1,Node998)
+   NAnswer(202,1,Node999)
+end
+
+procedure NodeParty begin
+   party_add(self_obj);
+   Reply(204)
+   NAnswer(205,1,Node999)
+end

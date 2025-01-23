@@ -1,0 +1,402 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCCltBhp
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CULT // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CULT_ATOMIC      // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_PHENIX        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog5a;
+procedure NodeFstDialog5b;
+procedure NodeFstDialog6;
+procedure NodeStopDialog;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer300;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst110;
+procedure NodeQst111;
+procedure NodeQst112;
+procedure NodeQst113;
+
+//---------------------
+
+#define LVAR_Dude_Is_Cult                    (6) // ГГ приобщился к культу (получил титул или стал работать на культ)
+#define LVAR_Dude_Sympathy                   (7) // Число положительных и отрицательных ответов ГГ
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) or (global_var(GVAR_PHENIX_STATUS_MARCOS)>0)) then begin
+       rm_timer_event(self_obj);
+       kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_to_home
+       timer_move_patrol(HomeTile,tile_num_in_direction(HomeTile,2,3))
+   end
+   if (fixed_param == 2) then begin
+       timer_float_reply(110,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 0) then begin
+   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,1);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_PHENIX_CULT,70) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_PHENIX_CULT_PREVTITUL) < 0) then begin
+   set_local_var(LVAR_Dude_Is_Cult,0);
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((global_var(GVAR_PHENIX_CULT_PREVTITUL) > 0) and (local_var(LVAR_Dude_Is_Cult) == 0)) then begin
+   call NodeStopDialog;
+   end
+   else if ((global_var(GVAR_TITUL_PHENIX_CULT) > 0) and (local_var(LVAR_Dude_Is_Cult) == 0)) then begin
+   call NodeStopDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,50)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(204,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   inc_local_var(LVAR_Dude_Sympathy);
+   setBonusReaction(10)
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog3 begin
+   dec_local_var(LVAR_Dude_Sympathy);
+   setBonusReaction(-10)
+   Reply(205)
+   NAnswer(203,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(206)
+   GAnswer(207,1,NodeFstDialog5)
+   BAnswer(211,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog5 begin
+   inc_local_var(LVAR_Dude_Sympathy);
+   setBonusReaction(10)
+   Reply(208)
+   GAnswer(209,1,NodeFstDialog5a)
+   BAnswer(210,1,NodeFstDialog5b)
+end
+
+procedure NodeFstDialog5a begin
+   inc_local_var(LVAR_Dude_Sympathy);
+   setBonusReaction(10)
+   if (local_var(LVAR_Dude_Sympathy)<0) then begin
+   set_REP(-2)
+   end
+   if (local_var(LVAR_Dude_Sympathy)>0) then begin
+   set_REP(2)
+   end
+   call Node999;
+end
+
+procedure NodeFstDialog5b begin
+   dec_local_var(LVAR_Dude_Sympathy);
+   setBonusReaction(-10)
+   if (local_var(LVAR_Dude_Sympathy)<0) then begin
+   set_REP(-2)
+   end
+   if (local_var(LVAR_Dude_Sympathy)>0) then begin
+   set_REP(2)
+   end
+   call Node999;
+end
+
+procedure NodeFstDialog6 begin
+   dec_local_var(LVAR_Dude_Sympathy);
+   setBonusReaction(-10)
+   Reply(212)
+   GAnswer(213,1,NodeFstDialog5a)
+   BAnswer(214,1,NodeFstDialog5b)
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   set_local_var(LVAR_Dude_Is_Cult,1);
+   if (local_var(LVAR_Dude_Sympathy)<0) then begin
+   zReply(220)
+   end
+   else begin
+   zReply(221)
+   end
+   NAnswer(222,1,NodeSndDialog)
+   NAnswer(223,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (local_var(LVAR_Dude_Is_Cult)>0) then begin
+      zReply(252)
+   end
+   else begin
+      if (local_var(LVAR_Dude_Sympathy)<0) then begin
+      Reply(251)
+      end
+      else begin
+      Reply(250)
+      end
+   end
+
+   if (local_var(LVAR_Dude_Is_Cult)>0) then begin
+   NAnswer(261,3,NodeAnswer100)
+   NAnswer(271,3,NodeAnswer201)
+   NAnswer(285,3,NodeAnswer300)
+   end else begin
+   NAnswer(260,3,NodeAnswer100)
+   NAnswer(270,3,NodeAnswer200)
+   NAnswer(285,3,NodeAnswer300)
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 0) then begin
+   NAnswer(300,1,NodeQst100)
+   end else begin
+   NAnswer(301,1,NodeQst100)
+   end
+   end
+
+   if (getQuest(GVAR_RANGERS_QST_PHOENIX) == qStart) then begin
+   NAnswer(291,3,NodeAnswer203)
+   end
+
+   NAnswer(253,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(262)
+   NAnswer(263,6,NodeAnswer101)
+   if (local_var(LVAR_Dude_Is_Cult)>0) then begin
+   NAnswer(271,3,NodeAnswer200)
+   end else begin
+   NAnswer(265,3,NodeAnswer200)
+   end
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   bitDialogExp(bit_2,20)
+   Reply(266)
+   if (local_var(LVAR_Dude_Is_Cult)>0) then begin
+   NAnswer(271,3,NodeAnswer200)
+   end else begin
+   NAnswer(265,3,NodeAnswer200)
+   end
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(272)
+   NAnswer(276,3,NodeAnswer202)
+   NAnswer(273,3,NodeAnswer100)
+   BAnswer(274,1,Node999)
+   NAnswer(275,1,Node999)
+end
+
+procedure NodeAnswer201 begin
+   Reply(280)
+   NAnswer(284,3,NodeAnswer300)
+   NAnswer(282,3,NodeAnswer100)
+   NAnswer(281,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   bitDialogExp(bit_3,10)
+   Reply(277)
+   NAnswer(283,3,NodeAnswer300)
+   NAnswer(273,3,NodeAnswer100)
+   BAnswer(278,1,Node999)
+   NAnswer(279,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   Reply(292)
+   NAnswer(293,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   bitDialogExp(bit_4,10)
+   Reply(286)
+   if (local_var(LVAR_Dude_Is_Cult)>0) then begin
+   NAnswer(268,3,NodeAnswer200)
+   end else begin
+   NAnswer(269,3,NodeAnswer200)
+   end
+   NAnswer(290,3,NodeAnswer100)
+   BAnswer(289,1,Node999)
+   NAnswer(288,1,Node999)
+end
+
+//--- КВЕСТ
+
+procedure NodeQst100 begin
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 0) then begin
+   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,1);
+   end
+   Reply(302)
+   NAnswer(303,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(304)
+   NAnswer(310,1,NodeQst110)
+   NAnswer(312,1,NodeQst111)
+   NAnswer(314,1,NodeQst112)
+end
+
+procedure NodeQst110 begin
+   Reply(311)
+   NAnswer(312,1,NodeQst111)
+   NAnswer(314,1,NodeQst112)
+   NAnswer(316,4,NodeQst113)
+   NAnswer(305,1,Node999)
+end
+
+procedure NodeQst111 begin
+   Reply(313)
+   NAnswer(310,1,NodeQst110)
+   NAnswer(314,1,NodeQst112)
+   NAnswer(316,4,NodeQst113)
+   NAnswer(305,1,Node999)
+end
+
+procedure NodeQst112 begin
+   Reply(315)
+   NAnswer(310,1,NodeQst110)
+   NAnswer(312,1,NodeQst111)
+   NAnswer(316,4,NodeQst113)
+   NAnswer(305,1,Node999)
+end
+
+procedure NodeQst113 begin
+   Reply(317)
+   NAnswer(310,1,NodeQst110)
+   NAnswer(312,1,NodeQst111)
+   NAnswer(314,1,NodeQst112)
+   NAnswer(305,1,Node999)
+end

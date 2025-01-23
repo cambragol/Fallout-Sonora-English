@@ -279,7 +279,12 @@ end
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
-   Reply(200)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(199)
+   end
+   else begin
+      Reply(200)
+   end   
    NAnswer(201,1,NodeFstDialog2)
    BAnswer(215,1,NodeFstDialog2)
 end
@@ -304,7 +309,7 @@ end
 procedure NodeFstDialog5 begin
    set_REP(1)
    setBonusReaction(20)
-   Reply(208)
+   zReply(208)
    NAnswer(212,1,NodeAnswer100)
    NAnswer(209,1,Node999)
 end
@@ -447,7 +452,7 @@ end
 procedure NodeAnswer110 begin
    inc_local_var(LVAR_ItemRadio);
    item_add(self_obj,PID_Q_RADIO_LUMP,1)
-   Reply(270)
+   zReply(270)
    NAnswer(271,1,NodeBarter)
 end
 
@@ -523,7 +528,7 @@ procedure NodeAnswer206 begin
 end
 
 procedure NodeAnswer207 begin
-   Reply(283)
+   zReply(283)
    NAnswer(284,1,NodeAnswer208)
 end
 
@@ -553,7 +558,7 @@ procedure NodeAnswer210 begin
 end
 
 procedure NodeAnswer211 begin
-   Reply(294)
+   zReply(294)
    NAnswer(295,1,NodeAnswer212)
 end
 
@@ -579,7 +584,7 @@ procedure NodeAnswer214 begin
    set_SLAVA(10)
    exp_add(300);
 
-   Reply(277)
+   zReply(277)
    NAnswer(278,1,Node999)
 end
 

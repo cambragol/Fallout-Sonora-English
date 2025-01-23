@@ -1,0 +1,720 @@
+#include "..\headers\define.h"
+#include "..\headers\updatmap.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_ZIRadio
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure radio_proc;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeNoneStantion;
+procedure NodeAll;
+procedure NodeAll100;
+procedure NodeAll101;
+procedure NodeAll102;
+procedure NodeAll103;
+procedure NodeAll104;
+procedure NodeAll105;
+procedure NodeAll106;
+procedure NodeAll107;
+procedure NodeHab100;
+procedure NodeHab101;
+procedure NodeHab102;
+procedure NodeHab103;
+procedure NodeHab104;
+procedure NodeHab105;
+procedure NodeHab106;
+procedure NodeFaber;
+procedure NodeFaber001;
+procedure NodeFaber002;
+procedure NodeRanders;
+procedure NodeRanders100;
+procedure NodeRanders101;
+procedure NodeRanders102;
+procedure NodeRanders103;
+procedure NodeRanders104;
+procedure NodeRanders105;
+procedure NodeRanders200;
+procedure NodeRanders201;
+procedure NodeRanders202;
+procedure NodeCult;
+procedure NodeCult100;
+procedure NodeCult101;
+procedure NodeCult102;
+procedure NodeCult103;
+procedure NodePhenix;
+procedure NodeTwoSun;
+procedure NodeBoS;
+procedure NodeBoS100;
+procedure NodeBoS101;
+procedure NodeBoS102;
+procedure NodeBoS103;
+procedure NodeVault27;
+procedure NodeVault27b;
+procedure NodeVault24;
+procedure NodeInfernoBos;
+procedure NodeInfernoBos2;
+procedure NodeInfernoBos3;
+procedure NodeInfernoBos4;
+procedure NodeInfernoBos5;
+procedure NodeInfernoBos6;
+
+#define getPosWorld(x,y,radius)      ((worldmap_xpos > (x-radius)) and (worldmap_xpos < (x+radius)) and (worldmap_ypos > (y-radius)) and (worldmap_ypos < (y+radius))) \
+
+variable randRadioReply;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       dude_teleport_map(0,0,MAP_RANGERS_RETRANSL,random(4,8));
+   end
+   if (fixed_param == 2) then begin
+       set_global_var(GVAR_STATUS_SCORPION_LEGEND,1);
+       wm_area_set_pos(AREA_RND_DESERT,worldmap_xpos,worldmap_ypos);
+       if (cur_map_index == MAP_RND_DESERT_1) then begin
+       dude_teleport_map(0,0,MAP_RND_DESERT_3,1);
+       end
+       else begin
+       dude_teleport_map(0,0,MAP_RND_DESERT_1,1);
+       end
+   end
+   if (fixed_param == 3) then begin
+       dude_teleport_map(1,1,MAP_DAYGLOW_VAULT,(24-dude_endurance));
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (combat_is_initialized == TRUE) then begin
+       display_mstr(100);
+   end
+   else if ((inven_hand_R(dude_obj) == self_obj) or (inven_hand_L(dude_obj) == self_obj)) then begin
+       call radio_proc;
+   end
+   else begin
+       display_mstr(101);
+   end
+end
+
+procedure radio_proc begin
+   variable radio_status;
+   radio_status := 0;
+
+   if (cur_map_index == MAP_FLAGSTAFF_CAVE) then begin
+      radio_status := 102;
+   end
+   if ((cur_map_index == MAP_RND_MOUNTAIN_4) and (dude_elevation > 0)) then begin
+      radio_status := 102;
+   end
+   if ((cur_map_index == MAP_RND_MOUNTAIN_5) and (dude_elevation > 0)) then begin
+      radio_status := 102;
+   end
+   if ((cur_map_index == MAP_RND_MOUNTAIN_6) and (dude_elevation > 0)) then begin
+      radio_status := 102;
+   end
+   if ((cur_map_index == MAP_JACKALS) and (dude_elevation > 0)) then begin
+      radio_status := 102;
+   end
+   if ((cur_map_index == MAP_RANGERS_CAVE) and (dude_elevation > 0)) then begin
+      radio_status := 102;
+   end
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
+      if getPosWorld(1072,972,128) then begin
+      radio_status := 103;
+      end
+   end
+
+   if (radio_status == 0) then begin
+       dialog_proc_obj(NodeStartDialog)
+   end
+   else begin
+       display_mstr(radio_status);
+   end
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   set_gvar_bit_on(GVAR_RADIO_FLAGS_BIT, bit_1);
+   call NodeDialog;
+end
+
+#define AnswerZonaBit(msg,proc,x,y,radius,bit)  if (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit) != 0) then begin \
+                                                getRadioZona(msg,proc,x,y,radius)     \
+                                                end                                   \
+
+#define getRadioZona(msg,proc,x,y,radius)       if getPosWorld(x,y,radius) then begin \
+                                                NAnswer(msg,1,proc)                   \
+                                                end else begin                        \
+                                                NAnswer(msg,1,NodeNoneStantion)       \
+                                                end                                   \
+
+procedure NodeDialog begin
+   randRadioReply := 0;
+   Reply(210)
+
+   //- общая частота
+   NAnswer(211,1,NodeAll)
+
+   //- наемники Фабера
+   if (global_var(GVAR_FLAGSTAFF_RADIO_MARK) == 0) then begin
+   AnswerZonaBit(212,NodeFaber,872,272,128,bit_2)
+   end
+
+   //- рейнджеры
+   if (global_var(GVAR_RANGER_RADIO_MARK) > 0) then begin
+   AnswerZonaBit(213,NodeRanders,422,472,228,bit_3) // (расширенный радиус радиовещания)
+   end
+   if (global_var(GVAR_RANGER_RADIO_MARK) == 0) then begin
+   AnswerZonaBit(213,NodeRanders,422,472,128,bit_3)
+   end
+
+   //- огнепоклонники в Фениксе
+   if (global_var(GVAR_PHENIX_CULT_RADIO_MARK) == 0) then begin
+   AnswerZonaBit(214,NodeCult,872,622,128,bit_4)
+   end
+
+   //- повстанцы Феникса
+   AnswerZonaBit(215,NodePhenix,872,622,128,bit_5)
+   //- жестянщики ТуСан
+   AnswerZonaBit(216,NodeTwoSun,1072,972,128,bit_6)
+   //- Братство Стали
+   if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_CORONADO))  then begin
+      if (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_7) != 0) then begin
+      NAnswer(217,1,NodeBoS100)
+      end
+   end
+   else begin
+      AnswerZonaBit(217,NodeBoS,572,1222,178,bit_7)
+   end
+
+   //- аварийная частота убежища 27
+   if (getQuest(GVAR_VAULT27_VISITED) < qEnd) then begin
+   AnswerZonaBit(218,NodeVault27,983,583,78,bit_8)
+   end
+
+   //- аварийная частота убежища 24
+   if ((getQuest(GVAR_VAULT24_VISITED) >= qStart) or (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_13)) != 0) then begin
+   if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_CITYHEART)) then begin
+   NAnswer(306,1,NodeVault24)
+   end
+   end
+
+   NAnswer(219,1,Node999)
+end
+
+procedure NodeNoneStantion begin
+   Reply(230)
+   NAnswer(232,1,NodeDialog)
+end
+
+//--- ОБЩАЯ ЧАСТОТА
+
+procedure NodeAll begin
+   Reply(230)
+
+   //- рейнджер у Шакалов
+   if getPosWorld(382,132,178) then begin
+      if (cur_map_index != MAP_DAYGLOW_CORONADO) then begin
+      if ((global_var(GVAR_JACKALS_STATUS_RANGER) == 0) and (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_4) == 0)) then begin
+      NAnswer(233,1,NodeAll100)
+      end
+      end
+   end
+
+   //- ретранслятор у рейнджеров
+   if (getQuest(GVAR_RANGERS_QST_REPAIR_RADIO) == qStart) then begin
+      if (global_var(GVAR_RANGER_RADIO_MARK) == 2) then begin
+      if (cur_map_index != MAP_RANGERS_RETRANSL) then begin
+      NAnswer(264,1,NodeAll102)
+      end
+      end
+   end
+
+   //- старый мотель
+   if getPosWorld(735,785,150) then begin
+      if (town_known(AREA_OLD_MOTEL) < MARK_STATE_KNOWN) then begin
+      NAnswer(290,1,NodeAll105)
+      end
+   end
+
+   //- пропавший жестянщик в КГранде
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+      NAnswer(323,3,NodeAll104)
+   end
+
+   //- сигнал пропавшего отряда в Инферно
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_30) == 0) then begin
+      if (getQuest(GVAR_PUERTO_QST_INFERNO) == qStart) then begin
+      AnswerZonaBit(350,NodeInfernoBos,222,922,50,bit_1)
+      end
+      else if getPosWorld(222,922,50) then begin
+      NAnswer(358,1,NodeInfernoBos4)
+      end
+   end
+
+   //- сигнал из Калифорнии
+   if (gvar_bit(GVAR_ENCOUNTERS_FLAGS_BIT, bit_2) == 0) then begin
+      if getPosWorld(50,650,100) then begin
+      NAnswer(370,1,NodeHab100)
+      end
+   end
+
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeAll100 begin
+   Reply(234)
+   if (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qStart) then begin
+   NAnswer(239,1,NodeAll101)
+   end
+   else begin
+   NAnswer(235,1,NodeAll101)
+   end
+end
+
+procedure NodeAll101 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_4);
+   mark_on_map(AREA_JACKALS)
+   Reply(236)
+   if (getQuest(GVAR_RANGERS_QST_RNGR_JCKL) == qStart) then begin
+   NAnswer(238,1,Node999)
+   end
+   else begin
+   NAnswer(237,1,Node999)
+   end
+end
+
+procedure NodeAll102 begin
+   if getPosWorld(525,475,75) then begin
+   Reply(267)
+   NAnswer(268,1,NodeAll103)
+   NAnswer(231,1,NodeDialog)
+   end
+   else begin
+   Reply(266)
+   NAnswer(231,1,NodeDialog)
+   end
+end
+
+procedure NodeAll103 begin
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 2, 1);
+   call Node999;
+end
+
+procedure NodeAll104 begin
+   if (cur_map_index == MAP_CASA_GRANDE_GRAVE) then begin
+   Reply(328)
+   NAnswer(329,1,Node999)
+   end
+   else if ((cur_map_index == MAP_CASA_GRANDE_WATER) or (cur_map_index == MAP_CASA_GRANDE_CITY) or (cur_map_index == MAP_CASA_GRANDE_STANTION) or (cur_map_index == MAP_CASA_GRANDE_BAR)) then begin
+   Reply(326)
+   NAnswer(327,1,Node999)
+   end
+   else begin
+   Reply(324)
+   NAnswer(325,1,NodeDialog)
+   end
+end
+
+procedure NodeAll105 begin
+   Reply(291)
+   NAnswer(292,1,NodeAll106)
+   NAnswer(293,1,NodeDialog)
+end
+
+procedure NodeAll106 begin
+   Reply(294)
+   NAnswer(295,1,NodeAll107)
+end
+
+procedure NodeAll107 begin
+   mark_on_map(AREA_OLD_MOTEL)
+   Reply(296)
+   NAnswer(297,1,Node999)
+end
+
+procedure NodeHab100 begin
+   Reply(371)
+   NAnswer(372,1,NodeHab101)
+   NAnswer(373,1,NodeDialog)
+end
+
+procedure NodeHab101 begin
+   Reply(374)
+   NAnswer(375,1,NodeHab102)
+   NAnswer(373,1,NodeDialog)
+end
+
+procedure NodeHab102 begin
+   Reply(376)
+   NAnswer(377,1,NodeHab103)
+end
+
+procedure NodeHab103 begin
+   Reply(378)
+   NAnswer(377,1,NodeHab104)
+end
+
+procedure NodeHab104 begin
+   Reply(379)
+   NAnswer(377,1,NodeHab105)
+end
+
+procedure NodeHab105 begin
+   Reply(380)
+   NAnswer(377,1,NodeHab106)
+end
+
+procedure NodeHab106 begin
+   display_mstr(383);
+   exp_add(250);
+   set_gvar_bit_on(GVAR_ENCOUNTERS_FLAGS_BIT, bit_2);
+
+   Reply(381)
+   NAnswer(382,1,Node999)
+end
+
+//--- НАЕМНИКИ ФАБЕРА
+
+procedure NodeFaber begin
+   Reply(310)
+   /*
+   Перегоры патрульных:
+      - рядовые реплики
+      - смерть фабера
+      - уничтожение или восстановление шахты
+      - действия рейнджера-одиночки
+      - побег заключенных
+   */
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_6) == 0) then begin
+   NAnswer(320,5,NodeFaber001)
+   end
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeFaber001 begin
+   Reply(321)
+   NAnswer(322,1,NodeFaber002)
+end
+
+procedure NodeFaber002 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_6);
+   PLAY_FADE
+   call Node999;
+end
+
+//--- РЕЙНДЖЕРЫ
+
+procedure NodeRanders begin
+   randRadioReply := random(0,7);
+
+        if (randRadioReply == 5) then begin
+   call NodeRanders105;
+   end
+   else if (randRadioReply == 4) then begin
+   call NodeRanders104;
+   end
+   else if (randRadioReply == 3) then begin
+   call NodeRanders103;
+   end
+   else if (randRadioReply == 2) then begin
+   call NodeRanders102;
+   end
+   else if (randRadioReply == 1) then begin
+   call NodeRanders101;
+   end
+   else begin
+   call NodeRanders100;
+   end
+
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_3) == 0) then begin
+      if (cur_map_index != MAP_RANGERS_RADIO) then begin
+      NAnswer(mstr(260)+dude_name+mstr(261),8,NodeRanders200)
+      end
+   end
+   if (getQuest(GVAR_RANGERS_QST_SCORPLEGEND) == qStart) then begin
+      if (global_var(GVAR_STATUS_SCORPION_LEGEND) == 0) then begin
+      if ((cur_map_index == MAP_RND_DESERT_1) or (cur_map_index == MAP_RND_DESERT_2) or (cur_map_index == MAP_RND_DESERT_3) or (cur_map_index == MAP_RND_DESERT_4) or (cur_map_index == MAP_RND_DESERT_9)) then begin
+      NAnswer(270,1,NodeRanders201)
+      end
+      end
+   end
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeRanders100 begin
+   Reply(240)
+end
+
+procedure NodeRanders101 begin
+   Reply(random(241,249))
+end
+
+procedure NodeRanders102 begin
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+   Reply(250)
+   end else begin
+   call NodeRanders100;
+   end
+end
+
+procedure NodeRanders103 begin
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+   call NodeRanders;
+   end else if (getQuest(GVAR_RANGERS_QST_EUGENE_DUM) == qEnd) then begin
+   Reply(251)
+   end else begin
+   call NodeRanders100;
+   end
+end
+
+procedure NodeRanders104 begin
+   if (global_var(GVAR_RANGER_RADIO_MARK) >0) then begin
+   Reply(252)
+   end else begin
+   call NodeRanders100;
+   end
+end
+
+procedure NodeRanders105 begin
+   if (global_var(GVAR_RANGERS_STATUS_SPY) == -2) then begin
+   Reply(253)
+   end else begin
+   call NodeRanders100;
+   end
+end
+
+procedure NodeRanders200 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_3);
+   //*пш-ш-ш* Прием, новобранец. Знаешь фермеров на 95й трассе? Найди недалеко от них большой кактус. Под ним есть тайник с припасами. Надеюсь тебе это поможет.
+   Reply(262)
+   NAnswer(263,1,NodeDialog)
+end
+
+procedure NodeRanders201 begin
+   Reply(271)
+   NAnswer(272,1,NodeRanders202)
+   zNAnswer(273,1,NodeDialog)
+   NAnswer(274,1,NodeDialog)
+end
+
+procedure NodeRanders202 begin
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 2, 2);
+   call Node999;
+end
+
+//--- ПОСЛЕДОВАТЕЛИ ОГНЯ
+
+procedure NodeCult begin
+   Reply(230)
+   if (getQuest(GVAR_PHENIX_QST_PLANT_SPY) == qStart) then begin
+   giQ_Option(5, SCRIPT_PSRadio, 250, NodeCult100, HEAD_REACTION_NEUTRAL); //!!! Синхронизировать с SCRIPT_PSRadio
+   end
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeCult100 begin
+   gSay_Reply(SCRIPT_PSRadio,251);
+   giQ_Option(5, SCRIPT_PSRadio, 252, NodeCult101, HEAD_REACTION_NEUTRAL);
+end
+
+procedure NodeCult101 begin
+   gSay_Reply(SCRIPT_PSRadio,253);
+   giQ_Option(5, SCRIPT_PSRadio, 254, NodeCult102, HEAD_REACTION_NEUTRAL);
+end
+
+procedure NodeCult102 begin
+   gSay_Reply(SCRIPT_PSRadio,255);
+   giQ_Option(5, SCRIPT_PSRadio, 256, NodeCult103, HEAD_REACTION_NEUTRAL);
+end
+
+procedure NodeCult103 begin
+   setQuest(GVAR_PHENIX_QST_PLANT_SPY,qEnd);
+   exp_add(250);
+   gSay_Reply(SCRIPT_PSRadio,257);
+   if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) >= qEnd) then begin
+   giQ_Option(5, SCRIPT_PSRadio, 259, Node999, HEAD_REACTION_NEUTRAL);
+   end
+   else begin
+   giQ_Option(5, SCRIPT_PSRadio, 258, Node999, HEAD_REACTION_NEUTRAL);
+   end
+end
+
+procedure NodePhenix begin
+   Reply(230)
+   /*
+      а надо ли?
+      реакция на появление и действия ГГ
+   */
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeTwoSun begin
+   Reply(230)
+   /*
+      а надо ли?
+      реакция на появление и действия ГГ
+   */
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeBoS begin
+   Reply(230)
+
+   /*
+      белый шум если база взорвана + впрочем уцелевшие патрульные могут выдать пару реплик
+      запрос поддержки припасами
+   */
+
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeBoS100 begin
+   if (cur_map_index == MAP_DAYGLOW_CORONADO)  then begin
+   Reply(405)
+   NAnswer(406,1,NodeDialog)
+   end
+   else if (cur_map_index == MAP_DAYGLOW_VAULT)  then begin
+   Reply(407)
+   NAnswer(408,1,NodeDialog)
+   end
+   else begin
+   call NodeBoS101;
+   end
+end
+
+procedure NodeBoS101 begin
+   Reply(230)
+
+   if (global_var(GVAR_DAYGLOW_RADIO) > 0) then begin
+
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_15) == 0) then begin
+      if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_PIRS))  then begin
+      if ((cur_map_index == MAP_DAYGLOW_NATIONALCITY) and (dude_elevation == 1)) then begin
+      end
+      else begin
+      NAnswer(390,1,NodeBoS102)
+      end
+      end
+   end
+
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_19) == 0) then begin
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_18) == 0) then begin
+      if (global_var(GVAR_TITUL_BOS_SCRIBE) > 0) then begin
+      NAnswer(mstr(396)+dude_name+mstr(400),3,NodeBoS103)
+      end
+      else if (global_var(GVAR_TITUL_BOS_CAVALER) > 0) then begin
+      NAnswer(mstr(397)+dude_name+mstr(400),3,NodeBoS103)
+      end
+      else if (global_var(GVAR_TITUL_BOS_PALADIN) > 0) then begin
+      NAnswer(mstr(398)+dude_name+mstr(400),3,NodeBoS103)
+      end
+      else if (global_var(GVAR_TITUL_BOS_SCOUT) > 0) then begin
+      NAnswer(mstr(399)+dude_name+mstr(400),3,NodeBoS103)
+      end
+      else if (global_var(GVAR_TITUL_BOS) > 0) then begin
+      NAnswer(mstr(401)+dude_name+mstr(400),3,NodeBoS103)
+      end
+   end
+   end
+
+   end
+
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeBoS102 begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_15);
+   Reply(391)
+   if ((global_var(GVAR_TOWN_REP_PUERTO) < 0) or (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) != 0)) then begin
+   BAnswer(393,1,Node999)
+   end
+   else if ((global_var(GVAR_TOWN_REP_PUERTO) >= 30) and (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) <= 0)) then begin
+   NAnswer(392,1,Node999)
+   end
+   else begin
+   NAnswer(395,1,Node999)
+   end
+   zNAnswer(394,1,Node999)
+end
+
+procedure NodeBoS103 begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_18);
+   Reply(mstr(402)+dude_name+mstr(403))
+   NAnswer(404,1,Node999)
+end
+
+procedure NodeVault27 begin
+   Reply(300)
+   if (town_known(AREA_VAULT_27) >= MARK_STATE_KNOWN) then begin
+   NAnswer(302,1,NodeDialog)
+   end
+   else begin
+   NAnswer(303,1,NodeVault27b)
+   end
+   NAnswer(231,1,NodeDialog)
+end
+
+procedure NodeVault27b begin
+   mark_on_map(AREA_VAULT_27)
+   Reply(304)
+   zNAnswer(305,1,Node999)
+end
+
+procedure NodeVault24 begin
+   add_timer_event(self_obj, 2, 3);
+   call Node999;
+end
+
+//--- ИНФЕРНО
+
+procedure NodeInfernoBos begin
+   Reply(351)
+   NAnswer(352,3,NodeInfernoBos2)
+   NAnswer(353,1,NodeDialog)
+end
+
+procedure NodeInfernoBos2 begin
+   Reply(354)
+   zNAnswer(355,1,NodeInfernoBos3)
+end
+
+procedure NodeInfernoBos3 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_30);
+   Reply(356)
+   NAnswer(357,1,Node999)
+end
+
+procedure NodeInfernoBos4 begin
+   Reply(359)
+   NAnswer(360,3,NodeInfernoBos5)
+   NAnswer(361,1,NodeDialog)
+end
+
+procedure NodeInfernoBos5 begin
+   Reply(362)
+   NAnswer(363,1,NodeInfernoBos6)
+end
+
+procedure NodeInfernoBos6 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_30);
+   Reply(364)
+   NAnswer(365,1,Node999)
+   NAnswer(366,1,Node999)
+end

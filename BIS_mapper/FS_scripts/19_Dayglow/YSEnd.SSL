@@ -1,0 +1,142 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSEnd
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_obj_visibility(self_obj, 0);
+
+       if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+          if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20) == 0) then begin
+          set_obj_visibility(self_obj, 1);
+          end
+       end
+   end
+end
+
+procedure description_p_proc begin
+   script_overrides;
+   if (map_var(MVAR_DIEGOSTART_FAIL) == 0) then begin
+   display_mstr(100);
+   end
+   else begin
+   display_mstr(101);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+       setQuest(GVAR_DAYGLOW_VISITED, qStart);
+       dude_teleport_map(1,1,MAP_DAYGLOW_START,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YCStart
+       end
+       else begin
+       set_global_var(GVAR_GAME_DLC_1,2);
+       setQuest(GVAR_DAYGLOW_VISITED, qEnd);
+       item_remove(dude_obj,PID_RELICT_DAYGLOW,1)
+
+       item_remove(dude_obj,PID_Q_DAYGLOW_GUITAR,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_GHOULBODY,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_BORDERBADGE_A,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_BORDERBADGE_B,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_DUM_PLAN,1)
+
+       item_remove(dude_obj,PID_Q_DAYGLOW_HOLO_GUSTAVO,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_A,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_B,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_PATRUL_CODES,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_HOLOMODUL,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_BOOK_SANDIEGO,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_BIOGEL,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_CHIP,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_CODE_CORONADO,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_CODE_HANDY,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_FILM,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_FOODPROCESSOR,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_ROCKET,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_GAUBI_DETALS,1)
+
+       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_1,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_2,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_3,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_4,1)
+       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_5,1)
+
+       dude_teleport_map(1,1,MAP_INFIERNO_ROAD,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YCStart
+       end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call talk_p_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   call use_p_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+      Reply(110)
+      NAnswer(118,1,NodeDialog2)
+      NAnswer(119,1,Node999)
+   end
+   else begin
+      Reply(110)
+      if (map_var(MVAR_DIEGOSTART_FAIL) == 0) then begin
+      NAnswer(111,1,NodeDialog2)
+      end
+      else begin
+      NAnswer(112,1,NodeDialog2)
+      end
+      NAnswer(113,1,Node999)
+   end
+end
+
+procedure NodeDialog2 begin
+   Reply(114)
+   NAnswer(115,1,NodeDialog3)
+   NAnswer(116,1,Node999)
+end
+
+procedure NodeDialog3 begin
+   if (who_carry_amount(dude_obj) <= 100) then begin
+   partyRemoveAll // !!! тщательно проверить
+   add_timer_event(self_obj, 2, 1);
+   call Node999;
+   end
+   else begin
+   display_mstr(117);
+   end
+end

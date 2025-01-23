@@ -257,7 +257,7 @@ procedure NodeFstDialog2 begin
    setReaction(-25)
    set_REP(-2)
    ReplyNum := 219;
-   Reply(202)
+   zReply(202)
    NAnswer(203,4,NodeSndDialog)
    BAnswer(204,4,NodeSndDialog)
 end
@@ -384,7 +384,7 @@ procedure NodeAnswer201 begin
 end
 
 procedure NodeAnswer202 begin
-   Reply(236)
+   zReply(236)
    NAnswer(237,4,NodeAnswer203)
    if (get_BarterDopusk == 0) then begin
    NAnswer(239,4,NodeAnswer204)
@@ -429,7 +429,7 @@ end
 
 procedure NodeAnswer205 begin
    if (bitDialog(bit_10) != 0) then begin
-   Reply(243)
+   zReply(243)
    NAnswer(245,4,NodeAnswer100)
    end
    else begin

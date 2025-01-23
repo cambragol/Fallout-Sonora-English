@@ -1,0 +1,38 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_SIPwrArm
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (getQuest(GVAR_PUERTO_POWER_ARMOR) >= qEnd) then begin
+      item_add(dude_obj,PID_ARMOR_POWER_B,1)
+      play_sfx("ARMRPWR");
+      set_obj_visibility(self_obj, 1);
+      destroy_object(self_obj);
+   end
+   else begin
+      display_mstr(101);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   call use_p_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+

@@ -1,0 +1,512 @@
+#include "..\headers\define.h"
+//--------------------- ТОРГОВЕЦ БАРАХЛОМ
+
+#define NAME                            SCRIPT_PCBrtrB
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        11                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CITIZEN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeBarter;
+procedure NodeQstCult;
+procedure NodeQstCult2;
+procedure NodeQstCult3;
+procedure NodeQstCult4;
+procedure NodeQstCult5;
+procedure NodeQstCult6;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer200;
+procedure NodeAnswer200b;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer208;
+procedure NodeAnswer209;
+procedure NodeAnswer210;
+procedure NodeAnswer211;
+procedure NodeAnswer212;
+procedure NodeAnswer213;
+procedure NodeAnswer214;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+variable dialogRelictMsg;               // фиксирует номер ответа на вопрос
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run) then begin
+       check_restock_item(PID_MOTO_LUMP, 1, 1, 100) // 1 шт на всю игру
+       check_restock_item(PID_BOOK_OLD, 2, 2, 100) // 2 шт за всю игру
+       end
+       set_BarterBoxProc(ONE_GAME_WEEK)
+   end
+end
+
+procedure setBarterA begin
+        check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
+        check_restock_item(PID_CLEAR, 2, 4, 100)
+        check_restock_item(PID_TOOL_SHOVEL, 2, 4, 100)
+        check_restock_item(PID_TOOL_ZIPPER, 1, 2, 100)
+        check_restock_item(PID_TABACO, 1, 4, 100)
+        check_restock_item(PID_W_CROWBAR, 1, 1, 100)
+        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 20, 40, 100)
+
+        //- крышки
+        if ((global_var(GVAR_GAME_END) != 0) and (getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd)) then begin
+        check_restock_many(500,800) // увеличение крышек в пять раз (бонус после финала игры)
+        end
+        else begin
+        check_restock_many(400,500)
+        end
+end
+
+procedure setBarterB begin
+   //! пока пусто
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_PNX_BARTER_B,-1);
+   kill_critter_opt
+   kill_critter_box
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   fracReaction(GVAR_TITUL_PHENIX_CULT,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-10) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+
+   dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_20) == 0)) then begin
+   incBarterMod(20);
+   bitDialogExp(bit_20,0)
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_3) == 0)) then begin
+   call NodeFstDialog3;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(204,1,NodeStartDialog)
+   BAnswer(205,1,NodeStartDialog)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(206)
+   NAnswer(207,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   bitDialogExp(bit_3,0)
+   Reply(208)
+   NAnswer(209,1,NodeStartDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   zReply(210)
+   NAnswer(220,3,NodeAnswer100)
+   NAnswer(250,3,NodeAnswer200)
+   if (getQuest(GVAR_VAULT27_VISITED) == qStart) then begin
+   NAnswer(240,3,NodeAnswer300)
+   end
+
+   //--- Нападение на Последователей
+   if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+      if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) or (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3)) then begin
+      NAnswer(300,1,NodeQstCult)
+      end
+   end
+
+   NAnswer(212,1,NodeBarter)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeBarter begin
+   goBarterMod;
+   call NodeSndDialog;
+end
+
+//--- НАПАДЕНИЕ НА ПОСЛЕДОВАТЕЛЕЙ
+
+procedure NodeQstCult begin
+   Reply(301)
+   NAnswer(302,1,NodeQstCult2)
+end
+
+procedure NodeQstCult2 begin
+   Reply(303)
+   NAnswerRep(308,3,NodeQstCult5,15,309,NodeQstCult4)
+   BAnswer(305,3,NodeQstCult3)
+   NAnswer(304,1,Node999)
+end
+
+procedure NodeQstCult3 begin
+   set_REP(-1)
+   set_SLAVA(-5)
+   setBonusReaction(-20)
+   Reply(306)
+   NAnswer(307,1,NodeQstCult5)
+end
+
+procedure NodeQstCult4 begin
+   Reply(310)
+   BAnswer(313,3,NodeQstCult3)
+   BAnswer(311,1,Node999)
+   NAnswer(312,1,Node999)
+end
+
+procedure NodeQstCult5 begin
+   Reply(314)
+   BAnswer(315,1,NodeQstCult6)
+   NAnswer(316,1,NodeQstCult6)
+end
+
+procedure NodeQstCult6 begin
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) then begin
+   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,2);
+   display_mstr(317);
+   end
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3) then begin
+   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,5);
+   display_mstr(318);
+   end
+   call Node999;
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(224,4,NodeAnswer101)
+   BAnswer(222,1,NodeSndDialog)
+   NAnswer(223,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(225)
+   NAnswer(228,6,NodeAnswer102)
+   BAnswer(226,1,NodeSndDialog)
+   NAnswer(227,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,50)
+   Reply(229)
+   BAnswer(230,1,NodeSndDialog)
+   NAnswer(231,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(291)
+   NAnswer(297,1,NodeAnswer106)
+   zNAnswer(294,1,NodeAnswer104)
+   NAnswer(293,1,NodeSndDialog)
+   BAnswer(292,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   if (item_amnt(dude_obj,PID_RELICT_SNOWGLOBE) > 0) then begin
+   call NodeAnswer105;
+   end
+   else begin
+   call NodeAnswer103;
+   end
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_4,0) // бит внесен для борьбы с читами
+   item_remove(dude_obj,PID_RELICT_SNOWGLOBE,1)
+   exp_add(500);
+   g_display_mstr(491);
+   decBarterMod(5);
+   display_mstr(289);
+   setBonusReaction(50)
+   Reply(295)
+   NAnswer(296,1,Node999)
+end
+
+procedure NodeAnswer106 begin
+   if (item_amnt(dude_obj,PID_RELICT_SNOWGLOBE) > 0) then begin
+   call NodeAnswer107;
+   end
+   else begin
+   call NodeAnswer103;
+   end
+end
+
+procedure NodeAnswer107 begin
+   bitDialogExp(bit_4,0) // бит внесен для борьбы с читами
+   item_remove(dude_obj,PID_RELICT_SNOWGLOBE,1)
+   item_add(dude_obj,PID_BOOTLE_CAPS,350)
+   exp_add(500);
+   g_display_mstr(491);
+   Reply(298)
+   NAnswer(299,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   dialogRelictMsg := 0;
+   Reply(251)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 2) then begin
+   NAnswer(259,1,NodeAnswer200b)
+   end
+   if (item_amnt(dude_obj,PID_RELICT_SNOWGLOBE) > 0) then begin
+   if (bitDialog(bit_4) == 0) then begin
+   GAnswer(290,3,NodeAnswer103)
+   end
+   end
+   NAnswer(254,1,NodeSndDialog)
+   NAnswer(257,1,Node999)
+end
+
+procedure NodeAnswer200b begin
+   dialogRelictMsg := 0;
+   Reply(260)
+
+   NAnswer(254,1,NodeSndDialog)
+
+      if (item_amnt(dude_obj,PID_RELICT_MUSIC_BOX) > 0) then begin
+              NAnswer(261,1,NodeAnswer202) end
+      if (item_amnt(dude_obj,PID_RELICT_WATCH) > 0) then begin
+              NAnswer(263,1,NodeAnswer203) end
+      if (item_amnt(dude_obj,PID_RELICT_SNOWGLOBE) > 0) then begin
+              NAnswer(265,1,NodeAnswer204) end
+      if (item_amnt(dude_obj,PID_RELICT_MEDAL) > 0) then begin
+              NAnswer(267,1,NodeAnswer205) end
+      if (item_amnt(dude_obj,PID_RELICT_STAR_RANGER) > 0) then begin
+              NAnswer(269,1,NodeAnswer206) end
+      if (item_amnt(dude_obj,PID_RELICT_BIBLE) > 0) then begin
+              NAnswer(271,1,NodeAnswer207) end
+      if (item_amnt(dude_obj,PID_RELICT_FOTO) > 0) then begin
+              NAnswer(273,1,NodeAnswer208) end
+      //if (item_amnt(dude_obj,PID_RELICT_DAYGLOW) > 0) then begin
+      //        NAnswer(275,1,NodeAnswer209) end
+      if (item_amnt(dude_obj,PID_RELICT_FLAG) > 0) then begin
+              NAnswer(277,1,NodeAnswer210) end
+      if (item_amnt(dude_obj,PID_RELICT_GAMEDISK) > 0) then begin
+              NAnswer(279,1,NodeAnswer211) end
+
+      if (item_amnt(dude_obj,PID_BOOK_OLD) > 0) then begin
+              NAnswer(283,1,NodeAnswer213) end
+      if (global_var(GVAR_CAR_GOT_PLAYER) != 0) then begin
+              NAnswer(287,1,NodeAnswer214) end
+
+              //NAnswer(281,1,NodeAnswer212)
+
+   NAnswer(257,1,Node999)
+end
+
+procedure NodeAnswer201 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 2) then begin
+      item_remove(dude_obj,PID_BOOTLE_CAPS,2)
+      item_add(self_obj,PID_BOOTLE_CAPS,2)
+      Reply(dialogRelictMsg)
+      dialogRelictMsg := 0;
+      NAnswer(255,1,NodeAnswer200)
+      NAnswer(256,1,Node999)
+   end
+   else begin
+      call NodeAnswer200;
+   end
+end
+
+procedure NodeAnswer202 begin
+   dialogRelictMsg := 262;   call NodeAnswer201;
+end
+
+procedure NodeAnswer203 begin
+   dialogRelictMsg := 264;   call NodeAnswer201;
+end
+
+procedure NodeAnswer204 begin
+   dialogRelictMsg := 266;   call NodeAnswer201;
+end
+
+procedure NodeAnswer205 begin
+   dialogRelictMsg := 268;   call NodeAnswer201;
+end
+
+procedure NodeAnswer206 begin
+   dialogRelictMsg := 270;   call NodeAnswer201;
+end
+
+procedure NodeAnswer207 begin
+   dialogRelictMsg := 272;   call NodeAnswer201;
+end
+
+procedure NodeAnswer208 begin
+   dialogRelictMsg := 274;   call NodeAnswer201;
+end
+
+procedure NodeAnswer209 begin
+   dialogRelictMsg := 276;   call NodeAnswer201;
+end
+
+procedure NodeAnswer210 begin
+   dialogRelictMsg := 278;   call NodeAnswer201;
+end
+
+procedure NodeAnswer211 begin
+   dialogRelictMsg := 280;   call NodeAnswer201;
+end
+
+procedure NodeAnswer212 begin
+   //!!! инициация грабителей ПипБоя у городских ворот
+   dialogRelictMsg := 282;   call NodeAnswer201;
+end
+
+procedure NodeAnswer213 begin
+   dialogRelictMsg := 284;   call NodeAnswer201;
+end
+
+procedure NodeAnswer214 begin
+   dialogRelictMsg := 288;   call NodeAnswer201;
+end
+
+procedure NodeAnswer300 begin
+   Reply(241)
+   NAnswer(242,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   Reply(243)
+   NAnswer(244,3,NodeAnswer302)
+   NAnswer(246,1,NodeSndDialog)
+end
+
+procedure NodeAnswer302 begin
+   Reply(245)
+   NAnswer(246,1,NodeSndDialog)
+end

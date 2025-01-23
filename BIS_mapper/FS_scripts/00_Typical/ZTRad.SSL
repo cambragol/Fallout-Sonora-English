@@ -1,0 +1,74 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ZTRad
+#define RAD_NRML                        2                // уровень облучения
+#define MAXDISTAN                       8                // максимальная дистанция для облучения
+
+procedure start;
+procedure map_enter_p_proc;
+procedure critter_p_proc;
+procedure talk_p_proc;
+
+#define LVAR_TIMER                      (0) // Таймер облучения
+
+variable varRadding;
+variable distanSnd;
+
+/*
+ВАЖНО:
+   - Cкрипт вешать на криттера, тригером он работать не будет
+   - По умолчанию дистанция равна MAXDISTAN. Чтобы задать точно,
+     нужно положить в инвентарь бутылочные крышки числом, равным требуемой дистанции.
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+end
+
+procedure critter_p_proc begin
+   /*
+   Комментарий.
+   Я питал надежды на проверку дистанции освещения в прототипе носителя скрипта,
+   чтобы более гибко задавать этим параметром радиус действия рад-области.
+   Но почему-то функция proto_data(self_obj, XXX) выдаёт 0 по всем параметрам ХХХ.
+   Похоже, что функция в движке недоработана.
+   */
+
+   distanSnd := MAXDISTAN;
+       if (item_amnt(self_obj,PID_BOOTLE_CAPS) > 0) then begin
+       distanSnd := item_amnt(self_obj,PID_BOOTLE_CAPS);
+       end
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+       distanSnd := item_amnt(self_obj,PID_TEST);
+       end
+
+   varRadding := 0;
+       if (dude_elevation == self_elevation) then begin
+          if (tile_distance_objs(self_obj, dude_obj) <= distanSnd) then begin
+          varRadding := RAD_NRML;
+          end
+       end
+
+   if ((local_var(LVAR_TIMER) < game_time) and (game_ui_is_disabled == false)) then begin
+
+       if (varRadding >0) then begin
+       radiation_inc(dude_obj, varRadding);
+       end
+       //display_msg("rad "+varRadding);
+       //display_msg("dist "+distanSnd);
+
+       if DudePerkHas(PERK_ranger) then begin
+       set_local_var(LVAR_TIMER, (ONE_GAME_SECOND*4) + game_time);
+       end else begin
+       set_local_var(LVAR_TIMER, (ONE_GAME_SECOND*2) + game_time);
+       end
+   end
+end
+
+procedure talk_p_proc begin
+   floater(self_obj,101,random(COLOR_MSG_NORMAL,COLOR_MSG_LIGHT_GREY));
+end

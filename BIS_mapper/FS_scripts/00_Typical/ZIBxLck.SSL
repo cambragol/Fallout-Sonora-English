@@ -1,0 +1,125 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZIBxLck
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure locked_proc;
+
+#define LVAR_HP_BOX                     (0) // Количество ОЗ у ящика
+
+variable newBoxObj;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   if (tile_contains_obj_pid(self_tile,self_elevation,PID_HEX_BLOCKING) == false) then begin
+   create_object_sid(PID_HEX_BLOCKING, self_tile, self_elevation, -1);
+   end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   reg_anim_begin();
+   reg_anim_clear(self_obj);
+   reg_anim_clear(source_obj);
+   reg_anim_end();
+
+   display_mstr(110);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+
+   if (action_being_used == SKILL_STEAL) then begin
+      script_overrides;
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+      display_mstr(110);
+   end
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   variable powerCheck;
+   powerCheck := 0;
+
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      powerCheck += 10;
+   end
+   else if (objUsedPid == PID_W_SLEDGEHAMMER) then begin
+      powerCheck += 20;
+   end
+   else if (objUsedPid == PID_W_HAMMER) then begin
+      powerCheck += 30;
+   end
+   else if (objUsedPid == PID_W_SUPER_SLEDGE) then begin
+      powerCheck += 50;
+   end
+
+   if (powerCheck != 0) then begin
+      script_overrides;
+      powerCheck += dude_strength;
+      if (dude_strength >= 3) then begin
+      inc_local_var_amt(LVAR_HP_BOX,powerCheck);
+      call locked_proc;
+      end
+      else begin
+      display_mstr(111);
+      end
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      inc_local_var_amt(LVAR_HP_BOX,100);
+      call locked_proc;
+      end
+   end
+end
+
+procedure locked_proc begin
+   if (local_var(LVAR_HP_BOX) >= 25) then begin
+      obj_unlock(self_obj);
+      play_sfx("BRDSWELL");
+      display_mstr(112);
+      set_obj_visibility(self_obj, 1);
+      if (self_PID == 204) then begin
+      newBoxObj := create_object_sid(224, self_tile, self_elevation, -1);
+      end
+      else begin
+      newBoxObj := create_object_sid(self_PID, self_tile, self_elevation, -1);
+      end
+      move_obj_inven_to_obj(self_obj,newBoxObj);
+      destroy_object(self_obj);
+   end
+   else begin
+      display_mstr(random(120,125));
+   end
+end

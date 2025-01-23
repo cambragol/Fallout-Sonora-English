@@ -1,0 +1,48 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ISEd
+
+procedure start;
+procedure map_enter_p_proc;
+procedure generitems_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 0);
+   if (self_PID == 347) then begin
+   set_obj_visibility(self_obj, 1);
+   end
+   if (cur_map_index == MAP_FLAGSTAFF_CITY) then begin
+   set_obj_visibility(self_obj, 1);
+   end
+
+   if (DudePerkHas(PERK_marauder) or (dude_luck >= 9)) then begin
+       set_obj_visibility(self_obj, 1);
+       if (self_PID == 347) then begin
+       //call generitems_proc;
+       set_obj_visibility(self_obj, 0);
+       end
+       if (cur_map_index == MAP_FLAGSTAFF_CITY) then begin
+       set_obj_visibility(self_obj, 0);
+              //Генерация маркеров для миникарты
+              if DudePerkHas(PERK_marauder) then begin
+                 if (tile_contains_obj_pid(self_tile,self_elevation,PID_HEX_MAPEXIT) == false) then begin
+                 create_object_sid(PID_HEX_MAPEXIT, self_tile, self_elevation, -1);
+                 create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 1, 1), self_elevation, -1);
+                 create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 2, 1), self_elevation, -1);
+                 end
+              end
+       end
+   end
+end
+
+procedure generitems_proc begin
+   item_add(self_obj,PID_M_WATER_FLASK,1)
+   item_add(self_obj,PID_M_STIMPAK,1)
+   item_add(self_obj,PID_W_PISTOL_10,1)
+   item_add(self_obj,PID_TOOL_GEIGER_COUNTER,1)
+   item_add(self_obj,PID_TOOL_GAS_MASK,1)
+end

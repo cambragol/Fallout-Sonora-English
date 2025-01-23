@@ -1,0 +1,56 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_PSSltDtr
+#define SKILL_LIMIT                     35
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+variable obj_slot;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if ((cur_map_index == MAP_PHOENIX_CENTER) and (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd)) then begin
+   RepairProcUsing(110,111)
+   end
+   else begin
+   RepairProcUsing(113,111)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   set_obj_visibility(self_obj, 1);
+   RepairProcRepair(112,50,"FIXSTILL")
+      if (self_PID == PID_GAME_SLOT_DSTR_A) then begin
+      obj_slot := create_object_sid(PID_GAME_SLOT_A, self_tile, self_elevation, SCRIPT_ZSGmSlt);
+      end
+      if (self_PID == PID_GAME_SLOT_DSTR_B) then begin
+      obj_slot := create_object_sid(PID_GAME_SLOT_B, self_tile, self_elevation, SCRIPT_ZSGmSlt);
+      end
+      rm_timer_event(obj_slot);
+      add_timer_event(obj_slot, 5, 2);
+      obj_slot := 0;
+   destroy_object(self_obj);
+end

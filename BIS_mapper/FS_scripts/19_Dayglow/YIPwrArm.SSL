@@ -1,0 +1,33 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YIPwrArm
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   play_sfx("ARMRPWR");
+   item_add(dude_obj, PID_ARMOR_POWER_C, 1)
+   set_obj_visibility(self_obj, 1);
+   destroy_object(self_obj);
+end
+
+procedure use_skill_on_p_proc begin
+   call use_p_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

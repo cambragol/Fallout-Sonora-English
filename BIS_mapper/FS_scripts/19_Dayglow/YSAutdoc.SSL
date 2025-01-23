@@ -1,0 +1,38 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSAutdoc
+
+procedure start;
+procedure use_skill_on_p_proc;
+procedure relictAdd;
+
+
+
+procedure start begin
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      if (getQuest(GVAR_DAYGLOW_QST_CARAVAN) == qStart) then begin
+      script_overrides;
+      call relictAdd;
+      end
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      if (getQuest(GVAR_DAYGLOW_QST_CARAVAN) == qStart) then begin
+      script_overrides;
+      call relictAdd;
+      end
+   end
+end
+
+procedure relictAdd begin
+   if (local_var(LVAR_Status) == 0) then begin
+      item_add(source_obj, PID_Q_DAYGLOW_CARAVAN_3, 1)
+      display_mstr(100);
+      set_local_var(LVAR_Status,1);
+   end
+   else begin
+      display_mstr(101);
+   end
+end

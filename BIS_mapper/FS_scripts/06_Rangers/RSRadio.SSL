@@ -1,0 +1,98 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_RSRadio
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialogStart;
+procedure NodeDialogStop;
+procedure NodeDialog;
+procedure NodeDialog100;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(60)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         if (global_var(GVAR_RANGER_RADIO_MARK) >= 0) then begin
+         set_global_var(GVAR_RANGER_RADIO_MARK,-1);
+         set_global_var(GVAR_TITUL_ARIZONA_RANGER,0);
+         set_REP(REP_KILL_CRITICAL)
+         display_mstr(110);
+         play_sfx("CLANK");
+         set_obj_visibility(self_obj, 1);
+         create_object_sid(33555621, self_tile, self_elevation, -1);
+         destroy_object(self_obj);
+         end
+      end
+   end
+end
+
+procedure sience_proc begin
+   CompProcSience(120)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialogStart)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialogStart begin
+   if (global_var(GVAR_RANGER_RADIO_MARK) >= 0) then begin
+   call NodeDialog;
+   end
+   else begin
+   call NodeDialogStop;
+   end
+end
+
+procedure NodeDialogStop begin
+   Reply(203)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   if (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_3) == 0) then begin
+   NAnswer(210,1,NodeDialog100)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   set_gvar_bit_on(GVAR_RADIO_FLAGS_BIT, bit_3);
+   Reply(211)
+   NAnswer(202,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end

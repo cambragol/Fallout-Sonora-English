@@ -1,0 +1,46 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ATCave
+
+procedure start;
+procedure damage_p_proc;
+procedure expl_proc;
+
+
+
+procedure start begin
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      call expl_proc;
+      end
+   end
+end
+
+procedure expl_proc begin
+   if (getQuest(GVAR_SANFELIPE_DESTROY_CAVE) < qEnd) then begin
+
+   	//- Позиция ГГ:
+   	      exp_add(1000);
+   	      if (dude_elevation != 0) then begin
+   	      //critter_dmg(dude_obj, 999, DMG_explosion);
+   	      signal_end_game;
+   	      end
+
+      //- Состояние пещеры:
+            terminate_combat;
+            PLAY_FADE
+            create_object_sid(33554701, 11906, 0, -1);
+            create_object_sid(33554701, 11904, 0, -1);
+            //create_object_sid(33554710, 12708, 0, -1);
+            display_mstr(100);
+
+   	//- Переменные:
+   	      if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero) then begin
+            setQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE,qStop);
+   	      end
+            set_global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE,100); // сразу 100, чтобы не мучиться с подсчетом
+            setQuest(GVAR_SANFELIPE_DESTROY_CAVE,qEnd);
+   end
+end

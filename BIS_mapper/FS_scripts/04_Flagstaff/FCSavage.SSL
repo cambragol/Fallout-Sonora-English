@@ -1,0 +1,142 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCSavage
+#define TOWN_REP_VAR                    -1                    // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SAVAGE           // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_PRIMITIVE   // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      25 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_first_run == true) then begin
+       inc_map_var(MVAR_FLAG_WINON_SAVAGE_LIFE);
+       end
+       set_start_home
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+           if (item_amnt(self_obj,PID_TEST) == 1) then begin
+           set_local_var(LVAR_Tile_B,1); // стоят на месте
+           end
+           if (item_amnt(self_obj,PID_TEST) == 2) then begin
+           set_local_var(LVAR_Tile_B,19522); // патрульный у входа на территорию
+           end
+           if (item_amnt(self_obj,PID_TEST) == 3) then begin
+           set_local_var(LVAR_Tile_B,24907); // патрульный внутри левого дома
+           end
+           if (item_amnt(self_obj,PID_TEST) == 4) then begin
+           set_local_var(LVAR_Tile_B,21504); // патрульный у костра слева от клеток
+           end
+           item_remove(self_obj,PID_TEST,999)
+       end
+       if (global_var(GVAR_FLAGSTAFF_STATUS_SAVAGE)<0) then begin
+           rm_timer_event(self_obj);
+           set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (local_var(LVAR_Tile_B) > 1) then begin
+       timer_move_patrol(HomeTile,local_var(LVAR_Tile_B))
+       end
+       else if (local_var(LVAR_Tile_B) == 1) then begin
+       timer_move_to_home
+       end
+       else begin
+       timer_move_random_home(3)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,3,-1) // Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   dec_map_var(MVAR_FLAG_WINON_SAVAGE_LIFE);
+   if (map_var(MVAR_FLAG_WINON_SAVAGE_LIFE)<=0) then begin
+   if (global_var(GVAR_FLAGSTAFF_STATUS_SAVAGE)>=0) then begin
+   set_global_var(GVAR_FLAGSTAFF_STATUS_SAVAGE,100);
+   end
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   script_overrides;
+   display_mstr(102);
+end

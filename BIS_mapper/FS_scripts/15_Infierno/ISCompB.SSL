@@ -1,0 +1,278 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_ISCompB
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog202;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog302;
+procedure NodeDialog303;
+procedure NodeDialog304;
+procedure NodeDialog305;
+procedure NodeDialog400;
+procedure NodeDialog401;
+procedure NodeDialog402;
+procedure NodeDialog403;
+procedure NodeDialog404;
+procedure NodeDialog500;
+procedure NodeDialog501;
+procedure NodeDialog502;
+procedure NodeDialog503;
+procedure NodeDialog504;
+procedure NodeDialog600;
+procedure NodeDialog601;
+procedure NodeDialog602;
+procedure NodeDialog603;
+procedure NodeDialog604;
+procedure NodeDialog605;
+
+#define LVAR_DialogBit                  (2) // Переменная в диалоге
+
+#define dialogCompBit(bit)              if (lvar_bit(LVAR_DialogBit, bit) == 0) then begin \
+                                        exp_add(50);                                       \
+                                        set_lvar_bit_on(LVAR_DialogBit, bit);              \
+                                        end                                                \
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(10)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(0)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog2)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   NAnswer(210,3,NodeDialog100)
+   NAnswer(220,3,NodeDialog200)
+   NAnswer(230,3,NodeDialog300)
+   NAnswer(250,3,NodeDialog400)
+   NAnswer(270,3,NodeDialog500)
+   NAnswer(290,3,NodeDialog600)
+
+   /*
+   Ещё идеи для записей:
+
+      - Социопат, который очень долго жил изолированно в роботизированном умном доме и тем самым заработал кучу комплексов, боялся выйти на улицу. В итоге взломал одного из роботов (так как в роботах заложен контроль безопасности), чтобы тот его прикончил.
+      - Желательно сделать уникальную запись, доступную только при наличии перка "Знания Старого мира", которые как бы показывают, что ГГ осведомлен об устройстве довоенной полиции. Но вот какую?
+
+   */
+
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   Reply(203)
+   NAnswer(204,1,NodeDialog)
+end
+
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog101)
+end
+
+procedure NodeDialog101 begin
+   Reply(213)
+   NAnswer(214,1,NodeDialog102)
+end
+
+procedure NodeDialog102 begin
+   Reply(215)
+   NAnswer(216,1,NodeDialog103)
+end
+
+procedure NodeDialog103 begin
+   dialogCompBit(bit_1)
+   Reply(217)
+   NAnswer(218,1,NodeDialog)
+end
+
+
+procedure NodeDialog200 begin
+   Reply(221)
+   NAnswer(222,1,NodeDialog201)
+end
+
+procedure NodeDialog201 begin
+   Reply(223)
+   NAnswer(224,1,NodeDialog202)
+end
+
+procedure NodeDialog202 begin
+   dialogCompBit(bit_2)
+   Reply(225)
+   NAnswer(226,1,NodeDialog)
+end
+
+
+procedure NodeDialog300 begin
+   Reply(231)
+   NAnswer(232,1,NodeDialog301)
+end
+
+procedure NodeDialog301 begin
+   Reply(233)
+   NAnswer(234,1,NodeDialog302)
+end
+
+procedure NodeDialog302 begin
+   Reply(235)
+   NAnswer(236,1,NodeDialog303)
+end
+
+procedure NodeDialog303 begin
+   Reply(237)
+   NAnswer(238,1,NodeDialog304)
+end
+
+procedure NodeDialog304 begin
+   Reply(239)
+   NAnswer(240,1,NodeDialog305)
+end
+
+procedure NodeDialog305 begin
+   dialogCompBit(bit_3)
+   Reply(241)
+   NAnswer(242,1,NodeDialog)
+end
+
+
+procedure NodeDialog400 begin
+   Reply(251)
+   NAnswer(252,1,NodeDialog401)
+end
+
+procedure NodeDialog401 begin
+   Reply(253)
+   NAnswer(254,1,NodeDialog402)
+end
+
+procedure NodeDialog402 begin
+   Reply(255)
+   NAnswer(256,1,NodeDialog403)
+end
+
+procedure NodeDialog403 begin
+   Reply(257)
+   NAnswer(258,1,NodeDialog404)
+end
+
+procedure NodeDialog404 begin
+   dialogCompBit(bit_4)
+   Reply(259)
+   NAnswer(260,1,NodeDialog)
+end
+
+
+procedure NodeDialog500 begin
+   Reply(271)
+   NAnswer(272,1,NodeDialog501)
+end
+
+procedure NodeDialog501 begin
+   Reply(273)
+   NAnswer(274,1,NodeDialog502)
+end
+
+procedure NodeDialog502 begin
+   Reply(275)
+   NAnswer(276,1,NodeDialog503)
+end
+
+procedure NodeDialog503 begin
+   Reply(277)
+   NAnswer(278,1,NodeDialog504)
+end
+
+procedure NodeDialog504 begin
+   dialogCompBit(bit_5)
+   Reply(279)
+   NAnswer(280,1,NodeDialog)
+end
+
+
+procedure NodeDialog600 begin
+   Reply(291)
+   NAnswer(292,1,NodeDialog601)
+end
+
+procedure NodeDialog601 begin
+   Reply(293)
+   NAnswer(294,1,NodeDialog602)
+end
+
+procedure NodeDialog602 begin
+   Reply(295)
+   NAnswer(296,1,NodeDialog603)
+end
+
+procedure NodeDialog603 begin
+   Reply(297)
+   NAnswer(298,1,NodeDialog604)
+end
+
+procedure NodeDialog604 begin
+   Reply(299)
+   NAnswer(300,1,NodeDialog605)
+end
+
+procedure NodeDialog605 begin
+   dialogCompBit(bit_6)
+   Reply(301)
+   NAnswer(302,1,NodeDialog)
+end

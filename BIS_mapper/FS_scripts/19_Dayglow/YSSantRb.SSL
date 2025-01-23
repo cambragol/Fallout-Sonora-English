@@ -1,0 +1,55 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSSantRb
+#define SKILL_LIMIT                     40
+
+procedure start;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20)
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_DIEGOPIRS_DESANTI_ROBOT,1);
+   gfade_out(ONE_GAME_SECOND);
+    game_time_advance(ONE_GAME_HOUR);
+    set_obj_visibility(self_obj, 1);
+    create_object_sid(PID_MR_HANDY, self_tile, self_elevation, SCRIPT_YCSantRb);
+   gfade_in(ONE_GAME_SECOND);
+   RepairProcRepair(112,0,"FIXSTILL")
+   destroy_object(self_obj);
+end

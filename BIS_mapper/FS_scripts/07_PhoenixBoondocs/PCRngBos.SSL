@@ -1,0 +1,877 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCRngBos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        11                    // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения от 1 до 10; не может совпадать с чужими ящиками на одной локации)
+
+#define NUM_TEAM                        TEAM_PHOENIX_RING     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      (SLAVA_KILL_GOOD*2)   // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   (REP_KILL_GOOD*2)     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog300;
+procedure NodeFstDialog301;
+procedure NodeFstDialog302;
+procedure NodeFstDialog303;
+procedure NodeFstDialog304;
+procedure NodeStopDialog100;
+procedure NodeStopDialog101;
+procedure NodeStopDialog200;
+procedure NodeSndDialog;
+procedure NodeSndDialog1;
+procedure NodeSndDialog2;
+procedure NodeArena100;
+procedure NodeArena200;
+procedure NodeArena201;
+procedure NodeArena202;
+procedure NodeArena203;
+procedure NodeArena204;
+procedure NodeArena204a;
+procedure NodeArena204b;
+procedure NodeArena204c;
+procedure NodeArena205;
+procedure NodeArena300;
+procedure NodeArena301;
+procedure NodeArena302;
+procedure NodeArena400;
+procedure NodeArena401;
+procedure NodeArena402;
+procedure NodeArena403;
+procedure NodeArena404;
+
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer101b;
+procedure NodeAnswer200;
+//procedure NodeAnswer201;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+
+procedure NodeArenaStart;
+procedure NodeArenaStop;
+procedure NodeArenaStop2;
+procedure NodeArenaStop100;
+procedure NodeArenaStop101;
+procedure NodeArenaStop200;
+procedure NodeArenaStop201;
+procedure NodeArenaStop202;
+procedure NodeArenaStop300;
+procedure NodeArenaStop301;
+procedure NodeArenaStop302;
+procedure NodeArenaStop400;
+procedure NodeArenaStop401;
+procedure NodeArenaStop402;
+procedure NodeArenaStop500;
+
+procedure NodeName600;
+procedure NodeName601;
+procedure NodeName602;
+procedure NodeName603;
+procedure NodeName604;
+procedure NodeName605;
+procedure NodeName606;
+procedure NodeName607;
+procedure NodeName608;
+procedure NodeName609;
+procedure NodeName610;
+procedure NodeName611;
+procedure NodeName612;
+procedure NodeName613;
+procedure NodeName614;
+procedure NodeName615;
+procedure NodeName616;
+procedure NodeName617;
+procedure NodeName618;
+procedure NodeName619;
+procedure NodeName620;
+procedure NodeName621;
+
+import variable box_stop_use;
+
+variable nameDude;
+variable enemy_obj;
+
+//---------------------
+
+#define LVAR_DialogOk                    (6) // выход на боевой диалог: 0 - не совершен, 1 - совершен, 2 - завершен
+#define LVAR_Enemey_Obj                  (7) // указатель на противника ГГ
+#define LVAR_Bonus_Ring                  (8) // открытие бонусного уникального врага для фриплея
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+
+   if (fixed_param == 3) then begin
+      gfade_in(ONE_GAME_SECOND);
+      set_map_var(MVAR_PNX_RING_START,1);
+      partyRemoveAll // может делать напарников невидимыми на время боя? возврат видимости делать в таймере #6
+      add_timer_event(self_obj, 15, 4);
+   end
+   else if (fixed_param == 4) then begin
+      game_ui_enable;
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 0) then begin
+      floater(local_var(LVAR_Enemey_Obj),103,COLOR_MSG_RED);
+      end
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 1) then begin
+      floater(local_var(LVAR_Enemey_Obj),104,COLOR_MSG_RED);
+      end
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 2) then begin
+      floater(local_var(LVAR_Enemey_Obj),105,COLOR_MSG_RED);
+      end
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 3) then begin
+      floater(local_var(LVAR_Enemey_Obj),106,COLOR_MSG_RED);
+      end
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 4) then begin
+      floater(local_var(LVAR_Enemey_Obj),107,COLOR_MSG_RED);
+      end
+   end
+
+   if (fixed_param == 5) then begin
+      gfade_out(ONE_GAME_SECOND);
+      add_timer_event(self_obj, 15, 6);
+   end
+   else if (fixed_param == 6) then begin
+      call NodeArenaStop;
+      gfade_in(ONE_GAME_SECOND);
+      add_timer_event(self_obj, 10, 7);
+   end
+   else if (fixed_param == 7) then begin
+      game_ui_enable;
+      dialogue_system_enter;
+   end
+end
+
+procedure critter_p_proc begin
+   if (combat_is_initialized == false) then begin
+      if (map_var(MVAR_PNX_RING_START) == 2) then begin
+      game_ui_disable;
+      add_timer_event(self_obj, 5, 5);
+      set_map_var(MVAR_PNX_RING_START,3);
+      end
+   end
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_PHENIX_STATUS_ARENABOSS,-1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(1,102,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (map_var(MVAR_PNX_RING_START) > 0) then begin
+      call NodeArenaStop2; // Важно: Этот оператор должен находиться в самом верху процедуры
+   end
+   else if (global_var(GVAR_TITUL_ARENA_MASTER) > 0) then begin
+      if ((global_var(GVAR_GAME_END) > 0) and (global_var(GVAR_PHENIX_ARENA_BODY) == 4) and (local_var(LVAR_Bonus_Ring) == 0)) then begin
+      call NodeArena400;
+      end
+      else if ((global_var(GVAR_GAME_END) > 0) and (global_var(GVAR_PHENIX_ARENA_BODY) == 4) and (local_var(LVAR_Bonus_Ring) == 1)) then begin
+      call NodeArena300;
+      end
+      else begin
+      call NodeSndDialog1;
+      end
+   end
+   else if (local_var(LVAR_DialogOk) != 0) then begin
+      call NodeSndDialog2;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else if (bitDialog(bit_5) != 0) then begin
+      call NodeStopDialog200;
+   end
+   else if ((bitDialog(bit_4) == 0) and (bitDialog(bit_3) != 0)) then begin
+      call NodeStopDialog100;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(220,1,NodeFstDialog200)
+   NAnswer(229,1,NodeFstDialog300)
+   NAnswer(201,1,NodeFstDialog100)
+end
+
+procedure NodeFstDialog100 begin
+   setBonusReaction(-20)
+   bitDialogExp(bit_2,0)
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog102)
+   BAnswer(210,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(206)
+   NAnswer(207,1,NodeFstDialog200)
+   NAnswer(208,1,NodeFstDialog300)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   bitDialogExp(bit_3,0)
+   Reply(211)
+   NAnswer(213,1,NodeFstDialog104)
+   BAnswer(212,1,Node998)
+end
+
+procedure NodeFstDialog104 begin
+   PLAY_FADE
+   move_to(dude_obj,23494,0);
+   anim(dude_obj, ANIMATE_ROTATION, 3);
+   setBonusReaction(-20)
+   set_REP(-1)
+   call Node999;
+end
+
+procedure NodeFstDialog200 begin
+   Reply(221)
+   NAnswer(222,1,NodeFstDialog300)
+   NAnswer(224,1,NodeFstDialog201)
+   NAnswer(223,1,Node999)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(225)
+   BAnswer(226,1,NodeFstDialog100)
+   NAnswer(228,1,NodeFstDialog300)
+   NAnswer(227,1,Node999)
+end
+
+procedure NodeFstDialog300 begin
+   zReply(230)
+   NAnswerStat(231,1,NodeFstDialog303,STAT_st,5,231,NodeFstDialog301)
+   NAnswerStat(232,1,NodeFstDialog303,STAT_st,5,232,NodeFstDialog301)
+end
+
+procedure NodeFstDialog301 begin
+   Reply(233)
+   NAnswer(234,1,NodeFstDialog302)
+end
+
+procedure NodeFstDialog302 begin
+   Reply(235)
+   BAnswer(236,1,Node999)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeFstDialog303 begin
+   Reply(238)
+   NAnswer(239,1,NodeFstDialog304)
+end
+
+procedure NodeFstDialog304 begin
+   set_local_var(LVAR_DialogOk,1);
+   if dude_skill(SKILL_UNARMED_COMBAT,50) then begin
+   Reply(242)
+   end
+   else begin
+   Reply(240)
+   end
+   NAnswer(241,1,Node999)
+   NAnswer(243,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeStopDialog100 begin
+   bitDialogExp(bit_4,0)
+   Reply(214)
+   NAnswer(216,1,NodeSndDialog)
+   BAnswer(215,1,NodeStopDialog101)
+end
+
+procedure NodeStopDialog101 begin
+   bitDialogExp(bit_5,0)
+   zReply(217)
+   NAnswer(213,1,NodeFstDialog104)
+   BAnswer(214,1,Node998)
+end
+
+procedure NodeStopDialog200 begin
+   Reply(218)
+   BAnswer(219,1,Node998)
+end
+
+procedure NodeSndDialog begin
+   Reply(250)
+   NAnswer(253,1,NodeFstDialog300)
+   NAnswer(252,1,NodeFstDialog200)
+   NAnswer(254,1,NodeFstDialog201)
+   NAnswer(251,1,Node999)
+end
+
+procedure NodeSndDialog1 begin
+   //Reply(260)
+   Reply(mstr(263)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(264))
+   NAnswer(261,1,Node999)
+end
+
+//--- ДИАЛОГ ПО ЧАСТИ БОЯ
+
+procedure NodeSndDialog2 begin
+   if (local_var(LVAR_DialogOk) == 2) then begin
+   call NodeArena300;
+   end
+   else if (local_var(LVAR_DialogOk) == 1) then begin
+   call NodeArena200;
+   end
+   else begin
+   call NodeArena100;
+   end
+end
+
+procedure NodeArena100 begin
+   call NodeSndDialog1;
+end
+
+procedure NodeArena200 begin
+   Reply(300)
+   NAnswer(301,3,NodeAnswer)
+   NAnswer(302,1,NodeArena201)
+   NAnswer(303,1,Node999)
+end
+
+procedure NodeArena201 begin
+   Reply(304)
+   NAnswer(305,1,NodeArena202)
+end
+
+procedure NodeArena202 begin
+   Reply(306)
+   NAnswer(307,1,NodeArena203)
+end
+
+procedure NodeArena203 begin
+   Reply(308)
+   NAnswer(309,3,NodeAnswer)
+   NAnswer(310,1,NodeArena204)
+   NAnswer(311,1,Node999)
+end
+
+#define AnswerName(num,node)   if dude_is_male then begin                              \
+                               Answer(g_mstr(num)+".",1,node,HEAD_REACTION_NEUTRAL)    \
+                               end else begin                                          \
+                               Answer(g_mstr(num+50)+".",1,node,HEAD_REACTION_NEUTRAL) \
+                               end                                                     \
+
+procedure NodeArena204 begin
+   Reply(312)
+
+   AnswerName(600,NodeName600)
+   AnswerName(601,NodeName601)
+   AnswerName(602,NodeName602)
+   AnswerName(603,NodeName603)
+   AnswerName(604,NodeName604)
+   AnswerName(605,NodeName605)
+
+   NAnswer(313,1,NodeArena204a)
+end
+
+procedure NodeArena204a begin
+   Reply(312)
+
+   AnswerName(606,NodeName606)
+   AnswerName(607,NodeName607)
+   AnswerName(608,NodeName608)
+   AnswerName(609,NodeName609)
+   AnswerName(610,NodeName610)
+   AnswerName(611,NodeName611)
+
+   NAnswer(313,1,NodeArena204b)
+   NAnswer(314,1,NodeArena204)
+end
+
+procedure NodeArena204b begin
+   Reply(312)
+
+   AnswerName(612,NodeName612)
+   AnswerName(613,NodeName613)
+   AnswerName(614,NodeName614)
+   AnswerName(615,NodeName615)
+   AnswerName(616,NodeName616)
+   AnswerName(617,NodeName617)
+
+   NAnswer(313,1,NodeArena204c)
+   NAnswer(314,1,NodeArena204a)
+end
+
+procedure NodeArena204c begin
+   Reply(312)
+
+   AnswerName(618,NodeName618)
+   AnswerName(619,NodeName619)
+   AnswerName(620,NodeName620)
+   AnswerName(621,NodeName621)
+
+   NAnswer(314,1,NodeArena204b)
+end
+
+procedure NodeArena205 begin
+   set_local_var(LVAR_DialogOk,2);
+   if dude_is_female then begin
+   nameDude += 50;
+   end
+   set_global_var(GVAR_PHENIX_TITUL_ARENA_NAME,nameDude);
+   Reply(g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(315)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(338))
+   NAnswer(316,1,Node999)
+end
+
+procedure NodeName600 begin   nameDude := 600; call NodeArena205; end
+procedure NodeName601 begin   nameDude := 601; call NodeArena205; end
+procedure NodeName602 begin   nameDude := 602; call NodeArena205; end
+procedure NodeName603 begin   nameDude := 603; call NodeArena205; end
+procedure NodeName604 begin   nameDude := 604; call NodeArena205; end
+procedure NodeName605 begin   nameDude := 605; call NodeArena205; end
+procedure NodeName606 begin   nameDude := 606; call NodeArena205; end
+procedure NodeName607 begin   nameDude := 607; call NodeArena205; end
+procedure NodeName608 begin   nameDude := 608; call NodeArena205; end
+procedure NodeName609 begin   nameDude := 609; call NodeArena205; end
+procedure NodeName610 begin   nameDude := 610; call NodeArena205; end
+procedure NodeName611 begin   nameDude := 611; call NodeArena205; end
+procedure NodeName612 begin   nameDude := 612; call NodeArena205; end
+procedure NodeName613 begin   nameDude := 613; call NodeArena205; end
+procedure NodeName614 begin   nameDude := 614; call NodeArena205; end
+procedure NodeName615 begin   nameDude := 615; call NodeArena205; end
+procedure NodeName616 begin   nameDude := 616; call NodeArena205; end
+procedure NodeName617 begin   nameDude := 617; call NodeArena205; end
+procedure NodeName618 begin   nameDude := 618; call NodeArena205; end
+procedure NodeName619 begin   nameDude := 619; call NodeArena205; end
+procedure NodeName620 begin   nameDude := 620; call NodeArena205; end
+procedure NodeName621 begin   nameDude := 621; call NodeArena205; end
+
+procedure NodeArena300 begin
+   if (game_time_hour >= 2000) then begin
+   call NodeArena301;
+   end
+   else begin
+   call NodeArena302;
+   end
+end
+
+procedure NodeArena301 begin
+   if (global_var(GVAR_PHENIX_ARENA_BODY) >= 4) then begin
+      Reply(mstr(392)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(393))
+      NAnswer(394,1,NodeArenaStart)
+      NAnswer(395,1,Node999)
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) >= 3) then begin
+      Reply(mstr(326)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(327))
+      NAnswer(328,1,NodeArenaStart)
+      NAnswer(329,1,Node999)
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) <= 0) then begin
+      Reply(319)
+      NAnswer(320,1,NodeArenaStart)
+      NAnswer(321,1,Node999)
+   end
+   else begin
+      Reply(323)
+      zNAnswer(324,1,NodeArenaStart)
+      NAnswer(325,1,Node999)
+   end
+end
+
+procedure NodeArena302 begin
+   Reply(317)
+
+   if (local_var(LVAR_DialogOk)>0) then begin
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 0) then begin
+      NAnswer(370,1,NodeAnswer301)
+      end
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 1) then begin
+      NAnswer(371,1,NodeAnswer302)
+      end
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 2) then begin
+      NAnswer(372,1,NodeAnswer303)
+      end
+      if (global_var(GVAR_PHENIX_ARENA_BODY) == 3) then begin
+      NAnswer(373,1,NodeAnswer304)
+      end
+   end
+
+   if (global_var(GVAR_TITUL_ARENA_MASTER) <= 0) then begin
+      NAnswer(322,3,NodeAnswer)
+   end
+
+   NAnswer(318,1,Node999)
+end
+
+procedure NodeArena400 begin
+   Reply(mstr(380)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(381))
+   NAnswer(386,1,NodeArena402)
+   zNAnswer(382,1,NodeArena401)
+end
+
+procedure NodeArena401 begin
+   Reply(383)
+   NAnswer(385,1,NodeArena403)
+   NAnswer(384,1,Node999)
+end
+
+procedure NodeArena402 begin
+   Reply(387)
+   NAnswer(388,1,NodeArena403)
+end
+
+procedure NodeArena403 begin
+   Reply(389)
+   NAnswer(390,1,NodeArena404)
+   NAnswer(391,1,Node999)
+end
+
+procedure NodeArena404 begin
+   set_local_var(LVAR_Bonus_Ring,1);
+   call Node999;
+end
+
+procedure NodeAnswer begin
+   if (global_var(GVAR_TITUL_ARENA_MASTER) > 0) then begin
+   Reply(mstr(273)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(274))
+   end
+   else begin
+   Reply(270)
+   end
+   NAnswer(280,3,NodeAnswer100)
+   NAnswer(284,3,NodeAnswer200)
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(281)
+   NAnswer(290,1,NodeAnswer101b)
+end
+
+procedure NodeAnswer101b begin
+   if (map_var(MVAR_PNX_TRENER_INFO) == 0) then begin
+   inc_map_var(MVAR_PNX_TRENER_INFO);
+   end
+   Reply(291)
+   NAnswer(282,1,NodeAnswer101)
+   NAnswer(285,3,NodeAnswer200)
+   NAnswer(275,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(283)
+   NAnswer(285,3,NodeAnswer200)
+   NAnswer(275,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(286)
+   //NAnswer(288,5,NodeAnswer201)
+   NAnswer(287,3,NodeAnswer100)
+   NAnswer(275,1,Node999)
+end
+
+/*
+procedure NodeAnswer201 begin
+   Reply(289)
+   NAnswer(287,3,NodeAnswer100)
+   NAnswer(275,1,Node999)
+end
+*/
+
+procedure NodeAnswer301 begin
+   Reply(374)
+   NAnswer(378,1,Node999)
+end
+
+procedure NodeAnswer302 begin
+   Reply(375)
+   NAnswer(378,1,Node999)
+end
+
+procedure NodeAnswer303 begin
+   Reply(376)
+   NAnswer(378,1,Node999)
+end
+
+procedure NodeAnswer304 begin
+   Reply(377)
+   NAnswer(378,1,Node999)
+end
+
+procedure NodeArenaStart begin
+   game_ui_disable;
+   gfade_out(ONE_GAME_SECOND);
+   move_to(dude_obj,20700,self_elevation);
+      anim(dude_obj, ANIMATE_ROTATION, 2);
+      selfBarterBoxGener
+      inven_unwield(self_obj);
+      move_obj_inven_to_obj(dude_obj,selfBarterBoxObj);
+
+   if (global_var(GVAR_PHENIX_ARENA_BODY) == 4) then begin
+   enemy_obj := create_object_sid(PID_SUPERMUTANT,101,self_elevation,SCRIPT_PCRngEnm);
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) == 3) then begin
+   enemy_obj := create_object_sid(PID_BOXER_D,101,self_elevation,SCRIPT_PCRngEnm);
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) == 2) then begin
+   enemy_obj := create_object_sid(PID_BOXER_C,101,self_elevation,SCRIPT_PCRngEnm);
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) == 1) then begin
+   enemy_obj := create_object_sid(PID_BOXER_B,101,self_elevation,SCRIPT_PCRngEnm);
+   end
+   else begin
+   enemy_obj := create_object_sid(PID_BOXER_A,101,self_elevation,SCRIPT_PCRngEnm);
+   end
+      move_to(enemy_obj,tile_num_in_direction(dude_tile,2,3),self_elevation);
+      anim(enemy_obj, ANIMATE_ROTATION, 5);
+      set_local_var(LVAR_Enemey_Obj,enemy_obj);
+
+   add_timer_event(self_obj, 15, 3);
+   call Node999;
+end
+
+procedure NodeArenaStop begin
+   /*
+   Важно: удалять тело с ринга необходимо ДО того,
+   как игрок сможет перезагрузить сохранение,
+   иначе передать указатель на тело не получится,
+   а его прежний индекс устареет и приведёт к вылету из игры.
+   Поэтому бой принудительно оканчивается прямо в момент смерти соперника,
+   чтобы игрок не успевал совершить сохранение и загрузку.
+   */
+
+   move_to(dude_obj,20682,self_elevation);
+      anim(dude_obj, ANIMATE_ROTATION, 0);
+      move_obj_inven_to_obj(selfBarterBoxObj,dude_obj);
+   if (local_var(LVAR_Enemey_Obj)>0) then begin
+   //destroy_object(local_var(LVAR_Enemey_Obj));
+   end
+   if (map_var(MVAR_PNX_RING_BODY)>0) then begin
+   destroy_object(map_var(MVAR_PNX_RING_BODY));
+   end
+   set_local_var(LVAR_Enemey_Obj,0);
+   set_map_var(MVAR_PNX_RING_BODY,0);
+end
+
+procedure NodeArenaStop2 begin
+   set_map_var(MVAR_PNX_RING_START,0);
+   if (game_time_hour >= 2000) then begin
+   game_time_advance(ONE_GAME_HOUR*2);
+   end
+   if (game_time_hour >= 2000) then begin
+   game_time_advance(ONE_GAME_HOUR*2);
+   end
+
+   if (global_var(GVAR_PHENIX_ARENA_BODY) >= 5) then begin
+   call NodeArenaStop500;
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) == 4) then begin
+   call NodeArenaStop400;
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) == 3) then begin
+   call NodeArenaStop300;
+   end
+   else if (global_var(GVAR_PHENIX_ARENA_BODY) == 2) then begin
+   call NodeArenaStop200;
+   end
+   else begin
+   call NodeArenaStop100;
+   end
+end
+
+procedure NodeArenaStop100 begin
+   if (dude_cur_hits <= (dude_max_hits/2)) then begin
+   Reply(330)
+   end
+   else begin
+   Reply(331)
+   end
+   NAnswer(332,1,NodeArenaStop101)
+   NAnswer(333,1,NodeArenaStop101)
+end
+
+procedure NodeArenaStop101 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,100)
+   item_add(self_obj,PID_BOOTLE_CAPS,50)
+   setBonusReaction(10)
+   exp_add(100);
+   Reply(334)
+   GAnswer(335,1,Node999)
+   NAnswer(336,1,Node999)
+   //NAnswer(337,1,Node999)
+end
+
+procedure NodeArenaStop200 begin
+   Reply(342)
+   NAnswer(343,1,NodeArenaStop201)
+end
+
+procedure NodeArenaStop201 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,200)
+   item_add(self_obj,PID_BOOTLE_CAPS,100)
+   setBonusReaction(20)
+   exp_add(250);
+   Reply(344)
+   NAnswer(345,1,NodeArenaStop202)
+end
+
+procedure NodeArenaStop202 begin
+   Reply(346)
+   GAnswer(347,1,Node999)
+   NAnswer(348,1,Node999)
+end
+
+procedure NodeArenaStop300 begin
+   Reply(mstr(350)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(351))
+   zGAnswer(358,1,NodeArenaStop301)
+   NAnswer(352,1,NodeArenaStop301)
+end
+
+procedure NodeArenaStop301 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,400)
+   item_add(self_obj,PID_BOOTLE_CAPS,200)
+   setBonusReaction(30)
+   exp_add(500);
+   Reply(353)
+   NAnswer(354,1,NodeArenaStop302)
+end
+
+procedure NodeArenaStop302 begin
+   Reply(355)
+   GAnswer(356,1,Node999)
+   NAnswer(357,1,Node999)
+end
+
+procedure NodeArenaStop400 begin
+   set_global_var(GVAR_TITUL_ARENA_MASTER,1);
+   item_add(dude_obj,PID_BOOTLE_CAPS,800)
+   item_add(self_obj,PID_BOOTLE_CAPS,400)
+   setBonusReaction(40)
+   //set_REP(10) - отказ, так как репутация повышается автоматически при смерти скриптом соперника (PCRngEnm)
+   set_SLAVA(10) // учесть, что слава также повышается при убийстве врагов на ринге, по 10 за каждого
+   exp_add(1000);
+   Reply(mstr(360)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(361))
+   NAnswer(362,1,NodeArenaStop401)
+end
+
+procedure NodeArenaStop401 begin
+   Reply(363)
+   NAnswer(364,1,NodeArenaStop402)
+   NAnswer(365,1,NodeArenaStop402)
+end
+
+procedure NodeArenaStop402 begin
+   zReply(366)
+   NAnswer(367,1,Node999)
+end
+
+procedure NodeArenaStop500 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,1000)
+   exp_add(1000);
+   Reply(396)
+   NAnswer(397,1,Node999)
+   NAnswer(398,1,Node999)
+end

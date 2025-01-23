@@ -1,0 +1,283 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCMinBrk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_CITIZEN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer400;
+procedure NodeAnswer500;
+procedure NodeAnswer501;
+procedure NodeAnswer502;
+procedure NodeAnswer503;
+procedure NodeAnswer504;
+procedure NodeAnswer505;
+procedure NodeAnswer506;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_patrol(HomeTile,tile_num_in_direction(HomeTile,5,7))
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   /*
+   if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qStart) then begin
+      setQuest(GVAR_FLAGSTAFF_EVIL_WARDEN, qStop);
+   end
+   */
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   call NodeDialog3;
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   Reply(202)
+   call NodeDialog3;
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeDialog3 begin
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   NAnswer(240,1,NodeAnswer400)
+   end
+   NAnswer(210,1,NodeAnswer100)
+   NAnswer(220,1,NodeAnswer200)
+   NAnswer(230,1,NodeAnswer300)
+
+   if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qZero) then begin
+      if (map_var(MVAR_FLAG_SlavMineDlg) == 1) then begin
+      NAnswer(250,1,NodeAnswer500)
+      end
+   end
+   if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qStart) then begin
+      if (map_var(MVAR_FLAG_EVIL_WARDEN) < 0) then begin
+      NAnswer(267,1,NodeAnswer506)
+      end
+   end
+   if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) >= qEnd) then begin
+      NAnswer(264,1,NodeAnswer505)
+   end
+end
+
+procedure NodeAnswer100 begin
+   Reply(211)
+   NAnswer(212,3,NodeAnswer101)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer101 begin
+   Reply(213)
+   NAnswer(214,4,NodeAnswer102)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,10)
+   Reply(215)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer200 begin
+   Reply(221)
+   NAnswer(222,4,NodeAnswer201)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer201 begin
+   Reply(223)
+   NAnswerSkill(227,5,NodeAnswer203,SKILL_SCIENCE,40,224,NodeAnswer202)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer202 begin
+   Reply(225)
+   NAnswer(226,1,NodeDialog2)
+end
+
+procedure NodeAnswer203 begin
+   bitDialogExp(bit_3,75)
+   Reply(228)
+   NAnswer(229,1,NodeDialog2)
+end
+
+procedure NodeAnswer300 begin
+   Reply(231)
+   NAnswer(232,4,NodeAnswer301)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer301 begin
+   bitDialogExp(bit_4,10)
+   Reply(233)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer400 begin
+   Reply(241)
+   NAnswer(204,1,NodeDialog2)
+end
+
+procedure NodeAnswer500 begin
+   setQuest(GVAR_FLAGSTAFF_EVIL_WARDEN, qStart);
+   /*
+   Поправки на случай если Фабер мертв?
+   */
+   Reply(251)
+   NAnswer(252,1,NodeAnswer501)
+end
+
+procedure NodeAnswer501 begin
+   Reply(253)
+   NAnswer(254,1,NodeAnswer502)
+end
+
+procedure NodeAnswer502 begin
+   Reply(255)
+   if (map_var(MVAR_FLAG_EVIL_WARDEN) < 0) then begin
+   GAnswer(242,1,NodeAnswer506)
+   end
+   BAnswer(256,1,NodeAnswer503)
+   NAnswer(260,1,NodeAnswer504)
+end
+
+procedure NodeAnswer503 begin
+   Reply(257)
+   NAnswer(258,1,Node999)
+   NAnswer(259,1,Node999)
+end
+
+procedure NodeAnswer504 begin
+   Reply(261)
+   NAnswer(262,1,Node999)
+   NAnswer(263,1,Node999)
+end
+
+procedure NodeAnswer505 begin
+   box_stop_use := 0;
+   Reply(265)
+   NAnswer(266,1,Node999)
+end
+
+procedure NodeAnswer506 begin
+   zReply(268)
+   NAnswer(269,1,Node999)
+end

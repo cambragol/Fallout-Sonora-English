@@ -1,0 +1,138 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZTGoo
+#define plasmDmg                2
+#define radNorm                 2
+
+procedure start;
+procedure spatial_p_proc;
+procedure goo_proc;
+procedure timed_event_p_proc;
+
+#define LVAR_DUDE_TILE                 (0)
+#define LVAR_DUDE_BOOTS_MSG            (1) // сообщение о состоянии резиновых сапог ГГ
+
+variable gooDamageAmnt;
+variable gooObj;
+variable bootsDudeMsg; // контроль сообщений по теме состояния сапог
+variable dudeStep;     // количество проделанных ГГ шагов по жиже (для работы перка Легкий шаг)
+
+#define armorObj                       inven_armor(gooObj) \
+
+#define type_kill_gooObj(body)         (critter_kill_type(gooObj) == body) \
+
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   gooObj := source_obj;
+
+   if (gooObj == dude_obj) then begin
+       set_local_var(LVAR_DUDE_TILE,dude_tile);
+       rm_timer_event(self_obj);
+       add_timer_event(self_obj, 30, 1);
+   end
+
+   call goo_proc;
+end
+
+procedure goo_proc begin
+   gooDamageAmnt := plasmDmg;
+
+      //--- Поправка на тип тела:
+
+      if type_kill_gooObj(KILL_TYPE_men) then begin
+      end
+      else if type_kill_gooObj(KILL_TYPE_women) then begin
+      end
+      else if type_kill_gooObj(KILL_TYPE_children) then begin
+      end
+      else if type_kill_gooObj(KILL_TYPE_dog) then begin
+      end
+      else if type_kill_gooObj(KILL_TYPE_rat) then begin
+      end
+      else begin
+         gooDamageAmnt := 0;
+      end
+
+      if (tile_contains_obj_pid(dude_tile,self_elevation,PID_HEX_NOT_GOO) == true) then begin
+         gooDamageAmnt := 0; // на данном гексе жижа не действует
+      end
+      else if (tile_contains_obj_pid(dude_tile,self_elevation,PID_HEX_BLOCKING) == true) then begin
+         gooDamageAmnt := 0; // на данном гексе жижа не действует
+      end
+
+      //--- Поправка на силовую броню:
+
+      if (armorObj > 0) then begin
+         if ((obj_pid(armorObj) == PID_ARMOR_POWER_A) or (obj_pid(armorObj) == PID_ARMOR_POWER_B) or (obj_pid(armorObj) == PID_ARMOR_POWER_C)) then begin
+         gooDamageAmnt := 0;
+         end
+      end
+
+      //--- Поправка на сапоги:
+
+      if (gooDamageAmnt > 0) then begin
+
+         if (gooObj == dude_obj) then begin
+            if (global_var(GVAR_BOOTS_DAMAGE)>0) then begin
+                dec_global_var_amt(GVAR_BOOTS_DAMAGE,2);
+                    inc_local_var(LVAR_DUDE_BOOTS_MSG);
+                    if (local_var(LVAR_DUDE_BOOTS_MSG) >= 5) then begin
+                    display_msg(mstr(100)+global_var(GVAR_BOOTS_DAMAGE)+mstr(101));
+                    set_local_var(LVAR_DUDE_BOOTS_MSG,0);
+                    end
+                gooDamageAmnt := 0;
+            end
+         end
+         else begin
+            if (item_amnt(gooObj, PID_TOOL_BOOTS) > 0) then begin
+                gooDamageAmnt := 0;
+            end
+         end
+
+      end
+
+      //--- Облучение:
+
+      if (gooObj == dude_obj) then begin
+         if (dudeStep != 0) then begin
+            gooDamageAmnt := 0;
+         end
+
+         if DudePerkHas(PERK_light_step) then begin
+            dudeStep += 1;
+            if (dudeStep >3) then begin
+            dudeStep := 0;
+            end
+         end
+         else begin
+            dudeStep := 0;
+         end
+      end
+
+      //--- Нанесение урона:
+
+      if (gooDamageAmnt >0) then begin
+         if (gooObj == dude_obj) then begin
+         radiation_inc(dude_obj, 1);
+         end
+         if (get_critter_stat(gooObj,STAT_current_hp) >0) then begin
+         critter_dmg(gooObj, gooDamageAmnt, (DMG_plasma BWOR DMG_BYPASS_ARMOR));
+         end
+      end
+
+   gooObj := 0;
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      if (dude_tile == local_var(LVAR_DUDE_TILE)) then begin
+          gooObj := dude_obj;
+          call goo_proc;
+          add_timer_event(self_obj, 30, 1);
+      end
+   end
+end

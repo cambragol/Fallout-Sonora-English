@@ -1,0 +1,33 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_FSMinDst
+//#define NAME                            SCRIPT_FTDstry
+
+procedure start;
+procedure spatial_p_proc;
+procedure damage_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   //display_msg(" "+1+".");
+end
+
+procedure damage_p_proc begin
+   //display_msg(" "+2+".");
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) == qStart) then begin
+      if (target_obj != 0) then begin
+         if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         set_SLAVA(-100)
+         exp_add(750);
+         display_mstr(102);
+         setQuest(GVAR_FLAGSTAFF_MINES_DESTROY, qEnd);
+         setQuest(GVAR_FLAGSTAFF_EVIL_WARDEN, qStop);
+         set_global_var(GVAR_STATUS_FLAGSTAFF_EXWARDEN, -1);
+         load_map(MAP_FLAGSTAFF_MINE, 10697);
+         end
+      end
+   end
+end

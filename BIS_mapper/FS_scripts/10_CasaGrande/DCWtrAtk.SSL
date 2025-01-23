@@ -1,0 +1,288 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_DCWtrAtk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_GRANDE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_DOG              // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      10 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_STEP                       17308
+#define SELF_WEAPON_PID                 PID_W_SLEDGEHAMMER
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure scena_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeDialog4;
+procedure NodeDialog5;
+procedure NodeDialog6;
+
+//---------------------
+
+#define LVAR_Reply_Timer                 (6) // время обработки диалога с торговцем
+#define LVAR_Reply_Num                   (7) // подсчет реплик
+
+import variable obj_critter_a; // указатель на торговца водой
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+
+       if ((map_var(MVAR_CGRANDE_WATER_ATTAK_A) > 0) and (map_var(MVAR_CGRANDE_WATER_ATTAK_B) > 0)) then begin
+       set_map_var(MVAR_CGRANDE_WATER_ATTAK_A,-1);
+       set_obj_visibility(self_obj, 0);
+       kill_critter(self_obj, ANIM_fall_back_sf);
+       end
+       if (map_var(MVAR_CGRANDE_WATER_ATTAK_A) != 0) then begin
+       set_map_var(MVAR_CGRANDE_WATER_ATTAK_A,-1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure scena_proc begin
+   if (local_var(LVAR_Reply_Timer) < game_time) then begin
+      floater(obj_critter_a,128,COLOR_MSG_NORMAL);
+      floater(self_obj,128,COLOR_MSG_NORMAL);
+
+      if (local_var(LVAR_Reply_Num) == 0) then begin
+      floater(obj_critter_a,120,COLOR_MSG_NORMAL);
+      end
+      if (local_var(LVAR_Reply_Num) == 1) then begin
+      floater(self_obj,121,COLOR_MSG_RED);
+      end
+      if (local_var(LVAR_Reply_Num) == 2) then begin
+      floater(obj_critter_a,122,COLOR_MSG_NORMAL);
+      end
+      if (local_var(LVAR_Reply_Num) == 3) then begin
+      floater(self_obj,123,COLOR_MSG_RED);
+      end
+      if (local_var(LVAR_Reply_Num) == 4) then begin
+      floater(obj_critter_a,124,COLOR_MSG_RED);
+      end
+      if (local_var(LVAR_Reply_Num) == 5) then begin
+      floater(self_obj,125,COLOR_MSG_RED);
+      end
+      if (local_var(LVAR_Reply_Num) == 6) then begin
+      floater(obj_critter_a,126,COLOR_MSG_RED);
+      wield_obj(obj_carrying_pid_obj(self_obj, SELF_WEAPON_PID));
+      end
+      if (local_var(LVAR_Reply_Num) == 7) then begin
+      floater(self_obj,127,COLOR_MSG_RED);
+      set_map_var(MVAR_CGRANDE_WATER_ATTAK_B,2);
+      end
+
+      inc_local_var(LVAR_Reply_Num);
+      set_local_var(LVAR_Reply_Timer,game_time+(4*ONE_GAME_SECOND));
+   end
+end
+
+procedure critter_p_proc begin
+   if ((map_var(MVAR_CGRANDE_WATER_ATTAK_A) == 1) and (combat_is_initialized == false)) then begin
+
+       if (map_var(MVAR_CGRANDE_WATER_ATTAK_B) == 0) then begin
+          set_obj_visibility(self_obj, 0);
+          set_map_var(MVAR_CGRANDE_WATER_ATTAK_B,1);
+       end
+
+       if (map_var(MVAR_CGRANDE_WATER_ATTAK_B) == 1) then begin
+          move_to_tile(0,TILE_STEP,5)
+          if (self_tile == TILE_STEP) then begin
+          if (obj_critter_a > 0) then begin
+          call scena_proc;
+          end
+          end
+       end
+
+       if (map_var(MVAR_CGRANDE_WATER_ATTAK_B) == 2) then begin
+          if (obj_critter_a > 0) then begin
+          if (tile_distance_objs(self_obj,dude_obj)<=15) then begin
+          attack(obj_critter_a);
+          end
+          end
+       end
+   end
+   else begin
+       move_to_tile(0,HomeTile,HomeRotat)
+   end
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (itemTypeUseDude == 4) then begin
+      if ((map_var(MVAR_CGRANDE_WATER_ATTAK_A) == 1) and (map_var(MVAR_CGRANDE_WATER_ATTAK_B) > 0)) then begin
+      floater(self_obj,114,COLOR_MSG_GREEN);
+      set_map_var(MVAR_CGRANDE_WATER_ATTAK_A,-2);
+      set_map_var(MVAR_CGRANDE_WATER_ATTAK_B,0);
+      set_local_var(LVAR_Home_Rotat,2);
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   if (critter_is_fleeing(self_obj) == true) then begin
+   critter_set_flee_state(self_obj, 0);
+   end
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_CGRANDE_WATER_ATTAK_A,-1);
+   set_map_var(MVAR_CGRANDE_WATER_ATTAK_B,-1);
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_CGRANDE_WATER_ATTAK_B,-2);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_CGRANDE_WATER_ATTAK_A) == 0) then begin
+      floater(self_obj,110,COLOR_MSG_NORMAL);
+   end
+   else if (map_var(MVAR_CGRANDE_WATER_ATTAK_A) == -2) then begin
+      floater(self_obj,113,COLOR_MSG_RED);
+   end
+   else if (map_var(MVAR_CGRANDE_WATER_ATTAK_A) < 0) then begin
+      floater(self_obj,111,COLOR_MSG_NORMAL);
+   end
+   else begin
+      if (map_var(MVAR_CGRANDE_WATER_ATTAK_B) <= 0) then begin
+         floater(self_obj,112,COLOR_MSG_NORMAL);
+      end
+      else begin
+         if (((self_tile == TILE_STEP) or (local_var(LVAR_Reply_Num) > 0)) and (bitDialog(bit_1) == 0)) then begin
+         setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+         dialog_proc(0,0,NodeStartDialog,-1,-1)
+         end
+         else if (self_tile != TILE_STEP) then begin
+         floater(self_obj,112,COLOR_MSG_NORMAL);
+         end
+         else begin
+         floater(self_obj,113,COLOR_MSG_RED);
+         end
+      end
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   bitDialogExp(bit_1,0)
+   wield_obj(obj_carrying_pid_obj(self_obj, SELF_WEAPON_PID));
+   Reply(200)
+   NAnswer(201,1,NodeDialog2)
+end
+
+procedure NodeDialog2 begin
+   Reply(202)
+   NAnswerSkill(209,4,NodeDialog5,SKILL_CONVERSANT,50,205,NodeDialog4)
+   BAnswer(204,1,Node998)
+   NAnswer(203,1,NodeDialog3)
+end
+
+procedure NodeDialog3 begin
+   set_map_var(MVAR_CGRANDE_WATER_ATTAK_B,2);
+   call Node999;
+end
+
+procedure NodeDialog4 begin
+   Reply(206)
+   BAnswer(207,1,Node998)
+   NAnswer(208,1,NodeDialog3)
+end
+
+procedure NodeDialog5 begin
+   Reply(210)
+   GAnswer(212,1,NodeDialog6)
+   BAnswer(211,1,NodeDialog3)
+end
+
+procedure NodeDialog6 begin
+   set_map_var(MVAR_CGRANDE_WATER_ATTAK_A,-2);
+   set_map_var(MVAR_CGRANDE_WATER_ATTAK_B,0);
+   set_local_var(LVAR_Home_Rotat,2);
+   bitDialogExp(bit_2,200)
+   set_SLAVA(25)
+   set_REP(3)
+
+   Reply(213)
+   NAnswer(214,1,Node999)
+end

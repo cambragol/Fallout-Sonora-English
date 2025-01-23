@@ -1,0 +1,26 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSCmbStp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if (combat_is_initialized == true) then begin
+       script_overrides;
+       g_display_mstr(328);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

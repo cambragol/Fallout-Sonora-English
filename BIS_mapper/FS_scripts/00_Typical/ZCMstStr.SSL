@@ -1,0 +1,174 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ZCMstStr
+#define TOWN_REP_VAR                    -1   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PLAYER           // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_MYST_STRANGER      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure weapon_wield_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+#define LVAR_AmmoPID                    (2) // PID патронов, которыми пользуется Незнакомец
+#define LVAR_AmmoLimit                  (3) // число патронов, которое должно быть у Незнакомца в начале каждого хода
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   variable invisParam;
+
+   if (is_loading_game == false) then begin
+      set_local_var(LVAR_AmmoPID,0);
+      invisParam := 0;
+
+      if DudePerkHas(PERK_mysterious_stranger) then begin
+          if (global_var(GVAR_MYSTERIOUS_STRANGER) == 0) then begin
+              if (random(0,100) < (25+dude_luck)-dude_level) then begin
+              invisParam := 1;
+              end
+          end
+      end
+
+      if (invisParam == 0) then begin
+          set_obj_visibility(self_obj, 1);
+      end else begin
+          debug_msg("ZCMstStr: invis on map");
+          set_obj_visibility(self_obj, 0);
+          move_to(self_obj, tile_num_in_direction(dude_tile,random(0,5),random(5,9)), dude_elevation);
+          call weapon_wield_proc;
+      end
+   end
+end
+
+procedure weapon_wield_proc begin
+   variable weaponObj;
+   variable weaponPID;
+   variable weaponAmmo;
+   variable weaponLimit;
+
+   //--- Расчет оружия и боеприпасов
+
+   if (dude_level >= 20) then begin
+       weaponAmmo := PID_AMMO_ENERGY_CELL;
+       weaponLimit := 30;
+       weaponPID := PID_W_LASER_RIFLE;
+   end
+   else if (dude_level >= 15) then begin
+       weaponAmmo := PID_AMMO_5_MM;
+       weaponLimit := 10; // в пачке 5 патронов
+       weaponPID := PID_W_RIFLE_ASSAULT;
+   end
+   else if (dude_level >= 10) then begin
+       weaponAmmo := PID_AMMO_308;
+       weaponLimit := 20;
+       weaponPID := PID_W_RIFLE_SNIPER;
+   end
+   else begin
+       weaponAmmo := PID_AMMO_44_MAGNUM;
+       weaponLimit := 25;
+       weaponPID := PID_W_REVOLVER_POLICE;
+   end
+
+   //--- Генерация лута
+
+   item_add(self_obj,PID_M_STIMPAK,2)
+
+   if (weaponAmmo>0) then begin
+   set_local_var(LVAR_AmmoLimit,weaponLimit);
+   set_local_var(LVAR_AmmoPID,weaponAmmo);
+   item_add(self_obj,local_var(LVAR_AmmoPID),weaponLimit)
+   end
+
+   if (weaponPID >0) then begin
+   weaponObj := create_object_sid(weaponPID,0,0,-1);
+   add_mult_objs_to_inven(self_obj,weaponObj,1);
+   end
+
+   //--- Вооружение
+
+   reg_anim_clear(self_obj);
+      reg_anim_begin();
+      wield_obj(weaponObj);
+      reg_anim_end();
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   //--- Персонаж убегает с карты
+   if (combat_is_initialized == false) then begin
+      if (self_visible == true) then begin
+      if (obj_on_screen(self_obj) == true) then begin
+         Flee_From_Dude_NoSee
+      end
+      else begin
+         display_mstr(104);
+         set_obj_visibility(self_obj, 1);
+         destroy_object(self_obj);
+      end
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   //UsedItemToCrit_Proc
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure push_p_proc begin
+end
+
+procedure combat_p_proc begin
+   //--- Постоянное пополнение запаса патронов
+   variable ammoAmnt;
+   if (local_var(LVAR_AmmoPID) > 0) then begin
+   if (local_var(LVAR_AmmoLimit) > 0) then begin
+       ammoAmnt := item_amnt(self_obj, local_var(LVAR_AmmoPID));
+       if (ammoAmnt < local_var(LVAR_AmmoLimit)) then begin
+       item_add(self_obj,local_var(LVAR_AmmoPID),local_var(LVAR_AmmoLimit) - ammoAmnt)
+       end
+   end
+   end
+end
+
+procedure damage_p_proc begin
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_MYSTERIOUS_STRANGER,1);
+   item_add(self_obj,PID_BOOTLE_CAPS,20*dude_luck)
+   item_add(self_obj,PID_TABACO,1)
+   item_add(self_obj,PID_TOOL_STEALTH_BOY,1)
+   display_mstr(103);
+end
+
+procedure talk_p_proc begin
+   script_overrides;
+   display_mstr(102);
+end

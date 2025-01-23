@@ -1,0 +1,42 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_MSSwitch
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure switch_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   call switch_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure switch_proc begin
+   if (tile_contains_obj_pid(TILE_MOTEL_COLD_DOOR,self_elevation,PID_MOTEL_DOOR_COLD) == true) then begin
+      play_sfx("pwrswtch");
+      if (obj_is_open(objDoorCool) == false) then begin
+         animate_stand;
+         obj_unlock(objDoorCool);
+         obj_open(objDoorCool);
+         obj_lock(objDoorCool);
+      end
+      else begin
+         animate_stand_reverse;
+         obj_unlock(objDoorCool);
+         obj_close(objDoorCool);
+         obj_lock(objDoorCool);
+      end
+   end
+end

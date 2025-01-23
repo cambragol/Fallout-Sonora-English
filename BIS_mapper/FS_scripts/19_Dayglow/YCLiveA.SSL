@@ -1,0 +1,235 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCLiveA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_25);
+       floater(self_obj, 102, COLOR_MSG_RED);
+       kill_critter(self_obj, ANIM_fall_back_sf);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,2,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_25);
+   if (getQuest(GVAR_DAYGLOW_QST_LIVE) == qStart) then begin
+   setQuest(GVAR_DAYGLOW_QST_LIVE, qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,90) // поправка к отношению за принадлежность к фракции
+
+   if (getQuest(GVAR_DAYGLOW_QST_LIVE) == 10) then begin
+   floater(self_obj, 103, COLOR_MSG_NORMAL);
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_DAYGLOW_QST_LIVE) == qZero) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   //bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(202,0,NodeFstDialog102)
+   NAnswer(205,0,NodeFstDialog103)
+   if (bitDialog(bit_2) != 0) then begin
+   NAnswer(207,0,NodeFstDialog104)
+   NAnswer(209,0,NodeFstDialog105)
+   end
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeFstDialog102 begin
+   if (getReaction>=25) then begin
+   Reply(216)
+   end else begin
+   Reply(203)
+   end
+   NAnswer(205,0,NodeFstDialog103)
+   NAnswer(204,0,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   bitDialogExp(bit_2,0)
+   Reply(206) //Я помогаю Густаво с документами. Каждого жителя нужно зарегистрировать. Мы как-никак настоящая мэрия. Мы должны заботится о своих гражданах. Жив ли, погиб или пропал без вести - о каждом надо помнить.
+   NAnswer(207,0,NodeFstDialog104)
+   NAnswer(209,0,NodeFstDialog105)
+   NAnswer(204,0,Node999)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(208)
+   NAnswer(209,0,NodeFstDialog105)
+   NAnswer(204,0,Node999)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(210) // Хесус, Марк, а еще мой муж Руперт.
+   if (getQuest(GVAR_DAYGLOW_QST_LIVE) == qZero) then begin
+   NAnswer(212,0,NodeFstDialog106)
+   end
+   NAnswer(211,0,Node999)
+end
+
+procedure NodeFstDialog106 begin
+   setQuest(GVAR_DAYGLOW_QST_LIVE, qStart);
+   zReply(213)
+   NAnswer(214,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   zReply(220)
+   if (getQuest(GVAR_DAYGLOW_QST_LIVE) == qStart) then begin
+   NAnswer(215,0,NodeSndDialog2)
+   end
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_23) != 0) then begin
+   NAnswer(217,0,NodeSndDialog3)
+   end
+   //! Твой муж сейчас находится в отеле "Ла Пенсионе".
+   NAnswer(221,0,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(210)
+   NAnswer(214,0,Node999)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(218)
+   NAnswer(219,0,NodeSndDialog4)
+end
+
+procedure NodeSndDialog4 begin
+   add_timer_event(self_obj, 5, 3);
+   setQuest(GVAR_DAYGLOW_QST_LIVE, qEnd);
+   exp_add(750);
+   call Node999;
+end

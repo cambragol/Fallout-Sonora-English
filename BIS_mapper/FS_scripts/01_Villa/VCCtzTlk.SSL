@@ -1,0 +1,280 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_VCCtzTlk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_VILLA   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_VILLA_PEASAN     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_TRIBLE_VILLA       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialogEden;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeSndDialog;
+procedure NodeSndDialog001;
+procedure NodeSndDialog002;
+procedure NodeSndDialog003;
+procedure NodeSndDialog003b;
+procedure NodeSndDialog004;
+procedure NodeSndDialog005;
+procedure NodeSndDialog006;
+procedure NodeSndDialog007;
+procedure NodeSndDialog008;
+procedure NodeSndDialog009;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(3,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,5,102) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_VILLA_TRADITION,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_VILLA_DISTROY,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,-20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,104,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeDialogEden begin
+   if (getQuest(GVAR_VILLA_KID_RUN) == qStart) then begin
+       if (global_var(GVAR_VILLA_STATUS_EDEN) == 1) then begin
+       BAnswer(223,1,NodeSndDialog006)
+       end
+       else if (global_var(GVAR_VILLA_STATUS_EDEN) == 3) then begin
+       GAnswer(226,1,NodeSndDialog007)
+       end
+       else begin
+       NAnswer(221,1,NodeSndDialog003b)
+       end
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(dude_name+mstr(206))
+   GAnswer(207,1,NodeFstDialog2)
+   NAnswer(208,1,NodeSndDialog)
+   BAnswer(209,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(20)
+   set_REP(1)
+   call NodeSndDialog;
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(-20)
+   set_REP(-1)
+   call NodeSndDialog;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (getReaction >= -5) then begin
+   Reply(200)
+   end else begin
+   Reply(201)
+   end
+   NAnswer(210,1,NodeSndDialog001)
+   NAnswer(212,1,NodeSndDialog002)
+   call NodeDialogEden;
+   NAnswer(202,1,Node999)
+end
+
+procedure NodeSndDialog001 begin
+   Reply(211)
+   NAnswer(212,1,NodeSndDialog002)
+   call NodeDialogEden;
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeSndDialog002 begin
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) >= qEnd) then begin
+   Reply(233)
+   end
+   else begin
+   Reply(213)
+   end
+   if (getQuest(GVAR_VILLA_KID_RUN) == qZero) then begin
+   NAnswer(214,1,NodeSndDialog003)
+   end
+   call NodeDialogEden;
+   NAnswer(210,1,NodeSndDialog001)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeSndDialog003 begin
+   setQuest(GVAR_VILLA_KID_RUN,qStart);
+   display_mstr(103);
+   Reply(215)
+   NAnswer(216,3,NodeSndDialog004)
+   NAnswer(210,1,NodeSndDialog001)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeSndDialog003b begin
+   Reply(222)
+   NAnswer(216,3,NodeSndDialog004)
+   NAnswer(210,1,NodeSndDialog001)
+   NAnswer(212,1,NodeSndDialog002)
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeSndDialog004 begin
+   Reply(217)
+   NAnswer(218,6,NodeSndDialog005)
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeSndDialog005 begin
+   bitDialogExp(bit_2,25)
+   Reply(219)
+   NAnswer(210,1,NodeSndDialog001)
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeSndDialog006 begin
+   setQuest(GVAR_VILLA_KID_RUN,qEnd);
+   exp_add(250);
+   set_REP(-2)
+   setBonusReaction(-20)
+   Reply(224)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeSndDialog007 begin
+   setQuest(GVAR_VILLA_KID_RUN,qEnd);
+   exp_add(250);
+   set_REP(3)
+   setBonusReaction(20)
+   Reply(227)
+   NAnswer(228,1,NodeSndDialog009)
+   zBAnswer(229,1,NodeSndDialog008)
+end
+
+procedure NodeSndDialog008 begin
+   setBonusReaction(-5)
+   item_add(dude_obj,PID_W_KNUCKLES_BRASS,1)
+   zReply(230)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeSndDialog009 begin
+   item_add(dude_obj,PID_W_KNUCKLES_BRASS,1)
+   Reply(232)
+   NAnswer(231,1,Node999)
+end

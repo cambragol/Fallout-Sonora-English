@@ -243,7 +243,7 @@ procedure NodeQstDialogEnd begin
    set_SLAVA(25)
    item_remove(dude_obj, PID_GENERATOR_ENERGY, 1)
 
-   Reply(301)
+   zReply(301)
    NAnswer(302,1,NodeQstDialogEnd1)
    end
    else begin

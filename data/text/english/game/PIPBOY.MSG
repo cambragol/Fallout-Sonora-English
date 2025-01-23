@@ -109,7 +109,7 @@
 {905}{}{Mission to Quartz}
 {906}{}{Sergeant McBain's recording}
 {907}{}{Orders of Casa Grande}
-{908}{}{Field notes by J. Crook}
+{908}{}{Field notes by G. Crook}
 {909}{}{Letter from Vault-Tec}
 {910}{}{Letter to Shore}
 {911}{}{Luther's Notes}
@@ -220,7 +220,7 @@
 {3012}{}{ assigned a room and given one Pip-Boy for the whole}
 {3013}{}{ family. They also put Mexicans in our room! Turns out,}
 {3014}{}{ there are way more people in the vault than there}
-{3015}{}{ should be. We were lucky-some are sleeping in the}
+{3015}{}{ should be. We were lucky - some are sleeping in the}
 {3016}{}{ corridors. What were the Vault-Tec clerks thinking}
 {3017}{}{ when they made the settlement lists?}
 {3018}{}{**END-PAR**}
@@ -239,7 +239,7 @@
 {3031}{}{ - February 7, 2078:}
 {3032}{}{ My Mexican neighbor was killed, suspicions fell on me, of}
 {3033}{}{ course. I spent a day in a punishment cell. The killer}
-{3034}{}{ turned out to be a former truck driver-typical}
+{3034}{}{ turned out to be a former truck driver - typical}
 {3035}{}{ criminal, mentally ill. He finally went crazy and claimed}
 {3036}{}{ that the vault was overpopulated with illegal Mexicans.}
 {3037}{}{ But something else is more important. I used to want}
@@ -443,7 +443,7 @@
 
 
 #----------------------------------------------
-# Sergeant McBain's post
+# Sergeant McBain's recording
 # GVAR_HOLODISK_05
 #----------------------------------------------
 {6000}{}{ [heavy breathing] To those who find this recording...}
@@ -536,7 +536,7 @@
 {7057}{}{**END-DISK**}
 
 #----------------------------------------------
-# Field Notes of J. Crook
+# Field Notes of G. Crook
 # GVAR_HOLODISK_07
 #----------------------------------------------
 {8000}{}{ Aaron, my Lord!}
@@ -564,7 +564,7 @@
 {8022}{}{ I beg you, Aaron. Give me more soldiers and weapons,}
 {8023}{}{ and I'll capture the old pueblo in no time. I'll disarm}
 {8024}{}{ these savages so they cease to be a threat to}
-{8025}{}{ ordinary people and caravaneers. I'll drive the}
+{8025}{}{ ordinary people and caravanners. I'll drive the}
 {8026}{}{ remnants of the dissenters into a reserve like a herd}
 {8027}{}{ of mindless cattle.}
 {8028}{}{**END-PAR**}

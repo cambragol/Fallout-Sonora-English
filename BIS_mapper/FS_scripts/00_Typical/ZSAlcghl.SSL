@@ -1,0 +1,149 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSAlcghl
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure alcohol_proc;
+procedure damage_p_proc;
+procedure destroy_proc;
+
+#define LVAR_Melassa                    (0) // заправка аппарата сырьём
+
+
+/*
+Замечание:
+Изначально аппарат был контейнером, а процесс создания текилы проходил через
+непосредственное размещение сырья в аппарат с последующим использованием Науки.
+Полученные бутылки клались в аппарат, а не в рюкзак ГГ, и затем их оттуда надо было забирать.
+Такой вариант работал, но показался слишком запутанным.
+Кроме того, аппарат как контейнер давал повод для ляпа, ведь внутрь можно класть что угодно.
+*/
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+   script_overrides;
+   if (local_var(LVAR_Melassa) > 0) then begin
+   display_mstr(101);
+   end
+   else begin
+   display_mstr(102);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call description_p_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+
+       if (global_var(GVAR_TEQUILA_INFO) <= 0) then begin
+       display_mstr(111);
+       end
+       else if (local_var(LVAR_Melassa) > 0) then begin
+       call alcohol_proc;
+       end
+       else begin
+       float_msg(dude_obj, mstr(118), COLOR_MSG_NORMAL);
+       display_mstr(110);
+       end
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(120);
+   end
+
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(121);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   if (objUsedPid == PID_AGAVE_JUICE) then begin
+      script_overrides;
+      if (local_var(LVAR_Melassa) > 0) then begin
+      dude_floater_NON;
+      display_mstr(113);
+      end
+      else begin
+      //dude_floater_OK;
+      display_mstr(112);
+      item_remove(dude_obj, objUsedPid, 1)
+      set_local_var(LVAR_Melassa,1);
+      end
+   end
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      play_sfx("WH72MXX1");
+      call destroy_proc;
+   end
+   else if (objUsedPid == PID_W_SLEDGEHAMMER) then begin
+      script_overrides;
+      play_sfx("WH72MXX1");
+      call destroy_proc;
+   end
+   else if (objUsedPid == PID_W_HAMMER) then begin
+      script_overrides;
+      play_sfx("WH72MXX1");
+      call destroy_proc;
+   end
+   else if (objUsedPid == PID_W_SUPER_SLEDGE) then begin
+      script_overrides;
+      play_sfx("WH72MXX1");
+      call destroy_proc;
+   end
+end
+
+procedure alcohol_proc begin
+   set_local_var(LVAR_Melassa,10);
+   item_add(dude_obj,PID_M_TEQUILA,local_var(LVAR_Melassa))
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR);
+   play_sfx("CHEMICA1");
+   display_msg(mstr(116)+local_var(LVAR_Melassa)+mstr(117));
+   dude_floater_OK;
+   set_local_var(LVAR_Melassa,0);
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_emp) then begin
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_electrical) then begin
+      end
+      else begin
+      call destroy_proc;
+      end
+   end
+end
+
+procedure destroy_proc begin
+   set_local_var(LVAR_Melassa,0);
+   if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+   setQuest(GVAR_PHENIX_ALCOHOL_DESTROY,qEnd);
+   end
+   exp_add(250);
+   display_mstr(122);
+   floater(dude_obj,123,COLOR_MSG_NORMAL);
+   set_obj_visibility(self_obj, 1);
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1);
+   //play_sfx("WH51FXX1");
+   destroy_object(self_obj);
+end

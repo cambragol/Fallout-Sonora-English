@@ -1,0 +1,462 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCCasBel
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_WIMPY       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_BILLIARD                   18066 // номер тайла на 2 этаже, куда персонаж перемещается для игры с ГГ
+#define COAST_HOTEL                     50 // Цена за номер в мотеле
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+procedure NodeAnswer305;
+procedure NodeAnswer306;
+procedure NodeSkillUp;
+procedure NodeSkillUp2;
+procedure NodeSkillUp3;
+procedure NodeSkillUp4;
+procedure NodeSkillUp5;
+procedure NodeSkillUp6;
+procedure NodeSkillUp200;
+procedure NodeSkillUp201;
+procedure NodeSkillUp202;
+procedure NodeSkillUp203;
+procedure NodeSkillUp204;
+procedure NodeSkillUp205;
+
+//---------------------
+
+#define LVAR_Skill_Up                   (6) // при 1 ждёт у бильярда на 2м этаже, при >=10 повышение навыка
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if ((self_elevation!=0) and (local_var(LVAR_Skill_Up) != 1)) then begin
+       move_to(self_obj,HomeTile,0);
+       end
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_to_home
+       if (self_elevation == 2) then begin
+       timer_move_to_tile(0,TILE_BILLIARD,3)
+       end
+       else begin
+       timer_move_random_home(1)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if town_rep_is_vilified then begin
+   z_floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else if ((self_elevation!=0) and (local_var(LVAR_Skill_Up) != 1)) then begin
+   floater(self_obj,204,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (local_var(LVAR_Skill_Up) == 1) then begin
+   call NodeSkillUp200;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(102)
+   end
+   else if ((random(0,5) == 1) and (getReaction > 0)) then begin
+   zReply(214)
+   end
+   else if (game_time_hour < 0600) then begin
+   zReply(210)
+   end
+   else if (game_time_hour < 1000) then begin
+   zReply(211)
+   end
+   else if (game_time_hour < 1800) then begin
+   zReply(212)
+   end
+   else begin
+   zReply(213)
+   end
+
+   NAnswer(220,3,NodeAnswer100)
+   NAnswer(222,3,NodeAnswer101)
+   if (map_var(MVAR_PNX_CASINO_LUX) > 0) then begin
+   zNAnswer(250,3,NodeAnswer300)
+   end
+   else begin
+   if (bitDialog(bit_2) != 0) then begin
+   NAnswer(226,1,NodeAnswer200)
+   end
+   end
+
+   if (local_var(LVAR_Skill_Up) == 0) then begin
+      if dude_skill(SKILL_GAMBLING,75) then begin
+      end
+      else begin
+      NAnswer(300,5,NodeSkillUp)
+      end
+   end
+
+   NAnswer(219,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_2,0)
+   Reply(221)
+   NAnswer(224,3,NodeAnswer101)
+   NAnswer(218,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   zReply(223)
+   NAnswer(225,3,NodeAnswer100)
+   NAnswer(218,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(mstr(227)+COAST_HOTEL+mstr(228))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= COAST_HOTEL) then begin
+   NAnswer(231,1,NodeAnswer201)
+   zNAnswer(229,1,NodeSndDialog)
+   end
+   else begin
+   NAnswer(230,1,NodeSndDialog)
+   zNAnswer(229,1,NodeSndDialog)
+   end
+end
+
+procedure NodeAnswer201 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= COAST_HOTEL) then begin
+   call NodeAnswer202;
+   end
+   else begin
+   call NodeAnswer200;
+   end
+end
+
+procedure NodeAnswer202 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,COAST_HOTEL)
+   critter_heal(dude_obj,dude_max_hits/4);
+      if (get_poison(dude_obj) > 0) then begin
+      poison(dude_obj,-(get_poison(dude_obj)));
+      end
+
+   gfade_out(ONE_GAME_SECOND);
+      inven_unwield(dude_obj);
+      anim(dude_obj, ANIMATE_ROTATION, 5);
+      move_to(dude_obj, 16474, 2);
+      game_time_advance(ONE_GAME_HOUR*8);
+   gfade_in(ONE_GAME_SECOND);
+
+   display_mstr(232);
+   call Node999;
+end
+
+//--- ЛЮКС
+
+procedure NodeAnswer300 begin
+   zReply(251)
+
+   if (tile_contains_obj_pid(19286,2,222) == false) then begin
+   NAnswer(253,3,NodeAnswer301) // горшок
+   end
+   if (tile_contains_obj_pid(18681,2,233) == false) then begin
+   NAnswer(254,3,NodeAnswer302) // полки
+   end
+   if (tile_contains_obj_pid(18487,2,261) == false) then begin
+   NAnswer(255,3,NodeAnswer303) // шкаф
+   end
+   if (tile_contains_obj_pid(18490,2,241) == false) then begin
+   NAnswer(256,3,NodeAnswer304) // холодильник
+   end
+
+   /*
+   !!! Один из трёх постеров на выбор: юмор, эротика, научная фанастика или ужас
+   */
+
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeAnswer301 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) < 5) then begin
+      call NodeAnswer305;
+   end
+   else begin
+      //генерация горшка:
+      item_remove(dude_obj,PID_BOOTLE_CAPS,5)
+      create_object_sid(222,19286,2,-1);
+      create_object_sid(PID_HEX_BLOCKING,19286,2,-1);
+      call NodeAnswer306;
+   end
+end
+
+procedure NodeAnswer302 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) < 20) then begin
+      call NodeAnswer305;
+   end
+   else begin
+      //генерация полок:
+      item_remove(dude_obj,PID_BOOTLE_CAPS,20)
+      create_object_sid(233,18681,2,-1);
+      create_object_sid(PID_HEX_BLOCKING,18681,2,-1);
+      create_object_sid(PID_HEX_BLOCKING,18881,2,-1);
+      call NodeAnswer306;
+   end
+end
+
+procedure NodeAnswer303 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) < 50) then begin
+      call NodeAnswer305;
+   end
+   else begin
+      //генерация шкафа:
+      item_remove(dude_obj,PID_BOOTLE_CAPS,50)
+      create_object_sid(261,18487,2,-1);
+      create_object_sid(PID_HEX_BLOCKING,18487,2,-1);
+      call NodeAnswer306;
+   end
+end
+
+procedure NodeAnswer304 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) < 50) then begin
+      call NodeAnswer305;
+   end
+   else begin
+      //генерация холодильника:
+      item_remove(dude_obj,PID_BOOTLE_CAPS,50)
+      create_object_sid(241,18490,2,-1);
+      create_object_sid(PID_HEX_BLOCKING,18490,2,-1);
+      create_object_sid(PID_HEX_BLOCKING,18489,2,-1);
+      call NodeAnswer306;
+   end
+end
+
+procedure NodeAnswer305 begin
+   Reply(258)
+   NAnswer(259,1,Node999)
+end
+
+procedure NodeAnswer306 begin
+   setBonusReaction(5)
+   PLAY_FADE
+   zReply(260)
+   NAnswer(261,1,Node999)
+   BAnswer(262,1,Node999)
+end
+
+//--- НАВЫК
+
+procedure NodeSkillUp begin
+   Reply(301)
+   NAnswer(302,1,NodeSkillUp2)
+end
+
+procedure NodeSkillUp2 begin
+   Reply(303)
+   NAnswer(304,1,NodeSkillUp3)
+end
+
+procedure NodeSkillUp3 begin
+   Reply(305)
+   NAnswer(306,1,NodeSkillUp4)
+   NAnswer(307,1,Node999)
+end
+
+procedure NodeSkillUp4 begin
+   Reply(308)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 300) then begin
+   NAnswer(309,1,NodeSkillUp5)
+   end
+   NAnswer(310,1,Node999)
+end
+
+procedure NodeSkillUp5 begin
+   Reply(311)
+   NAnswer(312,1,NodeSkillUp6)
+end
+
+procedure NodeSkillUp6 begin
+   set_local_var(LVAR_Skill_Up,1);
+   move_to(self_obj,TILE_BILLIARD,2);
+   anim(self_obj, ANIMATE_ROTATION, 3);
+   call Node999;
+end
+
+procedure NodeSkillUp200 begin
+   Reply(320)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 300) then begin
+   NAnswer(321,1,NodeSkillUp201)
+   end
+   NAnswer(322,1,Node999)
+end
+
+procedure NodeSkillUp201 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 300) then begin
+   call NodeSkillUp202;
+   end
+   else begin
+   call Node999;
+   end
+end
+
+procedure NodeSkillUp202 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,300)
+   setBonusReaction(25)
+   Reply(323)
+   NAnswer(324,1,NodeSkillUp203)
+end
+
+procedure NodeSkillUp203 begin
+   set_local_var(LVAR_Skill_Up,10);
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR*2);
+   play_sfx("SHUFFLE");
+   if (is_skill_tagged(SKILL_GAMBLING) == true) then begin
+   skill_up(SKILL_GAMBLING,6);
+   end
+   else begin
+   skill_up(SKILL_GAMBLING,5);
+   end
+   Reply(325)
+   NAnswer(326,1,NodeSkillUp204)
+end
+
+procedure NodeSkillUp204 begin
+   Reply(327)
+   NAnswer(328,1,NodeSkillUp205)
+   BAnswer(329,1,NodeSkillUp205)
+end
+
+procedure NodeSkillUp205 begin
+   //move_to(self_obj,HomeTile,0);
+   call Node999;
+end

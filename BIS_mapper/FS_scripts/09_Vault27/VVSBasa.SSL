@@ -1,0 +1,56 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_VVSBasa
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+variable objContainer;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepairB
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+      RepairProcUsing(113,113)
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_ELECTRONIC) then begin
+      RepairProcUsing(113,113)
+   end
+end
+
+procedure repair_proc begin
+   set_obj_visibility(self_obj, 1);
+   objContainer := create_object_sid(320, self_tile, self_elevation, -1);
+                   create_object_sid(PID_HEX_BLOCKING, self_tile, self_elevation, -1);
+
+                   item_add(objContainer,PID_TOOL_PARTS_MECHANICAL,1)
+                   item_add(objContainer,PID_ARMOR_VAULT,1)
+                   if DudePerkHas(PERK_marauder) then begin
+                   item_add(objContainer,PID_AMMO_5_MM,10+dude_luck) // в пачке 5 патронов
+                   end
+                   item_add(objContainer,PID_W_MINIGUN,1)
+                   item_add(objContainer,PID_AMMO_MICRO_FUSION_CELL,15+dude_luck)
+                   item_add(objContainer,PID_M_STIMPAK,1)
+                   item_add(objContainer,PID_KEY_VAULT27,1)
+   objContainer := 0;
+
+   RepairProcRepair(112,50,"FIXSTILL")
+   destroy_object(self_obj);
+end

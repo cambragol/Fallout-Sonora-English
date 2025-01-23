@@ -1,0 +1,78 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_NSLabHmc
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+#define LVAR_Flag_HIM                     (0) // число использованных компонентов
+
+#define HimLimit                           3
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(102);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      if (local_var(LVAR_Flag_HIM) > HimLimit) then begin
+      display_mstr(107);
+      end
+      else if (local_var(LVAR_Flag_HIM) == HimLimit) then begin
+      call sience_proc;
+      end
+      else begin
+      //floater(source_obj, 108, COLOR_MSG_NORMAL);
+      display_mstr(104);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if ((objUsedPid == PID_Q_INSECT_A) or (objUsedPid == PID_Q_INSECT_B) or (objUsedPid == PID_Q_INSECT_C)) then begin
+      script_overrides;
+      display_mstr(103);
+      inc_local_var(LVAR_Flag_HIM);
+      item_remove(source_obj, objUsedPid, 1)
+   end
+end
+
+procedure sience_proc begin
+   if (item_amnt(source_obj,PID_Q_INSECT_DOCS)<=0) then begin
+   display_mstr(106);
+   floater(source_obj, 109, COLOR_MSG_NORMAL);
+   end
+   else begin
+   PLAY_FADE
+   item_add(source_obj,PID_Q_INSECT_WHITE,1)
+   item_remove(source_obj,PID_Q_INSECT_DOCS,1)
+   play_sfx("CHEMICA1");
+   floater(source_obj,110,COLOR_MSG_NORMAL);
+   display_mstr(105);
+   set_local_var(LVAR_Flag_HIM,999);
+   end
+end

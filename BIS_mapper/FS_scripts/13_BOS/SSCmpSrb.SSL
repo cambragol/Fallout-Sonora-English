@@ -1,0 +1,160 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_SSCmpSrb
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+procedure NodeDialog105;
+procedure NodeDialog106;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog400;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(100)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+   else if (objUsedPid == PID_Q_BOOKS_PUERTO) then begin
+      script_overrides;
+      /*
+      if (local_var(LVAR_Status) == 0) then begin
+         g_display_mstr(550); - удалено потому, что иначе игрок не сможет завершить квест без высокой Науки
+      end else
+      */
+      if (combat_is_initialized == true) then begin
+         g_display_mstr(551);
+      end
+      else if (getQuest(GVAR_NUEVA_QST_BOOKS_PUERTO) == qStart) then begin
+         display_mstr(102);
+         setQuest(GVAR_NUEVA_QST_BOOKS_PUERTO,qEnd);
+      end
+      else begin
+         display_mstr(103);
+      end
+   end
+end
+
+procedure sience_proc begin
+   CompProcSience(250)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(234,1,NodeDialog400)
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(230,1,NodeDialog200)
+   NAnswer(236,1,NodeDialog300)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(214,1,NodeDialog102)
+   NAnswer(216,1,NodeDialog103)
+   NAnswer(218,1,NodeDialog104)
+   NAnswer(220,1,NodeDialog105)
+   NAnswer(222,1,NodeDialog106)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog102 begin
+   Reply(215)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog103 begin
+   Reply(217)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog104 begin
+   Reply(219)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog105 begin
+   Reply(221)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog106 begin
+   Reply(223)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog200 begin
+   Reply(231)
+   NAnswer(203,1,NodeDialog201)
+end
+
+procedure NodeDialog201 begin
+   Reply(232)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog300 begin
+   Reply(237)
+   NAnswer(203,1,NodeDialog301)
+end
+
+procedure NodeDialog301 begin
+   Reply(238)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog400 begin
+   Reply(235)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end

@@ -1,0 +1,17 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_VVTPsn
+
+procedure start;
+
+
+/*
+
+Скрипт больше не используется, а на локациях заменен на SCRIPT_ZTPoison
+
+*/
+
+
+
+procedure start begin
+end
+

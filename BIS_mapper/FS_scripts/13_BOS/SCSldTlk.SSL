@@ -1,0 +1,769 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_SCSldTlk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_PALADIN        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_BOS              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeGame;
+procedure NodeGame2;
+procedure NodeGame3;
+procedure NodeGame4;
+procedure NodeGame5;
+procedure NodeGame6;
+procedure NodeGame7;
+procedure NodeGame8;
+procedure NodeGame9;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer208;
+procedure NodeAnswer209;
+procedure NodeAnswer210;
+procedure NodeAnswer211;
+procedure NodeAnswer212;
+procedure NodeAnswer213;
+procedure NodeAnswer214;
+procedure NodeAnswer215;
+procedure NodeAnswer216;
+procedure NodeAnswer217;
+procedure NodeAnswer218;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer301b;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+
+//---------------------
+
+#define LVAR_Game_Point                (6) // число выигрышей (выше 100 очков персонаж отказывает в игре)
+
+variable gameStatus;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if self_enemy_dude then begin
+   BarklyAttakDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   BarklyAttakDude
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   kill_critter_BoS_item
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   /*
+   if (global_var(GVAR_PUERTO_DOPUSK)>=0) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(dude_obj,102,COLOR_MSG_RED);
+   end
+   */
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (global_var(GVAR_TITUL_BOS)>0) then begin
+   Reply(210)
+   GAnswer(211,1,NodeFstDialog103)
+   //NAnswer(211,1,NodeFstDialog103)
+   BAnswer(213,1,NodeFstDialog104)
+   end
+   else begin
+   zReply(200)
+   GAnswer(201,1,NodeFstDialog101)
+   //NAnswer(201,1,NodeFstDialog101)
+   BAnswer(203,1,NodeFstDialog102)
+   end
+end
+
+procedure NodeFstDialog101 begin
+   set_REP(1)
+   setBonusReaction(10)
+   zReply(202)
+   NAnswer(205,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog102 begin
+   set_REP(-1)
+   setBonusReaction(-10)
+   zReply(204)
+   NAnswer(205,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog103 begin
+   set_REP(1)
+   setBonusReaction(10)
+   Reply(212)
+   NAnswer(205,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog104 begin
+   set_REP(-1)
+   setBonusReaction(-10)
+   Reply(214)
+   NAnswer(205,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(206)
+   GAnswer(207,1,NodeSndDialog)
+   NAnswer(208,1,NodeSndDialog)
+   BAnswer(209,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_TITUL_BOS)>0) then begin
+   Reply(221)
+   end
+   else begin
+   zReply(220)
+   end
+   NAnswer(230,3,NodeAnswer101)
+   NAnswer(234,3,NodeAnswer100)
+   //! боевой рассказ на 100 опыта
+   if (getQuest(GVAR_PUERTO_QST_BELL) < qEnd) then begin
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_32) != 0) then begin
+   NAnswer(340,1,NodeAnswer300)
+   end
+   end
+   if (local_var(LVAR_Game_Point)<10) then begin
+   NAnswerSkill(250,3,NodeGame,SKILL_GAMBLING,50,250,NodeGame2)
+   end
+   else begin
+   NAnswer(270,3,NodeGame9)
+   end
+   NAnswer(222,1,NodeSndDialog2)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(223)
+   NAnswer(224,1,Node999)
+end
+
+//--- АЗАРТНАЯ ИГРА
+
+procedure NodeGame begin
+   gameStatus := 0;
+   Reply(251)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=25) then begin
+   NAnswer(253,1,NodeGame5)
+   end
+   NAnswer(254,4,NodeGame3)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeGame2 begin
+   Reply(257)
+   NAnswer(258,1,Node999)
+   BAnswer(259,1,Node999)
+end
+
+procedure NodeGame3 begin
+   Reply(255)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=50) then begin
+   NAnswer(253,1,NodeGame4)
+   end
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeGame4 begin
+   gameStatus := 1;
+   call NodeGame5;
+end
+
+procedure NodeGame5 begin
+   Reply(260)
+   NAnswer(261,1,NodeGame6)
+   NAnswer(262,1,Node999)
+end
+
+procedure NodeGame6 begin
+   if (has_skill(dude_obj, SKILL_GAMBLING) >= random(20,120)) then begin
+   call NodeGame7;
+   end
+   else begin
+   call NodeGame8;
+   end
+end
+
+procedure NodeGame7 begin
+   if (gameStatus == 0) then begin
+   item_add(dude_obj,PID_AMMO_5_MM,2)
+   end
+   else begin
+   item_add(dude_obj,PID_M_IRP,1)
+   end
+   exp_add(35);
+   inc_local_var(LVAR_Game_Point);
+   zReply(263)
+   NAnswer(264,1,Node999)
+   BAnswer(265,1,Node999)
+end
+
+procedure NodeGame8 begin
+   if (gameStatus == 0) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,25)
+   end
+   else begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,50)
+   end
+   dec_local_var(LVAR_Game_Point);
+   Reply(266)
+   NAnswer(267,1,Node999)
+   BAnswer(268,1,Node999)
+end
+
+procedure NodeGame9 begin
+   Reply(271)
+   NAnswer(272,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(235)
+   NAnswer(290,3,NodeAnswer200)
+   if (getQuest(GVAR_PUERTO_QST_TOY) != qZero) then begin
+   NAnswer(280,3,NodeAnswer102)
+   end
+   NAnswer(236,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(231)
+   NAnswer(232,1,NodeAnswer100)
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(281)
+   NAnswer(283,1,NodeAnswer103)
+   NAnswer(285,1,NodeAnswer104)
+   NAnswer(287,1,NodeAnswer105)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+procedure NodeAnswer103 begin
+   Reply(284)
+   NAnswer(285,1,NodeAnswer104)
+   NAnswer(287,1,NodeAnswer105)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+procedure NodeAnswer104 begin
+   Reply(286)
+   NAnswer(283,1,NodeAnswer103)
+   NAnswer(287,1,NodeAnswer105)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+procedure NodeAnswer105 begin
+   Reply(288)
+   NAnswer(283,1,NodeAnswer103)
+   NAnswer(285,1,NodeAnswer104)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+procedure NodeAnswer200 begin
+   Reply(291)
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(295,1,NodeAnswer202)
+   GAnswer(297,1,NodeAnswer203)
+   BAnswer(293,1,NodeAnswer201)
+   end
+   NAnswer(292,1,NodeAnswer100)
+end
+
+procedure NodeAnswer201 begin
+   setBonusReaction(-10)
+   Reply(294)
+   NAnswer(299,1,NodeAnswer204)
+   GAnswer(300,1,NodeAnswer204)
+   BAnswer(301,1,NodeAnswer204)
+end
+
+procedure NodeAnswer202 begin
+   Reply(296)
+   NAnswer(299,1,NodeAnswer204)
+   GAnswer(300,1,NodeAnswer204)
+   BAnswer(301,1,NodeAnswer204)
+end
+
+procedure NodeAnswer203 begin
+   setBonusReaction(10)
+   Reply(298)
+   NAnswer(299,1,NodeAnswer204)
+   GAnswer(300,1,NodeAnswer204)
+   BAnswer(301,1,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   Reply(302)
+   NAnswer(303,1,NodeAnswer205)
+   BAnswer(304,1,NodeAnswer205)
+end
+
+procedure NodeAnswer205 begin
+   Reply(305)
+   NAnswer(306,1,NodeAnswer206)
+   BAnswer(307,1,NodeAnswer206)
+end
+
+procedure NodeAnswer206 begin
+   Reply(308)
+   NAnswer(309,1,NodeAnswer208)
+   GAnswer(310,1,NodeAnswer207)
+   BAnswer(312,1,NodeAnswer209)
+end
+
+procedure NodeAnswer207 begin
+   setBonusReaction(10)
+   set_REP(1)
+   call NodeAnswer209;
+end
+
+procedure NodeAnswer208 begin
+   Reply(311)
+   NAnswer(314,1,NodeAnswer210)
+   BAnswer(315,1,NodeAnswer210)
+end
+
+procedure NodeAnswer209 begin
+   setBonusReaction(-10)
+   set_REP(-1)
+   Reply(313)
+   NAnswer(314,1,NodeAnswer210)
+   BAnswer(315,1,NodeAnswer210)
+end
+
+procedure NodeAnswer210 begin
+   Reply(316)
+   NAnswer(317,1,NodeAnswer211)
+   BAnswer(318,1,NodeAnswer212)
+end
+
+procedure NodeAnswer211 begin
+   Reply(319)
+   NAnswer(320,1,NodeAnswer213)
+   BAnswer(321,1,NodeAnswer214)
+end
+
+procedure NodeAnswer212 begin
+   setBonusReaction(-10)
+   call NodeAnswer211;
+end
+
+procedure NodeAnswer213 begin
+   Reply(322)
+   NAnswer(323,1,NodeAnswer215)
+   BAnswer(324,1,NodeAnswer216)
+end
+
+procedure NodeAnswer214 begin
+   setBonusReaction(-10)
+   call NodeAnswer213;
+end
+
+procedure NodeAnswer215 begin
+   Reply(325)
+   NAnswer(327,1,NodeAnswer216)
+   GAnswer(326,1,NodeAnswer217)
+   BAnswer(328,1,NodeAnswer218)
+end
+
+procedure NodeAnswer216 begin
+   bitDialogExp(bit_2,100)
+   zReply(329)
+   NAnswer(330,1,Node999)
+   GAnswer(331,1,Node999)
+   BAnswer(332,1,Node999)
+end
+
+procedure NodeAnswer217 begin
+   setBonusReaction(10)
+   set_REP(1)
+   call NodeAnswer216;
+end
+
+procedure NodeAnswer218 begin
+   setBonusReaction(-10)
+   set_REP(-1)
+   call NodeAnswer216;
+end
+
+procedure NodeAnswer300 begin
+   bitDialogExp(bit_3,100)
+   zReply(341)
+   GAnswer(342,1,NodeAnswer301)
+   BAnswer(343,1,NodeAnswer301b)
+end
+
+procedure NodeAnswer301 begin
+   Reply(344)
+   NAnswer(345,1,NodeAnswer302)
+end
+
+procedure NodeAnswer301b begin
+   set_REP(-1)
+   Reply(352)
+   NAnswer(345,1,NodeAnswer302)
+end
+
+procedure NodeAnswer302 begin
+   Reply(346)
+   NAnswer(347,1,NodeAnswer303)
+end
+
+procedure NodeAnswer303 begin
+   Reply(348)
+   NAnswer(349,1,NodeAnswer304)
+end
+
+procedure NodeAnswer304 begin
+   mark_on_map(AREA_CASA_NUEVA)
+   mark_map_entrance_state(MAP_CASA_NUEVA_CEMENT, 1);
+   Reply(350)
+   NAnswer(351,1,Node999)
+end
+
+/*
+
+{290}{}{Расскажи о своем Братстве.}
+{291}{}{Ха-ха, что такому ничтожеству вроде тебя нужно знать о Братстве?}
+{292}{}{Охотно верю. На этом и закончим разговор о Братстве.}
+{293}{}{Звучит громко, но что-то я не особо слышу о вас в Аризоне.}
+{294}{}{Зато нас отлично знают в Калифорнии. Знают и бояться, ведь именно мы уничтожили Повелителя и всю его армию. Как, ты этого не знаешь? Боже правый, куда катится эта страна... Сейчас я тебе объясню.}
+{295}{}{Не стану спорить. Но что вы сделали, чтобы вас боялись?}
+{296}{}{Здесь, в Аризоне, у нас много дел, но простолюдины пока плохо знают о нас. А вот в Калифорнии каждая дворняга на Пустошах знает, что именно мы уничтожили армию Повелителя. Хочешь знать подробности?}
+{297}{}{Да, расскажи, что за Повелитель?}
+{298}{}{Кажется, ты расскажешь в любом случае. Тогда давай по-быстрее.}
+{299}{}{Прошу вас. Кто же такой этот Повелитель?}
+{300}{}{Вот поэтому я здесь, рядом с могущественным Братством. Но что привело ваш орден к такой славе?}
+{301}{}{Много славных побед мы одержали за последнее время. Знаешь что-нибудь о Повелителе? Даже до Аризоны докатились слухи об этой войне.}
+{302}{}{Будь добр, расскажи подробнее.}
+{303}{}{Раз уж ты начал, то рассказывай дальше.}
+{304}{}{Повелитель - это чертов психопат, чьи мутировавшие мозги породили идею всеобщего преображения людей в мутантов. Он думал, что так спасет человечество от вымирания.}
+{305}{}{Продолжай.}
+{306}{}{А что, неплохая идея.}
+{307}{}{Ему удалось создать культ вокруг своей персоны. В его церковь приходило множество людей. Они использовались в качестве материала для экспериментов. Наиболее удачные экземпляры составили личную армию Повелителя.}
+{308}{}{Настоящая армия чертовых супермутантов? Должно быть, у Повелителя была огромная сила.}
+{309}{}{И вам это, конечно же, не понравилось?}
+{310}{}{Наши разведчики изучили обстановку, рискуя жизнью. Церковь была уничтожена. Армия разбита. Остатки армии расселились по пустошам, но наши отряды быстро нашли их и стерли из истории.}
+{311}{}{Ух ты, вы и правда самая мощная сила, которую можно только представить в наше время.}
+{312}{}{Не волнуйся, сынок. Мы и Аризону превратим в цивилизованное место. Дай только срок.}
+{1312}{}{Не волнуйтесь, леди. Мы и Аризону превратим в цивилизованное место. Дай только срок.}
+{313}{}{Нисколько не сомневаюсь после всего услышанного. И большое спасибо за рассказ.}
+{314}{}{О, здорово. Отлично. Э, пока.}
+{315}{}{Все это чрезвычайно интересно. Хорошо, что в Соноре нет ничего подобного.}
+{316}{}{Не верю. Наверняка ты приукрашиваешь заслуги Братства.}
+{317}{}{Говоришь, я вру? Будешь в Калифорнии, расспроси местных жителей. Правда, они тоже любят приврать. Как например, та история с Выходцем-Из-Убежища, который был просто нашим наемником, но решил прибрать всю славу себе.}
+{318}{}{Действительно, верить частным слухам не очень хорошая идея.}
+{319}{}{Здесь вы также себя ведете?}
+
+{320}{}{Откуда вы все взялись?}
+{321}{}{Мы из Калифорнии. Раньше сидели тихо в бункере и в мирские дела не лезли. Но пришло наше время.}
+{322}{}{Расскажи историю Братства.}
+{323}{}{Ну, нас собрал генерал Максон во время Великой Войны и привел на старую военную базу. Так мы пережили самые тяжелые времена. Прошло несколько поколений, теперь уже его потомок правит нашими рядами.}
+{324}{}{Так в чем ваша миссия? Чего вы добиваетесь?}
+{325}{}{Порядка добиваемся. Как в старые-добрые времена. Чтобы ни одна китайская шпана не могла и вякнуть против нашей страны.}
+{326}{}{Страны? О какой стране идет речь?}
+{327}{}{Соединенные Штаты Америки. Да, тебе кажется, что их больше нет. Но мы - остатки армии той самой страны. И пока мы живы, с нами жива Америка.}
+{328}{}{Эм, вернемся немного назад.}
+{329}{}{Спасибо. На этом закончим разговор о Братстве.}
+{330}{}{Мне нужно знать всё.}
+{331}{}{Тебе хватит того, что нет в Пустошах большей силы, чем мы.}
+
+{340}{}{Расскажи об этом корабле.}
+{341}{}{Это судно - эскадренный миноносец Вокельгейзинг DD-1862. Длинна 119 метров, ширина 12,5, осадка 4,37. Если бы эта машина была на ходу, то прошла бы пять с половиной морских узлов.}
+{342}{}{Звучит круто. Что еще можешь рассказать?}
+{343}{}{Миноносец - что это значит?}
+{344}{}{Что на борту судна покоится несколько чертовых ядерных торпед, каждая из которых способна уничтожить целый город. Любой солдат на судне мечтает увидеть, как это произойдет. Но пока для этого не было повода.}
+{345}{}{Этот корабль не может выйти в море?}
+{346}{}{Только не сейчас. Ему не хватит ядерного топлива для продолжительного плавания. К тому же требуется ремонт старого оборудования и корпуса. Мы знали, что это плавание в один конец, пока полностью не наладим базу в этом порту.}
+{347}{}{Почему некоторые двери заблокированы?}
+{348}{}{Есть причины. Кое-что на корабле требует особенно бережного ухода. Но даже среди своих случаются ошибки. Поэтому есть места с доступом только у генерала.}
+
+
+procedure NodeAnswer100 begin
+   Reply(235)
+   NAnswer(290,3,NodeAnswer200)
+   if (getQuest(GVAR_PUERTO_QST_TOY) != qZero) then begin
+   NAnswer(280,3,NodeAnswer102)
+   end
+   NAnswer(236,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(231)
+   NAnswer(232,1,NodeAnswer100)
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(281)
+   NAnswer(283,1,NodeAnswer103)
+   NAnswer(285,1,NodeAnswer104)
+   NAnswer(287,1,NodeAnswer105)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+procedure NodeAnswer103 begin
+   Reply(284)
+   NAnswer(285,1,NodeAnswer104)
+   NAnswer(287,1,NodeAnswer105)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+procedure NodeAnswer104 begin
+   Reply(286)
+   NAnswer(283,1,NodeAnswer103)
+   NAnswer(287,1,NodeAnswer105)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+procedure NodeAnswer105 begin
+   Reply(288)
+   NAnswer(283,1,NodeAnswer103)
+   NAnswer(285,1,NodeAnswer104)
+   NAnswer(282,1,NodeAnswer100)
+end
+
+
+procedure NodeAnswer200 begin
+   Reply(291)
+   NAnswer(320,1,NodeAnswer211)
+   NAnswer(322,1,NodeAnswer212)
+   NAnswer(324,1,NodeAnswer213)
+   if (bitDialog(bit_2) == 0) then begin
+   GAnswer(330,1,NodeAnswer201)
+   end
+   NAnswer(292,1,NodeAnswer100)
+end
+
+procedure NodeAnswer201 begin
+   Reply(331)
+   NAnswer(295,1,NodeAnswer203)
+   GAnswer(300,1,NodeAnswer204)
+   BAnswer(293,1,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   setBonusReaction(-10)
+   Reply(294)
+   NAnswer(299,1,NodeAnswer205)
+   BAnswer(298,1,NodeAnswer205)
+end
+
+procedure NodeAnswer203 begin
+   Reply(296)
+   NAnswer(297,1,NodeAnswer205)
+   BAnswer(298,1,NodeAnswer205)
+end
+
+procedure NodeAnswer204 begin
+   setBonusReaction(10)
+   Reply(301)
+   NAnswer(302,1,NodeAnswer205)
+   BAnswer(303,1,NodeAnswer205)
+end
+
+procedure NodeAnswer205 begin
+   Reply(304)
+   NAnswer(305,1,NodeAnswer206)
+   BAnswer(306,1,NodeAnswer206)
+end
+
+procedure NodeAnswer206 begin
+   Reply(307)
+   NAnswer(308,1,NodeAnswer207)
+   BAnswer(309,1,NodeAnswer207)
+end
+
+procedure NodeAnswer207 begin
+   bitDialogExp(bit_2,50)
+   Reply(310)
+   NAnswer(315,1,NodeAnswer209)
+   GAnswer(311,1,NodeAnswer208)
+   BAnswer(316,1,NodeAnswer210)
+end
+
+procedure NodeAnswer208 begin
+   setBonusReaction(10)
+   set_REP(1)
+   call NodeAnswer209;
+end
+
+procedure NodeAnswer209 begin
+   zReply(312)
+   NAnswer(313,1,Node999)
+   BAnswer(314,1,Node999)
+end
+
+procedure NodeAnswer210 begin
+   setBonusReaction(-10)
+   set_REP(-1)
+   Reply(317)
+   NAnswer(318,1,NodeAnswer209)
+   BAnswer(319,1,NodeAnswer209)
+end
+
+procedure NodeAnswer211 begin
+   Reply(321)
+   NAnswer(322,1,NodeAnswer212)
+   NAnswer(324,1,NodeAnswer213)
+   NAnswer(329,1,NodeSndDialog)
+end
+
+procedure NodeAnswer212 begin
+   Reply(323)
+   NAnswer(320,1,NodeAnswer211)
+   NAnswer(324,1,NodeAnswer213)
+   NAnswer(329,1,NodeSndDialog)
+end
+
+procedure NodeAnswer213 begin
+   Reply(325)
+   NAnswer(326,1,NodeAnswer214)
+   NAnswer(320,1,NodeAnswer211)
+   NAnswer(322,1,NodeAnswer212)
+   NAnswer(329,1,NodeSndDialog)
+end
+
+procedure NodeAnswer214 begin
+   Reply(327)
+   NAnswer(320,1,NodeAnswer211)
+   NAnswer(322,1,NodeAnswer212)
+   NAnswer(324,1,NodeAnswer213)
+   NAnswer(328,1,NodeSndDialog)
+end
+
+*/

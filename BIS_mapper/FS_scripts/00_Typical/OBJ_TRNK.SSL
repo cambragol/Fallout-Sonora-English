@@ -1,0 +1,163 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_OBJ_TRNK
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure art_change_self;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+
+       //--- Смена внешнего вида после улучшений
+       call art_change_self;
+
+       //--- Удаление ключа зажигания
+       if (dude_has_car != 0) then begin
+          /*
+          Удаление ключа на случай, если игрок взломал байк, а ключ от него оставил без использования.
+          */
+          if (item_amnt(dude_obj,PID_MOTO_KEY) >0) then begin
+          item_remove(dude_obj, PID_MOTO_KEY, item_amnt(dude_obj,PID_MOTO_KEY))
+          end
+          if (item_amnt(self_obj,PID_MOTO_KEY) >0) then begin
+          item_remove(self_obj, PID_MOTO_KEY, item_amnt(self_obj,PID_MOTO_KEY))
+          end
+       end
+
+       add_timer_event(self_obj, 1, 1);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       if (global_var(GVAR_CAR_MAP_INDEX) == cur_map_index) then begin
+           set_obj_visibility(self_obj, 0);
+       end
+       else begin
+           set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   /*
+   Замечание: Следует свериться с процедурой use_obj_on_p_proc в скрипте байка, SCRIPT_OBJ_CAR.
+   */
+
+/*
+   if (objUsedPid == PID_TOOL_ROPE) then begin
+       Комментарий: Эта опция удалена, так как показалась избыточной и неправдоподобной.
+       Но опция полностью работает, ее можно свободно вернуть в скрипт.
+
+       if (combat_is_initialized == true) then begin
+           display_mstr(203);
+       end
+       else if (dude_has_car == 0) then begin
+           display_mstr(305);
+       end
+       else if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_3) == 0) then begin
+           PLAY_FADE
+           game_time_advance(ONE_GAME_MINUTE*30);
+           set_car_carry_amount(car_carry_amount+5);
+           play_sfx("carrepar");
+           display_mstr(201);
+           dude_floater_OK;
+           item_remove(dude_obj, PID_TOOL_ROPE, 1)
+           set_gvar_bit_on(GVAR_CAR_FLAGS_BIT, bit_3);
+       end
+       else begin
+           display_mstr(202);
+           dude_floater_NON;
+       end
+   end
+
+   */
+
+   if (objUsedPid == PID_MOTO_BAG) then begin
+       script_overrides;
+       if (dude_has_car == 0) then begin
+           display_mstr(206);
+       end
+       else if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_6) == 0) then begin
+           play_sfx("carrepar");
+           set_car_carry_amount(car_carry_amount+25);
+           display_mstr(204);
+           dude_floater_OK;
+           item_remove(dude_obj, PID_MOTO_BAG, 1)
+           set_gvar_bit_on(GVAR_CAR_FLAGS_BIT, bit_6);
+       end
+       else begin
+           dude_floater_NON;
+           display_mstr(205);
+       end
+   end
+   else begin
+      script_overrides;
+      display_mstr(200);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(300);
+   end
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_msg(mstr(301)+car_carry_amount+mstr(302));
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+
+       //Важно: свериться с использованием Ремонта на байке, SCRIPT_OBJ_CAR.
+       if (dude_has_car == 0) then begin
+           display_mstr(305);
+       end
+       else begin
+           if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_2) == 0) then begin
+              if (has_skill(dude_obj, SKILL_REPAIR) >= 40) then begin
+                 PLAY_FADE
+                 game_time_advance(ONE_GAME_HOUR);
+                 set_car_carry_amount(car_carry_amount+5);
+                 play_sfx("carrepar");
+                 display_mstr(306);
+                 dude_floater_OK;
+                 set_gvar_bit_on(GVAR_CAR_FLAGS_BIT, bit_2);
+                 //call art_change_self;
+              end
+              else begin
+                 skill_display_mstr(303,SKILL_REPAIR,40)
+              end
+          end
+          else begin
+              display_mstr(304);
+          end
+       end
+   end
+
+end
+
+procedure art_change_self begin
+   // (номер изображения берется по номеру строки в ART/ITEMS.LST - 1)
+   if (global_var(GVAR_CAR_SPEED_UPGD) > 0) then begin
+       //art_change_fid_num(self_obj, 178);
+       art_change_fid_num(self_obj, 191); // авиационный ускоритель
+   end
+   else if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_6) != 0) then begin
+       art_change_fid_num(self_obj, 190); // кожаные мешки
+   end
+   else begin
+       art_change_fid_num(self_obj, 189); // изначальный вид
+   end
+end

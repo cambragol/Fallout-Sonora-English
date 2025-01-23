@@ -1,0 +1,61 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_MTTank
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RAIDERS // привязка к репутации (-1, если не нужно)
+
+procedure start;
+procedure damage_p_proc;
+procedure expl_proc;
+
+
+
+procedure start begin
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      call expl_proc;
+      end
+   end
+end
+
+procedure expl_proc begin
+   if (getQuest(GVAR_RAIDER_OIL_DESTROY) == qZero) then begin
+
+      //- ГГ лишается допуска к базе:
+				set_map_var(MVAR_ROADWAR_DOPUSK,-1);
+				set_map_var(MVAR_CAR_PRESENT,0);
+	   //- ГГ становится врагом рейдеров:
+				if (global_var(GVAR_RAIDER_STATUS_ROADBOSS) > 0) then begin
+				set_global_var(GVAR_RAIDER_STATUS_ROADBOSS,0);
+				end
+				set_global_var(GVAR_TITUL_WARRIOR_ROAD,0);
+				set_global_var(TOWN_REP_VAR,REP_KILL_CRITICAL);
+	   //- Провал квестов:
+            if (getQuest(GVAR_RAIDER_QST_DRUGS) == qStart) then begin
+            setQuest(GVAR_RAIDER_QST_DRUGS,qStop);
+            end
+            if (getQuest(GVAR_RAIDER_QST_PRISON) == qStart) then begin
+            setQuest(GVAR_RAIDER_QST_PRISON,qStop);
+            end
+            if (getQuest(GVAR_RAIDER_QST_CONTRACT) == qStart) then begin
+            setQuest(GVAR_RAIDER_QST_CONTRACT,qStop);
+            end
+            if (getQuest(GVAR_RAIDER_QST_GRANGE) == qStart) then begin
+            setQuest(GVAR_RAIDER_QST_GRANGE,qStop);
+            end
+  				set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_27);
+   			set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_28);
+   	//- Позиция ГГ:
+   	      if (dude_elevation == self_elevation) then begin
+   	      //critter_dmg(dude_obj, 999, DMG_fire);
+   	      signal_end_game;
+   	      end
+   	      else begin
+   	      exp_add(1000);
+   	      world_map;
+   	      end
+
+      setQuest(GVAR_RAIDER_OIL_DESTROY,qEnd);
+   end
+end

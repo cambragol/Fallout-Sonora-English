@@ -1,0 +1,40 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_EncSnow
+
+procedure start;
+procedure use_p_proc;
+
+variable containerObj;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   set_obj_visibility(self_obj, 1);
+   //play_sfx("WRZXXXX1");
+   play_sfx("WRUXXXX1");
+
+   containerObj := create_object_sid(345, self_tile, self_elevation, -1);
+
+      item_add(containerObj, PID_BOOTLE_CAPS, random(1, 10))
+
+      if (map_var(MVAR_ENC_SNOW_NUM) == 7) then begin
+         item_add(containerObj, PID_W_PISTOL_22, 1)
+      end
+      else if (map_var(MVAR_ENC_SNOW_NUM) == 5) then begin
+         item_add(containerObj, PID_M_TEQUILA, 2)
+      end
+      else if (map_var(MVAR_ENC_SNOW_NUM) == 3) then begin
+         item_add(containerObj, PID_TOOL_BOOTS, 1)
+      end
+      else begin
+         item_add(containerObj, PID_W_KNIFE, 1)
+      end
+
+      inc_map_var(MVAR_ENC_SNOW_NUM);
+
+   //destroy_object(self_obj);
+end

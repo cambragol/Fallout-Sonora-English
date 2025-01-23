@@ -1,0 +1,344 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCDon
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      (SLAVA_KILL_BAD*3)    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_CASINO           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeQstCult100;
+procedure NodeQstCult101;
+procedure NodeQstCult102;
+procedure NodeQstCult103;
+procedure NodeQstCult104;
+procedure NodeQstCult105;
+procedure NodeQstCult106;
+procedure NodeQstCult107;
+procedure NodeQstCult108;
+procedure NodeQstCult109;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_PHENIX_STATUS_DIEGO) <= 0) then begin
+   set_using_stop
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_PHENIX_STATUS_DIEGO,-1);
+   if (source_obj == dude_obj) then begin
+   set_global_var(GVAR_PHENIX_STATUS_DIEGO,-2);
+   end
+   killCasinoRepCity(5)
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_PHENIX_STATUS_DIEGO,100) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(103,102,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_map_var(MVAR_PNX_CASINO_PSWD,-1);
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   //bitDialogExp(bit_1,0) -- установить если ГГ получил первый квест
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   if (map_var(MVAR_PNX_CASINO_PSWD)>0) then begin
+   Reply(205)
+   end
+   else begin
+   zReply(200)
+   end
+   //!!! поправка на случай, если ГГ пришел через Мигеля
+   call NodeQstCult101; // Нападение на Последователей
+   NAnswer(mstr(201)+dude_name+mstr(202),1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   GAnswer(206,1,NodeFstDialog3)
+   NAnswer(204,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   if (global_var(GVAR_TITUL_PHENIX_CULT)>0) then begin
+   Reply(207)
+   NAnswer(208,1,Node999)
+   end
+   else begin
+   Reply(209)
+   GAnswer(214,1,NodeFstDialog5)
+   BAnswer(210,1,NodeFstDialog4)
+   end
+end
+
+procedure NodeFstDialog4 begin
+   Reply(211)
+   NAnswer(213,1,NodeFstDialog7)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(215)
+   NAnswer(216,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(217)
+   NAnswer(218,1,NodeFstDialog7)
+   NAnswer(219,1,Node999)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(223)
+   NAnswer(224,1,Node999)
+   /*
+   !!! Заменить на это, когда квесты будут разработаны:
+   call NodeFstDialog8;
+   */
+end
+
+procedure NodeFstDialog8 begin
+   //!!! переменная для выдачи квестов консильери
+   bitDialogExp(bit_1,0)
+   if (map_var(MVAR_PNX_CASINO_PSWD) <= 0) then begin
+   set_map_var(MVAR_PNX_CASINO_PSWD,1);
+   end
+
+   Reply(220)
+   GAnswer(221,1,Node999)
+   NAnswer(222,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(random(250,252))
+
+/*
+   Реакция на гулификацию
+
+   if (getQuest(GVAR_PHENIX_ALCOHOL_DESTROY) >= qEnd) then begin
+      Реакция на уничтожение самогонного аппарата
+   end
+   else begin
+      Про алкогольную империю:
+      - Это единственный центр по производству спирта. А спирт, как ты понимаешь, весьма ценен. Это и алкоголь, и медицинская жидкость, и средство для прочистки старой техники. Все это в конечном счете - отличный бизнес.
+      - Бизнес, который одним полезен, а другим наносит вред? / Некоторые говорят, что я просто пытаюсь нажиться на чужих проблемах. Они не хотят видеть, сколько пользы приносит мой продукт. / Хотя сам я никогда не пробовал эту текилу. Она только для заработка.
+      + дает наводку на КасаНуэва, но без координат
+   end
+
+   При сдаче всех квестов казино установить:
+         set_global_var(GVAR_PHENIX_STATUS_DIEGO,1); (друг Диего)
+         set_global_var(GVAR_TITUL_PHENIX_CASINO,1); (почетный член клуба в казино, но можно отказаться от этого звания)
+         говорит про особые отношения с магазином оружия и скидку в баре казино
+         направляет к администратору, чтобы тот дал ключ от люкса
+         Отношение менять не надо, так как оно задается перед началом диалога в fracReaction
+
+   if (getQuest(GVAR_PHENIX_MIGEL_KNOWN) == qStart) then begin
+      про мигеля, его историю, чем он здесь занимается
+   end
+
+*/
+
+   //--- Нападение на Последователей
+   call NodeQstCult101;
+
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswerReaction(260,3,NodeAnswer101,35,260,NodeAnswer100)
+   end
+
+   NAnswer(253,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(261)
+   NAnswer(262,1,NodeSndDialog)
+   BAnswer(263,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(264)
+   NAnswer(365,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   Reply(266)
+   NAnswer(267,1,NodeSndDialog)
+end
+
+//--- НАПАДЕНИЕ НА ПОСЛЕДОВАТЕЛЕЙ
+
+procedure NodeQstCult100 begin
+   if (getReaction >= 50) then begin
+   call NodeQstCult102;
+   end
+   else begin
+   Reply(301)
+   BAnswer(302,1,Node999)
+   NAnswer(303,1,Node999)
+   end
+end
+
+procedure NodeQstCult101 begin
+   if (bitDialog(bit_4) == 0) then begin
+      if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+         if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) > 0) and (global_var(GVAR_PHENIX_QST_CULT_A_BIT) < 10)) then begin
+         NAnswer(300,1,NodeQstCult100)
+         end
+      end
+   end
+end
+
+procedure NodeQstCult102 begin
+   Reply(304)
+   NAnswer(305,1,NodeQstCult103)
+end
+
+procedure NodeQstCult103 begin
+   Reply(306)
+   NAnswer(307,1,NodeQstCult104)
+end
+
+procedure NodeQstCult104 begin
+   Reply(308)
+   NAnswerSkill(316,3,NodeQstCult108,SKILL_CONVERSANT,50,316,NodeQstCult107)
+   BAnswer(312,1,NodeQstCult106)
+   NAnswer(309,1,NodeQstCult105)
+end
+
+procedure NodeQstCult105 begin
+   Reply(310)
+   NAnswer(311,1,Node999)
+end
+
+procedure NodeQstCult106 begin
+   Reply(313)
+   BAnswer(314,1,Node999)
+   NAnswer(315,1,Node999)
+end
+
+procedure NodeQstCult107 begin
+   zReply(317)
+   BAnswer(314,1,Node999)
+   NAnswer(315,1,Node999)
+end
+
+procedure NodeQstCult108 begin
+   bitDialogExp(bit_2,50)
+   Reply(318)
+   NAnswer(319,1,NodeQstCult109)
+end
+
+procedure NodeQstCult109 begin
+   Reply(320)
+   NAnswer(321,1,Node999)
+   BAnswer(322,1,Node999)
+end

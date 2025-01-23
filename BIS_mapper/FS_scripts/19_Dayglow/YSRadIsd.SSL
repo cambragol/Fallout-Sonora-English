@@ -1,0 +1,85 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSRadIsd
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   //if (getQuest(GVAR_DAYGLOW_MAIN_A) < qEnd) then begin
+   if (global_var(GVAR_DAYGLOW_TURBINA) < 5) then begin
+   display_mstr(116);
+   end else begin
+   display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      //if (getQuest(GVAR_DAYGLOW_MAIN_A) < qEnd) then begin
+      if (global_var(GVAR_DAYGLOW_TURBINA) < 5) then begin
+      display_mstr(116);
+      end else begin
+      display_mstr(111);
+      end
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      //if (getQuest(GVAR_DAYGLOW_MAIN_A) < qEnd) then begin
+      if (global_var(GVAR_DAYGLOW_TURBINA) < 5) then begin
+      display_mstr(116);
+      end else begin
+      display_mstr(112);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   //else if (getQuest(GVAR_DAYGLOW_MAIN_A) < qEnd) then begin
+   else if (global_var(GVAR_DAYGLOW_TURBINA) < 5) then begin
+      script_overrides;
+      display_mstr(116);
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_ELECTRONIC) then begin
+      script_overrides;
+      display_mstr(113);
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+      script_overrides;
+      display_mstr(113);
+   end
+   else if (objUsedPid == PID_Q_DAYGLOW_PATRUL_CODES) then begin
+      script_overrides;
+      if (global_var(GVAR_DAYGLOW_PATRUL_SIGNAL_NON) == 0) then begin
+      exp_add(500);
+      set_global_var(GVAR_DAYGLOW_PATRUL_SIGNAL_NON, 1);
+      end
+      if (global_var(GVAR_DAYGLOW_STATUS_ROBOT) == 0) then begin
+      set_global_var(GVAR_DAYGLOW_STATUS_ROBOT, 1);
+      end
+      display_mstr(114);
+      item_remove(dude_obj, objUsedPid, 1)
+   end
+   else if (objUsedPid == PID_Q_DAYGLOW_CODE_CORONADO) then begin
+      script_overrides;
+      if (global_var(GVAR_DAYGLOW_CORONADO_CODE_SIGNAL) == 0) then begin
+      set_global_var(GVAR_DAYGLOW_CORONADO_CODE_SIGNAL, 1);
+      end
+      display_mstr(115);
+      item_remove(dude_obj, objUsedPid, 1)
+   end
+end

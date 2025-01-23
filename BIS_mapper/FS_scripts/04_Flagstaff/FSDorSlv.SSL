@@ -1,0 +1,48 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_FSDorSlv
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_map_var(MVAR_DoorSlavActiv,0);
+      obj_close(self_obj);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      if (combat_is_initialized == false) then begin
+      set_map_var(MVAR_DoorSlavActiv,0);
+      end
+      else begin
+      add_timer_event(self_obj, 10, 1);
+      end
+   end
+   if (fixed_param == 2) then begin
+       if ((tile_distance(self_tile, dude_tile) > 5) and (combat_is_initialized == false)) then begin
+       obj_close(self_obj);
+       end
+       else begin
+       add_timer_event(self_obj, 10, 2);
+       end
+   end
+end
+
+procedure use_p_proc begin
+   //script_overrides;
+   rm_timer_event(self_obj);
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_DoorSlavActiv,1);
+   end
+   add_timer_event(self_obj, 15, 1);
+   add_timer_event(self_obj, 20, 2);
+end

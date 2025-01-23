@@ -1,0 +1,35 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_TTLift
+
+procedure start;
+procedure spatial_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       play_sfx("ELV1_2");
+
+       gfade_out(ONE_GAME_SECOND);
+           if (self_elevation == 2) then begin
+           move_to(dude_obj, 22886, 1);
+           end
+           else if ((self_elevation == 1) and (self_tile == 13708)) then begin
+           move_to(dude_obj, 14108, 0);
+           end
+           else if ((self_elevation == 1) and (self_tile == 22486)) then begin
+           move_to(dude_obj, 22088, 2);
+           end
+           else if ((self_elevation == 1) and (self_tile == 22086)) then begin
+           move_to(dude_obj, 22088, 2);
+           end
+           else if (self_elevation == 0) then begin
+           move_to(dude_obj, 14108, 1);
+           end
+           anim(dude_obj, ANIMATE_ROTATION, 2);
+       gfade_in(ONE_GAME_SECOND);
+   end
+end

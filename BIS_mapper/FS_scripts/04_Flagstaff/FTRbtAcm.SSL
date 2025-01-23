@@ -1,0 +1,33 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_FTRbtAcm
+#define MAXDISTAN               13 // максимальная дистанция ГГ, на которой слышен звук
+
+procedure start;
+procedure map_enter_p_proc;
+procedure critter_p_proc;
+
+#define LVAR_SDN_TIMER                  (0) // Таймер звука
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_FLAGSTAFF_ROBOT_STATUS) <= 0) then begin
+   end
+   else if (local_var(LVAR_SDN_TIMER) > game_time) then begin
+   end
+   else if (dude_elevation != self_elevation) then begin
+   end
+   else if (tile_distance_objs(self_obj, dude_obj) > MAXDISTAN) then begin
+   end
+   else begin
+   play_sfx("ORE");
+   set_local_var(LVAR_SDN_TIMER, (ONE_GAME_SECOND*3) + game_time);
+   end
+end

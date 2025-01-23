@@ -1,0 +1,17 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSCarGen
+
+procedure start;
+procedure map_enter_p_proc;
+
+/*
+Этот скрипт устарел, теперь машина ставится непосредственно на картах, без генератора.
+*/
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+end

@@ -1,0 +1,307 @@
+#include "..\headers\define.h"
+//--------------------- Повстанец на жд станции
+
+#define NAME                            SCRIPT_PCPrtznD
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_COLLECTOR // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GUARDS             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure push_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodePartyAdd;
+procedure NodePartyNon;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+variable invisParam;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if ((cur_map_index == MAP_PHOENIX_DSTROY) and (self_elevation == 2)) then begin
+       set_local_var(LVAR_Home_Tile,20312);
+       end
+       set_start_home
+       invisParam := 1;
+
+       if (getQuest(GVAR_PHENIX_PARTY_QST_A) >= qStart) then begin
+          invisParam := 0;
+          if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) > 1) then begin
+             if ((cur_map_index == MAP_PHOENIX_DSTROY) and (self_elevation == 2)) then begin
+             end
+             else begin
+             invisParam := 1;
+             end
+          end
+          else if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) < 0) then begin
+             invisParam := 1;
+          end
+       end
+       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+          invisParam := 1;
+       end
+
+       if (invisParam == 0) then begin
+          set_obj_visibility(self_obj, 0);
+       end
+       else begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((cur_map_index == MAP_PHOENIX_DSTROY) and (self_elevation == 2)) then begin
+       timer_move_random_home(3)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+   if (fixed_param == 3) then begin
+       floater(self_obj,102,COLOR_MSG_GREEN);
+   end
+end
+
+procedure critter_p_proc begin
+   if (dude_elevation == 0) then begin
+      if (map_var(MVAR_PNX_MAP_INFO) == 0) then begin
+      display_mstr(104);
+      set_map_var(MVAR_PNX_MAP_INFO,1);
+      end
+   end
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) == 1) then begin
+      partyRunToDude
+      if (cur_map_index == MAP_PHOENIX_ANAL) then begin
+      end
+      else if ((cur_map_index == MAP_PHOENIX_DSTROY) and (self_elevation != 2)) then begin
+      end
+      else begin
+      bitDialogExp(bit_2,0)
+      dialogue_system_forcing(5)
+      end
+   end
+end
+
+procedure push_p_proc begin
+   if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) != 1) then begin
+   script_overrides;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_PHENIX_STATUS_SPYPARTY,-1);
+   if ((cur_map_index == MAP_PHOENIX_DSTROY) and (self_elevation != 2)) then begin
+   set_global_var(GVAR_PHENIX_STATUS_SPYPARTY,-2);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) > 1) then begin
+   floater(self_obj,103,COLOR_MSG_GREEN);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_2) != 0) then begin
+   call NodeSndDialog3;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+/*
+{200}{}{Стой, ты у меня на мушке.}
+{201}{}{Меня прислали Элиса и Маркос. Они потеряли с тобой связь.}
+{202}{}{Наконец-то... Но тихо! Нас не должны обнаружить. Не знаю, как эти монахи меня вычислили. Они умнее, чем кажутся. Ты поможешь мне вернуться на базу?}
+{203}{}{А как же твое задание?}
+{204}{}{К черту. Сейчас надо выжить и не попасть в лапы сектантов. К тому же маяк остался в противоположном здании, к нему теперь незаметно не подобраться.}
+{205}{}{Нам нужно уходить.}
+{206}{}{Пройти мимо сектантов незамеченным не получится... Хм, а как тебе это удалось?}
+{207}{}{Придется пробиваться к единственному выходу с боем. Ты готов? Тогда пошли.}
+{208}{}{Сначала нужно закончить твое задание. Жди здесь.}
+*/
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(206)
+   NAnswer(207,1,NodePartyAdd)
+   NAnswer(208,1,Node999)
+end
+
+//--- ПАРТИЯ
+
+procedure NodePartyAdd begin
+   rm_timer_event(self_obj);
+   set_global_var(GVAR_PHENIX_STATUS_SPYPARTY,1);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   party_add(self_obj);
+   call Node999;
+end
+
+procedure NodePartyNon begin
+   rm_timer_event(self_obj);
+   set_local_var(LVAR_Home_Tile,self_tile);
+   if ((cur_map_index == MAP_PHOENIX_DSTROY) and (self_elevation == 2)) then begin
+   set_local_var(LVAR_Home_Tile,20312);
+   end
+   if (bitDialog(bit_2) == 0) then begin
+   set_global_var(GVAR_PHENIX_STATUS_SPYPARTY,0);
+   end
+   else begin
+   set_global_var(GVAR_PHENIX_STATUS_SPYPARTY,2);
+   end
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   party_remove(self_obj);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   call Node999;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(215,1,NodeSndDialog2)
+   if (partyPidSelf>0) then begin
+   NAnswer(212,1,NodePartyNon)
+   NAnswer(211,1,Node999)
+   end
+   else begin
+   NAnswer(213,1,NodePartyAdd)
+   NAnswer(214,1,Node999)
+   end
+end
+
+procedure NodeSndDialog2 begin
+   Reply(216)
+   if (partyPidSelf>0) then begin
+   NAnswer(212,1,NodePartyNon)
+   NAnswer(211,1,Node999)
+   end
+   else begin
+   NAnswer(213,1,NodePartyAdd)
+   NAnswer(214,1,Node999)
+   end
+end
+
+procedure NodeSndDialog3 begin
+   exp_add(250);
+   if (cur_map_index == MAP_PHOENIX_DSTROY) then begin
+   Reply(219)
+   end
+   else begin
+   Reply(217)
+   end
+   NAnswer(218,1,NodePartyNon)
+end

@@ -1,0 +1,63 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                    SCRIPT_ZSTblDmt
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure traps_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_TRAPS) then begin
+       script_overrides;
+       if (local_var(LVAR_Status) == 0) then begin
+       call traps_proc;
+       end
+       else begin
+       display_mstr(111);
+       end
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call use_p_proc;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(114);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else RepairProcUsingMexTorpedos
+end
+
+procedure traps_proc begin
+   if (has_skill(dude_obj, SKILL_TRAPS) < 40) then begin
+       skill_display_mstr(112,SKILL_TRAPS,40)
+   end
+   else begin
+       exp_add(75);
+       item_add(dude_obj,PID_TOOL_PLASTIC_EXPLOSIVES,1)
+       if (has_skill(dude_obj, SKILL_TRAPS) >= 90) then begin
+       item_add(dude_obj,PID_TOOL_PLASTIC_EXPLOSIVES,1)
+       end
+       display_mstr(113);
+       play_sfx("FIXSTILL");
+       set_local_var(LVAR_Status,1);
+   end
+end

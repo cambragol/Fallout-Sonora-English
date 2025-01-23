@@ -129,14 +129,8 @@ procedure talk_p_proc begin
    if (map_var(MVAR_OIL_PLATFORM_GHOULSAMNT) > 0) then begin
    floater(self_obj, 106, COLOR_MSG_RED);
    end
-   else if (global_var(GVAR_OIL_STATUS_GOLD) >= 3) then begin
-   floater(self_obj, 104, COLOR_MSG_NORMAL);
-   end
    else if (global_var(GVAR_OIL_STATUS_GOLD) == 2) then begin
    floater(self_obj, 103, COLOR_MSG_RED);
-   end
-   else if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) >= qEnd) then begin
-   floater(self_obj, 105, COLOR_MSG_NORMAL);
    end
    else if (global_var(GVAR_OIL_STATUS_GOLD) == 1) then begin
    floater(self_obj, 102, COLOR_MSG_NORMAL);
@@ -216,11 +210,16 @@ end
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
+      if (global_var(GVAR_OIL_STATUS_GOLD) >= 3) then begin
+   Reply(104)
+   end
+   else begin
    Reply(220)
+   end
    
 
    if ((getQuest(GVAR_OIL_PLATFORM_QST_A) < qEnd) and (getQuest(GVAR_OIL_PLATFORM_STATUS) < qEnd)) then begin
-      NAnswer(230,1,NodeAnswer100)
+      NAnswer(230,0,NodeAnswer100)
    end
 
    if (bitDialog(bit_2) == 0) then begin
@@ -230,7 +229,7 @@ procedure NodeSndDialog begin
    if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) == qStart) then begin
       if (global_var(GVAR_OIL_STATUS_SOIL_GOLD) == 0) then begin
          if ((item_amnt(dude_obj,PID_Q_GOLD_MAP)>=3) and (item_amnt(self_obj,PID_Q_GOLD_MAP)>0)) then begin
-            NAnswer(240,1,NodeAnswer200)
+            NAnswer(240,0,NodeAnswer200)
          end
          // added this and nodeAnswer300 to give a clue to look in Brahmin shit for the map pieces - player feedback - cambragol
          else begin
@@ -241,11 +240,16 @@ procedure NodeSndDialog begin
 
    if (getQuest(GVAR_OIL_PLATFORM_QST_KILL) == qStart) then begin
       if (map_var(MVAR_OIL_PLATFORM_KILL_C) == 1) then begin
-      BAnswer(250,1,NodeAnswer102)
+      BAnswer(250,0,NodeAnswer102)
       end
    end
 
-   NAnswer(221,1,Node999)
+   if (global_var(GVAR_OIL_STATUS_GOLD) >= 3) then begin
+   NAnswer(107,0,Node999)
+   end
+   else begin
+   NAnswer(221,0,Node999)
+   end
 end
 
 procedure NodeAnswer100 begin

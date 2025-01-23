@@ -1,0 +1,92 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_AFBody
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog2;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run == true) then begin
+      move_to(self_obj, tile_num_in_direction(self_tile,random(0,5),random(1,3)), self_elevation);
+      end
+      set_obj_visibility(self_obj, 1);
+      if (getQuest(GVAR_OIL_PLATFORM_QST_KILL) == qZero) then begin
+      set_obj_visibility(self_obj, 0);
+      end
+      if (getQuest(GVAR_OIL_PLATFORM_QST_KILL) == qStart) then begin
+      set_obj_visibility(self_obj, 0);
+      end
+      if (gvar_bit(GVAR_OIL_PLATFORM_QST_KILL_BIT, bit_1) != 0) then begin
+      set_obj_visibility(self_obj, 1);
+      end
+      if (getQuest(GVAR_OIL_PLATFORM_QST_KILL) >= qEnd) then begin
+      create_object_sid(PID_M_SLUGS, dude_tile, dude_elevation, -1);
+      create_object_sid(PID_M_SLUGS, dude_tile, dude_elevation, -1);
+      create_object_sid(PID_M_SLUGS, dude_tile, dude_elevation, -1);
+      create_object_sid(PID_M_SLUGS, dude_tile, dude_elevation, -1);
+      create_object_sid(PID_M_SLUGS, dude_tile, dude_elevation, -1);
+      destroy_object(self_obj);
+      end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(110);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+
+      if (combat_is_initialized == true) then begin
+      display_mstr(111);
+      end
+      else begin
+      call talk_p_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(201,1,NodeDialog2)
+   NAnswer(202,1,NodeDialog2)
+   if (getQuest(GVAR_OIL_PLATFORM_QST_KILL) != qZero) then begin
+   NAnswer(205,1,Node999)
+   end
+end
+
+procedure NodeDialog2 begin
+   if (getQuest(GVAR_OIL_PLATFORM_QST_KILL) == qZero) then begin
+   setQuest(GVAR_OIL_PLATFORM_QST_KILL, qStart);
+   end
+   //!!! улика против убийцы
+   Reply(203)
+   NAnswer(204,1,Node999)
+end

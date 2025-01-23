@@ -16,7 +16,7 @@
 {800}{}{.50 Caliber}
 {801}{}{Ammunition. .50 Caliber. A round for particularly cool pistols and revolvers.}
 {900}{}{5mm}
-{901}{}{Ammunition. Caliber: 5mm}
+{901}{}{Ammunition. Caliber: 5mm.}
 {1000}{}{.308 Caliber}
 {1001}{}{Ammunition. .308 Caliber. Rifle round of an old but reliable caliber.}
 {1100}{}{12 ga. Shotgun Shells}
@@ -45,7 +45,7 @@
 {2200}{}{Grenade (Pulse)}
 {2201}{}{An electromagnetic pulse grenade, generating an intense magnetic field on detonation. Doesn't affect biological creatures. Contact fuze. Min ST: 3.}
 {2300}{}{Grenade (Nuclear)}
-{2301}{}{An improvised hand grenade made from a powerful nuclear projectile. When it explodes, it releases such an amount of energy that it can destroy a house. Min. strength: 5.}
+{2301}{}{An improvised hand grenade made from a powerful nuclear projectile. When it explodes, it releases such an amount of energy that it can destroy a house. Min ST: 5.}
 ###------- ARMOR
 {2400}{}{Jumpsuit}
 {2401}{}{Cute skintight jumpsuit from a Vault. This item can be sold profitably on the market. Effects: +2 reaction.}
@@ -57,7 +57,7 @@
 {2701}{}{Your basic all leather apparel. Finely crafted from tanned brahmin hide. Only San Brahmin masters know the secrets of its production.}
 {2800}{}{Robes}
 {2801}{}{Follower of Fire Robes. Made using secret technology and special materials. Provides additional radiation protection.}
-{2900}{}{Robes with body armor}
+{2900}{}{Robes with Body Armor}
 {2901}{}{Follower of Fire Robes. Made using secret technology and special materials with additional radiation protection. A lightweight police vest is discreetly hidden under the robe.}
 {3000}{}{Metal Armor}
 {3001}{}{Polished metal plates, crudely forming a suit of armor. Provides excellent protection from bullets and impacts, but is burdened by its heavy weight and unwieldy shape.}
@@ -72,7 +72,7 @@
 {3500}{}{T-51b Power Armor}
 {3501}{}{A self-contained suit of advanced technology armor. Powered by a micro-fusion reactor, with enough fuel to last a hundred years.}
 {3600}{}{Road Armor}
-{3601}{}{An pre-war leather jacket, tightly reinforced with road signs. Such jackets are often worn by highwaymen.}
+{3601}{}{A pre-war leather jacket, tightly reinforced with road signs. Such jackets are often worn by highwaymen.}
 {3700}{}{Ranger Duster}
 {3701}{}{A type of armor expertly crafted from brahmin leather for the Rangers. Only San Brahmin masters know the secrets of its production.}
 ###------- DIFFERENT THINGS
@@ -105,11 +105,11 @@
 {5100}{}{!Do not use}
 {5101}{}{Original: Dynamite.}
 {5200}{}{Geiger counter}
-{5201}{}{A Wattz Electronics C-Radz model Geiger Counter. Detects the presence and strength of radiation fields. It is on}
+{5201}{}{A Wattz Electronics C-Radz model Geiger Counter. Detects the presence and strength of radiation fields.}
 {5300}{}{Mentats}
 {5301}{}{A pillbox of mind-altering drugs. Increases memory related functions, and speeds other mental processes. Highly addictive. Effects: +2 IN, +2 PE, +1 CH.}
 {5400}{}{Stealth Boy}
-{5401}{}{A RobCo Stealth Boy 3001 personal stealth device. Generates a modulating field that transmits the reflected light from one side of an object to the other. Effects: Stealth +20.}
+{5401}{}{A RobCo Stealth Boy 3001 personal stealth device. Generates a modulating field that transmits the reflected light from one side of an object to the other. Effects: Sneak +20.}
 {5500}{}{Walkie-Talkie}
 {5501}{}{A working radio model 2043B from the excellent company Wattz Electronics. Reliable, durable, and camouflaged.}
 {5600}{}{Iguana Trap}
@@ -122,7 +122,7 @@
 {5901}{}{A Wattz Electronics C-U model motion sensor. Detects the movement of biological material over a distance of meters using a tuned radar device. Having one in your inventory will also help you avoid outdoor encounters.}
 ###------- PROVISION
 {6000}{}{Iguana-on-a-stick}
-{6001}{}{A cooked iguana, roasted in it's own skin. Effects: +2 hit points.}
+{6001}{}{A cooked iguana, roasted in its own skin. Effects: +2 hit points.}
 {6100}{}{Mutfruit}
 {6101}{}{Unusual fruit. No preservatives or dyes. Effects: +3 hit points.}
 {6200}{}{Jerky}
@@ -150,16 +150,16 @@
 ###------- TOOLS
 {7300}{}{!Reserve book}
 {7301}{}{Do not use (Big Book of Science).}
-{7400}{}{Lockpick}
-{7401}{}{Improvised master key for picking classic mechanical locks. Don't expect long service life.}
+{7400}{}{Lock Picks}
+{7401}{}{A set of locksmith tools.  Includes all the necessary picks and tension wrenches to open conventional pin and tumbler locks.}
 {7500}{}{Decoder}
 {7501}{}{A high-powered hacking calculator designed for electronic systems. It has just enough charge left for one extended operation.}
 {7600}{}{!Reserve book}
 {7601}{}{Do not use (Electronics).}
 {7700}{}{Gas Mask}
 {7701}{}{An old, damaged civilian model gas mask. It may still serve you for a while.}
-{7800}{}{Tinsmith's Glasses}
-{7801}{}{Electronic glasses made by Two-Sun Tinsmiths. Equipped with a night vision device, interchangeable lenses and various sensors. The battery lasts for 10 minutes.}
+{7800}{}{Tinsmith's Goggles}
+{7801}{}{Electronic goggles made by Two-Sun Tinsmiths. Equipped with a night vision device, interchangeable lenses and various sensors. The battery lasts for 10 minutes.}
 {7900}{}{Flare}
 {7901}{}{A flare. Creates light for a short period of time. The paper is a little worn, but otherwise it is in good condition. Turn the top to turn it on.}
 {8000}{}{!Reserve book}
@@ -181,7 +181,7 @@
 {8800}{}{Scrap Metal}
 {8801}{}{Valuable parts from mechanical equipment. May be useful for repairs or for profitable exchange.}
 {8900}{}{Electronics Parts}
-{8901}{}{Various parts from electronic equipment: capacitors, cathode tubes, inductors and much more. All this can be useful for repairs or for a profitable exchange.}
+{8901}{}{Various parts from electronic equipment: capacitors, vacuum tubes, inductors and much more. All this can be useful for repairs or for a profitable exchange.}
 {9000}{}{Flammable Mixture}
 {9001}{}{A bottle containing a blend of various flammable substances. A relatively valuable resource in post-nuclear conditions.}
 {9100}{}{!Do not use}
@@ -195,11 +195,11 @@
 {9500}{}{Cornmeal}
 {9501}{}{A staple of the modern diet. Contains some small foreign debris.}
 {9600}{}{Cleaning Agent}
-{9601}{}{Dry powder for removing dirt. Its even capable of washing away centuries old muck.}
+{9601}{}{Dry powder for removing dirt. It's even capable of washing away centuries old muck.}
 {9700}{}{Wet Wipes}
 {9701}{}{A sealed package of sanitary napkins. Replaces a bath while traveling through the Wasteland.}
 {9800}{}{Wasteland Gum}
-{9801}{}{Mature leaves of a rare wasteland plant. Many travelers value them as a rich source of micronutrients, and city dwellers value them as a way to get pleasure.}
+{9801}{}{Mature leaves of a rare wasteland plant. Valued by travelers for their high micronutrient content, these leaves are also sought after by city dwellers for their soothing, pleasurable effects.}
 {9900}{}{Coffee}
 {9901}{}{This jar contains some kind of "coffee beans". Apparently this is a barely surviving product of the Old World.}
 {10000}{}{Tire Sandals}
@@ -208,11 +208,11 @@
 {10101}{}{A simple vessel made of clay. Such things are valued in many settlements.}
 {10200}{}{!Reserve book}
 {10201}{}{Do not use (Weapons and Ammo).}
-{10300}{}{Cattle Herder's Battle Shield}
-{10301}{}{Part of the local tribes' ammunition. Includes a wooden shield and leather cape.}
+{10300}{}{Brahmin Herder's Battle Shield}
+{10301}{}{Part of the local tribes' accoutrements. Includes a wooden shield and leather cape.}
 {10400}{}{NMR Combat Armor}
 {10401}{}{High tech pre-war armor with the insignia of the New Mexican Republic.}
-{10500}{}{Campaign Flask}
+{10500}{}{Hip Flask}
 {10501}{}{This flask was a gift from the people of the Vault. It will make it easier for you to travel through the arid, barren desert.}
 {10600}{}{Nuka-Cola}
 {10601}{}{A bottle of Nuka-Cola, the flavored softdrink of the post-nuclear world. Warm and flat. Effects: +(3-5) hit points.}
@@ -239,13 +239,13 @@
 {11700}{}{-DLC}
 {11701}{}{-DLC}
 {11800}{}{Dixon's Machine Gun}
-{11801}{}{A heavy machine gun designed to be fired from the side of a sea vessel. Min. strength: 7.}
+{11801}{}{A heavy machine gun designed to be fired from the side of a sea vessel. Min ST: 7.}
 {11900}{}{-DLC}
 {11901}{}{-DLC}
 ###------- ALCOHOL
 {12000}{}{-DLC}
 {12001}{}{-DLC}
-{12100}{}{Syrup}
+{12100}{}{Agave Syrup}
 {12101}{}{Syrup obtained from the juice of the "fire agave". Despite the terrible stench and burning taste, it contains large amounts of fructose and sugar.}
 {12200}{}{Swill}
 {12201}{}{A diluted low-quality alcoholic drink. Its composition and origin can no longer be determined. Effects: -1 PE, -1 IN.}
@@ -256,138 +256,138 @@
 {12500}{}{Wasteland Tequila}
 {12501}{}{Tequila alcoholic drink from Phoenix of very dubious quality. It looks like there's a little worm swimming in the bottle. Effects: -1 PE.}
 ###------- WEAPON
-{12600}{}{Brass knuckles}
-{12601}{}{Hardened knuckle grip that is actually made out of steel. They protect your hand, and do more damage, in unarmed combat. Min. strength: 1.}
+{12600}{}{Brass Knuckles}
+{12601}{}{Hardened knuckle grip that is actually made out of steel. They protect your hand, and do more damage, in unarmed combat. Min ST: 1.}
 {12700}{}{Spiked Knuckles}
-{12701}{}{An improved version of the classic Brass Knuckles. The Spiked Knuckles do more damage, tearing into the flesh of your opponent in unarmed combat. Min. strength: 1.}
+{12701}{}{An improved version of the classic Brass Knuckles. The Spiked Knuckles do more damage, tearing into the flesh of your opponent in unarmed combat. Min ST: 1.}
 {12800}{}{Claws}
-{12801}{}{Improvised melee weapon. It consists of two old blades connected by bolts to a sleeve frame. Min. strength: 1.}
-{12900}{}{Pneumatic fist}
-{12901}{}{Homemade mechanical brass knuckles. During the strike, it projects sharp spikes forward with force, piercing the body of the victim. Min. strength: 1.}
+{12801}{}{Improvised melee weapon. It consists of two old blades connected by bolts to a sleeve frame. Min ST: 1.}
+{12900}{}{Pneumatic Fist}
+{12901}{}{Homemade mechanical brass knuckles. During the strike, it projects sharp spikes forward with force, piercing the body of the victim. Min ST: 1.}
 {13000}{}{Shock Glove}
-{13001}{}{Modified police taser. Upon contact with the victim's body, this weapon transmits a powerful charge of electricity to him, and an old rubber glove protects the wearer from electric shock. Min. strength: 1.}
+{13001}{}{Modified police taser. Upon contact with the victim's body, this weapon transmits a powerful charge of electricity to him, and an old rubber glove protects the wearer from electric shock. Min ST: 1.}
 {13100}{}{Power Fist}
-{13101}{}{A "Big Frigger" Power Fist from BeatCo. Considered by many to be the ultimate weapon to use in unarmed combat. Others are just scared. Powered by micro fusion cells. Min. strength: 1.}
+{13101}{}{A "Big Frigger" Power Fist from BeatCo. Considered by many to be the ultimate weapon to use in unarmed combat. Others are just scared. Powered by micro fusion cells. Min ST: 1.}
 {13200}{}{Knife}
-{13201}{}{A sharp-bladed cutting and stabbing weapon. strength: 1.}
+{13201}{}{A sharp-bladed cutting and stabbing weapon. Min ST: 1.}
 {13300}{}{Combat Knife}
-{13301}{}{A high-quality combat knife, the Stallona is from SharpWit, Inc. The edge of this blade is guaranteed sharp for over a decade of use! Min. strength: 1.}
+{13301}{}{A high-quality combat knife, the Stallona is from SharpWit, Inc. The edge of this blade is guaranteed sharp for over a decade of use! Min ST: 1.}
 {13400}{}{Punch Knife}
-{13401}{}{A large knife with a double-edged blade. Still surprisingly spicy. Min. strength: 1.}
+{13401}{}{A large knife with a double-edged blade. Still surprisingly spicy. Min ST: 1.}
 {13500}{}{Ripper}
-{13501}{}{A Ripper(tm) vibroblade. Powered by a micro fusion cell, the chainblade rips and tears into it's target. Min. strength: 1.}
+{13501}{}{A Ripper(tm) vibroblade. Powered by a micro fusion cell, the chainblade rips and tears into it's target. Min ST: 1.}
 {13600}{}{Atomic Cutter}
-{13601}{}{A working tool for cutting hard material. Breaks molecular bonds with powerful radiation. Powered by a battery on the belt. Min. strength: 1.}
+{13601}{}{A working tool for cutting hard material. Breaks molecular bonds with powerful radiation. Powered by a battery on the belt. Min ST: 1.}
 {13700}{}{Spear}
-{13701}{}{A razor tipped polearm. The shaft is wooden, and the tip is worked steel. Min. strength: 4.}
-{13800}{}{Pneumatic spear}
-{13801}{}{A peculiar invention of local engineers. Upon impact, the pneumatic system projects a sharp metal spike at the victim, and then uses a spring to return it to its place. Min. strength: 4.}
+{13701}{}{A razor tipped polearm. The shaft is wooden, and the tip is worked steel. Min ST: 4.}
+{13800}{}{Pneumatic Spear}
+{13801}{}{A peculiar invention of local engineers. Upon impact, the pneumatic system projects a sharp metal spike at the victim, and then uses a spring to return it to its place. Min ST: 4.}
 {13900}{}{Electric Spear}
-{13901}{}{An effective police tool for dispersing crowds of troublemakers. Used many times before the Great War. Min. strength: 4.}
+{13901}{}{An effective police tool for dispersing crowds of troublemakers. Used many times before the Great War. Min ST: 4.}
 {14000}{}{Club}
-{14001}{}{A military or police baton. Heavy wood. Min. strength: 3.}
+{14001}{}{A military or police baton. Heavy wood. Min ST: 3.}
 {14100}{}{Crowbar}
-{14101}{}{A very solid and heavy piece of metal, specially designed to exert leverage.  Or pound heads.  Min. strength: 3.}
+{14101}{}{A very solid and heavy piece of metal, specially designed to exert leverage.  Or pound heads.  Min ST: 3.}
 {14200}{}{Cattle Prod}
-{14201}{}{An electro prod from Wattz Electronics. Model: "Farmer's Best Friend." Powered by micro fusion cells. Min. Strength: 3.}
+{14201}{}{An electro prod from Wattz Electronics. Model: "Farmer's Best Friend." Powered by micro fusion cells. Min ST: 3.}
 {14300}{}{Reinforced Cattle Prod}
-{14301}{}{An electric prod from Wattz Electronics, branded as the "Farmer's Best Friend." Enhanced with modifications, this model packs a much stronger punch. Min. Strength: 3.}
+{14301}{}{An electric prod from Wattz Electronics, branded as the "Farmer's Best Friend." Enhanced with modifications, this model packs a much stronger punch. Min ST: 3.}
 {14400}{}{Super Stimpak}
 {14401}{}{An advanced healing chem. Very powerful. Superstims will cause a small amount of damage after a period of time due to powerful nature of the chemicals used. Effects: +75 hit points, -1 Strength.}
 {14500}{}{Sledgehammer}
-{14501}{}{A large hammer with big handle. Very popular with the muscular crowd. Min. strength: 6.}
+{14501}{}{A large hammer with big handle. Very popular with the muscular crowd. Min ST: 6.}
 {14600}{}{Hammer}
-{14601}{}{A balanced, lightweight hammer with increased maneuverability. Although they used to crush bricks, now they have a more practical use. Min. strength: 5.}
+{14601}{}{A balanced, lightweight hammer with increased maneuverability. Although they used to crush bricks, now they have a more practical use. Min ST: 5.}
 {14700}{}{Super Sledge}
-{14701}{}{A Super Sledgehammer, manufactured by the Brotherhood of Steel, using the finest weapons technology available. Includes a kinetic energy storage device, to increase knockback. Min. strength: 5.}
+{14701}{}{A Super Sledgehammer, manufactured by the Brotherhood of Steel, using the finest weapons technology available. Includes a kinetic energy storage device, to increase knockback. Min ST: 5.}
 {14800}{}{Old Revolver}
-{14801}{}{Ancient civilian weapon. Like any revolver, it's valued for its simplicity and reliability. Min. strength: 4.}
+{14801}{}{Ancient civilian weapon. Like any revolver, it's valued for its simplicity and reliability. Min ST: 4.}
 {14900}{}{Police Revolver}
-{14901}{}{A reliable revolver from S&W, popular in its day among police officers and highway patrolmen. Min. strength: 4.}
+{14901}{}{A reliable revolver from S&W, popular in its day among police officers and highway patrolmen. Min ST: 4.}
 {15000}{}{Combat Revolver}
-{15001}{}{Great revolver. The favorite weapon of collectors and pretentious types. Now it's yours. Min. strength: 5.}
+{15001}{}{Great revolver. The favorite weapon of collectors and pretentious types. Now it's yours. Min ST: 5.}
 {15100}{}{Flare Pistol}
-{15101}{}{A pistol for firing a flare. Although it can hardly be called a weapon, at the right moment it can put the enemy to flight (especially if you have skillfully modified rounds). Min. strength: 3.}
+{15101}{}{A pistol for firing a flare. Although it can hardly be called a weapon, at the right moment it can put the enemy to flight (especially if you have skillfully modified rounds). Min ST: 3.}
 {15200}{}{.22 Submachine Gun}
-{15201}{}{Sporting weapon of a bygone era. Now its main purpose is to shoot iguanas and scare away hooligans. Min. strength: 3.}
+{15201}{}{Sporting weapon of a bygone era. Now its main purpose is to shoot iguanas and scare away hooligans. Min ST: 3.}
 {15300}{}{10mm pistol}
-{15301}{}{A Colt 6520 10mm autoloading pistol. Each pull of the trigger will automatically reload the firearm until the magazine is empty. Single shot only, using the powerful 10mm round. Min. strength: 3.}
+{15301}{}{A Colt 6520 10mm autoloading pistol. Each pull of the trigger will automatically reload the firearm until the magazine is empty. Single shot only, using the powerful 10mm round. Min ST: 3.}
 {15400}{}{10mm SMG}
-{15401}{}{H&K MP9 Submachinegun (10mm variant). A medium-sized SMG, capable of single shot and burst mode. Min. strength: 4.}
-{15500}{}{Mexican PP}
-{15501}{}{HM-23 submachine gun developed by Mendoza CA. It was adopted by the Mexican police and performed well during border unrest before the Great War. Min. strength: 4.}
+{15401}{}{H&K MP9 Submachinegun (10mm variant). A medium-sized SMG, capable of single shot and burst mode. Min ST: 4.}
+{15500}{}{Mexican SMG}
+{15501}{}{HM-23 submachine gun developed by Mendoza CA. It was adopted by the Mexican police and performed well during border unrest before the Great War. Min ST: 4.}
 {15600}{}{.50 Pistol}
-{15601}{}{SIG-Sauer automatic pistol. Requires special handling skills due to the enormous force of the shot and high noise level. Min. strength: 5.}
+{15601}{}{SIG-Sauer automatic pistol. Requires special handling skills due to the enormous force of the shot and high noise level. Min ST: 5.}
 {15700}{}{Hunting Rifle}
-{15701}{}{Colt Rangemaster semi-automatic rifle. Outdated but reliable. Min. strength: 5.}
+{15701}{}{Colt Rangemaster semi-automatic rifle. Outdated but reliable. Min ST: 5.}
 {15800}{}{Combat Rifle}
-{15801}{}{American semi-automatic rifle of the AR series, formerly in service with the United States and Mexico. Convenient and reliable. Min. strength: 5.}
+{15801}{}{American semi-automatic rifle of the AR series, formerly in service with the United States and Mexico. Convenient and reliable. Min ST: 5.}
 {15900}{}{Molotov Cocktail}
-{15901}{}{A home-made flammable grenade. Min. strength: 4.}
+{15901}{}{A home-made flammable grenade. Min ST: 4.}
 {16000}{}{Sniper Rifle}
-{16001}{}{DKS-501 rifle, converted to .308 caliber. An excellent long-range firearm. Min. strength: 6.}
+{16001}{}{DKS-501 rifle, converted to .308 caliber. An excellent long-range firearm. Min ST: 6.}
 {16100}{}{Assault Rifle}
-{16101}{}{An AK-112 5mm Assault Rifle. An old military model, out of use around the time of the war. Can fire single-shot or burst, using the high velocity 5mm rounds. Min. strength: 5.}
+{16101}{}{An AK-112 5mm Assault Rifle. An old military model, out of use around the time of the war. Can fire single-shot or burst, using the high velocity 5mm rounds. Min ST: 5.}
 {16200}{}{Light Machine Gun}
-{16201}{}{Mendoza C-2075 machine gun, 5mm caliber model. After worsening relations with the United States, Mexico has resumed developing its own weapons, and this is one of them. Min. strength: 6.}
+{16201}{}{Mendoza C-2075 machine gun, 5mm caliber model. After worsening relations with the United States, Mexico has resumed developing its own weapons, and this is one of them. Min ST: 6.}
 {16300}{}{Minigun}
-{16301}{}{A Rockwell CZ53 Personal Minigun. A multi-barrelled chaingun firing 5mm ammunition at over 60,000 RPM. Min. strength: 8.}
+{16301}{}{A Rockwell CZ53 Personal Minigun. A multi-barrelled chaingun firing 5mm ammunition at over 60,000 RPM. Min ST: 8.}
 {16400}{}{Shotgun}
-{16401}{}{A Winchester Widowmaker double-barreled 12-gauge shotgun. Short barrel, with mahogany grip. Min. strength: 6.}
+{16401}{}{A Winchester Widowmaker double-barreled 12-gauge shotgun. Short barrel, with mahogany grip. Min ST: 6.}
 {16500}{}{Combat Shotgun}
-{16501}{}{A Winchester City-Killer 12-gauge combat shotgun, bullpup variant. In excellent condition, it has the optional DesertWarfare environmental sealant modification for extra reliability. Min. strength: 6.}
+{16501}{}{A Winchester City-Killer 12-gauge combat shotgun, bullpup variant. In excellent condition, it has the optional Desert Warfare environmental sealant modification for extra reliability. Min ST: 6.}
 {16600}{}{Assault Shotgun}
-{16601}{}{Melee assault weapon. The bullpup design makes it small and easy to handle. Min. strength: 6.}
+{16601}{}{Melee assault weapon. The bullpup design makes it small and easy to handle. Min ST: 6.}
 {16700}{}{40mm Grenade Launcher}
-{16701}{}{Hand grenade launcher for 40mm shells. Developed by Rockwell. Min. strength: 6.}
+{16701}{}{Hand grenade launcher for 40mm shells. Developed by Rockwell. Min ST: 6.}
 {16800}{}{Laser Emitter}
-{16801}{}{Homemade weapon crafted from industrial robot parts. Fires a low-power laser beam at close range. Min. strength: 3.}
+{16801}{}{Homemade weapon crafted from industrial robot parts. Fires a low-power laser beam at close range. Min ST: 3.}
 {16900}{}{Laser Pistol}
-{16901}{}{A Wattz 1000 Laser Pistol. Civilian model, so the wattage is lower than military or police versions. Powered by a micro fusion cells. Min. strength: 3.}
+{16901}{}{A Wattz 1000 Laser Pistol. Civilian model, so the wattage is lower than military or police versions. Powered by a micro fusion cells. Min ST: 3.}
 {17000}{}{Laser Rifle}
-{17001}{}{A Wattz 2000 Laser Rifle. Uses micro fusion cells for more powerful lasers, and an extended barrel for additional range. Min. strength: 4.}
+{17001}{}{A Wattz 2000 Laser Rifle. Uses micro fusion cells for more powerful lasers, and an extended barrel for additional range. Min ST: 4.}
 {17100}{}{Plasma Pistol}
-{17101}{}{Glock 86 Plasma Pistol. Designed by the Gaston Glock AI. Shoots a small bolt of superheated plasma. Powered by a micro fusion cells. Min. strength: 3.}
+{17101}{}{Glock 86 Plasma Pistol. Designed by the Gaston Glock AI. Shoots a small bolt of superheated plasma. Powered by a micro fusion cells. Min ST: 3.}
 {17200}{}{Plasma Rifle}
-{17201}{}{A Winchester Model P94 Plasma Rifle. An industrial-grade energy weapon, firing superheated bolts of plasma down a superconducting barrel. Powered by micro fusion cells. Min. strength: 4.}
+{17201}{}{A Winchester Model P94 Plasma Rifle. An industrial-grade energy weapon, firing superheated bolts of plasma down a superconducting barrel. Powered by micro fusion cells. Min ST: 4.}
 {17300}{}{Radiator Gun}
 {17301}{}{A one-of-a-kind weapon utilizing ultra-high-frequency radiation. Certain components are scavenged from industrial machinery. Min Strength: 4.}
 {17400}{}{Koa}
-{17401}{}{A professional tool for cutting and processing fire agave. Recently manufactured. Min. strength: 4.}
+{17401}{}{A professional tool for cutting and processing fire agave. Recently manufactured. Min ST: 4.}
 {17500}{}{Scaremonger}
-{17501}{}{Homemade pistol with a single-shot chamber. Surprisingly effective, unless it explodes in your hands. Min. strength: 3.}
+{17501}{}{Homemade pistol with a single-shot chamber. Surprisingly effective, unless it explodes in your hands. Min ST: 3.}
 {17600}{}{Scoped Hunting Rifle}
-{17601}{}{Nothing's better than seeing that surprised look on your target's face. The Loophole x10 Scope on this hunting rifle makes it easier than ever before. Accurate from first shot to last, no matter what kind of game you're gunning for. Min. strength: 5.}
-{17700}{}{Submachine Gun .22}
-{17701}{}{A sporting weapon from a bygone era. Now mainly used for hunting iguanas and deterring hooligans. Min. strength: 3.}
+{17601}{}{Nothing's better than seeing that surprised look on your target's face. The Loophole x10 Scope on this hunting rifle makes it easier than ever before. Accurate from first shot to last, no matter what kind of game you're gunning for. Min ST: 5.}
+{17700}{}{.22 Submachine Gun}
+{17701}{}{A sporting weapon from a bygone era. Now mainly used for hunting iguanas and deterring hooligans. This version is modified to hold an extended magazine. Min ST: 3.}
 {17800}{}{40mm Grenade Launcher}
-{17801}{}{Handheld grenade launcher for 40mm rounds. Developed by Rockwell. Min. strength: 6.}
+{17801}{}{Handheld grenade launcher for 40mm rounds. Upgraded with an extended magazine. Developed by Rockwell. Min ST: 6.}
 {17900}{}{Winchester}
-{17901}{}{Model 2073 Winchester rifle with a lever action and tubular magazine. One of the last models. Min. strength: 5.}
+{17901}{}{Model 2073 Winchester rifle with a lever action and tubular magazine. One of the last models. Min ST: 5.}
 {18000}{}{Mop}
-{18001}{}{This is a rope mop. It just is. Min. strength: 1.}
+{18001}{}{This is a rope mop. It just is. Min ST: 1.}
 {18100}{}{.22 pistol}
-{18101}{}{A simple, reliable small-caliber pistol. Developed by the Mexican company Armas Trejo. Min. strength: 2.}
+{18101}{}{A simple, reliable small-caliber pistol. Developed by the Mexican company Armas Trejo. Min ST: 2.}
 {18200}{}{Assault Rifle}
-{18201}{}{An AK-112 5mm Assault Rifle. An old military model, out of use around the time of the war. Can fire single-shot or burst, using the high velocity 5mm rounds. Min. strength: 6.}
+{18201}{}{An AK-112 5mm Assault Rifle. An old military model, out of use around the time of the war. Can fire single-shot or burst, using the high velocity 5mm rounds. Min ST: 6.}
 {18300}{}{Rail Gun}
-{18301}{}{This weapon uses electromagnetic power to launch metal projectiles. Min. strength: 7.}
+{18301}{}{This weapon uses electromagnetic power to launch metal projectiles. Min ST: 7.}
 {18400}{}{Flamer}
-{18401}{}{A Flambe 450 model flamethrower, varmiter variation. Fires a short spray of extremely hot, flamable liquid. Requires specialized fuel to work properly. Min. strength: 6.}
+{18401}{}{A Flambe 450 model flamethrower, varmiter variation. Fires a short spray of extremely hot, flamable liquid. Requires specialized fuel to work properly. Min ST: 6.}
 {18500}{}{Flamethrower fuel}
 {18501}{}{A cylinder containing an extremely flammable liquid fuel for flamethrowers.}
 {18600}{}{Tejada Machine Gun}
-{18601}{}{Inspecting this old weapon, you shout "Viva Tejada!" and rush into battle. Min. strength: 6.}
+{18601}{}{Inspecting this old weapon, you shout "Viva Tejada!" and rush into battle. Min ST: 6.}
 {18700}{}{Blaster}
-{18701}{}{This weapon looks like it's straight out of a vintage sci-fi flick. Fires a beam of particles accelerated to near-light speed. Min. strength: 3.}
+{18701}{}{This weapon looks like it's straight out of a vintage sci-fi flick. Fires a beam of particles accelerated to near-light speed. Min ST: 3.}
 {18800}{}{Gatling laser}
-{18801}{}{An H&K L30 Gatling Laser. Designed specifically for military use, these were in the prototype stage at the beginning of the War. Multiple barrels allow longer firing before overheating. Powered by micro fusion Cells. Min. strength: 7.}
+{18801}{}{An H&K L30 Gatling Laser. Designed specifically for military use, these were in the prototype stage at the beginning of the War. Multiple barrels allow longer firing before overheating. Powered by micro fusion Cells. Min ST: 7.}
 {18900}{}{Turret Cannon}
 {18901}{}{Twin plasma cannon for turret installation.}
 {19000}{}{Battle Hatchet}
-{19001}{}{An old camping hatchet. Suitable for combat. Min. strength: 3.}
+{19001}{}{An old camping hatchet. Suitable for combat. Min ST: 3.}
 {19100}{}{Turbo Plasma Rifle}
-{19101}{}{A modified Winchester P94 plasma rifle. The plasma bolt chamber has been hotwired to accelerate the bolt formation process. Min. strength: 4.}
+{19101}{}{A modified Winchester P94 plasma rifle. The plasma bolt chamber has been hotwired to accelerate the bolt formation process. Min ST: 4.}
 ###------- CONTAINERS
 {19200}{}{Ammo Box}
 {19201}{}{Shockproof metal ammo box.}
@@ -420,9 +420,9 @@
 {20600}{}{!Do not use}
 {20601}{}{Original: Dynamite.}
 {20700}{}{Geiger Counter}
-{20701}{}{A Wattz Electronics C-Radz model Geiger Counter. Detects the presence and strength of radiation fields. It is on.}
+{20701}{}{A Wattz Electronics C-Radz model Geiger Counter. Detects the presence and strength of radiation fields.}
 {20800}{}{Motion Sensor}
-{20801}{}{A Wattz Electronics C-U model motion sensor. Detects the movement of biological material over a distance of meters using a tuned radar device. It is on.}
+{20801}{}{A Wattz Electronics C-U model motion sensor. Detects the movement of biological material over a distance of meters using a tuned radar device.}
 {20900}{}{Plastic Explosives}
 {20901}{}{A chunk of Cordex, a military brand of plastic explosives. Highly stable, very destructive. Includes a timer, which is ticking.}
 {21000}{}{Stealth Boy}
@@ -490,9 +490,9 @@
 {24100}{}{Fridge}
 {24101}{}{A refrigerator. Out of coolant.}
 {24200}{}{Ice Chest}
-{24201}{}{On old-style ice chest. The hinges are in good working condition.}
+{24201}{}{An old-style ice chest. The hinges are in good working condition.}
 {24300}{}{Ice Chest}
-{24301}{}{On old-style ice chest. The hinges are in good working condition.}
+{24301}{}{An old-style ice chest. The hinges are in good working condition.}
 {24400}{}{Table}
 {24401}{}{A wooden table with multiple drawers.}
 {24500}{}{Table}
@@ -656,7 +656,7 @@
 {32400}{}{Newspaper machine}
 {32401}{}{This newspaper machine is probably empty... or not.}
 {32500}{}{Raider's Stuff}
-{32501}{}{Luckily for you, the raiders forgot these items before leaving.}
+{32501}{}{Luckily for you, the raiders left these items behind.}
 {32600}{}{Mycelium}
 {32601}{}{These glow-in-the-dark mushrooms grow right in the middle of a toxic puddle.}
 {32700}{}{Donation Box}
@@ -667,7 +667,7 @@
 {32901}{}{For some reason, this locker is called a "fire locker". Nobody remembers where this name came from.}
 {33000}{}{Fire Locker}
 {33001}{}{For some reason, this locker is called a "fire locker". Nobody remembers where this name came from.}
-{33100}{}{Book of Beamis}
+{33100}{}{Book of Bemis}
 {33101}{}{One of the best books of the pre-war era. Contains a lot of exclusive information from its time.}
 {33200}{}{Pool Table}
 {33201}{}{This is an old pool table. No self-respecting billiard connoisseur would play here.}
@@ -708,7 +708,7 @@
 ###------- HOLODISKS
 {35000}{}{Founder's Notes}
 {35001}{}{A battered and ancient holodisk with notes from the Founder of the Villa. Looks like it can be inserted into your Pip-Boy.}
-{35100}{}{Diary from the Vault}
+{35100}{}{Vault Diary}
 {35101}{}{A holotape containing the diary of an inhabitant of Vault 27.}
 {35200}{}{Expedition Report}
 {35201}{}{An dirt-stained holotape, inscribed with reports from a Vault 27 expedition.}
@@ -717,8 +717,8 @@
 {35400}{}{McBain's Entry}
 {35401}{}{A death audio recording of Sergeant McBain.}
 {35500}{}{Mayor's Holodisk}
-{35501}{}{A holotape with instructions for the mayor of Casa Grande. The originator remains prudently unidentified.}
-{35600}{}{Posts by George Crook}
+{35501}{}{A holodisk with instructions for the mayor of Casa Grande. The originator remains prudently unidentified.}
+{35600}{}{George Crook's Notes}
 {35601}{}{A holotape containing field notes compiled by the missionary commander to San Brahmin.}
 {35700}{}{Letter from Vault-Tec}
 {35701}{}{A holotape containing an official letter from Vault-Tec.}
@@ -750,24 +750,24 @@
 {37001}{}{Yet another mysterious chemical from the Followers' lab.}
 {37100}{}{Library Holodisk}
 {37101}{}{This holodisk was given to you by a teacher in Casa Nueva to record Brotherhood of Steel e-books.}
-{37200}{}{White Matter}
+{37200}{}{White Substance}
 {37201}{}{An odorless crystalline substance of unknown composition.}
 {37300}{}{Lab Notes}
 {37301}{}{This holotape contains the latest reports from the Greenway Hydroponics laboratory.}
 {37400}{}{Insecticide}
-{37401}{}{A container with a mixture of toxic substances.}
+{37401}{}{A jerrycan with a mixture of toxic substances.}
 {37500}{}{Raider Map}
 {37501}{}{A map detailing locations under raider control, including their main base in the eastern mountains.}
 {37600}{}{Valuable Relic}
 {37601}{}{An ancient technological device with an unknown purpose, featuring a dial and toggle switches.}
 {37700}{}{Mutagen}
-{37701}{}{A mutagen spray operated by a primitive spring mechanism.}
-{37800}{}{Chemical Set}
+{37701}{}{A mutagen sprayer operated by a primitive spring mechanism.}
+{37800}{}{Chemistry Set}
 {37801}{}{A large collection of chemical tools and substances.}
-{37900}{}{Power Armor Helm}
-{37901}{}{You see a T-51b power armor helmet.}
+{37900}{}{Power Armor Helmet}
+{37901}{}{You see a T-51b Power Armor helmet.}
 {38000}{}{Power Armor Processor}
-{38001}{}{This is a processor unit for T-51b power armor.}
+{38001}{}{This is a processor unit for T-51b Power Armor.}
 {38100}{}{Box with Caps}
 {38101}{}{A box filled to the brim with prized Nuka-Cola caps-a fortune for the average citizen.}
 {38200}{}{Wooden Figurine}
@@ -775,20 +775,20 @@
 {38300}{}{!Do Not Use}
 {38301}{}{Original: Shiloh.}
 {38400}{}{Lost Pistol}
-{38401}{}{The very pistol missing from the Ranger warehouse.}
-{38500}{}{Beamis Glasses}
-{38501}{}{These are Henry Beamis' reading glasses. They are enormous.}
+{38401}{}{The missing pistol from the Ranger warehouse.}
+{38500}{}{Bemis Glasses}
+{38501}{}{These are Henry Bemis' reading glasses. They are enormous.}
 {38600}{}{Neurochip}
 {38601}{}{An implant removed from the body of a deceased Tinsmith.}
 {38700}{}{Ranger Badge}
 {38701}{}{A badge that ended up in the wrong hands.}
-{38800}{}{Doubtful Package}
-{38801}{}{A bag of chemical raw materials meant for a pusher in Phoenix.}
-{38900}{}{Doubtful Package}
+{38800}{}{Suspicious Package}
+{38801}{}{A package full of raw chemical materials meant for a pusher in Phoenix.}
+{38900}{}{Suspicious Package}
 {38901}{}{A bag of chemicals for the Blue Shields.}
 {39000}{}{!Do Not Use}
 {39001}{}{Original: Sun Scorcher.}
-{39100}{}{Faber Passwords}
+{39100}{}{Faber's Passwords}
 {39101}{}{Several passwords are written here. They might be useful in the Flagstaff colony.}
 {39200}{}{Eugene's Contract}
 {39201}{}{A contract between the Rangers and Eugene Simon for his enlistment.}
@@ -796,7 +796,7 @@
 {39301}{}{A letter of recommendation for you from Preacher Hiram in Flagstaff, directed to Aaron, Lord of Phoenix, and the Church of the Holy Fire.}
 {39400}{}{Advisor's Report}
 {39401}{}{This holodisk was handed to you by Ulysses Grant. It should be delivered to the military base in Puerto Penasco.}
-{39500}{}{Lost Letters}
+{39500}{}{Stolen Letters}
 {39501}{}{Various letters for recipients in Phoenix.}
 {39600}{}{Ben's Head}
 {39601}{}{The severed head of the leader of the Blue Shields.}
@@ -808,7 +808,7 @@
 {39901}{}{The head of yet another Los Panchos boss.}
 {40000}{}{Gil McCord's Head}
 {40001}{}{The severed head of a legendary marksman from the Mercenary Guild.}
-{40100}{}{Spear Piece}
+{40100}{}{Spear Fragment}
 {40101}{}{A fragment of a spear taken from the shell of a giant radscorpion.}
 {40200}{}{Glowing Mushroom}
 {40201}{}{An unusual fungus that forms in toxic puddles, inedible for humans.}
@@ -836,7 +836,7 @@
 {41301}{}{An access card to the torpedo bay control terminal.}
 {41400}{}{Luxury Key}
 {41401}{}{The Atomic Rush Casino Suite Key.}
-{41500}{}{Radio Station Codes}
+{41500}{}{Cathedral Radio Codes}
 {41501}{}{The access codes for the radio station in the Cathedral.}
 {41600}{}{Access Card}
 {41601}{}{An electronic access card for the dam control panel.}
@@ -852,7 +852,7 @@
 {42101}{}{A key that once belonged to Aaron, Lord of Phoenix, seemingly for a special lock.}
 {42200}{}{Worn Key}
 {42201}{}{A worn-out Old Motel room key.}
-{42300}{}{Jackal Keys}
+{42300}{}{Jackal Storeroom Keys}
 {42301}{}{A set of dirty keys that open doors in the Jackal tribe's dens.}
 {42400}{}{Irradiated Key}
 {42401}{}{A small key found in Quartz, likely for a small lock.}
@@ -860,10 +860,10 @@
 {42501}{}{A key that opens the inventory warehouse in the Flagstaff Uranium Mine.}
 {42600}{}{Teeth of the Rat King}
 {42601}{}{The lower incisors of a massive mutant rat from the Flagstaff mine, proof of the monster's death.}
-{42700}{}{Hangar Key}
-{42701}{}{A key that opens the hangar gate at Villa Plantation.}
+{42700}{}{Barn Key}
+{42701}{}{A key that opens the barn door at the Corn Plantations.}
 {42800}{}{Family Heirlooms}
-{42801}{}{A blue jumpsuit, wrist computer, and water flask. Passed down through your family for generations, and now yours.}
+{42801}{}{A blue jumpsuit, wrist computer, and hip flask. Passed down through your family for generations, and now yours.}
 {42900}{}{Monster Skull}
 {42901}{}{A monster's head, terrifying even in death.}
 {43000}{}{Motorcycle Key}
@@ -896,7 +896,7 @@
 {44301}{}{Holodisk with a game for very fast computers.}
 {44400}{}{Phoenix Map}
 {44401}{}{A marked map of the city and its surroundings. A valuable find for the novice scavenger.}
-{44500}{}{Pescador Tag}
+{44500}{}{Fisherman Tag}
 {44501}{}{This tag is engraved with the name of the fisherman Ferrino.}
 {44600}{}{Access Card}
 {44601}{}{Electronic access card for the doors on the Petro-Chico oil rig.}
@@ -915,7 +915,7 @@
 {45300}{}{-DLC}
 {45301}{}{-DLC}
 {45400}{}{Laser Pistol}
-{45401}{}{A Wattz 1000 Laser Pistol, upgraded civilian model. The power is increased to the level of military models thanks to the high-precision crystal. Min. strength: 3.}
+{45401}{}{A Wattz 1000 Laser Pistol, upgraded civilian model. The power is increased to the level of military models thanks to the high-precision crystal. Min ST: 3.}
 {45500}{}{Trunk}
 {45501}{}{An old box strapped to the frame of the motorcycle. Suitable for storing and transporting small items.}
 {45600}{}{Bike Bags}
@@ -1001,9 +1001,9 @@
 {49600}{}{}
 {49601}{}{}
 {49700}{}{12 Gauge Flare Gun}
-{49701}{}{A pistol originally designed to shoot flares. You've modified its barrel to fire shotgun shells. Shooting has become heavier, but deadlier. Min. strength: 5.}
+{49701}{}{A pistol originally designed to shoot flares. You've modified its barrel to fire shotgun shells. Shooting has become heavier, but deadlier. Min ST: 5.}
 {49800}{}{Laser Emitter (Improved)}
-{49801}{}{A makeshift weapon created from parts of an industrial robot. Emits a low-power laser beam over a short distance. Min. strength: 3.}
+{49801}{}{A makeshift weapon created from parts of an industrial robot. Emits a low-power laser beam over a short distance. Min ST: 3.}
 {49900}{}{Viva, Villa!}
 {49901}{}{This is an old patriotic comic book. It's amusing that even now its content hasn't lost its relevance.}
 {50000}{}{}
@@ -1039,7 +1039,7 @@
 {51500}{}{}
 {51501}{}{}
 {51600}{}{Pip-Boy Booster}
-{51601}{}{The amplifier is designed for quick analysis of the environment. Designed by Brotherhood of Steel scribes, standard model.}
+{51601}{}{The booster is designed for quick analysis of the environment. Designed by Brotherhood of Steel scribes, standard model.}
 {51700}{}{}
 {51701}{}{}
 {51800}{}{}

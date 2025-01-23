@@ -1,0 +1,82 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSVltDor
+
+procedure start;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   if (local_var(LVAR_Flags) == 0) then begin
+       script_overrides;
+       display_mstr(102);
+       floater(source_obj, 103, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(104);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_mstr(104);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(104);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if ((objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_SLEDGEHAMMER) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE)) then begin
+       if (local_var(LVAR_Flags) == 0) then begin
+          script_overrides;
+          play_sfx("WH21FXX1");
+          display_mstr(105);
+          floater(source_obj, 107, COLOR_MSG_NORMAL);
+          obj_unlock(self_obj);
+          set_local_var(LVAR_Flags,1);
+       end
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         set_local_var(LVAR_Flags,1);
+         play_sfx("WH21FXX1");
+         obj_unlock(self_obj);
+         set_obj_visibility(self_obj, 1);
+         if (self_PID == PID_DOOR_VLT_BA) then begin
+         create_object_sid(33554938, self_tile, self_elevation, -1);
+         end
+         if (self_PID == PID_DOOR_VLT_BB) then begin
+         create_object_sid(33554939, self_tile, self_elevation, -1);
+         end
+         destroy_object(self_obj);
+      end
+      else begin
+         display_mstr(106);
+      end
+   end
+end

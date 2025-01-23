@@ -1,0 +1,60 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSDumCnA
+//--- Бонита - панель допуска желтая
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure decoding_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(110);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      //call decoding_proc;
+      display_mstr(110);
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_KEY_BONITADUM_B) then begin
+   script_overrides;
+   call decoding_proc;
+   end
+   else if (objUsedPid == PID_KEY_BONITADUM_A) then begin
+   script_overrides;
+   call decoding_proc;
+   item_remove(dude_obj, objUsedPid, 1)
+   end
+end
+
+procedure decoding_proc begin
+   if (tile_contains_obj_pid(25094,self_elevation,PID_POWER_POLE_AA) == true) then begin
+       play_sfx("SLDOORSA");
+       destroy_object(tile_contains_pid_obj(25094, self_elevation, PID_POWER_POLE_AA));
+   end
+   if (tile_contains_obj_pid(25094,self_elevation,PID_POWER_POLE_BA) == true) then begin
+       play_sfx("SLDOORSA");
+       destroy_object(tile_contains_pid_obj(25094, self_elevation, PID_POWER_POLE_BA));
+   end
+end

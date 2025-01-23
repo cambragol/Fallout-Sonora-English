@@ -1,0 +1,21 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_PSPictur
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   set_obj_visibility(self_obj, 1);
+   play_sfx("BOXWPN");
+   create_object_sid(self_PID+1,14915,self_elevation,-1);
+   destroy_object(self_obj);
+end

@@ -1,0 +1,48 @@
+#include "..\headers\define.h"
+#include "..\headers\updatmap.h"
+#define NAME                    SCRIPT_ZIPostA
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure box_inven_to;
+
+/*
+   Это ящик для получения посылок из других городов.
+   См подробности в скрипте ГГ, процедура express_box_proc.
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   call box_inven_to;
+end
+
+procedure box_inven_to begin
+   variable boxPID;
+   boxPID := 0;
+
+   //- Идентификация ящика
+   if (cur_map_index == MAP_FLAGSTAFF_CITY) then begin
+      boxPID := PID_CNTR_EXPRESSBOX_F;
+   end
+   if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+      boxPID := PID_CNTR_EXPRESSBOX_P;
+   end
+   if (cur_map_index == MAP_TWO_SUN_CITY) then begin
+      boxPID := PID_CNTR_EXPRESSBOX_T;
+   end
+
+   //- Перенос лута
+   if (boxPID > 0) then begin
+      if (express_box_obj(boxPID) > 0) then begin
+      move_obj_inven_to_obj(express_box_obj(boxPID), self_obj);
+      end
+   end
+end

@@ -1,0 +1,417 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCGart
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS_GART     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_FIKE                       26107 // центр территории куда ГГ отсылает Гарта для его обмана
+#define TILE_TEAM                       28504 // центр территории где группа Гарта меняется на чужую
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst300;
+
+//---------------------
+
+#define LVAR_Stop_Dialog                 (6) // диалог по квесту: 0 - не состоялся, 1 - состоялся и ГГ был изгнан, 2 - состоялся и ГГ втерся в доверие, 3 - ГГ стал своим человеком
+#define LVAR_Move_Acv                    (7) // уход Гарта к акведуку: 0 - уловка не сработала, 1 - уловка в действии
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_local_var(LVAR_Move_Acv,0);
+       if (global_var(GVAR_STATUS_RANGERS_GART) < 0) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (tile_distance(self_tile,TILE_TEAM) > 30) then begin
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   end
+   else begin
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_RATS);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (local_var(LVAR_Move_Acv) != 0) then begin
+       timer_move_random_tile(TILE_FIKE,5)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_STATUS_RANGERS_GART,-1);
+   if (source_obj == dude_obj) then begin
+      if (tile_distance(self_tile,TILE_TEAM) > 30) then begin
+      set_REP(-30)
+      end
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (local_var(LVAR_Move_Acv) != 0) then begin
+      if (tile_distance(self_tile,TILE_FIKE) <= 10) then begin
+      floater(self_obj,103,COLOR_MSG_RED);
+      end
+      else begin
+      floater(self_obj,104,COLOR_MSG_RED);
+      end
+   end
+   else if (local_var(LVAR_Stop_Dialog) == 1) then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else begin
+      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      fracReaction(GVAR_TITUL_ARIZONA_RANGER,25) // Поправка к отношению за принадлежность к фракциям
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   BAnswer(201,1,NodeFstDialog2)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   zNAnswer(204,1,NodeFstDialog3)
+   end
+   NAnswer(207,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(-20)
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(10)
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   NAnswer(209,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(211,1,NodeSndDialog)
+   NAnswer(212,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(random(220,224))
+
+   if (getQuest(GVAR_RANGERS_QST_MOR) == qStart) then begin
+      if (global_var(GVAR_RANGERS_QST_MOR_STATUS) < 2) then begin
+      NAnswer(230,1,NodeSndDialog2)
+      end
+   end
+
+   NAnswer(250,1,NodeAnswer100)
+   /*
+   Тяжело было на службе?
+      В каких боях ты участвовал?
+   */
+
+   if (local_var(LVAR_Stop_Dialog) == 0) then begin
+      if (getQuest(GVAR_RANGERS_QST_MISSING) == qStart) then begin
+      if (bitDialog(bit_3) == 0) then begin
+      NAnswer(300,1,NodeQst100)
+      end
+      end
+      if (global_var(GVAR_RANGERS_AQUEDUCT_BODIES) != 0) then begin
+      BAnswer(310,1,NodeQst200)
+      end
+   end
+   if (local_var(LVAR_Move_Acv) == 0) then begin
+      if (map_var(MVAR_RNGRS_GartAcv) > 0) then begin
+      if (map_var(MVAR_RNGRS_StatAcv) == 0) then begin
+      BAnswer(333,5,NodeAnswer300)
+      end
+      end
+   end
+   if (local_var(LVAR_Stop_Dialog) == 2) then begin
+      if (map_var(MVAR_RNGRS_StatAcv) < 0) then begin
+      zNAnswer(330,1,NodeQst300)
+      end
+   end
+
+   NAnswer(229,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(231)
+   NAnswer(232,1,NodeSndDialog3)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(233)
+   NAnswer(234,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(251)
+   NAnswer(253,3,NodeAnswer101)
+   NAnswer(255,3,NodeAnswer102)
+   NAnswer(257,3,NodeAnswer103)
+   NAnswer(259,5,NodeAnswer104)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(254)
+   NAnswer(255,3,NodeAnswer102)
+   NAnswer(257,3,NodeAnswer103)
+   NAnswer(259,5,NodeAnswer104)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(256)
+   NAnswer(253,3,NodeAnswer101)
+   NAnswer(257,3,NodeAnswer103)
+   NAnswer(259,5,NodeAnswer104)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(258)
+   NAnswer(253,3,NodeAnswer101)
+   NAnswer(255,3,NodeAnswer102)
+   NAnswer(259,5,NodeAnswer104)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_2,25)
+   Reply(260)
+   NAnswer(253,3,NodeAnswer101)
+   NAnswer(255,3,NodeAnswer102)
+   NAnswer(257,3,NodeAnswer103)
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeAnswer300 begin
+   Reply(334)
+   NAnswer(335,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   set_local_var(LVAR_Move_Acv,1);
+   PLAY_FADE
+   move_to(self_obj,TILE_FIKE,0);
+   call Node999;
+end
+
+//--- КВЕСТ НА ПРОПАВШИХ
+
+procedure NodeQst100 begin
+   bitDialogExp(bit_3,0)
+   Reply(301)
+   NAnswer(302,1,NodeQst101)
+   BAnswer(303,1,NodeQst102)
+end
+
+procedure NodeQst101 begin
+   Reply(304)
+   NAnswer(305,1,NodeQst103)
+end
+
+procedure NodeQst102 begin
+   setBonusReaction(-20)
+   call NodeQst101;
+end
+
+procedure NodeQst103 begin
+   Reply(306)
+   NAnswer(307,1,Node999)
+   BAnswer(308,1,Node999)
+end
+
+procedure NodeQst200 begin
+   set_local_var(LVAR_Stop_Dialog,1);
+   Reply(311)
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_15) == 0) then begin
+   NAnswer(313,1,NodeQst201)
+   end
+   else begin
+   NAnswer(312,1,NodeQst201)
+   end
+end
+
+procedure NodeQst201 begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   zReply(325)
+   end
+   else begin
+   Reply(314)
+   end
+   NAnswer(317,1,NodeQst202)
+   NAnswer(316,1,Node999)
+   BAnswer(315,1,Node998)
+end
+
+procedure NodeQst202 begin
+   Reply(318)
+   NAnswer(321,1,NodeQst203)
+   NAnswer(319,1,NodeQst204)
+   BAnswer(320,1,Node998)
+end
+
+procedure NodeQst203 begin
+   Reply(322)
+   NAnswer(319,1,NodeQst204)
+   BAnswer(320,1,Node998)
+end
+
+procedure NodeQst204 begin
+   set_local_var(LVAR_Stop_Dialog,2);
+   Reply(323)
+   NAnswer(324,1,Node999)
+end
+
+procedure NodeQst300 begin
+   setQuest(GVAR_RANGERS_QST_MISSING,qEnd);
+   set_global_var(GVAR_STATUS_RANGERS_GART,1);
+   set_local_var(LVAR_Stop_Dialog,3);
+   exp_add(350);
+   setBonusReaction(50)
+   set_REP(3)
+   item_add(dude_obj,PID_AMMO_308,12)
+
+   Reply(331)
+   NAnswer(332,1,Node999)
+end

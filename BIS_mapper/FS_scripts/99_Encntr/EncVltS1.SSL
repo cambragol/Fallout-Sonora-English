@@ -1,0 +1,32 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_EncVltS1
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(102);
+end
+
+#define DoorObj          tile_contains_pid_obj(tile_num_in_direction(tile_num_in_direction(self_tile,0,4),5,2), self_elevation, 33554918) \
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      if (obj_is_locked(DoorObj) != 0) then begin
+      obj_unlock(DoorObj);
+      obj_open(DoorObj);
+      end
+      else begin
+      obj_close(DoorObj);
+      obj_lock(DoorObj);
+      end
+   end
+end

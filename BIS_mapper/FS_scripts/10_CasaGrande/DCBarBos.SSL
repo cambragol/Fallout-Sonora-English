@@ -1,0 +1,304 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_DCBarBos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_GRANDE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_WAR_ROADS        // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_WAR_ROAD           // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      (2*SLAVA_KILL_BAD)    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   (2*REP_KILL_BAD)      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeFstDialog9;
+procedure NodeFstDialog10;
+procedure NodeFstDialog11;
+procedure NodeFstDialog12;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+procedure NodeRunRdrs;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+import variable obj_critter_b; // указатель на рейдеров
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (map_first_run == true) then begin
+       inc_map_var(MVAR_CGRANDE_BAR_RDRLIFE);
+       end
+       set_obj_visibility(self_obj, 0);
+       if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) != qStart) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (map_var(MVAR_CGRANDE_BAR_RUN) > 0) then begin
+       timer_move_random_tile(8310,1) // 8909
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   if (self_visible == true) then begin
+      obj_critter_b := self_obj;
+   end
+   set_using_stop
+   if (map_var(MVAR_CGRANDE_BAR_RUN) == 0) then begin
+      if self_can_see_dude then begin
+      if (tile_distance(dude_tile,16700) > 15) then begin
+      self_attack_dude;
+      end
+      end
+   end
+   set_critter_options(map_var(MVAR_CGRANDE_BAR_RDR),0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_RAIDER_STATUS_BAR,-1);
+   dec_map_var(MVAR_CGRANDE_BAR_RDRLIFE);
+   if (obj_critter_b == self_obj) then begin
+   obj_critter_b := 0;
+   end
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_CGRANDE_BAR_RDR,2);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_CGRANDE_BAR_RUN) > 0) then begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,90) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((bitDialog(bit_2) == 0) and (armor_pid_dude_var == PID_ARMOR_ROAD)) then begin
+   call NodeFstDialog1;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(202,1,NodeFstDialog2)
+   BAnswer(201,1,Node998)
+end
+
+procedure NodeFstDialog1 begin
+   bitDialogExp(bit_2,0)
+   Reply(233)
+   NAnswer(234,1,NodeStartDialog)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(204,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+   BAnswer(207,1,Node998)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   NAnswer(209,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(212,3,NodeFstDialog6)
+   NAnswer(211,1,Node999)
+   BAnswer(207,1,Node998)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(213)
+   NAnswer(214,3,NodeFstDialog7)
+   NAnswer(211,1,Node999)
+   BAnswer(207,1,Node998)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(215)
+   NAnswer(216,1,NodeFstDialog8)
+end
+
+procedure NodeFstDialog8 begin
+   Reply(217)
+   NAnswer(218,1,NodeFstDialog9)
+end
+
+procedure NodeFstDialog9 begin
+   Reply(219)
+   NAnswerSkill(224,3,NodeFstDialog11,SKILL_CONVERSANT,85,222,NodeFstDialog10)
+   BAnswer(221,1,Node998)
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeFstDialog10 begin
+   Reply(223)
+   BAnswer(225,1,Node998)
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeFstDialog11 begin
+   Reply(226)
+   NAnswer(227,1,NodeFstDialog12)
+end
+
+procedure NodeFstDialog12 begin
+   call NodeRunRdrs;
+   Reply(228)
+   zNAnswer(229,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(230)
+   BAnswer(231,1,Node998)
+   NAnswer(232,1,NodeFstDialog3)
+   NAnswer(235,1,NodeSndDialog2)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(236)
+   NAnswer(237,1,NodeSndDialog3)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(238)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 1000) then begin
+   GAnswer(241,1,NodeSndDialog4)
+   end
+   BAnswer(239,1,Node998)
+   NAnswer(240,1,Node999)
+end
+
+procedure NodeSndDialog4 begin
+   call NodeRunRdrs;
+   item_remove(dude_obj,PID_BOOTLE_CAPS,1000)
+   item_add(self_obj,PID_BOOTLE_CAPS,1000)
+   Reply(242)
+   BAnswer(243,1,Node998)
+   NAnswer(244,1,Node999)
+end
+
+procedure NodeRunRdrs begin
+   set_map_var(MVAR_CGRANDE_BAR_RUN,1);
+   set_global_var(GVAR_RAIDER_STATUS_BAR,1);
+   if (tile_contains_obj_pid(11510,0,33555317) == true) then begin
+   destroy_object(tile_contains_pid_obj(11510, 0, 33555317));
+   create_object_sid(33555317, 11510, 0, -1);
+   end
+end

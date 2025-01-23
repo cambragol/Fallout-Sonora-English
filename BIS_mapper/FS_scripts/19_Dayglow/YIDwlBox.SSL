@@ -1,0 +1,51 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YIDwlBox
+
+procedure start;
+procedure map_enter_p_proc;
+procedure BonusLoot;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call BonusLoot;
+end
+
+procedure BonusLoot begin
+   variable boxBonus;
+   boxBonus := create_object_sid(314, tile_num_in_direction(self_tile,2,1), 2, -1);
+   item_add(boxBonus,PID_W_PLASMA_PISTOL,1)
+   item_add(boxBonus,PID_TOOL_STEALTH_BOY,1)
+   item_add(boxBonus,PID_M_RADAWAY,1)
+   item_add(boxBonus,PID_M_STIMPAK,1)
+   item_add(boxBonus,PID_TOOL_RADIO,1)
+   boxBonus := 0;
+   inc_local_var(LVAR_Status);
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if ((gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_31) != 0) and (local_var(LVAR_Status) == 0)) then begin
+      display_mstr(101);
+      call BonusLoot;
+      end
+      else begin
+      display_mstr(100);
+      end
+   end
+end

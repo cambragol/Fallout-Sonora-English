@@ -1,0 +1,43 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_ISCompA
+#define SKILL_LIMIT                     40
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,40) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   gfade_out(ONE_GAME_SECOND);
+    set_obj_visibility(self_obj, 1);
+    create_object_sid(self_PID-3, self_tile, self_elevation, SCRIPT_ISCompB);
+   gfade_in(ONE_GAME_SECOND);
+
+   RepairProcRepair(112,50,"FIXSTILL")
+   destroy_object(self_obj);
+end

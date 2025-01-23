@@ -1,0 +1,104 @@
+#---------------------------------------------------------------- -
+# Interface options
+#---------------------------------------------------------------- -
+{0}{}{Are you sure you want to quit?}
+{1}{}{Demo version}
+{2}{}{Default character will be used.}
+{3}{}{Saved screenshot.}
+{4}{}{Quick load game successfully loaded.}
+{5}{}{Quick save game successfully saved.}
+{6}{}{Demo time limit exceeded.}
+{7}{}{Pipboy not available in combat!}
+{8}{}{Error saving screenshot.}
+{9}{}{INTRO}
+{10}{}{NEW GAME}
+{11}{}{LOAD GAME}
+{12}{}{OPTIONS}
+{13}{}{CREDITS}
+{14}{}{EXIT}
+{15}{}{Action Points}
+{16}{}{Hit Points}
+{17}{}{The motion sensor option is not installed.}
+{18}{}{The motion sensor has no charges remaining.}
+{20}{}{Nevada Band, 2020-2024}
+
+{30}{}{Do you want to continue playing?}
+{50}{}{Insert disc to start the game!}
+{100}{}{Error saving game config file!}
+{101}{}{Game settings not saved.}
+
+#---------------------------------------------------------------- -
+# Some radiation messages used in critter.c
+#---------------------------------------------------------------- -
+{1000}{}{You feel very nauseous.}
+{1001}{}{You feel very nauseous, and after some mild vomiting, slightly fatigued.}
+{1002}{}{You are very fatigued, the vomiting does not stop, and your recovery time is impaired.}
+{1003}{}{You are hemorrhaging violently. You are very sick, and your hair is falling out.}
+{1004}{}{You are hemorrhaging violently and continuously. The vomitus is stained red from your blood. Your skin is falling off of your bones.}
+{1005}{}{There is bleeding from your intestines and you have severe diarrhea. You feel bloated and are in intense agony.}
+{1006}{}{You have died from radiation sickness.}
+{1007}{}{You have received a large dose of radiation.}
+{1008}{}{The geiger counter is clicking.}
+{1009}{}{The geiger counter is clicking wildly.}
+#
+# Message used in actions.c
+#
+{2000}{}{You cannot get there.}
+{2001}{}{The lock is jammed.}
+#
+# poison messages from critter.c
+#
+{3000}{}{You have been poisoned!}
+{3001}{}{You take damage from poison.}
+{3002}{}{You feel a little better.}
+{3003}{}{You feel better.}
+#
+# from queue.c
+#
+{4000}{}{Due to your inept handling, the explosive detonates prematurely.}
+#
+#fromcombatai.c
+#
+{5000}{}{uses}
+{5001}{}{is out of ammo for the}
+{5002}{}{reloads the}
+#
+# from gdialog.c - new tell me about stuff
+#
+{6000}{}{Ask about what?}
+{7000}{}{You aren't wearing the pipboy!}
+{8000}{}{You are overloaded.}  # Carrying too much weight
+{8001}{}{%s is overloaded.}
+{8500}{}{You gain %d experience points for successful use of the outdoorsman skill.}
+
+#---------------------------------------------------------------- -
+# Replies over your teammates' heads when they gain a new level
+#---------------------------------------------------------------- -
+
+{9000}{}{%s has gained in some abilities.} # Party Member has gained experience/level
+
+{9010}{}{Whoa. I suddenly felt a rush of experience.} # pMMyron_PID
+{9011}{}{Level up, baby! One level up!}
+{9012}{}{I sense great disturbances in the Force. It's like all my skills have improved (+%).}
+{9013}{}{I feel cooler. Stronger. Cleverer.}
+
+{9020}{}{I want to know more!}
+{9021}{}{I have a great theory!}
+{9022}{}{Everything ingenious is simple.}
+
+{9030}{}{The training was not in vain.}
+{9031}{}{Will I be promoted after all this traveling?}
+{9032}{}{I'm getting stronger. The Order should conduct field work like this more often.}
+
+{9040}{}{You know, I'm getting better at this.}
+{9041}{}{Now I'm sure to hit the jackpot in this matter.}
+{9042}{}{I think I'm ready for some BIG adventures now.}
+
+{9050}{}{Ah, if only my brothers and sisters knew about this...}
+{9051}{}{Now I understand: knowledge is insignificant without practice.}
+{9052}{}{Thank you for our journey.}
+
+{9100}{}{Tremble, rats! I'm coming for your heads!}
+{9101}{}{Oh, no wonder I survived in that cellar!}
+{9102}{}{Hey, life is looking up!}
+{9103}{}{Now the whole world will lie at my feet!}

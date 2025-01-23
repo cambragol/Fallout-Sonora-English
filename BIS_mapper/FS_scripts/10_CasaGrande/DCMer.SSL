@@ -1,0 +1,1394 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_DCMer
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_GRANDE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CASAGRANDE_CITYHALL // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog1a;
+procedure NodeFstDialog1b;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeFstDialog9;
+procedure NodeFstDialog10;
+procedure NodeFstDialog11;
+procedure NodeFstDialog12;
+procedure NodeFstDialog13;
+procedure NodeFstDialog14;
+procedure NodeFstDialog15;
+procedure NodeSndDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog100;
+procedure NodeStopDialog101;
+procedure NodeStopDialog102;
+procedure NodeStopDialog103;
+procedure NodeStopDialog104;
+procedure NodeStopDialog200;
+procedure NodeStopDialog201;
+procedure NodeStopDialog202;
+procedure NodeStopDialog203;
+procedure NodeStopDialog300;
+procedure NodeStopDialog301;
+procedure NodeStopDialog302;
+procedure NodeStopDialog303;
+procedure NodeStopDialog304;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+procedure NodeAnswer305;
+procedure NodeAnswer306;
+procedure NodeAnswer307;
+procedure NodeAnswer308;
+procedure NodeAnswer309;
+procedure NodeAnswer310;
+procedure NodeAnswer311;
+procedure NodeAnswer312;
+procedure NodeAnswer313;
+procedure NodeAnswer314;
+procedure NodeAnswer315;
+procedure NodeAnswer316;
+procedure NodeAnswer317;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodeAnswer403;
+procedure NodeAnswer404;
+procedure NodeAnswer405;
+procedure NodeAnswer406;
+procedure NodeAnswer500;
+procedure NodeAnswer501;
+procedure NodeAnswer502;
+procedure NodeAnswer503;
+procedure NodeAnswer504;
+procedure NodeAnswer505;
+procedure NodeAnswer506;
+procedure NodeAnswer507;
+procedure NodeAnswer508;
+procedure NodeAnswer600;
+procedure NodeAnswer601;
+procedure NodeAnswer602;
+procedure NodeAnswer603;
+procedure NodeAnswer604;
+procedure NodeAnswer605;
+procedure NodeBathhouse;
+procedure NodeBathhouse100;
+procedure NodeBathhouse101;
+procedure NodeBathhouse102;
+procedure NodeBathhouse103;
+procedure NodeBathhouse104;
+procedure NodeBathhouse105;
+procedure NodeBathhouse106;
+procedure NodeBathhouse107;
+procedure NodeBathhouse108;
+procedure NodeBathhouse109;
+procedure NodeBathhouse110;
+procedure NodeBathhouse200;
+procedure NodeBathhouse201;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst300;
+procedure NodeQst301;
+procedure NodeQst302;
+procedure NodeQst303;
+procedure NodeQstFinish;
+procedure NodeQstFinish100;
+procedure NodeQstFinish101;
+procedure NodeQstFinish102;
+procedure NodeQstFinish103;
+procedure NodeQstFinish104;
+procedure NodeQstFinish105;
+procedure NodeQstFinish106;
+procedure NodeQstFinish107;
+procedure NodeQstFinish108;
+procedure NodeQstFinish109;
+procedure NodeQstFinish110;
+procedure NodeRoadWar;
+procedure NodeRoadWar2;
+procedure NodeRoadWar3;
+procedure NodeRoadWar4;
+
+//---------------------
+
+#define LVAR_Story_Know                     (6) // ГГ знает предысторию города и обговорил ее с мэром
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) == qStart) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+       if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   dec_global_var(GVAR_CGRANDE_STATUS_CTZN);
+   set_global_var(GVAR_CGRANDE_STATUS_MER,-1);
+   set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_28);
+   if (getQuest(GVAR_CGRANDE_QST_BANDITS) == qStart) then begin
+   setQuest(GVAR_CGRANDE_QST_BANDITS,qStop);
+   end
+   if (getQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL) == qStart) then begin
+   setQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL,qStop);
+   end
+   if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) == qStart) then begin
+   setQuest(GVAR_CGRANDE_ATTAK_TO_BAR,qStop);
+   end
+   if (getQuest(GVAR_CGRANDE_QST_ROADSTOP) == qStart) then begin
+   setQuest(GVAR_CGRANDE_QST_ROADSTOP,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if ((armor_pid_dude_var == PID_ARMOR_ROAD) or (global_var(GVAR_TITUL_WARRIOR_ROAD) > 0)) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_RAIDER_STATUS_PRISON) == 1) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-90) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) != qZero) then begin
+   bitDialogExp(bit_1,0) // эта опция служит только для теста в маппере
+   end
+
+   if ((getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) >= qEnd) and (getQuest(GVAR_CGRANDE_QST_ROADSTOP) == qZero)) then begin
+   call NodeQstFinish;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if town_rep_is_hated then begin
+   call NodeStopDialog;
+   end
+   else if ((map_var(MVAR_CGRANDE_REPAIR_LAMP) > 0) and (bitDialog(bit_4) == 0)) then begin
+   call NodeStopDialog200;
+   end
+   else if ((bitDialog(bit_2) == 0) and (global_var(GVAR_GRAVES_CASAGRANDE) > 0)) then begin
+   call NodeStopDialog100;
+   end
+   else if ((bitDialog(bit_13) == 0) and (getQuest(GVAR_CGRANDE_QST_SALVATION) < qZero)) then begin
+   call NodeStopDialog300;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,50)
+   if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) and (getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd)) then begin
+      Reply(244)
+      NAnswer(245,1,NodeFstDialog1)
+   end
+   else if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) and (getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd)) then begin
+      Reply(244)
+      NAnswer(245,1,NodeFstDialog1)
+   end
+   else begin
+      Reply(200)
+      if ((global_var(GVAR_TITUL_PHENIX_CULT) > 0) and (getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd)) then begin
+      NAnswer(237,1,NodeFstDialog1a)
+      end
+      else begin
+      NAnswer(201,1,NodeFstDialog2)
+      end
+   end
+end
+
+procedure NodeFstDialog1 begin
+   Reply(246)
+   NAnswer(247,1,NodeFstDialog1b)
+end
+
+procedure NodeFstDialog1a begin
+   Reply(238)
+   NAnswer(245,1,NodeFstDialog1)
+end
+
+procedure NodeFstDialog1b begin
+   bitDialogExp(bit_3,0)
+   setBonusReaction(20)
+   Reply(248)
+   NAnswer(249,1,NodeFstDialog15)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   BAnswer(203,1,NodeFstDialog3)
+   NAnswer(mstr(208)+dude_name+mstr(209),1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog3 begin
+   set_REP(-1)
+   setBonusReaction(-20)
+   Reply(204)
+   NAnswer(206,1,NodeFstDialog4)
+   BAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   zReply(207)
+   NAnswer(212,1,NodeFstDialog6)
+   NAnswer(216,1,NodeFstDialog8)
+end
+
+procedure NodeFstDialog5 begin
+   if (dude_name == "None") then begin
+   Reply(dude_name+mstr(286)+mstr(210)+dude_name+mstr(211))
+   end
+   else if ((dude_name == "Bustos") or (dude_name == self_name)) then begin
+   Reply(mstr(287)+mstr(210)+dude_name+mstr(211))
+   end
+   else begin
+   Reply(mstr(210)+dude_name+mstr(211))
+   end
+   NAnswer(212,1,NodeFstDialog6)
+   NAnswer(216,1,NodeFstDialog8)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(213)
+   BAnswer(214,1,NodeFstDialog7)
+   NAnswer(216,1,NodeFstDialog8)
+end
+
+procedure NodeFstDialog7 begin
+   set_REP(-1)
+   setBonusReaction(-20)
+   zReply(215)
+   NAnswer(218,1,NodeFstDialog9)
+   NAnswer(224,1,NodeFstDialog11)
+end
+
+procedure NodeFstDialog8 begin
+   setBonusReaction(20)
+   Reply(217)
+   NAnswer(218,1,NodeFstDialog9)
+   NAnswer(224,1,NodeFstDialog11)
+end
+
+procedure NodeFstDialog9 begin
+   if (getReaction>0) then begin
+   Reply(219)
+   end
+   else begin
+   Reply(235)
+   end
+   GAnswer(220,1,NodeFstDialog10)
+   NAnswer(221,1,NodeFstDialog10)
+end
+
+procedure NodeFstDialog10 begin
+   Reply(222)
+   NAnswer(223,1,Node999)
+end
+
+procedure NodeFstDialog11 begin
+   Reply(225)
+   NAnswer(226,1,NodeFstDialog12)
+end
+
+procedure NodeFstDialog12 begin
+   Reply(227)
+   NAnswer(228,1,NodeFstDialog13)
+end
+
+procedure NodeFstDialog13 begin
+   zReply(229)
+   NAnswer(230,1,NodeFstDialog14)
+   NAnswer(dude_name+mstr(231),1,NodeFstDialog14)
+end
+
+procedure NodeFstDialog14 begin
+   bitDialogExp(bit_3,0)
+   Reply(232)
+   BAnswer(233,1,NodeFstDialog10)
+   NAnswer(234,1,NodeFstDialog10)
+end
+
+procedure NodeFstDialog15 begin
+   Reply(236)
+   NAnswer(223,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(102)
+   end
+   else if (getReaction >= 50) then begin
+   Reply(239)
+   end
+   else if (getReaction >= 20) then begin
+   Reply(240)
+   end
+   else if (getReaction <= -20) then begin
+   Reply(242)
+   end
+   else begin
+   Reply(241)
+   end
+
+   //--- Расспросы
+
+   NAnswer(370,3,NodeAnswer300)
+
+   if (bitDialog(bit_3) == 0) then begin
+   if (getQuest(GVAR_MAIN_QUEST_TWOSUN) == qStart) then begin
+   NAnswer(224,1,NodeAnswer100)
+   end
+   end
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+   NAnswer(350,1,NodeAnswer200)
+   end
+
+   if (getQuest(GVAR_RAIDER_QST_GRANGE) == qStart) then begin
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_28) == 0) then begin
+      NAnswer(591,1,NodeRoadWar)
+      end
+   end
+
+   //--- Сюжетные квесты
+
+   if (local_var(LVAR_Story_Know) == 0) then begin
+   if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) >= qEnd) then begin
+   BAnswer(436,1,NodeAnswer402)
+   end
+   end
+
+   if (getQuest(GVAR_CGRANDE_QST_ROADSTOP) == qStart) then begin
+   NAnswer(520,1,NodeAnswer500)
+   end
+   if ((getQuest(GVAR_CGRANDE_QST_ROADSTOP) == qStart) or (getQuest(GVAR_CGRANDE_QST_ROADSTOP) == qStop)) then begin
+   if (getQuest(GVAR_RAIDER_OIL_DESTROY) == qEnd) then begin
+   zNAnswer(550,1,NodeQst300)
+   end
+   end
+
+   if (item_amnt(dude_obj,PID_HEAD_ROAD) > 0) then begin
+   if ((getQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL) == qStart) or (getQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL) == qStop)) then begin
+   NAnswer(540,1,NodeQst200)
+   end
+   end
+
+   if ((getQuest(GVAR_RAIDER_QST_PRISON) == qStart) and (global_var(GVAR_RAIDER_STATUS_PRISON) == 0)) then begin
+   if (map_var(MVAR_CGRANDE_PRISON_FREE) == 0) then begin
+   NAnswer(570,1,NodeAnswer600)
+   end
+   end
+
+   //--- Купальня
+
+   if (getQuest(GVAR_CGRANDE_QST_BATHHOUSE) == qStart) then begin
+      if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) == 0) then begin
+         if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_24) == 0) then begin
+         if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_23) == 0) then begin
+         NAnswer(250,1,NodeBathhouse)
+         end
+         end
+      end
+   end
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_23) != 0) then begin
+      if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) < 0) then begin
+       NAnswer(290,1,NodeBathhouse200)
+      end
+   end
+
+   NAnswer(243,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(225)
+   NAnswer(226,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(227)
+   NAnswer(228,1,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   zReply(229)
+   NAnswer(230,1,NodeAnswer103)
+   NAnswer(dude_name+mstr(231),1,NodeFstDialog14)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_3,0)
+   Reply(232)
+   BAnswer(233,1,Node999)
+   NAnswer(234,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(351)
+   NAnswer(352,1,NodeAnswer201)
+   NAnswer(364,1,NodeAnswer202)
+   NAnswer(356,1,NodeAnswer203)
+end
+
+procedure NodeAnswer201 begin
+   Reply(353)
+   NAnswer(354,1,NodeAnswer202)
+   NAnswer(366,1,NodeAnswer203)
+   NAnswer(369,5,NodeAnswer205)
+   zNAnswer(368,1,Node999)
+   BAnswer(367,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   Reply(355)
+   NAnswer(365,1,NodeAnswer201)
+   NAnswer(356,1,NodeAnswer203)
+   NAnswer(369,5,NodeAnswer205)
+   zNAnswer(368,1,Node999)
+   BAnswer(367,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   Reply(357)
+   BAnswer(360,5,NodeAnswer204)
+   NAnswer(365,1,NodeAnswer201)
+   NAnswer(364,1,NodeAnswer202)
+   NAnswer(358,1,Node999)
+   BAnswer(359,1,Node999)
+end
+
+procedure NodeAnswer204 begin
+   zReply(361)
+   NAnswer(362,1,Node999)
+   BAnswer(363,1,Node999)
+end
+
+procedure NodeAnswer205 begin
+   Reply(376)
+   NAnswer(354,1,NodeAnswer202)
+   NAnswer(366,1,NodeAnswer203)
+   zNAnswer(368,1,Node999)
+   BAnswer(367,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   if (getReaction >= 50) then begin
+   Reply(371)
+   end
+   else if (getReaction <= -50) then begin
+   Reply(372)
+   end
+   else begin
+   Reply(373)
+   end
+
+   NAnswer(380,1,NodeAnswer301)
+   NAnswer(392,1,NodeAnswer306)
+   if (bitDialog(bit_5) != 0) then begin
+   if (getQuest(GVAR_CGRANDE_QST_ROADSTOP) != qZero) then begin
+   NAnswer(400,1,NodeAnswer310)
+   end
+   end
+   NAnswer(405,1,NodeAnswer312)
+   if (global_var(GVAR_CGRANDE_STATUS_SHEFF) == -2) then begin
+   if (getQuest(GVAR_CGRANDE_QST_BANDITS) != qZero) then begin
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_26) != 0) then begin
+   NAnswer(419,3,NodeAnswer316)
+   end
+   end
+   end
+   if (map_is_known(MAP_CASA_GRANDE_GRAVE) == true) then begin
+   NAnswer(430,1,NodeAnswer400)
+   end
+
+   if (getQuest(GVAR_CGRANDE_QST_BANDITS) == qZero) then begin
+   NAnswer(450,3,NodeQst100)
+   end
+   NAnswer(374,1,Node999)
+end
+
+procedure NodeAnswer301 begin
+   Reply(381)
+   NAnswer(382,1,NodeAnswer302)
+   NAnswer(387,1,NodeAnswer304)
+   NAnswer(375,1,NodeAnswer300)
+end
+
+procedure NodeAnswer302 begin
+   Reply(383)
+   if (local_var(LVAR_Story_Know) != 0) then begin
+   NAnswer(384,5,NodeAnswer303)
+   end
+   NAnswer(375,1,NodeAnswer300)
+end
+
+procedure NodeAnswer303 begin
+   bitDialogExp(bit_7,50)
+   Reply(385)
+   NAnswer(386,1,NodeAnswer300)
+   BAnswer(426,1,NodeAnswer300)
+end
+
+procedure NodeAnswer304 begin
+   Reply(388)
+   if ((global_var(GVAR_TEQUILA_INFO)>0) or (global_var(GVAR_PHENIX_STATUS_DIEGO)>0)) then begin
+   NAnswer(389,5,NodeAnswer305)
+   end
+   NAnswer(391,1,NodeAnswer300)
+end
+
+procedure NodeAnswer305 begin
+   bitDialogExp(bit_8,25)
+   Reply(390)
+   NAnswer(391,1,NodeAnswer300)
+end
+
+procedure NodeAnswer306 begin
+   Reply(393)
+   NAnswer(394,1,NodeAnswer307)
+end
+
+procedure NodeAnswer307 begin
+   bitDialogExp(bit_5,0)
+   Reply(395)
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+   NAnswer(396,4,NodeAnswer308)
+   end
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswer(398,4,NodeAnswer309)
+   end
+   NAnswer(375,1,NodeAnswer300)
+end
+
+procedure NodeAnswer308 begin
+   bitDialogExp(bit_9,15)
+   Reply(397)
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswer(398,4,NodeAnswer309)
+   end
+   NAnswer(375,1,NodeAnswer300)
+end
+
+procedure NodeAnswer309 begin
+   bitDialogExp(bit_10,15)
+   Reply(399)
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+   NAnswer(396,4,NodeAnswer308)
+   end
+   NAnswer(375,1,NodeAnswer300)
+end
+
+procedure NodeAnswer310 begin
+   Reply(401)
+   NAnswer(402,1,NodeAnswer311)
+end
+
+procedure NodeAnswer311 begin
+   bitDialogExp(bit_11,20)
+   Reply(403)
+   NAnswer(404,1,NodeAnswer300)
+end
+
+procedure NodeAnswer312 begin
+   if (global_var(GVAR_CGRANDE_STATUS_SHEFF) >= 0) then begin
+   Reply(406)
+   NAnswerReaction(414,3,NodeAnswer314,50,410,NodeAnswer313)
+   end
+   else begin
+   Reply(407)
+   end
+   NAnswer(408,1,NodeAnswer300)
+   NAnswer(409,1,Node999)
+end
+
+procedure NodeAnswer313 begin
+   Reply(411)
+   NAnswer(412,1,NodeAnswer300)
+   NAnswer(413,1,Node999)
+end
+
+procedure NodeAnswer314 begin
+   Reply(415)
+   BAnswer(417,5,NodeAnswer315)
+   NAnswer(416,1,NodeAnswer300)
+end
+
+procedure NodeAnswer315 begin
+   bitDialogExp(bit_6,20)
+   Reply(418)
+   NAnswer(416,1,NodeAnswer300)
+end
+
+procedure NodeAnswer316 begin
+   Reply(420)
+   if (bitDialog(bit_6) != 0) then begin
+   BAnswer(421,1,NodeAnswer317)
+   end
+   NAnswer(422,1,NodeAnswer300)
+end
+
+procedure NodeAnswer317 begin
+   Reply(423)
+   NAnswer(424,1,NodeAnswer300)
+   BAnswer(425,1,NodeAnswer300)
+end
+
+procedure NodeAnswer400 begin
+   Reply(431)
+   NAnswer(432,1,NodeAnswer300)
+   BAnswer(433,1,NodeAnswer401)
+end
+
+procedure NodeAnswer401 begin
+   Reply(434)
+   if (local_var(LVAR_Story_Know) == 0) then begin
+   if (global_var(GVAR_HOLODISK_06) != 0) then begin
+   BAnswer(435,1,NodeAnswer402)
+   end
+   end
+   NAnswer(432,1,NodeAnswer300)
+end
+
+procedure NodeAnswer402 begin
+   Reply(437)
+   NAnswer(438,1,NodeAnswer403)
+end
+
+procedure NodeAnswer403 begin
+   set_local_var(LVAR_Story_Know,1);
+   Reply(439)
+   BAnswer(440,1,NodeAnswer404)
+   NAnswer(441,1,NodeAnswer404)
+   BAnswer(445,1,NodeAnswer406)
+end
+
+procedure NodeAnswer404 begin
+   Reply(442)
+   if (getQuest(GVAR_GARAGE_QST_BOSS_TRADE) >= 4) then begin
+   GAnswer(443,4,NodeAnswer405)
+   end
+   else if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) >= 4) then begin
+   GAnswer(443,4,NodeAnswer405)
+   end
+   NAnswer(447,1,Node999)
+   BAnswer(428,1,Node999)
+end
+
+procedure NodeAnswer405 begin
+   bitDialogExp(bit_12,35)
+   setBonusReaction(10)
+   Reply(444)
+   NAnswer(447,1,Node999)
+   BAnswer(428,1,Node999)
+end
+
+procedure NodeAnswer406 begin
+   setBonusReaction(-20)
+   set_REP(-1)
+   Reply(448)
+   zNAnswer(449,1,Node999)
+   BAnswer(429,1,Node999)
+end
+
+procedure NodeAnswer500 begin
+   Reply(521)
+   NAnswer(523,3,NodeAnswer501)
+   NAnswer(527,3,NodeAnswer503)
+   NAnswer(531,3,NodeAnswer505)
+   NAnswer(535,3,NodeAnswer507)
+   NAnswer(537,5,NodeAnswer508)
+   NAnswer(522,1,Node999)
+end
+
+procedure NodeAnswer501 begin
+   Reply(524)
+   NAnswer(525,4,NodeAnswer502)
+   NAnswer(527,3,NodeAnswer503)
+   NAnswer(531,3,NodeAnswer505)
+   NAnswer(535,3,NodeAnswer507)
+   NAnswer(537,5,NodeAnswer508)
+   zNAnswer(539,1,Node999)
+end
+
+procedure NodeAnswer502 begin
+   Reply(526)
+   NAnswer(527,3,NodeAnswer503)
+   NAnswer(531,3,NodeAnswer505)
+   NAnswer(535,3,NodeAnswer507)
+   NAnswer(537,5,NodeAnswer508)
+   zNAnswer(539,1,Node999)
+end
+
+procedure NodeAnswer503 begin
+   Reply(528)
+   NAnswer(529,3,NodeAnswer504)
+   NAnswer(523,3,NodeAnswer501)
+   NAnswer(531,3,NodeAnswer505)
+   NAnswer(535,3,NodeAnswer507)
+   NAnswer(537,5,NodeAnswer508)
+   zNAnswer(539,1,Node999)
+end
+
+procedure NodeAnswer504 begin
+   Reply(530)
+   NAnswer(523,3,NodeAnswer501)
+   NAnswer(531,3,NodeAnswer505)
+   NAnswer(535,3,NodeAnswer507)
+   NAnswer(537,5,NodeAnswer508)
+   zNAnswer(539,1,Node999)
+end
+
+procedure NodeAnswer505 begin
+   Reply(532)
+   NAnswer(533,3,NodeAnswer506)
+   NAnswer(523,3,NodeAnswer501)
+   NAnswer(527,3,NodeAnswer503)
+   NAnswer(535,3,NodeAnswer507)
+   NAnswer(537,5,NodeAnswer508)
+   zNAnswer(539,1,Node999)
+end
+
+procedure NodeAnswer506 begin
+   Reply(534)
+   NAnswer(523,3,NodeAnswer501)
+   NAnswer(527,3,NodeAnswer503)
+   NAnswer(535,3,NodeAnswer507)
+   NAnswer(537,5,NodeAnswer508)
+   zNAnswer(539,1,Node999)
+end
+
+procedure NodeAnswer507 begin
+   mark_on_map(AREA_RAIDERS)
+   Reply(536)
+   NAnswer(523,3,NodeAnswer501)
+   NAnswer(527,3,NodeAnswer503)
+   NAnswer(531,3,NodeAnswer505)
+   NAnswer(537,5,NodeAnswer508)
+   zNAnswer(539,1,Node999)
+end
+
+procedure NodeAnswer508 begin
+   Reply(538)
+   NAnswer(523,3,NodeAnswer501)
+   NAnswer(527,3,NodeAnswer503)
+   NAnswer(531,3,NodeAnswer505)
+   NAnswer(535,3,NodeAnswer507)
+   zNAnswer(539,1,Node999)
+end
+
+//- Заключенный рейдер
+
+procedure NodeAnswer600 begin
+   Reply(571)
+   NAnswer(572,3,NodeAnswer601)
+end
+
+procedure NodeAnswer601 begin
+   Reply(573)
+   NAnswer(577,1,NodeAnswer602)
+   NAnswer(574,1,Node999)
+end
+
+procedure NodeAnswer602 begin
+   Reply(578)
+   NAnswerSkill(583,3,NodeAnswer604,SKILL_CONVERSANT,75,580,NodeAnswer603)
+   NAnswer(586,3,NodeAnswer605)
+   NAnswer(579,1,Node999)
+end
+
+procedure NodeAnswer603 begin
+   Reply(581)
+   NAnswer(582,1,Node999)
+end
+
+procedure NodeAnswer604 begin
+   set_map_var(MVAR_CGRANDE_PRISON_FREE,1);
+   Reply(584)
+   NAnswer(585,1,Node999)
+end
+
+procedure NodeAnswer605 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)<100) then begin
+   Reply(589)
+   NAnswer(590,1,Node999)
+   end
+   else begin
+   set_map_var(MVAR_CGRANDE_PRISON_FREE,1);
+   item_remove(dude_obj,PID_BOOTLE_CAPS,100)
+   item_add(self_obj,PID_BOOTLE_CAPS,100)
+   Reply(587)
+   NAnswer(588,1,Node999)
+   end
+end
+
+//- Второй квест
+
+procedure NodeQst200 begin
+   setQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL,qEnd);
+   setBonusReaction(25)
+   set_SLAVA(25)
+   set_REP(7)
+   item_remove(dude_obj,PID_HEAD_ROAD,1)
+   exp_add(350);
+   Reply(541)
+   NAnswer(542,1,NodeQst201)
+   BAnswer(548,1,NodeQst204)
+end
+
+procedure NodeQst201 begin
+   Reply(543)
+   NAnswer(544,1,NodeQst202)
+   BAnswer(545,1,NodeQst203)
+end
+
+procedure NodeQst202 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,500)
+   Reply(546)
+   NAnswer(547,1,Node999)
+end
+
+procedure NodeQst203 begin
+   setBonusReaction(-10)
+   call NodeQst202;
+end
+
+procedure NodeQst204 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,500)
+   Reply(549)
+   NAnswer(547,1,Node999)
+end
+
+procedure NodeQst300 begin
+   setQuest(GVAR_CGRANDE_QST_ROADSTOP,qEnd);
+   setBonusReaction(50)
+   set_SLAVA(50)
+   set_REP(15)
+   exp_add(1000);
+   Reply(551)
+   GAnswer(555,1,NodeQst302)
+   NAnswer(558,1,NodeQst303)
+   BAnswer(552,1,NodeQst301)
+end
+
+procedure NodeQst301 begin
+   setBonusReaction(-10)
+   item_add(dude_obj,PID_BOOTLE_CAPS,500)
+   Reply(553)
+   NAnswer(554,1,Node999)
+end
+
+procedure NodeQst302 begin
+   setBonusReaction(10)
+   item_add(dude_obj,PID_BOOTLE_CAPS,500)
+   Reply(556)
+   NAnswer(557,1,Node999)
+end
+
+procedure NodeQst303 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,500)
+   Reply(559)
+   NAnswer(560,1,Node999)
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   Reply(300)
+   NAnswer(301,1,NodeStopDialog2)
+end
+
+procedure NodeStopDialog2 begin
+   move_to(dude_obj,18702,0);
+   display_mstr(302);
+   call Node999;
+end
+
+procedure NodeStopDialog100 begin
+   bitDialogExp(bit_2,0)
+   if (town_rep_is_liked or (getReaction>=50)) then begin
+   Reply(308)
+   NAnswer(309,1,NodeStopDialog104)
+   end
+   else begin
+   Reply(310)
+   NAnswer(311,1,NodeStopDialog101)
+   BAnswer(312,1,NodeStopDialog102)
+   end
+end
+
+procedure NodeStopDialog101 begin
+   Reply(313)
+   NAnswer(317,1,NodeStopDialog104)
+   BAnswer(314,1,NodeStopDialog103)
+end
+
+procedure NodeStopDialog102 begin
+   setBonusReaction(-5)
+   call NodeStopDialog101;
+end
+
+procedure NodeStopDialog103 begin
+   setBonusReaction(-15)
+   Reply(315)
+   NAnswer(316,1,Node999)
+   BAnswer(329,1,Node999)
+end
+
+procedure NodeStopDialog104 begin
+   Reply(318)
+   NAnswer(319,1,Node999)
+end
+
+procedure NodeStopDialog200 begin
+   bitDialogExp(bit_4,50)
+   setBonusReaction(10)
+   zReply(320)
+   NAnswer(321,1,NodeStopDialog201)
+end
+
+procedure NodeStopDialog201 begin
+   zReply(322)
+   BAnswer(323,1,NodeStopDialog202)
+   GAnswer(327,1,NodeStopDialog203)
+end
+
+procedure NodeStopDialog202 begin
+   item_add(dude_obj,PID_M_WATER_FLASK,2)
+   Reply(324)
+   NAnswer(325,1,Node999)
+   BAnswer(326,1,Node999)
+end
+
+procedure NodeStopDialog203 begin
+   setBonusReaction(10)
+   set_SLAVA(5)
+   set_REP(2)
+   display_mstr(328);
+   call Node999;
+end
+
+procedure NodeStopDialog300 begin
+   bitDialogExp(bit_13,0)
+   Reply(330)
+   BAnswer(331,1,NodeStopDialog301)
+   NAnswer(332,1,NodeStopDialog301)
+end
+
+procedure NodeStopDialog301 begin
+   if (getQuest(GVAR_CGRANDE_QST_SALVATION) <= -10) then begin
+   Reply(337)
+   NAnswer(334,1,NodeStopDialog302)
+   BAnswer(338,1,NodeStopDialog303)
+   end
+   else begin
+   Reply(333)
+   NAnswer(334,1,NodeStopDialog302)
+   NAnswer(340,1,NodeStopDialog304)
+   end
+end
+
+procedure NodeStopDialog302 begin
+   Reply(335)
+   NAnswer(336,1,Node999)
+end
+
+procedure NodeStopDialog303 begin
+   setBonusReaction(-10)
+   Reply(339)
+   NAnswer(336,1,Node999)
+end
+
+procedure NodeStopDialog304 begin
+   setBonusReaction(-15)
+   Reply(341)
+   NAnswer(342,1,Node999)
+end
+
+//--- КУПАЛЬНЯ
+
+procedure NodeBathhouse begin
+   Reply(251)
+   NAnswer(253,1,NodeBathhouse100)
+   BAnswer(252,1,NodeBathhouse102)
+end
+
+procedure NodeBathhouse100 begin
+   Reply(254)
+   NAnswer(255,1,NodeBathhouse101)
+end
+
+procedure NodeBathhouse101 begin
+   Reply(256)
+
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_23) == 0) then begin
+   NAnswer(260,1,NodeBathhouse103)
+   end
+   NAnswer(263,1,NodeBathhouse104)
+   NAnswerSkill(273,4,NodeBathhouse107,SKILL_CONVERSANT,70,269,NodeBathhouse106)
+
+   if (local_var(LVAR_Story_Know) > 0) then begin
+   NAnswer(277,1,NodeBathhouse108)
+   end
+   if (global_var(GVAR_CGRANDE_STATUS_MER) > 0) then begin
+   NAnswer(283,1,NodeBathhouse110)
+   end
+
+   NAnswer(257,1,Node999)
+end
+
+procedure NodeBathhouse102 begin
+   Reply(258)
+   NAnswer(259,1,Node999)
+end
+
+procedure NodeBathhouse103 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_23);
+   Reply(261)
+   NAnswer(262,1,Node999)
+end
+
+procedure NodeBathhouse104 begin
+   Reply(264)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 250) then begin
+   NAnswer(266,1,NodeBathhouse105)
+   end
+   NAnswer(265,1,Node999)
+end
+
+procedure NodeBathhouse105 begin
+   set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_23);
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_24);
+   item_remove(dude_obj,PID_BOOTLE_CAPS,250)
+   Reply(267)
+   NAnswer(268,1,Node999)
+end
+
+procedure NodeBathhouse106 begin
+   Reply(270)
+   NAnswer(271,1,Node999)
+   BAnswer(272,1,Node999)
+end
+
+procedure NodeBathhouse107 begin
+   set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_23);
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_24);
+   Reply(274)
+   NAnswer(275,1,Node999)
+   BAnswer(276,1,Node999)
+end
+
+procedure NodeBathhouse108 begin
+   Reply(278)
+   NAnswer(279,9,NodeBathhouse109)
+   NAnswer(280,1,Node999)
+end
+
+procedure NodeBathhouse109 begin
+   set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_23);
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_24);
+   Reply(281)
+   NAnswer(282,1,Node999)
+end
+
+procedure NodeBathhouse110 begin
+   set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_23);
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_24);
+   Reply(284)
+   NAnswer(285,1,Node999)
+end
+
+procedure NodeBathhouse200 begin
+   Reply(291)
+   NAnswer(292,1,NodeBathhouse201)
+end
+
+procedure NodeBathhouse201 begin
+   set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_23);
+   item_add(dude_obj,PID_BOOTLE_CAPS,100)
+   set_REP(3)
+   setBonusReaction(25)
+   exp_add(350);
+   Reply(293)
+   NAnswer(294,1,Node999)
+   BAnswer(295,1,Node999)
+end
+
+//--- КВЕСТ
+
+procedure NodeQst100 begin
+   Reply(454)
+   NAnswer(455,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(456)
+   BAnswer(457,1,NodeQst102)
+   NAnswer(458,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(459)
+   GAnswer(461,1,NodeQst103)
+   NAnswer(460,1,Node999)
+end
+
+procedure NodeQst103 begin
+   setQuest(GVAR_CGRANDE_QST_BANDITS,qStart);
+   Reply(462)
+   NAnswer(463,1,Node999)
+end
+
+procedure NodeQstFinish begin
+   setQuest(GVAR_CGRANDE_QST_ROADSTOP,qStart);
+   setQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL,qStart);
+   setQuest(GVAR_CGRANDE_QST_BANDITS,qEnd);
+   exp_add(500);
+
+   if (global_var(GVAR_CGRANDE_STATUS_MERDCH) >= 0) then begin
+   setBonusReaction(50)
+   Reply(470)
+   NAnswer(471,1,NodeQstFinish100)
+   BAnswer(477,1,NodeQstFinish102)
+   end
+   else begin
+   Reply(480)
+   NAnswer(481,1,NodeQstFinish103)
+   BAnswer(484,1,NodeQstFinish104)
+   end
+end
+
+procedure NodeQstFinish100 begin
+   item_add(dude_obj,PID_M_TEQUILA,1)
+   Reply(472)
+   NAnswer(473,1,NodeQstFinish101)
+end
+
+procedure NodeQstFinish101 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,250)
+   set_REP(7)
+   set_SLAVA(25)
+   Reply(474)
+   NAnswer(475,1,NodeQstFinish106)
+   NAnswer(476,1,NodeQstFinish106)
+end
+
+procedure NodeQstFinish102 begin
+   Reply(478)
+   NAnswer(479,1,NodeQstFinish101)
+end
+
+procedure NodeQstFinish103 begin
+   Reply(482)
+   NAnswer(483,1,NodeQstFinish105)
+end
+
+procedure NodeQstFinish104 begin
+   setBonusReaction(-20)
+   Reply(485)
+   NAnswer(486,1,NodeQstFinish105)
+end
+
+procedure NodeQstFinish105 begin
+   Reply(487)
+   NAnswer(488,1,NodeQstFinish106)
+end
+
+procedure NodeQstFinish106 begin
+   Reply(500)
+   NAnswer(501,1,NodeQstFinish107)
+end
+
+procedure NodeQstFinish107 begin
+   Reply(502)
+   NAnswer(503,1,NodeQstFinish108)
+   NAnswer(504,1,NodeQstFinish108)
+end
+
+procedure NodeQstFinish108 begin
+   Reply(505)
+   NAnswer(509,1,NodeQstFinish110)
+   BAnswer(506,1,NodeQstFinish109)
+end
+
+procedure NodeQstFinish109 begin
+   Reply(507)
+   NAnswer(512,1,NodeAnswer500)
+   NAnswer(508,1,Node999)
+end
+
+procedure NodeQstFinish110 begin
+   Reply(510)
+   NAnswer(512,1,NodeAnswer500)
+   NAnswer(511,1,Node999)
+end
+
+procedure NodeRoadWar begin
+   Reply(592)
+   NAnswer(593,1,NodeRoadWar2)
+end
+
+procedure NodeRoadWar2 begin
+   Reply(594)
+   NAnswerRep(595,1,NodeRoadWar4,10,595,NodeRoadWar3)
+   NAnswerSkill(599,1,NodeRoadWar4,SKILL_CONVERSANT,90,599,NodeRoadWar3)
+end
+
+procedure NodeRoadWar3 begin
+   Reply(598)
+   NAnswer(599,1,Node999)
+end
+
+procedure NodeRoadWar4 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_28);
+   set_REP(-15)
+   set_SLAVA(-35)
+
+   if (getQuest(GVAR_CGRANDE_QST_BANDITS) < qEnd) then begin
+   setQuest(GVAR_CGRANDE_QST_BANDITS,qStop);
+   end
+   if (getQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL) < qEnd) then begin
+   setQuest(GVAR_CGRANDE_QST_ROADBOSS_KILL,qStop);
+   end
+   if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) < qEnd) then begin
+   setQuest(GVAR_CGRANDE_ATTAK_TO_BAR,qStop);
+   end
+   if (getQuest(GVAR_CGRANDE_QST_ROADSTOP) < qEnd) then begin
+   setQuest(GVAR_CGRANDE_QST_ROADSTOP,qStop);
+   end
+
+   Reply(596)
+   NAnswer(597,1,Node999)
+end

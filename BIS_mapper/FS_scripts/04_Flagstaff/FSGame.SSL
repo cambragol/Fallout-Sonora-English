@@ -1,0 +1,192 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_FSGame
+#define SKILL_LIMIT                     40
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+procedure game_start;
+procedure game_process;
+procedure game_finish;
+
+#define LVAR_GamePoint                  (2) // число заработанных игровых очков
+
+variable check_point;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   inc_local_var_amt(LVAR_GamePoint,0);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (map_var(MVAR_FLAG_GameStatus) == 0) then begin
+   set_map_var(MVAR_FLAG_GameStatus,1);
+   end
+
+   if (local_var(LVAR_Status) > 0) then begin
+   call game_start;
+   end
+   else begin
+   RepairProcUsing(110,111)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   if (map_var(MVAR_FLAG_GameStatus) < 2) then begin
+   set_map_var(MVAR_FLAG_GameStatus,2);
+   end
+   RepairProcRepair(112,250,"FIXSTILL")
+end
+
+procedure game_start begin
+   check_point := 0;
+
+   if (map_var(MVAR_FLAG_GameStatus) >= 3) then begin
+       display_mstr(120);
+       floater(dude_obj,121,COLOR_MSG_NORMAL);
+   end
+   else if (dude_cur_hits < 10) then begin
+       display_mstr(126);
+       floater(dude_obj,127,COLOR_MSG_NORMAL);
+   end
+   else if dude_skill(SKILL_GAMBLING,25) then begin
+       call game_process;
+   end
+   else begin
+       skill_display_mstr(124,SKILL_GAMBLING,25)
+       floater(dude_obj,125,COLOR_MSG_NORMAL);
+   end
+end
+
+procedure game_process begin
+   check_point := 0;
+   check_point := random(has_skill(dude_obj, SKILL_GAMBLING)-100,has_skill(dude_obj, SKILL_GAMBLING));
+   inc_local_var_amt(LVAR_GamePoint,check_point);
+
+   /*
+   if (random(0,3) == 0) then begin
+   play_sfx("SKEYBUZ1");
+   end
+   else if (random(0,2) == 0) then begin
+   play_sfx("SELEVDX1");
+   end
+   else if (random(0,1) == 0) then begin
+   play_sfx("SELEVUX1");
+   end
+   else begin
+   play_sfx("SWDKEYX1");
+   end
+   */
+
+   if (local_var(LVAR_GamePoint) >= 1000) then begin
+       call game_finish;
+   end
+   else begin
+       if ((local_var(LVAR_GamePoint) >= 100) or (local_var(LVAR_GamePoint) < -100)) then begin
+          if (random(0,100) > 70+(dude_endurance*3)) then begin
+          critter_dmg(dude_obj, random(1,5), DMG_electrical);
+          display_msg(mstr(152));
+          end
+       end
+
+       if (check_point < 0) then begin
+       play_sfx("IISXXXX1");
+       display_msg(mstr(140)+(check_point)+mstr(141));
+       floater(dude_obj,random(145,149),COLOR_MSG_NORMAL);
+       end
+       else begin
+       play_sfx("ICSXXXX1");
+       display_msg(mstr(130)+(check_point)+mstr(131));
+       floater(dude_obj,random(135,139),COLOR_MSG_NORMAL);
+       end
+       display_msg(mstr(132)+local_var(LVAR_GamePoint)+mstr(133));
+   end
+end
+
+procedure game_finish begin
+   set_map_var(MVAR_FLAG_GameStatus,3);
+   play_sfx("STARGAME");
+   PLAY_FADE
+   exp_add(1000);
+   display_mstr(150);
+   floater(dude_obj,151,COLOR_MSG_RED);
+end
+
+/*
+{110}{}{Игральный автомат выходит из строя!}
+{111}{}{[Ремонт 40] Если бы вы лучше понимали электронику, то могли бы устроить взрыв конденсаторов.}
+{112}{}{Эй, это короткое замыкание, я тут не причем!}
+{113}{}{Эта игра... она мне не понравилась}
+{114}{}{Анализ правил игры позволил увеличить шансы на победу (насколько это позволял ваш навык науки).}
+{115}{}{}
+{116}{}{Нет, хватит! Меня мутит от одного только вида этого автомата.}
+{117}{}{Для игры используйте специальные жетоны на этом автомате.}
+{118}{}{Выглядит фантастично}
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (has_skill(dude_obj, SKILL_REPAIR) >= 40) then begin
+         play_sfx("ZAPPER2");
+         floater(dude_obj,112,COLOR_MSG_GREEN);
+         call destroy_opt;
+      end
+      else begin
+         display_mstr(111);
+      end
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(114);
+      set_local_var(LVAR_SkillMod, has_skill(dude_obj, SKILL_SCIENCE/5));
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if ((objUsedPid == PID_TOOL_SHOVEL) or (objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_SLEDGEHAMMER) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE)) then begin
+       script_overrides;
+       play_sfx("CLANK");
+       floater(dude_obj,113,COLOR_MSG_GREEN);
+       call destroy_opt;
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+       play_sfx("CLANK");
+       floater(dude_obj,113,COLOR_MSG_GREEN);
+       call destroy_opt;
+   end
+end
+
+procedure destroy_opt begin
+   set_map_var(MVAR_FLAG_GameStatus,2);
+   display_mstr(110);
+   set_obj_visibility(self_obj, 1);
+   create_object_sid(self_PID+1, self_tile, self_elevation, -1);
+   destroy_object(self_obj);
+end
+*/

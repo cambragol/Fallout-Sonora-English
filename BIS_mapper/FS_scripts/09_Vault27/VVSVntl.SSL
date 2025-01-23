@@ -1,0 +1,47 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_VVSVntl
+
+procedure start;
+procedure map_update_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_update_p_proc begin
+   if (getQuest(GVAR_VAULT27_POISON) < qEnd) then begin
+   floater(self_obj,random(120,122),COLOR_MSG_GREY);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (getQuest(GVAR_VAULT27_GENERATOR) < qEnd) then begin
+   display_mstr(110);
+   end
+   else if (getQuest(GVAR_VAULT27_POISON) < qEnd) then begin
+   setQuest(GVAR_VAULT27_POISON,qEnd);
+   set_gvar_bit_on(GVAR_BIBL_FLAGS_BIT, bit_4);
+   play_sfx("STEAM1");
+   dude_floater_OK;
+   display_mstr(111);
+   end
+   else begin
+   display_mstr(112);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

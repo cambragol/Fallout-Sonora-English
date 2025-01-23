@@ -1,0 +1,132 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSChlHlg
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure holo_gener;
+procedure holo_destroy;
+
+variable holoParam;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (map_var(MVAR_DIEGOCHULA_ELECTR) == 0) then begin
+   display_mstr(110);
+   end
+   else if (map_var(MVAR_DIEGOCHULA_HOLO) < 0) then begin
+   display_mstr(110);
+   end
+   else if (map_var(MVAR_DIEGOCHULA_HOLO) == 0) then begin
+   call holo_gener;
+   end
+   else begin
+   display_mstr(111);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call use_p_proc;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (getQuest(GVAR_DAYGLOW_QST_MARIACHI) == qEnd) then begin
+         if ((global_var(GVAR_DAYGLOW_MARIACHI_A) < 0) or (global_var(GVAR_DAYGLOW_MARIACHI_B) < 0)) then begin
+         call holo_destroy;
+         end
+         else begin
+         call use_p_proc;
+         end
+      end
+      else begin
+         call use_p_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_Q_DAYGLOW_HOLOMODUL) then begin
+       script_overrides;
+       item_remove(dude_obj, objUsedPid, 1)
+       display_mstr(114);
+       set_map_var(MVAR_DIEGOCHULA_HOLO,0);
+   end
+end
+
+procedure holo_gener begin
+   //Генерация голограмм:
+   /*
+   create_object_sid(33556683, 18500, 0, -1);
+   create_object_sid(33556684, 18898, 0, -1);
+   create_object_sid(33556685, 18496, 0, -1);
+   */
+
+   create_object_sid(33556746, tile_num_in_direction(self_tile,2,5), 0, SCRIPT_ANIMFVR);
+                animate_stand_obj(tile_contains_pid_obj(tile_num_in_direction(self_tile,2,5), 0, 33556746));
+   holoParam := create_object_sid(33556683, 21110, 0, -1);
+                anim(holoParam, ANIMATE_ROTATION, 3);
+   holoParam := create_object_sid(33556683, 21489, 0, -1);
+                anim(holoParam, ANIMATE_ROTATION, 2);
+   holoParam := create_object_sid(33556683, 15886, 0, -1);
+                anim(holoParam, ANIMATE_ROTATION, 0);
+   holoParam := create_object_sid(33556683, 15906, 0, -1);
+                anim(holoParam, ANIMATE_ROTATION, 5);
+
+   play_sfx("ELECTRIC");
+   play_sfx("ZAPPER1");
+   display_mstr(112);
+   set_map_var(MVAR_DIEGOCHULA_HOLO,1);
+end
+
+procedure holo_destroy begin
+   //Удаление голограмм:
+   /*
+   if (tile_contains_obj_pid(18500,0,33556683) == true) then begin
+   destroy_object(tile_contains_pid_obj(18500, 0, 33556683));
+   end
+   if (tile_contains_obj_pid(18898,0,33556684) == true) then begin
+   destroy_object(tile_contains_pid_obj(18898, 0, 33556684));
+   end
+   if (tile_contains_obj_pid(18496,0,33556685) == true) then begin
+   destroy_object(tile_contains_pid_obj(18496, 0, 33556685));
+   end
+   */
+
+   if (tile_contains_obj_pid(tile_num_in_direction(self_tile,2,5),0,33556746) == true) then begin
+   destroy_object(tile_contains_pid_obj(tile_num_in_direction(self_tile,2,5), 0, 33556746));
+   end
+   if (tile_contains_obj_pid(21110,0,33556683) == true) then begin
+   destroy_object(tile_contains_pid_obj(21110, 0, 33556683));
+   end
+   if (tile_contains_obj_pid(21489,0,33556683) == true) then begin
+   destroy_object(tile_contains_pid_obj(21489, 0, 33556683));
+   end
+   if (tile_contains_obj_pid(15886,0,33556683) == true) then begin
+   destroy_object(tile_contains_pid_obj(15886, 0, 33556683));
+   end
+   if (tile_contains_obj_pid(15906,0,33556683) == true) then begin
+   destroy_object(tile_contains_pid_obj(15906, 0, 33556683));
+   end
+
+   play_sfx("ELECTRIC");
+   play_sfx("ZAPPER1");
+   display_mstr(113);
+   item_add(dude_obj, PID_Q_DAYGLOW_HOLOMODUL, 1)
+   set_map_var(MVAR_DIEGOCHULA_HOLO,-1);
+end

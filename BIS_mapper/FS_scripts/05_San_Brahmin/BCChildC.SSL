@@ -1,0 +1,211 @@
+#include "..\headers\define.h"
+//--------------------- Дети в западне в Погребенном Городе
+
+#define NAME                            SCRIPT_BCChildC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_BRAHMIN // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANBRAHMIN_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CHILD              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_CHILD      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      5  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeEndDialog;
+procedure NodeEndDialog2;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeParty;
+procedure NodePartyStop;
+procedure NodeStopDialog;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if (global_var(GVAR_BRAHMIN_STATUS_CHILDRUN) != 0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (map_var(MVAR_BRAHMIN_CHILD_KNOW) == 0) then begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (map_var(MVAR_BRAHMIN_CHILD_RUN)>0) then begin
+   partyRunToDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   //push_options(HomeTile,5,-1) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_BRAHMIN_STATUS_CHILDRUN,-10);
+   set_map_var(MVAR_BRAHMIN_CHILD_RUN,-1);
+   /*
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_BRAHMIN_CHILD_RUN,-1);
+   end
+   */
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (self_elevation == 0) then begin
+   call NodeEndDialog;
+   end
+   else if (map_var(MVAR_BRAHMIN_CHILD_RUN)<0) then begin
+   call NodeStopDialog;
+   end
+   else if (map_var(MVAR_BRAHMIN_CHILD_KNOW)!=0) then begin
+   call NodeSndDialog;
+   end
+   else begin
+   call NodeFstDialog;
+   end
+end
+
+procedure NodeEndDialog begin
+   Reply(230)
+   NAnswer(231,1,NodeEndDialog2)
+end
+
+procedure NodeEndDialog2 begin
+   if (global_var(GVAR_BRAHMIN_STATUS_CHILDRUN) == 0) then begin
+   exp_add(250);
+
+   item_add(dude_obj,PID_W_GRENADE_FRAG,1)
+   item_add(dude_obj,PID_AMMO_10_MM,20)
+   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,10)
+   item_add(dude_obj,PID_TOOL_ZIPPER,1)
+
+   set_global_var(GVAR_BRAHMIN_STATUS_CHILDRUN,1);
+   end
+   zReply(232)
+   NAnswer(233,1,NodePartyStop)
+end
+
+procedure NodeFstDialog begin
+   set_map_var(MVAR_BRAHMIN_CHILD_KNOW,1);
+   Reply(200)
+   NAnswer(201,3,NodeFstDialog100)
+   NAnswer(202,1,NodeFstDialog100)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(203)
+   NAnswer(204,1,NodeFstDialog101)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(205)
+   NAnswer(206,1,NodeParty)
+   NAnswer(207,1,NodeParty)
+end
+
+procedure NodeParty begin
+   set_map_var(MVAR_BRAHMIN_CHILD_RUN,1);
+   call Node999;
+end
+
+procedure NodePartyStop begin
+   set_map_var(MVAR_BRAHMIN_CHILD_RUN,0);
+   call Node999;
+end
+
+procedure NodeStopDialog begin
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeSndDialog begin
+   Reply(random(220,222))
+   NAnswer(224,1,NodePartyStop)
+   NAnswer(223,1,NodeParty)
+end

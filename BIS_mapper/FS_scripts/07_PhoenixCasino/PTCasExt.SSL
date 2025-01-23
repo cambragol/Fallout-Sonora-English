@@ -1,0 +1,47 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_PTCasExt
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure spatial_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   set_map_var(MVAR_PNX_CASINO_BACK,0);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      if ((tile_distance(self_tile,dude_tile) > 20) and (self_elevation == dude_elevation)) then begin
+      set_map_var(MVAR_PNX_CASINO_BACK,0);
+      end
+      else begin
+      add_timer_event(self_obj,40,1);
+      end
+   end
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+      if (global_var(GVAR_PHENIX_STATUS_DIEGO) > 0) then begin
+      end
+      else if (global_var(GVAR_TITUL_PHENIX_CASINO) > 0) then begin
+      end
+      else if (map_var(MVAR_PNX_CASINO_PSWD) > 0) then begin
+      end
+      else if ((combat_is_initialized == false) and dude_is_sneaking and dude_skill(SKILL_SNEAK,75)) then begin
+      end
+      else begin
+      rm_timer_event(self_obj);
+      add_timer_event(self_obj,50,1);
+      set_map_var(MVAR_PNX_CASINO_BACK,1);
+      end
+   end
+end

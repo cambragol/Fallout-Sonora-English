@@ -1,0 +1,40 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_PSAtmElc
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_PNX_PLANT_VENTIL)>0) then begin
+   obj_close(self_obj);
+   obj_lock(self_obj);
+   end
+   else begin
+   obj_unlock(self_obj);
+   end
+end
+
+procedure use_p_proc begin
+   if SELF_IS_LOCKED then begin
+       script_overrides;
+       reg_anim_begin();
+       reg_anim_clear(self_obj);
+       reg_anim_clear(source_obj);
+       reg_anim_end();
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

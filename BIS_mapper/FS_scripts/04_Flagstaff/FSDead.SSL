@@ -1,0 +1,90 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_FSDead
+
+procedure start;
+procedure map_enter_p_proc;
+procedure invisibl_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+#define LVAR_Invis_Timer                     (1) // Время для исчезновения
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       call invisibl_proc;
+   end
+end
+
+procedure invisibl_proc begin
+   if ((local_var(LVAR_Invis_Timer) < game_time) and (local_var(LVAR_Invis_Timer) != 0)) then begin
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+   end
+end
+
+procedure description_p_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+   //dsrptProcMsg
+   script_overrides;
+   display_mstr(101);
+   end
+   else begin
+   script_overrides;
+   display_mstr(102);
+   end
+end
+
+procedure use_p_proc begin
+   //script_overrides;
+   if (local_var(LVAR_Invis_Timer) == 0) then begin
+   set_local_var(LVAR_Invis_Timer, (ONE_GAME_DAY*7) + game_time);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_SCIENCE) or (action_being_used == SKILL_REPAIR)) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+         exp_add(75);
+         set_local_var(LVAR_Status,1);
+      end
+      if (get_SLAVA <= -50) then begin
+      floater(dude_obj,107,COLOR_MSG_NORMAL);
+      end
+      if (get_SLAVA >= 50) then begin
+      floater(dude_obj,106,COLOR_MSG_NORMAL);
+      end
+      display_mstr(105);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+       script_overrides;
+
+       if (combat_is_initialized == true) then begin
+          display_mstr(104);
+       end
+       else begin
+          gfade_out(ONE_GAME_SECOND);
+             set_SLAVA(1)
+             play_sfx("iccntnre");
+             game_time_advance(ONE_GAME_MINUTE*30);
+             set_obj_visibility(self_obj, 1);
+          gfade_in(ONE_GAME_SECOND);
+          set_local_var(LVAR_Invis_Timer,-1);
+          exp_add(50);
+          display_mstr(103);
+          call invisibl_proc;
+       end
+   end
+end

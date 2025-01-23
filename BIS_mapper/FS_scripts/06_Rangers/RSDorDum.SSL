@@ -1,0 +1,144 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_RSDorDum
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure procTeleport;
+
+variable usingStop;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (getQuest(GVAR_RANGERS_DUMB_DESTROY) == qStart) then begin
+           exp_add_msg(3500,SCRIPT_ZTMap,507,508);
+           set_global_var(GVAR_RANGERS_DOPUSK_DUM,-1);
+           if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) == qStart) then begin
+           setQuest(GVAR_RANGERS_QST_REPAIR_DUM,qZero);
+           end
+           if (getQuest(GVAR_RANGERS_QST_SBRAHMIN) == qStart) then begin
+           setQuest(GVAR_RANGERS_QST_SBRAHMIN,qStop);
+           end
+           if (getQuest(GVAR_RANGERS_QST_PHOENIX) == qStart) then begin
+           setQuest(GVAR_RANGERS_QST_PHOENIX,qStop);
+           end
+           if (getQuest(GVAR_RANGERS_QST_PUERTO) == qStart) then begin
+           setQuest(GVAR_RANGERS_QST_PUERTO,qStop);
+           end
+           setQuest(GVAR_VILLA_ALLIANCE_RANGER,qStop);
+           set_global_var(GVAR_TITUL_ARIZONA_RANGER,0);
+           set_CITY_REP(GVAR_TOWN_REP_RANGERS,-100)
+           set_SLAVA(-200)
+           move_to(dude_obj, 14101, 0);
+           add_timer_event(self_obj, 2, 1);
+           setQuest(GVAR_RANGERS_DUMB_DESTROY,qEnd);
+      end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+   move_to(dude_obj, 14101, 0);
+   end
+end
+
+/*
+!!! Замечание:
+      По-хорошему постовые должны забирать всё оружие, когда ГГ переходит в надстройку,
+      и отдавать при выходе, пока тот не станет рейнджером.
+      Подобно тому как это сделано для казино в FNV. Но как это реализовать?
+      Также понадобится некий контейнер недалеко от входа.
+*/
+
+procedure use_p_proc begin
+   usingStop := 1;
+
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      display_mstr(110);
+   end
+   else if (combat_is_initialized == true) then begin
+      display_mstr(111);
+   end
+   else if (global_var(GVAR_TITUL_ARIZONA_RANGER) >0) then begin
+      call procTeleport;
+   end
+   else if ((map_var(MVAR_RNGRS_PostA) == 1) and (map_var(MVAR_RNGRS_PostB) == 1)) then begin
+      call procTeleport;
+   end
+   else if (global_var(GVAR_RANGERS_DOPUSK_DUM) <= 0) then begin
+      display_mstr(112);
+   end
+   else begin
+      if (item_amnt(dude_obj,PID_ARMOR_POWER_A) > 0) then begin
+      display_mstr(115);
+      end
+      else if (item_amnt(dude_obj,PID_ARMOR_POWER_B) > 0) then begin
+      display_mstr(115);
+      end
+      else if (item_amnt(dude_obj,PID_ARMOR_POWER_C) > 0) then begin
+      display_mstr(115);
+      end
+      else if ((party_member_count(0) > 1) and (global_var(GVAR_GARAGE_EUGENE_STATUS) != 1)) then begin
+      display_mstr(113);
+      end
+      else begin
+      call procTeleport;
+      end
+   end
+
+   if (usingStop != 0) then begin
+   script_overrides;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+      if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      display_mstr(121);
+      end
+      else if (global_var(GVAR_RANGERS_DOPUSK_DUM) <= 0) then begin
+      display_mstr(120);
+      end
+      else begin
+      display_mstr(121);
+      end
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      display_mstr(122);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(123);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      display_mstr(125);
+      end
+      else begin
+      display_mstr(124);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure procTeleport begin
+   usingStop := 0;
+   /*
+   move_to(dude_obj, 26301, 2);
+   anim(dude_obj, ANIMATE_ROTATION, 5);
+   */
+end

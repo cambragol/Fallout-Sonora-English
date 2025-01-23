@@ -399,11 +399,11 @@ procedure NodeSndDialog begin
       Reply(random(244,249))
    end
    // added to give feedback and punishment if the quest is abandoned/failed - cambragol
-   else if (global_var(GVAR_JACKALS_MERC_ATAK) == -1) then begin
+   else if (global_var(GVAR_JACKALS_MERC_ATAK) == -2) then begin
          set_REP(-5)
          set_SLAVA(-5)
          setBonusReaction(-20)
-         set_global_var(GVAR_JACKALS_MERC_ATAK,-2);
+         set_global_var(GVAR_JACKALS_MERC_ATAK,-1);
          Reply(390)
          NAnswer(391,0,NodeQuestDitch100)
    end

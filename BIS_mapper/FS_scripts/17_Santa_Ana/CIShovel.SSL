@@ -1,0 +1,28 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_CIShovel
+
+procedure start;
+procedure map_enter_p_proc;
+
+variable randomPosition;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (map_first_run == true) then begin
+      randomPosition := random(0, 2);
+      if (randomPosition == 2) then begin
+      move_to(self_obj, 17277, 0);
+      end
+      else if (randomPosition == 1) then begin
+      move_to(self_obj, 19313, 0);
+      end
+      else begin
+      move_to(self_obj, 24095, 1);
+      end
+      create_object_sid(PID_HEX_BLOCKING, self_tile, self_elevation, -1);
+   end
+end

@@ -1,0 +1,68 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSDorBlc
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure block_invis;
+
+variable damageAmnt;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(113);
+   //call block_invis;
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_mstr(111);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       call block_invis;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if ((objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_SLEDGEHAMMER) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE)) then begin
+       if (local_var(LVAR_Flags) == 0) then begin
+          script_overrides;
+          play_sfx("WH21FXX1");
+          call block_invis;
+       end
+   end
+end
+
+procedure damage_p_proc begin
+   damageAmnt += 1;
+   if ((random(0,2) == 0) or (damageAmnt >=7)) then begin
+   play_sfx("WH21FXX1");
+   call block_invis;
+   end
+   else begin
+   display_mstr(random(120,122));
+   end
+end
+
+procedure block_invis begin
+   play_sfx("BRDSWELL");
+   display_msg(self_name+mstr(112));
+   set_obj_visibility(self_obj, 1);
+   destroy_object(self_obj);
+end
+

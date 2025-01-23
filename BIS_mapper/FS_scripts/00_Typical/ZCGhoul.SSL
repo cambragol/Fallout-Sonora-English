@@ -1,0 +1,274 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ZCGhoul
+#define TOWN_REP_VAR                    -1   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_GHOUL_WILD       // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GHOUL      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure loot_gener;
+procedure look_at_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+variable attakToDude;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_obj_visibility(self_obj, 0);
+       set_start_home
+       if (map_first_run) then begin
+       call loot_gener;
+       end
+
+       if (cur_map_index == MAP_RANGERS_QUARTZ) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_GHOUL_ZOMBIE);
+       end
+
+       //--- Реакция потрошителей Инферно на мутаген
+       if ((cur_map_index == MAP_INFIERNO_CHURCH) and (map_var(MVAR_INF_TOTEM_A)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_POLICE) and (map_var(MVAR_INF_TOTEM_B)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_SHOP) and (map_var(MVAR_INF_TOTEM_C)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_CITY) and (map_var(MVAR_INF_TOTEM_D)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_MONUMENT) and (global_var(GVAR_INF_TOTEM_MUTAGEN)>=5)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+
+       //--- Судьба потрошителей Инферно после финала игры
+       if (global_var(GVAR_GAME_END)>0) then begin
+       if ((global_var(GVAR_ENDGAME_INFERNO) == 3) or (global_var(GVAR_ENDGAME_INFERNO) == 4)) then begin
+          if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+             rm_timer_event(self_obj);
+             set_obj_visibility(self_obj, 1);
+          end
+          if (cur_map_index == MAP_INFIERNO_POLICE) then begin
+             rm_timer_event(self_obj);
+             set_obj_visibility(self_obj, 1);
+          end
+          if (cur_map_index == MAP_INFIERNO_SHOP) then begin
+             rm_timer_event(self_obj);
+             set_obj_visibility(self_obj, 1);
+          end
+          if (cur_map_index == MAP_INFIERNO_CITY) then begin
+             rm_timer_event(self_obj);
+             set_obj_visibility(self_obj, 1);
+          end
+          if (cur_map_index == MAP_INFIERNO_MONUMENT) then begin
+             rm_timer_event(self_obj);
+             set_obj_visibility(self_obj, 1);
+          end
+       end
+       end
+
+   end
+end
+
+procedure map_update_p_proc begin
+   if (local_var(LVAR_Flags) != 0) then begin
+       //--- Реакция потрошителей Инферно на мутаген
+       if ((cur_map_index == MAP_INFIERNO_CHURCH) and (map_var(MVAR_INF_TOTEM_A)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_POLICE) and (map_var(MVAR_INF_TOTEM_B)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_SHOP) and (map_var(MVAR_INF_TOTEM_C)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_CITY) and (map_var(MVAR_INF_TOTEM_D)!=0)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+       if ((cur_map_index == MAP_INFIERNO_MONUMENT) and (global_var(GVAR_INF_TOTEM_MUTAGEN)>=5)) then begin
+       set_local_var(LVAR_Flags,0);
+       set_local_var(LVAR_Self_Flags,0);
+       end
+   end
+end
+
+procedure loot_gener begin
+   variable lootID;
+   lootID := random(0,7);
+
+   if (lootID == 0) then begin
+       item_add(self_obj,PID_BOOTLE_CAPS,random(1,5))
+   end
+   if (lootID == 1) then begin
+       item_add(self_obj,PID_MANY,1)
+   end
+   if (lootID == 2) then begin
+       item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,random(4,6))
+   end
+   if (lootID == 3) then begin
+       item_add(self_obj,PID_AMMO_10_MM,random(2,5))
+   end
+   if (lootID == 4) then begin
+       item_add(self_obj,PID_M_SLUGS,random(1,2))
+   end
+   if (lootID == 5) then begin
+       item_add(self_obj,PID_M_ROACH,random(1,2))
+   end
+end
+
+procedure look_at_p_proc begin
+   //lookProcMsg
+
+   if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+       script_overrides;
+       g_display_mstr(579);
+   end
+   if (cur_map_index == MAP_INFIERNO_POLICE) then begin
+       script_overrides;
+       g_display_mstr(579);
+   end
+   if (cur_map_index == MAP_INFIERNO_SHOP) then begin
+       script_overrides;
+       g_display_mstr(579);
+   end
+   if (cur_map_index == MAP_INFIERNO_CITY) then begin
+       script_overrides;
+       g_display_mstr(579);
+   end
+   if (cur_map_index == MAP_INFIERNO_MONUMENT) then begin
+       script_overrides;
+       g_display_mstr(579);
+   end
+
+   if (cur_map_index == MAP_RANGERS_QUARTZ) then begin
+       script_overrides;
+       g_display_mstr(511);
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+       timer_move_to_home
+       end
+       else if ((cur_map_index == MAP_INFIERNO_CITY) and (map_var(MVAR_INF_MUSIC_PLAY)>0)) then begin
+       timer_move_random_tile(map_var(MVAR_INF_MUSIC_PLAY),5)
+       end
+       else if ((cur_map_index == MAP_INFIERNO_SHOP) and (map_var(MVAR_INF_FAIR_SIGNAL)>0)) then begin
+       timer_move_random_tile(map_var(MVAR_INF_FAIR_SIGNAL),7)
+       end
+       else begin
+       timer_move_random_home(5)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   attakToDude := 2;
+
+   //--- Реакция потрошителей Инферно на мутаген
+   if ((cur_map_index == MAP_INFIERNO_CHURCH) and (map_var(MVAR_INF_TOTEM_A)!=0)) then begin
+   attakToDude := 0;
+   end
+   if ((cur_map_index == MAP_INFIERNO_POLICE) and (map_var(MVAR_INF_TOTEM_B)!=0)) then begin
+   attakToDude := 0;
+   end
+   if ((cur_map_index == MAP_INFIERNO_SHOP) and (map_var(MVAR_INF_TOTEM_C)!=0)) then begin
+   attakToDude := 0;
+   end
+   if ((cur_map_index == MAP_INFIERNO_CITY) and (map_var(MVAR_INF_TOTEM_D)!=0)) then begin
+   attakToDude := 0;
+   end
+   if ((cur_map_index == MAP_INFIERNO_MONUMENT) and (global_var(GVAR_INF_TOTEM_MUTAGEN)>=5)) then begin
+   attakToDude := 0;
+   end
+
+   //invisToDude(0,0) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
+   set_critter_options(attakToDude,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,7,0) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   if (self_PID == PID_GHOUL_GLOW) then begin
+   effectAttak(0,3,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   end
+   else begin
+   effectAttak(0,0,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   end
+   //effectIntimidationPerk
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (cur_map_index == MAP_RANGERS_QUARTZ) then begin
+   inc_map_var(MVAR_Quartz_GhoulDead);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   g_floater(self_obj,510,COLOR_MSG_RED);
+end

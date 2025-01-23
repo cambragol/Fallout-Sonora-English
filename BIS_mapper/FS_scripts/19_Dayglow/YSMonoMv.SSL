@@ -1,0 +1,46 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSMonoMv
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+   if (is_loading_game == false) then begin
+      if (global_var(GVAR_DAYGLOW_MONORAIL_MOVETO) > 0) then begin
+      add_timer_event(self_obj,1,1);
+      end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+
+      if (global_var(GVAR_DAYGLOW_MONORAIL_MOVETO) == (MAP_DAYGLOW_CAMP_SAN_ISIDRO+1000)) then begin
+      move_to(dude_obj, 10501, 0);
+      anim(dude_obj, ANIMATE_ROTATION, 2);
+      end else begin
+      move_to(dude_obj, self_tile, self_elevation);
+      anim(dude_obj, ANIMATE_ROTATION, obj_get_rot(self_obj));
+      end
+
+      if (partyPidMtn!=0) then begin
+      move_to(partyPidMtn, tile_num_in_direction(dude_tile,3,1), self_elevation);
+      end
+      if (partyPidMr1!=0) then begin
+      move_to(partyPidMr1, tile_num_in_direction(dude_tile,4,1), self_elevation);
+      end
+      if (partyPidMr2!=0) then begin
+      move_to(partyPidMr2, tile_num_in_direction(dude_tile,5,1), self_elevation);
+      end
+
+      set_global_var(GVAR_DAYGLOW_MONORAIL_MOVETO, 0);
+   end
+end

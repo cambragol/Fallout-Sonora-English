@@ -1,0 +1,28 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSElectr
+
+procedure start;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (map_var(MVAR_DIEGOCORONADO_ELECTRO) != 0) then begin
+         display_mstr(110);
+      end
+      else if (has_skill(dude_obj, SKILL_REPAIR) >= 20) then begin
+         play_sfx("ZAPPER1");
+         display_mstr(110);
+         set_map_var(MVAR_DIEGOCORONADO_ELECTRO,1);
+      end
+      else begin
+         skill_display_mstr(111,SKILL_REPAIR,20)
+      end
+   end
+end

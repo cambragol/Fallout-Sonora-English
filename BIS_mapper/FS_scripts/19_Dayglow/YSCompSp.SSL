@@ -1,0 +1,95 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSCompSp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialogSet;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_local_var(LVAR_Status, 1);
+   end
+end
+
+procedure look_at_p_proc begin
+   //lookProcMsg
+end
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(0)
+   set_local_var(LVAR_Status, 1);
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(0)
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_DAYGLOW_CORONADO_STATUS) == 0) then begin
+   dialog_proc_obj(NodeDialogSet)
+   end
+   else begin
+   display_mstr(208);
+   end
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialogSet begin
+   call NodeDialog;
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(202,0,NodeDialog2)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog2 begin
+   Reply(203)
+   NAnswer(205,0,NodeDialog3)
+   NAnswer(204,0,NodeDialog)
+end
+
+procedure NodeDialog3 begin
+   set_global_var(GVAR_DAYGLOW_CORONADO_STATUS, 1);
+   play_sfx("ELEVATO1");
+   Reply(206)
+   NAnswer(207,0,Node999)
+end
+

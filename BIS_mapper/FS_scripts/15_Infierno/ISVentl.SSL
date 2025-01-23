@@ -1,0 +1,64 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_ISVentl
+#define SKILL_LIMIT                     15
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+      script_overrides;
+
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+
+      display_mstr(110);
+   end
+   else begin
+      //RepairProcUsing(110,111)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+   if (action_being_used == SKILL_STEAL) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+      script_overrides;
+      display_mstr(110);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if ((objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_SLEDGEHAMMER) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE)) then begin
+   if (local_var(LVAR_Status) == 0) then begin
+   script_overrides;
+   call repair_proc;
+   end
+   end
+end
+
+procedure repair_proc begin
+   item_add(self_obj,PID_M_ASH,1)
+   if (dude_luck >= 9) then begin
+   item_add(self_obj,PID_M_ASH,1)
+   end
+   RepairProcRepair(112,0,"WOM1XXX1")
+end

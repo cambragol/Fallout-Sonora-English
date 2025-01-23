@@ -1,0 +1,133 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_AFCmpRad
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+procedure NodeDialog105;
+procedure NodeDialog106;
+procedure NodeDialog107;
+procedure NodeDialog108;
+procedure NodeDialog109;
+procedure NodeDialog110;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(0)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(50)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(220,1,NodeDialog105)
+   NAnswer(222,1,NodeDialog106)
+   NAnswer(224,1,NodeDialog107)
+   NAnswer(228,1,NodeDialog109)
+   NAnswer(230,1,NodeDialog110)
+
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog101)
+end
+
+procedure NodeDialog101 begin
+   Reply(213)
+   NAnswer(214,1,NodeDialog102)
+end
+
+procedure NodeDialog102 begin
+   Reply(215)
+   NAnswer(216,1,NodeDialog103)
+end
+
+procedure NodeDialog103 begin
+   Reply(217)
+   NAnswer(218,1,NodeDialog104)
+end
+
+procedure NodeDialog104 begin
+   Reply(219)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog105 begin
+   Reply(221)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog106 begin
+   Reply(223)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog107 begin
+   Reply(225)
+   NAnswer(226,1,NodeDialog108)
+end
+
+procedure NodeDialog108 begin
+   Reply(227)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog109 begin
+   Reply(229)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog110 begin
+   Reply(231)
+   NAnswer(204,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end

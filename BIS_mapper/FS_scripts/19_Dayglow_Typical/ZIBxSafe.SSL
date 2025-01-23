@@ -1,0 +1,515 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//#define NAME                    SCRIPT_ZIBxSafe
+#define NAME                    SCRIPT_ZSDoor
+
+procedure start;
+procedure map_enter_p_proc;
+procedure set_locked_indx;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure locked_proc;
+procedure trap_expl;
+procedure trap_proc;
+
+#define LVAR_Locked_Level               (1) // Уровень сложности замка
+#define LVAR_Lockpick_Flag              (2) // Бонус от применения отмычек
+#define LVAR_Trap_Type                  (3) // Тип установленной ловушки (при 0 ловушек нет)
+#define LVAR_Key_PID                    (4) // Ключ (указывается PID ключа)
+
+#define TRAP_NON                        (0) // Нет ловушки
+#define TRAP_RATTRP                     (1) // Шиповка
+#define TRAP_CALIBR                     (2) // Патрон 12 калибра
+#define TRAP_GRANAD                     (3) // Осколочная граната
+#define TRAP_ELECTR                     (4) // Эл. заряд
+#define TRAP_ALARMS                     (5) // Сигнализация
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+          //--- Определение сложности замка
+          set_local_var(LVAR_Locked_Level,50); // Базовое значение для всех контейнеров
+          //--- Частные случаи
+          call set_locked_indx;
+      end
+   end
+end
+
+procedure set_locked_indx begin
+   //Индексация: карта + уровень + тайл + сложность замка + ключ + тип ловушки
+
+          if (cur_map_index == MAP_VILLA_PLAZA) then begin
+          set_local_var(LVAR_Locked_Level,100); // Сейф с голозаписью Основателя Виллы
+          end
+          else if (cur_map_index == MAP_GARAGE_FACTORY) then begin
+          set_local_var(LVAR_Locked_Level,50); // сейф на заводе в кабинете начальника
+          end
+          else if (cur_map_index == MAP_FLAGSTAFF_MUSEUM) then begin
+          set_local_var(LVAR_Trap_Type,TRAP_CALIBR);
+          end
+
+          else if (cur_map_index == MAP_RANGERS_RETRANSL) then begin
+          set_local_var(LVAR_Locked_Level,25);
+          set_local_var(LVAR_Trap_Type,TRAP_RATTRP);
+          end
+          else if (cur_map_index == MAP_RANGERS_BASA) then begin
+          set_local_var(LVAR_Locked_Level,60);
+          end
+          else if (cur_map_index == MAP_RANGERS_QUARTZ) then begin
+          set_local_var(LVAR_Locked_Level,50); // сундук миссионеров в их лачуге
+          set_local_var(LVAR_Key_PID,PID_KEY_QUARTZ);
+          end
+
+          else if (cur_map_index == MAP_PHOENIX_CHURCH) then begin
+             if (self_elevation == 2) then begin
+             set_local_var(LVAR_Locked_Level,80);
+             end
+             if (self_PID == 327) then begin
+             item_add(self_obj,PID_BOOTLE_CAPS,random(30,50))
+             set_local_var(LVAR_Locked_Level,40);
+             end
+          end
+          else if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+             if (self_elevation == 2) then begin
+             set_local_var(LVAR_Locked_Level,80); // сейф Дона Диего
+             set_local_var(LVAR_Trap_Type,TRAP_ALARMS);
+             end
+          end
+
+          else if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+             if (self_elevation == 2) then begin
+             set_local_var(LVAR_Locked_Level,80); // сейф в кабинете мэра
+             end
+          end
+          else if (cur_map_index == MAP_CASA_GRANDE_BAR) then begin
+          set_local_var(LVAR_Locked_Level,35);
+          set_local_var(LVAR_Trap_Type,TRAP_CALIBR);
+          end
+          else if (cur_map_index == MAP_RAIDERS_BASA) then begin
+          set_local_var(LVAR_Locked_Level,75); // сундук с крышками у рейдеров
+          end
+
+          else if (cur_map_index == MAP_INFIERNO_POLICE) then begin
+          set_local_var(LVAR_Locked_Level,90); // сейф в кабинете начальника полиции
+          end
+          else if (cur_map_index == MAP_INFIERNO_SHOP) then begin
+             if (self_PID == 249) then begin
+             set_local_var(LVAR_Locked_Level,75);
+             end
+             else begin
+             set_local_var(LVAR_Locked_Level,35);
+             end
+          end
+
+          else if (cur_map_index == MAP_TWO_SUN_INN) then begin
+          set_local_var(LVAR_Locked_Level,50);
+          set_local_var(LVAR_Trap_Type,TRAP_CALIBR);
+          end
+
+          else if (cur_map_index == MAP_OLD_MOTEL) then begin
+          set_local_var(LVAR_Locked_Level,10);
+          set_local_var(LVAR_Trap_Type,TRAP_RATTRP);
+          end
+
+          else if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
+          set_local_var(LVAR_Locked_Level,80);
+          end
+
+          else if (cur_map_index == MAP_SPECIAL_CAFE) then begin
+          set_local_var(LVAR_Locked_Level,35);
+          set_local_var(LVAR_Trap_Type,TRAP_RATTRP);
+          end
+
+          else if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
+             if (self_elevation == 2) then begin
+             set_local_var(LVAR_Locked_Level,100); // сейф на автозаправке
+             end
+          end
+
+end
+
+procedure look_at_p_proc begin
+   //lookProcMsg
+   /*
+   display_msg("lock "+obj_is_locked(self_obj));
+   display_msg("open "+obj_is_open(self_obj));
+   display_msg("PID "+obj_pid(self_obj));
+   */
+end
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   variable varTrapStop;
+
+   if SELF_IS_LOCKED then begin
+       script_overrides;
+
+       reg_anim_begin();
+       reg_anim_clear(self_obj);
+       reg_anim_clear(source_obj);
+       reg_anim_end();
+   end
+   else begin
+
+       if (local_var(LVAR_Trap_Type) != TRAP_NON) then begin
+          script_overrides;
+
+          reg_anim_begin();
+          reg_anim_clear(self_obj);
+          reg_anim_clear(source_obj);
+          reg_anim_end();
+
+          if (DudePerkHas(PERK_light_step) and (varTrapStop == 0)) then begin
+             varTrapStop := 1;
+             display_msg(mstr(120)+self_name+mstr(121));
+          end
+          else if ((is_success(do_check(dude_obj, STAT_pe, -4)) == true) and (varTrapStop == 0)) then begin
+             varTrapStop := 1;
+             display_msg(mstr(122)+self_name+mstr(121));
+          end
+          else begin
+             call trap_expl;
+          end
+       end
+
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   variable varTrapSkill;
+
+   if (cur_map_index == MAP_VILLA_PLAZA) then begin
+      if (map_var(MVAR_Plaza_SaifPswrd) > 0) then begin
+      set_local_var(LVAR_Locked_Level,-100); // сейф на Вилле с голозаписью Основателя
+      end
+   end
+
+   if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
+      if (map_var(MVAR_DIEGOPTRL_CODE) > 0) then begin
+      if (self_elevation == 2) then begin
+      set_local_var(LVAR_Locked_Level,-100); // сейф на автозаправке
+      end
+      end
+   end
+
+   if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+      if (map_var(MVAR_CGRANDE_SAIF_CODE) > 0) then begin
+      set_local_var(LVAR_Locked_Level,-100); // сейф мэра в Каса-Гранде
+      end
+   end
+
+   //--- Использование Взлома
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+
+      if (local_var(LVAR_Status) > 0) then begin
+         display_mstr(140);
+      end
+      else if (has_skill(dude_obj, SKILL_LOCKPICK) >= local_var(LVAR_Locked_Level)) then begin
+         if ((local_var(LVAR_Locked_Level)<=0) or (random(0,has_skill(dude_obj, SKILL_LOCKPICK)) >= has_skill(dude_obj, SKILL_LOCKPICK)/2)) then begin
+            if (local_var(LVAR_Locked_Level) > 0) then begin
+            exp_add(local_var(LVAR_Locked_Level));
+            set_local_var(LVAR_Locked_Level,0);
+            end
+            call locked_proc;
+         end
+         else begin
+            display_mstr(135);
+         end
+      end
+      else begin
+         skill_display_mstr(139,SKILL_LOCKPICK,local_var(LVAR_Locked_Level))
+      end
+   end
+
+   //--- Использование Ловушек
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+
+      if (local_var(LVAR_Trap_Type) == TRAP_RATTRP) then begin
+      varTrapSkill := 20;
+      end
+      if (local_var(LVAR_Trap_Type) == TRAP_CALIBR) then begin
+      varTrapSkill := 40;
+      end
+      if (local_var(LVAR_Trap_Type) == TRAP_GRANAD) then begin
+      varTrapSkill := 60;
+      end
+      if (local_var(LVAR_Trap_Type) == TRAP_ALARMS) then begin
+      varTrapSkill := 50;
+      end
+      if (local_var(LVAR_Trap_Type) == TRAP_ELECTR) then begin
+      varTrapSkill := 80;
+      end
+
+      if (local_var(LVAR_Trap_Type) == TRAP_NON) then begin
+         display_mstr(150);
+      end
+      else if (has_skill(dude_obj, SKILL_TRAPS) >= varTrapSkill) then begin
+         exp_add(varTrapSkill);
+         call trap_proc;
+      end
+      else begin
+         skill_display_mstr(153,SKILL_TRAPS,varTrapSkill)
+      end
+   end
+
+   //--- Использование Кражи
+   if (action_being_used == SKILL_STEAL) then begin
+      if SELF_IS_LOCKED then begin
+      script_overrides;
+      display_msg(self_name+mstr(131));
+      end
+      else if SELF_IS_CLOSED then begin
+      script_overrides;
+      display_mstr(130);
+      end
+   end
+
+   //--- Использование Науки
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+
+      if (local_var(LVAR_Status) > 0) then begin
+      display_mstr(140);
+      end
+      else if (has_skill(dude_obj, SKILL_TRAPS) < 20) then begin
+      display_mstr(138);
+      end
+      else if (local_var(LVAR_Trap_Type) > 0) then begin
+      display_msg(self_name+mstr(132)+local_var(LVAR_Locked_Level)+mstr(133)+mstr(134));
+      end else begin
+      display_msg(self_name+mstr(132)+local_var(LVAR_Locked_Level)+mstr(133));
+      end
+   end
+
+   //--- Использование Ремонта
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(130);
+   end
+
+end
+
+procedure use_obj_on_p_proc begin
+
+   stopUseCarGaz
+
+   else if (combat_is_initialized == true) then begin
+      script_overrides;
+      display_mstr(113);
+   end
+
+   else if (local_var(LVAR_Status) > 0) then begin
+      script_overrides;
+      display_mstr(160);
+   end
+
+   else if (objUsedPid == PID_TOOL_LOCKPICKS_MH) then begin
+      script_overrides;
+      if (local_var(LVAR_Lockpick_Flag) == 0) then begin
+         set_local_var(LVAR_Lockpick_Flag,1);
+         dec_local_var_amt(LVAR_Locked_Level,20);
+         play_sfx("WOR1XXX1");
+         //dude_floater_OK; - вводит в заблуждение, игрок думает, что уже взломал замок
+         display_mstr(161);
+         item_remove(dude_obj, objUsedPid, 1)
+      end
+      else begin
+         dude_floater_NON;
+         display_mstr(162);
+      end
+   end
+
+   else if (objUsedPid == PID_TOOL_LOCKPICKS_EL) then begin
+      script_overrides;
+      dude_floater_NON;
+      display_mstr(163);
+   end
+
+   else if ((objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_SLEDGEHAMMER) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE)) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) > 0) then begin
+         display_mstr(141);
+      end
+      else if SELF_IS_UNLOCKED then begin
+         display_mstr(142);
+      end
+      else if ((self_PID == 229) or (self_PID == 248) or (self_PID == 249) or (self_PID == 311) or (self_PID == 312)) then begin
+         display_mstr(143);
+      end
+      else if (dude_strength < 9) then begin
+         display_mstr(144);
+      end
+      else begin
+         call locked_proc;
+         display_mstr(145);
+         set_local_var(LVAR_Status,1);
+      end
+   end
+
+   else if ((objUsedPid == local_var(LVAR_Key_PID)) or (objUsedPid == PID_TEST)) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) > 0) then begin
+      display_mstr(140);
+      end else begin
+      call locked_proc;
+      end
+   end
+
+   else if (obj_item_subtype(obj_being_used_with) == item_type_key_item) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) > 0) then begin
+      display_mstr(140);
+      end else if (local_var(LVAR_Key_PID) > 0) then begin
+      display_mstr(164);
+      end else begin
+      display_mstr(165);
+      end
+      floater(dude_obj,171,COLOR_MSG_NORMAL);
+   end
+
+end
+
+procedure locked_proc begin
+
+   if SELF_IS_UNLOCKED then begin
+      if SELF_IS_CLOSED then begin
+         obj_lock(self_obj);
+         play_sfx("WOR1XXX1");
+         dude_floater_OK;
+         display_mstr(111);
+      end
+      else begin
+         display_mstr(117);
+      end
+   end
+   else begin
+      obj_unlock(self_obj);
+      play_sfx("WOR1XXX1");
+      dude_floater_OK;
+      display_mstr(112);
+   end
+
+   //--- Поправка для ящика пожертвований в Соборе
+   if (self_PID == 327) then begin
+      if (cur_map_index == MAP_PHOENIX_CHURCH) then begin
+         if (global_var(GVAR_TITUL_PHENIX_CULT) == 0) then begin
+            if (map_var(MVAR_PNX_CULT_MANY_BOX) == 0) then begin
+            set_CITY_REP(GVAR_TOWN_REP_PHOENIX_CULT,-2)
+            set_SLAVA(-20)
+            set_map_var(MVAR_PNX_CULT_MANY_BOX,1);
+            end
+         end
+      end
+   end
+
+end
+
+procedure trap_expl begin
+   /*Важно: сверяться с аналогичной процедурой в ZSDoor*/
+
+   if (local_var(LVAR_Trap_Type) == TRAP_NON) then begin
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_RATTRP) then begin
+       critter_dmg(dude_obj, random(2,8), DMG_normal_dam);
+       play_sfx("SPRTRAP");
+       if (random(1,100) <= 20) then begin
+          if (random(0,1) == 0) then begin
+          dam_to_dude_ARM
+          end else begin
+          dam_to_dude_BLIND
+          end
+       end
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_CALIBR) then begin
+       critter_dmg(dude_obj, random(8,16), DMG_normal_dam);
+       play_sfx("WAB1XXX3");
+       if (random(1,100) <= 20) then begin
+          if (random(0,1) == 0) then begin
+          dam_to_dude_ARM
+          end else begin
+          dam_to_dude_BLIND
+          end
+       end
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_GRANAD) then begin
+       critter_dmg(dude_obj, random(20,30), DMG_explosion);
+       play_sfx("WHO1XXX1");
+       if (random(1,100) <= 20) then begin
+          if (random(0,1) == 0) then begin
+          dam_to_dude_ARM
+          end else begin
+          dam_to_dude_BLIND
+          end
+       end
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_ELECTR) then begin
+       critter_dmg(dude_obj, random(30,40), DMG_electrical);
+       play_sfx("ZAPPER1");
+       if (random(1,100) <= 20) then begin
+       dam_to_dude_BLIND
+       end
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_ALARMS) then begin
+       if (random(0,1) == 0) then begin
+       play_sfx("BIGWIN");
+       end else begin
+       play_sfx("BIGWIN1");
+       end
+       //? Переменные по ситуации
+          if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+             if (self_elevation == 2) then begin
+             set_global_var(GVAR_TOWN_REP_PHOENIX_CASINO,REP_KILL_CRITICAL);
+             end
+          end
+   end
+
+   display_msg(self_name+mstr(123));
+   set_local_var(LVAR_Trap_Type,TRAP_NON);
+end
+
+procedure trap_proc begin
+
+   if (local_var(LVAR_Trap_Type) == TRAP_RATTRP) then begin
+      display_mstr(155);
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_CALIBR) then begin
+      display_mstr(156);
+      create_object_sid(PID_AMMO_SHOTGUN_SHELLS, dude_tile, dude_elevation, -1);
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_GRANAD) then begin
+      display_mstr(157);
+      create_object_sid(PID_W_GRENADE_FRAG, dude_tile, dude_elevation, -1);
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_ELECTR) then begin
+      display_mstr(158);
+      create_object_sid(PID_AMMO_MICRO_FUSION_CELL, dude_tile, dude_elevation, -1);
+   end
+
+   if (local_var(LVAR_Trap_Type) == TRAP_ALARMS) then begin
+      display_mstr(159);
+   end
+
+   dude_floater_OK;
+   set_local_var(LVAR_Trap_Type,TRAP_NON);
+end

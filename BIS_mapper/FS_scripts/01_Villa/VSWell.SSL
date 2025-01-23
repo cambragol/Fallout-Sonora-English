@@ -1,0 +1,68 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VSWell
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+
+#define LVAR_Rope_Flag                       (0) // Факт использования веревки
+#define LVAR_Msg                             (1) // Выдача сообщение при первом спуске
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (local_var(LVAR_Rope_Flag) == 0) then begin
+      display_mstr(110);
+   end
+   else begin
+      gfade_out(ONE_GAME_SECOND);
+      move_to(dude_obj, 20100, 1);
+      anim(dude_obj, ANIMATE_ROTATION, 5);
+      if (local_var(LVAR_Msg) == 0) then begin
+      display_mstr(113);
+      floater(dude_obj,115,COLOR_MSG_NORMAL);
+      inc_local_var(LVAR_Msg);
+      end
+      gfade_in(ONE_GAME_SECOND);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_ROPE) then begin
+      script_overrides;
+
+      if (local_var(LVAR_Rope_Flag) == 0) then begin
+      display_mstr(111);
+      dude_floater_OK;
+      play_sfx("ROPEWELL");
+      item_remove(dude_obj, objUsedPid, 1)
+      inc_local_var(LVAR_Rope_Flag);
+      end
+      else begin
+      display_mstr(112);
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(116);
+   end
+end

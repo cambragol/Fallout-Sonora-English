@@ -1,0 +1,416 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TCCarlos
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_TRIBLE_VILLA       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer200;
+procedure NodeAnswer300;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodePompa;
+procedure NodePompa1;
+procedure NodePompa2;
+procedure NodePompa3;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst300;
+procedure NodeQst301;
+procedure NodeQst302;
+procedure NodeQst303;
+
+//---------------------
+
+#define LVAR_Pompa_Status               (6) // статус деталей для гидропонической фермы: -1 - их нет на складе, 0 - есть на складе, но не продаются, 1 - продаются
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
+       if (cur_map_index == MAP_TWO_SUN_WORKSHOP) then begin
+       set_local_var(LVAR_Home_Tile,20080);
+       set_local_var(LVAR_Home_Rotat,2);
+       end
+       end
+       if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
+       set_local_var(LVAR_Home_Tile,22345);
+       set_local_var(LVAR_Home_Rotat,5);
+       end
+       if (cur_map_index == MAP_VILLA_PLAZA) then begin
+       set_local_var(LVAR_Home_Tile,24322);
+       set_local_var(LVAR_Home_Rotat,3);
+       end
+
+       set_start_home
+
+       if (global_var(GVAR_TWOSUN_STATUS_KARLOS) != 0) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,116)
+   end
+   if (fixed_param == 3) then begin
+       KillScorpTail(106) // фраза над жертвой (-1 если не нужна)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   UsedToCrit_Scorp(105,3) // фраза над жертвой (-1 если не нужна), номер таймера
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_TWOSUN_STATUS_KARLOS,-1);
+   if (getQuest(GVAR_TWOSUN_QST_KARLOS) == qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_KARLOS,qEnd);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   ScorpPoisonFlt
+   else if (global_var(GVAR_TWOSUN_STATUS_KARLOS) >= 3) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else if (global_var(GVAR_TWOSUN_STATUS_KARLOS) == 2) then begin
+   floater(self_obj,103,COLOR_MSG_NORMAL);
+   end
+   else if (global_var(GVAR_TWOSUN_STATUS_KARLOS) == 1) then begin
+   floater(self_obj,102,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,100)
+   Reply(dude_name+mstr(200))
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   zReply(204)
+   NAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   zReply(206)
+   NAnswer(207,1,Node999)
+   NAnswer(208,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 0) then begin
+   NAnswer(230,1,NodeAnswer)
+   end
+
+   if (getQuest(GVAR_TWOSUN_QST_KARLOS) == qStart) then begin
+   NAnswer(300,1,NodeQst100)
+   end
+
+   if ((getQuest(GVAR_TWOSUN_QST_POMPA) == qStart) and (local_var(LVAR_Pompa_Status) == 0)) then begin
+      if (item_amnt(BoxObjAngarPompa,PID_GENERATOR_ENERGY) > 0) then begin
+      NAnswer(250,1,NodePompa)
+      end
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer begin
+   Reply(231)
+   NAnswer(232,1,NodeAnswer100)
+   NAnswer(234,1,NodeAnswer200)
+   NAnswer(236,1,NodeAnswer300)
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(238,1,NodeAnswer400)
+   end
+   NAnswer(240,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(233)
+   NAnswer(244,1,NodeAnswer)
+end
+
+procedure NodeAnswer200 begin
+   Reply(235)
+   NAnswer(244,1,NodeAnswer)
+end
+
+procedure NodeAnswer300 begin
+   Reply(237)
+   NAnswer(244,1,NodeAnswer)
+end
+
+procedure NodeAnswer400 begin
+   Reply(239)
+   NAnswerSkill(241,1,NodeAnswer401,SKILL_CONVERSANT,50,241,NodeAnswer402)
+   NAnswer(244,1,NodeAnswer)
+end
+
+procedure NodeAnswer401 begin
+   bitDialogExp(bit_2,100)
+   item_add(dude_obj,PID_W_GRENADE_PULSE,2)
+   Reply(242)
+   NAnswer(243,1,Node999)
+end
+
+procedure NodeAnswer402 begin
+   Reply(245)
+   NAnswer(244,1,NodeAnswer)
+end
+
+procedure NodePompa begin
+   Reply(251)
+   NAnswerSkill(252,1,NodePompa1,SKILL_CONVERSANT,80,252,NodePompa2)
+   NAnswer(259,1,Node999)
+end
+
+procedure NodePompa1 begin
+   Reply(255)
+   NAnswer(256,1,NodePompa3)
+end
+
+procedure NodePompa2 begin
+   Reply(253)
+   NAnswer(254,1,Node999)
+end
+
+procedure NodePompa3 begin
+   set_local_var(LVAR_Pompa_Status,1);
+   item_add(dude_obj,PID_GENERATOR_ENERGY,1)
+   item_remove(BoxObjAngarPompa, PID_GENERATOR_ENERGY, 1)
+   Reply(257)
+   NAnswer(258,1,Node999)
+end
+
+//--- УХОД
+
+procedure NodeQst100 begin
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_10) == 0) then begin
+   call NodeQst101;
+   end
+   else begin
+   call NodeQst300;
+   end
+end
+
+procedure NodeQst101 begin
+   Reply(301)
+   NAnswerSkill(311,3,NodeQst104,SKILL_CONVERSANT,80,310,NodeQst103)
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
+   NAnswer(304,1,NodeQst200)
+   end
+   else if (global_var(GVAR_TWOSUN_STATUS_BOSS) < 0) then begin
+   NAnswer(305,1,NodeQst200)
+   end
+   else if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_9) != 0) then begin
+   NAnswer(306,1,NodeQst102)
+   end
+   NAnswer(302,1,Node999)
+   BAnswer(303,1,Node999)
+end
+
+procedure NodeQst102 begin
+   Reply(307)
+   BAnswer(308,1,NodeQst200)
+   NAnswer(309,1,NodeQst200)
+end
+
+procedure NodeQst103 begin
+   Reply(312)
+   NAnswer(313,1,Node999)
+end
+
+procedure NodeQst104 begin
+   Reply(314)
+   NAnswer(315,1,NodeQst200)
+   BAnswer(316,1,NodeQst200)
+end
+
+procedure NodeQst200 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_10);
+   Reply(320)
+   NAnswer(321,1,NodeQst201)
+end
+
+procedure NodeQst201 begin
+   Reply(322)
+   NAnswer(323,1,NodeQst202)
+end
+
+procedure NodeQst202 begin
+   Reply(324)
+   NAnswer(325,1,NodeQst203)
+   NAnswer(329,1,NodeQst204)
+end
+
+procedure NodeQst203 begin
+   Reply(mstr(326)+dude_name+mstr(327))
+   NAnswer(328,1,Node999)
+end
+
+procedure NodeQst204 begin
+   Reply(330)
+   NAnswer(331,1,Node999)
+   GAnswer(332,1,Node999)
+end
+
+procedure NodeQst300 begin
+   Reply(340)
+   if ((global_var(GVAR_NUEVA_STATUS_APOC) < 0) or (global_var(GVAR_TOWN_REP_CASA_NUEVA) <= -30)) then begin
+   NAnswer(347,1,NodeQst302)
+   end
+   else if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_11) != 0) then begin
+   GAnswer(343,1,NodeQst301)
+   end
+   NAnswer(341,1,Node999)
+   BAnswer(342,1,Node999)
+end
+
+procedure NodeQst301 begin
+   setQuest(GVAR_TWOSUN_QST_KARLOS,qEnd);
+   set_global_var(GVAR_TWOSUN_STATUS_KARLOS,1);
+   set_SLAVA(35)
+   exp_add(350);
+   Reply(344)
+   NAnswer(345,1,Node999)
+   NAnswer(346,1,Node999)
+end
+
+procedure NodeQst302 begin
+   Reply(348)
+   NAnswer(349,1,NodeQst303)
+end
+
+procedure NodeQst303 begin
+   setQuest(GVAR_TWOSUN_QST_KARLOS,qEnd);
+   set_global_var(GVAR_TWOSUN_STATUS_KARLOS,3);
+   exp_add(350);
+   Reply(mstr(350)+dude_name+mstr(351))
+   NAnswer(345,1,Node999)
+   NAnswer(346,1,Node999)
+end

@@ -1,0 +1,633 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TCKid
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_TWOSUN        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_TUALET                     16925
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog2;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog206;
+procedure NodeFstDialog207;
+procedure NodeFstDialog208;
+procedure NodeFstDialog209;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeQuest100;
+procedure NodeQuest200;
+procedure NodeQuest201;
+procedure NodeQuest202;
+procedure NodeQuest203;
+procedure NodeQuest204;
+procedure NodeQuest205;
+procedure NodeQuest206;
+procedure NodeQuest207;
+procedure NodeQuest208;
+procedure NodeQuest300;
+procedure NodeQuest301;
+procedure NodeQuest302;
+procedure NodeFinalDialog;
+procedure NodeFinalDialog100;
+procedure NodeFinalDialog101;
+procedure NodeFinalDialog102;
+procedure NodeFinalDialog103;
+procedure NodeFinalDialog104;
+procedure NodeFinalDialog105;
+procedure NodeFinalDialog106;
+procedure NodeFinalDialog107;
+procedure NodeFinalDialog199;
+procedure NodeFinalDialog200;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+variable itemBonusPID;
+variable itemBonusAmnt;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+
+       /*
+       !!!
+       if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_7) != 0) then begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+       end
+       else if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
+          set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_1);
+          if (getQuest(GVAR_TWOSUN_QST_LOVE_PIP) == qStart) then begin
+          setQuest(GVAR_TWOSUN_QST_LOVE_PIP,qZero);
+          end
+          rm_timer_event(self_obj);
+          call destroy_p_proc;
+          kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+       end
+       else if ((bitDialog(bit_1) != 0) and (bitDialog(bit_2) == 0) and ((game_time_hour < 0600) or (game_time_hour >= 2200))) then begin
+          move_to(self_obj, TILE_TUALET, 0);
+          anim(self_obj, ANIMATE_ROTATION, 2);
+       end
+       */
+
+       set_obj_visibility(self_obj, 1);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((bitDialog(bit_1) != 0) and (bitDialog(bit_2) == 0) and ((game_time_hour < 0600) or (game_time_hour >= 2200))) then begin
+       timer_move_to_tile(0,TILE_TUALET,2)
+       end
+       else if (getQuest(GVAR_TWOSUN_QST_LOVE_PIP) == qZero) then begin
+       timer_move_to_home
+       end
+       else begin
+       timer_move_random_home(2)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+   if (action_being_used == SKILL_DOCTOR) then begin
+       if (getQuest(GVAR_TWOSUN_QST_LOVE_PIP) == qStart) then begin
+          if ((gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_4) != 0) and (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_6) == 0)) then begin
+          //if (has_skill(dude_obj, SKILL_DOCTOR) < 50) then begin
+          script_overrides;
+          set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_6);
+          PLAY_FADE
+          display_mstr(103);
+          //end
+          end
+       end
+   end
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   /*
+   !!!
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_1);
+   */
+   if (getQuest(GVAR_TWOSUN_QST_LOVE_PIP) == qStart) then begin
+   setQuest(GVAR_TWOSUN_QST_LOVE_PIP,qStop);
+   end
+end
+
+procedure talk_p_proc begin
+   if (bitDialog(bit_1) == 0) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL); //!!! убрать, когда возьмусь за квест этого персонажа
+   end
+   else begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_BOS,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_TWOSUN_QST_LOVE_PIP) != qZero) then begin
+   //Замечание: это опция внесена только для удобства тестирования квеста в маппере
+   bitDialogExp(bit_1,0)
+   bitDialogExp(bit_2,0)
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else if (bitDialog(bit_2) == 0) then begin
+      call NodeFstDialog200;
+   end
+   else if (getQuest(GVAR_TWOSUN_QST_LOVE_PIP) == qEnd) then begin
+      call NodeFinalDialog;
+   end
+   else begin
+      if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_4) != 0) then begin
+      call NodeSndDialog2;
+      end
+      else begin
+      call NodeSndDialog;
+      end
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ (до получения квеста)
+
+procedure NodeFstDialog begin
+   Reply(200)
+   NAnswerSkill(205,1,NodeFstDialog101,SKILL_CONVERSANT,35,202,NodeFstDialog100)
+   NAnswerRep(212,1,NodeFstDialog105,1,212,NodeFstDialog104)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(203)
+   zNAnswer(204,1,Node999)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(206)
+   GAnswer(207,1,NodeFstDialog103)
+   NAnswer(208,1,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(209)
+   NAnswer(210,1,NodeFstDialog106)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(250)
+   NAnswer(251,1,NodeFstDialog2)
+   BAnswer(252,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog104 begin
+   if town_rep_is_hated then begin
+   Reply(213)
+   NAnswer(214,1,Node999)
+   BAnswer(215,1,Node999)
+   end
+   else begin
+   Reply(216)
+   NAnswer(217,1,Node999)
+   end
+end
+
+procedure NodeFstDialog105 begin
+   Reply(218)
+   NAnswer(219,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(253)
+   NAnswer(251,1,NodeFstDialog2)
+   BAnswer(252,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   bitDialogExp(bit_1,0)
+   Reply(260)
+   zNAnswer(261,1,Node999)
+   BAnswer(262,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ (получение квеста у туалета)
+
+procedure NodeFstDialog200 begin
+   if ((game_time_hour >= 0600) and (game_time_hour < 2200)) then begin
+   Reply(220)
+   NAnswer(221,1,Node999)
+   end
+   else if (tile_distance(self_tile, TILE_TUALET) >= 5) then begin
+   Reply(222)
+   NAnswer(223,1,Node999)
+   end
+   else begin
+   Reply(224)
+   NAnswer(225,1,NodeFstDialog201)
+   end
+end
+
+procedure NodeFstDialog201 begin
+   Reply(226)
+   NAnswer(227,1,NodeFstDialog202)
+end
+
+procedure NodeFstDialog202 begin
+   Reply(228)
+   NAnswer(229,1,NodeFstDialog203)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(230)
+   NAnswer(231,1,NodeFstDialog204)
+   NAnswer(235,1,NodeFstDialog206)
+   NAnswer(237,1,NodeFstDialog207)
+   NAnswer(240,1,NodeFstDialog208)
+end
+
+procedure NodeFstDialog204 begin
+   Reply(232)
+   NAnswer(235,1,NodeFstDialog206)
+   NAnswer(237,1,NodeFstDialog207)
+   NAnswer(240,1,NodeFstDialog208)
+end
+
+procedure NodeFstDialog206 begin
+   Reply(236)
+   NAnswer(231,1,NodeFstDialog204)
+   NAnswer(237,1,NodeFstDialog207)
+   NAnswer(240,1,NodeFstDialog208)
+end
+
+procedure NodeFstDialog207 begin
+   Reply(238)
+   NAnswer(239,1,NodeFstDialog209)
+end
+
+procedure NodeFstDialog208 begin
+   Reply(241)
+   NAnswer(242,1,NodeFstDialog209)
+end
+
+procedure NodeFstDialog209 begin
+   bitDialogExp(bit_2,50)
+   if (getQuest(GVAR_TWOSUN_QST_LOVE_PIP) == qZero) then begin
+   setQuest(GVAR_TWOSUN_QST_LOVE_PIP,qStart);
+   end
+   call Node999;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ (до завершения квеста)
+
+procedure NodeSndDialog begin
+   Reply(300)
+
+   if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_2) != 0) then begin
+      NAnswer(302,1,NodeQuest100)
+   end
+   else if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_3) != 0) then begin
+      NAnswer(310,1,NodeQuest200)
+   end
+
+   NAnswer(301,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(300)
+
+   if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_6) == 0) then begin
+   zNAnswer(326,1,NodeQuest208)
+   end
+   else begin
+   NAnswer(335,1,NodeQuest301)
+   end
+
+   if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_5) != 0) then begin
+   NAnswer(330,1,NodeQuest300)
+   end
+
+   if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_9) != 0) then begin
+   NAnswer(340,1,NodeQuest302)
+   end
+
+   NAnswer(301,1,Node999)
+end
+
+procedure NodeQuest100 begin
+   setQuest(GVAR_TWOSUN_QST_LOVE_PIP,qEnd);
+   exp_add(500);
+   Reply(303)
+   NAnswer(304,1,NodeStartDialog)
+end
+
+procedure NodeQuest200 begin
+   Reply(311)
+   NAnswer(312,1,NodeQuest201)
+end
+
+procedure NodeQuest201 begin
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_4);
+   Reply(313)
+   NAnswer(314,1,NodeQuest202)
+   NAnswer(317,1,NodeQuest203)
+end
+
+procedure NodeQuest202 begin
+   Reply(315)
+   NAnswer(316,1,NodeQuest203)
+end
+
+procedure NodeQuest203 begin
+   Reply(318)
+   NAnswer(319,1,NodeQuest204)
+   NAnswer(322,1,NodeQuest205)
+end
+
+procedure NodeQuest204 begin
+   Reply(320)
+   NAnswer(323,1,NodeQuest205)
+   NAnswer(321,1,Node999)
+end
+
+procedure NodeQuest205 begin
+   Reply(324)
+   NAnswer(328,1,NodeQuest206)
+   NAnswer(319,1,NodeQuest204)
+   NAnswer(325,1,NodeQuest207)
+end
+
+procedure NodeQuest206 begin
+   Reply(329)
+   NAnswer(319,1,NodeQuest204)
+   NAnswer(325,1,NodeQuest207)
+end
+
+procedure NodeQuest207 begin
+   display_mstr(102);
+   call Node999;
+end
+
+procedure NodeQuest208 begin
+   Reply(324)
+   NAnswer(314,1,NodeQuest202)
+   NAnswer(319,1,NodeQuest204)
+   NAnswer(323,1,NodeQuest205)
+   NAnswer(327,1,Node999)
+end
+
+procedure NodeQuest300 begin
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_8);
+   setQuest(GVAR_TWOSUN_QST_LOVE_PIP,qEnd);
+   set_REP(2)
+   set_SLAVA(20)
+   exp_add(1000);
+   Reply(331)
+   NAnswer(332,1,NodeStartDialog)
+end
+
+procedure NodeQuest301 begin
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_7);
+   setQuest(GVAR_TWOSUN_QST_LOVE_PIP,qEnd);
+   set_REP(-2)
+   set_SLAVA(20)
+   exp_add(1000);
+   Reply(336)
+   NAnswer(337,1,NodeStartDialog)
+end
+
+procedure NodeQuest302 begin
+   setQuest(GVAR_TWOSUN_QST_LOVE_PIP,qEnd);
+   exp_add(1000);
+   set_REP(2)
+   Reply(341)
+   NAnswer(342,1,NodeStartDialog)
+   NAnswer(343,1,NodeStartDialog)
+end
+
+//--- ФИНАЛЬНЫЙ ДИАЛОГ
+
+procedure NodeFinalDialog begin
+   Reply(400)
+   if (getQuest(GVAR_TWOSUN_QST_POMPA) == qStart) then begin
+   NAnswer(430,1,NodeFinalDialog200)
+   end
+   if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_10) == 0) then begin
+   NAnswer(410,1,NodeFinalDialog100)
+   end
+   NAnswer(401,1,Node999)
+end
+
+procedure NodeFinalDialog100 begin
+   itemBonusPID := 0;
+   itemBonusAmnt := 0;
+   Reply(411)
+
+   NAnswer(420,1,NodeFinalDialog101)
+   NAnswer(421,1,NodeFinalDialog102)
+   NAnswer(422,1,NodeFinalDialog103)
+   NAnswer(423,1,NodeFinalDialog104)
+   NAnswer(424,1,NodeFinalDialog105)
+   NAnswer(425,1,NodeFinalDialog106)
+   NAnswer(426,1,NodeFinalDialog107)
+   NAnswer(412,1,Node999)
+end
+
+#define itemBonusSet(pid,amnt)              itemBonusPID := pid;                \
+                                            itemBonusAmnt := amnt;              \
+                                            call NodeFinalDialog199;            \
+
+procedure NodeFinalDialog101 begin
+   itemBonusSet(PID_BOOTLE_CAPS,200)
+end
+
+procedure NodeFinalDialog102 begin
+   itemBonusSet(PID_AMMO_MICRO_FUSION_CELL,30)
+end
+
+procedure NodeFinalDialog103 begin
+   itemBonusSet(PID_W_KNUCKLES_PNEUMATIC,1)
+end
+
+procedure NodeFinalDialog104 begin
+   itemBonusSet(PID_W_SPEAR_PNEUMATIC,1)
+end
+
+procedure NodeFinalDialog105 begin
+   itemBonusSet(PID_TOOL_NV_GLASSES,1)
+end
+
+procedure NodeFinalDialog106 begin
+   itemBonusSet(PID_W_LASER_PISTOL,1)
+end
+
+procedure NodeFinalDialog107 begin
+   itemBonusSet(PID_TOOL_PLASTIC_EXPLOSIVES,1)
+end
+
+procedure NodeFinalDialog199 begin
+   set_gvar_bit_on(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_10);
+   item_add(dude_obj,itemBonusPID,itemBonusAmnt)
+   if ((itemBonusPID >0) and (itemBonusAmnt>0)) then begin
+   itemBonusAmnt := 0;
+   end
+   Reply(413)
+   NAnswer(414,1,Node999)
+end
+
+procedure NodeFinalDialog200 begin
+   Reply(431)
+   if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_10) == 0) then begin
+   NAnswer(410,1,NodeFinalDialog100)
+   end
+   NAnswer(432,1,Node999)
+end
+
+
+/*
+
+ПЕРВАЯ ВЕРСИЯ ДИАЛОГА
+
+{224}{}{Здесь нас не услышат.}
+{225}{}{Ты что-то скрываешь от своих?}
+{226}{}{Мне нечего скрывать. Но скорее всего, коллектив скрывает от меня.}
+{227}{}{Хм. Продолжай.}
+{228}{}{До недавнего времени Ту-Сан был закрытым обществом, в которое не принимали людей из пустошей. Но со временем численность населения упала до критического уровня. Поэтому наш коллектив стал наращивать популяцию детьми из других поселений.}
+{229}{}{Любопытная практика.}
+{230}{}{Давай ближе к делу, меня не интересует история жестянщиков.}
+{231}{}{Полагаю, вы не нашли других решений для сложившейся ситуации.}
+{232}{}{Коллектив учит, что наше прошлое несущественно, мы должны забыть его и жить будущим ради Прогресса. Моя официальная история в базе данных сомнительна, а запрос надосье был отклонен. Но я помню, что в пятилетнем возрасте коллектив принял меня и перевоспитал под свой устав. Мне нужна помощь чужака, чтобы узнать, что случилось на самом деле.}
+{233}{}{С чего бы мне стараться ради тебя?}
+{234}{}{Я могу достать некоторые наши технологии, если тебя это интересует - оружие, устройства, ядерные батареи. Но не расчитывай на большие запасы, у меня низкий уровень допуска на склад.}
+{235}{}{Почему ты хочешь узнать правду?}
+{236}{}{Пять первых лет я жил в другом коллективе и по другим законам. Нельзя просто вычеркнуть это время из жизни. Ведь даже со всеми этими технологиями я остаюсь человеком.}
+{237}{}{Почему бы не спросить других жестянщиков напрямую?}
+{238}{}{Я боюсь коллектива. Отказ подчиняться мнению большинства карается строгими наказаниями, включая демонтаж... то есть... смертную казнь. Такие прецеденты уже случались.}
+{239}{}{Понятно, так что ты от меня хочешь?}
+{240}{}{Мне стало известно, что моя семья жила в Каса-Гранде. Я прошу отправиться туда и расспросить жителей о судьбе моих родителей и о том, что случилось в тот день, когда нас разминули. Я хочу знать правду.}
+{241}{}{Не могу ничего обещать. Просто буду иметь в виду.}
+{242}{}{Ладно, я поищу твоих родителей.}
+{243}{}{Отлично. Я рад, что мы установили контакт. А теперь разойдемся, пока мы не вызвали подозрений. Считай, что этого разговора не было.}
+{244}{}{Нет проблем.}
+
+{248}{}{Благодарю за помощь, чужак.}
+{249}{}{Пожалуйста.}
+
+#Повторный диалог
+{252}{}{Мне удалось найти твою семью, но она оказалась мертва. Не спрашивай, жестянщики тут не причем.}
+{253}{}{Найдя прежнюю семью я тут же ее потерял... Наверное, коллектив прав - нельзя цепляться за прошлое. Даже если бы мы воссоединились, то наверняка никогда бы не поняли друг друга. Теперь Ту-Сан - моя семья. Благодаря тебе я это понимаю особенно четко.}
+{254}{}{Ну, это уже тебе решать.}
+{255}{}{Твоя семья все еще живет в Каса-Гранде и помнит о тебе.}
+{256}{}{Моя прошлая семья жива? Невероятно! Я должен встретиться с ними и поговорить.}
+{257}{}{Думаю, тебе не понравится их рассказ. Жестянщики отобрали тебя в качестве платы за помощь в ремонте водной станции.}
+{258}{}{Так вот что произошло... Я этого не знал. Думаю, Харду не понравится, если я продолжу ворошить прошлое и тем более приведу сюда родственников. Но и бросить свое прошлое я тоже не могу, особенно после того, что узнал... Слушай, помоги мне бежать!}
+{259}{}{Может, я попробую переубедить Харда? Возможно, он позволит твоей семье поселиться в Ту-Сане.}
+{310}{}{Я помогу тебе с побегом из Ту-Сана. Что нужно делать?}
+{311}{}{Моя часть сделки выполнена, дальше разбирайся сам.}
+{312}{}{Нет. Я должен получить доказательства твоих слов, иначе сделка будет незавершенной.}
+{263}{}{}
+{264}{}{Ладно, я помогу тебе с побегом. Что нужно делать?}
+{265}{}{Маловероятно. Если я не могу убедить его, то чужаку тем более этого не удастся.}
+{266}{}{Я все же попробую. Жди результатов.}
+{267}{}{У всех жестянщиков есть вшитые под кожу передатчики для слежения за перемещением. Пока он во мне, я не смогу сбежать из Ту-Сана. Помоги удалить его! Я объясню, что нужно делать.}
+{268}{}{Ладно, давай попробуем.}
+{269}{}{Так что я должен делать?}
+{270}{}{Думаю, Харду не понравится, если я продолжу ворошить прошлое и тем более приведу сюда родственников. Помоги мне бежать из Ту-Сана.}
+{271}{}{Подожди еще немного.}
+
+*/

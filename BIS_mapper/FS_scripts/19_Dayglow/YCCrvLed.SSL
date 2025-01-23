@@ -1,0 +1,240 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCCrvLed
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CARAVAN_DRIVER     // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   (REP_KILL_GOOD*2)     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      100 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog3b;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable obj_critter_a; // указатель на себя во время побега
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (map_var(MVAR_DIEGO_C_MUTANT_PARTY) != 2) then begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (map_var(MVAR_DIEGO_C_MUTANT_PARTY) == 2) then begin
+      obj_critter_a := self_obj;
+      partyRunToDude
+   end
+
+   if (global_var(GVAR_DAYGLOW_STATUS_RUTGER) == 0) then begin
+       if (self_elevation == 0) then begin
+       set_global_var(GVAR_DAYGLOW_STATUS_RUTGER, 1);
+       set_map_var(MVAR_DIEGO_C_MUTANT_PARTY, -1);
+       obj_critter_a := 0;
+       display_mstr(103);
+       gfade_out(ONE_GAME_SECOND);
+       set_obj_visibility(self_obj, 1);
+       gfade_in(ONE_GAME_SECOND);
+       destroy_object(self_obj);
+       end
+       else if (getQuest(GVAR_DAYGLOW_MAIN_C) == qStart) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   obj_critter_a := 0;
+   set_global_var(GVAR_DAYGLOW_STATUS_RUTGER, -1);
+   if (self_elevation == 0) then begin
+   set_global_var(GVAR_DAYGLOW_STATUS_RUTGER, -2);
+   end
+   /*if (global_var(GVAR_DAYGLOW_STATUS_BOSS_B)<0) then begin
+   item_add(self_obj,PID_Q_DAYGLOW_CODE_CORONADO,1)
+   end*/
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   /*else if ((self_elevation != 0) and (map_var(MVAR_DIEGO_C_MUTANT_LIFE) >= 0) and (partyPidMtn != 0)) then begin
+      floater(self_obj, 104, COLOR_MSG_RED); - избыточно
+   end*/
+
+   if ((self_elevation != 0) and (map_var(MVAR_DIEGO_C_MUTANT_PARTY) == 2)) then begin
+      floater(self_obj, 102, COLOR_MSG_LIGHT_GREY);
+   end
+   else begin
+      setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (self_elevation == 0) then begin
+   call NodeSndDialog;
+   end
+   else if (map_var(MVAR_DIEGO_C_MUTANT_PARTY) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (map_var(MVAR_DIEGO_C_MUTANT_PARTY) == 1) then begin
+   call NodeFstDialog4;
+   end
+   else begin
+   call NodeFstDialog6;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   set_map_var(MVAR_DIEGO_C_MUTANT_PARTY, 1);
+   Reply(200)
+   if (global_var(GVAR_DAYGLOW_STATUS_BOSS_B)<0) then begin
+   NAnswer(214,0,NodeFstDialog2)
+   end else begin
+   NAnswer(201,0,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,0,NodeFstDialog3)
+   NAnswer(212,0,NodeFstDialog3b)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(205,0,Node999)
+end
+
+procedure NodeFstDialog3b begin
+   Reply(213)
+   NAnswer(205,0,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   if ((gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_1) != 0) and (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_2) != 0)) then begin
+      Reply(208)
+      NAnswer(209,0,NodeFstDialog5)
+      NAnswer(210,0,Node999)
+   end
+   else begin
+      if (map_var(MVAR_DIEGO_C_MUTANT_LIFE) <= -100) then begin
+      Reply(211)
+      end
+      else begin
+      Reply(206)
+      end
+      NAnswer(207,0,Node999)
+   end
+end
+
+procedure NodeFstDialog5 begin
+   set_map_var(MVAR_DIEGO_C_MUTANT_PARTY, 2);
+   call Node999;
+end
+
+procedure NodeFstDialog6 begin
+   Reply(208)
+   NAnswer(209,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(208)
+   NAnswer(209,0,Node999)
+end

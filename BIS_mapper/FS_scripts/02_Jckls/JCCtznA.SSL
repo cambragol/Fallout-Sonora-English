@@ -1,0 +1,212 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_JCCtznA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_JACKALS // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        5  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+
+#define NUM_TEAM                        TEAM_JACKALS_PEASAN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_JACKALS       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeAnswer;
+procedure NodeAnswer2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer300;
+procedure NodeAnswer400;
+procedure NodeAnswer500;
+
+//---------------------
+
+#define LVAR_Food_Using                   (6) // фиксирует факт первой кормежки
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       kill_to_ranger_proc
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+
+   if (itemTypeUseDude == 3) then begin
+      if (local_var(LVAR_Food_Using) == 0) then begin
+      set_REP(2)
+      end
+      inc_local_var(LVAR_Food_Using);
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_Jkls_Dopusk,-1);
+   end
+end
+
+procedure destroy_p_proc begin
+   inc_global_var(GVAR_JACKALS_DEAD);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,1,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   Reply(200)
+   NAnswer(202,1,NodeAnswer)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeAnswer begin
+   if (local_var(LVAR_Food_Using) >0) then begin
+   call NodeAnswer2;
+   end
+   else begin
+   Reply(203)
+   NAnswer(204,1,Node999)
+   end
+end
+
+procedure NodeAnswer2 begin
+   Reply(205)
+   NAnswer(207,1,NodeAnswer100)
+   NAnswer(209,1,NodeAnswer200)
+   NAnswer(213,1,NodeAnswer300)
+   NAnswer(215,1,NodeAnswer400)
+   NAnswer(217,1,NodeAnswer500)
+   NAnswer(206,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_2,30)
+   Reply(208)
+   NAnswer(219,3,NodeAnswer101)
+   NAnswer(221,1,NodeAnswer)
+end
+
+procedure NodeAnswer101 begin
+   bitDialogExp(bit_7,30)
+   Reply(220)
+   NAnswer(221,1,NodeAnswer)
+end
+
+procedure NodeAnswer200 begin
+   Reply(210)
+   NAnswer(211,3,NodeAnswer201)
+   NAnswer(221,1,NodeAnswer)
+end
+
+procedure NodeAnswer201 begin
+   bitDialogExp(bit_3,30)
+   Reply(212)
+   NAnswer(221,1,NodeAnswer)
+end
+
+procedure NodeAnswer300 begin
+   bitDialogExp(bit_4,30)
+   if (global_var(GVAR_JACKALS_STATUS_RANGER) == 0) then begin
+   Reply(214)
+   end
+   else begin
+   Reply(222)
+   end
+   NAnswer(221,1,NodeAnswer)
+end
+
+procedure NodeAnswer400 begin
+   bitDialogExp(bit_5,30)
+   Reply(216)
+   NAnswer(221,1,NodeAnswer)
+end
+
+procedure NodeAnswer500 begin
+   bitDialogExp(bit_6,30)
+   Reply(218)
+   NAnswer(221,1,NodeAnswer)
+end

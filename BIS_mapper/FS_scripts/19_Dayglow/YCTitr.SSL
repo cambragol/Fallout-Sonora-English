@@ -1,0 +1,398 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YCTitr
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+procedure start;
+procedure map_enter_p_proc;
+procedure critter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure scenaTitrStart;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog001;
+procedure NodeDialog002;
+procedure NodeDialog003;
+procedure NodeDialog004;
+procedure NodeDialog005;
+procedure NodeDialog006;
+procedure NodeDialog007;
+
+variable critter01;
+variable critter02;
+variable critter03;
+variable critter04;
+variable critter05;
+variable critter06;
+variable weaponObj;
+variable dialogFlag;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_obj_visibility(self_obj, 1);
+       if (getQuest(GVAR_DAYGLOW_MAIN_D) < 100) then begin
+       if (global_var(GVAR_DAYGLOW_DESTROY_TIMER) > 0) then begin
+           set_SLAVA(100)
+           set_REP(-10)
+           exp_add_msg(5000,SCRIPT_ZTMap,503,515);
+           setQuest(GVAR_DAYGLOW_MAIN_D, 100);
+           add_timer_event(self_obj, 5, 1);
+       end
+       else if (global_var(GVAR_DAYGLOW_CORONADO_STATUS) > 0) then begin
+           set_SLAVA(100)
+           exp_add_msg(5000,SCRIPT_ZTMap,503,516);
+
+           /*if концовка за Братство
+           setQuest(GVAR_DAYGLOW_MAIN_D, 103);
+           end
+           else
+           */
+           if ((global_var(GVAR_DAYGLOW_STATUS_BOSS_A) < 0) and (global_var(GVAR_DAYGLOW_STATUS_BOSS_B) < 0)) then begin
+           setQuest(GVAR_DAYGLOW_MAIN_D, 104);
+           end
+           else if ((getQuest(GVAR_DAYGLOW_MAIN_D) >= qEnd) and (global_var(GVAR_DAYGLOW_STATUS_BOSS_A) >= 0)) then begin
+           setQuest(GVAR_DAYGLOW_MAIN_D, 101);
+           end
+           else begin
+           setQuest(GVAR_DAYGLOW_MAIN_D, 102);
+           end
+           add_timer_event(self_obj, 5, 5);
+       end
+       end
+   end
+end
+
+procedure critter_p_proc begin
+   if (dialogFlag > 0) then begin
+      call Node999;
+      dialogFlag := 0;
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       call scenaTitrStart;
+       play_sfx("HOWITZER"); //!!!звуки взрывов
+       set_global_var(GVAR_DAYGLOW_DESTROY_TIMER,-1);
+       set_global_var(GVAR_DAYGLOW_CORONADO_STATUS, -1);
+       add_timer_event(self_obj, 15, 2);
+   end
+
+   if (fixed_param == 2) then begin
+       anim(dude_obj, ANIMATE_ROTATION, 0);
+       anim(self_obj, ANIMATE_ROTATION, 3);
+          reg_anim_clear(dude_obj);
+          reg_anim_begin();
+          reg_anim_animate(dude_obj,ANIM_fall_back,-1);
+          reg_anim_end();
+       gfade_in(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 30, 3);
+   end
+
+   if (fixed_param == 3) then begin
+       gfade_out(ONE_GAME_SECOND);
+       set_obj_visibility(self_obj, 0);
+       gfade_in(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 30, 4);
+   end
+
+   if (fixed_param == 4) then begin
+       game_ui_enable;
+       dialogue_system_enter;
+   end
+
+   if (fixed_param == 5) then begin
+       call scenaTitrStart;
+
+       critter01 := create_object_sid(PID_GHOUL_GLOW, 20916, 0, -1); // гуль-лидер Густаво
+                    anim(critter01, ANIMATE_ROTATION, 5);
+       critter02 := create_object_sid(PID_GHOUL_A, 21118, 0, -1);
+                    anim(critter02, ANIMATE_ROTATION, 5);
+       critter03 := create_object_sid(PID_GHOUL_A, 20914, 0, -1);
+                    anim(critter03, ANIMATE_ROTATION, 4);
+
+       critter04 := create_object_sid(PID_MERC_D_MALE, 19716, 0, -1); // наемник-лидер Джона
+                    anim(critter04, ANIMATE_ROTATION, 2);
+       critter05 := create_object_sid(PID_MERC_D_MALE, 19514, 0, -1);
+                    anim(critter05, ANIMATE_ROTATION, 2);
+       critter06 := create_object_sid(PID_MERC_D_MALE, 19518, 0, -1);
+                    anim(critter06, ANIMATE_ROTATION, 1);
+
+       add_timer_event(self_obj, 15, 6);
+   end
+
+   if (fixed_param == 6) then begin
+       gfade_in(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 20, 7);
+   end
+
+   if (fixed_param == 7) then begin
+       floater(critter01, 111, COLOR_MSG_RED);
+       add_timer_event(self_obj, 40, 8);
+   end
+
+   if (fixed_param == 8) then begin
+       floater(critter01, 110, COLOR_MSG_RED);
+       if ((global_var(GVAR_DAYGLOW_STATUS_BOSS_B) < 0) or (getQuest(GVAR_DAYGLOW_MAIN_D) == 104)) then begin
+       floater(critter04, 122, COLOR_MSG_RED);
+       end else begin
+       floater(critter04, 112, COLOR_MSG_RED);
+       end
+       add_timer_event(self_obj, 50, 9);
+   end
+
+   if (fixed_param == 9) then begin
+       if ((global_var(GVAR_DAYGLOW_STATUS_BOSS_B) < 0) or (getQuest(GVAR_DAYGLOW_MAIN_D) == 104)) then begin
+       floater(critter01, 123, COLOR_MSG_RED);
+       end else begin
+       floater(critter01, 113, COLOR_MSG_RED);
+       end
+       floater(critter04, 110, COLOR_MSG_RED);
+       add_timer_event(self_obj, 50, 10);
+   end
+
+   if (fixed_param == 10) then begin
+       if (getQuest(GVAR_DAYGLOW_MAIN_D) == 104) then begin
+       floater(critter01, 126, COLOR_MSG_RED);
+       end else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 102) then begin
+       floater(critter01, 124, COLOR_MSG_RED);
+       end else begin
+       floater(critter01, 114, COLOR_MSG_RED);
+       end
+       add_timer_event(self_obj, 50, 11);
+   end
+
+   if (fixed_param == 11) then begin
+       floater(critter01, 110, COLOR_MSG_RED);
+       floater(critter04, 110, COLOR_MSG_RED);
+       if ((global_var(GVAR_DAYGLOW_STATUS_BOSS_B) < 0) or (getQuest(GVAR_DAYGLOW_MAIN_D) == 104)) then begin
+       floater(critter05, 125, COLOR_MSG_RED);
+       end else begin
+       floater(critter04, 115, COLOR_MSG_RED);
+       end
+       add_timer_event(self_obj, 40, 12);
+   end
+
+   if (fixed_param == 12) then begin
+       item_add(critter04,PID_W_RIFLE_ASSAULT,1)
+       item_add(critter05,PID_W_RIFLE_ASSAULT,1)
+       item_add(critter06,PID_W_RIFLE_ASSAULT,1)
+
+       weaponObj := create_object_sid(PID_W_RIFLE_ASSAULT,0,0,-1);
+                    add_mult_objs_to_inven(critter04,weaponObj,1);
+                    wield_obj_critter(critter04, weaponObj);
+
+       weaponObj := create_object_sid(PID_W_RIFLE_ASSAULT,0,0,-1);
+                    add_mult_objs_to_inven(critter05,weaponObj,1);
+                    wield_obj_critter(critter05, weaponObj);
+
+       weaponObj := create_object_sid(PID_W_RIFLE_ASSAULT,0,0,-1);
+                    add_mult_objs_to_inven(critter06,weaponObj,1);
+                    wield_obj_critter(critter06, weaponObj);
+
+       add_timer_event(self_obj, 20, 13);
+   end
+
+   if (fixed_param == 13) then begin
+       gfade_out(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 10, 14);
+   end
+
+   if (fixed_param == 14) then begin
+       play_sfx("WHM1SXX1");
+       add_timer_event(self_obj, 7, 15);
+   end
+
+   if (fixed_param == 15) then begin
+       play_sfx("WHK1XXX1");
+       play_sfx("WHM1FXX2");
+       add_timer_event(self_obj, 7, 16);
+   end
+
+   if (fixed_param == 16) then begin
+       play_sfx("WHJ1WXX1");
+       play_sfx("WHM1SXX1");
+       add_timer_event(self_obj, 7, 17);
+   end
+
+   if (fixed_param == 17) then begin
+       play_sfx("HOWITZER");
+       add_timer_event(self_obj, 7, 18);
+   end
+
+   if (fixed_param == 18) then begin
+       floater(critter01, 110, COLOR_MSG_RED);
+       floater(critter04, 110, COLOR_MSG_RED);
+       floater(critter05, 110, COLOR_MSG_RED);
+       destroy_object(critter01);
+       destroy_object(critter02);
+       destroy_object(critter03);
+       destroy_object(critter04);
+       destroy_object(critter05);
+       destroy_object(critter06);
+       add_timer_event(self_obj, 10, 2);
+   end
+end
+
+procedure scenaTitrStart begin
+       game_ui_disable;
+       gfade_out(ONE_GAME_SECOND);
+       move_to(dude_obj, tile_num_in_direction(self_tile,3,2), 0);
+       if (partyPidMtn!=0) then begin
+       move_to(partyPidMtn, tile_num_in_direction(dude_tile,4,2), 0);
+       set_obj_visibility(partyPidMtn, 1);
+       end
+       anim(dude_obj, ANIMATE_ROTATION, 0);
+       anim(self_obj, ANIMATE_ROTATION, 3);
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+end
+
+procedure use_obj_on_p_proc begin
+   script_overrides;
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+   gfade_out(ONE_GAME_SECOND);
+      set_obj_visibility(self_obj, 1);
+          reg_anim_clear(dude_obj);
+          reg_anim_begin();
+          reg_anim_animate(dude_obj,ANIM_stand,-1);
+          reg_anim_end();
+      if (partyPidMtn!=0) then begin
+      set_obj_visibility(partyPidMtn, 0);
+      end
+   gfade_in(ONE_GAME_SECOND);
+end
+
+procedure NodeDialog begin
+   dialogFlag := 1;
+   Reply(200)
+   NAnswer(201,0,NodeDialog001)
+end
+
+procedure NodeDialog001 begin
+   if (global_var(GVAR_DAYGLOW_CORONADO_STATUS) > 0) then begin
+   zReply(203)
+   end
+   else begin
+   zReply(202)
+   end
+   NAnswer(204,0,NodeDialog002)
+end
+
+procedure NodeDialog002 begin
+   zReply(205)
+   zNAnswer(206,0,NodeDialog003)
+end
+
+procedure NodeDialog003 begin
+   zReply(207)
+   NAnswer(208,0,NodeDialog004)
+end
+
+procedure NodeDialog004 begin
+   if (getQuest(GVAR_DAYGLOW_MAIN_D) == 100) then begin
+   Reply(210) // концовка со взрывом базы
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 101) then begin
+   Reply(220) // концовка за Густаво
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 102) then begin
+   Reply(230) // концовка за Батлера
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 103) then begin
+   Reply(240) // концовка за Братство
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 104) then begin
+   Reply(250) // концовка анархия
+   end
+
+   NAnswer(208,0,NodeDialog005)
+end
+
+procedure NodeDialog005 begin
+   if (getQuest(GVAR_DAYGLOW_MAIN_D) == 100) then begin
+      Reply(211) // концовка со взрывом базы
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 101) then begin
+      if (global_var(GVAR_DAYGLOW_STATUS_BOSS_B) < 0) then begin
+      Reply(223) // концовка за Густаво
+      end else begin
+      Reply(221) // концовка за Густаво
+      end
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 102) then begin
+      Reply(231) // концовка за Батлера
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 103) then begin
+      Reply(241) // концовка за Братство
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 104) then begin
+      Reply(251) // концовка анархия
+   end
+
+   NAnswer(208,0,NodeDialog006)
+end
+
+procedure NodeDialog006 begin
+   if (getQuest(GVAR_DAYGLOW_MAIN_D) == 100) then begin
+      Reply(212) // концовка со взрывом базы
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 101) then begin
+      if (global_var(GVAR_DAYGLOW_STATUS_BOSS_B) < 0) then begin
+      Reply(224) // концовка за Густаво
+      end else begin
+      Reply(222) // концовка за Густаво
+      end
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 102) then begin
+      Reply(232) // концовка за Батлера
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 103) then begin
+      Reply(242) // концовка за Братство
+   end
+   else if (getQuest(GVAR_DAYGLOW_MAIN_D) == 104) then begin
+      Reply(252) // концовка анархия
+   end
+
+   NAnswer(208,0,NodeDialog007)
+end
+
+/*
+
+- рядовые гули (репа гг)
+   Я знаю, что с гулями дела у тебя не сладились. Это естесственно. Вспоминать тебя они не будут.
+   Я знаю, что тебе удалось подружиться со многими гулями. Они всю жизнь будут помнить о тебе.
+
+*/
+
+procedure NodeDialog007 begin
+   zReply(260)
+   NAnswer(261,0,Node999)
+end

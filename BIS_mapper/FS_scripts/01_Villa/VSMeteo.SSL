@@ -1,0 +1,52 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_VSMeteo
+#define SKILL_LIMIT                     25
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   if ((getQuest(GVAR_VILLA_METEO) < qEnd) and (map_var(MVAR_Plaza_Meteo) == 999)) then begin
+   call repair_proc;
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_Plaza_Meteo,1);
+   gfade_out(ONE_GAME_SECOND);
+    set_obj_visibility(self_obj, 1);
+    create_object_sid(self_PID+1, self_tile, self_elevation, -1);
+    game_time_advance(ONE_GAME_HOUR*2);
+   gfade_in(ONE_GAME_SECOND);
+
+   RepairProcRepair(112,100,"FIXSTILL")
+   destroy_object(self_obj);
+end

@@ -1,0 +1,111 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSLump
+
+procedure start;
+procedure ID_proc;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure lump_gener;
+procedure delete_lump;
+
+#define LVAR_Solar_Timer                 (0) // Время свечения лампы
+
+#define setLumpID(PIDa,PIDb)             if (self_PID == PIDa) then begin       \
+                                             lumpPID := PIDb;                   \
+                                         end                                    \
+
+variable lumpPID;
+variable msgStart;
+
+
+
+procedure start begin
+end
+
+procedure ID_proc begin
+   lumpPID := 0;
+   setLumpID(33555666,33555665) // очаг у Шакалов
+   setLumpID(33555672,33554433) // горящая бочка
+   setLumpID(33555686,33555687) // масляная лампа
+   setLumpID(33555688,33555689) // масляная лампа
+end
+
+procedure map_enter_p_proc begin
+   if (local_var(LVAR_Solar_Timer) < game_time) then begin
+       call ID_proc;
+       if (lumpPID > 0) then begin
+       //call delete_lump;
+       end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(103);
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_ZIPPER) then begin
+       script_overrides;
+       call ID_proc;
+       if (lumpPID > 0) then begin
+       call lump_gener;
+       end
+       else begin
+       display_mstr(102);
+       end
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_fire) then begin
+         call ID_proc;
+         if (lumpPID > 0) then begin
+         call lump_gener;
+         end
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_laser) then begin
+         call ID_proc;
+         if (lumpPID > 0) then begin
+         call lump_gener;
+         end
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_plasma) then begin
+         call ID_proc;
+         if (lumpPID > 0) then begin
+         call lump_gener;
+         end
+      end
+   end
+end
+
+procedure lump_gener begin
+   variable lumpOBJ;
+
+   play_sfx("ZAPPER2");
+   set_obj_visibility(self_obj, 1);
+   set_local_var(LVAR_Solar_Timer, (ONE_GAME_DAY*7) + game_time);
+   lumpOBJ := create_object_sid(lumpPID, self_tile, self_elevation, -1);
+              //obj_set_light_level(lumpOBJ, 100, 8);
+
+   if (cur_map_index == MAP_VILLA_CAVE) then begin
+   display_mstr(110);
+   end
+   if ((cur_map_index == MAP_GARAGE_TRILER) and (self_elevation == 0)) then begin
+   display_mstr(114);
+   inc_map_var(MVAR_GARAGE_TRILER_FIRE);
+   end
+end
+
+procedure delete_lump begin
+   if (tile_contains_obj_pid(self_tile,self_elevation,lumpPID) == true) then begin
+   destroy_object(tile_contains_pid_obj(self_tile, self_elevation, lumpPID));
+   end
+   set_obj_visibility(self_obj, 0);
+   obj_set_light_level(self_obj, 0, 0);
+end

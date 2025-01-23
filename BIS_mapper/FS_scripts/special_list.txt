@@ -1,55 +1,56 @@
->> Merchants:
 
-BCLthr Tanner in San Brahmin
-GCPit Pete in GarageCity
-PCBrtrA Weapons Dealer
-PCBrtrB Junk Dealer
-PCBrtrC Outfit Dealer
-PCBrtrD Snack Bar Vendor
-PCDrgdlr Slum Pusher
-PCAtmBrt Atomic Trader
-RCIntndt Ranger Quartermaster
-DCWtrBrt Water Trader in Casa Grande
-SCIntndt Brotherhood of Steel Quartermaster
-TCBarter Tinkerer Quartermaster
-NCApcAst Apocalypse Followers in KNueva
-NCHimadr Chimador in KNueva
+>> Торговцы:
 
->> Bartenders:
+BCLthr		кожевенник в Сан-Брамин
+GCPit		Пит в ГаражСити
+PCBrtrA		торговец оружием
+PCBrtrB		торговец барахлом
+PCBrtrC		торговец нарядами
+PCBrtrD		торговец закусочной
+PCDrgdlr	пушер в трущобах
+PCAtmBrt	торговец атомщиков
+RCIntndt	интендант рейнджеров
+DCWtrBrt	водный торговец в Каса-Гранде
+SCIntndt	интендант Братства Стали
+TCBarter	интендант жестянщиков
+NCApcAst	последователи апокалипсиса в КНуэва
+NCHimadr	химадор в КНуэва
+
+>> Бармены:
 
 GCBarmen
 FCBarmen
-DCBarmen only appears in freeplay
+DCBarmen	появляется только во фриплее
 PCCasBar
 PCRngBrt
 
->> Regular Companions:
+>> Постоянные напарники:
 
-GCEugene Garage City Eugene
-VVCScnc Vault 27 scientist
-ICApoc Inferno Disciple Diana
-ICPaladn Inferno paladin BS
-HCPrisnr Hermosillo prisoner
-VCRobot Villa robot in the crypt (freeplay only)
+GCEugene	Гараж-Сити	Юджин
+VVCScnc		Убежище 27	ученый
+ICApoc		Инферно		Последователь Диана
+ICPaladn	Инферно		паладин БС
+HCPrisnr	Эрмосильо	заключенный
+VCRobot		Вилла		робот в склепе (только фриплей)
 
->> Local companions (only for the duration of the quest within one or more specific maps):
+>> Локальные напарники (только на время квеста в пределах одной или нескольких конкретных карт):
 
-JCRanger Jackals prisoner-ranger (before leaving the Jackals location)
-FCMadre Flagstaff madre (before moving to another area of ??Flagstaff)
-RCPresly Rangers ranger Presley on the dam (only in the cave Gyers Wash)
-PCPrtznD Phoenix guerrilla
-MCMtlBoy Motel prisoner (before leaving the Motel location)
-MCPrison Casa Grande imprisoned highwayman in the town hall (before moving to another area)
+JCRanger	Шакалы		пленник-рейнджер (до выхода из локации Шакалов)
+FCMadre		Флагпул		мадре (до перехода в другой район Флагпула)
+RCPresly	Рейнджеры	рейнджер Пресли на дамбе (только в пещере Гьерс-Уош)
+PCPrtznD	Феникс		партизан
+MCMtlBoy	Мотель		пленник (до выхода из локации Мотеля)
+MCPrison	Каса-Гранде	заключенный магистральщик в ратуше (до перехода в другой район)
 
->> Technical companions (joined only for moving to another map, then immediately disconnect):
+>> Технические напарники (приобщаются только для перехода на другую карту, затем сразу же отсоединяются):
 
-GCImgrnt Garage City immigrant
-FCTraper Flagstaff trapper at Winona camp
-FCCrvBos Flagstaff caravanner at Flagstaff to Phoenix
-PCCrvBos Phoenix caravanner at Phoenix to Tu-San
-TCCrvBos Tu-San caravanner at Tu-San to Puerto
-DCAlien Casa Grande visitor
-DCCtznD Casa Grande resident at train station
-RCBezhA Rangers refugee mother at dam
-RCBezhB Rangers refugee child at dam
-FCFarmA Flagstaff farmer
+GCImgrnt	Гараж-Сити	иммигрант
+FCTraper	Флагпул		траппер в лагере Уайнон
+FCCrvBos	Флагпул		караванщик в Флагпуле для перехода в Феникс
+PCCrvBos	Феникс		караванщик в Фениксе для перехода в Ту-Сан
+TCCrvBos	Ту-Сан		караванщик в Ту-Сане для перехода в Пуэрто
+DCAlien		Каса-Гранде	приезжий
+DCCtznD		Каса-Гранде	житель на ж/д станции
+RCBezhA		Рейнджеры	мать-беженка на дамбе
+RCBezhB		Рейнджеры	ребенок-беженец на дамбе
+FCFarmA		Флагпул		фермер

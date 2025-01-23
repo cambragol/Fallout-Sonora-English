@@ -1,0 +1,51 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VSDead
+#define TOWN_REP_VAR            GVAR_TOWN_REP_VILLA
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if ((getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) >= qEnd) or (getQuest(GVAR_MAIN_QUEST_TWOSUN) >= qEnd) or (global_var(GVAR_VILLA_STATUS_PADRE) == 1)) then begin
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(110);
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (combat_is_initialized == true) then begin
+      script_overrides;
+      display_mstr(112);
+   end
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+       script_overrides;
+       inc_map_var(MVAR_Plaza_DeadBody);
+       gfade_out(ONE_GAME_SECOND);
+        set_REP(1)
+        set_SLAVA(3)
+        play_sfx("iccntnre");
+        game_time_advance(ONE_GAME_MINUTE*30);
+        set_obj_visibility(self_obj, 1);
+       gfade_in(ONE_GAME_SECOND);
+       exp_add(50);
+       display_mstr(111);
+       destroy_object(self_obj);
+   end
+end

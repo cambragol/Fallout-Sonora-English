@@ -1,0 +1,318 @@
+#include "..\headers\define.h"
+//--------------------- Фрэнк
+
+#define NAME                            SCRIPT_GCCtzC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_GARAGE_CITIZEN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_TUALET                     25131 // позиция в туалете псле отравления
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+
+//---------------------
+
+#define LVAR_Flag_Status                   (6) // положение песонажа: 0 - в норме стоит дома, 2 - засыпает от алкоголя, 3 - убегает в туалет
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_local_var(LVAR_Flag_Status,0);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (local_var(LVAR_Flag_Status) == 3) then begin
+       timer_move_to_tile(1,TILE_TUALET,5)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       KillScorpTail(107) // фраза над жертвой (-1 если не нужна)
+   end
+end
+
+procedure critter_p_proc begin
+   if (local_var(LVAR_Flag_Status) < 2) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (itemTypeUseDude == 2) then begin
+   box_stop_use := 0;
+   display_mstr(106);
+   set_local_var(LVAR_Flag_Status,2); // алкоголь
+   end
+   if (itemTypeUseDude == 3) then begin
+   box_stop_use := 0;
+   floater(self_obj,102,COLOR_MSG_RED);
+   set_local_var(LVAR_Flag_Status,3); // еда
+   end
+   UsedToCrit_Scorp(108,3) // фраза над жертвой (-1 если не нужна), номер таймера
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (local_var(LVAR_Flag_Status) == 3) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   display_mstr(103);
+   end
+   else if (local_var(LVAR_Flag_Status) == 2) then begin
+   floater(self_obj,105,COLOR_MSG_RED);
+   display_mstr(103);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else if (bitDialog(bit_2) == 0) then begin
+      call NodeFstDialog5;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   BAnswer(201,1,NodeFstDialog2)
+   NAnswer(207,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(-35)
+   set_REP(-1)
+   zReply(202)
+   zNAnswer(204,1,NodeFstDialog3)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(208,1,NodeFstDialog4)
+   NAnswer(206,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(213)
+   NAnswer(214,1,NodeQst100)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(211,1,NodeQst100)
+   NAnswer(212,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if town_rep_is_liked then begin
+   Reply(231)
+   end
+   else if (getReaction>=25) then begin
+   Reply(232)
+   end
+   else begin
+   Reply(230)
+   end
+
+   if (getQuest(GVAR_GARAGE_QST_APPARAT) == qStart) then begin
+   NAnswer(250,1,NodeQst200)
+   end
+   NAnswer(240,3,NodeAnswer100)
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+/*
+Чем ты занимаешься, Фрэнк?
+Ну, я больше специалист по железу. Сварка, крепеж, полировка - я годами оттачивал свое мастерство.
+Должно быть, прибыльное дело?
+Когда-то это было так. Да и сейчас мои навыки восстребованы. Вот только работы в городе почти не осталось. К тому же кто-то украл мой сварочный аппарат.
+Когда-то это было так. Да и сейчас мои навыки восстребованы. Вот только работы в городе почти не осталось. К тому же та история со сварочным аппаратом была весьма не кстати.
+Можно задать тебе еще вопрос?
+Понятно. Пока.
+*/
+   Reply(241)
+   NAnswer(243,1,NodeAnswer101)
+   NAnswer(242,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(244)
+   NAnswer(245,1,NodeSndDialog)
+   NAnswer(246,1,Node999)
+end
+
+procedure NodeQst100 begin
+   bitDialogExp(bit_1,0)
+   bitDialogExp(bit_2,0)
+   Reply(215)
+   NAnswer(216,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(217)
+   NAnswer(218,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   setQuest(GVAR_GARAGE_QST_APPARAT, qStart);
+   setBonusReaction(10)
+   Reply(219)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER)>0) then begin
+   zBAnswer(221,1,NodeQst103)
+   end
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeQst103 begin
+   Reply(222)
+   NAnswer(223,1,Node999)
+end
+
+procedure NodeQst200 begin
+   Reply(251)
+   NAnswer(253,1,NodeQst201)
+   if (item_amnt(dude_obj,PID_Q_WELDING_MACHINE)>0) then begin
+   GAnswer(256,1,NodeQst202)
+   end
+   NAnswer(252,1,NodeSndDialog)
+end
+
+procedure NodeQst201 begin
+   Reply(254)
+   NAnswer(255,1,NodeSndDialog)
+end
+
+procedure NodeQst202 begin
+   item_remove(dude_obj,PID_Q_WELDING_MACHINE,1)
+   setQuest(GVAR_GARAGE_QST_APPARAT,qEnd);
+   item_remove(dude_obj,PID_Q_WELDING_MACHINE,1)
+   item_add(dude_obj,PID_BOOTLE_CAPS,proto_data(PID_Q_WELDING_MACHINE,it_cost))
+   setBonusReaction(50)
+   set_REP(3)
+   exp_add(250);
+
+   Reply(257)
+   NAnswer(258,1,NodeQst203)
+   NAnswer(262,1,NodeQst204)
+end
+
+procedure NodeQst203 begin
+   Reply(mstr(259)+proto_data(PID_Q_WELDING_MACHINE,it_cost)+mstr(260))
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeQst204 begin
+   setBonusReaction(25)
+   Reply(mstr(263)+proto_data(PID_Q_WELDING_MACHINE,it_cost)+mstr(264))
+   NAnswer(265,1,Node999)
+end

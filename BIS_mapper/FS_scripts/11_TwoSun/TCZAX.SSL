@@ -1,0 +1,278 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_TCZAX
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeSndDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog202;
+procedure NodeDialog203;
+procedure NodeDialog204;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog302;
+procedure NodeDialog303;
+procedure NodeDialog304;
+procedure NodeDialog310;
+procedure NodeDialog311;
+procedure NodeDialog312;
+procedure NodeDialogEnd1;
+procedure NodeDialogEnd2;
+procedure NodeDialogEnd3;
+
+#define LVAR_FirstDialog                (2) // 0 - первого диалога не было, 1 - диалог состоялся
+#define LVAR_Dialog_Quest               (3) // 0 - еще не дал своего квеста, 1 - дал свой квест
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   if (map_first_run == true) then begin
+   set_local_var(LVAR_Status, 1);
+   end
+   end
+end
+
+procedure use_p_proc begin
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+   script_overrides;
+   display_mstr(102);
+   end
+   else begin
+   CompProcUsing
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+   script_overrides;
+   display_mstr(102);
+   end
+   else begin
+   CompVarCheck(0)
+   CompSkillScience
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else if (objUsedPid == PID_RELICT_GAMEDISK) then begin
+      script_overrides;
+      if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 0) then begin
+      display_mstr(103);
+      end
+      else begin
+      display_mstr(102);
+      end
+   end
+end
+
+procedure sience_proc begin
+   CompProcSience(500)
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 0) then begin
+   dialog_proc_obj(NodeStartDialog)
+   end
+   else begin
+   display_mstr(102);
+   end
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (local_var(LVAR_FirstDialog) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeFstDialog begin
+   set_local_var(LVAR_FirstDialog,1);
+   Reply(200)
+   NAnswer(201,0,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,0,NodeSndDialog)
+end
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   NAnswer(220,0,NodeDialog100)
+   NAnswer(250,0,NodeDialog200)
+   NAnswer(300,0,NodeDialog300)
+   NAnswer(211,0,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(221)
+   NAnswer(222,0,NodeDialog101)
+   NAnswer(224,0,NodeDialog102)
+   if (map_var(MVAR_TWOSUN_ZAX_SOLAR) == 0) then begin
+   NAnswer(226,0,NodeDialog103)
+   end
+   NAnswer(228,0,NodeDialog104)
+   NAnswer(212,0,NodeSndDialog)
+end
+
+procedure NodeDialog101 begin
+   Reply(223)
+   NAnswer(212,0,NodeDialog100)
+end
+
+procedure NodeDialog102 begin
+   Reply(225)
+   NAnswer(212,0,NodeDialog100)
+end
+
+procedure NodeDialog103 begin
+   set_map_var(MVAR_TWOSUN_ZAX_SOLAR,1);
+   play_sfx("ELEVATO1");
+   Reply(227)
+   NAnswer(212,0,NodeDialog100)
+end
+
+procedure NodeDialog104 begin
+   Reply(229)
+   NAnswer(212,0,NodeDialog100)
+end
+
+procedure NodeDialog200 begin
+   Reply(251)
+   NAnswer(252,0,NodeDialog201)
+   NAnswer(254,0,NodeDialog202)
+   NAnswer(212,0,NodeSndDialog)
+end
+
+procedure NodeDialog201 begin
+   Reply(253)
+   if (global_var(GVAR_HOLODISK_05) != 0) then begin
+   NAnswer(256,0,NodeDialog203)
+   end
+   NAnswer(212,0,NodeDialog200)
+end
+
+procedure NodeDialog202 begin
+   Reply(255)
+   NAnswer(212,0,NodeDialog200)
+end
+
+procedure NodeDialog203 begin
+   Reply(257)
+   NAnswer(258,0,NodeDialog204)
+   NAnswer(212,0,NodeDialog200)
+end
+
+procedure NodeDialog204 begin
+   Reply(259)
+   NAnswer(212,0,NodeDialog200)
+end
+
+procedure NodeDialog300 begin
+   if (local_var(LVAR_Dialog_Quest) == 0) then begin
+   Reply(301)
+   NAnswer(302,0,NodeDialog301)
+   end
+   else begin
+   Reply(329)
+   NAnswer(212,0,NodeSndDialog)
+   NAnswer(326,0,Node999)
+   end
+end
+
+procedure NodeDialog301 begin
+   Reply(303)
+   NAnswer(304,0,NodeDialog302)
+end
+
+procedure NodeDialog302 begin
+   Reply(305)
+   NAnswer(306,0,NodeDialog303)
+end
+
+procedure NodeDialog303 begin
+   Reply(307)
+   NAnswer(308,0,NodeDialog304)
+end
+
+procedure NodeDialog304 begin
+   Reply(309)
+   NAnswer(310,0,NodeDialog310)
+   NAnswer(312,0,NodeDialog311)
+   NAnswer(314,0,NodeDialog312)
+   NAnswer(320,0,NodeDialogEnd1)
+   NAnswer(324,0,NodeDialogEnd2)
+end
+
+procedure NodeDialog310 begin
+   Reply(311)
+   NAnswer(312,0,NodeDialog311)
+   NAnswer(314,0,NodeDialog312)
+   NAnswer(320,0,NodeDialogEnd1)
+   NAnswer(324,0,NodeDialogEnd2)
+end
+
+procedure NodeDialog311 begin
+   Reply(313)
+   NAnswer(310,0,NodeDialog310)
+   NAnswer(314,0,NodeDialog312)
+   NAnswer(320,0,NodeDialogEnd1)
+   NAnswer(324,0,NodeDialogEnd2)
+end
+
+procedure NodeDialog312 begin
+   Reply(315)
+   NAnswer(310,0,NodeDialog310)
+   NAnswer(312,0,NodeDialog311)
+   NAnswer(320,0,NodeDialogEnd1)
+   NAnswer(324,0,NodeDialogEnd2)
+end
+
+procedure NodeDialogEnd1 begin
+   Reply(321)
+   NAnswer(322,0,Node999)
+   NAnswer(323,0,Node999)
+end
+
+procedure NodeDialogEnd2 begin
+   item_add(dude_obj,PID_ZAX_UPGRADE,1)
+   set_local_var(LVAR_Dialog_Quest,1);
+
+   Reply(325)
+   NAnswer(327,0,NodeDialogEnd3)
+   NAnswer(326,0,Node999)
+end
+
+procedure NodeDialogEnd3 begin
+   Reply(328)
+   NAnswer(326,0,Node999)
+end

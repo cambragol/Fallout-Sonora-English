@@ -1,0 +1,53 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_PSAtmElc
+#define SKILL_LIMIT                     35
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+variable itemUsed;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       itemUsed := create_object_sid(PID_BOOTLE_CAPS, self_tile, self_elevation, -1);
+                   use_obj_on_obj(itemUsed, self_obj);
+                   destroy_object(itemUsed);
+                   itemUsed := 0;
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_BOOTLE_CAPS) then begin
+      script_overrides;
+   end
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_PNX_PLANT_MAP_SOLAR,1);
+   RepairProcRepair(112,100,"ZAPPER1")
+   add_timer_event(self_obj, 1, 1); // Эта опция нужна для инициирования процедуры map_update_p_proc в ZTMap (уловка для обмана движка)
+end

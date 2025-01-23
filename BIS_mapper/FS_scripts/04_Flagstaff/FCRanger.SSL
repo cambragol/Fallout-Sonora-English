@@ -1,0 +1,751 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCRanger
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      80 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+//procedure NodeFstDialog2;
+//procedure NodeFstDialog3;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog110;
+procedure NodeFstDialog111;
+procedure NodeFstDialog123;
+procedure NodeFstDialog124;
+procedure NodeFstDialog125;
+procedure NodeFstDialog126;
+procedure NodeFstDialog150;
+procedure NodeFstDialog151;
+procedure NodeFstDialog152;
+procedure NodeFstDialog153;
+procedure NodeFstDialog170;
+procedure NodeFstDialog171;
+procedure NodeFstDialog172;
+procedure NodeFstDialogEnd;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer210;
+procedure NodeAnswer211;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+procedure NodeAnswer305;
+procedure NodeAnswer306;
+procedure NodeAnswer307;
+procedure NodeAnswer308;
+procedure NodeAnswer309;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodeAnswer403;
+procedure NodeAnswer404;
+procedure NodeAnswer405;
+procedure NodeAnswer406;
+procedure NodeAnswer407;
+procedure NodeAnswer408;
+procedure NodeAnswer409;
+procedure NodeAnswer410;
+procedure NodeGoHome;
+procedure NodeMines;
+procedure NodeMines0;
+procedure NodeMines1;
+procedure NodeMines2;
+procedure NodeMines3;
+procedure NodeMines4;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (global_var(GVAR_STATUS_FLAGSTAFF_RANGER) != 0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_STATUS_FLAGSTAFF_RANGER,-1);
+   set_gvar_bit_off(GVAR_RANGERS_RECOMMENDATION, bit_2); // сброс рекомендации для ГГ для базы рейнджеров
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_STATUS_FLAGSTAFF_RANGER) == 1) then begin
+   floater(self_obj,102,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_1);
+   Reply(200)
+   if (dude_iq >3) then begin
+   GAnswer(201,3,NodeFstDialog100)
+   BAnswer(204,3,NodeFstDialog101)
+   NAnswer(208,1,NodeFstDialog102)
+   end
+   else begin
+   NAnswer(214,1,NodeFstDialog102)
+   end
+end
+
+/*
+procedure NodeFstDialog2 begin
+   Reply(215)
+   NAnswer(216,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   bitDialogExp(bit_1,0)
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_1);
+   Reply(217)
+   NAnswer(218,1,Node999)
+end
+*/
+
+procedure NodeFstDialog100 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog101 begin
+   setBonusReaction(-20)
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog102)
+   BAnswer(207,1,Node998)
+end
+
+procedure NodeFstDialog102 begin
+   setBonusReaction(-20)
+   Reply(209)
+   NAnswer(210,1,NodeFstDialog103)
+   BAnswer(213,1,Node998)
+end
+
+procedure NodeFstDialog103 begin
+   bitDialogExp(bit_2,50)
+   Reply(211)
+   zNAnswer(220,1,NodeFstDialog105)
+   BAnswer(260,1,NodeFstDialog150)
+   NAnswer(280,1,NodeFstDialog170)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   NAnswer(283,1,NodeFstDialog171)
+   end
+end
+
+procedure NodeFstDialog104 begin
+   Reply(212)
+   BAnswer(260,1,NodeFstDialog150)
+   NAnswer(280,1,NodeFstDialog170)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   NAnswer(283,1,NodeFstDialog171)
+   end
+end
+
+procedure NodeFstDialog105 begin
+   Reply(221)
+
+   NAnswerSkill(222,1,NodeFstDialog111,SKILL_SCOUT,50,222,NodeFstDialog110)
+   NAnswerSkill(223,1,NodeFstDialog111,SKILL_REPAIR,50,223,NodeFstDialog110)
+   NAnswerSkill(224,1,NodeFstDialog111,SKILL_SCIENCE,50,224,NodeFstDialog110)
+   NAnswerSkill(225,1,NodeFstDialog111,SKILL_CONVERSANT,50,225,NodeFstDialog110)
+   NAnswer(226,1,NodeFstDialog104)
+   NAnswer(227,1,Node998)
+end
+
+procedure NodeFstDialog110 begin
+   setBonusReaction(-20)
+   Reply(230)
+   NAnswer(231,1,NodeFstDialog104)
+   BAnswer(232,1,Node998)
+end
+
+procedure NodeFstDialog111 begin
+   bitDialogExp(bit_3,100)
+   setBonusReaction(20)
+   Reply(233)
+   NAnswerSkill(234,1,NodeFstDialog125,SKILL_TRAPS,50,234,NodeFstDialog126)
+   NAnswerStat(235,1,NodeFstDialog125,STAT_pe,7,235,NodeFstDialog126)
+   NAnswerSkill(236,1,NodeFstDialog125,SKILL_CONVERSANT,50,236,NodeFstDialog126)
+   if (dude_cur_hits < dude_max_hits) then begin
+   NAnswer(237,1,NodeFstDialog123)
+   end
+   NAnswer(238,1,NodeFstDialog124)
+end
+
+procedure NodeFstDialog123 begin
+   call NodeFstDialog126;
+end
+
+procedure NodeFstDialog124 begin
+   call NodeFstDialog126;
+end
+
+procedure NodeFstDialog125 begin
+   bitDialogExp(bit_4,100)
+   setBonusReaction(20)
+   call NodeFstDialog126;
+end
+
+procedure NodeFstDialog126 begin
+   Reply(240)
+   NAnswer(241,1,NodeFstDialogEnd)
+end
+
+procedure NodeFstDialog150 begin
+   Reply(261)
+   BAnswer(262,1,Node998)
+   NAnswer(263,1,NodeFstDialog151)
+end
+
+procedure NodeFstDialog151 begin
+   Reply(264)
+   NAnswer(265,1,NodeFstDialog152)
+   BAnswer(266,1,Node998)
+end
+
+procedure NodeFstDialog152 begin
+   Reply(267)
+   BAnswer(266,1,Node998)
+   zNAnswer(268,1,NodeFstDialog153)
+end
+
+procedure NodeFstDialog153 begin
+   Reply(269)
+   NAnswer(270,1,NodeFstDialogEnd)
+   BAnswer(271,1,Node998)
+end
+
+procedure NodeFstDialog170 begin
+   Reply(281)
+   NAnswer(282,1,NodeFstDialogEnd)
+end
+
+procedure NodeFstDialog171 begin
+   Reply(284)
+   NAnswer(285,1,NodeFstDialog172)
+end
+
+procedure NodeFstDialog172 begin
+   bitDialogExp(bit_5,100)
+   Reply(286)
+   NAnswer(252,1,NodeSndDialog)
+   NAnswer(287,1,Node999)
+end
+
+procedure NodeFstDialogEnd begin
+   bitDialogExp(bit_5,100)
+   Reply(250)
+   NAnswer(252,1,NodeSndDialog)
+   NAnswer(251,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(300)
+
+   //- вопросы
+   NAnswer(330,1,NodeAnswer100)
+   if (bitDialog(bit_6) != 0) then begin
+      if (global_var(GVAR_TITUL_ARIZONA_RANGER) == 0) then begin
+      NAnswer(370,1,NodeAnswer200)
+      end
+      NAnswer(400,1,NodeAnswer300)
+
+      if (bitDialog(bit_13) != 0) then begin
+         if (global_var(GVAR_STATUS_FLAGSTAFF_FABER) == -1) then begin
+         NAnswer(480,1,NodeAnswer410)
+         end
+         else begin
+         NAnswer(450,1,NodeAnswer400)
+         end
+      end
+   end
+
+   //- ловушки
+   if (map_var(MVAR_FLAGMUS_TRAPS_VSBL) == 0) then begin
+   NAnswer(310,1,NodeMines)
+   end
+
+   NAnswer(301,1,Node999)
+end
+
+//--- ВОПРОСЫ О СЕБE
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_6,20)
+
+   Reply(331)
+   NAnswer(334,1,NodeAnswer101)
+   NAnswer(336,1,NodeAnswer102)
+   if (bitDialog(bit_8) == 0) then begin
+   NAnswerSkill(342,3,NodeAnswer105,SKILL_SCIENCE,80,342,NodeAnswer105)
+   end
+   if ((bitDialog(bit_7) != 0) and (bitDialog(bit_9) == 0)) then begin
+   NAnswer(346,1,NodeAnswer107)
+   end
+
+   NAnswer(333,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(335)
+   NAnswer(332,1,NodeAnswer100)
+   NAnswer(333,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(337)
+   NAnswer(338,5,NodeAnswer103)
+   NAnswer(332,1,NodeAnswer100)
+   NAnswer(333,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(339)
+   NAnswer(340,1,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_7,50)
+   Reply(341)
+   NAnswer(332,1,NodeAnswer100)
+   NAnswer(333,1,NodeSndDialog)
+end
+
+procedure NodeAnswer105 begin
+   Reply(343)
+   if dude_skill(SKILL_SCIENCE,80) then begin
+   NAnswer(344,1,NodeAnswer106)
+   end
+   NAnswer(332,1,NodeAnswer100)
+   NAnswer(333,1,NodeSndDialog)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_8,100)
+   setBonusReaction(25)
+   Reply(345)
+   NAnswer(332,1,NodeAnswer100)
+   NAnswer(333,1,NodeSndDialog)
+end
+
+procedure NodeAnswer107 begin
+   bitDialogExp(bit_9,0)
+   item_add(dude_obj,PID_AMMO_308,6)
+   Reply(347)
+   NAnswer(348,1,NodeSndDialog)
+   GAnswer(349,1,NodeSndDialog)
+end
+
+//--- ВОПРОСЫ О РЕЙНДЖЕРАХ
+
+procedure NodeAnswer200 begin
+   Reply(371)
+
+   NAnswer(374,1,NodeAnswer201)
+   zNAnswer(378,1,NodeAnswer203)
+   NAnswer(380,1,NodeAnswer204)
+   if (town_known(AREA_RANGERS) == MARK_STATE_UNKNOWN) then begin
+   NAnswer(384,1,NodeAnswer206)
+   end
+
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   Reply(375)
+   NAnswer(376,1,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   Reply(377)
+   NAnswer(372,1,NodeAnswer200)
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeAnswer203 begin
+   Reply(379)
+   NAnswer(372,1,NodeAnswer200)
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeAnswer204 begin
+   Reply(381)
+   NAnswer(382,6,NodeAnswer205)
+   NAnswer(372,1,NodeAnswer200)
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeAnswer205 begin
+   bitDialogExp(bit_10,20)
+   Reply(383)
+   NAnswer(372,1,NodeAnswer200)
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeAnswer206 begin
+   Reply(385)
+
+   NAnswerReaction(386,1,NodeAnswer211,50,386,NodeAnswer210)
+   NAnswerSlava(387,1,NodeAnswer211,50,387,NodeAnswer210)
+   NAnswerSkill(388,1,NodeAnswer211,SKILL_CONVERSANT,50,388,NodeAnswer210)
+
+   NAnswer(372,1,NodeAnswer200)
+   NAnswer(373,1,NodeSndDialog)
+end
+
+procedure NodeAnswer210 begin
+   Reply(390)
+   NAnswer(391,1,NodeSndDialog)
+   BAnswer(392,1,NodeSndDialog)
+end
+
+procedure NodeAnswer211 begin
+   bitDialogExp(bit_11,20)
+   mark_on_map(AREA_RANGERS)
+   Reply(393)
+   NAnswer(394,1,NodeSndDialog)
+end
+
+//--- ВОПРОСЫ О СВОЕЙ МИССИИ
+
+procedure NodeAnswer300 begin
+   Reply(401)
+
+   NAnswer(405,1,NodeAnswer301)
+   NAnswer(409,1,NodeAnswer303)
+   NAnswer(411,1,NodeAnswer304)
+   if (getQuest(GVAR_FLAGSTAFF_RANGER_KILL) > qZero) then begin
+   NAnswer(414,1,NodeAnswer305)
+   end
+
+   if (global_var(GVAR_STATUS_FLAGSTAFF_FABER) == -1) then begin
+   NAnswer(480,1,NodeAnswer410)
+   end
+   else begin
+   NAnswer(450,1,NodeAnswer400)
+   end
+
+   NAnswer(403,1,NodeSndDialog)
+end
+
+procedure NodeAnswer301 begin
+   Reply(406)
+   NAnswer(407,1,NodeAnswer302)
+   NAnswer(404,1,NodeAnswer300)
+   NAnswer(403,1,NodeSndDialog)
+end
+
+procedure NodeAnswer302 begin
+   Reply(408)
+   NAnswer(404,1,NodeAnswer300)
+   NAnswer(403,1,NodeSndDialog)
+end
+
+procedure NodeAnswer303 begin
+   Reply(410)
+   NAnswer(404,1,NodeAnswer300)
+   NAnswer(403,1,NodeSndDialog)
+end
+
+procedure NodeAnswer304 begin
+   Reply(412)
+   NAnswer(422,3,NodeAnswer309)
+   NAnswer(413,1,NodeAnswer300)
+end
+
+procedure NodeAnswer305 begin
+   Reply(415)
+   NAnswer(416,1,NodeAnswer306)
+   NAnswer(418,1,NodeAnswer307)
+   NAnswer(420,1,NodeAnswer308)
+   NAnswer(413,1,NodeAnswer300)
+end
+
+procedure NodeAnswer306 begin
+   Reply(417)
+   NAnswer(418,1,NodeAnswer307)
+   NAnswer(420,1,NodeAnswer308)
+   NAnswer(413,1,NodeAnswer300)
+end
+
+procedure NodeAnswer307 begin
+   Reply(419)
+   NAnswer(416,1,NodeAnswer306)
+   NAnswer(420,1,NodeAnswer308)
+   NAnswer(413,1,NodeAnswer300)
+end
+
+procedure NodeAnswer308 begin
+   Reply(421)
+   NAnswer(416,1,NodeAnswer306)
+   NAnswer(418,1,NodeAnswer307)
+   NAnswer(413,1,NodeAnswer300)
+end
+
+procedure NodeAnswer309 begin
+   Reply(423)
+   NAnswer(413,1,NodeAnswer300)
+end
+
+//--- УХОД ИЗ ФЛАГПУЛА
+
+procedure NodeAnswer400 begin
+   bitDialogExp(bit_13,0)
+   Reply(451)
+   NAnswer(454,1,NodeAnswer401)
+   if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+   NAnswer(456,1,NodeAnswer402)
+   end
+   else if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_5) != 0) then begin
+   NAnswer(462,1,NodeAnswer404)
+   end
+   NAnswerSkill(467,1,NodeAnswer406,SKILL_CONVERSANT,40,467,NodeAnswer406)
+   NAnswer(452,1,NodeSndDialog)
+   BAnswer(453,1,Node999)
+end
+
+procedure NodeAnswer401 begin
+   Reply(455)
+   NAnswer(452,1,NodeSndDialog)
+   BAnswer(453,1,Node999)
+end
+
+procedure NodeAnswer402 begin
+   Reply(457)
+   NAnswer(459,1,NodeAnswer403)
+   NAnswer(458,1,Node999)
+end
+
+procedure NodeAnswer403 begin
+   call NodeGoHome;
+   Reply(460)
+   NAnswer(461,1,Node999)
+end
+
+procedure NodeAnswer404 begin
+   Reply(463)
+   NAnswer(464,1,NodeAnswer405)
+end
+
+procedure NodeAnswer405 begin
+   call NodeGoHome;
+   Reply(465)
+   NAnswer(466,1,Node999)
+end
+
+procedure NodeAnswer406 begin
+   Reply(468)
+   if dude_skill(SKILL_CONVERSANT,40) then begin
+   NAnswer(471,1,NodeAnswer407)
+   end
+   NAnswer(469,1,NodeSndDialog)
+   NAnswer(470,1,Node999)
+end
+
+procedure NodeAnswer407 begin
+   Reply(472)
+   NAnswerSkill(473,1,NodeAnswer409,SKILL_CONVERSANT,80,473,NodeAnswer408)
+   NAnswer(474,1,NodeSndDialog)
+   NAnswer(470,1,Node999)
+end
+
+procedure NodeAnswer408 begin
+   Reply(475)
+   NAnswer(474,1,NodeSndDialog)
+   NAnswer(470,1,Node999)
+end
+
+procedure NodeAnswer409 begin
+   call NodeGoHome;
+   zReply(476)
+   NAnswer(477,1,Node999)
+   NAnswer(478,1,Node999)
+end
+
+procedure NodeAnswer410 begin
+   call NodeGoHome;
+   Reply(481)
+   NAnswer(482,1,Node999)
+   NAnswer(483,1,Node999)
+end
+
+procedure NodeGoHome begin
+   bitDialogExp(bit_12,250)
+   set_map_var(MVAR_FLAGMUS_TRAPS_VSBL,1);
+   set_global_var(GVAR_STATUS_FLAGSTAFF_RANGER,1);
+   set_gvar_bit_on(GVAR_RANGERS_RECOMMENDATION, bit_2);
+end
+
+//--- ЛОВУШКИ В МУЗЕЕ
+
+procedure NodeMines begin
+   Reply(311)
+   if (getReaction >= 50) then begin
+   NAnswerReaction(321,1,NodeMines4,50,321,NodeMines3)
+   end
+   NAnswerSkill(316,3,NodeMines2,SKILL_CONVERSANT,40,316,NodeMines3)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   NAnswer(313,1,NodeMines1)
+   end
+   NAnswer(312,1,Node999)
+end
+
+procedure NodeMines0 begin
+   set_map_var(MVAR_FLAGMUS_TRAPS_VSBL,1);
+   display_mstr(320);
+end
+
+procedure NodeMines1 begin
+   call NodeMines0;
+   Reply(314)
+   NAnswer(315,1,Node999)
+end
+
+procedure NodeMines2 begin
+   call NodeMines0;
+   Reply(317)
+   NAnswer(318,1,Node999)
+end
+
+procedure NodeMines3 begin
+   Reply(319)
+   NAnswer(312,1,Node999)
+end
+
+procedure NodeMines4 begin
+   call NodeMines0;
+   Reply(322)
+   NAnswer(323,1,Node999)
+end

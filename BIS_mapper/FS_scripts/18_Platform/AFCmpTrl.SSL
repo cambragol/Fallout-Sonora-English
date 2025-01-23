@@ -1,0 +1,198 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_AFCmpTrl
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+procedure NodeDialog105;
+procedure NodeDialog106;
+procedure NodeDialog107;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_local_var(LVAR_Status, 1);
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (objUsedPid == PID_KEY_OILPLATFORM) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   if (cur_map_index == MAP_OIL_PLATFORM) then begin
+      if (map_var(MVAR_OIL_PLATFORM_TUREL_VERT) == 0) then begin
+      NAnswer(210,0,NodeDialog100)
+      end
+      if (map_var(MVAR_OIL_PLATFORM_TUREL_VERT) > 0) then begin
+      NAnswer(217,0,NodeDialog102)
+      end
+      if (map_var(MVAR_OIL_PLATFORM_SOLAR_VERT) == 0) then begin
+      NAnswer(221,0,NodeDialog107)
+      end
+   end
+   if (cur_map_index == MAP_OIL_PLATFORMDRILL) then begin
+      if (map_var(MVAR_OIL_PLATFORM_TUREL_DRILL) == 0) then begin
+      NAnswer(210,0,NodeDialog103)
+      end
+      if (map_var(MVAR_OIL_PLATFORM_TUREL_DRILL) > 0) then begin
+      NAnswer(217,0,NodeDialog105)
+      end
+      if (map_var(MVAR_OIL_PLATFORM_SOLAR_DRILL) == 0) then begin
+      NAnswer(219,0,NodeDialog106)
+      end
+   end
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog100 begin
+   if (global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK) > 0) then begin
+   Reply(212)
+   NAnswer(213,0,NodeDialog101)
+   NAnswer(214,0,NodeDialog)
+   end
+   else begin
+   Reply(211)
+   NAnswer(204,0,NodeDialog)
+   end
+end
+
+procedure NodeDialog101 begin
+   set_map_var(MVAR_OIL_PLATFORM_TUREL_VERT,1);
+   Reply(215)
+   NAnswer(202,0,NodeDialog)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog102 begin
+   set_map_var(MVAR_OIL_PLATFORM_TUREL_VERT,0);
+   Reply(218)
+   NAnswer(202,0,NodeDialog)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog103 begin
+   if (global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK) > 0) then begin
+   Reply(212)
+   NAnswer(213,0,NodeDialog104)
+   NAnswer(214,0,NodeDialog)
+   end
+   else begin
+   Reply(211)
+   NAnswer(204,0,NodeDialog)
+   end
+end
+
+procedure NodeDialog104 begin
+   set_map_var(MVAR_OIL_PLATFORM_TUREL_DRILL,1);
+   Reply(215)
+   NAnswer(202,0,NodeDialog)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog105 begin
+   set_map_var(MVAR_OIL_PLATFORM_TUREL_DRILL,0);
+   Reply(218)
+   NAnswer(202,0,NodeDialog)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog106 begin
+   set_map_var(MVAR_OIL_PLATFORM_SOLAR_DRILL,1);
+   create_object_sid(PID_HEX_SOLAR, 21330, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 17528, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 17118, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 17109, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 19314, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 21714, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 21899, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 21881, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 17479, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 15877, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 19299, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 16896, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 17108, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 19680, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 20717, 0, -1);
+   create_object_sid(PID_HEX_SOLAR, 22141, 0, -1);
+
+   create_object_sid(PID_HEX_SOLAR, 21490, 1, -1);
+   create_object_sid(PID_HEX_SOLAR, 20512, 1, -1);
+
+   create_object_sid(PID_HEX_SOLAR, 19492, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 21088, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 19912, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 21901, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 18512, 2, -1);
+
+   Reply(220)
+   NAnswer(202,0,NodeDialog)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog107 begin
+   set_map_var(MVAR_OIL_PLATFORM_SOLAR_VERT,1);
+
+   create_object_sid(PID_HEX_SOLAR, 21095, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 21917, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 21902, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 18318, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 18302, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 20110, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 19498, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 20320, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 22710, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 18910, 2, -1);
+   create_object_sid(PID_HEX_SOLAR, 20705, 2, -1);
+
+   Reply(220)
+   NAnswer(202,0,NodeDialog)
+   NAnswer(201,0,Node999)
+end

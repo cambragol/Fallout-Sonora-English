@@ -423,9 +423,12 @@ end
 
 procedure NodeQuest100 begin
    Reply(261)
-   NAnswer(262,2,NodeQuest101)
+   // made these mutually exclusive, because it makes more sense - cambragol
    if (global_var(GVAR_FLAGSTAFF_ROBOT_STATUS) == 1) then begin
-   NAnswer(264,1,NodeQuest102)
+      NAnswer(264,1,NodeQuest102)
+   end
+   else begin
+      NAnswer(262,2,NodeQuest101)
    end
    NAnswer(257,1,NodeSndDialog)
 end

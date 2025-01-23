@@ -1,0 +1,418 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCCasTlk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeSndDialog;
+procedure NodeSndDialog1;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog100;
+procedure NodeSndDialog101;
+procedure NodeSndDialog102;
+procedure NodeSndDialog103;
+procedure NodeSndDialog104;
+procedure NodeSndDialog105;
+procedure NodeSndDialog106;
+procedure NodeSndDialog107;
+procedure NodeSndDialog108;
+procedure NodeSndDialog109;
+procedure NodeSndDialog110;
+procedure NodeSndDialog111;
+procedure NodeSndDialog200;
+procedure NodeSndDialog201;
+procedure NodeSndDialog202;
+procedure NodeSndDialog203;
+procedure NodeSndDialog204;
+procedure NodeSndDialog207;
+procedure NodeSndDialog208;
+procedure NodeSndDialog209;
+procedure NodeSndDialog210;
+procedure NodeSndDialog211;
+
+//---------------------
+
+#define LVAR_Flag_Alcoghol                   (6) // фиксирует факт применения алкоголя
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (itemTypeUseDude == 2) then begin
+      if (local_var(LVAR_Flag_Alcoghol) == 0) then begin
+      bitDialogExp(bit_1,0)
+      inc_local_var(LVAR_Flag_Alcoghol);
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   killCasinoRepCity(-1)
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_PHENIX_CASINO,10) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(1,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (local_var(LVAR_Flag_Alcoghol) == 0) then begin
+   call NodeFstDialog5;
+   end
+   else if (bitDialog(bit_2) == 0) then begin
+   call NodeSndDialog;
+   end
+   else begin
+   call NodeSndDialog3;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   zReply(202)
+   zNAnswer(203,1,NodeFstDialog3)
+   NAnswer(207,1,NodeFstDialog4)
+   NAnswer(206,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   zBAnswer(205,1,Node999)
+   NAnswer(210,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog5 begin
+   zReply(211)
+   zNAnswer(203,1,NodeFstDialog3)
+   NAnswer(207,1,NodeFstDialog4)
+   NAnswer(206,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   bitDialogExp(bit_2,100)
+   Reply(220)
+   NAnswer(227,1,NodeSndDialog1)
+   NAnswer(228,1,NodeSndDialog1)
+end
+
+procedure NodeSndDialog1 begin
+   Reply(229)
+   NAnswer(221,1,NodeSndDialog2)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(230)
+   NAnswer(231,1,NodeSndDialog100)
+   NAnswer(232,1,NodeSndDialog100)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(225)
+
+   if (getQuest(GVAR_PHENIX_QST_MOTEL) == qZero) then begin
+   if (bitDialog(bit_3) != 0) then begin
+   NAnswer(280,1,NodeSndDialog200)
+   end
+   end
+
+   if (getQuest(GVAR_PHENIX_QST_MOTEL) == qStart) then begin
+   NAnswer(286,1,NodeSndDialog202)
+   if (global_var(GVAR_PHENIX_STATUS_MOTELMNSTR) >= 3) then begin
+   GAnswer(289,1,NodeSndDialog203)
+   end
+   end
+
+   NAnswer(226,1,Node999)
+end
+
+//--- РАССКАЗ
+
+procedure NodeSndDialog100 begin
+   Reply(233)
+   NAnswer(234,1,NodeSndDialog101)
+   NAnswer(235,1,NodeSndDialog101)
+end
+
+procedure NodeSndDialog101 begin
+   Reply(236)
+   zNAnswer(237,1,NodeSndDialog102)
+   GAnswer(240,1,NodeSndDialog103)
+   NAnswer(243,1,NodeSndDialog104)
+end
+
+procedure NodeSndDialog102 begin
+   setBonusReaction(-10)
+   Reply(238)
+   NAnswer(239,1,NodeSndDialog105)
+end
+
+procedure NodeSndDialog103 begin
+   setBonusReaction(10)
+   Reply(241)
+   NAnswer(242,1,NodeSndDialog105)
+end
+
+procedure NodeSndDialog104 begin
+   Reply(244)
+   NAnswer(245,1,NodeSndDialog105)
+end
+
+procedure NodeSndDialog105 begin
+   Reply(250)
+   zNAnswer(251,1,NodeSndDialog106)
+   NAnswer(252,1,NodeSndDialog106)
+end
+
+procedure NodeSndDialog106 begin
+   Reply(253)
+   if (town_known(AREA_OLD_MOTEL) == MARK_STATE_VISITED) then begin
+   NAnswer(254,1,NodeSndDialog107)
+   end
+   else begin
+   NAnswer(254,1,NodeSndDialog207)
+   end
+end
+
+procedure NodeSndDialog107 begin
+   Reply(255)
+   NAnswer(256,1,NodeSndDialog108)
+end
+
+procedure NodeSndDialog108 begin
+   Reply(257)
+   NAnswer(262,3,NodeSndDialog109)
+   NAnswer(258,1,NodeSndDialog110)
+   BAnswer(264,1,NodeSndDialog111)
+end
+
+procedure NodeSndDialog109 begin
+   Reply(263)
+   NAnswer(258,1,NodeSndDialog110)
+   BAnswer(264,1,NodeSndDialog111)
+end
+
+procedure NodeSndDialog110 begin
+   setBonusReaction(20)
+   Reply(259)
+   NAnswer(260,1,Node999)
+   BAnswer(261,1,Node999)
+end
+
+procedure NodeSndDialog111 begin
+   setBonusReaction(-20)
+   Reply(265)
+   NAnswer(260,1,Node999)
+   BAnswer(261,1,Node999)
+end
+
+procedure NodeSndDialog200 begin
+   setQuest(GVAR_PHENIX_QST_MOTEL, qStart);
+   Reply(281)
+   NAnswer(283,1,NodeSndDialog201)
+   NAnswer(282,1,Node999)
+end
+
+procedure NodeSndDialog201 begin
+   Reply(284)
+   NAnswer(285,1,Node999)
+end
+
+procedure NodeSndDialog202 begin
+   Reply(287)
+   NAnswer(288,1,Node999)
+end
+
+procedure NodeSndDialog203 begin
+   Reply(290)
+   NAnswer(291,1,NodeSndDialog204)
+end
+
+procedure NodeSndDialog204 begin
+   setQuest(GVAR_PHENIX_QST_MOTEL, qEnd);
+   set_SLAVA(25)
+   item_add(dude_obj,PID_M_TEQUILA,1)
+   Reply(292)
+   NAnswer(293,1,Node999)
+end
+
+procedure NodeSndDialog207 begin
+   bitDialogExp(bit_3,0)
+   Reply(268)
+   NAnswer(269,1,NodeSndDialog208)
+end
+
+procedure NodeSndDialog208 begin
+   Reply(270)
+   NAnswer(271,3,NodeSndDialog209)
+   NAnswer(273,1,NodeSndDialog210)
+   BAnswer(277,1,NodeSndDialog211)
+end
+
+procedure NodeSndDialog209 begin
+   Reply(272)
+   NAnswer(273,1,NodeSndDialog210)
+   BAnswer(277,1,NodeSndDialog211)
+end
+
+procedure NodeSndDialog210 begin
+   setBonusReaction(20)
+   Reply(274)
+   NAnswer(275,1,Node999)
+   BAnswer(276,1,Node999)
+end
+
+procedure NodeSndDialog211 begin
+   setBonusReaction(-20)
+   zReply(278)
+   NAnswer(275,1,Node999)
+   BAnswer(276,1,Node999)
+end
+
+/*
+
+ПЕРВАЯ ВЕРСИЯ
+
+procedure NodeSndDialog107 begin
+   Reply(255)
+   NAnswer(256,1,NodeSndDialog108)
+end
+
+procedure NodeSndDialog108 begin
+   Reply(257)
+   NAnswer(262,3,NodeSndDialog109)
+   NAnswer(258,1,NodeSndDialog110)
+   BAnswer(264,1,NodeSndDialog111)
+end
+
+procedure NodeSndDialog109 begin
+   Reply(263)
+   NAnswer(258,1,NodeSndDialog110)
+   BAnswer(264,1,NodeSndDialog111)
+end
+
+procedure NodeSndDialog110 begin
+   setBonusReaction(20)
+   Reply(259)
+   NAnswer(260,1,Node999)
+   BAnswer(261,1,Node999)
+end
+
+procedure NodeSndDialog111 begin
+   setBonusReaction(-20)
+   Reply(265)
+   NAnswer(260,1,Node999)
+   BAnswer(261,1,Node999)
+end
+*/

@@ -1,0 +1,53 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSVltGen
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+variable itemUsed;
+
+
+
+procedure start begin
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       itemUsed := create_object_sid(PID_BOOTLE_CAPS, self_tile, self_elevation, -1);
+                   use_obj_on_obj(itemUsed, self_obj);
+                   destroy_object(itemUsed);
+                   itemUsed := 0;
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else RepairUsedJunk(PID_GENERATOR_ENERGY,100) // (pid,limit,bonus) - parts, limit on number of uses, bonus to skill (usually 20)
+   else RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20)
+   else RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20)
+   else if (objUsedPid == PID_BOOTLE_CAPS) then begin
+   script_overrides;
+   end
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_DIEGOVLT_ENERGY, 1);
+   RepairProcRepair(112,50,"COOLANT")
+   add_timer_event(self_obj, 1, 1); // Эта опция нужна для инициирования процедуры map_update_p_proc в ZTMap (уловка для обмана движка)
+end

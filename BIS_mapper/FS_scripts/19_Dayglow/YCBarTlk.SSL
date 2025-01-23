@@ -1,0 +1,251 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCBarTlk
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog110;
+
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if ((objUsedPid == PID_Q_DAYGLOW_BORDERBADGE_A) or (objUsedPid == PID_Q_DAYGLOW_BORDERBADGE_B)) then begin
+       script_overrides;
+       floater(self_obj, 104, COLOR_MSG_NORMAL);
+   end
+   if (itemTypeUseDude == 2) then begin
+       bitDialogExp(bit_2,0)
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,2,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,80) // поправка к отношению за принадлежность к фракции
+   if (get_REP <= -15) then begin
+   floater(self_obj, 102, COLOR_MSG_RED);
+   end
+   else if (DudePerkHas(PERK_ghouling_fiziology) or (bitDialog(bit_2) != 0) or (get_REP >= 15)) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj, 103, COLOR_MSG_RED);
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog101;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog101 begin
+   bitDialogExp(bit_1,150)
+   set_REP(1)
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(200)
+   end
+   else if (bitDialog(bit_2) != 0) then begin
+   Reply(201)
+   end
+   else begin
+   Reply(202)
+   end
+   NAnswer(203,4,NodeFstDialog102)
+   NAnswer(250,-3,NodeFstDialog102)
+end
+
+procedure NodeFstDialog102 begin
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(204)
+   NAnswer(205,0,NodeFstDialog103)
+   end
+   else begin
+   Reply(206)
+   NAnswer(207,0,NodeFstDialog103)
+   end
+end
+
+procedure NodeFstDialog103 begin
+   Reply(208)
+   NAnswer(209,4,NodeFstDialog104)
+   NAnswer(251,-3,NodeFstDialog104)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(210)
+   BAnswer(211,4,NodeFstDialog105)
+   GAnswer(213,4,NodeFstDialog106)
+   BAnswer(252,-3,NodeFstDialog105)
+   GAnswer(253,-3,NodeFstDialog106)
+end
+
+procedure NodeFstDialog105 begin
+   setBonusReaction(-10)
+   set_REP(-1)
+   Reply(212)
+   NAnswer(215,4,NodeFstDialog107)
+   NAnswer(254,-3,NodeFstDialog107)
+end
+
+procedure NodeFstDialog106 begin
+   setBonusReaction(10)
+   set_REP(1)
+   zReply(214)
+   NAnswer(215,4,NodeFstDialog107)
+   NAnswer(254,-3,NodeFstDialog107)
+end
+
+procedure NodeFstDialog107 begin
+   Reply(216)
+   NAnswer(217,0,NodeFstDialog108)
+end
+
+procedure NodeFstDialog108 begin
+   Reply(218)
+   BAnswer(219,4,NodeFstDialog109)
+   GAnswer(222,4,NodeFstDialog110)
+   BAnswer(255,-3,NodeFstDialog109)
+   GAnswer(256,-3,NodeFstDialog110)
+end
+
+procedure NodeFstDialog109 begin
+   setBonusReaction(-10)
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(225)
+   end
+   else begin
+   Reply(220)
+   end
+   NAnswer(221,4,Node999)
+   NAnswer(257,-3,Node999)
+end
+
+procedure NodeFstDialog110 begin
+   zReply(223)
+   NAnswer(224,4,Node999)
+   NAnswer(258,-3,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(230)
+   NAnswer(231,4,Node999)
+   NAnswer(258,-3,Node999)
+end

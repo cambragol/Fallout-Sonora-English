@@ -1,0 +1,85 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_EncMtntD
+
+procedure start;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure reactor_stop;
+
+
+
+procedure start begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call reactor_stop;
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+   else if (objUsedPid == PID_W_SLEDGEHAMMER) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+   else if (objUsedPid == PID_W_HAMMER) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+   else if (objUsedPid == PID_W_SUPER_SLEDGE) then begin
+      script_overrides;
+      call reactor_stop;
+   end
+end
+
+procedure damage_p_proc begin
+   script_overrides;
+   call reactor_stop;
+end
+
+procedure reactor_stop begin
+   if (map_var(MVAR_ENC_SMUTANT_REACTOR) == 0) then begin
+   play_sfx("ZAPPER1");
+   display_mstr(102);
+   set_map_var(MVAR_ENC_SMUTANT_REACTOR,1);
+   end
+   else begin
+   display_mstr(103);
+   end
+end

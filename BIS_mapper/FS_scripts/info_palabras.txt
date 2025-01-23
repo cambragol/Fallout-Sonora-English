@@ -1,30 +1,30 @@
-Font FONT1.AAF
+Ўрифт FONT1.AAF
 
-Character code in ASCII and in the utility / symbol for insertion into the text / explanation
+ од знака в ASCII и в утилите / символ дл€ вставки в текст / по€снение
 
-191 њ inverted question
-161 ° inverted exclamation
-136 И chant
+191	њ 	перевернутый вопрос
+161	° 	перевернутое восклицание
+136	И 	напев
 
-Accent letters:
+”дарные буквы:
 
-142 О (reserved for accented A)
-158 Ю accented a (lowercase)
+142	О	(зарезервировано под ударный A)
+158	Ю	ударный a (строчный)
 
-128 А (reserved for accented E)
-144 Р accented e (lowercase)
+128	А	(зарезервировано под ударный E)
+144	Р	ударный e (строчный)
 
-138 К (reserved for accented I)
-154 Ъ accented i (lowercase)
+138	К	(зарезервировано под ударный I)
+154	Ъ	ударный i (строчный)
 
-140 М (reserved for accented N)
-156 Ь accented n (lowercase)
+140	М	(зарезервировано под ударный N)
+156	Ь	ударный n (строчный)
 
-129 Б (reserved for accented O)
-131 Г accented o (lowercase)
+129	Б	(зарезервировано под ударный O)
+131	Г	ударный o (строчный)
 
-143 П (reserved for accented under stressed U)
-159 Я stressed u (lowercase)
+143	П	(зарезервировано под ударный U)
+159	Я	ударный u (строчный)
 
-141 Н (reserved for any new symbol)
-157 Э (reserved for any new symbol)
+141	Н	(зарезервировано под любой новый символ)
+157	Э	(зарезервировано под любой новый символ)

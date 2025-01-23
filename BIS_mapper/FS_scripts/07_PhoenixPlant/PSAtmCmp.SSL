@@ -1,0 +1,112 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_PSAtmCmp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog300;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(50)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(150)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   NAnswer(220,1,NodeDialog200)
+   NAnswer(230,1,NodeDialog300)
+   //NAnswer(232,1,NodeDialog301)
+   if ((getQuest(GVAR_GARAGE_QST_BOSS_TRADE) > 2) or (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) > 2)) then begin
+   //NAnswer(234,1,NodeDialog302)
+   end
+
+   if (map_var(MVAR_PNX_PLANT_VENTIL) == 0) then begin
+   if (getQuest(GVAR_PHENIX_QST_PLANT_ATTAK) == qStart) then begin
+   NAnswer(210,5,NodeDialog100)
+   end
+   end
+   if (map_var(MVAR_PNX_PLANT_VENTIL) > 0) then begin
+   NAnswer(212,5,NodeDialog101)
+   end
+
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   inc_map_var(MVAR_PNX_PLANT_VENTIL);
+   Reply(211)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog101 begin
+   set_map_var(MVAR_PNX_PLANT_VENTIL,0);
+   Reply(213)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog200 begin
+   Reply(221)
+   NAnswer(222,1,NodeDialog201)
+end
+
+procedure NodeDialog201 begin
+   Reply(223)
+   NAnswer(224,1,NodeDialog)
+end
+
+procedure NodeDialog300 begin
+   Reply(231)
+   NAnswer(202,1,NodeDialog)
+end

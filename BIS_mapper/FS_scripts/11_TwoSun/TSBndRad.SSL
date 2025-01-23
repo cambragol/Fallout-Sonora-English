@@ -1,0 +1,50 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_TSBndRad
+#define SKILL_LIMIT                     75
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepairB
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   set_gvar_bit_on(GVAR_TWOSUN_QST_BAND_STATUS, bit_5);
+   gfade_out(ONE_GAME_SECOND);
+   game_time_advance(ONE_GAME_MINUTE*10);
+   gfade_in(ONE_GAME_SECOND);
+   RepairProcRepair(112,100,"FIXSTILL")
+end

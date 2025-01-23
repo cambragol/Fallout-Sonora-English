@@ -1,0 +1,116 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSHrtStr
+
+procedure start;
+procedure map_enter_p_proc;
+procedure spatial_p_proc;
+
+#define objStr                 tile_contains_pid_obj(self_tile,self_elevation,33555240) \
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (map_first_run == true) then begin
+          if (self_PID == 33555240) then begin
+          set_obj_visibility(self_obj, 1);
+          end
+          else begin
+          set_obj_visibility(objStr, 1);
+          end
+       end
+
+       if ((cur_map_index == MAP_DAYGLOW_NATIONALCITY) and (self_elevation == 1)) then begin
+          if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_16) != 0) then begin
+          if (visible(self_obj) == false) then begin
+          create_object_sid(33555241, self_tile, self_elevation, -1);
+          end
+          set_obj_visibility(self_obj, 0);
+          end
+       end
+       if ((cur_map_index == MAP_DAYGLOW_PIRS) and (self_elevation == 1)) then begin
+          if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_17) != 0) then begin
+          if (visible(self_obj) == false) then begin
+          create_object_sid(33555241, self_tile, self_elevation, -1);
+          end
+          set_obj_visibility(self_obj, 0);
+          end
+       end
+       if ((cur_map_index == MAP_DAYGLOW_CHULAVISTA) and (self_elevation == 0)) then begin
+          if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_21) != 0) then begin
+          if (visible(self_obj) == false) then begin
+          create_object_sid(33555241, self_tile, self_elevation, -1);
+          end
+          set_obj_visibility(objStr, 0);
+          end
+       end
+       if ((cur_map_index == MAP_DAYGLOW_PIRS) and (self_elevation == 0)) then begin
+          if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_21) != 0) then begin
+          if (visible(self_obj) == false) then begin
+          create_object_sid(33555241, self_tile, self_elevation, -1);
+          end
+          set_obj_visibility(objStr, 0);
+          end
+       end
+   end
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       if DudePerkHas(PERK_marauder) then begin
+
+           if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
+           if (tile_distance(self_tile,21669) <= 20) then begin
+              //Люк к кафе
+              if (visible(objStr) == false) then begin
+              set_obj_visibility(objStr, 0);
+              create_object_sid(33555241, self_tile, self_elevation, -1);
+              display_mstr(100);
+              floater(source_obj, 103, COLOR_MSG_NORMAL);
+              reg_anim_clear(source_obj);
+              set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_16);
+              end
+           end
+           if (tile_distance(self_tile,21144) <= 20) then begin
+              //люк к Италии
+              if (visible(objStr) == false) then begin
+              set_obj_visibility(objStr, 0);
+              create_object_sid(33555241, self_tile, self_elevation, -1);
+              display_mstr(101);
+              floater(source_obj, 103, COLOR_MSG_NORMAL);
+              reg_anim_clear(source_obj);
+              set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_17);
+              end
+           end
+           end
+
+           if (cur_map_index == MAP_DAYGLOW_CHULAVISTA) then begin
+              //люк к пирсам
+              if (visible(objStr) == false) then begin
+              set_obj_visibility(objStr, 0);
+              create_object_sid(33555241, self_tile, self_elevation, -1);
+              display_mstr(102);
+              floater(source_obj, 103, COLOR_MSG_NORMAL);
+              reg_anim_clear(source_obj);
+              set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_21);
+              end
+           end
+
+           if (cur_map_index == MAP_DAYGLOW_PIRS) then begin
+              //люк к ЧулаВиста
+              if (visible(objStr) == false) then begin
+              set_obj_visibility(objStr, 0);
+              create_object_sid(33555241, self_tile, self_elevation, -1);
+              display_mstr(102);
+              floater(source_obj, 103, COLOR_MSG_NORMAL);
+              reg_anim_clear(source_obj);
+              set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_21);
+              end
+           end
+       end
+   end
+end

@@ -1,0 +1,592 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_GCLucas
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_GARAGE_CLAN_B    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeQstA;
+procedure NodeQstA1;
+procedure NodeQstA2;
+procedure NodeQstA3;
+procedure NodeQstA4;
+procedure NodeQstA5;
+procedure NodeQstA6;
+procedure NodeQstA7;
+procedure NodeQstA8;
+procedure NodeQstA9;
+procedure NodeQstB;
+procedure NodeQstB2;
+procedure NodeQstB3;
+procedure NodeQstB4;
+procedure NodeQstB5;
+procedure NodeQstB6;
+procedure NodeQstB7;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodeAnswer403;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 0);
+       if ((global_var(GVAR_GARAGE_STATUS_LUCAS)<0) or (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) == 2) or (getQuest(GVAR_GARAGE_QST_BOSS_TRADE) >= 3)) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       if (global_var(GVAR_GARAGE_STATUS_CARAVAN) == 0) then begin
+       set_global_var(GVAR_GARAGE_STATUS_CARAVAN,1); // сигнал караванщикам для появления на карте
+       end
+       dude_teleport_map(1,1,MAP_GARAGE_HISTORY,6);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(map_var(MVAR_GARAGE_LUCAS_ENEMY),0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if ((bitDialog(bit_1) == 0) or (getQuest(GVAR_GARAGE_QST_LUCS_COMP) == qStart) or (getQuest(GVAR_GARAGE_QST_LUCS_COMP) == qEnd)) then begin
+   if self_can_see_dude then begin
+   dialogue_system_forcing(12)
+   end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_GARAGE_LUCAS_ENEMY,2);
+   end
+   set_global_var(GVAR_GARAGE_STATUS_LUCAS,-1);
+   if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) < 3) then begin
+   setQuest(GVAR_GARAGE_QST_LUCS_TRADE,-1);
+   end
+   if (getQuest(GVAR_GARAGE_QST_LUCS_COMP) == qStart) then begin
+   setQuest(GVAR_GARAGE_QST_LUCS_COMP,qZero);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) < 0) then begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else if (getQuest(GVAR_GARAGE_QST_BOSS_TRADE) >= 3) then begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else begin
+   dialog_proc(0,0,NodeStartDialog,HEAD_GARAGE_LUCAS,BACKGROUND_WASTELND)
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) == 3) then begin
+   call NodeQstB4;
+   end
+   else if (getQuest(GVAR_GARAGE_QST_LUCS_COMP) == qEnd) then begin
+   call NodeQstA;
+   end
+   else if (getQuest(GVAR_GARAGE_QST_LUCS_COMP) == qStart) then begin
+   call NodeQstA;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if dude_is_sneaking then begin
+   Reply(169)
+   end
+   else begin
+   zReply(150)
+   end
+
+   NAnswer(151,1,NodeFstDialog1)
+   if (getQuest(GVAR_GARAGE_QST_BOSS) > qStart) then begin
+   NAnswer(153,1,NodeFstDialog2)
+   end
+end
+
+procedure NodeFstDialog1 begin
+   Reply(152)
+   NAnswer(156,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(154)
+   NAnswer(155,1,NodeFstDialog1)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(157)
+   BAnswer(158,1,NodeFstDialog4)
+   NAnswer(160,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog4 begin
+   setBonusReaction(-10)
+   Reply(159)
+   NAnswer(160,1,NodeFstDialog5)
+   NAnswer(161,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   setQuest(GVAR_GARAGE_QST_LUCS_COMP,qStart);
+   Reply(162)
+   BAnswer(164,1,NodeFstDialog6)
+   NAnswer(163,1,NodeFstDialog7)
+end
+
+procedure NodeFstDialog6 begin
+   setBonusReaction(-10)
+   Reply(165)
+   NAnswer(166,1,NodeFstDialog7)
+   BAnswer(167,1,NodeFstDialog7)
+end
+
+procedure NodeFstDialog7 begin
+   move_to(dude_obj, 23502, self_elevation);
+   anim(dude_obj, ANIMATE_ROTATION, 2);
+   if (HomeTile>0) then begin
+   move_to(self_obj, HomeTile, self_elevation);
+   end
+   anim(self_obj, ANIMATE_ROTATION, HomeRotat);
+   call Node999;
+end
+
+//--- ОСНОВНОЙ КВЕСТ
+
+procedure NodeQstA begin
+   bitDialogExp(bit_1,0)
+   Reply(170)
+
+   if (global_var(GVAR_GARAGE_STATUS_BOSS) < 0) then begin
+   NAnswer(173,1,NodeQstA2)
+   end
+
+   if (item_amnt(self_obj,PID_TOOL_LOCKPICKS_EL) > 0) then begin
+      if dude_skill(SKILL_SCIENCE,35) then begin
+      end
+      else begin
+      NAnswer(176,1,NodeQstA3)
+      end
+   end
+
+   if (getQuest(GVAR_GARAGE_QST_LUCS_COMP) == qEnd) then begin
+   NAnswer(180,1,NodeQstA4)
+   end
+
+   NAnswer(195,1,NodeQstA1)
+   NAnswer(171,1,NodeFstDialog7)
+end
+
+procedure NodeQstA1 begin
+   Reply(196)
+   NAnswer(197,1,NodeFstDialog7)
+   NAnswer(198,1,NodeFstDialog7)
+end
+
+procedure NodeQstA2 begin
+   Reply(174)
+   NAnswer(175,1,NodeFstDialog7)
+end
+
+procedure NodeQstA3 begin
+   item_add(dude_obj,PID_TOOL_LOCKPICKS_EL,1)
+   item_remove(self_obj,PID_TOOL_LOCKPICKS_EL,1)
+   Reply(177)
+   NAnswer(178,1,NodeFstDialog7)
+end
+
+procedure NodeQstA4 begin
+   setQuest(GVAR_GARAGE_QST_LUCS_COMP,qEnd+1);
+   Reply(181)
+   NAnswer(182,1,NodeQstA5)
+   NAnswer(183,1,NodeQstA5)
+end
+
+procedure NodeQstA5 begin
+   Reply(184)
+   NAnswer(185,1,NodeQstA6)
+   NAnswer(187,1,NodeQstA7)
+   NAnswer(189,1,NodeQstA8)
+   NAnswer(191,1,NodeQstA9)
+   NAnswer(192,1,NodeQstA9)
+end
+
+procedure NodeQstA6 begin
+   Reply(186)
+   NAnswer(187,1,NodeQstA7)
+   NAnswer(189,1,NodeQstA8)
+   NAnswer(191,1,NodeQstA9)
+   NAnswer(192,1,NodeQstA9)
+end
+
+procedure NodeQstA7 begin
+   Reply(188)
+   NAnswer(185,1,NodeQstA6)
+   NAnswer(189,1,NodeQstA8)
+   NAnswer(191,1,NodeQstA9)
+   NAnswer(192,1,NodeQstA9)
+end
+
+procedure NodeQstA8 begin
+   Reply(190)
+   NAnswer(185,1,NodeQstA6)
+   NAnswer(187,1,NodeQstA7)
+   NAnswer(191,1,NodeQstA9)
+   NAnswer(192,1,NodeQstA9)
+end
+
+procedure NodeQstA9 begin
+   Reply(193)
+   NAnswer(185,1,NodeQstA6)
+   NAnswer(187,1,NodeQstA7)
+   NAnswer(189,1,NodeQstA8)
+   NAnswer(194,1,Node999)
+end
+
+procedure NodeQstB begin
+   Reply(251)
+   NAnswer(257,1,NodeQstB2)
+   //NAnswer(253,1,Node999)
+end
+
+procedure NodeQstB2 begin
+   /*
+   Reply(254)
+   NAnswer(255,1,NodeQstB3)
+   BAnswer(256,1,Node999)
+   */
+   call NodeQstB3;
+end
+
+procedure NodeQstB3 begin
+   setQuest(GVAR_GARAGE_QST_LUCS_TRADE,2);
+   set_global_var(GVAR_GARAGE_STATUS_CARAVAN,1); // сигнал караванщикам для появления на карте
+   item_remove(dude_obj,PID_Q_GARAGE_DETALS,1)
+
+   setBonusReaction(40)
+   exp_add(500);
+   rm_timer_event(self_obj);
+   set_obj_visibility(self_obj, 1);
+   //add_timer_event(self_obj, 2, 3);
+
+   call Node999;
+end
+
+procedure NodeQstB4 begin
+   setQuest(GVAR_GARAGE_QST_FABRICA,qStop);
+   setQuest(GVAR_GARAGE_QST_LUCS_TRADE,4);
+   exp_add(1000);
+   setBonusReaction(50)
+   set_REP(5)
+
+   if (getReaction > 0) then begin
+   Reply(260)
+   NAnswer(266,1,NodeQstB6)
+   NAnswer(267,1,NodeQstB7)
+   end
+   else begin
+   Reply(265)
+   NAnswer(261,1,NodeQstB5)
+   end
+end
+
+procedure NodeQstB5 begin
+   Reply(262)
+   if (getQuest(GVAR_MAIN_QUEST_VILLA) < qEnd) then begin
+   NAnswer(270,1,NodeAnswer300)
+   end
+   NAnswer(263,1,Node999)
+   NAnswer(264,1,Node999)
+end
+
+procedure NodeQstB6 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,200)
+   call NodeQstB5;
+end
+
+procedure NodeQstB7 begin
+   item_add(dude_obj,PID_W_LASER_ZIPGUN,1)
+   Reply(268)
+   NAnswer(261,1,NodeQstB5)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+
+   if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) != qZero) then begin
+      if (getQuest(GVAR_GARAGE_STANOK_DESTROY) == qStart) then begin
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_29) == 0) then begin
+      NAnswer(280,1,NodeAnswer400)
+      end
+      end
+   end
+
+   if (getQuest(GVAR_GARAGE_QST_LUCS_COMP) > qEnd) then begin
+      if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) == qZero) then begin
+      if (item_amnt(dude_obj,PID_Q_GARAGE_DETALS) > 0) then begin
+      NAnswer(250,1,NodeQstB)
+      end
+      end
+   end
+
+   if (getQuest(GVAR_GARAGE_QST_LUCS_TRADE) >= 3) then begin
+      if (getQuest(GVAR_MAIN_QUEST_VILLA) < qEnd) then begin
+      NAnswer(270,1,NodeAnswer300)
+      end
+   end
+
+   NAnswer(220,1,NodeAnswer100)
+
+   if (bitDialog(bit_2) == 0) then begin
+      if (global_var(GVAR_GARAGE_STATUS_BOSS) < 0) then begin
+         NAnswer(240,1,NodeAnswer200)
+      end
+      else begin
+         if (getQuest(GVAR_GARAGE_QST_FABRICA) != qZero) then begin
+         NAnswer(245,1,NodeAnswer202)
+         end
+      end
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(221)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(230,1,NodeAnswer104)
+   NAnswer(232,1,NodeAnswer105)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   bitDialogExp(bit_3,50)
+   Reply(225)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(230,1,NodeAnswer104)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(227)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(230,1,NodeAnswer104)
+   NAnswer(224,1,NodeAnswer101)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(229)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(230,1,NodeAnswer104)
+   NAnswer(224,1,NodeAnswer101)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(231)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(224,1,NodeAnswer101)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer105 begin
+   Reply(233)
+   NAnswer(226,1,NodeAnswer102)
+   NAnswer(228,1,NodeAnswer103)
+   NAnswer(230,1,NodeAnswer104)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   bitDialogExp(bit_2,0)
+   Reply(241)
+   NAnswer(242,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(243)
+   NAnswer(244,1,NodeSndDialog)
+end
+
+procedure NodeAnswer202 begin
+   Reply(246)
+   NAnswer(248,1,NodeAnswer203)
+   NAnswer(247,1,NodeSndDialog)
+end
+
+procedure NodeAnswer203 begin
+   Reply(249)
+   NAnswer(247,1,NodeSndDialog)
+end
+
+procedure NodeAnswer300 begin
+   Reply(271)
+   NAnswer(272,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   Reply(273)
+   NAnswer(274,1,NodeAnswer302)
+end
+
+procedure NodeAnswer302 begin
+   setQuest(GVAR_MAIN_QUEST_VILLA,qEnd);
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
+   setQuest(GVAR_MAIN_QUEST_FLAGSTAFF,qStart);
+   end
+   exp_add(250);
+   mark_on_map(AREA_FLAGSTAFF)
+
+   Reply(275)
+   NAnswer(276,1,Node999)
+   BAnswer(277,1,Node999)
+end
+
+procedure NodeAnswer400 begin
+   Reply(281)
+   NAnswer(282,1,NodeAnswer401)
+end
+
+procedure NodeAnswer401 begin
+   Reply(283)
+   GAnswer(285,3,NodeAnswer402)
+   NAnswer(284,1,Node999)
+end
+
+procedure NodeAnswer402 begin
+   Reply(286)
+   NAnswer(287,1,NodeAnswer403)
+end
+
+procedure NodeAnswer403 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_29);
+   Reply(288)
+   NAnswer(289,1,Node999)
+   NAnswer(290,1,Node999)
+end

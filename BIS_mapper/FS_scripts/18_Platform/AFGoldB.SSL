@@ -1,0 +1,239 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_AFGoldB
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_OIL_PLATFORM // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BANDITS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (global_var(GVAR_OIL_STATUS_GOLD) == 1) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+       else begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_OIL_STATUS_SOIL_GOLD) == 2) then begin
+      if (global_var(GVAR_OIL_STATUS_GOLD) == 1) then begin
+      dialogue_system_forcing(20)
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_OIL_STATUS_GOLD, -10);
+   if (getQuest(GVAR_OIL_PLATFORM_QST_GOLD) == qStart) then begin
+   setQuest(GVAR_OIL_PLATFORM_QST_GOLD, qEnd);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if ((global_var(GVAR_OIL_STATUS_SOIL_GOLD) == 2) and (global_var(GVAR_OIL_STATUS_GOLD) == 1)) then begin
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else if (global_var(GVAR_OIL_STATUS_GOLD) >= 3) then begin
+      floater(self_obj, 104, COLOR_MSG_NORMAL);
+   end
+   else if (global_var(GVAR_OIL_STATUS_GOLD) == 2) then begin
+      floater(self_obj, 103, COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_OIL_STATUS_GOLD) == 1) then begin
+      floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+   else begin
+      if (party_member_count(0) > 2) then begin
+      floater(self_obj, 105, COLOR_MSG_NORMAL);
+      end
+      else begin
+      z_floater(self_obj, 105, COLOR_MSG_NORMAL);
+      end
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ЗНАКОМСТВО
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,200)
+   set_global_var(GVAR_OIL_STATUS_GOLD,2);
+   setQuest(GVAR_OIL_PLATFORM_QST_GOLD, qEnd);
+   //!!! Перенос вещей из ямы. Уточнить состав клада, тайл и pid ямы, если они изменятся на карте.
+   move_obj_inven_to_obj(tile_contains_pid_obj(18071,0,196), self_obj);
+
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   Reply(200)
+   end
+   else begin
+   Reply(200)
+   end
+   BAnswer(201,1,NodeFstDialog1)
+   NAnswer(206,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog1 begin
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   zReply(202)
+   end
+   else begin
+   zReply(205)
+   end
+   BAnswer(203,1,Node998)
+   NAnswer(204,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(207)
+   NAnswer(208,1,NodeFstDialog3)
+   NAnswer(209,1,NodeFstDialog4)
+   NAnswer(210,1,NodeFstDialog5)
+   BAnswer(211,1,Node998)
+end
+
+procedure NodeFstDialog3 begin
+   item_add(dude_obj,PID_MANY,50)
+   item_remove(self_obj,PID_MANY,50)
+   call NodeFstDialog6;
+end
+
+procedure NodeFstDialog4 begin
+   item_add(dude_obj,PID_W_REVOLVER_COMBAT,1)
+   item_remove(self_obj,PID_W_REVOLVER_COMBAT,1)
+   call NodeFstDialog6;
+end
+
+procedure NodeFstDialog5 begin
+   item_add(dude_obj,PID_M_RADAWAY,3)
+   item_remove(self_obj,PID_M_RADAWAY,3)
+   call NodeFstDialog6;
+end
+
+procedure NodeFstDialog6 begin
+   set_global_var(GVAR_OIL_STATUS_GOLD,3);
+   if (town_rep_is_hated or (get_SLAVA <= -250)) then begin
+   Reply(212)
+   NAnswer(213,1,Node998)
+   end
+   else begin
+   Reply(214)
+   NAnswer(215,1,Node999)
+   end
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(214)
+   NAnswer(215,1,Node999)
+end

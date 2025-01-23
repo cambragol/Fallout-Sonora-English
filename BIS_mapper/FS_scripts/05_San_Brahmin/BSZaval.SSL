@@ -1,0 +1,72 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_BSZaval
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure obval_proc;
+
+import variable obj_critter_a; // указатель на криттера 1
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call obval_proc;
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      display_mstr(112);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(112);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(112);
+   end
+end
+
+procedure obval_proc begin
+   variable elctrAmnt; // размер урона
+   elctrAmnt := 0;
+
+   //--- Определение урона
+   if (obj_critter_a > 0) then begin
+       if (tile_distance_objs(self_obj,obj_critter_a)<=3) then begin
+       elctrAmnt := random(22,30)+(has_skill(dude_obj, SKILL_TRAPS)/4);
+       end
+   end
+   if (combat_is_initialized == false) then begin
+       elctrAmnt := 0;
+   end
+
+   //--- Нанесение урона
+   if (elctrAmnt > 0) then begin
+      play_sfx("ORE1");
+      display_mstr(111);
+      if (get_critter_stat(obj_critter_a,STAT_current_hp)>0) then begin
+      critter_dmg(obj_critter_a, elctrAmnt, DMG_normal_dam);
+      end
+      set_obj_visibility(self_obj, 1);
+      destroy_object(self_obj);
+   end
+   else begin
+      display_mstr(110);
+   end
+end

@@ -1,0 +1,235 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSGmSlt
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure timer_gaming;
+procedure description_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure gaming_proc;
+
+#define LVAR_Playing_Counter            (0) // Текущий запас фишек в автомате
+#define LVAR_Play_Timer                 (1) // Время обновления числа фишек в автомате
+#define LVAR_Exp                        (2) // Опыт за N выигрышей
+#define LVAR_Stavka                     (3) // Текущая ставка ГГ
+#define LVAR_DstrFlag                   (4) // 0 - бездействует, 1 - автомат исчезает с карты и заменяется на сломанный
+
+variable skillRoll;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      call timer_gaming;
+      add_timer_event(self_obj, 50, 1);
+
+      if (local_var(LVAR_DstrFlag) == 0) then begin
+         if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+            if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+               if (random(0,2) == 0) then begin
+               set_obj_visibility(self_obj, 1);
+               if (self_PID == PID_GAME_SLOT_A) then begin
+               create_object_sid(PID_GAME_SLOT_DSTR_A, self_tile, self_elevation, SCRIPT_PSSltDtr);
+               end
+               if (self_PID == PID_GAME_SLOT_B) then begin
+               create_object_sid(PID_GAME_SLOT_DSTR_B, self_tile, self_elevation, SCRIPT_PSSltDtr);
+               end
+               rm_timer_event(self_obj);
+               destroy_object(self_obj);
+               end
+               inc_local_var(LVAR_DstrFlag);
+            end
+         end
+      end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      if (self_visible == true) then begin
+      if (tile_distance_objs(self_obj,dude_obj) < 9) then begin
+      floater(self_obj,random(130,139),COLOR_MSG_LIGHT_GREY);
+      end
+      end
+      add_timer_event(self_obj, random(30,50), 1);
+   end
+   if (fixed_param == 2) then begin
+      set_local_var(LVAR_DstrFlag,2);
+      call timer_gaming;
+      add_timer_event(self_obj, 50, 1);
+   end
+end
+
+procedure timer_gaming begin
+   if (local_var(LVAR_Play_Timer) < game_time) then begin
+      set_local_var(LVAR_Playing_Counter,random(dude_luck*20,dude_luck*25));
+      set_local_var(LVAR_Play_Timer, ONE_GAME_DAY + game_time);
+   end
+end
+
+procedure description_p_proc begin
+   script_overrides;
+   display_mstr(random(101,105));
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (local_var(LVAR_Stavka) > 0) then begin
+   call gaming_proc;
+   end
+   else begin
+   display_mstr(117);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_mstr(111);
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(112);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   call timer_gaming;
+
+   stopUseCarGaz
+
+   else if (combat_is_initialized == true) then begin
+      script_overrides;
+      display_mstr(113);
+   end
+
+   else if (objUsedPid == PID_POKER_FISH) then begin
+       script_overrides;
+
+       if (cur_map_index != MAP_PHOENIX_CENTER) then begin
+          display_mstr(122);
+       end
+       else if (has_skill(dude_obj, SKILL_GAMBLING) < 20) then begin
+          skill_display_mstr(116,SKILL_GAMBLING,20)
+       end
+       else if (local_var(LVAR_Stavka) >= 20) then begin
+          display_mstr(121);
+       end
+       else if (local_var(LVAR_Playing_Counter) <= local_var(LVAR_Stavka)) then begin
+          display_mstr(120);
+       end
+       else if (local_var(LVAR_Playing_Counter) > 0) then begin
+          inc_local_var_amt(LVAR_Stavka,1);
+          display_msg(mstr(118)+local_var(LVAR_Stavka)+mstr(119));
+          item_remove(dude_obj, objUsedPid, 1)
+       end
+       else begin
+          display_mstr(115);
+       end
+   end
+
+   else if ((objUsedPid == PID_BOOTLE_CAPS) or (objUsedPid == PID_MANY)) then begin
+       script_overrides;
+       display_mstr(114);
+       dude_floater_NON;
+   end
+end
+
+procedure gaming_proc begin
+   variable barabanA;
+   variable barabanB;
+   variable barabanC;
+   variable barabanX;
+
+   skillRoll := 0;
+   barabanA := random(171,177);
+   barabanB := random(171,177);
+   barabanC := random(171,177);
+   barabanX := 0;
+
+   //--- Просчет вероятности выигрыша
+
+   if ((barabanA == barabanB) and (barabanA == barabanC)) then begin
+      skillRoll := 5;
+      if (barabanA == 172) then begin
+      skillRoll := 10;
+      end
+      if (barabanA == 173) then begin
+      skillRoll := 20;
+      end
+      if (barabanA == 174) then begin
+      skillRoll := 30;
+      end
+      if (barabanA == 175) then begin
+      skillRoll := 40;
+      end
+      if (barabanA == 176) then begin
+      skillRoll := 60;
+      end
+      if (barabanA == 177) then begin
+      skillRoll := 100;
+      end
+      exp_add(skillRoll);
+      display_mstr(159);
+   end
+
+   else begin
+
+      if (barabanA == 171) then begin
+      barabanX += 1;
+      end
+      if (barabanB == 171) then begin
+      barabanX += 1;
+      end
+      if (barabanC == 171) then begin
+      barabanX += 1;
+      end
+
+      if (barabanX == 1) then begin
+      skillRoll := 2;
+      end
+      if (barabanX == 2) then begin
+      skillRoll := 3;
+      end
+   end
+
+   //--- Реплики над автоматом
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 50, 1);
+   float_msg(self_obj, mstr(barabanA)+mstr(170)+mstr(barabanB)+mstr(170)+mstr(barabanC), COLOR_MSG_NORMAL);
+
+   //--- Если ГГ выиграл
+   if (skillRoll > 0) then begin
+      play_sfx("WINNER");
+      display_msg(mstr(155)+(local_var(LVAR_Stavka)*skillRoll)+mstr(156));
+      item_add(dude_obj,PID_POKER_FISH,local_var(LVAR_Stavka)*skillRoll)
+      dec_global_var_amt(GVAR_CASINO_PNX_CHECK,local_var(LVAR_Stavka)*skillRoll);
+      dec_local_var_amt(LVAR_Playing_Counter,local_var(LVAR_Stavka)*skillRoll);
+      set_local_var(LVAR_Stavka,0);
+   end
+
+   //--- Если ГГ проиграл
+   else begin
+      play_sfx("LOOSER");
+      display_mstr(random(150,154));
+      if (item_amnt(dude_obj,PID_POKER_FISH) == 0) then begin
+      floater(dude_obj,random(125,129),COLOR_MSG_LIGHT_RED);
+      end
+      inc_global_var_amt(GVAR_CASINO_PNX_CHECK,local_var(LVAR_Stavka)*skillRoll);
+      inc_local_var_amt(LVAR_Playing_Counter,local_var(LVAR_Stavka));
+      set_local_var(LVAR_Stavka,0);
+   end
+
+end

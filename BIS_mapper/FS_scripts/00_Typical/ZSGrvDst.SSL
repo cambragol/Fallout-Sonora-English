@@ -1,0 +1,25 @@
+#include "..\headers\define.h"
+#include "..\headers\updatmap.h"
+#define NAME                    SCRIPT_ZSGrvDst
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   // здесь должно быть сохранение в LVAR номера msg строки
+end
+
+procedure look_at_p_proc begin
+   //lookProcMsg
+end
+
+procedure description_p_proc begin
+   //dsrptProcMsg
+end

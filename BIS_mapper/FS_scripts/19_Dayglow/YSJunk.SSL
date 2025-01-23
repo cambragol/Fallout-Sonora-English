@@ -1,0 +1,37 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSJunk
+
+procedure start;
+procedure use_skill_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call repair_proc;
+   end
+end
+
+procedure repair_proc begin
+   if (local_var(LVAR_Flags) == 0) then begin
+      play_sfx("FIXSTILL");
+      display_mstr(100);
+      if ((cur_map_index == MAP_DAYGLOW_NATIONALCITY) and (dude_elevation ==1)) then begin
+      create_object_sid(PID_TOOL_PARTS_ELECTRONIC, dude_tile, dude_elevation, -1);
+      end
+      else begin
+      create_object_sid(PID_TOOL_PARTS_MECHANICAL, dude_tile, dude_elevation, -1);
+      end
+      set_local_var(LVAR_Flags,1);
+   end
+   else begin
+      display_mstr(101);
+      floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+end

@@ -1,0 +1,81 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_RILoot
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+      item_add(self_obj,PID_Q_PISTOL_LOST,1)
+      end
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_8) == 0) then begin
+      set_obj_visibility(self_obj, 1);
+      end
+      else begin
+      set_obj_visibility(self_obj, 0);
+      end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+/*
+
+Ранее объект служил бонусом для ZIRadio, но квест важнее, а бонус перенесен на карту Кварца.
+
+{100}{}{Перед вами тайник.}
+{101}{}{Кто-то из рейнджеров оставил здесь рюкзак с полезными находками, чтобы забрать его позже.}
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+            item_add(self_obj,PID_M_STIMPAK,1)
+            item_add(self_obj,PID_M_ANTIDOTE,1)
+            item_add(self_obj,PID_W_KNIFE,1)
+            item_add(self_obj,PID_AMMO_SIGNAL_A,4)
+            item_add(self_obj,PID_AMMO_308,random(4,6))
+            if (random(0,1) == 0) then begin
+            item_add(self_obj,PID_AMMO_44_MAGNUM,random(6,10))
+            end
+            else begin
+            item_add(self_obj,PID_AMMO_10_MM,random(6,10))
+            end
+      end
+      set_obj_visibility(self_obj, 1);
+   end
+end
+
+procedure map_update_p_proc begin
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_3) != 0) then begin
+   set_obj_visibility(self_obj, 0);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+*/

@@ -1,0 +1,177 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_PVSCompA
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeAlarm;
+procedure NodeTrap;
+procedure NodeDialog100;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog302;
+procedure NodeDialog400;
+procedure NodeDialog401;
+procedure NodeDialog402;
+procedure NodeDialog403;
+procedure NodeDialog500;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_var(MVAR_PnxVlt_Alarm) != 0) then begin
+      set_map_var(MVAR_PnxVlt_Alarm,0);
+      end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(100)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+   else CompUsedKey(PID_KEY_VAULT25_RED,0)
+end
+
+procedure sience_proc begin
+   CompProcSience(250)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   if (map_var(MVAR_PnxVlt_Alarm) != 0) then begin
+   NAnswer(210,1,NodeAlarm)
+   end
+   if (map_var(MVAR_PnxVlt_OwrTrap) != 0) then begin
+   NAnswer(212,1,NodeTrap)
+   end
+   //NAnswer(230,1,NodeDialog200)
+   NAnswer(232,1,NodeDialog201)
+   NAnswer(240,1,NodeDialog300)
+   NAnswer(250,1,NodeDialog400)
+   NAnswer(260,1,NodeDialog500)
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   NAnswer(220,1,NodeDialog100)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeAlarm begin
+   set_map_var(MVAR_PnxVlt_Alarm,0);
+   Reply(211)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeTrap begin
+   set_map_var(MVAR_PnxVlt_OwrTrap,0);
+   Reply(213)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog100 begin
+   Reply(221)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog200 begin
+   Reply(231)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog201 begin
+   Reply(233)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog300 begin
+   Reply(241)
+   NAnswer(242,1,NodeDialog301)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog301 begin
+   Reply(243)
+   NAnswer(244,1,NodeDialog302)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog302 begin
+   mark_on_map(AREA_SAN_BRAHMIN)
+   Reply(245)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog400 begin
+   Reply(251)
+   NAnswer(252,1,NodeDialog401)
+   NAnswer(254,1,NodeDialog402)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog401 begin
+   Reply(253)
+   NAnswer(254,1,NodeDialog402)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog402 begin
+   if (getQuest(GVAR_VAULT27_VISITED) < qStart) then begin
+   setQuest(GVAR_VAULT27_VISITED,qStart);
+   end
+   mark_on_map(AREA_VAULT_27)
+   Reply(255)
+   NAnswer(256,1,NodeDialog403)
+   NAnswer(252,1,NodeDialog401)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog403 begin
+   Reply(257)
+   NAnswer(252,1,NodeDialog401)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog500 begin
+   Reply(261)
+   NAnswer(202,1,NodeDialog)
+end

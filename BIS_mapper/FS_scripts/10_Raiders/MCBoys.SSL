@@ -1,0 +1,257 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_MCRaider
+//#define NAME                            SCRIPT_MCBoys
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RAIDERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_WAR_ROADS        // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_WAR_ROAD           // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_WARROAD          // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure timerScenaBoys;
+procedure timerScenaAttak;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
+
+import variable box_stop_use;
+import variable obj_critter_a; // указатель на рейдера Ж
+import variable obj_critter_b; // указатель на рейдера М
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_map_var(MVAR_ROADWAR_BOYS,0);
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (local_var(LVAR_Tile_B)>0) then begin
+          if (obj_critter_a == self_obj) then begin
+          timer_move_to_tile(0,local_var(LVAR_Tile_B),5)
+          end
+          else begin
+          timer_move_to_tile(0,local_var(LVAR_Tile_B),3)
+          end
+       end
+       else begin
+          timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+       if ((obj_critter_a>0) and (obj_critter_b>0)) then begin
+          if ((combat_is_initialized == false) and (map_var(MVAR_ROADWAR_TILE_BOY_A)>0) and (map_var(MVAR_ROADWAR_TILE_BOY_B)>0)) then begin
+          if (obj_critter_a == self_obj) then begin
+          call timerScenaBoys;
+          end
+          end
+       end
+
+       set_local_var(LVAR_Tile_B,0);
+       if (map_var(MVAR_ROADWAR_BOYS) < 0) then begin
+          if (obj_critter_a == self_obj) then begin
+          set_local_var(LVAR_Tile_B,19907);
+          end
+          if (obj_critter_b == self_obj) then begin
+          set_local_var(LVAR_Tile_B,21718);
+          end
+          if (self_tile == local_var(LVAR_Tile_B)) then begin
+          inc_map_var(MVAR_ROADWAR_BOYS);
+          end
+       end
+
+       add_timer_event(self_obj,40,2);
+   end
+end
+
+procedure timerScenaBoys begin
+       inc_map_var(MVAR_ROADWAR_BOYS);
+       anim(obj_critter_a, ANIMATE_ROTATION, 2);
+       anim(obj_critter_b, ANIMATE_ROTATION, 5);
+
+       floater(obj_critter_a,199,COLOR_MSG_NORMAL);
+       floater(obj_critter_b,199,COLOR_MSG_NORMAL);
+
+       if (map_var(MVAR_ROADWAR_BOYS) == 1) then begin
+       floater(obj_critter_a,200,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 2) then begin
+       floater(obj_critter_b,201,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 3) then begin
+       floater(obj_critter_a,202,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 4) then begin
+       floater(obj_critter_b,203,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 5) then begin
+       floater(obj_critter_a,204,COLOR_MSG_RED);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 6) then begin
+       floater(obj_critter_b,205,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 7) then begin
+       floater(obj_critter_a,206,COLOR_MSG_RED);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 8) then begin
+       floater(obj_critter_b,207,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 9) then begin
+       floater(obj_critter_a,208,COLOR_MSG_RED);
+       call timerScenaAttak;
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 10) then begin
+       floater(obj_critter_a,209,COLOR_MSG_RED);
+       call timerScenaAttak;
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 11) then begin
+       floater(obj_critter_b,210,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 12) then begin
+       floater(obj_critter_b,211,COLOR_MSG_NORMAL);
+       end
+       if (map_var(MVAR_ROADWAR_BOYS) == 13) then begin
+       set_map_var(MVAR_ROADWAR_BOYS,-4);
+       floater(obj_critter_a,212,COLOR_MSG_RED);
+       end
+end
+
+procedure timerScenaAttak begin
+          reg_anim_clear(self_obj);
+          reg_anim_begin();
+              reg_anim_play_sfx(obj_critter_a, sfx_build_char_name(self_obj, ANIM_throw_punch, snd_contact), 1);
+              reg_anim_animate(obj_critter_a,ANIM_throw_punch,0);
+              reg_anim_play_sfx(obj_critter_b, sfx_build_char_name(self_obj, ANIM_hit_from_front, snd_knock_down), 1);
+              reg_anim_animate(obj_critter_b,ANIM_hit_from_front,0);
+          reg_anim_end();
+end
+
+procedure critter_p_proc begin
+   if self_is_female then begin
+      obj_critter_a := self_obj;
+      set_map_var(MVAR_ROADWAR_TILE_BOY_A,0);
+      if (self_tile == HomeTile) then begin
+      set_map_var(MVAR_ROADWAR_TILE_BOY_A,1);
+      end
+   end
+   else begin
+      obj_critter_b := self_obj;
+      set_map_var(MVAR_ROADWAR_TILE_BOY_B,0);
+      if (self_tile == HomeTile) then begin
+      set_map_var(MVAR_ROADWAR_TILE_BOY_B,1);
+      end
+   end
+
+   if (global_var(GVAR_TITUL_WARRIOR_ROAD) < 1) then begin
+   set_using_stop
+   end
+
+   if ((armor_pid_dude_var == PID_ARMOR_ROAD) and (tile_distance(dude_tile, self_tile) > 3)) then begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+   else if ((global_var(GVAR_TITUL_WARRIOR_ROAD) > 0) or (map_var(MVAR_ROADWAR_DOPUSK) > 0)) then begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+   else begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_ROADWAR_DOPUSK,-1);
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   obj_critter_b := 0;
+   obj_critter_a := 0;
+   set_map_var(MVAR_ROADWAR_BOYS,0);
+   set_map_var(MVAR_ROADWAR_TILE_BOY_A,-1);
+   set_map_var(MVAR_ROADWAR_TILE_BOY_B,-1);
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_CAR_PRESENT,0);
+   set_map_var(MVAR_ROADWAR_DOPUSK,-1);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if ((map_var(MVAR_ROADWAR_BOYS) > 0) and (map_var(MVAR_ROADWAR_BOYS) < 13)) then begin
+   end
+   else if (armor_pid_dude_var == PID_ARMOR_POWER_A) then begin
+   floater(self_obj,random(130,133),COLOR_MSG_RED);
+   end
+   else if (armor_pid_dude_var == PID_ARMOR_POWER_B) then begin
+   floater(self_obj,random(130,133),COLOR_MSG_RED);
+   end
+   else if (armor_pid_dude_var == PID_ARMOR_POWER_C) then begin
+   floater(self_obj,random(130,133),COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_TITUL_WARRIOR_ROAD) > 0) then begin
+   floater(self_obj,random(110,116),COLOR_MSG_NORMAL);
+   end
+   else begin
+   floater(self_obj,random(120,125),COLOR_MSG_RED);
+   end
+end

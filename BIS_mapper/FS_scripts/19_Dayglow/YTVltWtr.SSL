@@ -1,0 +1,58 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YTVltWtr
+
+procedure start;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure waterpump_proc;
+
+
+
+procedure start begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call waterpump_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call waterpump_proc;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       call waterpump_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure waterpump_proc begin
+   if (map_var(MVAR_DIEGOVLT_ENERGY) <= 0) then begin
+      display_mstr(102);
+   end
+   else if (map_var(MVAR_DIEGOVLT_WATER) == 0) then begin
+      set_map_var(MVAR_DIEGOVLT_WATER, 1);
+      play_sfx("MECHPUMP");
+      display_mstr(103);
+   end
+   else if (map_var(MVAR_DIEGOVLT_WATER) > 0) then begin
+      display_mstr(104);
+   end
+end

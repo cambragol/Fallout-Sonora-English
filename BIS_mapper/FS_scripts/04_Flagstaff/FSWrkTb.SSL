@@ -1,0 +1,53 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_FSWrkTb
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else RepairProcUsingMexTorpedos
+end
+
+procedure repair_proc begin
+   if (has_skill(dude_obj, SKILL_REPAIR) >= 100) then begin
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,20)
+   RepairProcRepair(114,0,"FIXSTILL")
+   end
+   else if (has_skill(dude_obj, SKILL_REPAIR) >= 60) then begin
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,16)
+   RepairProcRepair(113,0,"FIXSTILL")
+   end
+   else begin
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,8)
+   RepairProcRepair(112,0,"FIXSTILL")
+   end
+end

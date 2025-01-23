@@ -1,0 +1,61 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_GSWhole
+#define SKILL_LIMIT                     100
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_obj_visibility(self_obj, 1);
+      if (dude_has_car != 0) then begin
+      set_obj_visibility(self_obj, 0);
+      end
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   if (global_var(GVAR_GARAGE_STATUS_PIT)>=0) then begin
+   script_overrides;
+   display_mstr(113);
+   end
+   else if (global_var(GVAR_CAR_BLOWER) != 0) then begin
+   script_overrides;
+   display_mstr(111);
+   end
+   else if (global_var(GVAR_CAR_MAP_INDEX) != cur_map_index) then begin
+   script_overrides;
+   display_mstr(114);
+   end
+   else begin
+   RepairVarCheck
+   RepairSkillRepair
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   set_obj_visibility(self_obj, 1);
+   set_global_var(GVAR_CAR_BLOWER,1); // установка шин
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR*5);
+   RepairProcRepair(112,0,"FIXSTILL")
+   destroy_object(self_obj);
+end

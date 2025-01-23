@@ -1,0 +1,124 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_FSRadio
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialogStart;
+procedure NodeDialogStop;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog200;
+//procedure NodeDialog300;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(50)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedKey(PID_KEY_FABER_PASSWORD,0)
+end
+
+procedure damage_p_proc begin
+   if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         if (global_var(GVAR_FLAGSTAFF_RADIO_MARK) != 2) then begin
+         set_global_var(GVAR_FLAGSTAFF_RADIO_MARK,2);
+         set_map_var(MVAR_RadioSlave,1);
+         display_mstr(110);
+         play_sfx("CLANK");
+         set_obj_visibility(self_obj, 1);
+         create_object_sid(self_PID-1, self_tile, self_elevation, -1);
+         destroy_object(self_obj);
+         end
+   end
+end
+
+procedure sience_proc begin
+   CompProcSience(120)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialogStart)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialogStart begin
+   if (global_var(GVAR_FLAGSTAFF_RADIO_MARK) == 0) then begin
+   call NodeDialog;
+   end
+   else begin
+   call NodeDialogStop;
+   end
+end
+
+procedure NodeDialogStop begin
+   Reply(203)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   if (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_2) == 0) then begin
+   NAnswer(214,3,NodeDialog200)
+   end
+   if (map_var(MVAR_RadioSlave) == 0) then begin
+   NAnswer(210,1,NodeDialog100)
+   end
+   //NAnswer(216,7,NodeDialog300)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog101)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   set_map_var(MVAR_RadioSlave,1);
+   set_gvar_bit_on(GVAR_RADIO_FLAGS_BIT, bit_9);
+   Reply(213)
+   NAnswer(202,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog200 begin
+   set_gvar_bit_on(GVAR_RADIO_FLAGS_BIT, bit_2);
+   Reply(215)
+   NAnswer(202,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+
+/*
+procedure NodeDialog300 begin
+   Reply(217)
+   NAnswer(202,1,NodeDialog)
+   NAnswer(201,1,Node999)
+end
+*/

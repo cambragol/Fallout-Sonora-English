@@ -1,0 +1,1209 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ICApoc
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_NUEVA // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CASANUEVA_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PARTY_DIANA        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure push_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeFstDialog9;
+procedure NodeSndDialog;
+procedure NodeAnswerEnd;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer109;
+procedure NodeAnswer110;
+procedure NodeAnswer111;
+procedure NodeAnswer112;
+procedure NodeAnswer113;
+procedure NodeAnswer114;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer208;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeAnswer302;
+procedure NodeAnswer303;
+procedure NodeAnswer304;
+procedure NodeAnswer305;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer402;
+procedure NodeAnswer403;
+procedure NodeAnswer404;
+procedure NodeAnswer405;
+procedure NodeAnswer406;
+procedure NodeAnswer407;
+procedure NodeAnswer408;
+procedure NodeAnswer409;
+procedure NodeAnswer410;
+procedure NodeAnswer411;
+procedure NodeAnswer412;
+procedure NodeAnswer413;
+procedure NodeAnswer414;
+procedure NodeAnswer415;
+procedure NodeAnswer416;
+procedure NodeAnswer500;
+procedure NodeAnswer501;
+procedure NodeAnswer502;
+procedure NodeAnswer503;
+procedure NodeAnswer504;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodePartyDialog;
+procedure NodeParty100;
+procedure NodeParty101;
+procedure NodeParty102;
+procedure NodeParty103;
+procedure NodeParty104;
+procedure NodeParty105;
+procedure NodePartyNon;
+procedure NodePartyNon2;
+procedure NodeParty;
+procedure NodeParty2;
+procedure NodeParty3;
+procedure NodeParty4;
+procedure NodeParty200;
+procedure NodeParty201;
+procedure NodeParty202;
+procedure NodeParty203;
+procedure NodeParty204;
+procedure NodeParty205;
+procedure NodeParty206;
+procedure NodeParty300;
+procedure NodeParty301;
+procedure NodeParty302;
+procedure NodeParty303;
+procedure NodeParty304;
+procedure NodeHomeDialog;
+
+//---------------------
+
+#define LVAR_Flag_Run                     (6) // персонаж бегает ГГ (1) или стоит на месте (0)
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
+       set_local_var(LVAR_Home_Tile,15666);
+       set_local_var(LVAR_Home_Rotat,2);
+       end
+       set_start_home
+       add_timer_event(self_obj,10,3);
+       if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
+       bitDialogExp(bit_9,0)
+       end
+       if (global_var(GVAR_INF_STATUS_APOC) == 1) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (self_TEAM != TEAM_PLAYER) then begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+
+   if (fixed_param == 3) then begin
+      if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
+      floater(self_obj,110,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+      floater(self_obj,111,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_FLAGSTAFF_CITY) then begin
+      floater(self_obj,112,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_SAN_BRAHMIN_CITY) then begin
+      floater(self_obj,113,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
+      floater(self_obj,114,COLOR_MSG_RED);
+      end
+      if (cur_map_index == MAP_OLD_MOTEL) then begin
+      floater(self_obj,115,COLOR_MSG_RED);
+      end
+      if (cur_map_index == MAP_VILLA_PLAZA) then begin
+      floater(self_obj,116,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_RANGERS_BASA) then begin
+      floater(self_obj,117,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_HERMO_CASA) then begin
+      floater(self_obj,118,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+      floater(self_obj,119,COLOR_MSG_NORMAL);
+      end
+      if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+      floater(self_obj,120,COLOR_MSG_NORMAL);
+      end
+   end
+
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (local_var(LVAR_Flag_Run) != 0) then begin
+      if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+      call NodePartyNon2;
+      end
+      else begin
+      partyRunToDude // персонаж бегает вслед за ГГ
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   if (self_TEAM == TEAM_PLAYER) then begin
+   push_options(HomeTile,5,102) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+   end
+   else begin
+   script_overrides;
+   g_display_mstr(519);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_INF_STATUS_APOC,-1);
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == qStart) then begin
+   setQuest(GVAR_INF_QST_APOSTOL_B,qStop);
+   end
+   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) == qStart) then begin
+   setQuest(GVAR_NUEVA_QST_APOC_HOME,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   /*
+   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) >= qEnd) then begin
+   floater(self_obj,103,COLOR_MSG_GREEN);
+   end
+   else begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   */
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) != qZero) then begin
+   bitDialogExp(bit_1,0) // Опция для удобства теста в маппере
+   end
+   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) != qZero) then begin
+   bitDialogExp(bit_1,0) // Опция для удобства теста в маппере
+   end
+
+   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) >= qEnd) then begin
+   call NodeHomeDialog; // диалог после возвращения в КН
+   end
+   else if (global_var(GVAR_INF_STATUS_APOC) >= 2) then begin
+   call NodeHomeDialog; // диалог после возвращения в КН
+   end
+
+   else if (getQuest(GVAR_NUEVA_QST_APOC_HOME) == qStart) then begin
+   call NodePartyDialog; // диалог после приобщения
+   end
+   else if (global_var(GVAR_INF_STATUS_APOC) > 0) then begin
+   call NodePartyDialog; // диалог после приобщения
+   end
+   else if (cur_map_index != MAP_INFIERNO_CHURCH) then begin
+   call NodePartyDialog; // диалог после приобщения
+   end
+
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog; // диалог в церкви Левия
+   end
+   else begin
+   call NodeSndDialog; // диалог в церкви Левия
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_31);
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+   NAnswer(204,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+   if (getQuest(GVAR_PUERTO_QST_INFERNO) != qZero) then begin
+   GAnswer(210,1,NodeFstDialog5)
+   end
+   NAnswer(209,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(207)
+   NAnswer(208,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(211)
+   NAnswer(212,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(213)
+   NAnswer(214,1,NodeFstDialog7)
+   NAnswer(216,1,NodeFstDialog8)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(215)
+   NAnswer(218,1,NodeFstDialog9)
+end
+
+procedure NodeFstDialog8 begin
+   Reply(217)
+   NAnswer(218,1,NodeFstDialog9)
+end
+
+procedure NodeFstDialog9 begin
+   Reply(220)
+   NAnswer(221,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if ((getQuest(GVAR_INF_QST_APOSTOL_A) == qStart) and (getQuest(GVAR_INF_QST_APOSTOL_B) >= qEnd)) then begin
+   Reply(252)
+   end
+   else begin
+   Reply(250)
+   end
+
+   //--- Расспросы
+   NAnswer(270,1,NodeAnswer100)
+   NAnswer(330,1,NodeAnswer200)
+   if (global_var(GVAR_INF_STATUS_APOSTOL) == 0) then begin
+   NAnswer(380,1,NodeAnswer400)
+   end
+
+   if (map_var(MVAR_INF_PWR_ADD) == 0) then begin
+      if (item_amnt(dude_obj,PID_ARMOR_POWER_A) > 0) then begin
+      end
+      else if (item_amnt(dude_obj,PID_ARMOR_POWER_B) > 0) then begin
+      end
+      else begin
+      NAnswer(360,1,NodeAnswer300)
+      end
+   end
+
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == qStart) then begin
+      if (item_amnt(dude_obj,PID_Q_DIANA_PACKET) > 0) then begin
+      NAnswer(430,1,NodeQst100)
+      end
+      else begin
+      NAnswer(424,1,NodeAnswer415)
+      end
+   end
+
+   NAnswer(450,1,NodeAnswer500)
+   NAnswer(251,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(271)
+
+   if (bitDialog(bit_2) == 0) then begin
+      if (town_known(AREA_CASA_NUEVA) <= MARK_STATE_UNKNOWN) then begin
+      NAnswer(273,5,NodeAnswer101)
+      end
+      if (town_known(AREA_CASA_NUEVA) >= MARK_STATE_VISITED) then begin
+      NAnswer(276,4,NodeAnswer102)
+      BAnswer(279,4,NodeAnswer103)
+      end
+   end
+
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(290,3,NodeAnswer104)
+   end
+
+   if (bitDialog(bit_4) == 0) then begin
+   NAnswer(300,3,NodeAnswer107)
+   end
+   else begin
+   NAnswer(310,4,NodeAnswer111)
+   end
+
+   NAnswer(272,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswerEnd begin
+   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) != qZero) then begin
+   call NodeParty200;
+   end
+   else if (global_var(GVAR_INF_STATUS_APOC) != 0) then begin
+   call NodeParty200;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeAnswer101 begin
+   bitDialogExp(bit_2,0)
+   mark_on_map(AREA_CASA_NUEVA)
+   Reply(274)
+   NAnswer(275,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,10)
+   setBonusReaction(5)
+   Reply(277)
+   NAnswer(278,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer103 begin
+   bitDialogExp(bit_2,10)
+   setBonusReaction(-5)
+   Reply(280)
+   NAnswer(281,1,NodeAnswerEnd)
+   BAnswer(282,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer104 begin
+   Reply(291)
+   NAnswer(292,1,NodeAnswer105)
+   NAnswer(296,1,NodeAnswer106)
+end
+
+procedure NodeAnswer105 begin
+   bitDialogExp(bit_3,20)
+   Reply(293)
+   BAnswer(294,1,NodeAnswerEnd)
+   NAnswer(295,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer106 begin
+   bitDialogExp(bit_3,20)
+   setBonusReaction(-5)
+   Reply(297)
+   BAnswer(298,1,NodeAnswerEnd)
+   NAnswer(299,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer107 begin
+   Reply(301)
+   BAnswer(302,1,NodeAnswer108)
+   NAnswer(305,1,NodeAnswer109)
+end
+
+procedure NodeAnswer108 begin
+   bitDialogExp(bit_4,20)
+   setBonusReaction(5)
+   Reply(303)
+   NAnswer(304,1,NodeAnswer110)
+end
+
+procedure NodeAnswer109 begin
+   bitDialogExp(bit_4,20)
+   setBonusReaction(-5)
+   Reply(306)
+   NAnswer(307,1,NodeAnswer110)
+end
+
+procedure NodeAnswer110 begin
+   Reply(308)
+   NAnswer(309,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer111 begin
+   bitDialogExp(bit_5,20)
+   Reply(311)
+   NAnswer(312,1,NodeAnswer112)
+   NAnswer(315,1,NodeAnswer113)
+   if (town_known(AREA_CASA_NUEVA) < MARK_STATE_VISITED) then begin
+   NAnswer(317,1,NodeAnswer114)
+   end
+   NAnswer(314,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer112 begin
+   Reply(313)
+   NAnswer(315,1,NodeAnswer113)
+   if (town_known(AREA_CASA_NUEVA) < MARK_STATE_VISITED) then begin
+   NAnswer(317,1,NodeAnswer114)
+   end
+   NAnswer(314,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer113 begin
+   Reply(316)
+   NAnswer(312,1,NodeAnswer112)
+   if (town_known(AREA_CASA_NUEVA) < MARK_STATE_VISITED) then begin
+   NAnswer(317,1,NodeAnswer114)
+   end
+   NAnswer(314,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer114 begin
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) < qEnd) then begin
+   mark_on_map(AREA_PUERTO_STEEL)
+   end
+
+   Reply(318)
+   NAnswer(312,1,NodeAnswer112)
+   NAnswer(319,1,NodeAnswer113)
+   NAnswer(314,1,NodeAnswerEnd)
+   NAnswer(320,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(331)
+   NAnswer(333,1,NodeAnswer201)
+   NAnswer(332,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer201 begin
+   Reply(334)
+   NAnswer(344,3,NodeAnswer204)
+   NAnswer(336,3,NodeAnswer202)
+   NAnswer(339,3,NodeAnswer203)
+   NAnswer(335,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer202 begin
+   Reply(337)
+   NAnswer(339,3,NodeAnswer203)
+   NAnswer(345,3,NodeAnswer204)
+   NAnswer(338,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer203 begin
+   Reply(340)
+   NAnswer(343,1,NodeAnswer202)
+   NAnswer(345,3,NodeAnswer204)
+   NAnswer(341,1,NodeAnswerEnd)
+   BAnswer(342,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer204 begin
+   Reply(346)
+   NAnswer(348,1,NodeAnswer205)
+   NAnswer(347,1,NodeAnswer201)
+end
+
+procedure NodeAnswer205 begin
+   Reply(349)
+   NAnswer(350,1,NodeAnswer206)
+end
+
+procedure NodeAnswer206 begin
+   Reply(351)
+   NAnswer(352,1,NodeAnswer207)
+end
+
+procedure NodeAnswer207 begin
+   Reply(353)
+   NAnswer(354,1,NodeAnswer208)
+end
+
+procedure NodeAnswer208 begin
+   bitDialogExp(bit_6,50)
+   Reply(355)
+   NAnswer(356,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer300 begin
+   if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+   if (map_var(MVAR_INF_PWR_KNOW) == 0) then begin
+   set_map_var(MVAR_INF_PWR_KNOW, 1);
+   end
+   end
+   Reply(361)
+   NAnswer(362,1,NodeAnswer301)
+end
+
+procedure NodeAnswer301 begin
+   Reply(363)
+   NAnswer(364,1,NodeAnswer303)
+   //NAnswer(364,1,NodeAnswer302)
+   NAnswer(371,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer302 begin
+   Reply(365)
+   NAnswer(366,1,NodeAnswer303)
+end
+
+procedure NodeAnswer303 begin
+   Reply(367)
+   NAnswer(368,1,NodeAnswer304)
+end
+
+procedure NodeAnswer304 begin
+   Reply(369)
+   if (item_amnt(dude_obj,PID_Q_PWR_HEAD)>0) then begin
+   zNAnswer(372,1,NodeAnswer305)
+   end
+   NAnswer(370,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer305 begin
+   Reply(373)
+   NAnswer(374,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer400 begin
+   Reply(381)
+   NAnswer(383,1,NodeAnswer401)
+   NAnswer(385,1,NodeAnswer402)
+   NAnswer(387,1,NodeAnswer403)
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) < qEnd) then begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == qZero) then begin
+   if (global_var(GVAR_INF_STATUS_APOSTOL) >= 0) then begin
+   if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+   NAnswer(389,1,NodeAnswer404)
+   end
+   end
+   end
+   end
+   NAnswer(382,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer401 begin
+   Reply(384)
+   NAnswer(385,1,NodeAnswer402)
+   NAnswer(387,1,NodeAnswer403)
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) < qEnd) then begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == qZero) then begin
+   if (global_var(GVAR_INF_STATUS_APOSTOL) >= 0) then begin
+   if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+   NAnswer(389,1,NodeAnswer404)
+   end
+   end
+   end
+   end
+   NAnswer(382,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer402 begin
+   Reply(386)
+   NAnswer(383,1,NodeAnswer401)
+   NAnswer(387,1,NodeAnswer403)
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) < qEnd) then begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == qZero) then begin
+   if (global_var(GVAR_INF_STATUS_APOSTOL) >= 0) then begin
+   if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+   NAnswer(389,1,NodeAnswer404)
+   end
+   end
+   end
+   end
+   NAnswer(382,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer403 begin
+   Reply(388)
+   NAnswer(383,1,NodeAnswer401)
+   NAnswer(385,1,NodeAnswer402)
+   if (getQuest(GVAR_INF_QST_APOSTOL_A) < qEnd) then begin
+   if (getQuest(GVAR_INF_QST_APOSTOL_B) == qZero) then begin
+   if (global_var(GVAR_INF_STATUS_APOSTOL) >= 0) then begin
+   if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+   NAnswer(389,1,NodeAnswer404)
+   end
+   end
+   end
+   end
+   NAnswer(382,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer404 begin
+   Reply(390)
+   NAnswer(391,1,NodeAnswer405)
+   NAnswer(392,5,NodeAnswer405)
+   NAnswer(409,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer405 begin
+   Reply(393)
+   NAnswer(395,1,NodeAnswer411)
+   NAnswer(396,1,NodeAnswer406)
+   NAnswer(394,1,NodeAnswerEnd)
+end
+
+procedure NodeAnswer406 begin
+   Reply(397)
+   NAnswer(398,1,NodeAnswer407)
+end
+procedure NodeAnswer407 begin
+   Reply(399)
+   NAnswer(400,1,NodeAnswer408)
+end
+procedure NodeAnswer408 begin
+   Reply(401)
+   NAnswer(402,1,NodeAnswer409)
+end
+procedure NodeAnswer409 begin
+   Reply(403)
+   NAnswer(404,1,NodeAnswer410)
+end
+procedure NodeAnswer410 begin
+   bitDialogExp(bit_7,50)
+   Reply(405)
+   NAnswer(406,1,NodeAnswer411)
+end
+
+procedure NodeAnswer411 begin
+   Reply(407)
+   NAnswer(408,1,NodeAnswer412)
+   NAnswer(409,1,Node999)
+end
+
+procedure NodeAnswer412 begin
+   Reply(410)
+   NAnswer(415,1,NodeAnswer414)
+   BAnswer(411,1,NodeAnswer413)
+end
+
+procedure NodeAnswer413 begin
+   setBonusReaction(-20)
+   Reply(412)
+   BAnswer(413,1,NodeAnswer415)
+   NAnswer(414,1,NodeAnswer415)
+end
+
+procedure NodeAnswer414 begin
+   setBonusReaction(10)
+   Reply(416)
+   BAnswer(417,1,NodeAnswer415)
+   NAnswer(418,1,NodeAnswer415)
+end
+
+procedure NodeAnswer415 begin
+   Reply(419)
+   NAnswer(420,1,NodeAnswer416)
+end
+
+procedure NodeAnswer416 begin
+   setQuest(GVAR_INF_QST_APOSTOL_B,qStart);
+   Reply(421)
+   if (item_amnt(dude_obj,PID_Q_DIANA_PACKET) > 0) then begin
+   NAnswer(438,1,NodeQst100)
+   end
+   NAnswer(422,1,Node999)
+   BAnswer(423,1,Node999)
+end
+
+procedure NodeAnswer500 begin
+   zReply(451)
+
+   if (global_var(GVAR_INF_STATUS_APOSTOL) < 0) then begin
+   NAnswer(453,1,NodeAnswer502)
+   end
+   else if (getQuest(GVAR_INF_QST_APOSTOL_A) >= qEnd) then begin
+   GAnswer(461,1,NodeAnswer504)
+   end
+   else begin
+   BAnswer(457,1,NodeAnswer503)
+   end
+
+   NAnswer(452,1,Node999)
+end
+
+procedure NodeAnswer501 begin
+   call NodeParty;
+end
+
+procedure NodeAnswer502 begin
+   Reply(454)
+   NAnswer(455,1,NodeAnswer501)
+   NAnswer(456,1,Node999)
+end
+
+procedure NodeAnswer503 begin
+   Reply(458)
+   NAnswer(459,1,NodeAnswer501)
+   NAnswer(460,1,Node999)
+end
+
+procedure NodeAnswer504 begin
+   Reply(462)
+   NAnswer(463,1,NodeParty)
+   NAnswer(464,1,Node999)
+end
+
+procedure NodeQst100 begin
+   setQuest(GVAR_INF_QST_APOSTOL_B,qEnd);
+   item_remove(dude_obj,PID_Q_DIANA_PACKET,1)
+   Reply(431)
+   NAnswer(432,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   PLAY_FADE
+   Reply(433)
+   NAnswer(434,1,NodeQst102)
+   BAnswer(435,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   PLAY_FADE
+   //!!! гули в храме не атакуют
+   Reply(436)
+   NAnswer(437,1,Node999)
+end
+
+//--- ПАРТИЯ
+
+procedure NodePartyDialog begin
+   if (self_TEAM != TEAM_PLAYER) then begin
+   zReply(528)
+   end
+   else begin
+   Reply(500)
+   end
+
+   if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
+   GAnswer(600,1,NodeParty300)
+   end
+
+   NAnswer(550,3,NodeParty200)
+
+   if (dude_cur_hits<(dude_max_hits-(dude_max_hits/2))) then begin
+   NAnswer(530,2,NodeParty104)
+   end
+   else if dude_is_crippled then begin
+   NAnswer(530,2,NodeParty104)
+   end
+
+   if weapon_invn_self then begin
+   NAnswer(521,1,NodeParty102)
+   end
+   if (inven_armor(self_obj) > 0) then begin
+   NAnswer(525,1,NodeParty103)
+   end
+
+   if (self_TEAM == TEAM_PLAYER) then begin
+   NAnswer(510,1,NodePartyNon)
+   end
+   else begin
+   NAnswer(520,1,NodeParty)
+   end
+
+   if (local_var(LVAR_Flag_Run) == 0) then begin
+   //NAnswer(514,1,NodeParty100)
+   NAnswer(519,1,Node999)
+   end
+   else begin
+   //NAnswer(517,1,NodeParty101)
+   NAnswer(501,1,Node999)
+   end
+end
+
+procedure NodeParty100 begin
+   set_local_var(LVAR_Flag_Run,1);
+   Reply(515)
+   NAnswer(516,1,Node999)
+end
+
+procedure NodeParty101 begin
+   set_local_var(LVAR_Flag_Run,0);
+   Reply(518)
+   NAnswer(519,1,Node999)
+end
+
+procedure NodeParty102 begin
+   inven_unwield(self_obj);
+   Reply(522)
+   NAnswer(523,1,NodePartyDialog)
+   BAnswer(524,1,NodePartyDialog)
+end
+
+procedure NodeParty103 begin
+   item_remove_armor(self_obj)
+   Reply(526)
+   NAnswer(527,1,NodePartyDialog)
+end
+
+procedure NodeParty104 begin
+   if (get_SLAVA<0) then begin
+   Reply(539)
+   NAnswer(541,1,Node999)
+   BAnswer(540,1,Node999)
+   end
+   else if (dude_cur_hits<(dude_max_hits/2)) then begin
+   zReply(537)
+   NAnswer(538,1,NodeParty105)
+   end
+   else if dude_is_crippled then begin
+   Reply(534)
+   NAnswer(535,1,NodeParty105)
+   NAnswer(536,1,NodeParty105)
+   end
+   else begin
+   Reply(531)
+   NAnswer(532,1,NodePartyDialog)
+   end
+end
+
+procedure NodeParty105 begin
+   PLAY_FADE
+   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
+   if (dude_cur_hits<(dude_max_hits/2)) then begin
+   critter_heal(dude_obj,(dude_max_hits/2)-dude_cur_hits);
+   end
+   call Node999;
+end
+
+procedure NodeParty begin
+   //if (party_member_count(0) > 1) then begin
+   if party_limit then begin
+      Reply(542)
+      NAnswer(543,1,Node999)
+      NAnswer(544,1,Node999)
+   end
+   else begin
+      set_local_var(LVAR_Flag_Run,1);
+      set_global_var(GVAR_INF_STATUS_APOC,1);
+      critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+      rm_timer_event(self_obj);
+      party_add(self_obj);
+
+      if (cur_map_index == MAP_INFIERNO_CHURCH) then begin
+         if (self_elevation == 0) then begin
+         end
+         else if (global_var(GVAR_INF_STATUS_APOSTOL) > 0) then begin
+         end
+         else if (getQuest(GVAR_INF_QST_APOSTOL_A) >= qEnd) then begin
+         end
+         else begin
+         set_CITY_REP(GVAR_TOWN_REP_INFERNO_CULT,REP_KILL_CRITICAL)
+         end
+      end
+
+      Reply(500)
+      if (getQuest(GVAR_NUEVA_QST_APOC_HOME) == qZero) then begin
+      NAnswer(502,1,NodeParty2)
+      end
+      else begin
+      NAnswer(501,1,Node999)
+      end
+   end
+end
+
+procedure NodePartyNon begin
+   Reply(511)
+   BAnswer(512,1,NodePartyNon2)
+   NAnswer(513,1,Node999)
+end
+
+procedure NodePartyNon2 begin
+   party_remove(self_obj);
+
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   set_local_var(LVAR_Flag_Run,0);
+   set_local_var(LVAR_Flags,0);
+   set_global_var(GVAR_INF_STATUS_APOC,0);
+   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) == qEnd) then begin
+   set_global_var(GVAR_INF_STATUS_APOC,2);
+   end
+   set_local_var(LVAR_Home_Tile,self_tile);
+   set_local_var(LVAR_Home_Rotat,self_cur_rot);
+
+   call Node999;
+end
+
+procedure NodeParty2 begin
+   setQuest(GVAR_NUEVA_QST_APOC_HOME,qStart);
+   Reply(503)
+   NAnswer(504,1,NodeParty3)
+   if (town_known(AREA_CASA_NUEVA) <= MARK_STATE_UNKNOWN) then begin
+   NAnswer(506,1,NodeParty4)
+   end
+   NAnswer(508,1,Node999)
+end
+
+procedure NodeParty3 begin
+   Reply(505)
+   if (town_known(AREA_CASA_NUEVA) <= MARK_STATE_UNKNOWN) then begin
+   NAnswer(506,1,NodeParty4)
+   end
+   NAnswer(508,1,Node999)
+end
+
+procedure NodeParty4 begin
+   bitDialogExp(bit_8,0) //фиксация для диалога про ПипБой
+   mark_on_map(AREA_CASA_NUEVA)
+   Reply(507)
+   NAnswer(509,1,NodeParty3)
+   NAnswer(508,1,Node999)
+end
+
+procedure NodeParty200 begin
+   Reply(551)
+
+   NAnswer(597,1,NodeAnswer100)
+   NAnswer(570,1,NodeParty204)
+   NAnswer(580,1,NodeParty206)
+
+   if (bitDialog(bit_8) != 0) then begin
+   if (bitDialog(bit_9) == 0) then begin
+      NAnswer(560,1,NodeParty201)
+   end
+   end
+
+   NAnswer(552,1,NodePartyDialog)
+end
+
+procedure NodeParty201 begin
+   bitDialogExp(bit_9,35)
+   Reply(561)
+   if (getQuest(GVAR_VAULT27_VISITED) >= qEnd) then begin
+   NAnswer(562,1,NodeParty202)
+   end
+   else begin
+   NAnswer(565,1,NodeParty203)
+   end
+end
+
+procedure NodeParty202 begin
+   Reply(563)
+   NAnswer(564,1,NodePartyDialog)
+end
+
+procedure NodeParty203 begin
+   Reply(566)
+   NAnswer(567,1,NodePartyDialog)
+end
+
+procedure NodeParty204 begin
+   Reply(571)
+   NAnswer(572,1,NodeParty205)
+end
+
+procedure NodeParty205 begin
+   Reply(573)
+   NAnswer(574,1,NodePartyDialog)
+   BAnswer(575,1,NodePartyDialog)
+end
+
+procedure NodeParty206 begin
+   if ((cur_map_index == MAP_CASA_NUEVA_CITY) or (cur_map_index == MAP_CASA_NUEVA_PLANT) or (cur_map_index == MAP_CASA_NUEVA_LAB) or (cur_map_index == MAP_CASA_NUEVA_GIDROPONIC)) then begin
+   Reply(583)
+   end
+
+   else if ((cur_map_index == MAP_PHOENIX_SIGN) or (cur_map_index == MAP_PHOENIX_CENTER)) then begin
+   Reply(584)
+   end
+   else if ((cur_map_index == MAP_PHOENIX_BNDCS) or (cur_map_index == MAP_PHOENIX_ELECTR) or (cur_map_index == MAP_PHOENIX_DSTROY)) then begin
+   Reply(585)
+   end
+   else if ((cur_map_index == MAP_PHOENIX_CHURCH) or (cur_map_index == MAP_PHOENIX_PLAZA)) then begin
+   Reply(586)
+   end
+   else if (cur_map_index == MAP_PHOENIX_VAULT) then begin
+   Reply(587)
+   end
+   else if (cur_map_index == MAP_PHOENIX_ANAL) then begin
+   Reply(588)
+   end
+
+   else if ((cur_map_index == MAP_CASA_GRANDE_WATER) or (cur_map_index == MAP_CASA_GRANDE_CITY) or (cur_map_index == MAP_CASA_GRANDE_GRAVE)) then begin
+   Reply(589)
+   end
+   else if ((cur_map_index == MAP_TWO_SUN_CITY) or (cur_map_index == MAP_TWO_SUN_WORKSHOP) or (cur_map_index == MAP_TWO_SUN_GRAVE)) then begin
+   Reply(590)
+   end
+
+   else if (cur_map_index == MAP_PUERTO_DESTROY) then begin
+   Reply(591)
+   end
+   else if ((cur_map_index == MAP_PUERTO_SIGN) or (cur_map_index == MAP_PUERTO_DOCS) or (cur_map_index == MAP_PUERTO_BASA)) then begin
+   Reply(592)
+   end
+   else if ((cur_map_index == MAP_INFIERNO_ROAD) or (cur_map_index == MAP_INFIERNO_CITY) or (cur_map_index == MAP_INFIERNO_SHOP) or (cur_map_index == MAP_INFIERNO_POLICE) or (cur_map_index == MAP_INFIERNO_CHURCH) or (cur_map_index == MAP_INFIERNO_MONUMENT)) then begin
+   Reply(593)
+   end
+   else if ((cur_map_index == MAP_HERMO_RANCHO) or (cur_map_index == MAP_HERMO_CASA) or (cur_map_index == MAP_HERMO_FUERTE)) then begin
+   Reply(594)
+   end
+   else if (cur_map_index == MAP_OLD_MOTEL) then begin
+   Reply(595)
+   end
+   else if (worldmap_ypos < 550) then begin
+   Reply(596)
+   end
+
+   else begin
+   Reply(582)
+   end
+
+   NAnswer(581,1,NodePartyDialog)
+end
+
+procedure NodeParty300 begin
+   if ((global_var(GVAR_NUEVA_STATUS_APOC) < 0) or town_rep_is_vilified) then begin
+   Reply(614)
+   end
+   else begin
+   Reply(601)
+   end
+   NAnswer(602,1,NodeParty301)
+end
+
+procedure NodeParty301 begin
+   Reply(603)
+   NAnswer(604,1,NodeParty302)
+end
+
+procedure NodeParty302 begin
+   Reply(605)
+   NAnswer(606,1,NodeParty303)
+   NAnswer(607,1,NodeParty304)
+end
+
+procedure NodeParty303 begin
+   setQuest(GVAR_NUEVA_QST_APOC_HOME,qEnd);
+   set_global_var(GVAR_INF_STATUS_APOC,2);
+   exp_add(750);
+   set_SLAVA(25)
+   set_REP(5)
+   move_obj_inven_to_obj(self_obj,dude_obj);
+
+   call NodePartyNon2;
+end
+
+procedure NodeParty304 begin
+   set_SLAVA(-25)
+   set_REP(-2)
+   item_add(dude_obj,PID_M_FRUIT,10)
+   item_add(dude_obj,PID_M_STIMPAK,5)
+   item_add(dude_obj,PID_M_ANTIDOTE,3)
+   Reply(608)
+   NAnswer(609,1,NodeParty303)
+end
+
+//--- ДИАЛОГ ПОСЛЕ ВОЗВРАЩЕНИЯ В КАСА-НУЭВА
+
+procedure NodeHomeDialog begin
+   if town_rep_is_idolized then begin
+   zReply(612)
+   end
+   else if town_rep_is_hated then begin
+   Reply(611)
+   end
+   else begin
+   Reply(610)
+   end
+   NAnswer(613,1,Node999)
+end

@@ -36,11 +36,11 @@
 {131}{}{}
 {132}{}{A military encampment blocks the path to the tribal camp.}
 {133}{}{You come across a tribal camp hidden among the dunes.}
-{134}{}{You see a number of pens spread out before you. The stench of brahmin hit you long before you arrive.}
+{134}{}{You see a number of pens spread out before you. The stench of brahmin hit you long before you arrived.}
 {135}{}{You approach the settlement of the Tinsmiths. Its walls and building are made from aircraft parts.}
 {136}{}{}
 {137}{}{}
-{138}{}{This vault looks abandoned, untouched for a century or more.}
+{138}{}{This Vault looks abandoned, untouched for a century or more.}
 {139}{}{Ahead lie old ruins. The damp air hints that the sea is nearby.}
 {140}{}{You come across a small, weather-beaten pier.}
 {141}{}{For the first time, you stand on the deck of a destroyer.}
@@ -59,10 +59,10 @@
 {154}{}{}
 {155}{}{This place lies hidden in a maze of impenetrable ruins. No wonder it's so hard to find.}
 {156}{}{The vault looks deserted, stripped of anything useful long ago.}
-{157}{}{You see the adobe walls of Casa Grande. Outlying farms surround the town.}
+{157}{}{You come across the small town of Casa Grande, nestled along the midpoint of a caravan route.}
 {158}{}{}
 {159}{}{}
-{160}{}{This place holds the horrors of the Great War close to its heart.}
+{160}{}{The horrors of the Great War echo through the streets of this shattered city.}
 {161}{}{You come across the charred ruins of a once-great city. The sounds of dangerous creatures can be heard within.}
 {162}{}{}
 {163}{}{}
@@ -122,7 +122,7 @@
 {217}{}{}
 {218}{}{}
 {219}{}{}
-{220}{}{You come across a small villagae. They appear to be in the midst of a celebration.}
+{220}{}{You come across a small village. They appear to be in the midst of a celebration.}
 {221}{}{An ancient monument rises to the west. It appears to have been untouched for decades, maybe even longer.}
 {222}{}{You come across an ancient cemetery. It is nearly swallowed by desert plants and weeds.}
 {223}{}{}

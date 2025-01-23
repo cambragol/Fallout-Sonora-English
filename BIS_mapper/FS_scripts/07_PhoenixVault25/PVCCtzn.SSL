@@ -1,0 +1,393 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PVCCtzn
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CULT // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CULT_ATOMIC      // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_WIMPY       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeDivers;
+procedure NodeDivers1;
+procedure NodeDivers2;
+procedure NodeDivers3;
+procedure NodeDivers4;
+procedure NodeDivers5;
+procedure NodeDivers6;
+procedure NodeDivers7;
+procedure NodeWater;
+procedure NodeWater1;
+procedure NodeWater2;
+procedure NodeWater3;
+procedure NodeWater4;
+procedure NodeWater5;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer300;
+procedure NodeAnswer301;
+procedure NodeVault;
+procedure NodeVault100;
+procedure NodeVault101;
+procedure NodeVault102;
+procedure NodeVault103;
+procedure NodeVault200;
+procedure NodeVault300;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_random_home(4)
+       timer_move_patrol(24496,25088)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,5,102) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   item_add(self_obj,PID_ARMOR_VAULT,1)
+   /*if (bitDialog(bit_7) == 0) then begin
+   item_add(self_obj,PID_KEY_VAULT25_RED,1)
+   end*/
+end
+
+procedure talk_p_proc begin
+   if (bitDialog(bit_7) != 0) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_PHENIX_CULT_DESTROY_TIMER) != 0) then begin
+   z_floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+   BAnswer(209,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   zReply(206)
+   NAnswer(207,1,NodeSndDialog)
+   NAnswer(208,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(220,1,NodeAnswer)
+   NAnswer(240,1,NodeVault)
+   if (bitDialog(bit_6) == 0) then begin
+      NAnswer(260,4,NodeWater)
+   end
+   if (bitDialog(bit_5) != 0) then begin
+      if (bitDialog(bit_7) == 0) then begin
+      NAnswer(280,5,NodeDivers)
+      end
+   end
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeDivers begin
+   Reply(281)
+   NAnswerSkill(282,1,NodeDivers1,SKILL_CONVERSANT,70,282,NodeDivers2)
+   NAnswer(283,1,NodeSndDialog)
+   NAnswer(284,1,Node999)
+end
+
+procedure NodeDivers1 begin
+   Reply(285)
+   NAnswer(286,1,NodeDivers3)
+   NAnswer(283,1,NodeSndDialog)
+   NAnswer(284,1,Node999)
+end
+
+procedure NodeDivers2 begin
+   Reply(287)
+   NAnswer(288,1,Node999)
+end
+
+procedure NodeDivers3 begin
+   Reply(289)
+   NAnswer(290,1,NodeDivers4)
+end
+
+procedure NodeDivers4 begin
+   Reply(291)
+   NAnswer(292,1,NodeDivers5)
+end
+
+procedure NodeDivers5 begin
+   Reply(293)
+   NAnswer(298,1,NodeDivers6)
+   NAnswer(294,1,NodeDivers7)
+end
+
+procedure NodeDivers6 begin
+   Reply(299)
+   NAnswer(294,1,NodeDivers7)
+end
+
+procedure NodeDivers7 begin
+   item_add(dude_obj,PID_KEY_VAULT25_RED,1)
+   bitDialogExp(bit_7,200)
+   Reply(295)
+   NAnswer(296,1,Node999)
+   BAnswer(297,1,Node998)
+end
+
+procedure NodeWater begin
+   bitDialogExp(bit_6,25)
+   item_add(dude_obj,PID_M_WATER_FLASK,1)
+   PLAY_FADE
+   zReply(261)
+   BAnswer(262,1,NodeWater1)
+   GAnswer(263,1,NodeWater2)
+end
+
+procedure NodeWater1 begin
+   setBonusReaction(-10)
+   set_SLAVA(-2)
+   Reply(264)
+   NAnswer(265,1,NodeWater3)
+end
+
+procedure NodeWater2 begin
+   setBonusReaction(20)
+   set_SLAVA(2)
+   Reply(266)
+   NAnswer(267,1,NodeWater3)
+end
+
+procedure NodeWater3 begin
+   Reply(268)
+   NAnswer(269,1,NodeWater4)
+end
+
+procedure NodeWater4 begin
+   Reply(270)
+   NAnswer(271,1,NodeWater5)
+end
+
+procedure NodeWater5 begin
+   Reply(272)
+   NAnswer(273,1,NodeSndDialog)
+   NAnswer(274,1,Node999)
+end
+
+procedure NodeAnswer begin
+   Reply(221)
+   NAnswer(222,3,NodeAnswer100)
+   NAnswer(230,3,NodeAnswer200)
+   NAnswer(235,3,NodeAnswer300)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer100 begin
+   zReply(223)
+   NAnswer(224,4,NodeAnswer101)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer101 begin
+   Reply(225)
+   NAnswer(226,7,NodeAnswer102)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,50)
+   Reply(227)
+   NAnswer(228,1,NodeSndDialog)
+end
+
+procedure NodeAnswer200 begin
+   zReply(231)
+   NAnswer(232,5,NodeAnswer201)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeAnswer201 begin
+   bitDialogExp(bit_3,25)
+   zReply(233)
+   NAnswer(234,1,NodeSndDialog)
+end
+
+procedure NodeAnswer300 begin
+   Reply(236)
+   NAnswer(238,7,NodeAnswer301)
+   NAnswer(237,1,NodeSndDialog)
+end
+
+procedure NodeAnswer301 begin
+   bitDialogExp(bit_4,50)
+   Reply(239)
+   NAnswer(237,1,NodeSndDialog)
+end
+
+procedure NodeVault begin
+   Reply(241)
+   NAnswer(242,3,NodeVault100)
+   NAnswer(252,3,NodeVault200)
+   NAnswer(254,3,NodeVault300)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeVault100 begin
+   Reply(243)
+   NAnswerSkill(244,3,NodeVault101,SKILL_CONVERSANT,50,244,NodeVault102)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeVault101 begin
+   bitDialogExp(bit_5,100)
+   Reply(247)
+   NAnswer(256,1,NodeVault103)
+   NAnswer(248,1,NodeSndDialog)
+end
+
+procedure NodeVault102 begin
+   Reply(245)
+   NAnswer(246,1,NodeVault)
+end
+
+procedure NodeVault103 begin
+   Reply(257)
+   NAnswer(248,1,NodeSndDialog)
+end
+
+procedure NodeVault200 begin
+   Reply(253)
+   NAnswer(212,1,NodeSndDialog)
+end
+
+procedure NodeVault300 begin
+   Reply(255)
+   NAnswer(212,1,NodeSndDialog)
+end

@@ -1,0 +1,63 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSRadPtl
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call repair_proc;
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(114);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_PARTS_ELECTRONIC) then begin
+   script_overrides;
+   display_mstr(112);
+   end
+   else if (objUsedPid == PID_Q_DAYGLOW_PATRUL_CODES) then begin
+   script_overrides;
+   display_mstr(115);
+   end
+end
+
+procedure repair_proc begin
+   if ((getQuest(GVAR_DAYGLOW_MAIN_B) != qStart) and (getQuest(GVAR_DAYGLOW_MAIN_A) > qStop)) then begin
+      display_mstr(112);
+   end
+   else if (local_var(LVAR_Flags) == 0) then begin
+      item_add(dude_obj, PID_Q_RADIO_LUMP, 1)
+      play_sfx("PEBBLE");
+      display_mstr(113);
+      set_obj_visibility(self_obj, 1);
+      create_object_sid(self_PID-1, self_tile, self_elevation, -1);
+      set_local_var(LVAR_Flags, 1);
+   end
+   else begin
+      display_mstr(111);
+   end
+end

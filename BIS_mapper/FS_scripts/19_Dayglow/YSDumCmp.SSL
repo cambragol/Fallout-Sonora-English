@@ -1,0 +1,197 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSDumCmp
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialogSet;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeDialog4;
+procedure NodeDialog5;
+procedure NodeDialog6;
+procedure NodeDialog7;
+procedure NodeDialog8;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      set_local_var(LVAR_Status, 1);
+      if (map_var(MVAR_DIEGODUM_ALARMA) != 0) then begin
+      set_map_var(MVAR_DIEGODUM_ALARMA,0);
+      end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(0)
+   set_local_var(LVAR_Status, 1);
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedKey(PID_KEY_BONITADUM_A,0)
+   else CompUsedKey(PID_KEY_BONITADUM_B,0)
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(0)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialogSet)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialogSet begin
+   if (global_var(GVAR_DAYGLOW_TURBINA) >= 4) then begin
+      call NodeDialog;
+   end
+   else begin
+      Reply(102)
+      NAnswer(103,0,Node999)
+   end
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   if (global_var(GVAR_DAYGLOW_TURBINA) < 4) then begin
+   NAnswer(202,0,NodeDialog2)
+	end
+
+   if (global_var(GVAR_DAYGLOW_TURBINA) < 5) then begin
+   NAnswer(204,0,NodeDialog3)
+	end
+
+   if (map_var(MVAR_DIEGODUM_SOLAR_C) == 0) then begin
+	NAnswer(207,0,NodeDialog4)
+	end
+
+   if (map_var(MVAR_DIEGODUM_SOLAR_D) == 0) then begin
+	NAnswer(209,0,NodeDialog5)
+	end
+
+   if (map_var(MVAR_DIEGODUM_ALARMA) != 0) then begin
+   NAnswer(211,0,NodeDialog6)
+   end
+
+   if (map_var(MVAR_DIEGODUM_ROBOTS) == 0) then begin
+   NAnswer(213,0,NodeDialog7)
+   end
+
+   /*
+   if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) == qStart) then begin
+   NAnswer(215,0,NodeDialog8)
+   end
+   if (getQuest(GVAR_DAYGLOW_MONORAIL_ENERGY) == qZero) then begin
+   if (getQuest(GVAR_DAYGLOW_STATUS_MONORAIL) == qStart) then begin
+   NAnswer(215,0,NodeDialog8)
+   end
+   end
+   */
+
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog2 begin
+   Reply(203)
+   NAnswer(206,0,NodeDialog)
+end
+
+procedure NodeDialog3 begin
+   Reply(205)
+   NAnswer(206,0,NodeDialog)
+end
+
+procedure NodeDialog4 begin
+   set_map_var(MVAR_DIEGODUM_SOLAR_C, 1);
+
+   create_object_sid(PID_HEX_SOLAR, 15887, 0, -1); // перед входом в адмздание
+   create_object_sid(PID_HEX_SOLAR, 18308, 0, -1); // перед входом в КПП
+   create_object_sid(PID_HEX_SOLAR, 25494, 0, -1); // фонарь
+   create_object_sid(PID_HEX_SOLAR, 20302, 0, -1); // фонарь
+   create_object_sid(PID_HEX_SOLAR, 18325, 0, -1); // фонарь
+   create_object_sid(PID_HEX_SOLAR, 13110, 0, -1); // фонарь
+   create_object_sid(PID_HEX_SOLAR, 14886, 0, -1); // фонарь
+
+   Reply(208)
+   NAnswer(206,0,NodeDialog)
+end
+
+procedure NodeDialog5 begin
+   set_map_var(MVAR_DIEGODUM_SOLAR_D, 1);
+
+   create_object_sid(PID_HEX_SOLAR, 20492, 0, -1); // здание робобазы: северный выход
+   create_object_sid(PID_HEX_SOLAR, 22892, 0, -1); // здание робобазы: южный выход
+   create_object_sid(PID_HEX_SOLAR, 21698, 0, -1); // здание робобазы: западный выход
+   create_object_sid(PID_HEX_SOLAR, 21485, 0, -1); // здание робобазы: у генератора
+   create_object_sid(PID_HEX_SOLAR, 11303, 0, -1); // подстанция
+   create_object_sid(PID_HEX_SOLAR, 17108, 0, -1); // КПП
+
+   create_object_sid(PID_HEX_SOLAR, 15277, 0, -1); // адм здание: коридор
+   create_object_sid(PID_HEX_SOLAR, 17077, 0, -1); // адм здание: кофетерий
+   create_object_sid(PID_HEX_SOLAR, 13869, 0, -1); // адм здание: комната с этим компом
+   create_object_sid(PID_HEX_SOLAR, 14870, 0, -1); // адм здание: комната с этим компом
+   create_object_sid(PID_HEX_SOLAR, 15868, 0, -1); // адм здание: комната с этим компом
+   create_object_sid(PID_HEX_SOLAR, 13877, 0, -1); // адм здание: комната с бобинами рядом с этим компом
+
+   Reply(210)
+   NAnswer(206,0,NodeDialog)
+end
+
+procedure NodeDialog6 begin
+   set_map_var(MVAR_DIEGODUM_ALARMA,0);
+   Reply(212)
+   NAnswer(206,0,NodeDialog)
+end
+
+procedure NodeDialog7 begin
+   set_map_var(MVAR_DIEGODUM_ROBOTS,1);
+   Reply(214)
+   NAnswer(206,0,NodeDialog)
+end
+
+procedure NodeDialog8 begin
+   if (global_var(GVAR_DAYGLOW_TURBINA) < 5) then begin
+   call NodeDialog3;
+   end
+   else begin
+   PLAY_FADE
+   setQuest(GVAR_DAYGLOW_MONORAIL_ENERGY, qEnd);
+   Reply(216)
+   NAnswer(206,0,NodeDialog)
+   end
+end

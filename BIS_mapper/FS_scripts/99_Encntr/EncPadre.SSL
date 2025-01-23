@@ -1,0 +1,344 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_EncPadre
+#define TOWN_REP_VAR                    -1                    // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_CAVALER        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      -100                  // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+procedure NodeAnswer207;
+procedure NodeAnswer208;
+procedure NodeAnswer209;
+procedure NodeAnswer210;
+procedure NodeAnswer211;
+procedure NodeAnswer212;
+procedure NodeAnswer213;
+procedure NodeAnswer214;
+procedure NodeMapStart;
+
+//---------------------
+
+#define LVAR_Dialog_Stop                     (6) // остановка диалога после выбора бонус: <0 - плохая остановка после угрозы и т.п., >0 - хорошая
+#define LVAR_Dialog_MapIndx                  (7) // карта для переноса на самолете
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(2)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       //
+       if (global_var(GVAR_CAR_MAP_INDEX) == cur_map_index) then begin
+       set_global_var(GVAR_CAR_MAP_INDEX,local_var(LVAR_Dialog_MapIndx));
+       end
+       dude_teleport_map(1,1,local_var(LVAR_Dialog_MapIndx),2);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   if (local_var(LVAR_Dialog_Stop) == 0) then begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else if (local_var(LVAR_Dialog_Stop) > 0) then begin
+   floater(self_obj, 102, COLOR_MSG_GREEN);
+   end
+   else begin
+   floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   BAnswer(204,1,NodeFstDialog3)
+   zNAnswer(203,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   call NodeSndDialog;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(220,1,NodeAnswer)
+   NAnswer(250,1,NodeAnswer200)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeAnswer begin
+   Reply(221)
+   NAnswer(223,1,NodeAnswer100)
+   NAnswer(226,1,NodeAnswer101)
+   NAnswer(240,1,NodeAnswer104)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer100 begin
+   Reply(224)
+   NAnswer(225,1,NodeAnswer)
+end
+
+procedure NodeAnswer101 begin
+   Reply(227)
+   NAnswer(228,1,NodeAnswer102)
+   NAnswer(225,1,NodeAnswer)
+end
+
+procedure NodeAnswer102 begin
+   Reply(229)
+   NAnswer(230,1,NodeAnswer103)
+end
+
+procedure NodeAnswer103 begin
+   Reply(231)
+   NAnswer(232,1,NodeAnswer)
+   NAnswer(233,1,NodeAnswer)
+end
+
+procedure NodeAnswer104 begin
+   Reply(241)
+   NAnswer(225,1,NodeAnswer)
+end
+
+procedure NodeAnswer200 begin
+   Reply(251)
+   NAnswer(254,1,NodeAnswer201)
+   NAnswer(257,1,NodeAnswer202)
+   BAnswer(260,1,NodeAnswer203)
+  zNAnswer(263,1,NodeAnswer204)
+   NAnswer(252,1,NodeAnswer)
+   NAnswer(253,1,Node999)
+end
+
+procedure NodeAnswer201 begin
+   set_local_var(LVAR_Dialog_Stop, 1);
+   PLAY_FADE
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   poison(dude_obj,-(get_poison(dude_obj)));
+
+   Reply(255)
+   NAnswer(256,1,Node999)
+end
+
+procedure NodeAnswer202 begin
+   set_local_var(LVAR_Dialog_Stop, 1);
+   set_SLAVA(100)
+   Reply(258)
+   NAnswer(259,1,Node999)
+end
+
+procedure NodeAnswer203 begin
+   variable objContainer;
+   set_local_var(LVAR_Dialog_Stop, -1);
+   set_SLAVA(-100)
+   item_add(self_obj, PID_ARMOR_PURPLE_ROBE_A, 1)
+   //смена спрайта?
+   objContainer := create_object_sid(314, self_tile, self_elevation, -1);
+   move_obj_inven_to_obj(self_obj, objContainer);
+   //set_local_var(LVAR_Home_Tile, tile_num_in_direction(HomeTile, 5, 1));
+
+   Reply(261)
+   NAnswer(262,1,Node999)
+end
+
+procedure NodeAnswer204 begin
+   Reply(264)
+   NAnswer(265,1,NodeAnswer205)
+end
+
+procedure NodeAnswer205 begin
+   Reply(266)
+   NAnswer(268,1,NodeAnswer206)
+   NAnswer(273,1,NodeAnswer209)
+   NAnswer(276,1,NodeAnswer211)
+   NAnswer(279,1,NodeAnswer213)
+   NAnswer(267,1,NodeSndDialog)
+end
+
+procedure NodeAnswer206 begin
+   Reply(269)
+   NAnswer(270,1,NodeAnswer207)
+   NAnswer(271,1,NodeAnswer208)
+   NAnswer(272,1,NodeAnswer205)
+end
+
+procedure NodeAnswer207 begin
+   set_local_var(LVAR_Dialog_MapIndx, MAP_GARAGE_SIGN);
+   call NodeMapStart;
+end
+
+procedure NodeAnswer208 begin
+   set_local_var(LVAR_Dialog_MapIndx, MAP_FLAGSTAFF_CITY);
+   call NodeMapStart;
+end
+
+procedure NodeAnswer209 begin
+   Reply(274)
+   NAnswer(275,1,NodeAnswer210)
+   NAnswer(272,1,NodeAnswer205)
+end
+
+procedure NodeAnswer210 begin
+   set_local_var(LVAR_Dialog_MapIndx, MAP_PHOENIX_SIGN);
+   call NodeMapStart;
+end
+
+procedure NodeAnswer211 begin
+   Reply(277)
+   NAnswer(278,1,NodeAnswer212)
+   NAnswer(272,1,NodeAnswer205)
+end
+
+procedure NodeAnswer212 begin
+   set_local_var(LVAR_Dialog_MapIndx, MAP_CASA_NUEVA_CITY);
+   call NodeMapStart;
+end
+
+procedure NodeAnswer213 begin
+   Reply(280)
+   NAnswer(281,1,NodeAnswer214)
+   NAnswer(272,1,NodeAnswer205)
+end
+
+procedure NodeAnswer214 begin
+   set_local_var(LVAR_Dialog_MapIndx, MAP_HERMO_RANCHO);
+   call NodeMapStart;
+end
+
+procedure NodeMapStart begin
+   set_local_var(LVAR_Dialog_Stop, 1);
+   add_timer_event(self_obj, 5, 3);
+   call Node999;
+end

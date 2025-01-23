@@ -1,0 +1,59 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_GSCmpRbt
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+procedure talk_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   CompProcUsing
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(50)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+end
+
+procedure sience_proc begin
+   CompProcSience(100)
+   call talk_p_proc;
+end
+
+procedure talk_p_proc begin
+   if (map_var(MVAR_GARAGE_ROBOTS) == 0) then begin
+      display_mstr(103);
+      set_map_var(MVAR_GARAGE_ROBOTS,1);
+   end
+   else begin
+      display_mstr(102);
+      set_map_var(MVAR_GARAGE_ROBOTS,0);
+   end
+end

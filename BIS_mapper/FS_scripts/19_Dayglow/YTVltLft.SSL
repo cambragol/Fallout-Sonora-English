@@ -1,0 +1,68 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YTVltLft
+
+procedure start;
+procedure use_p_proc;
+procedure spatial_p_proc;
+procedure liftMove;
+
+variable tileNum;
+variable tileElevator;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   if (map_var(MVAR_DIEGOVLT_ENERGY) <= 0) then begin
+       script_overrides;
+       display_mstr(100);
+   end
+end
+
+procedure spatial_p_proc begin
+   tileNum := 0;
+   tileElevator := 0;
+
+   if (map_var(MVAR_DIEGOVLT_ENERGY) <= 0) then begin
+       display_mstr(100);
+   end
+   else if (source_obj == dude_obj) then begin
+       if (self_elevation == 2) then begin
+          tileNum := 23302;
+          tileElevator := 1;
+       end
+       else if ((self_elevation == 1) and (self_tile == 22918)) then begin
+          tileNum := 14704;
+          tileElevator := 0;
+       end
+       else if ((self_elevation == 1) and (self_tile == 22902)) then begin
+          if (map_var(MVAR_DIEGOVLT_WATER) <= 0) then begin
+          display_mstr(101);
+          end
+          else begin
+          tileNum := 17508;
+          tileElevator := 2;
+          end
+       end
+       else if (self_elevation == 0) then begin
+          tileNum := 23318;
+          tileElevator := 1;
+       end
+
+       if (tileNum >0) then begin
+          call liftMove;
+       end
+   end
+end
+
+procedure liftMove begin
+   play_sfx("ELV1_2");
+
+   gfade_out(ONE_GAME_SECOND);
+      move_to(dude_obj, tileNum, tileElevator);
+      anim(dude_obj, ANIMATE_ROTATION, 2);
+   gfade_in(ONE_GAME_SECOND);
+end

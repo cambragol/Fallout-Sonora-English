@@ -1,0 +1,314 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_MCPrison
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RAIDERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_WAR_ROADS        // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_WAR_ROAD           // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   -1                    // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      15 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog3;
+procedure NodeStopDialog4;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer2;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+
+       if (global_var(GVAR_RAIDER_STATUS_PRISON) == 1) then begin
+          if (cur_map_index != MAP_CASA_GRANDE_CITY) then begin
+          add_timer_event(self_obj,5,4);
+          end
+       end
+       else if ((getQuest(GVAR_RAIDER_QST_PRISON) == qStart) and (global_var(GVAR_RAIDER_STATUS_PRISON) == 0)) then begin
+          set_obj_visibility(self_obj, 0);
+          if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin
+          rm_timer_event(self_obj);
+          move_to(self_obj,19110,0);
+          set_global_var(GVAR_RAIDER_STATUS_PRISON,-10);
+          kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+          end
+       end
+       else begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+          if (global_var(GVAR_RAIDER_STATUS_PRISON) >= 2) then begin
+          destroy_object(self_obj);
+          end
+          else if (getQuest(GVAR_RAIDER_QST_PRISON) >= qEnd) then begin
+          destroy_object(self_obj);
+          end
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+   if (fixed_param == 3) then begin
+       KillScorpTail(103) // фраза над жертвой (-1 если не нужна)
+   end
+   if (fixed_param == 4) then begin
+       party_remove(self_obj);
+       inven_unwield(self_obj);
+       dialogue_system_enter;
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_RAIDER_STATUS_PRISON) == 1) then begin
+   partyRunToDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   UsedToCrit_Scorp(102,3) // фраза над жертвой (-1 если не нужна), номер таймера
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_RAIDER_STATUS_PRISON,-1);
+   if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin
+   set_global_var(GVAR_RAIDER_STATUS_PRISON,-10);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_RAIDER_STATUS_PRISON) >= 2) then begin
+   floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   else begin
+   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_RAIDER_STATUS_PRISON) == 1) then begin
+      if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+      call NodeStopDialog;
+      end
+      else begin
+      call NodeStopDialog2;
+      end
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- СТОП-ДИАЛОГ
+
+procedure NodeStopDialog begin
+   Reply(260)
+   NAnswer(261,1,Node999)
+end
+
+procedure NodeStopDialog2 begin
+   set_global_var(GVAR_RAIDER_STATUS_PRISON,2);
+   Reply(253)
+   NAnswer(254,1,NodeStopDialog3)
+end
+
+procedure NodeStopDialog3 begin
+   Reply(255)
+   NAnswer(256,1,NodeStopDialog4)
+end
+
+procedure NodeStopDialog4 begin
+   Reply(257)
+   BAnswer(258,1,Node999)
+   NAnswer(259,1,Node999)
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   BAnswer(211,1,NodeAnswer)
+   NAnswer(213,1,NodeAnswer2)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   BAnswer(211,1,NodeAnswer)
+   NAnswer(213,1,NodeAnswer2)
+end
+
+procedure NodeAnswer begin
+   Reply(212)
+   NAnswer(220,3,NodeAnswer101)
+   NAnswer(222,3,NodeAnswer102)
+   NAnswer(224,3,NodeAnswer103)
+   NAnswer(226,3,NodeAnswer104)
+   if (map_var(MVAR_CGRANDE_PRISON_FREE) > 0) then begin
+   NAnswer(250,1,NodeAnswer200)
+   end
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeAnswer2 begin
+   Reply(214)
+   NAnswer(220,3,NodeAnswer101)
+   NAnswer(222,3,NodeAnswer102)
+   NAnswer(224,3,NodeAnswer103)
+   NAnswer(226,3,NodeAnswer104)
+   if (map_var(MVAR_CGRANDE_PRISON_FREE) > 0) then begin
+   NAnswer(250,1,NodeAnswer200)
+   end
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(221)
+   NAnswer(222,3,NodeAnswer102)
+   NAnswer(224,3,NodeAnswer103)
+   NAnswer(226,3,NodeAnswer104)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   Reply(223)
+   NAnswer(220,3,NodeAnswer101)
+   NAnswer(224,3,NodeAnswer103)
+   NAnswer(226,3,NodeAnswer104)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(225)
+   NAnswer(220,3,NodeAnswer101)
+   NAnswer(222,3,NodeAnswer102)
+   NAnswer(226,3,NodeAnswer104)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   Reply(227)
+   GAnswer(232,3,NodeAnswer202)
+   BAnswer(228,3,NodeAnswer105)
+   NAnswer(220,3,NodeAnswer101)
+   NAnswer(222,3,NodeAnswer102)
+   NAnswer(224,3,NodeAnswer103)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeAnswer105 begin
+   zReply(229)
+   BAnswer(230,1,Node999)
+   NAnswer(231,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(251)
+   NAnswer(252,1,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   set_global_var(GVAR_RAIDER_STATUS_PRISON,1);
+   rm_timer_event(self_obj);
+   party_add(self_obj);
+   call Node999;
+end
+
+procedure NodeAnswer202 begin
+   Reply(233)
+   NAnswer(234,1,NodeAnswer201)
+   NAnswer(235,1,Node999)
+end

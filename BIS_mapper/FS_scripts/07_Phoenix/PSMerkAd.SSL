@@ -1,0 +1,140 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_PSMerkAd
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog200;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog302;
+procedure NodeDialog303;
+procedure NodeDialog400;
+procedure NodeDialog500;
+procedure NodeDialog501;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (combat_is_initialized == true) then begin
+   g_display_mstr(551);
+   end
+   else begin
+   call talk_p_proc;
+   end
+   //display_mstr(102);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+   script_overrides;
+   call talk_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(220,1,NodeDialog200)
+   NAnswer(230,1,NodeDialog300)
+   if (getQuest(GVAR_PHENIX_QST_MERC_B) == qStart) then begin
+   NAnswer(250,1,NodeDialog400)
+   end
+   if (getQuest(GVAR_PHENIX_QST_MERC_B) > qStart) then begin
+   NAnswer(252,1,NodeDialog400)
+   end
+   if (global_var(GVAR_TOWN_REP_PHOENIX) <= -30) then begin
+   NAnswer(mstr(260)+dude_name+mstr(261),1,NodeDialog500)
+   end
+   else if (global_var(GVAR_TOWN_REP_PHOENIX_CULT) <= -30) then begin
+   NAnswer(mstr(260)+dude_name+mstr(261),1,NodeDialog501)
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog200 begin
+   Reply(221)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog300 begin
+   Reply(231)
+
+   if (global_var(GVAR_PHENIX_STATUS_LOS_A) <= -10) then begin
+   NAnswer(233,1,NodeDialog301)
+   end else begin
+   NAnswer(232,1,NodeDialog301)
+   end
+   if (global_var(GVAR_PHENIX_STATUS_LOS_B) <= -10) then begin
+   NAnswer(236,1,NodeDialog302)
+   end else begin
+   NAnswer(235,1,NodeDialog302)
+   end
+   if (global_var(GVAR_PHENIX_STATUS_LOS_C) <= -10) then begin
+   NAnswer(239,1,NodeDialog303)
+   end else begin
+   NAnswer(238,1,NodeDialog303)
+   end
+
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog301 begin
+   Reply(234)
+   NAnswer(203,1,NodeDialog300)
+end
+
+procedure NodeDialog302 begin
+   Reply(237)
+   NAnswer(203,1,NodeDialog300)
+end
+
+procedure NodeDialog303 begin
+   Reply(240)
+   NAnswer(203,1,NodeDialog300)
+end
+
+procedure NodeDialog400 begin
+   Reply(251)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog500 begin
+   Reply(262)
+   NAnswer(202,1,NodeDialog)
+end
+
+procedure NodeDialog501 begin
+   Reply(263)
+   NAnswer(202,1,NodeDialog)
+end

@@ -1,0 +1,706 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//--------------------- Лидер Итальянского района
+
+#define NAME                            SCRIPT_YCDeSant
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeSndDialog;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst103b;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+procedure NodeQst107;
+procedure NodeQst108;
+procedure NodeQst109;
+procedure NodeQst110;
+procedure NodeQst111;
+procedure NodeQst112;
+procedure NodeQst113;
+procedure NodeQst114;
+procedure NodeQst115;
+procedure NodeQst116;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst205;
+procedure NodeQst206;
+procedure NodeQst207;
+procedure NodeQst207_01;
+procedure NodeQst208;
+procedure NodeQst209;
+procedure NodeQst210;
+procedure NodeQst211;
+procedure NodeQst212;
+procedure NodeQst213;
+procedure NodeQst214;
+procedure NodeQst215;
+procedure NodeQst216;
+procedure NodeBano100;
+procedure NodeBano101;
+procedure NodeBano102;
+procedure NodeBano103;
+procedure NodeBano104;
+procedure NodeBano105;
+procedure NodeBano106;
+procedure NodeBano107;
+procedure NodeBano108;
+
+//---------------------
+
+#define LVAR_QST_GHOUL                     (5)
+#define LVAR_QST_ROBOT                     (6)
+#define LVAR_QST_FILM                      (7)
+#define LVAR_MED_REP_UP                    (8)
+#define LVAR_MED_PROC                      (9)
+
+import variable box_stop_use;
+
+variable manyCheck;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(0,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,5,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_off(GVAR_DAYGLOW_STATUS_CARAVAN, bit_30);
+   set_map_var(MVAR_DIEGOPIRS_DESANTI_PUSHER, -1);
+   set_map_var(MVAR_DIEGOPIRS_DESANTI, -1);
+   if (getQuest(GVAR_DAYGLOW_QST_BUTLEGER) == qStart) then begin
+   setQuest(GVAR_DAYGLOW_QST_BUTLEGER, qStop);
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_CREDITS) == qStart) then begin
+   setQuest(GVAR_DAYGLOW_QST_CREDITS, qStop);
+   end
+   setQuest(GVAR_DAYGLOW_QST_SUPERMUT, qStop);
+   setQuest(GVAR_DAYGLOW_QST_BANDITS, -1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,50) // поправка к отношению за принадлежность к фракции
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+       call NodeFstDialog;
+   end
+   else if (getQuest(GVAR_DAYGLOW_QST_BUTLEGER) == 20) then begin
+       call NodeQst215;
+   end
+   else begin
+       call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   //if DudePerkHas(PERK_ghouling_fiziology) then begin
+   zReply(200)
+   NAnswer(201,0,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,0,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   zReply(204)
+   NAnswer(205,0,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   zReply(210)
+
+   //--- Бандитские квесты
+   if (local_var(LVAR_QST_GHOUL) == 0) then begin
+      NAnswer(220,0,NodeQst100)
+   end
+   if (local_var(LVAR_QST_GHOUL) == 1) then begin
+      if (map_var(MVAR_DIEGOPIRS_CRAZY_AMNT) >= 3) then begin
+      NAnswer(226,0,NodeQst103)
+      end
+      else begin
+      NAnswer(237,0,NodeQst103b)
+      end
+   end
+
+   if (map_var(MVAR_DIEGOPIRS_DESANTI_PUSHER) == 0) then begin
+      if (local_var(LVAR_QST_GHOUL) >= 2) then begin
+      NAnswer(228,0,NodeQst104)
+      end
+   end
+   if (map_var(MVAR_DIEGOPIRS_DESANTI_PUSHER) == 1) then begin
+      if (map_var(MVAR_DIEGOPIRS_DESANTI_SID)>0) then begin
+      GAnswer(234,0,NodeQst106)
+      end
+      else if (map_var(MVAR_DIEGOPIRS_DESANTI_SID)<0) then begin
+      NAnswer(231,0,NodeQst105)
+      end
+      else if (map_var(MVAR_DIEGOPIRS_DESANTI_SID)==0) then begin
+      NAnswer(239,0,NodeQst107)
+      end
+   end
+
+   if (getQuest(GVAR_DAYGLOW_QST_CREDITS) == qZero) then begin
+      if (map_var(MVAR_DIEGOPIRS_DESANTI_PUSHER) >= 2) then begin
+      NAnswer(242,0,NodeQst108)
+      end
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_CREDITS) == qStart) then begin
+      if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=300) then begin
+      NAnswer(247,0,NodeQst110)
+      end
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_BANDITS) == qStart) then begin
+      if (map_var(MVAR_DIEGOPIRS_DESANTI_MRDR_KILL)>=4) then begin
+      GAnswer(298,0,NodeQst114)
+      end
+      else begin
+      BAnswer(297,0,NodeQst113)
+      end
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_SUPERMUT) == qEnd) then begin
+      GAnswer(352,0,NodeQst115)
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_SUPERMUT) == -1) then begin
+      BAnswer(355,0,NodeQst116)
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_SUPERMUT) == -2) then begin
+      BAnswer(358,0,NodeQst116)
+   end
+
+   //--- Администраторские квесты
+   if (local_var(LVAR_QST_ROBOT) == 0) then begin
+      if (map_var(MVAR_DIEGOPIRS_DESANTI_ROBOT) >= 0) then begin
+      NAnswer(250,0,NodeQst200)
+      end
+   end
+   if (local_var(LVAR_QST_ROBOT) == 1) then begin
+      if (map_var(MVAR_DIEGOPIRS_DESANTI_ROBOT) >= 2) then begin
+      NAnswer(260,0,NodeQst203)
+      end
+      if (map_var(MVAR_DIEGOPIRS_DESANTI_ROBOT) == 1) then begin
+      NAnswer(258,0,NodeQst204)
+      end
+   end
+
+   if (local_var(LVAR_QST_FILM) == 1) then begin
+      NAnswer(267,0,NodeQst206)
+      if (item_amnt(dude_obj,PID_Q_DAYGLOW_FILM)>0) then begin
+      NAnswer(270,0,NodeQst207)
+      end
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_BUTLEGER) == qStart) then begin
+      NAnswer(280,0,NodeQst211)
+   end
+   if ((getQuest(GVAR_DAYGLOW_QST_BUTLEGER) == qStart) or (getQuest(GVAR_DAYGLOW_QST_BUTLEGER) == qEnd)) then begin
+      if (item_amnt(dude_obj,PID_Q_DAYGLOW_FOODPROCESSOR)>0) then begin
+      GAnswer(283,0,NodeQst212)
+      end
+   end
+
+   //--Услуги
+   NAnswer(300,0,NodeBano100)
+
+   NAnswer(random(211,213),0,Node999)
+end
+
+//--- БАНДИТСКИЕ КВЕСТЫ
+
+procedure NodeQst100 begin
+   Reply(221)
+   NAnswer(222,0,NodeQst101)
+   NAnswer(224,0,NodeQst102)
+   NAnswer(225,0,NodeSndDialog)
+end
+
+procedure NodeQst101 begin
+   zReply(223)
+   NAnswer(224,0,NodeQst102)
+   NAnswer(225,0,NodeSndDialog)
+end
+
+procedure NodeQst102 begin
+   set_local_var(LVAR_QST_GHOUL, 1);
+   call Node999;
+end
+
+procedure NodeQst103 begin
+   set_local_var(LVAR_QST_GHOUL, 2);
+   item_add(dude_obj, PID_BOOTLE_CAPS, 300)
+   exp_add(300);
+   zReply(227)
+   NAnswer(228,0,NodeQst104)
+   NAnswer(212,0,Node999)
+end
+
+procedure NodeQst103b begin
+   zReply(223)
+   NAnswer(238,0,NodeSndDialog)
+end
+
+procedure NodeQst104 begin
+   set_map_var(MVAR_DIEGOPIRS_DESANTI_PUSHER, 1);
+   Reply(229)
+   NAnswer(230,0,Node999)
+end
+
+procedure NodeQst105 begin
+   set_map_var(MVAR_DIEGOPIRS_DESANTI_PUSHER, 2);
+   item_add(dude_obj, PID_BOOTLE_CAPS, 100)
+   exp_add(350);
+   set_REP(-1)
+   Reply(232)
+   NAnswer(242,0,NodeQst108)
+   NAnswer(233,0,Node999)
+end
+
+procedure NodeQst106 begin
+   set_map_var(MVAR_DIEGOPIRS_DESANTI_PUSHER, 2);
+   item_add(dude_obj, PID_BOOTLE_CAPS, 150)
+   exp_add(500);
+   set_REP(1)
+   zReply(235)
+   NAnswer(242,0,NodeQst108)
+   NAnswer(236,0,Node999)
+end
+
+procedure NodeQst107 begin
+   Reply(240)
+   NAnswer(241,0,Node999)
+end
+
+procedure NodeQst108 begin
+   Reply(243)
+   NAnswer(244,0,NodeQst109)
+end
+
+procedure NodeQst109 begin
+   setQuest(GVAR_DAYGLOW_QST_CREDITS, qStart);
+   Reply(245)
+   NAnswer(246,0,Node999)
+end
+
+procedure NodeQst110 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=300) then begin
+   call NodeQst111;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeQst111 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,150)
+   setQuest(GVAR_DAYGLOW_QST_CREDITS, qEnd);
+   setQuest(GVAR_DAYGLOW_QST_BANDITS, 1);
+   exp_add(300);
+   if ((game_time_hour < 0300) or (game_time_hour > 1800)) then begin
+   Reply(214)
+   end
+   else if (game_time_hour < 1000) then begin
+   Reply(248)
+   end
+   else begin
+   Reply(215)
+   end
+   NAnswer(249,0,NodeQst112)
+end
+
+procedure NodeQst112 begin
+   Reply(293)
+   BAnswer(295,0,NodeQst113)
+   NAnswer(294,0,Node999)
+end
+
+procedure NodeQst113 begin
+   setQuest(GVAR_DAYGLOW_QST_BANDITS, 10);
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_30);
+   Reply(296)
+   NAnswer(292,0,Node999)
+end
+
+procedure NodeQst114 begin
+   setQuest(GVAR_DAYGLOW_QST_BANDITS, 20);
+   setQuest(GVAR_DAYGLOW_QST_SUPERMUT, qStart);
+   set_REP(-3)
+   item_add(dude_obj,PID_BOOTLE_CAPS,300)
+   exp_add(300);
+   Reply(350)
+   NAnswer(351,0,Node999)
+   /*Reply(299)
+   NAnswer(292,0,Node999)*/
+end
+
+procedure NodeQst115 begin
+   setQuest(GVAR_DAYGLOW_QST_SUPERMUT, 10);
+   item_add(dude_obj,PID_BOOTLE_CAPS,200)
+   exp_add(300);
+   Reply(353)
+   NAnswer(354,0,Node999)
+end
+
+procedure NodeQst116 begin
+   setQuest(GVAR_DAYGLOW_QST_SUPERMUT, -10);
+   exp_add(100);
+   Reply(356)
+   NAnswer(357,0,Node999)
+end
+
+//--- АДМИНСКИЕ КВЕСТЫ
+
+procedure NodeQst200 begin
+   Reply(251)
+   NAnswer(252,0,NodeQst201)
+   NAnswer(253,0,NodeSndDialog)
+end
+
+procedure NodeQst201 begin
+   Reply(254)
+   NAnswer(255,0,NodeQst202)
+   NAnswer(264,0,Node999)
+end
+
+procedure NodeQst202 begin
+   set_local_var(LVAR_QST_ROBOT, 1);
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_26);
+   zReply(256)
+   NAnswer(257,0,Node999)
+end
+
+procedure NodeQst203 begin
+   set_gvar_bit_off(GVAR_DAYGLOW_STATUS_CARAVAN, bit_26);
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_27);
+   set_local_var(LVAR_QST_FILM, 1);
+   set_local_var(LVAR_QST_ROBOT, 2);
+   item_add(dude_obj, PID_BOOTLE_CAPS, 300)
+   exp_add(1000);
+   zReply(261)
+   NAnswer(262,0,NodeQst205)
+end
+
+procedure NodeQst204 begin
+   Reply(259)
+   NAnswer(263,0,Node999)
+end
+
+procedure NodeQst205 begin
+   zReply(265)
+   NAnswer(266,0,Node999)
+end
+
+procedure NodeQst206 begin
+   Reply(268)
+   NAnswer(269,0,NodeSndDialog)
+end
+
+procedure NodeQst207 begin
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_FILM)>0) then begin
+      call NodeQst207_01;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+procedure NodeQst207_01 begin
+   set_gvar_bit_off(GVAR_DAYGLOW_STATUS_CARAVAN, bit_27);
+   set_local_var(LVAR_QST_FILM, 2);
+   item_add(dude_obj, PID_BOOTLE_CAPS, 100)
+   item_remove(dude_obj,PID_Q_DAYGLOW_FILM,1)
+   exp_add(500);
+   zReply(271)
+   NAnswer(272,0,NodeQst208)
+end
+
+procedure NodeQst208 begin
+   Reply(273)
+   NAnswer(274,0,NodeQst209)
+   BAnswer(275,0,NodeQst210)
+end
+
+procedure NodeQst209 begin
+   setQuest(GVAR_DAYGLOW_QST_BUTLEGER, qStart);
+   zReply(276)
+   NAnswer(277,0,Node999)
+end
+
+procedure NodeQst210 begin
+   zReply(278)
+   NAnswer(279,0,Node999)
+end
+
+procedure NodeQst211 begin
+   Reply(281)
+   NAnswer(282,0,NodeSndDialog)
+end
+
+procedure NodeQst212 begin
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_FOODPROCESSOR)>0) then begin
+      call NodeQst213;
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+procedure NodeQst213 begin
+   item_remove(dude_obj,PID_Q_DAYGLOW_FOODPROCESSOR,1)
+   setQuest(GVAR_DAYGLOW_QST_BUTLEGER, 10);
+   item_add(dude_obj, PID_BOOTLE_CAPS, 500)
+   exp_add(500);
+   set_REP(-3)
+   zReply(284)
+   NAnswer(286,0,NodeQst214)
+   zNAnswer(285,0,Node999)
+end
+
+procedure NodeQst214 begin
+   zReply(287)
+   NAnswer(288,0,Node999)
+end
+
+procedure NodeQst215 begin
+   setQuest(GVAR_DAYGLOW_QST_BUTLEGER, 21);
+   //+1 к наемникам set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_30);
+   zReply(289)
+   NAnswer(290,0,NodeQst216)
+end
+
+procedure NodeQst216 begin
+   zReply(291)
+   NAnswer(292,0,Node999)
+end
+
+//--- УСЛУГИ
+
+procedure NodeBano100 begin
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+      Reply(320)
+      NAnswer(321,0,NodeBano103)
+      if (local_var(LVAR_MED_PROC) == 0) then begin
+      NAnswer(326,0,NodeBano105)
+      end
+      NAnswer(225,0,NodeSndDialog)
+   end
+   else begin
+      zReply(301)
+      if (local_var(LVAR_MED_REP_UP) == 0) then begin
+      NAnswer(304,0,NodeBano101)
+      end
+      NAnswer(302,0,NodeSndDialog)
+   end
+end
+
+procedure NodeBano101 begin
+   manyCheck := 1000;
+   call NodeBano108;
+   if dude_is_female then begin
+   Reply(mstr(1305)+manyCheck+mstr(313))
+   end
+   else begin
+   Reply(mstr(305)+manyCheck+mstr(313))
+   end
+   NAnswer(307,0,NodeBano102)
+   NAnswer(306,0,Node999)
+end
+
+procedure NodeBano102 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=manyCheck) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,manyCheck)
+   set_REP(5)
+   set_local_var(LVAR_MED_REP_UP,1);
+   Reply(310)
+   NAnswer(311,0,Node999)
+   BAnswer(312,0,Node999)
+   end
+   else begin
+   zReply(308)
+   NAnswer(309,0,Node999)
+   end
+end
+
+procedure NodeBano103 begin
+   manyCheck := 500;
+   call NodeBano108;
+   Reply(manyCheck+mstr(322))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=manyCheck) then begin
+   NAnswer(323,0,NodeBano104)
+   end
+   if (local_var(LVAR_MED_PROC) == 0) then begin
+   NAnswer(324,0,NodeBano105)
+   end
+   NAnswer(325,0,Node999)
+end
+
+procedure NodeBano104 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=manyCheck) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,manyCheck)
+   game_time_advance(ONE_GAME_HOUR*2);
+   move_to(dude_obj, 15051, self_elevation);
+   anim(dude_obj, ANIMATE_ROTATION, 0);
+   call NodeBano107;
+   call Node999;
+   end
+   else begin
+   call NodeBano100;
+   end
+end
+
+procedure NodeBano105 begin
+   manyCheck := 3000;
+   call NodeBano108;
+   Reply(mstr(327)+manyCheck+mstr(328))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=manyCheck) then begin
+   NAnswer(329,0,NodeBano106)
+   end
+   NAnswer(330,0,NodeBano103)
+   zNAnswer(331,0,Node999)
+end
+
+procedure NodeBano106 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=manyCheck) then begin
+      item_remove(dude_obj,PID_BOOTLE_CAPS,manyCheck)
+      game_time_advance(ONE_GAME_DAY);
+      call NodeBano107;
+      if (dude_endurance<10) then begin
+      set_critter_stat(dude_obj, STAT_en, 1);
+      display_mstr(332);
+      end else begin
+      display_mstr(333);
+      end
+      set_local_var(LVAR_MED_PROC, 1);
+      call Node999;
+   end
+   else begin
+      call NodeBano100;
+   end
+end
+
+procedure NodeBano107 begin
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   poison(dude_obj,-(get_poison(dude_obj)));
+   PLAY_FADE
+end
+
+procedure NodeBano108 begin
+   if town_rep_is_idolized then begin
+   manyCheck -= manyCheck/2;
+   end
+   else if town_rep_is_liked then begin
+   manyCheck -= manyCheck/4;
+   end
+   else if town_rep_is_hated then begin
+   manyCheck += manyCheck/4;
+   end
+end

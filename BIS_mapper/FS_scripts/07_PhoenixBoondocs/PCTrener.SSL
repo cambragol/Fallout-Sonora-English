@@ -1,0 +1,625 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCTrener
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CITIZEN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOXER              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      55 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeFstDialog108;
+procedure NodeFstDialog109;
+procedure NodeFstDialog200;
+procedure NodeSndDialog;
+procedure NodeSndDialog100;
+procedure NodeSndDialog101;
+procedure NodeSndDialog102;
+procedure NodeTrener100;
+procedure NodeTrener101;
+procedure NodeTrener102;
+procedure NodeTrener103;
+procedure NodeTrener104;
+procedure NodeTrener105;
+procedure NodeTrener106;
+procedure NodeTrener107;
+procedure NodeTrener108;
+procedure NodeTrener109;
+procedure NodeTrener110;
+procedure NodeTrener300;
+procedure NodeTrener301;
+procedure NodeTrener302;
+procedure NodeTrener303;
+procedure NodeTrener304;
+procedure NodeTrener400;
+
+//---------------------
+
+#define LVAR_Trener_Status                 (6) // стадии тренировок: 0 - не было диалога, 1 - ГГ уговорил на тренировку, 2 - прошла тренировка #1, 3 - прошла тренировка #2, 4 - прошла тренировка #3
+#define LVAR_Karma_Status                  (7) // фиксирует уровень славы (кармы) ГГ в момент первой тренировки
+#define LVAR_Trener_Timer                  (8) // время до следующей тренировки
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (item_amnt(self_obj,PID_BOOTLE_CAPS)>2) then begin
+       item_remove(self_obj,PID_BOOTLE_CAPS,(item_amnt(self_obj,PID_BOOTLE_CAPS)-2))
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (itemTypeUseDude == 2) then begin
+      bitDialogExp(bit_2,0)
+      if (bitDialog(bit_4) != 0) then begin
+      bitDialogExp(bit_5,0)
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   setQuest(GVAR_PHENIX_QST_TRENER, qStop);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_PHENIX_STATUS_CARDINAL) > 0) then begin
+   floater(self_obj,105,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_PHENIX_STATUS_ARENABOSS) < 0) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else if (bitDialog(bit_8) != 0) then begin
+   floater(self_obj,334,COLOR_MSG_RED);
+   end
+   else if ((global_var(GVAR_ADDICT_NUKA_COLA) > 0) or (global_var(GVAR_ADDICT_BUFF_OUT) > 0) or (global_var(GVAR_ADDICT_MENTATS) > 0) or (global_var(GVAR_ADDICT_PSYCHO) > 0)) then begin
+   floater(self_obj,104,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,102,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_TITUL_ARENA_MASTER) > 0) then begin
+   call NodeFstDialog200;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (bitDialog(bit_2) == 0) then begin
+   call NodeFstDialog100;
+   end
+   else if (bitDialog(bit_3) == 0) then begin
+   call NodeFstDialog102;
+   end
+   else if (bitDialog(bit_8) == 0) and (get_SLAVA < local_var(LVAR_Karma_Status) and (get_SLAVA<=0)) then begin
+   call NodeTrener400;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   BAnswer(201,1,NodeFstDialog2)
+   zNAnswer(202,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   setBonusReaction(-10)
+   call NodeFstDialog3;
+end
+
+procedure NodeFstDialog3 begin
+   Reply(203)
+   NAnswer(204,1,Node999)
+   BAnswer(205,1,Node999)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(206)
+   BAnswer(207,1,NodeFstDialog101)
+   NAnswer(204,1,Node999)
+   BAnswer(205,1,Node999)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(208)
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog102 begin
+   bitDialogExp(bit_3,100)
+   Reply(210)
+   NAnswer(211,1,NodeFstDialog103)
+   NAnswer(212,1,NodeFstDialog103)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(213)
+   NAnswer(214,1,NodeFstDialog104)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(215)
+   NAnswer(216,1,NodeFstDialog105)
+   NAnswer(217,1,NodeFstDialog105)
+end
+
+procedure NodeFstDialog105 begin
+   Reply(218)
+   NAnswer(219,1,NodeFstDialog106)
+   NAnswer(220,1,NodeFstDialog106)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(221)
+   NAnswer(222,1,NodeFstDialog107)
+   NAnswer(225,1,NodeFstDialog108)
+   NAnswer(228,1,NodeFstDialog109)
+end
+
+procedure NodeFstDialog107 begin
+   Reply(223)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeFstDialog108 begin
+   Reply(226)
+   NAnswer(227,1,Node999)
+end
+
+procedure NodeFstDialog109 begin
+   Reply(229)
+   NAnswer(230,1,Node999)
+end
+
+procedure NodeFstDialog200 begin
+   if (local_var(LVAR_Trener_Status) > 1) then begin
+   Reply(250)
+   NAnswer(251,1,Node999)
+   end
+   else if ((getReaction>=20) or (get_SLAVA>=100)) then begin
+   Reply(255)
+   NAnswer(256,1,Node999)
+   end
+   else begin
+   Reply(250)
+   NAnswer(251,1,Node999)
+   BAnswer(252,1,Node999)
+   end
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (local_var(LVAR_Trener_Status) > 4) then begin
+   Reply(303)
+   end
+   else if (getReaction >= 20) then begin
+   zReply(301)
+   end
+   else if (local_var(LVAR_Trener_Status) > 0) then begin
+   Reply(302)
+   end
+   else begin
+   Reply(300)
+   end
+
+   //- Обучение
+   if (local_var(LVAR_Trener_Status) == 1) then begin
+      NAnswer(340,1,NodeTrener300)
+   end
+   if (local_var(LVAR_Trener_Status) == 2) then begin
+      NAnswer(340,1,NodeTrener300)
+   end
+   if (local_var(LVAR_Trener_Status) == 3) then begin
+      NAnswer(340,1,NodeTrener300)
+   end
+   if (local_var(LVAR_Trener_Status) == 4) then begin
+      NAnswer(340,1,NodeTrener300)
+   end
+
+   //- Расспросы
+   NAnswer(240,1,NodeSndDialog100)
+   NAnswer(242,1,NodeSndDialog101)
+
+   //- Обучение
+   if (getQuest(GVAR_PHENIX_QST_TRENER) == qStart) then begin
+   //NAnswer(280,3,NodeTrener109)
+   end
+   if (local_var(LVAR_Trener_Status) == 0) then begin
+      if (bitDialog(bit_4) == 0) then begin
+      NAnswer(310,1,NodeTrener100)
+      end
+      else begin
+      NAnswer(290,1,NodeTrener109)
+      end
+   end
+
+   NAnswer(309,1,Node999)
+end
+
+procedure NodeSndDialog100 begin
+   Reply(241)
+   NAnswer(242,1,NodeSndDialog101)
+   NAnswer(309,1,Node999)
+end
+
+procedure NodeSndDialog101 begin
+   Reply(243)
+   NAnswer(244,6,NodeSndDialog102)
+   NAnswer(240,1,NodeSndDialog100)
+   NAnswer(309,1,Node999)
+end
+
+procedure NodeSndDialog102 begin
+   bitDialogExp(bit_7,35)
+   Reply(245)
+   NAnswer(240,1,NodeSndDialog100)
+   NAnswer(309,1,Node999)
+end
+
+//--- ТРЕНИРОВКА
+
+   /*
+   get_SLAVA >= 250  Клянусь, что буду использовать эти навыки только во благо.
+   get_SLAVA <= -250 Этому миру нужна революция. Ты совершаешь ошибку, отказываясь в ней участвовать.
+   */
+
+procedure NodeTrener100 begin
+   if dude_is_female then begin
+   Reply(311)
+   NAnswer(312,1,NodeTrener101)
+   end
+   else begin
+   call NodeTrener101;
+   end
+end
+
+procedure NodeTrener101 begin
+   Reply(313)
+   if (getQuest(GVAR_PHENIX_QST_TRENER) == qZero) then begin
+   NAnswer(314,1,NodeTrener102)
+   end
+   else begin
+   NAnswer(335,1,Node999)
+   end
+end
+
+procedure NodeTrener102 begin
+   Reply(315)
+
+   if (getQuest(GVAR_PHENIX_QST_TRENER) == qZero) then begin
+      if (map_var(MVAR_PNX_TRENER_INFO) > 0) then begin
+      NAnswer(260,3,NodeTrener105)
+      end
+      zNAnswer(261,4,NodeTrener103)
+      BAnswer(265,4,NodeTrener104)
+      //NAnswerReaction(261,1,NodeTrener103,0,265,NodeTrener104)
+   end
+
+   NAnswer(316,1,Node999)
+end
+
+procedure NodeTrener103 begin
+   Reply(262)
+   if (map_var(MVAR_PNX_TRENER_INFO) > 0) then begin
+   NAnswer(279,3,NodeTrener105)
+   end
+   NAnswer(263,1,NodeTrener105)
+   NAnswer(264,1,NodeTrener105)
+end
+
+procedure NodeTrener104 begin
+   Reply(266)
+   if (map_var(MVAR_PNX_TRENER_INFO) > 0) then begin
+   NAnswer(279,3,NodeTrener105)
+   end
+   NAnswer(263,1,NodeTrener105)
+   NAnswer(264,1,NodeTrener105)
+end
+
+procedure NodeTrener105 begin
+   Reply(267)
+   NAnswer(268,1,NodeTrener106)
+   BAnswer(269,1,NodeTrener106)
+end
+
+procedure NodeTrener106 begin
+   Reply(270)
+   NAnswer(271,1,NodeTrener107)
+   BAnswer(272,1,NodeTrener107)
+end
+
+procedure NodeTrener107 begin
+   /*
+   !!!
+   Здесь должна быть развилка на квест, который заставил Майка увидеть в ГГ родственную душу.
+   Смысл в том, что ГГ показывает свои мирные намерения, помогая кому-то из трущоб.
+   Как вариант можно сделать месть за Майка, но это плохой вариант.
+   !!!
+   */
+   bitDialogExp(bit_4,0)
+   Reply(285)
+   NAnswer(286,1,NodeTrener108)
+end
+
+procedure NodeTrener108 begin
+   Reply(287)
+   NAnswer(288,1,Node999)
+   BAnswer(289,1,Node999)
+end
+
+procedure NodeTrener109 begin
+   if (getQuest(GVAR_PHENIX_QST_BNDCS_C) >= qEnd) then begin
+   Reply(291)
+   NAnswer(292,1,NodeTrener110)
+   end
+   else if town_rep_is_idolized then begin
+   Reply(293)
+   NAnswer(292,1,NodeTrener110)
+   end
+   else if (get_SLAVA>=250) then begin
+   zReply(294)
+   NAnswer(292,1,NodeTrener110)
+   end
+   else if (getReaction>=75) then begin
+   Reply(295)
+   NAnswer(296,1,NodeTrener110)
+   end
+   else begin
+   call NodeTrener108;
+   end
+end
+
+procedure NodeTrener110 begin
+   inc_local_var(LVAR_Trener_Status);
+   set_local_var(LVAR_Karma_Status,get_SLAVA-500);
+
+   if (get_SLAVA >= 250) then begin
+   Reply(330)
+   NAnswer(331,1,Node999)
+   end
+   else begin
+   Reply(328)
+   NAnswer(326,1,Node999)
+   end
+end
+
+
+/*
+
+procedure NodeTrener107 begin
+   setQuest(GVAR_PHENIX_QST_TRENER, qStart);
+   //bitDialogExp(bit_4,0) !!!
+   Reply(273)
+   [Слава] Если для тебя это так важно, я найду преступников и совершу над ними правосудие.  / После всего услышанного я не могу это так оставить. Я найду преступников и совершу над ними правосудие.
+   NAnswer(275,1,NodeTrener108)
+   NAnswer(274,1,Node999)
+end
+
+
+procedure NodeTrener108 begin
+   Reply(276)
+   NAnswer(274,1,Node999)
+end
+
+procedure NodeTrener109 begin
+   Reply(281)
+   if (global_var(GVAR_PHENIX_STATUS_MIKE_ENEMY)>0) then begin
+   //NAnswer(283,1,NodeTrener110)
+   end
+   if (global_var(GVAR_PHENIX_STATUS_MIKE_ENEMY)<0) then begin
+   GAnswer(283,1,NodeTrener110)
+   end
+   NAnswer(282,1,NodeSndDialog)
+end
+
+procedure NodeTrener110 begin
+   setQuest(GVAR_PHENIX_QST_TRENER, qEnd);
+   bitDialogExp(bit_4,0)
+   exp_add(350);
+   setBonusReaction(50)
+   set_REP(1)
+   Reply(284)
+   NAnswer(285,1,Node999)
+end
+
+
+procedure NodeTrener200 begin
+   Reply(325)
+   NAnswer(326,1,Node999)
+end
+
+procedure NodeTrener201 begin
+   inc_local_var(LVAR_Trener_Status);
+   set_local_var(LVAR_Karma_Status,get_SLAVA-500);
+   if (get_SLAVA >= 250) then begin
+   Reply(330)
+   NAnswer(331,1,Node999)
+   end
+   else begin
+   Reply(328)
+   NAnswer(326,1,Node999)
+   end
+end
+
+*/
+
+
+procedure NodeTrener300 begin
+   if has_rep_childkiller then begin
+      zReply(348)
+      NAnswer(349,1,Node999)
+   end
+   else if (local_var(LVAR_Trener_Timer) > game_time) then begin
+      Reply(355)
+      NAnswer(356,1,Node999)
+   end
+   else if ((get_SLAVA >= 500) or (getReaction>=80)) then begin
+      Reply(346)
+      NAnswer(347,1,NodeTrener303)
+   end
+   else begin
+      zReply(341)
+      if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 500) then begin
+      NAnswer(345,1,NodeTrener302)
+      end
+      zNAnswer(342,1,NodeTrener301)
+   end
+end
+
+procedure NodeTrener301 begin
+   Reply(343)
+   NAnswer(344,1,Node999)
+end
+
+procedure NodeTrener302 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 500) then begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,500)
+   item_add(self_obj,PID_BOOTLE_CAPS,500)
+   call NodeTrener303;
+   end
+   else begin
+   call Node999;
+   end
+end
+
+procedure NodeTrener303 begin
+   if (local_var(LVAR_Trener_Status) == 4) then begin
+   Reply(353)
+   end
+   else if (local_var(LVAR_Trener_Status) == 3) then begin
+   zReply(352)
+   end
+   else if (local_var(LVAR_Trener_Status) == 2) then begin
+   Reply(351)
+   end
+   else begin
+   Reply(350)
+   end
+   NAnswer(354,1,NodeTrener304)
+end
+
+procedure NodeTrener304 begin
+   inc_local_var(LVAR_Trener_Status);
+   setBonusReaction(25)
+   PLAY_FADE
+   game_time_advance(ONE_GAME_DAY);
+   if dude_skill(SKILL_UNARMED_COMBAT,200) then begin
+   end
+   else begin
+      if (is_skill_tagged(SKILL_UNARMED_COMBAT) == true) then begin
+      skill_up(SKILL_UNARMED_COMBAT,6);
+      end
+      else begin
+      skill_up(SKILL_UNARMED_COMBAT,5);
+      end
+   end
+   set_local_var(LVAR_Trener_Timer, ONE_GAME_DAY + game_time);
+   call Node999;
+end
+
+procedure NodeTrener400 begin
+   bitDialogExp(bit_8,0)
+   Reply(332)
+   NAnswer(333,1,Node999)
+end

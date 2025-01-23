@@ -1,0 +1,59 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSHole
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure hole_invis;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (tile_contains_obj_pid(self_tile,self_elevation,(self_PID+1)) == true) then begin
+   set_obj_visibility(tile_contains_pid_obj(self_tile, self_elevation, (self_PID+1)), 1);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(103);
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_ROPE) then begin
+       script_overrides;
+       item_remove(dude_obj, objUsedPid, 1)
+       call hole_invis;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_mstr(101);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(102);
+   end
+end
+
+procedure hole_invis begin
+   display_mstr(100);
+   dude_floater_OK;
+   play_sfx("ROPEWELL");
+   set_obj_visibility(self_obj, 1);
+   if (tile_contains_obj_pid(self_tile,self_elevation,(self_PID+1)) == true) then begin
+   set_obj_visibility(tile_contains_pid_obj(self_tile, self_elevation, (self_PID+1)), 0);
+   end
+   if (cur_map_index == MAP_JACKALS) then begin
+   set_map_var(MVAR_Jkls_ROPE,1);
+   end
+   destroy_object(self_obj);
+end

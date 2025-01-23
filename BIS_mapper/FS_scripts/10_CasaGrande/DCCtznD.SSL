@@ -1,0 +1,317 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_DCCtznD
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_GRANDE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CASAGRANDE_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+
+       if ((getQuest(GVAR_CGRANDE_QST_SALVATION) >= qEnd) and (cur_map_index != MAP_CASA_GRANDE_STANTION) and (cur_map_index != MAP_CASA_GRANDE_CITY)) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+
+       if ((getQuest(GVAR_CGRANDE_QST_BANDITS) != qZero) and (getQuest(GVAR_CGRANDE_QST_SALVATION) == qZero)) then begin
+       inven_unwield(self_obj);
+       obj_drop_everything(self_obj);
+       set_local_var(LVAR_Home_Tile,15293);
+       set_local_var(LVAR_Home_Rotat,2);
+       move_to(self_obj,HomeTile,0);
+       anim(self_obj,ANIMATE_ROTATION,HomeRotat);
+       end
+
+       if (cur_map_index == MAP_CASA_GRANDE_STANTION) then begin
+        if (getQuest(GVAR_CGRANDE_QST_SALVATION) >= qEnd) then begin
+       set_local_var(LVAR_Home_Tile,11309);
+       set_local_var(LVAR_Home_Rotat,5);
+        end
+       end
+       else if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+       set_local_var(LVAR_Home_Tile,20309);
+       set_local_var(LVAR_Home_Rotat,3);
+       end
+       else if (cur_map_index == MAP_CASA_GRANDE_WATER) then begin
+       set_local_var(LVAR_Home_Tile,22516);
+       set_local_var(LVAR_Home_Rotat,3);
+       end
+       else begin
+       set_local_var(LVAR_Home_Tile,self_tile);
+       set_local_var(LVAR_Home_Rotat,3);
+       end
+
+       set_start_home
+
+       if ((getQuest(GVAR_CGRANDE_QST_SALVATION) == qStart) and (cur_map_index != MAP_CASA_GRANDE_STANTION)) then begin
+       add_timer_event(self_obj,5,3);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (getQuest(GVAR_CGRANDE_QST_SALVATION) >= qEnd) then begin
+       timer_move_random_home(2)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       if (getQuest(GVAR_CGRANDE_QST_BANDITS) != qZero) then begin
+       timer_float_reply(120,129)
+       end
+       else begin
+       timer_float_reply(110,119)
+       end
+   end
+   if (fixed_param == 3) then begin
+       party_remove(self_obj);
+       inven_unwield(self_obj);
+       setQuest(GVAR_CGRANDE_QST_SALVATION,qEnd);
+       floater(self_obj,102,COLOR_MSG_GREEN);
+       set_SLAVA(25)
+       set_REP(5)
+       exp_add(250);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (getQuest(GVAR_CGRANDE_QST_SALVATION) == qStart) then begin
+   partyRunToDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (cur_map_index == MAP_CASA_GRANDE_STANTION) then begin
+      setQuest(GVAR_CGRANDE_QST_SALVATION,-1);
+      if (source_obj == dude_obj) then begin
+      setQuest(GVAR_CGRANDE_QST_SALVATION,-2);
+      end
+   end
+   else begin
+      setQuest(GVAR_CGRANDE_QST_SALVATION,-10);
+      if (source_obj == dude_obj) then begin
+      setQuest(GVAR_CGRANDE_QST_SALVATION,-11);
+      end
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (getQuest(GVAR_CGRANDE_QST_SALVATION) == qZero) then begin
+      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      fracReaction(GVAR_TITUL_WARRIOR_ROAD,-50) // Поправка к отношению за принадлежность к фракциям
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else if (getQuest(GVAR_CGRANDE_QST_SALVATION) >= qEnd) then begin
+      floater(self_obj,102,COLOR_MSG_GREEN);
+   end
+   else begin
+      if (bitDialog(bit_2) == 0) then begin
+      floater(self_obj,103,COLOR_MSG_NORMAL);
+      end
+      else begin
+      floater(self_obj,104,COLOR_MSG_NORMAL);
+      end
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else begin
+      if (bitDialog(bit_2) == 0) then begin
+      call NodeSndDialog;
+      end
+      else begin
+      call NodeSndDialog2;
+      end
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (getQuest(GVAR_CGRANDE_QST_BANDITS) != qZero) then begin
+   Reply(300)
+   NAnswer(301,1,NodeFstDialog200)
+   end
+   else begin
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog100)
+   end
+end
+
+procedure NodeFstDialog100 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog101)
+   NAnswer(205,1,NodeFstDialog102)
+   GAnswer(208,1,NodeFstDialog103)
+   BAnswer(212,1,NodeFstDialog104)
+   NAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(204)
+   NAnswer(205,1,NodeFstDialog102)
+   GAnswer(208,1,NodeFstDialog103)
+   BAnswer(212,1,NodeFstDialog104)
+   NAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(206)
+   NAnswer(203,1,NodeFstDialog101)
+   GAnswer(208,1,NodeFstDialog103)
+   BAnswer(212,1,NodeFstDialog104)
+   NAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(209)
+   NAnswer(210,1,NodeFstDialog105)
+   NAnswer(211,1,NodeFstDialog105)
+   NAnswer(207,1,Node999)
+end
+
+procedure NodeFstDialog104 begin
+   Reply(213)
+   BAnswer(214,1,Node998)
+   NAnswer(215,1,Node999)
+end
+
+procedure NodeFstDialog105 begin
+   setQuest(GVAR_CGRANDE_QST_SALVATION,qStart);
+   rm_timer_event(self_obj);
+   party_add(self_obj);
+   call Node999;
+end
+
+procedure NodeFstDialog200 begin
+   bitDialogExp(bit_2,0)
+   Reply(302)
+   NAnswer(303,1,NodeFstDialog201)
+end
+
+procedure NodeFstDialog201 begin
+   if (getQuest(GVAR_CGRANDE_QST_BANDITS) == qStart) then begin
+      if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) == qZero) then begin
+      setQuest(GVAR_CGRANDE_ATTAK_TO_BAR,qStart);
+      end
+   end
+   Reply(304)
+   NAnswer(305,1,NodeFstDialog103)
+   NAnswer(306,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(216)
+   NAnswer(203,1,NodeFstDialog101)
+   NAnswer(205,1,NodeFstDialog102)
+   GAnswer(208,1,NodeFstDialog103)
+   BAnswer(212,1,NodeFstDialog104)
+   NAnswer(217,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(307)
+   NAnswer(308,1,NodeFstDialog103)
+   NAnswer(309,1,Node999)
+end

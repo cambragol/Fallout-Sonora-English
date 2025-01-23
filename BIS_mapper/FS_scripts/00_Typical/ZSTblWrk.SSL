@@ -1,0 +1,215 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                    SCRIPT_ZSTblWrk
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeListA;
+procedure NodeListB;
+procedure NodeAmmo01;
+procedure NodeAmmo02;
+procedure NodeAmmo03;
+procedure NodeAmmo04;
+procedure NodeAmmo05;
+procedure NodeAmmo06;
+procedure NodeAmmo07;
+procedure NodeAmmo08;
+procedure NodeAmmo09;
+procedure NodeAmmo10;
+procedure NodeAmmo11;
+procedure NodeFinal;
+
+#define LVAR_ItemPID                    (1) // PID предмета для изготовления
+#define LVAR_ItemAmnt                   (2) // количество предмета для изготовления
+#define LVAR_Repair_Limit               (3) // требуемый уровень навыка
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (local_var(LVAR_Status) == 0) then begin
+       display_mstr(110);
+   end
+   else begin
+       display_mstr(111);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       if (local_var(LVAR_Status) == 0) then begin
+          if (has_skill(dude_obj, SKILL_REPAIR) < 20) then begin
+          skill_display_mstr(112,SKILL_REPAIR,20)
+          end
+          else begin
+          dialogue_system_enter;
+          end
+       end
+       else begin
+          display_mstr(111);
+       end
+   end
+
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_OIL) then begin
+       script_overrides;
+       item_add(dude_obj,PID_AMMO_TANK,5)
+       item_remove(dude_obj, objUsedPid, 1)
+       play_sfx("TANKS");
+       dude_floater_OK;
+       display_mstr(116);
+   end
+   else RepairProcUsingMexTorpedos
+end
+
+procedure repair_proc begin
+   if ((local_var(LVAR_ItemAmnt)>0) and (local_var(LVAR_ItemPID)>0)) then begin
+   gfade_out(ONE_GAME_SECOND);
+     item_add(dude_obj,local_var(LVAR_ItemPID),local_var(LVAR_ItemAmnt))
+     game_time_advance(ONE_GAME_HOUR);
+     play_sfx("FIXSTILL");
+   gfade_in(ONE_GAME_SECOND);
+   exp_add(75);
+   display_mstr(113);
+   set_local_var(LVAR_Status,1);
+   end
+   call Node999;
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeStartDialog)
+end
+
+procedure Node998 begin
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeListA;
+end
+
+procedure NodeListA begin
+   Reply(200)
+
+   NAnswer(proto_data(PID_AMMO_22_LR,it_name)+mstr(204),1,NodeAmmo01)
+   //NAnswer(proto_data(PID_AMMO_9_MM,it_name)+mstr(204),1,NodeAmmo02)
+   NAnswer(proto_data(PID_AMMO_10_MM,it_name)+mstr(204),1,NodeAmmo03)
+   NAnswer(proto_data(PID_AMMO_44_MAGNUM,it_name)+mstr(204),1,NodeAmmo04)
+   NAnswer(proto_data(PID_AMMO_50_AE,it_name)+mstr(204),1,NodeAmmo05)
+   NAnswer(proto_data(PID_AMMO_5_MM,it_name)+mstr(204),1,NodeAmmo06)
+
+   NAnswer(202,1,NodeListB)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeListB begin
+   Reply(200)
+
+   NAnswer(proto_data(PID_AMMO_308,it_name)+mstr(204),1,NodeAmmo07)
+   NAnswer(proto_data(PID_AMMO_SHOTGUN_SHELLS,it_name)+mstr(204),1,NodeAmmo08)
+   NAnswer(proto_data(PID_AMMO_SHOTGUN_SHELLS_BULLET,it_name)+mstr(204),1,NodeAmmo09)
+   NAnswer(proto_data(PID_AMMO_SIGNAL_A,it_name)+mstr(204),1,NodeAmmo10)
+   NAnswer(proto_data(PID_AMMO_40_MM,it_name)+mstr(204),1,NodeAmmo11)
+
+   NAnswer(203,1,NodeListA)
+   NAnswer(201,1,Node999)
+end
+
+#define setNodeAmmo(pid,amnt)     set_local_var(LVAR_ItemPID,pid);   \
+                                  set_local_var(LVAR_ItemAmnt,amnt); \
+                                  call NodeFinal;                    \
+
+procedure NodeAmmo01 begin
+setNodeAmmo(PID_AMMO_22_LR,8)
+end
+
+procedure NodeAmmo02 begin
+setNodeAmmo(PID_AMMO_9_MM,20)
+end
+
+procedure NodeAmmo03 begin
+setNodeAmmo(PID_AMMO_10_MM,20)
+end
+
+procedure NodeAmmo04 begin
+setNodeAmmo(PID_AMMO_44_MAGNUM,16)
+end
+
+procedure NodeAmmo05 begin
+setNodeAmmo(PID_AMMO_50_AE,10)
+end
+
+procedure NodeAmmo06 begin
+setNodeAmmo(PID_AMMO_5_MM,7) // в пачке 5 патронов
+end
+
+procedure NodeAmmo07 begin
+setNodeAmmo(PID_AMMO_308,12)
+end
+
+procedure NodeAmmo08 begin
+setNodeAmmo(PID_AMMO_SHOTGUN_SHELLS,8)
+end
+
+procedure NodeAmmo09 begin
+setNodeAmmo(PID_AMMO_SHOTGUN_SHELLS_BULLET,8)
+end
+
+procedure NodeAmmo10 begin
+setNodeAmmo(PID_AMMO_SIGNAL_A,14)
+end
+
+procedure NodeAmmo11 begin
+setNodeAmmo(PID_AMMO_40_MM,3)
+end
+
+procedure NodeFinal begin
+        if (has_skill(dude_obj, SKILL_REPAIR) >= 100) then begin
+   inc_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt));
+   end
+   else if (has_skill(dude_obj, SKILL_REPAIR) >= 80) then begin
+   inc_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt)/2);
+   end
+   else if (has_skill(dude_obj, SKILL_REPAIR) >= 60) then begin
+   inc_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt)/4);
+   end
+   else if (has_skill(dude_obj, SKILL_REPAIR) >= 40) then begin
+   end
+   else begin
+   dec_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt)/4);
+   end
+
+   if (local_var(LVAR_ItemPID) == PID_AMMO_22_LR) then begin
+   Reply(mstr(205)+(local_var(LVAR_ItemAmnt)*5)+mstr(206))
+   end
+   else begin
+   Reply(mstr(205)+local_var(LVAR_ItemAmnt)+mstr(206))
+   end
+   NAnswer(207,1,repair_proc)
+   NAnswer(208,1,NodeListA)
+end

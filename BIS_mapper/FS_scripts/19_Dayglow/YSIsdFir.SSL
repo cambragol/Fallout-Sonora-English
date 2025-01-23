@@ -1,0 +1,49 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSIsdFir
+
+procedure start;
+procedure map_enter_p_proc;
+procedure SignalActiv;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_map_var(MVAR_DIEGOPTRL_SIGNAL_ACTIV,0);
+       set_obj_visibility(self_obj, 1);
+       if (getQuest(GVAR_DAYGLOW_QST_GOMERSUPERMUT) >= qStart) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call SignalActiv;
+end
+
+procedure SignalActiv begin
+   if (random(0,1) == 0) then begin
+   play_sfx("BIGWIN");
+   end else begin
+   play_sfx("BIGWIN1");
+   end
+   set_map_var(MVAR_DIEGOPTRL_SIGNAL_ACTIV,tile_num_in_direction(self_tile,2,1));
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_REPAIR) or (action_being_used == SKILL_SCIENCE) or (action_being_used == SKILL_TRAPS)) then begin
+      script_overrides;
+      call SignalActiv;
+   end
+end

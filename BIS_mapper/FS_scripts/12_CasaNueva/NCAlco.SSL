@@ -1,0 +1,159 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_NCAlco
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_NUEVA // привязка к репутации (-1, если не нужно)
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog202;
+procedure NodeDialog203;
+procedure NodeDialog204;
+procedure NodeDialog205;
+procedure NodeDialog300;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_obj_visibility(self_obj, 1);
+       if ((local_var(LVAR_Status) == 0) and (global_var(GVAR_GAME_END) == 0)) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+       add_timer_event(self_obj, 30, 1);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      reg_anim_clear(self_obj);
+      reg_anim_begin();
+      animate_stand;
+      reg_anim_end();
+      add_timer_event(self_obj, random(70,120), 1);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call talk_p_proc;
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(102);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(103);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_M_WATER_FLASK) then begin
+      script_overrides;
+      add_timer_event(self_obj, 7, 1);
+      z_floater(self_obj, 210, COLOR_MSG_NORMAL);
+      item_remove(dude_obj,PID_M_WATER_FLASK,1)
+      inc_map_var(MVAR_NUEVA_WATERFLASK);
+      if (local_var(LVAR_Status) == 0) then begin
+         set_REP(-2)
+         set_SLAVA(5)
+         set_local_var(LVAR_Status, 1);
+         //call use_p_proc;
+      end
+   end
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   if (local_var(LVAR_Status) == 0) then begin
+   call NodeDialog100;
+   end
+   else if (local_var(LVAR_Status) == 1) then begin
+   call NodeDialog200;
+   end
+   else begin
+   call NodeDialog300;
+   end
+end
+
+procedure NodeDialog100 begin
+   Reply(200)
+   //Я бы вызволил тебя из этой передряги, но что мне за это будет?
+   BAnswer(202,1,NodeDialog101)
+   NAnswer(206,1,Node999)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog101 begin
+   zReply(203)
+   NAnswer(205,1,Node999)
+   BAnswer(204,1,Node999)
+end
+
+procedure NodeDialog200 begin
+   zReply(210)
+   NAnswer(211,1,NodeDialog201)
+   NAnswer(212,1,NodeDialog201)
+end
+
+procedure NodeDialog201 begin
+   Reply(213)
+   NAnswer(214,1,NodeDialog202)
+   NAnswer(215,1,NodeDialog202)
+end
+
+procedure NodeDialog202 begin
+   Reply(216)
+   NAnswer(217,1,NodeDialog203)
+   NAnswer(218,1,NodeDialog203)
+end
+
+procedure NodeDialog203 begin
+   inc_local_var(LVAR_Status);
+   exp_add_answr(100);
+   Reply(219)
+   NAnswer(220,1,NodeDialog204)
+   NAnswer(223,1,NodeDialog205)
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeDialog204 begin
+   zReply(222)
+   NAnswer(223,1,NodeDialog205)
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeDialog205 begin
+   Reply(224)
+   NAnswer(232,1,NodeDialog204)
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeDialog300 begin
+   zReply(230)
+   NAnswer(232,1,NodeDialog204)
+   NAnswer(223,1,NodeDialog205)
+   NAnswer(231,1,Node999)
+end

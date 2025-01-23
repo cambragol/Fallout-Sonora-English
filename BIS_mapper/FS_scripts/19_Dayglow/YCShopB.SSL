@@ -1,0 +1,367 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//--------------------- Северный лагерь
+
+#define NAME                            SCRIPT_YCShopB
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+#define BOX_TILE                        11  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeBarter;
+procedure NodeBarter2;
+procedure NodeSndDialog;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeAnswer205;
+procedure NodeAnswer206;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_BarterBoxProc(ONE_GAME_MONTH)
+   end
+end
+
+procedure setBarterA begin
+        check_restock_many(3000,3500)
+
+        check_restock_item(PID_ARMOR_TESLA, 1, 1, 100)
+        check_restock_item(PID_ARMOR_METALIC_A, 1, 1, 100)
+        check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
+        check_restock_item(PID_ARMOR_JACKET_C, 1, 1, 100)
+        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 5, 5, 100)
+        check_restock_item(PID_TOOL_BOOTS, 5, 5, 100)
+        check_restock_item(PID_TOOL_RADIO, 1, 1, 100)
+        check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
+        check_restock_item(PID_TOOL_LOCKPICKS_MH, 2, 3, 100)
+        check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
+        check_restock_item(PID_AMMO_40_MM, 30, 30, 100)
+        check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
+        check_restock_item(PID_AMMO_308, 28, 28, 100)
+        check_restock_item(PID_W_GRENADE_FRAG, 5, 7, 100)
+        check_restock_item(PID_W_GRENADE_PLASMA, 4, 5, 100)
+        check_restock_item(PID_W_TASER, 1, 1, 100)
+        check_restock_item(PID_W_SPEAR_ELECTRO, 1, 1, 100)
+        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 100, 100, 100)
+        check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
+        check_restock_item(PID_AMMO_5_MM, 40, 40, 100)
+        check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
+        check_restock_item(PID_AMMO_10_MM, 240, 240, 100)
+end
+
+procedure setBarterB begin
+   //! пока пусто
+   set_BarterDopusk;
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   kill_critter_box
+   if (map_var(MVAR_DIEGO_C_CARREGULATOR) < 3) then begin
+   item_add(self_obj,PID_Q_DAYGLOW_CARAVAN_4,1)
+   end
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   if town_rep_is_vilified then begin
+      if DudePerkHas(PERK_ghouling_fiziology) then begin
+      floater(self_obj, 102, COLOR_MSG_RED);
+      end
+      else begin
+      floater(self_obj, 103, COLOR_MSG_RED);
+      end
+   end
+   else begin
+      dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   incBarterMod(75);
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   end
+   else begin
+   incBarterMod(50);
+   end
+   Reply(200)
+   NAnswer(201,0,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,0,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(205,0,NodeBarter)
+   NAnswer(206,0,NodeBarter)
+end
+
+procedure NodeBarter begin
+   if (bitDialog(bit_2) != 0) then begin
+      call NodeBarter2;
+   end
+   else if DudePerkHas(PERK_ghouling_fiziology) then begin
+      Reply(209)
+      NAnswer(210,0,NodeBarter2)
+   end
+   else begin
+      Reply(207)
+      NAnswer(208,0,NodeBarter2)
+   end
+end
+
+procedure NodeBarter2 begin
+   bitDialogExp(bit_2,0)
+   goBarterMod;
+   Reply(211)
+   NAnswer(213,0,NodeSndDialog)
+   NAnswer(212,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if town_rep_is_hated then begin
+   Reply(221)
+   end
+   else if (town_rep_is_liked or DudePerkHas(PERK_ghouling_fiziology)) then begin
+   zReply(220)
+   end
+   else begin
+   Reply(222)
+   end
+
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_31) == 0) then begin
+   NAnswer(270,0,NodeAnswer200)
+   end
+   if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_26) != 0) then begin
+   NAnswer(260,0,NodeAnswer108)
+   end
+   if (map_var(MVAR_DIEGO_C_CARREGULATOR) == 1) then begin
+   NAnswer(230,0,NodeAnswer100)
+   end
+   if (getQuest(GVAR_DAYGLOW_QST_LIVE) == qStart) then begin
+   NAnswer(240,0,NodeAnswer103)
+   end
+   NAnswer(224,0,NodeBarter)
+   NAnswer(223,0,Node999)
+end
+
+procedure NodeAnswer100 begin
+   set_map_var(MVAR_DIEGO_C_CARREGULATOR, 2);
+   Reply(231)
+   NAnswer(232,0,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(233)
+   NAnswer(234,0,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(241)
+   NAnswer(243,0,NodeAnswer104)
+   NAnswer(245,0,NodeAnswer105)
+   NAnswer(247,0,NodeAnswer106)
+   NAnswer(242,0,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(244)
+   NAnswer(245,0,NodeAnswer105)
+   NAnswer(247,0,NodeAnswer106)
+   NAnswer(242,0,NodeSndDialog)
+end
+
+procedure NodeAnswer105 begin
+   Reply(246)
+   NAnswer(243,0,NodeAnswer104)
+   NAnswer(247,0,NodeAnswer106)
+   NAnswer(242,0,NodeSndDialog)
+end
+
+procedure NodeAnswer106 begin
+   Reply(248)
+   NAnswer(243,0,NodeAnswer104)
+   NAnswer(245,0,NodeAnswer105)
+   NAnswer(249,0,NodeAnswer107)
+   NAnswer(242,0,NodeSndDialog)
+end
+
+procedure NodeAnswer107 begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_24);
+   Reply(250)
+   NAnswer(251,0,Node999)
+end
+
+procedure NodeAnswer108 begin
+   Reply(261)
+   NAnswer(262,0,Node999)
+end
+
+//---
+
+procedure NodeAnswer200 begin
+   Reply(271)
+   NAnswer(272,0,NodeAnswer201)
+end
+
+procedure NodeAnswer201 begin
+   Reply(273)
+   NAnswer(274,0,NodeAnswer202)
+end
+
+procedure NodeAnswer202 begin
+   Reply(275)
+   NAnswer(276,0,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   Reply(277)
+   NAnswer(278,0,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   Reply(279)
+   //!!! NAnswer(280,0,NodeAnswer205)
+   NAnswer(282,0,NodeAnswer206)
+end
+
+procedure NodeAnswer205 begin
+   //!!! переменная частоты для рации
+   Reply(281)
+   NAnswer(282,0,NodeAnswer206)
+end
+
+procedure NodeAnswer206 begin
+   set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_31);
+   Reply(283)
+   NAnswer(285,0,NodeAnswer203)
+   NAnswer(284,0,Node999)
+end

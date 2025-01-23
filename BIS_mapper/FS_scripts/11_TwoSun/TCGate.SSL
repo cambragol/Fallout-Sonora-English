@@ -1,0 +1,510 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_TCGate
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_TWOSUN        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog106;
+procedure NodeFstDialog107;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeBanda;
+procedure NodeBanda2;
+procedure NodeBanda3;
+procedure NodeBanda4;
+procedure NodeBanda5;
+procedure NodeBanda6;
+procedure NodeAnswer100;
+
+//---------------------
+
+#define LVAR_Scena                      (6) // демонстрация кат-сцены в воротах после выключения ZAX: 0 - не инициирована, 1 - инициирована, 2 - окончена
+
+variable critterObj;                    // персонаж, генерируемый для кат-сцены
+variable varDudeTile;                   // запоминает размещение ГГ на время кат-сцены в главных воротах
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       bitDialogZero(bit_2)
+       if (map_var(MVAR_TWOSUN_Dopusk) != 0) then begin
+       set_local_var(LVAR_Home_Tile,25910);
+       set_local_var(LVAR_Home_Rotat,1);
+       end
+       set_start_home
+
+       if (map_var(MVAR_TWOSUN_Dopusk) == 0) then begin
+          if (global_var(GVAR_TWOSUN_STATUS_DUDE) != 0) then begin
+          set_map_var(MVAR_TWOSUN_Dopusk,1);
+          bitDialogExp(bit_1,0)
+          end
+          if (global_var(GVAR_TWOSUN_STATUS_ZAX) != 0) then begin
+          set_map_var(MVAR_TWOSUN_Dopusk,1);
+          bitDialogExp(bit_1,0)
+          end
+       end
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
+          rm_timer_event(self_obj);
+          kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+       end
+       if (global_var(GVAR_TWOSUN_STATUS_ZAX) < 0) then begin
+          if (local_var(LVAR_Scena) == 0) then begin
+          add_timer_event(self_obj, 5, 4);
+          end
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,116)
+   end
+   if (fixed_param == 3) then begin
+       dude_teleport_map(1,1,MAP_TWO_SUN_INN,2);
+   end
+
+   //--- Кат-сцена в главных воротах после отключения ZAX
+   if (fixed_param == 4) then begin
+       set_local_var(LVAR_Scena,1);
+       set_map_var(MVAR_TWOSUN_Dopusk,1);
+       varDudeTile := dude_tile;
+       game_ui_disable;
+       gfade_out(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 10, 5);
+   end
+   if (fixed_param == 5) then begin
+       move_to(dude_obj, 25707, 0);
+          anim(dude_obj, ANIMATE_ROTATION, 2);
+          set_obj_visibility(dude_obj, 1);
+
+       critterObj := create_object_sid(PID_CITIZEN_C_MALE, 0, 0, -1);
+          move_to(critterObj, tile_num_in_direction(self_tile, 2, 2), 0);
+          anim(critterObj, ANIMATE_ROTATION, 5);
+          item_add(critterObj,PID_BOOTLE_CAPS,1)
+
+       gfade_in(ONE_GAME_SECOND);
+       //display_mstr(110);
+       add_timer_event(self_obj, 10, 6);
+   end
+   if (fixed_param == 6) then begin
+       floater(self_obj,119,COLOR_MSG_NORMAL);
+       floater(critterObj,111,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 7);
+   end
+   if (fixed_param == 7) then begin
+       floater(self_obj,112,COLOR_MSG_NORMAL);
+       floater(critterObj,119,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 8);
+   end
+   if (fixed_param == 8) then begin
+       floater(self_obj,119,COLOR_MSG_NORMAL);
+       floater(critterObj,113,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 65, 9);
+   end
+   if (fixed_param == 9) then begin
+       floater(self_obj,114,COLOR_MSG_RED);
+       floater(critterObj,119,COLOR_MSG_NORMAL);
+       add_timer_event(self_obj, 50, 10);
+   end
+   if (fixed_param == 10) then begin
+       floater(self_obj,119,COLOR_MSG_NORMAL);
+       floater(critterObj,115,COLOR_MSG_RED);
+
+       play_sfx("WA11XXX1");
+       reg_anim_clear(critterObj);
+          reg_anim_begin();
+          anim(critterObj, ANIMATE_ROTATION, 5);
+          reg_anim_animate(critterObj, ANIM_throw_punch, -1);
+          reg_anim_end();
+       reg_anim_clear(self_obj);
+          reg_anim_begin();
+          anim(self_obj, ANIMATE_ROTATION, 2);
+          reg_anim_animate(self_obj, ANIM_parry_anim, -1);
+          reg_anim_end();
+       add_timer_event(self_obj, 10, 11);
+   end
+   if (fixed_param == 11) then begin
+       play_sfx("WA72XXX1");
+       reg_anim_clear(self_obj);
+          reg_anim_begin();
+          anim(self_obj, ANIMATE_ROTATION, 2);
+          reg_anim_animate(self_obj, ANIM_thrust_anim, -1);
+          reg_anim_end();
+       critter_dmg(critterObj, 100, DMG_normal_dam);
+       add_timer_event(self_obj, 50, 12);
+   end
+   if (fixed_param == 12) then begin
+       gfade_out(ONE_GAME_SECOND);
+       add_timer_event(self_obj, 10, 13);
+   end
+   if (fixed_param == 13) then begin
+       set_local_var(LVAR_Scena,2);
+       critterObj := 0;
+       move_to(dude_obj, varDudeTile, 0);
+          set_obj_visibility(dude_obj, 0);
+          varDudeTile := 0;
+       gfade_in(ONE_GAME_SECOND);
+       game_ui_enable;
+   end
+end
+
+procedure critter_p_proc begin
+   if (local_var(LVAR_Scena) != 1) then begin
+   set_critter_options(1,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+
+   if ((map_var(MVAR_TWOSUN_Dopusk) == 0) and (local_var(LVAR_Scena) != 1)) then begin
+      if ((tile_distance(dude_tile, 24307) < 5) and (dude_elevation == 0)) then begin
+          //if self_can_see_dude then begin
+             if (bitDialog(bit_2) == 0) then begin
+             floater(self_obj,103,COLOR_MSG_RED);
+             bitDialogExp(bit_2,0)
+             end
+             attack(dude_obj);
+          //end
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (itemTypeUseDude == 3) then begin
+   floater(self_obj,104,COLOR_MSG_GREEN);
+   set_map_var(MVAR_TWOSUN_Dopusk,1);
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+
+   /*
+   if (map_var(MVAR_TWOSUN_Dopusk) == 0) then begin
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+      if town_rep_is_liked then begin
+      floater(self_obj,102,COLOR_MSG_NORMAL);
+      end else if town_rep_is_antipaty then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+      end else begin
+      floater(self_obj,102,COLOR_MSG_NORMAL);
+      end
+   end
+   */
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   Reply(200)
+
+   //--- общие условия
+   if (global_var(GVAR_CAR_MAP_INDEX) == cur_map_index) then begin
+   GAnswer(218,4,NodeFstDialog4)
+   end
+   else begin
+   NAnswer(229,1,NodeFstDialog104)
+   end
+
+   NAnswerSkill(220,3,NodeFstDialog101,SKILL_CONVERSANT,80,220,NodeFstDialog2)
+   if (item_amnt(dude_obj,PID_RELICT_WATCH) > 0) then begin
+   NAnswer(244,3,NodeFstDialog102)
+   end
+   else begin
+   NAnswerSkill(223,3,NodeFstDialog102,SKILL_BARTER,60,223,NodeFstDialog2)
+   end
+   NAnswerSkill(226,3,NodeFstDialog103,SKILL_REPAIR,60,226,NodeFstDialog2)
+
+   //--- членство в дружественных фракциях
+   if (global_var(GVAR_TITUL_BOS) > 0) then begin
+      NAnswer(235,1,NodeFstDialog106)
+   end
+   else if (getQuest(GVAR_PHENIX_QST_OWRS_HOLO) == qStart) then begin
+      NAnswer(241,1,NodeFstDialog107)
+   end
+   else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+      zNAnswer(232,1,NodeFstDialog105)
+   end
+   else if (inven_armor(dude_obj) > 0) then begin
+      if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) then begin
+      NAnswer(238,1,NodeFstDialog105)
+      end
+      else if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) then begin
+      NAnswer(238,1,NodeFstDialog105)
+      end
+   end
+
+   //--- последователь на столбе
+   if (map_var(MVAR_TWOSUN_CultDed) == 1) then begin
+      if (bitDialog(bit_3) == 0) then begin
+      NAnswer(270,1,NodeAnswer100)
+      end
+   end
+
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(210)
+   BAnswer(211,1,NodeFstDialog3)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(213)
+   NAnswer(214,1,Node999)
+end
+
+procedure NodeFstDialog4 begin
+   set_map_var(MVAR_TWOSUN_Dopusk,1);
+   set_local_var(LVAR_Home_Tile,25910);
+   set_local_var(LVAR_Home_Rotat,1);
+   bitDialogExp(bit_1,250)
+   Reply(215)
+   NAnswer(216,1,Node999)
+   BAnswer(217,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   set_REP(-1)
+   call Node999;
+end
+
+procedure NodeFstDialog101 begin
+   Reply(221)
+   NAnswer(222,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(224)
+   NAnswer(225,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog103 begin
+   Reply(227)
+   NAnswer(228,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog104 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 200) then begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, 200)
+   Reply(230)
+   NAnswer(231,1,NodeFstDialog4)
+   end
+   else begin
+   call NodeFstDialog2;
+   end
+end
+
+procedure NodeFstDialog105 begin
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   Reply(239)
+   NAnswer(240,1,Node999)
+   end
+   else begin
+   set_REP(2)
+   zReply(233)
+   NAnswer(234,1,NodeFstDialog4)
+   end
+end
+
+procedure NodeFstDialog106 begin
+   set_REP(5)
+   Reply(236)
+   NAnswer(237,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog107 begin
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   Reply(239)
+   NAnswer(240,1,Node999)
+   end
+   else begin
+   Reply(242)
+   NAnswer(243,1,NodeFstDialog4)
+   end
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(250)
+   if (getQuest(GVAR_TWOSUN_QST_BAND_SLAVES) == 1) then begin
+      if (gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_1) == 0) then begin
+      NAnswer(252,1,NodeBanda)
+      end
+   end
+   if (map_var(MVAR_TWOSUN_CultDed) == 1) then begin
+      if (bitDialog(bit_3) == 0) then begin
+      NAnswer(270,1,NodeAnswer100)
+      end
+   end
+   if weapon_invn_dude then begin
+   NAnswer(251,1,NodeSndDialog2)
+   end else begin
+   NAnswer(251,1,Node999)
+   end
+end
+
+procedure NodeSndDialog2 begin
+   Reply(264)
+   NAnswer(265,1,Node999)
+end
+
+/*
+{253}{}{Эти рабы создали много проблем. Ни один наемник не справится с ними в одиночку. Если считаешь иначе, я покажу путь в Старый Город.}
+{254}{}{Я отправлюсь туда позже.}
+{255}{}{Расскажи о том районе.}
+{256}{}{Старый Город - это то, что осталось от довоенной эпохи. Разрушенные временем здания и непроходимые от завалов улицы. Основную опасность представяет бизнес-центр. Видимо, там логово беглых рабов.}
+{257}{}{Что ты знаешь о беглецах?}
+{258}{}{Вероятно, это беглые рабы, которым удалось выбраться из Запретной Зоны. К ним могли приобщиться и другие жители из пустошей, которые ненавидят наше поселение. Они слабы, но хитры и изобретательны.}
+{259}{}{}
+{260}{}{}
+{261}{}{Показывай дорогу, мне нужно туда попасть.}
+*/
+
+procedure NodeBanda begin
+   Reply(253)
+   NAnswer(255,1,NodeBanda2)
+   NAnswer(257,1,NodeBanda3)
+   NAnswer(259,1,NodeBanda4)
+   NAnswer(261,1,NodeBanda5)
+   NAnswer(254,1,Node999)
+end
+
+procedure NodeBanda2 begin
+   Reply(256)
+   NAnswer(257,1,NodeBanda3)
+   NAnswer(259,1,NodeBanda4)
+   NAnswer(261,1,NodeBanda5)
+   NAnswer(254,1,Node999)
+end
+
+procedure NodeBanda3 begin
+   Reply(258)
+   NAnswer(255,1,NodeBanda2)
+   NAnswer(259,1,NodeBanda4)
+   NAnswer(261,1,NodeBanda5)
+   NAnswer(254,1,Node999)
+end
+
+procedure NodeBanda4 begin
+   Reply(260)
+   NAnswer(255,1,NodeBanda2)
+   NAnswer(257,1,NodeBanda3)
+   NAnswer(261,1,NodeBanda5)
+   NAnswer(254,1,Node999)
+end
+
+procedure NodeBanda5 begin
+   Reply(262)
+   NAnswer(263,1,NodeBanda6)
+end
+
+procedure NodeBanda6 begin
+   rm_timer_event(self_obj);
+   add_timer_event(self_obj, 2, 3);
+   call Node999;
+end
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_3,0)
+   Reply(271)
+   NAnswer(272,1,Node999)
+   NAnswer(273,1,Node999)
+end

@@ -1,0 +1,238 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCRanger
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_RANGER           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure replyfloat_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
+
+import variable box_stop_use;
+
+variable replyFloat;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+           if (cur_map_index == MAP_RANGERS_BASA) then begin
+              if (item_amnt(self_obj,PID_TEST) == 1) then begin
+              set_local_var(LVAR_Tile_B,16905); // женщина-снайпер у верхнего окна надстройки
+              end
+           end
+           item_remove(self_obj,PID_TEST,999)
+       end
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((game_time_hour < 0600) and (local_var(LVAR_Tile_B) > 0)) then begin
+       timer_move_patrol(HomeTile,local_var(LVAR_Tile_B))
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       call replyfloat_proc;
+       timer_float_reply(replyFloat,replyFloat)
+   end
+end
+
+procedure replyfloat_proc begin
+   replyFloat := 0;
+   replyFloat := 110+(random(0,9)*3);
+
+       // Реплики про Шакалов
+       if (replyFloat == 110) then begin
+           if (global_var(GVAR_JACKALS_DEAD) >= LIMIT_JACKALS_DEAD) then begin
+           replyFloat += 1;
+           end
+           else if (global_var(GVAR_JACKALS_RANGER_CONTRAKT) >0) then begin
+           replyFloat += 2;
+           end
+       end
+
+       // Реплики про Виллу
+       if (replyFloat == 113) then begin
+           if (getQuest(GVAR_VILLA_ALLIANCE_RANGER) < qZero) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_VILLA_ALLIANCE_RANGER) >= qEnd) then begin
+           replyFloat += 2;
+           end
+       end
+
+       // Реплики про события в СанБрамин
+       if (replyFloat == 116) then begin
+          if (getQuest(GVAR_RANGERS_QST_SBRAHMIN) >= qEnd) then begin
+           if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) == 10) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) >= qEnd) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) >= 20) then begin
+           replyFloat += 2;
+           end
+           else if (getQuest(GVAR_BRAHMIN_QST_RANGER) >= qEnd) then begin
+           replyFloat += 2;
+           end
+          end
+       end
+
+       // Реплики про Флагпул
+       if (replyFloat == 119) then begin
+           if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_FLAGSTAFF_MERPSWDR) >= qEnd) then begin
+           replyFloat += 2;
+           end
+       end
+
+       // Реплики про культ Огня
+       if (replyFloat == 122) then begin
+           if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_PHENIX_QST_CULT_C) >= qEnd) then begin
+           replyFloat += 2;
+           end
+       end
+
+       // Реплики про Братство Стали
+       if (replyFloat == 125) then begin
+           if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_RANGERS_QST_PUERTO) >= qStart) then begin
+           replyFloat += 2;
+           end
+       end
+
+       // Реплики про дамбу
+       if (replyFloat == 128) then begin
+           if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_RANGERS_QST_EUGENE_DUM) == qEnd) then begin
+           replyFloat += 2;
+           end
+       end
+
+       // Реплики про ГГ
+       if (replyFloat == 131) then begin
+           if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+           replyFloat += random(0,1);
+           end
+           else if town_rep_is_liked then begin
+           replyFloat += random(0,1);
+           end
+           else if town_rep_is_antipaty then begin
+           replyFloat += random(4,5);
+           end
+           else begin
+           replyFloat += random(2,3);
+           end
+       end
+
+       if (replyFloat == 137) then begin
+           if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_3) != 0) then begin
+           replyFloat += 1;
+           end
+           else if (global_var(GVAR_GRAVES_RANGERS) > 0) then begin
+           replyFloat += 2;
+           end
+       end
+
+       if (replyFloat == 140) then begin
+           if (global_var(GVAR_STATUS_RANGERS_GART) == -2) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_RANGERS_QST_MISSING) >= qEnd) then begin
+           replyFloat += 2;
+           end
+       end
+
+       if (random(0,2) == 0) then begin
+       replyFloat := 0;
+       end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) <= 0) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if town_rep_is_antipaty then begin
+   floater(self_obj,random(170,179),COLOR_MSG_RED);
+   end
+   else begin
+   floater(self_obj,random(150,161),COLOR_MSG_NORMAL);
+   end
+end

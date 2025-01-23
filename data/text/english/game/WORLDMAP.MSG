@@ -204,7 +204,7 @@
 # Special Encounter- Gold
 {510}{}{Sonoran Wasteland}
 #
-# Special Encounter- Henry Beamis
+# Special Encounter- Henry Bemis
 {520}{}{Sonoran Wasteland}
 #
 # Special Encounter- Roadside Cafe
@@ -318,7 +318,7 @@
 {3018}{}{A robot.}
 {3019}{}{Some giant centipedes.}
 {3020}{}{Gold!}
-{3021}{}{Henry Beamis.}
+{3021}{}{Henry Bemis.}
 {3022}{}{A roadside cafe.}
 {3023}{}{A crashed bomber.}
 {3024}{}{A Petro-Chico truck.}
@@ -337,7 +337,7 @@
 {3054}{}{A band of Jackals.}
 {3055}{}{A Nevada gang.}
 {3056}{}{Gold!}
-{3057}{}{Henry Beamis.}
+{3057}{}{Henry Bemis.}
 {3058}{}{A roadside cafe.}
 {3059}{}{A crashed bomber.}
 {3060}{}{A Petro-Chico truck.}
@@ -357,7 +357,7 @@
 {3105}{}{A White Mountain squad.}
 {3106}{}{A hunter.}
 {3107}{}{Gold!}
-{3108}{}{Henry Beamis.}
+{3108}{}{Henry Bemis.}
 {3109}{}{A roadside cafe.}
 {3110}{}{A crashed bomber.}
 {3111}{}{A Petro-Chico truck.}
@@ -378,7 +378,7 @@
 {3155}{}{A hunter.}
 {3156}{}{A pack of savages.}
 {3157}{}{Gold!}
-{3158}{}{Henry Beamis.}
+{3158}{}{Henry Bemis.}
 {3159}{}{A roadside cafe.}
 {3160}{}{A crashed bomber.}
 {3161}{}{A Petro-Chico truck.}
@@ -408,7 +408,7 @@
 {3257}{}{Some rangers pursuing cattle thieves.}
 {3258}{}{Some giant centipedes.}
 {3259}{}{Gold!}
-{3260}{}{Henry Beamis.}
+{3260}{}{Henry Bemis.}
 {3261}{}{A roadside cafe.}
 {3262}{}{A crashed bomber.}
 {3263}{}{A Petro-Chico truck.}
@@ -428,7 +428,7 @@
 {3303}{}{A legendary radscorpion!}
 {3304}{}{Some giant centipedes.}
 {3305}{}{Gold!}
-{3306}{}{Henry Beamis.}
+{3306}{}{Henry Bemis.}
 {3307}{}{A roadside cafe.}
 {3308}{}{A crashed bomber.}
 {3309}{}{A Petro-Chico truck.}
@@ -446,7 +446,7 @@
 {3353}{}{Some giant centipedes.}
 {3354}{}{A swarm of mantises.}
 {3355}{}{Gold!}
-{3356}{}{Henry Beamis.}
+{3356}{}{Henry Bemis.}
 {3357}{}{A roadside cafe.}
 {3358}{}{A crashed bomber.}
 {3359}{}{A Petro-Chico truck.}
@@ -469,7 +469,7 @@
 {3406}{}{The body of an immigrant who died in the desert.}
 {3407}{}{Alejo against the Mexicans.}
 {3408}{}{Gold!}
-{3409}{}{Henry Beamis.}
+{3409}{}{Henry Bemis.}
 {3410}{}{A roadside cafe.}
 {3411}{}{A crashed bomber.}
 {3412}{}{A Petro-Chico truck.}
@@ -489,7 +489,7 @@
 {3454}{}{A Mexican army patrol.}
 {3455}{}{A group of immigrants.}
 {3456}{}{Gold!}
-{3457}{}{Henry Beamis.}
+{3457}{}{Henry Bemis.}
 {3458}{}{A roadside cafe.}
 {3459}{}{A crashed bomber.}
 {3460}{}{A Petro-Chico truck.}
@@ -507,7 +507,7 @@
 {3504}{}{Several scavengers.}
 {3505}{}{A traveler with a dog.}
 {3506}{}{Gold!}
-{3507}{}{Henry Beamis.}
+{3507}{}{Henry Bemis.}
 {3508}{}{A roadside cafe.}
 {3509}{}{A crashed bomber.}
 {3510}{}{A Petro-Chico truck.}
@@ -539,7 +539,7 @@
 {3601}{}{A group of giant ants.}
 {3602}{}{The body of an unlucky marauder.}
 {3603}{}{A lonely scavenger.}
-{3604}{}{A pissed off Mr. Helper.}
+{3604}{}{A pissed off Mr. Handy.}
 
 # Encounter Table 13-- ROAD_D
 {3650}{}{A Red Rider.}
@@ -573,7 +573,7 @@
 {3754}{}{A hermit.}
 {3755}{}{A cannibal on the hunt.}
 {3756}{}{Gold!}
-{3757}{}{Henry Beamis.}
+{3757}{}{Henry Bemis.}
 {3758}{}{A roadside cafe.}
 {3759}{}{A crashed bomber.}
 {3760}{}{A Petro-Chico truck.}
@@ -600,7 +600,7 @@
 
 # Encounter Table 18-- ISLD_D
 {3900}{}{A group of giant ants exploring the coast.}
-{3901}{}{A monster}
+{3901}{}{A monster.}
 {3902}{}{A body washed ashore.}
 {3903}{}{A fisherman.}
 {3904}{}{The body of a scout.}
@@ -614,7 +614,7 @@
 {3954}{}{Army robot.}
 {3955}{}{Pilgrims.}
 {3956}{}{Gold!}
-{3957}{}{Henry Beamis.}
+{3957}{}{Henry Bemis.}
 {3958}{}{A roadside cafe.}
 {3959}{}{A crashed bomber.}
 {3960}{}{A Petro-Chico truck.}

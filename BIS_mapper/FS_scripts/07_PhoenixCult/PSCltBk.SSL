@@ -1,0 +1,64 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_PSCltBk
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure reading_proc;
+
+#define LVAR_SkillUp                    (0) // факт изучения собрания
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (local_var(LVAR_SkillUp) == 0) then begin
+   display_mstr(110);
+   end
+   else begin
+   display_mstr(111);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       if (gvar_bit(GVAR_BIBL_FLAGS_BIT, bit_8) == 0) then begin
+       display_mstr(114);
+       end
+       else if (local_var(LVAR_SkillUp) == 0) then begin
+       call reading_proc;
+       end
+       else begin
+       display_mstr(112);
+       end
+   end
+end
+
+procedure reading_proc begin
+   variable skillNumber;
+   skillNumber := random(SKILL_SMALL_GUNS,SKILL_SCOUT);
+
+   PLAY_FADE
+   game_time_advance(ONE_GAME_HOUR*(24-dude_iq));
+   if (is_skill_tagged(skillNumber) == true) then begin
+   skill_up(skillNumber,4);
+   end
+   else begin
+   skill_up(skillNumber,3);
+   end
+   display_mstr(113);
+   inc_local_var(LVAR_SkillUp);
+end

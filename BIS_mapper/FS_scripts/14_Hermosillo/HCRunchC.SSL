@@ -1,0 +1,158 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_HCRunchC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_HERMOSILLO  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BRAHMIN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CHILD              // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_CHILD      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CHILD        // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      25 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_SANDAL_STATUS                 (6) // получение сандалий от ГГ
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (game_time_hour < 0700) then begin
+       timer_move_to_home
+       end
+       else begin
+       //timer_move_to_tile(0,14502,5)
+       timer_move_to_tile(0,tile_num_in_direction(14502,random(0,5),random(1,2)),random(0,5))
+       end
+       /*if (game_time_hour < 0600) then begin
+       timer_move_to_home
+       end
+       else begin
+       timer_move_random_home(4)
+       end
+       */
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(map_var(MVAR_HERMO_Runcho_Enemy),0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (objUsedPid == PID_SANDALS) then begin
+      script_overrides;
+      if self_enemy_dude then begin
+      end
+      else if (local_var(LVAR_SANDAL_STATUS) != 0) then begin
+      display_mstr(103);
+      end
+      else begin
+      set_REP(1)
+      exp_add(75);
+      display_mstr(104);
+      if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj,106,COLOR_MSG_GREEN);
+      end
+      else begin
+         floater(self_obj,105,COLOR_MSG_GREEN);
+      end
+      item_remove(dude_obj, objUsedPid, 1)
+      set_local_var(LVAR_SANDAL_STATUS,1);
+      end
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_HERMO_Runcho_Enemy,2);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      if (game_time_hour < 0600) then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+      end
+      else if town_rep_is_liked then begin
+      z_floater(self_obj,random(210,220),COLOR_MSG_NORMAL);
+      end
+      else begin
+      z_floater(self_obj,random(210,220),COLOR_MSG_RED);
+      end
+   end
+   else begin
+      if (game_time_hour < 0600) then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+      end
+      else if town_rep_is_liked then begin
+      z_floater(self_obj,random(110,120),COLOR_MSG_NORMAL);
+      end
+      else begin
+      z_floater(self_obj,random(110,120),COLOR_MSG_RED);
+      end
+   end
+end

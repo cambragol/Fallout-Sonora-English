@@ -1,0 +1,36 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_NTInfo
+
+procedure start;
+procedure spatial_p_proc;
+procedure info_proc;
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       if (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) != qZero) then begin
+       if (global_var(GVAR_NUEVA_KNOW_SPORE) == 0) then begin
+       call info_proc;
+       end
+       end
+   end
+end
+
+procedure info_proc begin
+   variable critterObj;
+
+   display_mstr(100);
+   floater(source_obj,101,COLOR_MSG_RED);
+   reg_anim_clear(source_obj);
+
+   critterObj := create_object_sid(PID_GHOUL_SPORONOS,21732,self_elevation,-1);
+                 anim(critterObj, ANIMATE_ROTATION, 5);
+                 kill_critter(critterObj,ANIM_fall_front_blood_sf);
+                 critterObj := 0;
+
+   inc_global_var(GVAR_NUEVA_KNOW_SPORE);
+end

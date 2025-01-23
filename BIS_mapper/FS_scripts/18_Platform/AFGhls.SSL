@@ -1,0 +1,111 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_AFGhls
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_OIL_PLATFORM // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_GHOUL_WILD       // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GHOUL      // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   1                     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if ((global_var(GVAR_GAME_END)>0) and (global_var(GVAR_ENDGAME_INFERNO) == 4)) then begin
+          set_obj_visibility(self_obj, 0);
+          if (item_amnt(self_obj,PID_TEST)>0) then begin
+          item_remove(self_obj,PID_TEST,999)
+          rm_timer_event(self_obj);
+          kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+          end
+          else if (lvar_bit(LVAR_Self_Flags, bit_12) == 0) then begin
+          inc_map_var(MVAR_OIL_PLATFORM_GHOULSAMNT);
+          set_lvar_bit_on(LVAR_Self_Flags, bit_12);
+          end
+       end
+       else begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(3)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   if (self_PID == PID_GHOUL_GLOW) then begin
+   effectAttak(0,3,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   end
+   else begin
+   effectAttak(0,0,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   end
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (cur_map_index == MAP_OIL_CITY) then begin
+   dec_map_var(MVAR_OIL_PLATFORM_GHOULSAMNT);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   g_floater(self_obj,510,COLOR_MSG_RED);
+end

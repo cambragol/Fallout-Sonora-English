@@ -1,0 +1,42 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                    SCRIPT_ASLampar
+#define SKILL_LIMIT                     100
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20)
+end
+
+procedure repair_proc begin
+   set_global_var(GVAR_SANFELIPE_STATUS_LAMPARA, 1);
+   gfade_out(ONE_GAME_SECOND);
+    game_time_advance(ONE_GAME_HOUR);
+   gfade_in(ONE_GAME_SECOND);
+   RepairProcRepair(112,350,"FIXSTILL")
+end

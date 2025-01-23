@@ -81,6 +81,10 @@ procedure map_update_p_proc begin
        display_mstr(105);
        set_obj_visibility(self_obj, 1);
        set_global_var(GVAR_VILLA_STATUS_SANCHO, 2);
+       // set this to get rid of marauders if Sancho or Hugo return to plantation - cambragol
+       if (getQuest(GVAR_VILLA_MARAUDERS_RUN) <= 1) then begin
+         set_global_var(GVAR_VILLA_MARAUDERS_RUN, 10);
+       end
        destroy_object(self_obj);
        end
    end

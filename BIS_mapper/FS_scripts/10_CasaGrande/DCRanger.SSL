@@ -1,0 +1,271 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_DCRanger
+#define TOWN_REP_VAR                    -1  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      80 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog100;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog202;
+procedure NodeDialog203;
+procedure NodeDialog204;
+procedure NodeDialog205;
+procedure NodeDialog206;
+procedure NodeDialog207;
+procedure NodeDialog208;
+procedure NodeDialog209;
+procedure NodeDialog210;
+procedure NodeDialog211;
+procedure NodeDialog212;
+procedure NodeDialog300;
+procedure NodeDialogCombat;
+procedure NodeDialogCombat2;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+       if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+       if (map_var(MVAR_CGRANDE_CHIP_GRAVE) != 0) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (map_var(MVAR_CGRANDE_CHIP_GRAVE) != 0) then begin
+      if (bitDialog(bit_1) == 0) then begin
+      set_obj_visibility(self_obj, 0);
+      dialogue_system_forcing(12)
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (bitDialog(bit_1) == 0) then begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+   bitDialogExp(bit_2,150)
+end
+
+procedure NodeStartDialog begin
+   call NodeDialog;
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeDialog2)
+end
+
+procedure NodeDialog2 begin
+   zReply(202)
+   NAnswer(230,1,NodeDialog300)
+   NAnswer(210,1,NodeDialog200)
+   BAnswer(203,1,NodeDialog100)
+end
+
+procedure NodeDialog100 begin
+   Reply(204)
+   NAnswer(205,1,NodeDialogCombat2)
+end
+
+procedure NodeDialog200 begin
+   Reply(211)
+   NAnswer(213,1,NodeDialog201)
+   GAnswer(216,1,NodeDialog202)
+   NAnswer(219,3,NodeDialog204)
+   BAnswer(212,1,NodeDialog100)
+end
+
+procedure NodeDialog201 begin
+   Reply(214)
+   NAnswer(215,1,NodeDialog203)
+end
+
+procedure NodeDialog202 begin
+   zReply(217)
+   NAnswer(218,1,NodeDialog203)
+end
+
+procedure NodeDialog203 begin
+   Reply(220)
+   NAnswer(221,1,NodeDialog204)
+   BAnswer(223,1,NodeDialog100)
+end
+
+procedure NodeDialog204 begin
+   Reply(240)
+   NAnswer(241,1,NodeDialog205)
+end
+
+procedure NodeDialog205 begin
+   Reply(242)
+   NAnswer(243,1,NodeDialog206)
+end
+
+procedure NodeDialog206 begin
+   Reply(244)
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   NAnswer(254,1,NodeDialog209)
+   end
+   NAnswerSkill(260,4,NodeDialog211,SKILL_CONVERSANT,50,257,NodeDialog210)
+   NAnswerSkill(264,4,NodeDialog212,SKILL_SCIENCE,50,266,NodeDialog210)
+   zNAnswer(245,1,NodeDialog207)
+   BAnswer(250,1,NodeDialog208)
+end
+
+procedure NodeDialog207 begin
+   zReply(246)
+   NAnswer(247,1,NodeDialogCombat)
+end
+
+procedure NodeDialog208 begin
+   zReply(251)
+   BAnswer(252,1,Node998)
+   NAnswer(253,1,Node998)
+end
+
+procedure NodeDialog209 begin
+   Reply(255)
+   NAnswer(256,1,Node999)
+end
+
+procedure NodeDialog210 begin
+   Reply(258)
+   NAnswer(259,1,NodeDialogCombat)
+end
+
+procedure NodeDialog211 begin
+   zReply(261)
+   NAnswer(262,1,Node999)
+   BAnswer(263,1,Node999)
+end
+
+procedure NodeDialog212 begin
+   zReply(265)
+   NAnswer(262,1,Node999)
+   BAnswer(263,1,Node999)
+end
+
+procedure NodeDialog300 begin
+   Reply(231)
+   NAnswer(234,1,NodeDialog204)
+   BAnswer(233,1,NodeDialog100)
+   BAnswer(232,1,Node998)
+end
+
+procedure NodeDialogCombat begin
+   Reply(206)
+   BAnswer(249,1,Node998)
+   NAnswer(248,1,Node998)
+end
+
+procedure NodeDialogCombat2 begin
+   Reply(206)
+   BAnswer(208,1,Node998)
+   NAnswer(207,1,Node998)
+   NAnswer(209,3,NodeDialog204)
+end

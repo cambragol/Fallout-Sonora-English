@@ -1,0 +1,247 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_EncBaron
+#define TOWN_REP_VAR                    -1                    // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_CAVALER        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      (SLAVA_KILL_BAD*10)   // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog7_2;
+procedure NodeFstDialog8_1;
+procedure NodeFstDialog8_2;
+procedure NodeFstDialog8_3;
+procedure NodeFstDialog8_4;
+procedure NodeFstDialog8_5;
+procedure NodeFstDialog8_6;
+procedure NodeFstDialog8_7;
+procedure NodeFstDialog9;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable obj_critter_a; // указатель на криттера 1
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   obj_critter_a := self_obj;
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   //set_damage_EMP //разовое снижение Силы и Восприятия при уроне ЭМИ (НЕ РАБОТАЕТ!!!)
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (obj_critter_a == self_obj) then begin
+   obj_critter_a := 0;
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   zReply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(202,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(204,1,NodeFstDialog3)
+   NAnswer(205,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(206)
+   NAnswer(207,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(208)
+   GAnswer(216,1,NodeFstDialog7)
+   BAnswer(212,1,NodeFstDialog6)
+   NAnswer(209,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(210)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(213)
+   NAnswer(214,1,Node999)
+   BAnswer(215,1,Node998)
+end
+
+procedure NodeFstDialog7 begin
+   Reply(220)
+
+   NAnswer(221,1,NodeFstDialog8_1)
+   zNAnswer(222,1,NodeFstDialog8_2)
+   NAnswer(223,1,NodeFstDialog8_3)
+   NAnswer(224,1,NodeFstDialog8_4)
+
+   NAnswer(218,1,NodeFstDialog7_2)
+   BAnswer(217,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog7_2 begin
+   Reply(220)
+
+   zNAnswer(225,1,NodeFstDialog8_5)
+   NAnswer(226,1,NodeFstDialog8_6)
+   NAnswer(227,1,NodeFstDialog8_7)
+
+   NAnswer(218,1,NodeFstDialog7)
+   BAnswer(217,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog8_1 begin
+   set_critter_stat(dude_obj, STAT_st, 1);
+   call NodeFstDialog9;
+end
+procedure NodeFstDialog8_2 begin
+   set_critter_stat(dude_obj, STAT_pe, 1);
+   call NodeFstDialog9;
+end
+procedure NodeFstDialog8_3 begin
+   set_critter_stat(dude_obj, STAT_en, 1);
+   call NodeFstDialog9;
+end
+procedure NodeFstDialog8_4 begin
+   set_critter_stat(dude_obj, STAT_ch, 1);
+   call NodeFstDialog9;
+end
+procedure NodeFstDialog8_5 begin
+   set_critter_stat(dude_obj, STAT_iq, 1);
+   call NodeFstDialog9;
+end
+procedure NodeFstDialog8_6 begin
+   set_critter_stat(dude_obj, STAT_ag, 1);
+   call NodeFstDialog9;
+end
+procedure NodeFstDialog8_7 begin
+   set_critter_stat(dude_obj, STAT_lu, 1);
+   call NodeFstDialog9;
+end
+
+procedure NodeFstDialog9 begin
+   Reply(228)
+   NAnswer(229,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(230)
+   NAnswer(231,1,Node999)
+end

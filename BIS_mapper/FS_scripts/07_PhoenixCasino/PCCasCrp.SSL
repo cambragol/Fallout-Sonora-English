@@ -1,0 +1,320 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCCasCrp
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_WIMPY       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_CASINO           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+procedure NodeSndDialog5;
+procedure NodeSndDialog6;
+procedure NodeStavka101;
+procedure NodeStavka102;
+procedure NodeStavka103;
+procedure NodeStavka104;
+procedure NodeStavka105;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+variable amntStavka;  // размер текущей ставки (обнуляется при начале игры)
+variable cellStavka;  // цвет ставки: 0 - зеро, 1 - черное, 2 - красное
+variable cellWin;     // цвет победившей ячейки: -1 - двойной зеро, 0 - зеро, 1 - черное, 2 - красное
+variable cellNumber;  // номер победившей ячейки
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,111)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   killCasinoRepCity(-2)
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if town_rep_is_vilified then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_PHENIX_CASINO,50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(1,102,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ВСТУПЛЕНИЕ
+
+procedure NodeFstDialog begin
+   Reply(200)
+   NAnswerSkill(202,1,NodeFstDialog2,SKILL_GAMBLING,40,201,Node999)
+   NAnswer(203,1,Node999)
+end
+
+procedure NodeFstDialog2 begin
+   bitDialogExp(bit_1,0)
+   zReply(204)
+   NAnswer(205,1,NodeSndDialog)
+end
+
+//--- ПРОЦЕСС ИГРЫ
+
+procedure NodeSndDialog begin
+   amntStavka := 0;
+   cellStavka := 0;
+   cellWin := 0;
+   cellNumber := 0;
+   Reply(210)
+   if (item_amnt(dude_obj,PID_POKER_FISH) >= 5) then begin
+   NAnswer(212,1,NodeStavka101)
+   NAnswer(213,1,NodeStavka102)
+   NAnswer(214,1,NodeStavka103)
+   NAnswer(211,1,Node999)
+   end
+   else begin
+   NAnswer(215,1,Node999)
+   end
+end
+
+procedure NodeSndDialog2 begin
+   Reply(220)
+   NAnswer(random(221,225),1,NodeSndDialog4)
+   NAnswer(226,5,NodeStavka104) // важно: фразе на удвоение нарочно задан ИН 5
+   NAnswer(227,7,NodeStavka105) // аналогично
+end
+
+procedure NodeSndDialog3 begin
+   Reply(230)
+   NAnswer(231,1,NodeSndDialog4)
+end
+
+procedure NodeSndDialog4 begin
+   //Вероятности: 47% на красное, 47% на черное, 3% на зеро "0" (уходит игроку), 3% на зеро "00" (уходит в казино)
+   cellNumber := random(1,38); // определение выпавшего числа (38 ячеек, из них 2 особые)
+
+   if (cellNumber == 38) then begin
+   cellWin := -1; // двойной зеро
+   end
+   else if (cellNumber == 37) then begin
+   cellWin := 0; // зеро
+   end
+   else if (cellNumber >= 18) then begin
+   cellWin := 1; // черное
+   end
+   else begin
+   cellWin := 2; // красное
+   end
+
+   if (map_var(MVAR_PNX_ROULETTE) > 0) then begin
+      if (random(0,100) <= map_var(MVAR_PNX_ROULETTE)) then begin
+      cellWin := cellStavka;
+      end
+   end
+
+   play_sfx("DICE1");
+
+   if (cellWin == cellStavka) then begin
+   call NodeSndDialog6;
+   end
+   else begin
+   call NodeSndDialog5;
+   end
+end
+
+procedure NodeSndDialog5 begin
+   if (cellWin == -1) then begin
+   Reply(235)
+   end
+   else if (cellWin == 0) then begin
+   Reply(234)
+   end
+   else if (cellWin == 1) then begin
+   Reply(233)
+   end
+   else begin
+   Reply(232)
+   end
+   NAnswer(236,1,NodeSndDialog)
+   NAnswer(237,1,Node999)
+end
+
+procedure NodeSndDialog6 begin
+   item_add(dude_obj,PID_POKER_FISH,amntStavka*2) // умножается потому, что ранее ставка удалялась из инвентаря ГГ, поэтому нужно вернуть и выигрыши, и ставку
+   if (cellWin == 0) then begin
+   play_sfx("PICKKEYS");
+   item_add(dude_obj,PID_POKER_FISH,(amntStavka*7))
+   Reply(240)
+   end
+   else if (cellWin == 1) then begin
+   Reply(239)
+   end
+   else begin
+   Reply(238)
+   end
+   NAnswer(241,1,NodeSndDialog)
+   NAnswer(242,1,Node999)
+end
+
+//--- ОБРАБОТКА СТАВОК
+
+procedure NodeStavka101 begin
+   if (item_amnt(dude_obj,PID_POKER_FISH) < 5) then begin
+   call Node999;
+   end
+   else begin
+   amntStavka += 5;
+   cellStavka := 2;
+   item_remove(dude_obj,PID_POKER_FISH,5)
+   call NodeSndDialog2;
+   end
+end
+
+procedure NodeStavka102 begin
+   if (item_amnt(dude_obj,PID_POKER_FISH) < 5) then begin
+   call Node999;
+   end
+   else begin
+   amntStavka += 5;
+   cellStavka := 1;
+   item_remove(dude_obj,PID_POKER_FISH,5)
+   call NodeSndDialog2;
+   end
+end
+
+procedure NodeStavka103 begin
+   if (item_amnt(dude_obj,PID_POKER_FISH) < 5) then begin
+   call Node999;
+   end
+   else begin
+   amntStavka += 5;
+   cellStavka := 0;
+   item_remove(dude_obj,PID_POKER_FISH,5)
+   call NodeSndDialog2;
+   end
+end
+
+procedure NodeStavka104 begin
+   if (item_amnt(dude_obj,PID_POKER_FISH) < 5) then begin
+   zReply(228)
+   NAnswer(229,1,NodeSndDialog4)
+   end
+   else begin
+   amntStavka += 5; // важно: здесь необходимо именно сложение
+   item_remove(dude_obj,PID_POKER_FISH,5)
+   call NodeSndDialog3;
+   end
+end
+
+procedure NodeStavka105 begin
+   if (item_amnt(dude_obj,PID_POKER_FISH) < 10) then begin
+   zReply(228)
+   NAnswer(229,1,NodeSndDialog4)
+   end
+   else begin
+   amntStavka += 10; // важно: здесь необходимо именно сложение
+   item_remove(dude_obj,PID_POKER_FISH,10)
+   call NodeSndDialog3;
+   end
+end

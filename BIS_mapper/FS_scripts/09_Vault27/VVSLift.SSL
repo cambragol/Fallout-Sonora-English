@@ -1,0 +1,60 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VVSLift
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure liftmove;
+
+#define LVAR_Rope_Flag                       (0) // Факт использования веревки
+
+#define PID_LIFT                             33555671
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   if (getQuest(GVAR_VAULT27_GENERATOR) < qEnd) then begin
+       script_overrides;
+       display_mstr(112);
+   end
+   else begin
+       obj_unlock(self_obj);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       display_mstr(111);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_ROPE) then begin
+       if (tile_contains_obj_pid(tile_num_in_direction(self_tile, 5, 1),self_elevation,PID_LIFT) == true) then begin
+       script_overrides;
+       call liftmove;
+       end
+   end
+end
+
+procedure liftmove begin
+   variable objLift;
+   objLift := tile_contains_pid_obj(tile_num_in_direction(self_tile, 5, 1), self_elevation, PID_LIFT);
+
+   display_mstr(110);
+   //dude_floater_OK;
+   play_sfx("ROPEWELL");
+   item_remove(dude_obj, objUsedPid, 1)
+
+   set_obj_visibility(self_obj, 1);
+   move_to(objLift, self_tile, self_elevation);
+   objLift := 0;
+   destroy_object(self_obj);
+end

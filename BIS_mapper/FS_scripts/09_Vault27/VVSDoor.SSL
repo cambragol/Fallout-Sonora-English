@@ -1,0 +1,47 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VVSDoor
+
+procedure start;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   if ((global_var(GVAR_VAULT27_STATUS_MERC) != 0) or (map_var(MVAR_Vault_DoorX) != 0)) then begin
+       obj_unlock(self_obj);
+   end
+   else begin
+       script_overrides;
+       display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       display_mstr(110);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

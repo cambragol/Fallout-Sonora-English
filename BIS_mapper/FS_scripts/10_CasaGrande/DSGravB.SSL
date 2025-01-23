@@ -1,0 +1,43 @@
+#include "..\headers\define.h"
+//#define NAME                    SCRIPT_DSGravB
+#define NAME                    SCRIPT_ZSGrvGen
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+
+//---------------------
+
+/*
+Комментарий: Пришлось исхитриться подменой могил на scenery,
+   так как в скрипте самой могилы процедура use_p_proc не срабатывает, если контейнер открыт.
+   А могилы после раскопок - это именно открытый контейнер.
+*/
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+
+   if (combat_is_initialized == true) then begin
+   display_mstr(111);
+   end
+   else begin
+   anim(dude_obj, ANIMATE_ROTATION, 4);
+   move_to(dude_obj,18880,1); // сверять тайл с DSGrave!
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+      display_mstr(116);
+   end
+end

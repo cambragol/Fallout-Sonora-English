@@ -1,0 +1,136 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_NSCmpLab
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog104;
+procedure NodeDialog105;
+procedure NodeDialog106;
+procedure NodeDialog107;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure use_p_proc begin
+   if (global_var(GVAR_NUEVA_STATUS_CLIMAT)>0) then begin
+   CompProcUsing
+   end
+   else begin
+   script_overrides;
+   display_mstr(102);
+   floater(dude_obj, 103, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (global_var(GVAR_NUEVA_STATUS_CLIMAT)>0) then begin
+   CompVarCheck(0)
+   CompSkillScience
+   end
+   else begin
+   script_overrides;
+   display_mstr(102);
+   floater(dude_obj, 103, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedRelict
+end
+
+procedure sience_proc begin
+   CompProcSience(100)
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(210,1,NodeDialog100)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+   NAnswer(212,1,NodeDialog101)
+   NAnswer(216,1,NodeDialog103)
+   NAnswer(222,1,NodeDialog106)
+   if (map_var(MVAR_NUEVA_LAB_DOCS_DISC) == 0) then begin
+   NAnswer(224,1,NodeDialog107)
+   end
+   NAnswer(204,1,NodeDialog)
+end
+
+procedure NodeDialog101 begin
+   Reply(213)
+   NAnswer(214,1,NodeDialog102)
+end
+
+procedure NodeDialog102 begin
+   Reply(215)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog103 begin
+   Reply(217)
+   NAnswer(218,1,NodeDialog104)
+end
+
+procedure NodeDialog104 begin
+   Reply(219)
+   NAnswer(220,1,NodeDialog105)
+end
+
+procedure NodeDialog105 begin
+   Reply(221)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog106 begin
+   Reply(223)
+   NAnswer(202,1,NodeDialog100)
+end
+
+procedure NodeDialog107 begin
+   play_sfx("SLDOORSA");
+   item_add(dude_obj,PID_Q_INSECT_DOCS,1)
+   inc_map_var(MVAR_NUEVA_LAB_DOCS_DISC);
+
+   Reply(225)
+   NAnswer(202,1,NodeDialog100)
+end

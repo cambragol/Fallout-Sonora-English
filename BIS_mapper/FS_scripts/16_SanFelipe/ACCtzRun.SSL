@@ -143,12 +143,12 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    //!!! личный квест
-   Reply(200)
+   zReply(200)
    NAnswer(201,1,NodeFstDialog101)
 end
 
 procedure NodeFstDialog101 begin
-   Reply(202)
+   zReply(202)
    NAnswer(203,1,NodeFstDialog102)
 end
 
@@ -165,7 +165,7 @@ end
 
 procedure NodeFstDialog104 begin
    setReaction(20)
-   Reply(209)
+   zReply(209)
    NAnswer(210,1,NodeFstDialog106)
 end
 
@@ -183,7 +183,7 @@ end
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
-   Reply(220)
+   zReply(220)
 
    NAnswer(230,3,NodeAnswer101)
    NAnswer(236,3,NodeAnswer103)

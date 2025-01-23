@@ -1,0 +1,25 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YTExp
+
+procedure start;
+procedure spatial_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       if (getQuest(GVAR_VAULT24_VISITED) < qEnd) then begin
+           reg_anim_clear(source_obj);
+           exp_add_msg(1000,NAME,100,101);
+           if (partyPidMtn != 0) then begin
+           floater(partyPidMtn, 102, COLOR_MSG_NORMAL);
+           end
+           set_gvar_bit_on(GVAR_RADIO_FLAGS_BIT, bit_13);
+           setQuest(GVAR_VAULT24_VISITED,qEnd);
+       end
+   end
+end

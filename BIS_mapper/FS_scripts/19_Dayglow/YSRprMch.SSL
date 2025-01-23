@@ -1,0 +1,393 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSRprMch
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeVarSet;
+procedure NodeDialog;
+procedure NodeDialog1;
+procedure NodeDialog2;
+procedure NodeDialog3;
+procedure NodeDialog250;
+procedure NodeDialog251;
+procedure NodeDialog252;
+procedure NodeDialog253;
+procedure NodeDialog254;
+procedure NodeDialog255;
+procedure NodeDialog256;
+procedure NodeDialog260;
+procedure NodeDialog261;
+procedure NodeDialog262;
+procedure NodeDialog263;
+procedure NodeDialog264;
+procedure NodeDialog265;
+procedure NodeDialog270;
+procedure NodeDialog271;
+procedure NodeDialog272;
+procedure NodeCraftPrev;
+procedure NodeCraftNext;
+procedure NodeCraftFinish;
+
+variable ItemPidA;
+variable ItemPidAamnt;
+variable ItemPidB;
+variable ItemPidBamnt;
+variable ItemPidC;
+variable ItemPidCamnt;
+variable ItemPidD;
+variable ItemPidDamnt;
+variable ItemPidE;
+variable ItemPidEamnt;
+variable ItemPidFinish; // PID конечного продукта
+variable ItemPidFinishAmnt; // количество конечного продукта (по умолчанию 1)
+variable MenuNumber; // номер текущего раздела
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   variable stopDialog:= 0;
+   script_overrides;
+   stopDialog := 0;
+
+   if (global_var(GVAR_DUDE_WPN_TO_HAND) > 0) then begin
+      if (obj_pid(global_var(GVAR_DUDE_WPN_TO_HAND)) == PID_W_LASER_PISTOL) then begin
+         if (item_amnt(dude_obj,PID_W_PLASMA_PISTOL_DETALS)>0) then begin
+            stopDialog := 1;
+         end
+      end
+   end
+
+   if (stopDialog >0) then begin
+   display_mstr(203);
+   end
+   else if (combat_is_initialized == true) then begin
+   g_display_mstr(551);
+   end
+   else begin
+   call talk_p_proc;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call use_p_proc;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+       script_overrides;
+       call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeVarSet begin
+   ItemPidA := 0;
+   ItemPidB := 0;
+   ItemPidC := 0;
+   ItemPidD := 0;
+   ItemPidE := 0;
+
+   ItemPidAamnt := 1;
+   ItemPidBamnt := 1;
+   ItemPidCamnt := 1;
+   ItemPidDamnt := 1;
+   ItemPidEamnt := 1;
+
+   ItemPidFinish := 0;
+   ItemPidFinishAmnt := 1;
+   MenuNumber := 0;
+end
+
+procedure NodeDialog begin
+   call NodeVarSet;
+   Reply(200)
+   NAnswer(223,0,NodeDialog1)
+   NAnswer(224,0,NodeDialog2)
+   NAnswer(225,0,NodeDialog3)
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialog1 begin
+   call NodeVarSet;
+   MenuNumber := 1;
+   Reply(200)
+   NAnswer(250,0,NodeDialog250)
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_BORDERBADGE_A)>0) then begin
+   NAnswer(270,0,NodeDialog270)
+   end
+   if (item_amnt(dude_obj,PID_W_PLASMA_PISTOL_DETALS)>0) then begin
+   NAnswer(271,0,NodeDialog271)
+   end
+   if (item_amnt(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_A)>0) then begin
+   NAnswer(272,0,NodeDialog272)
+   end
+   NAnswer(256,0,NodeDialog256)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog2 begin
+   call NodeVarSet;
+   MenuNumber := 2;
+   Reply(200)
+   NAnswer(251,0,NodeDialog251)
+   NAnswer(252,0,NodeDialog252)
+   NAnswer(253,0,NodeDialog253)
+   NAnswer(254,0,NodeDialog254)
+   NAnswer(255,0,NodeDialog255)
+   NAnswer(202,0,NodeDialog)
+end
+
+procedure NodeDialog3 begin
+   call NodeVarSet;
+   MenuNumber := 3;
+   Reply(200)
+   if (item_amnt(dude_obj,PID_MEX_TORPEDOS)>0) then begin
+   NAnswer(260,0,NodeDialog260)
+   end
+   NAnswer(261,0,NodeDialog261)
+   NAnswer(262,0,NodeDialog262)
+   NAnswer(263,0,NodeDialog263)
+   NAnswer(264,0,NodeDialog264)
+   NAnswer(265,0,NodeDialog265)
+   NAnswer(202,0,NodeDialog)
+end
+
+#define itemCraftOptions(a,b,c,d,e,fin,amnt)       ItemPidA := a; \
+                                                   ItemPidB := b; \
+                                                   ItemPidC := c; \
+                                                   ItemPidD := d; \
+                                                   ItemPidE := e; \
+                                                   ItemPidFinish := fin; \
+                                                   ItemPidFinishAmnt := amnt; \
+                                                   call NodeCraftPrev; \
+
+//--- ХИМИЯ
+
+procedure NodeDialog250 begin
+   itemCraftOptions(PID_TOOL_PARTS_MECHANICAL,0,0,0,0,PID_BOOTLE_CAPS,(150+has_skill(dude_obj, SKILL_REPAIR)))
+end
+
+procedure NodeDialog251 begin
+   ItemPidAamnt := 5;
+   itemCraftOptions(PID_Q_FUNGUS,PID_HYPO,0,0,0,PID_M_RADAWAY,1) // + PID_HYPO ?
+end
+
+procedure NodeDialog252 begin
+   itemCraftOptions(PID_HYPO,PID_M_FRUIT,PID_M_NUKA_COLA,0,0,PID_M_STIMPAK,1)
+end
+
+procedure NodeDialog253 begin
+   itemCraftOptions(PID_SCORPION_TAIL,PID_HYPO,0,0,0,PID_M_ANTIDOTE,1)
+end
+
+procedure NodeDialog254 begin
+   itemCraftOptions(PID_OIL,0,0,0,0,PID_AMMO_TANK,5)
+end
+
+procedure NodeDialog255 begin
+   itemCraftOptions(PID_OIL,0,0,0,0,PID_W_GRENADE_MOLOTOV,5)
+end
+
+procedure NodeDialog256 begin
+   ItemPidBamnt := 25;
+   itemCraftOptions(PID_TOOL_PARTS_ELECTRONIC,PID_AMMO_MICRO_FUSION_CELL,0,0,0,PID_W_GRENADE_PULSE,1)
+end
+
+//--- БОЕПРИПАСЫ
+
+procedure NodeDialog260 begin
+   itemCraftOptions(PID_MEX_TORPEDOS,0,0,0,0,PID_AMMO_SIGNAL_A,(24+(has_skill(dude_obj, SKILL_REPAIR)/10)))
+end
+
+procedure NodeDialog261 begin
+   ItemPidAamnt := 2;
+   itemCraftOptions(PID_AMMO_SIGNAL_A,0,0,0,0,PID_AMMO_SIGNAL_B,1)
+end
+
+procedure NodeDialog262 begin
+   ItemPidAamnt := 3;
+   itemCraftOptions(PID_AMMO_SIGNAL_A,0,0,0,0,PID_AMMO_SIGNAL_C,1)
+end
+
+procedure NodeDialog263 begin
+   ItemPidAamnt := 2;
+   itemCraftOptions(PID_AMMO_SIGNAL_B,0,0,0,0,PID_AMMO_SIGNAL_C,1)
+end
+
+procedure NodeDialog264 begin
+   itemCraftOptions(PID_AMMO_SHOTGUN_SHELLS,0,0,0,0,PID_AMMO_SHOTGUN_SHELLS_BULLET,1)
+end
+
+procedure NodeDialog265 begin
+   itemCraftOptions(PID_AMMO_SHOTGUN_SHELLS_BULLET,0,0,0,0,PID_AMMO_SHOTGUN_SHELLS,1)
+end
+
+//--- УНИКАЛЬНОЕ
+
+procedure NodeDialog270 begin
+   itemCraftOptions(PID_Q_DAYGLOW_BORDERBADGE_A,PID_CLEAR,0,0,0,PID_Q_DAYGLOW_BORDERBADGE_B,1)
+end
+
+procedure NodeDialog271 begin
+   itemCraftOptions(PID_W_LASER_PISTOL,PID_W_PLASMA_PISTOL_DETALS,0,0,0,PID_W_LASER_PISTOL_UPGRD,1)
+end
+
+procedure NodeDialog272 begin
+   ItemPidBamnt := 3;
+   ItemPidCamnt := 5;
+   itemCraftOptions(PID_Q_DAYGLOW_TRAIL_DETALS_A,PID_TOOL_PARTS_ELECTRONIC,PID_KATOD_LUMP,0,0,PID_Q_DAYGLOW_TRAIL_DETALS_B,1)
+end
+
+//--- ФИНИШ
+
+procedure NodeCraftPrev begin
+
+   if (ItemPidE>0) then begin
+   Reply(mstr(210)+proto_data(ItemPidA, it_name)+" ("+ItemPidAamnt+")"+mstr(211)+proto_data(ItemPidB, it_name)+" ("+ItemPidBamnt+")"+mstr(211)+proto_data(ItemPidC, it_name)+" ("+ItemPidCamnt+")"+mstr(211)+proto_data(ItemPidD, it_name)+" ("+ItemPidDamnt+")"+mstr(211)+proto_data(ItemPidE, it_name)+" ("+ItemPidEamnt+")"+mstr(212))
+   end
+   else if (ItemPidD>0) then begin
+   Reply(mstr(210)+proto_data(ItemPidA, it_name)+" ("+ItemPidAamnt+")"+mstr(211)+proto_data(ItemPidB, it_name)+" ("+ItemPidBamnt+")"+mstr(211)+proto_data(ItemPidC, it_name)+" ("+ItemPidCamnt+")"+mstr(211)+proto_data(ItemPidD, it_name)+" ("+ItemPidDamnt+")"+mstr(212))
+   end
+   else if (ItemPidC>0) then begin
+   Reply(mstr(210)+proto_data(ItemPidA, it_name)+" ("+ItemPidAamnt+")"+mstr(211)+proto_data(ItemPidB, it_name)+" ("+ItemPidBamnt+")"+mstr(211)+proto_data(ItemPidC, it_name)+" ("+ItemPidCamnt+")"+mstr(212))
+   end
+   else if (ItemPidB>0) then begin
+   Reply(mstr(210)+proto_data(ItemPidA, it_name)+" ("+ItemPidAamnt+")"+mstr(211)+proto_data(ItemPidB, it_name)+" ("+ItemPidBamnt+")"+mstr(212))
+   end
+   else begin
+   Reply(mstr(210)+proto_data(ItemPidA, it_name)+" ("+ItemPidAamnt+")"+mstr(212))
+   end
+
+   call NodeCraftNext;
+   NAnswer(217,0,NodeDialog)
+end
+
+procedure NodeCraftNext begin
+   variable CraftStop; // одобрение системы для дальнейшего крафта
+   CraftStop := 0;
+
+   if (ItemPidA>0) then begin
+      if (item_amnt(dude_obj,ItemPidA)<ItemPidAamnt) then begin
+      CraftStop += 1;
+      end
+   end
+
+   if (ItemPidB>0) then begin
+      if (item_amnt(dude_obj,ItemPidB)<ItemPidBamnt) then begin
+      CraftStop += 1;
+      end
+   end
+
+   if (ItemPidC>0) then begin
+      if (item_amnt(dude_obj,ItemPidC)<ItemPidCamnt) then begin
+      CraftStop += 1;
+      end
+   end
+
+   if (ItemPidD>0) then begin
+      if (item_amnt(dude_obj,ItemPidD)<ItemPidDamnt) then begin
+      CraftStop += 1;
+      end
+   end
+
+   if (ItemPidE>0) then begin
+      if (item_amnt(dude_obj,ItemPidE)<ItemPidEamnt) then begin
+      CraftStop += 1;
+      end
+   end
+
+   if (CraftStop == 0) then begin
+      NAnswer(213,0,NodeCraftFinish)
+      if (MenuNumber == 1) then begin
+      NAnswer(202,0,NodeDialog1)
+      end
+      if (MenuNumber == 2) then begin
+      NAnswer(202,0,NodeDialog2)
+      end
+      if (MenuNumber == 3) then begin
+      NAnswer(202,0,NodeDialog3)
+      end
+   end
+   else begin
+      if (MenuNumber == 1) then begin
+      NAnswer(218,0,NodeDialog1)
+      end
+      else if (MenuNumber == 2) then begin
+      NAnswer(218,0,NodeDialog2)
+      end
+      else if (MenuNumber == 3) then begin
+      NAnswer(218,0,NodeDialog3)
+      end
+      else begin
+      NAnswer(218,0,NodeDialog)
+      end
+   end
+end
+
+procedure NodeCraftFinish begin
+   //PLAY_FADE
+
+   //--- Удаление расходных материалов
+   if (ItemPidA>0) then begin
+      item_remove(dude_obj,ItemPidA,ItemPidAamnt)
+   end
+   if (ItemPidB>0) then begin
+      item_remove(dude_obj,ItemPidB,ItemPidBamnt)
+   end
+   if (ItemPidC>0) then begin
+      item_remove(dude_obj,ItemPidC,ItemPidCamnt)
+   end
+   if (ItemPidD>0) then begin
+      item_remove(dude_obj,ItemPidD,ItemPidDamnt)
+   end
+   if (ItemPidE>0) then begin
+      item_remove(dude_obj,ItemPidE,ItemPidEamnt)
+   end
+
+   //--- Конечный результат
+   if (MenuNumber == 2) then begin
+   play_sfx("CHEMICA1");
+   end
+   else begin
+   play_sfx("FIXSTILL");
+   end
+   item_add(dude_obj,ItemPidFinish,ItemPidFinishAmnt)
+   display_msg(mstr(220)+proto_data(ItemPidFinish, it_name)+mstr(221)+ItemPidFinishAmnt+mstr(222));
+
+   Reply(214)
+
+   if (MenuNumber == 1) then begin
+   NAnswer(219,0,NodeDialog1)
+   end
+   if (MenuNumber == 2) then begin
+   NAnswer(219,0,NodeDialog2)
+   end
+   if (MenuNumber == 3) then begin
+   NAnswer(219,0,NodeDialog3)
+   end
+   NAnswer(216,0,NodeDialog)
+   NAnswer(215,0,Node999)
+end

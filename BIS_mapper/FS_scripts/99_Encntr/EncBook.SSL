@@ -1,0 +1,41 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_EncBook
+
+procedure start;
+procedure use_p_proc;
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   gfade_out(ONE_GAME_SECOND);
+      game_time_advance((24-dude_iq)*ONE_GAME_HOUR);
+   gfade_in(ONE_GAME_SECOND);
+
+      if (gvar_bit(GVAR_BIBL_FLAGS_BIT, bit_9) == 0) then begin
+      //Комментарий: переменная внесена только с целью присечения читерства.
+      skill_up(SKILL_SMALL_GUNS,2);
+      skill_up(SKILL_BIG_GUNS,2);
+      skill_up(SKILL_ENERGY_WEAPONS,2);
+      skill_up(SKILL_UNARMED_COMBAT,2);
+      skill_up(SKILL_MELEE,2);
+      skill_up(SKILL_THROWING,2);
+      skill_up(SKILL_FIRST_AID,2);
+      skill_up(SKILL_DOCTOR,2);
+      skill_up(SKILL_SNEAK,2);
+      skill_up(SKILL_LOCKPICK,2);
+      skill_up(SKILL_STEAL,2);
+      skill_up(SKILL_TRAPS,2);
+      skill_up(SKILL_SCIENCE,2);
+      skill_up(SKILL_REPAIR,2);
+      skill_up(SKILL_CONVERSANT,2);
+      skill_up(SKILL_BARTER,2);
+      skill_up(SKILL_GAMBLING,2);
+      skill_up(SKILL_SCOUT,2);
+      set_gvar_bit_on(GVAR_BIBL_FLAGS_BIT, bit_9);
+      end
+
+   display_mstr(100);
+   scr_return(1);
+end

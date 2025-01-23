@@ -1,0 +1,137 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZTInfo
+
+procedure start;
+procedure spatial_p_proc;
+procedure info_proc;
+
+#define LVAR_INFO_FLAG                 (0)
+
+variable paramMsg;
+variable paramCl;
+
+#define setInfoTriger(msg,tile,map,cl) if (cur_map_index == map) then begin     \
+                                           if ((tile <= 0) or (tile == self_tile)) then begin \
+                                               paramMsg := msg;                 \
+                                               paramCl := cl;                   \
+                                           end                                  \
+                                       end                                      \
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       if (local_var(LVAR_INFO_FLAG) == 0) then begin
+           call info_proc;
+           set_local_var(LVAR_INFO_FLAG,1);
+       end
+   end
+end
+
+procedure info_proc begin
+   paramMsg := 0;
+
+   //--- Идентификация
+   /* setInfoTriger(msg,tile,map,cl) - расшифровка:
+         Номер сообщения (при <=0 сообщение не выводится),
+             тайл триггера (при <=0 игнорируется),
+                 номер карты (обязательно),
+                     приказ ГГ оставиться (при <=0 игнорируется)
+   */
+
+   //- Вилла
+   setInfoTriger(110,-1,MAP_VILLA_CAVE,0)
+   if ((getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) and (getQuest(GVAR_MAIN_QUEST_TWOSUN) < qEnd)) then begin
+   setInfoTriger(111,-1,MAP_VILLA_PLAZA,1)
+   end
+   setInfoTriger(112,-1,MAP_VILLA_RUINS,1)
+
+   //- ТуСан
+   setInfoTriger(113,-1,MAP_TWO_SUN_GRAVE,0)
+   setInfoTriger(114,-1,MAP_TWO_SUN_INN,0)
+
+   //- Рейнджеры
+   if (dude_perception >= 5) then begin
+   setInfoTriger(115,-1,MAP_RANGERS_ROAD,0)
+   end else begin
+   setInfoTriger(116,-1,MAP_RANGERS_ROAD,0)
+   end
+   setInfoTriger(117,22522,MAP_RANGERS_QUARTZ,1)
+   setInfoTriger(118,17687,MAP_RANGERS_QUARTZ,0)
+   setInfoTriger(119,13501,MAP_RANGERS_QUARTZ,0)
+   setInfoTriger(120,24294,MAP_RANGERS_QUARTZ,0)
+   if (self_elevation == 1) then begin
+   setInfoTriger(131,-1,MAP_RANGERS_CITY,0)
+   end
+   else if (self_elevation == 2) then begin
+   setInfoTriger(130,-1,MAP_RANGERS_CITY,1)
+   end
+
+   //- ГаражСити
+   setInfoTriger(121,-1,MAP_GARAGE_SIGN,1)
+   if (cur_map_index == MAP_GARAGE_HOMES) then begin
+      if (map_var(MVAR_GARAGE_INFOFLAG) == 0) then begin
+      setInfoTriger(122,-1,MAP_GARAGE_HOMES,0)
+      set_map_var(MVAR_GARAGE_INFOFLAG,1);
+      end
+   end
+
+   //- Феникс
+   setInfoTriger(138,20288,MAP_PHOENIX_CENTER,1)
+   setInfoTriger(127,18484,MAP_PHOENIX_CENTER,1)
+   setInfoTriger(125,-1,MAP_PHOENIX_BNDCS,0)
+   setInfoTriger(128,-1,MAP_PHOENIX_PLAZA,0)
+   if (self_elevation == 1) then begin
+   setInfoTriger(123,-1,MAP_PHOENIX_CHURCH,0)
+   end
+   else if (self_elevation == 2) then begin
+   setInfoTriger(124,-1,MAP_PHOENIX_CHURCH,1)
+   end
+
+   //- КасаГранде
+   setInfoTriger(132,-1,MAP_CASA_GRANDE_WATER,1)
+   if (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) == qZero) then begin
+   setInfoTriger(133,-1,MAP_CASA_GRANDE_BAR,1)
+   end
+   if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) <= 0) then begin
+   setInfoTriger(134,26514,MAP_CASA_GRANDE_CITY,1)
+   end
+   setInfoTriger(135,17100,MAP_CASA_GRANDE_CITY,1)
+
+   //- Инферно
+   setInfoTriger(136,-1,MAP_INFIERNO_CITY,1)
+   setInfoTriger(136,-1,MAP_INFIERNO_SHOP,1)
+      setInfoTriger(139,18700,MAP_INFIERNO_SHOP,0)
+   setInfoTriger(137,-1,MAP_INFIERNO_POLICE,0)
+   setInfoTriger(140,-1,MAP_INFIERNO_CHURCH,0)
+   setInfoTriger(141,-1,MAP_INFIERNO_MONUMENT,0)
+
+   //- Остальное
+   //setInfoTriger(129,-1,MAP_SPECIAL_CAFE,0) - перенесено в SCRIPT_EncCafA
+   setInfoTriger(142,-1,MAP_CASA_NUEVA_CEMENT,1)
+   setInfoTriger(143,-1,MAP_CASA_NUEVA_CITY,1)
+   setInfoTriger(144,-1,MAP_PUERTO_SIGN,1)
+   if (self_elevation == 0) then begin
+   setInfoTriger(145,-1,MAP_OLD_MOTEL,1)
+   end
+   else if (self_elevation == 1) then begin
+   setInfoTriger(146,-1,MAP_OLD_MOTEL,1)
+   end
+   setInfoTriger(147,-1,MAP_SAN_BRAHMIN_CAVE,1)
+   if (self_elevation == 1) then begin
+   setInfoTriger(148,-1,MAP_OIL_PLATFORMDRILL,1)
+   end
+   setInfoTriger(149,-1,MAP_OIL_COAST,0)
+
+   //--- Сообщение
+   if (paramMsg >0) then begin
+   display_mstr(paramMsg);
+   end
+   if (paramCl>0) then begin
+   reg_anim_clear(source_obj);
+   end
+
+end

@@ -1,0 +1,114 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ZCCrvBrm
+#define TOWN_REP_VAR                    -1   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      300 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if ((cur_map_index == MAP_SB_CARAVAN_A) or (cur_map_index == MAP_SB_CARAVAN_B) or (cur_map_index == MAP_SB_CARAVAN_C)) then begin
+          inc_map_var(MVAR_BRAHMIN_CARAVAN_BRAM);
+          critter_set_flee_state(self_obj, 1);
+       end
+
+       if ((cur_map_index == MAP_SAN_BRAHMIN_GARD) or (cur_map_index == MAP_SAN_BRAHMIN_CITY) or (cur_map_index == MAP_SAN_BRAHMIN_OASIS)) then begin
+          if (global_var(GVAR_BRAHMIN_QST_CARAVAN_DEADBRAM) >= map_var(MVAR_BRAHMIN_CARAVAN_BRAM)) then begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+          destroy_object(self_obj);
+          end
+       end
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if ((cur_map_index == MAP_SB_CARAVAN_A) or (cur_map_index == MAP_SB_CARAVAN_B) or (cur_map_index == MAP_SB_CARAVAN_C)) then begin
+       timer_move_to_home
+       end
+       else if (game_time_hour < 0600) then begin
+       timer_move_to_home
+       end
+       else begin
+       timer_move_random_home(3)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения, разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,4,0) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectIntimidationPerk
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+   if ((cur_map_index == MAP_SB_CARAVAN_A) or (cur_map_index == MAP_SB_CARAVAN_B) or (cur_map_index == MAP_SB_CARAVAN_C)) then begin
+       if (source_obj == dude_obj) then begin
+       off_enemy_dude;
+       end
+   end
+end
+
+procedure destroy_p_proc begin
+   brahminCaravanBramDead
+   brahminCaravanDudeEnemy
+   kill_critter_opt
+end

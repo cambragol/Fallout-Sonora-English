@@ -1,0 +1,18 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZTPwdPol
+
+procedure start;
+procedure spatial_p_proc;
+
+#define  selfPole(pid)         (tile_contains_obj_pid(self_tile,self_elevation,pid) == true) \
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (selfPole(PID_POWER_POLE_BA) or selfPole(PID_POWER_POLE_BB)) then begin
+       critter_dmg(source_obj, random(15,30), DMG_plasma);
+   end
+end

@@ -1,0 +1,9 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_INFO
+
+procedure start;
+
+
+
+procedure start begin
+end

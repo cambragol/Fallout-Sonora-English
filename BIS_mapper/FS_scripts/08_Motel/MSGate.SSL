@@ -1,0 +1,103 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_MSGate
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+      if SELF_IS_CLOSED then begin
+      set_map_var(MVAR_MOTEL_GATEOPEN,0);
+      end
+      else begin
+      set_map_var(MVAR_MOTEL_GATEOPEN,tile_num_in_direction(self_tile,2,3));
+      end
+   end
+end
+
+procedure use_p_proc begin
+   //set_map_var(MVAR_MOTEL_GATEOPEN,1); - как передать факт открытия ворот?
+   if SELF_IS_LOCKED then begin
+       script_overrides;
+
+       reg_anim_begin();
+       reg_anim_clear(self_obj);
+       reg_anim_clear(source_obj);
+       reg_anim_end();
+
+       if ((obj_get_rot(dude_obj) == 1) or (obj_get_rot(dude_obj) == 2) or (obj_get_rot(dude_obj) == 3)) then begin
+       display_mstr(111);
+       end
+       else begin
+       display_mstr(110);
+       end
+       set_map_var(MVAR_MOTEL_GATEOPEN,0);
+   end
+   add_timer_event(self_obj,10,1);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+
+      if SELF_IS_LOCKED then begin
+
+         if ((obj_get_rot(dude_obj) == 1) or (obj_get_rot(dude_obj) == 2) or (obj_get_rot(dude_obj) == 3)) then begin
+            obj_unlock(self_obj);
+            play_sfx("WOR1XXX1");
+            dude_floater_OK;
+            display_mstr(112);
+         end
+         else begin
+            display_mstr(113);
+         end
+
+      end
+      else begin
+
+         if SELF_IS_CLOSED then begin
+            if ((obj_get_rot(dude_obj) == 1) or (obj_get_rot(dude_obj) == 2) or (obj_get_rot(dude_obj) == 3)) then begin
+            obj_lock(self_obj);
+            play_sfx("WOR1XXX1");
+            dude_floater_OK;
+            display_mstr(115);
+            end
+            else begin
+            display_mstr(117);
+            end
+         end
+         else begin
+            display_mstr(116);
+         end
+
+         //display_mstr(114);
+      end
+
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (obj_item_subtype(obj_being_used_with) == item_type_key_item) then begin
+      script_overrides;
+      display_mstr(118);
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      display_mstr(119);
+   end
+end

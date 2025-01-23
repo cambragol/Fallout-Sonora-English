@@ -1,0 +1,33 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VSStairs
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if (global_var(GVAR_VILLA_PROLOG_END) == 0) then begin
+      if (item_amnt(dude_obj,PID_RELICT_VILLA_FAMILY) <= 0) then begin
+      script_overrides;
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+      display_mstr(110);
+      floater(dude_obj,111,COLOR_MSG_NORMAL);
+      end
+      if ((self_elevation == 0) and (item_amnt(dude_obj,PID_RELICT_VILLA_FAMILY) > 0)) then begin
+      script_overrides;
+      load_map(MAP_VILLA_PLAZA,-1);
+      //dude_teleport_map(0,0,MAP_VILLA_PLAZA,0);
+      end
+   end
+end

@@ -439,8 +439,8 @@ procedure map_exit_p_proc begin
          setQuest(GVAR_JACKALS_MERC_ATAK,qEnd);
        end
        else begin
-         if (getQuest(GVAR_JACKALS_MERC_ATAK) != -2) then begin
-            setQuest(GVAR_JACKALS_MERC_ATAK,-1);
+         if (getQuest(GVAR_JACKALS_MERC_ATAK) == qStart) then begin
+            setQuest(GVAR_JACKALS_MERC_ATAK,-2);
          end
        end
    end

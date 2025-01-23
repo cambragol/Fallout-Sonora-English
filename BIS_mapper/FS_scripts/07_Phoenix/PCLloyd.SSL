@@ -1,0 +1,450 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_PCLloyd
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_PHOENIX_JUNK     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_WIMPY       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeStopDialog;
+procedure NodeStopDialog2;
+procedure NodeStopDialog3;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeNoMany;
+procedure NodeAnswer;
+procedure NodeAnswerCheck;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer300;
+
+//---------------------
+
+#define LVAR_Caps_Amnt                  (6) // число отданных персонажу крышек
+#define LVAR_Cariera                    (7) // карьерный рост Ллойда: 0 - бомжует, 1 - смена одежды, 2 - состоялся разговор, 3 - новый костюм, 4 - состоялся разговор
+#define LVAR_Info_Vault                 (8) // вопрос про убежище 27: 1 - ответ получен
+#define LVAR_Info_Migel                 (9) // вопрос про Мигеля: 1 - ответ получен
+
+variable replyNumb;
+variable replyDubl;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+
+       if (item_amnt(self_obj,PID_BOOTLE_CAPS) > 0) then begin
+          item_remove(self_obj,PID_BOOTLE_CAPS,item_amnt(self_obj,PID_BOOTLE_CAPS))
+       end
+
+       if (local_var(LVAR_Cariera) == 0) then begin
+          if (local_var(LVAR_Caps_Amnt) >= 10) then begin
+          art_change_fid_num(self_obj, FID_NMBRLP);
+          inc_local_var(LVAR_Cariera);
+          end
+       end
+       if (local_var(LVAR_Cariera) == 2) then begin
+          if (local_var(LVAR_Caps_Amnt) >= 25) then begin
+          art_change_fid_num(self_obj, FID_NMPEAS);
+          item_add(self_obj,PID_M_TEQUILA,1)
+          inc_local_var(LVAR_Cariera);
+          end
+       end
+       if (local_var(LVAR_Cariera) == 4) then begin
+          /*
+          Комментарий: Изначально я хотел сделать убийство Ллойда грабителем через кат-сцену.
+          Но эта карта слишком насыщена событиями и контентом для такого рода сцен.
+          */
+          set_map_var(MVAR_PNX_LLOYD_STATUS,-10);
+          rm_timer_event(self_obj);
+          //anim(self_obj, ANIMATE_ROTATION, 5);
+          kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (game_time_hour < 0600) then begin
+       timer_move_to_tile(0,27118,2)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_PNX_LLOYD_STATUS,-1);
+   kill_critter_dude_reply(102,0)
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if ((bitDialog(bit_29) == 0) and (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd)) then begin
+   call NodeStopDialog3;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (local_var(LVAR_Cariera) == 1) then begin
+   call NodeStopDialog;
+   end
+   else if (local_var(LVAR_Cariera) == 3) then begin
+   call NodeStopDialog2;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeStopDialog begin
+   inc_local_var(LVAR_Cariera);
+   exp_add(50);
+   Reply(250)
+   NAnswer(251,1,Node999)
+   BAnswer(252,1,Node999)
+end
+
+procedure NodeStopDialog2 begin
+   inc_local_var(LVAR_Cariera);
+   exp_add(50);
+   if (map_var(MVAR_PNX_CASINO_LUX) >0) then begin
+   Reply(254)
+   end
+   else begin
+   Reply(253)
+   end
+   NAnswer(255,1,Node999)
+   BAnswer(256,1,Node999)
+end
+
+procedure NodeStopDialog3 begin
+   bitDialogExp(bit_29,0)
+   Reply(213)
+   if (bitDialog(bit_1) == 0) then begin
+   NAnswer(215,1,Node999)
+   end
+   else begin
+   NAnswer(214,1,Node999)
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if town_rep_is_liked then begin
+   Reply(206)
+   end
+   else begin
+   Reply(200)
+   end
+   NAnswer(201,1,NodeFstDialog2)
+   BAnswer(202,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(204,1,NodeSndDialog)
+   BAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog3 begin
+   setBonusReaction(-10)
+   call NodeFstDialog2;
+end
+
+procedure NodeFstDialog4 begin
+   setBonusReaction(-10)
+   call Node999;
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   replyNumb := 0;
+   replyDubl := 0;
+
+   if (local_var(LVAR_Caps_Amnt) >= 10) then begin
+   Reply(211)
+   end
+   else begin
+   Reply(210)
+   end
+
+   //--- Общие фразы
+   NAnswer(random(220,223),1,NodeSndDialog2)
+
+   //--- Поиск Мигеля
+   if (getQuest(GVAR_PHENIX_MIGEL_KNOWN) == qStart) then begin
+   if (local_var(LVAR_Info_Migel) == 0) then begin
+   NAnswer(270,3,NodeAnswer100)
+   end
+   end
+
+   //--- Убежище 27
+   if (getQuest(GVAR_VAULT27_VISITED) == qStart) then begin
+   if (local_var(LVAR_Info_Vault) == 0) then begin
+   NAnswer(260,3,NodeAnswer200)
+   end
+   end
+
+   //--- Нападение на монахов
+   if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
+   if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) or (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3)) then begin
+   NAnswer(280,3,NodeAnswer300)
+   end
+   end
+
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 1) then begin
+      if (replyDubl > 0) then begin
+      replyNumb := replyDubl+1;
+      call NodeAnswer;
+      end
+      else begin
+      Reply(random(230,239))
+      NAnswer(random(240,245),1,NodeAnswer)
+      end
+   end
+   else begin
+      call NodeNoMany;
+   end
+end
+
+procedure NodeNoMany begin
+   Reply(227)
+   NAnswer(228,1,Node999)
+end
+
+procedure NodeAnswer begin
+   inc_local_var(LVAR_Caps_Amnt);
+   item_remove(dude_obj,PID_BOOTLE_CAPS,1)
+   item_add(self_obj,PID_BOOTLE_CAPS,1)
+   setBonusReaction(2)
+   call NodeAnswerCheck;
+
+   if (replyNumb > 0) then begin
+   Reply(replyNumb)
+   end
+   else begin
+   zReply(226)
+   end
+
+   if (replyDubl > 0) then begin
+   NAnswer(replyDubl,3,NodeSndDialog2)
+   end
+
+   NAnswer(209,1,NodeSndDialog)
+   NAnswer(207,1,Node999)
+end
+
+#define setReplyLloyd(bit,a,b)    if (bitDialog(bit) == 0) then begin \
+                                  bitDialogExp(bit,10) \
+                                  replyNumb := a; \
+                                  replyDubl := b; \
+                                  end \
+
+procedure NodeAnswerCheck begin
+   replyNumb := 0;
+   replyDubl := 0;
+
+        setReplyLloyd(bit_2,300,301)
+   else setReplyLloyd(bit_3,302,0)
+
+   else setReplyLloyd(bit_4,303,304)
+   else setReplyLloyd(bit_5,305,0)
+
+   else setReplyLloyd(bit_6,306,307)
+   else setReplyLloyd(bit_7,308,0)
+
+   else setReplyLloyd(bit_8,309,310)
+   else setReplyLloyd(bit_9,311,0)
+
+   else setReplyLloyd(bit_10,312,313)
+   else setReplyLloyd(bit_11,314,0)
+
+   else setReplyLloyd(bit_12,315,316)
+   else setReplyLloyd(bit_13,317,0)
+
+   else setReplyLloyd(bit_14,318,319)
+   else setReplyLloyd(bit_15,320,0)
+
+   else setReplyLloyd(bit_16,321,0)
+   else setReplyLloyd(bit_17,322,0)
+   else setReplyLloyd(bit_18,323,0)
+   else setReplyLloyd(bit_19,324,0)
+   else setReplyLloyd(bit_20,325,326)
+   else setReplyLloyd(bit_21,327,0)
+end
+
+//--- ОСОБЫЕ РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   Reply(271)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 5) then begin
+   NAnswer(272,1,NodeAnswer101)
+   end
+   NAnswer(273,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 5) then begin
+   call NodeAnswer102;
+   end
+   else begin
+   call NodeNoMany;
+   end
+end
+
+procedure NodeAnswer102 begin
+   inc_local_var(LVAR_Info_Migel);
+   inc_local_var(LVAR_Caps_Amnt);
+   item_remove(dude_obj,PID_BOOTLE_CAPS,5)
+   item_add(self_obj,PID_BOOTLE_CAPS,5)
+   setBonusReaction(5)
+   Reply(274)
+   NAnswer(275,1,Node999)
+   BAnswer(276,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(261)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 10) then begin
+   NAnswer(263,1,NodeAnswer201)
+   end
+   NAnswer(262,1,Node999)
+end
+
+procedure NodeAnswer201 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 10) then begin
+   call NodeAnswer202;
+   end
+   else begin
+   call NodeNoMany;
+   end
+end
+
+procedure NodeAnswer202 begin
+   inc_local_var(LVAR_Info_Vault);
+   inc_local_var(LVAR_Caps_Amnt);
+   item_remove(dude_obj,PID_BOOTLE_CAPS,10)
+   item_add(self_obj,PID_BOOTLE_CAPS,10)
+   setBonusReaction(5)
+   Reply(264)
+   NAnswer(265,1,NodeAnswer203)
+end
+
+procedure NodeAnswer203 begin
+   Reply(266)
+   NAnswer(267,1,Node999)
+   BAnswer(268,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   /*
+   Reply(281)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 20) then begin
+   NAnswer(282,1,NodeAnswer301)
+   end
+   NAnswer(283,1,Node999)
+   */
+   zReply(284)
+   NAnswer(285,1,Node999)
+end

@@ -1,0 +1,364 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSGrvGen
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure open_proc;
+procedure loot_gener_A;
+procedure loot_gener_B;
+
+/*
+  ВАЖНО: Текстовый файл этого скрипта также используется в ZSSoil.
+*/
+
+/*
+  Список могил в игре:
+
+  - Флагпул, заброшенный район с музеем - пара могил наемников, зарыты рейнджером
+  - Рейнджеры, кладбище на радиостанции - здесь хоронят рейнджеров и их близких, иногда путников и караванщиков
+  - КасаГранде, городское кладбище - здесь захоронены без разбора бывшие жители города, бандиты, случайные путники
+  - ТуСан, Tucson Inn - одна могила караванщика погибшего во время налета
+  - Инферно, стартовый район у дороги - безымянная могила путника
+
+*/
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+
+      if (map_first_run) then begin
+         if (random(0,1) == 1) then begin
+            item_add(self_obj,PID_W_BROCK,random(1,5))
+         end
+
+         //--- Поправки на отдельные локации
+         if (cur_map_index == MAP_RANGERS_RADIO) then begin
+            call loot_gener_B;
+         end
+
+         if (cur_map_index == MAP_CASA_GRANDE_GRAVE) then begin
+            call loot_gener_A;
+
+            if (item_amnt(self_obj,PID_TEST) <= 0) then begin
+               if (map_var(MVAR_CGRANDE_GRAVE_FAIL) < 1) then begin
+               set_map_var(MVAR_CGRANDE_GRAVE_FAIL,random(1,7));
+               end
+               inc_map_var(MVAR_CGRANDE_GRAVE_FAILNUM);
+               if (map_var(MVAR_CGRANDE_GRAVE_FAILNUM) == map_var(MVAR_CGRANDE_GRAVE_FAIL)) then begin
+               set_obj_visibility(self_obj, 1);
+               create_object_sid(self_PID,self_tile,self_elevation,SCRIPT_DSGrave);
+               destroy_object(self_obj);
+               end
+            end
+         end
+      end
+
+      if (cur_map_index == MAP_CASA_GRANDE_GRAVE) then begin
+         if (item_amnt(self_obj,PID_Q_NEIRO_CHIP) > 0) then begin
+               if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qZero) then begin
+               set_obj_visibility(self_obj, 1);
+               end else begin
+               set_obj_visibility(self_obj, 0);
+               end
+         end
+      end
+
+      //--- Опция для перка Мародер
+      if DudePerkHas(PERK_marauder) then begin
+         if (tile_contains_obj_pid(self_tile,self_elevation,PID_HEX_MAPEXIT) == false) then begin
+         create_object_sid(PID_HEX_MAPEXIT, self_tile, self_elevation, -1);
+         create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 1, 1), self_elevation, -1);
+         create_object_sid(PID_HEX_MAPEXIT, tile_num_in_direction(self_tile, 2, 1), self_elevation, -1);
+         end
+      end
+
+      item_remove(self_obj,PID_TEST,100) // важно: удаление PID_TEST должно происходить в самом конце процедуры
+   end
+end
+
+procedure use_p_proc begin
+   if SELF_IS_CLOSED then begin
+      script_overrides;
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+      display_mstr(114);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_STEAL) then begin
+      if SELF_IS_CLOSED then begin
+      script_overrides;
+      display_mstr(114);
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+
+      if (combat_is_initialized == true) then begin
+         display_mstr(111);
+      end
+      else if (dude_strength <3) then begin
+         display_mstr(112);
+      end
+      else begin
+         destroyUseShovel
+         call open_proc;
+      end
+   end
+
+end
+
+procedure open_proc begin
+   gfade_out(ONE_GAME_SECOND);
+
+   if SELF_IS_OPEN then begin
+      //obj_lock(self_obj);
+      play_sfx("iccntnre");
+      animate_set_frame(0);
+   end
+   else begin
+      //obj_unlock(self_obj);
+      if (local_var(LVAR_Status) == 0) then begin
+      set_SLAVA(-5)
+      inc_global_var(GVAR_REPUTATION_GRAVES_CK);
+      inc_local_var(LVAR_Status);
+      end
+      play_sfx("iocntnre");
+      animate_set_frame(1);
+   end
+
+   game_time_advance(ONE_GAME_MINUTE*(60-(5*dude_strength)));
+   //radiation_inc(dude_obj, 1);
+   gfade_in(ONE_GAME_SECOND);
+
+   //--- Поправки на отдельные локации
+   if (cur_map_index == MAP_RANGERS_RADIO) then begin
+      inc_global_var(GVAR_GRAVES_RANGERS);
+   end
+   if (cur_map_index == MAP_CASA_GRANDE_GRAVE) then begin
+      inc_global_var(GVAR_GRAVES_CASAGRANDE);
+      if (item_amnt(self_obj,PID_Q_NEIRO_CHIP) > 0) then begin
+      set_map_var(MVAR_CGRANDE_CHIP_GRAVE,1);
+      end
+   end
+end
+
+procedure loot_gener_A begin
+   variable randomParam;
+   variable randomItem;
+   randomParam := random(0,4);
+   randomItem := 0;
+
+   if (item_amnt(self_obj,PID_TEST) > 0) then begin
+   randomParam := -999;
+   end
+
+      //патроны
+   if (randomParam == 0) then begin
+
+      randomItem := random(0,4);
+      if DudePerkHas(PERK_marauder) then begin
+      randomItem := random(1,6);
+      end
+
+      if (randomItem == 0) then begin
+      item_add(self_obj,PID_AMMO_22_LR,random(2,5))
+      end
+      if (randomItem == 1) then begin
+      item_add(self_obj,PID_AMMO_10_MM,random(3,6))
+      end
+      if (randomItem == 2) then begin
+      item_add(self_obj,PID_AMMO_44_MAGNUM,random(3,6))
+      end
+      if (randomItem == 3) then begin
+      item_add(self_obj,PID_AMMO_308,random(2,4))
+      end
+      if (randomItem == 4) then begin
+      item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,random(2,4))
+      end
+      if (randomItem == 5) then begin
+      item_add(self_obj,PID_AMMO_50_AE,random(2,4))
+      end
+      if (randomItem == 6) then begin
+      item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,random(3,6))
+      end
+   end
+
+      //вещи
+   if (randomParam == 1) then begin
+
+      randomItem := random(0,4);
+      if DudePerkHas(PERK_marauder) then begin
+      randomItem := random(2,6);
+      end
+
+      if (randomItem == 0) then begin
+      item_add(self_obj,PID_SANDALS,1)
+      end
+      if (randomItem == 1) then begin
+      item_add(self_obj,PID_WAT_WIPES,1)
+      end
+      if (randomItem == 2) then begin
+      item_add(self_obj,PID_CLEAR,1)
+      end
+      if (randomItem == 3) then begin
+      item_add(self_obj,PID_TOOL_BOOTS,1)
+      end
+      if (randomItem == 4) then begin
+      item_add(self_obj,PID_TOOL_ZIPPER,1)
+      end
+      if (randomItem == 5) then begin
+      item_add(self_obj,PID_BOOK_OLD,1)
+      end
+      if (randomItem == 6) then begin
+      item_add(self_obj,PID_ARMOR_JACKET_A,1)
+      end
+   end
+
+      //предметы употребление
+   if (randomParam == 2) then begin
+
+      randomItem := random(0,4);
+      if DudePerkHas(PERK_marauder) then begin
+      randomItem := random(3,8);
+      end
+
+      if (randomItem == 0) then begin
+      item_add(self_obj,PID_M_SLUGS,random(2,4))
+      end
+      if (randomItem == 1) then begin
+      item_add(self_obj,PID_M_BOOZE,1)
+      end
+      if (randomItem == 2) then begin
+      item_add(self_obj,PID_M_NUKA_COLA,1)
+      end
+      if (randomItem == 3) then begin
+      item_add(self_obj,PID_M_ANTIDOTE,1)
+      end
+      if (randomItem == 4) then begin
+      item_add(self_obj,PID_M_RAD_X,1)
+      end
+
+      if (randomItem == 5) then begin
+      item_add(self_obj,PID_M_STIMPAK,1)
+      end
+      if (randomItem == 6) then begin
+      item_add(self_obj,PID_M_RADAWAY,1)
+      end
+      if (randomItem == 7) then begin
+      item_add(self_obj,PID_M_BUFFOUT,1)
+      end
+      if (randomItem == 8) then begin
+      item_add(self_obj,PID_M_PSYCHO,1)
+      end
+   end
+
+      //валюта
+   if (randomParam == 3) then begin
+      randomItem := random(0,1);
+
+      if (randomItem == 0) then begin
+         if DudePerkHas(PERK_marauder) then begin
+         item_add(self_obj,PID_BOOTLE_CAPS,random(6,12))
+         end
+         else begin
+         item_add(self_obj,PID_BOOTLE_CAPS,random(3,6))
+         end
+      end
+      if (randomItem == 1) then begin
+         if DudePerkHas(PERK_marauder) then begin
+         item_add(self_obj,PID_MANY,2)
+         end
+         else begin
+         item_add(self_obj,PID_MANY,1)
+         end
+      end
+   end
+
+      //оружие
+   if (randomParam == 4) then begin
+      randomItem := random(0,4);
+      if DudePerkHas(PERK_marauder) then begin
+      randomItem := random(2,8);
+      end
+
+      if (randomItem == 0) then begin
+      item_add(self_obj,PID_W_KNUCKLES_BRASS,1)
+      end
+      if (randomItem == 1) then begin
+      item_add(self_obj,PID_W_KNIFE,1)
+      end
+      if (randomItem == 2) then begin
+      item_add(self_obj,PID_W_THROWING_KNIFE,1)
+      end
+      if (randomItem == 3) then begin
+      item_add(self_obj,PID_W_CLUB,1)
+      end
+      if (randomItem == 4) then begin
+      item_add(self_obj,PID_W_CROWBAR,1)
+      end
+
+      if (randomItem == 5) then begin
+      item_add(self_obj,PID_W_COMBAT_KNIFE,1)
+      end
+      if (randomItem == 6) then begin
+      item_add(self_obj,PID_W_KNUCKLES_SPIKED,1)
+      end
+      if (randomItem == 7) then begin
+      item_add(self_obj,PID_W_REVOLVER_OLD,1)
+      end
+      if (randomItem == 8) then begin
+      item_add(self_obj,PID_W_GRENADE_FRAG,1)
+      end
+   end
+end
+
+procedure loot_gener_B begin
+
+   if (random(0,2) == 0) then begin
+      item_add(self_obj,PID_AMMO_308,random(1,3))
+      if DudePerkHas(PERK_marauder) then begin
+      item_add(self_obj,PID_AMMO_308,1)
+      end
+   end
+   if (random(0,1) == 0) then begin
+      item_add(self_obj,PID_AMMO_44_MAGNUM,random(1,5))
+      if DudePerkHas(PERK_marauder) then begin
+      item_add(self_obj,PID_AMMO_44_MAGNUM,2)
+      end
+   end
+   if (random(0,1) == 0) then begin
+      item_add(self_obj,PID_AMMO_10_MM,random(1,5))
+      if DudePerkHas(PERK_marauder) then begin
+      item_add(self_obj,PID_AMMO_10_MM,2)
+      end
+   end
+
+   if (cur_map_index == MAP_RANGERS_RADIO) then begin
+      if (map_var(MVAR_RNGRS_RELICT_NUM) == 0) then begin
+      set_map_var(MVAR_RNGRS_RELICT_NUM,random(1,5));
+      end
+      if (map_var(MVAR_RNGRS_RELICT_NUM) > 0) then begin
+      dec_map_var(MVAR_RNGRS_RELICT_NUM);
+      end
+      if (map_var(MVAR_RNGRS_RELICT_NUM) == 0) then begin
+      item_add(self_obj,PID_RELICT_GAMEDISK,1)
+      set_map_var(MVAR_RNGRS_RELICT_NUM,-999);
+      end
+   end
+end

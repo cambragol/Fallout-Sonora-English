@@ -1,0 +1,213 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_MCBrthrC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_MOTEL   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_MOTEL_MUTANT     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_MUTANT_MOTEL       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      (SLAVA_KILL_BAD*3)    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog100;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog200;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog205;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       kill_to_motel_proc
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(2)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (tile_distance_objs(self_obj,dude_obj) <= 15) then begin
+   invisToDude(15,102) // Скрывание нпс от ГГ до некоторой дистанции, в скобках бонус к дальности и реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
+   end
+   if (bitDialog(bit_1) == 0) then begin
+   dialogue_system_forcing(7)
+   end
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   inc_map_var(MVAR_MOTEL_BRTHR);
+   inc_global_var(GVAR_PHENIX_STATUS_MOTELMNSTR);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (bitDialog(bit_1) == 0) then begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj,random(120,123),COLOR_MSG_RED);
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   call NodeFstDialog;
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   BAnswer(210,1,NodeFstDialog102)
+   NAnswer(201,1,NodeFstDialog100)
+end
+
+procedure NodeFstDialog100 begin
+   Reply(202)
+   NAnswerSkill(205,3,NodeFstDialog200,SKILL_CONVERSANT,50,205,NodeFstDialog101)
+   NAnswer(203,1,Node998)
+   NAnswer(204,1,Node998)
+end
+
+procedure NodeFstDialog101 begin
+   Reply(206)
+   NAnswer(203,1,Node998)
+   NAnswer(204,1,Node998)
+end
+
+procedure NodeFstDialog102 begin
+   Reply(211)
+   NAnswerSkill(214,3,NodeFstDialog200,SKILL_CONVERSANT,35,214,NodeFstDialog101)
+      /*
+      требование снижено по сравнению с NodeFstDialog100,
+      так как ГГ уже оказал существенное давление на персонажа прошлой репликой
+      */
+   NAnswer(212,1,NodeFstDialog100)
+   NAnswer(213,1,Node998)
+end
+
+procedure NodeFstDialog200 begin
+   bitDialogExp(bit_2,100)
+   Reply(220)
+   NAnswer(221,1,NodeFstDialog201)
+   BAnswer(222,1,NodeFstDialog201)
+end
+
+procedure NodeFstDialog201 begin
+   Reply(223)
+   NAnswer(224,1,NodeFstDialog202)
+   GAnswer(225,1,NodeFstDialog202)
+end
+
+procedure NodeFstDialog202 begin
+   Reply(226)
+   NAnswer(227,1,NodeFstDialog203)
+end
+
+procedure NodeFstDialog203 begin
+   Reply(228)
+   NAnswer(229,1,NodeFstDialog204)
+end
+
+procedure NodeFstDialog204 begin
+   Reply(230)
+   BAnswer(232,1,NodeFstDialog205)
+   NAnswer(233,1,NodeFstDialog205)
+   BAnswer(231,1,Node998)
+end
+
+procedure NodeFstDialog205 begin
+   move_to(self_obj,17912,0);
+   set_local_var(LVAR_Home_Tile,self_tile);
+   Reply(234)
+   BAnswer(235,1,Node999)
+   NAnswer(236,1,Node999)
+end

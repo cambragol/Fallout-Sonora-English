@@ -1,0 +1,49 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                            SCRIPT_YSPress
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+         if (getQuest(GVAR_DAYGLOW_QST_CARAVAN) == qStart) then begin
+         display_mstr(112);
+         play_sfx("STEAM");
+         item_add(dude_obj,PID_Q_DAYGLOW_CARAVAN_2,1)
+         set_local_var(LVAR_Status,1);
+         end
+         else begin
+         display_mstr(114);
+         end
+      end
+      else begin
+         display_mstr(113);
+      end
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      RepairProcUsing(110,111)
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end

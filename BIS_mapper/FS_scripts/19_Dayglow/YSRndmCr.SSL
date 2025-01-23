@@ -1,0 +1,43 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSRndmCr
+
+procedure start;
+procedure map_enter_p_proc;
+
+variable randomObjVar;
+
+#define generDistanCriter(pid,rot,dist,scr)  randomObjVar := create_object_sid(pid, tile_num_in_direction(self_tile, rot, dist), self_elevation, scr); \
+                                             anim(randomObjVar, ANIMATE_ROTATION, random(0,5)); \
+                                             if (scr > 0) then begin              \
+                                             add_timer_event(randomObjVar,10,1);  \
+                                             end                                  \
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   set_obj_visibility(self_obj, 1);
+
+   if (is_loading_game == false) then begin
+      if (local_var(LVAR_Status) == 0) then begin
+
+          //--- Кафе Ла Маз
+          if ((cur_map_index == MAP_DAYGLOW_NATIONALCITY) and (self_elevation == 1)) then begin
+              if (getQuest(GVAR_DAYGLOW_RADIO) >= 3) then begin
+                 if ((gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_15) != 0) and (map_var(MVAR_DIEGOCAFE_MUTANT_LIFE) == 0) and (map_var(MVAR_DIEGOCAFE_MUTANT_QST) == 0)) then begin
+                 end
+                 else begin
+                 //generDistanCriter(PID_SCOLOPENDRA,2,random(0,5),random(1,4),SCRIPT_ZCSclpnd)
+                 generDistanCriter(PID_MERC_A_MALE,1,random(1,5),SCRIPT_YCBandit)
+                 set_local_var(LVAR_Status,1);
+                 end
+              end
+          end
+
+          randomObjVar := 0;
+      end
+   end
+end

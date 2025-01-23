@@ -1,0 +1,494 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_NCApcTch
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_NUEVA // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CASANUEVA_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_APOCALIPSIS   // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeBooks100;
+procedure NodeBooks101;
+procedure NodeBooks102;
+procedure NodeBooks200;
+procedure NodeBooks201;
+procedure NodeBooks202;
+procedure NodeBooks203;
+procedure NodeBooks204;
+procedure NodeBooks205;
+procedure NodeBooks206;
+procedure NodeBooks207;
+procedure NodeBooks300;
+procedure NodeBooks301;
+procedure NodeBooks302;
+procedure NodeBooks303;
+procedure NodeBooks304;
+procedure NodeBooks305;
+procedure NodeFoto;
+procedure NodeFoto2;
+procedure NodeFoto3;
+procedure NodeFoto4;
+procedure NodeFoto5;
+procedure NodeFoto6;
+procedure NodeFoto7;
+procedure NodeFoto8;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+variable itemBookAmnt;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (game_time_hour < 0600) then begin
+       timer_move_to_tile(0,22912,2)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if (getQuest(GVAR_NUEVA_QST_BOOKS_PUERTO)<=qEnd) then begin
+   setQuest(GVAR_NUEVA_QST_BOOKS_PUERTO,qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (game_time_hour < 0600) then begin
+   floater(self_obj,102,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(104,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+   end
+   else if (bitDialog(bit_4) == 0) then begin
+      if ((dude_strength>=8) or dude_skill(SKILL_SMALL_GUNS,90) or dude_skill(SKILL_BIG_GUNS,90) or dude_skill(SKILL_ENERGY_WEAPONS,90) or dude_skill(SKILL_UNARMED_COMBAT,90) or dude_skill(SKILL_MELEE,90) or dude_skill(SKILL_THROWING,90)) then begin
+      call NodeSndDialog2;
+      end
+      else begin
+      call NodeSndDialog;
+      end
+   end
+   else begin
+      call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,35)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+   BAnswer(205,1,NodeFstDialog4)
+   GAnswer(207,5,NodeFstDialog5)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(209,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog4 begin
+   set_REP(-1)
+   setBonusReaction(-20)
+   zReply(206)
+   NAnswer(210,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog5 begin
+   set_REP(1)
+   setBonusReaction(20)
+   Reply(208)
+   NAnswer(211,1,NodeFstDialog6)
+end
+
+procedure NodeFstDialog6 begin
+   Reply(212)
+   NAnswer(213,1,NodeSndDialog)
+end
+
+//--- ВТОРОЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(220)
+
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(230,4,NodeAnswer102)
+   end
+   if (bitDialog(bit_2) == 0) then begin
+   if ((getQuest(GVAR_FLAGSTAFF_CULT_GOHOME) != qZero) or (town_known(AREA_PHOENIX) >= MARK_STATE_VISITED)) then begin
+   NAnswer(214,4,NodeAnswer100)
+   end
+   end
+
+   if (item_amnt(dude_obj,PID_RELICT_FOTO) > 0) then begin
+   NAnswer(233,1,NodeFoto)
+   end
+
+   if (bitDialog(bit_5) == 0) then begin
+      NAnswer(260,3,NodeBooks100)
+   end
+   else begin
+      if (item_amnt(dude_obj,PID_BOOK_OLD)>0) then begin
+      NAnswer(267,1,NodeBooks200)
+      end
+      if (getQuest(GVAR_NUEVA_QST_BOOKS_PUERTO) == qZero) then begin
+      NAnswer(280,3,NodeBooks300)
+      end
+      if (getQuest(GVAR_NUEVA_QST_BOOKS_PUERTO) == qEnd) then begin
+      if (item_amnt(dude_obj,PID_Q_BOOKS_PUERTO)>0) then begin
+      NAnswer(293,1,NodeBooks304)
+      end
+      end
+   end
+
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   bitDialogExp(bit_4,0)
+   setBonusReaction(-50)
+   set_REP(-1)
+   Reply(222)
+   NAnswer(223,1,NodeSndDialog)
+   NAnswer(224,1,NodeSndDialog)
+end
+
+//--- КНИГИ
+
+procedure NodeBooks100 begin
+   bitDialogExp(bit_5,0)
+   Reply(261)
+   NAnswer(262,1,NodeBooks101)
+end
+
+procedure NodeBooks101 begin
+   Reply(263)
+   NAnswer(264,1,NodeBooks102)
+end
+
+procedure NodeBooks102 begin
+   Reply(265)
+   if (getQuest(GVAR_NUEVA_QST_BOOKS_PUERTO) == qZero) then begin
+   NAnswer(280,3,NodeBooks300)
+   end
+   NAnswer(266,1,Node999)
+end
+
+procedure NodeBooks200 begin
+   itemBookAmnt := 0;
+   Reply(268)
+
+   if (item_amnt(dude_obj,PID_BOOK_OLD)>=1) then begin
+   NAnswer(270,1,NodeBooks201)
+   end
+   if (item_amnt(dude_obj,PID_BOOK_OLD)>=2) then begin
+   NAnswer(271,1,NodeBooks202)
+   end
+   if (item_amnt(dude_obj,PID_BOOK_OLD)>=3) then begin
+   NAnswer(272,1,NodeBooks203)
+   end
+   if (item_amnt(dude_obj,PID_BOOK_OLD)>3) then begin
+   NAnswer(273,1,NodeBooks204)
+   end
+
+   NAnswer(269,1,Node999)
+end
+
+procedure NodeBooks201 begin
+   itemBookAmnt := 1;
+   call NodeBooks205;
+end
+
+procedure NodeBooks202 begin
+   itemBookAmnt := 2;
+   call NodeBooks205;
+end
+
+procedure NodeBooks203 begin
+   itemBookAmnt := 3;
+   call NodeBooks205;
+end
+
+procedure NodeBooks204 begin
+   itemBookAmnt := item_amnt(dude_obj,PID_BOOK_OLD);
+   call NodeBooks205;
+end
+
+procedure NodeBooks205 begin
+   item_remove(dude_obj,PID_BOOK_OLD,itemBookAmnt)
+   exp_add(itemBookAmnt*25);
+
+   Reply(mstr(274)+(itemBookAmnt*(5*proto_data(PID_BOOK_OLD, it_cost)))+mstr(275))
+   GAnswer(277,1,NodeBooks206)
+   NAnswer(276,1,NodeBooks207)
+end
+
+procedure NodeBooks206 begin
+   setBonusReaction(itemBookAmnt*5)
+   set_REP(itemBookAmnt)
+   set_SLAVA(itemBookAmnt*5)
+
+   Reply(278)
+   NAnswer(279,1,Node999)
+end
+
+procedure NodeBooks207 begin
+   itemBookAmnt := itemBookAmnt*(5*proto_data(PID_BOOK_OLD, it_cost));
+   item_add(dude_obj,PID_BOOTLE_CAPS,itemBookAmnt)
+   call Node999;
+end
+
+procedure NodeBooks300 begin
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+   Reply(291)
+   NAnswer(292,1,NodeSndDialog)
+   end
+   else begin
+   Reply(281)
+   NAnswer(282,1,NodeBooks301)
+   end
+end
+
+procedure NodeBooks301 begin
+   Reply(283)
+   NAnswer(284,1,NodeBooks302)
+   NAnswer(285,1,NodeBooks302)
+end
+
+procedure NodeBooks302 begin
+   Reply(286)
+   NAnswer(288,1,NodeBooks303)
+   NAnswer(287,1,Node999)
+end
+
+procedure NodeBooks303 begin
+   setQuest(GVAR_NUEVA_QST_BOOKS_PUERTO,qStart);
+   item_add(dude_obj,PID_Q_BOOKS_PUERTO,1)
+   Reply(289)
+   NAnswer(290,1,Node999)
+end
+
+procedure NodeBooks304 begin
+   Reply(294)
+   NAnswer(295,1,NodeBooks305)
+end
+
+procedure NodeBooks305 begin
+   setQuest(GVAR_NUEVA_QST_BOOKS_PUERTO,qEnd+1);
+   item_remove(dude_obj,PID_Q_BOOKS_PUERTO,1)
+   item_add(dude_obj,PID_BOOTLE_CAPS,100)
+   exp_add(350);
+   set_SLAVA(25)
+   set_REP(2)
+   Reply(296)
+   NAnswer(297,1,Node999)
+end
+
+//--- РЕЛИКВИЯ
+
+procedure NodeFoto begin
+   Reply(234)
+   NAnswer(235,1,NodeFoto2)
+end
+
+procedure NodeFoto2 begin
+   Reply(236)
+   NAnswer(237,1,NodeFoto3)
+end
+
+procedure NodeFoto3 begin
+   Reply(238)
+   NAnswer(239,1,NodeFoto4)
+end
+
+procedure NodeFoto4 begin
+   if (item_amnt(dude_obj,PID_RELICT_FOTO) > 0) then begin
+   call NodeFoto5;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeFoto5 begin
+   item_remove(dude_obj,PID_RELICT_FOTO,1)
+   setBonusReaction(10)
+   exp_add(500);
+   g_display_mstr(491);
+
+   Reply(240)
+   GAnswer(241,1,NodeFoto6)
+   NAnswer(243,1,NodeFoto7)
+   NAnswer(246,1,NodeFoto8)
+end
+
+procedure NodeFoto6 begin
+   set_SLAVA(25)
+   set_REP(3)
+   setBonusReaction(40)
+   Reply(242)
+   NAnswer(247,1,Node999)
+end
+
+procedure NodeFoto7 begin
+   item_add(dude_obj,PID_M_STIMPAK,3)
+   item_add(dude_obj,PID_M_ANTIDOTE,3)
+   item_add(dude_obj,PID_M_RADAWAY,3)
+   Reply(244)
+   NAnswer(245,1,Node999)
+end
+
+procedure NodeFoto8 begin
+   game_time_advance(ONE_GAME_HOUR*5);
+   PLAY_FADE
+   if (is_skill_tagged(SKILL_SCIENCE) == true) then begin
+   skill_up(SKILL_SCIENCE,6);
+   end
+   else begin
+   skill_up(SKILL_SCIENCE,5);
+   end
+   call Node999;
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   bitDialogExp(bit_2,25)
+   Reply(215)
+   NAnswer(216,1,NodeAnswer101)
+end
+
+procedure NodeAnswer101 begin
+   Reply(217)
+   NAnswer(218,1,NodeSndDialog)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_3,25)
+   Reply(231)
+   NAnswer(232,1,NodeAnswer103)
+end
+
+procedure NodeAnswer103 begin
+   Reply(248)
+   NAnswer(249,1,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   Reply(250)
+   NAnswer(251,1,NodeSndDialog)
+end

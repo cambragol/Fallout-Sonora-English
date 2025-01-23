@@ -1,0 +1,88 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZSRocks
+
+procedure start;
+procedure map_enter_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure destroy_proc;
+procedure flagstaff_mine;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure description_p_proc begin
+   display_msg(self_name+mstr(110));
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_msg(self_name+mstr(110));
+   floater(dude_obj,116,COLOR_MSG_NORMAL);
+end
+
+procedure use_skill_on_p_proc begin
+   script_overrides;
+   display_msg(self_name+mstr(110));
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+      if (combat_is_initialized == true) then begin
+         display_mstr(115);
+      end
+      else if (dude_strength < 9) then begin
+         stat_display_mstr(111,STAT_st,9)
+      end
+      else begin
+         display_mstr(112);
+         play_sfx("PEBBLE");
+         game_time_advance(ONE_GAME_HOUR*5);
+         call destroy_proc;
+      end
+   end
+end
+
+procedure damage_p_proc begin
+   if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+         display_mstr(113);
+         call flagstaff_mine;
+         call destroy_proc;
+   end
+   else begin
+         display_mstr(114);
+   end
+end
+
+procedure destroy_proc begin
+   set_obj_visibility(self_obj, 1);
+   destroy_object(self_obj);
+end
+
+procedure flagstaff_mine begin
+   //Важно: процедура должна срабатывать только при взрыве
+   if (cur_map_index == MAP_FLAGSTAFF_CAVE) then begin
+      if (self_elevation == 2) then begin
+      if (dude_elevation != 1) then begin
+      create_object_sid(33554722,16690,1,-1);
+      create_object_sid(33554721,17090,1,-1);
+      create_object_sid(33554721,16090,1,-1);
+      create_object_sid(PID_HEX_BLOCKING,16485,1,-1);
+      create_object_sid(PID_HEX_BLOCKING,16685,1,-1);
+      create_object_sid(PID_HEX_BLOCKING,16885,1,-1);
+      create_object_sid(PID_HEX_BLOCKING,17085,1,-1);
+      end
+      end
+   end
+end

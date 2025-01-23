@@ -1,0 +1,75 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_BSBrmGoo
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_obj_on_p_proc;
+procedure shovel_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run) then begin
+      if (cur_map_index == MAP_SAN_BRAHMIN_GARD) then begin
+      inc_map_var(MVAR_BRAHMIN_GOO_BRAM);
+      end
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_SHOVEL) then begin
+      script_overrides;
+
+      if (combat_is_initialized == true) then begin
+         g_display_mstr(328);
+      end
+      else begin
+         //destroyUseShovel
+         call shovel_proc;
+      end
+   end
+end
+
+procedure shovel_proc begin
+   gfade_out(ONE_GAME_SECOND);
+      play_sfx("iccntnre");
+      game_time_advance(ONE_GAME_MINUTE*30);
+
+      if DudePerkHas(PERK_ghouling_fiziology) then begin
+      end
+      else if (global_var(GVAR_GAZ_MASK_ACTIVE) > 0) then begin
+      end
+      else if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+      end
+      else if DudePerkHas(PERK_ranger) then begin
+      poison(dude_obj, 2);
+      end
+      else begin
+      poison(dude_obj, 4);
+      end
+
+      set_obj_visibility(self_obj, 1);
+
+      if (cur_map_index == MAP_OIL_CITY) then begin
+      exp_add(75);
+      display_mstr(110);
+      floater(dude_obj, 111, COLOR_MSG_NORMAL); // Загадка говна раскрыта!
+      create_object_sid(PID_Q_GOLD_MAP,self_tile,self_elevation,-1);
+      end
+
+      if (cur_map_index == MAP_SAN_BRAHMIN_GARD) then begin
+      dec_map_var(MVAR_BRAHMIN_GOO_BRAM);
+      inc_map_var(MVAR_BRAHMIN_CHILD_VIS);
+      end
+
+   gfade_in(ONE_GAME_SECOND);
+
+   destroy_object(self_obj);
+end

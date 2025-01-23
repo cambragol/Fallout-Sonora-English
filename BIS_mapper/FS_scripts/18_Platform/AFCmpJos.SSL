@@ -1,0 +1,24 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_AFCmpJos
+
+procedure start;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      if (map_var(MVAR_OIL_PLATFORM_KILL_C) == 1) then begin
+      display_mstr(201);
+      floater(dude_obj,202,COLOR_MSG_NORMAL);
+      set_map_var(MVAR_OIL_PLATFORM_KILL_C, 2);
+      end
+      else begin
+      display_mstr(200);
+      end
+   end
+end

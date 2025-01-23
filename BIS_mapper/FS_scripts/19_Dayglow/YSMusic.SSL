@@ -1,0 +1,61 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSMusic
+#define TOWN_REP_VAR            GVAR_TOWN_REP_DAYGLOW
+
+procedure start;
+procedure description_p_proc;
+procedure map_update_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure map_update_p_proc begin
+   reg_anim_begin();
+   reg_anim_animate_forever(self_obj, ANIM_stand);
+   reg_anim_end();
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_MANY) then begin
+      script_overrides;
+      display_mstr(102);
+      if (partyPidMr1 != 0) then begin
+      floater(partyPidMr1, 103, COLOR_MSG_NORMAL);
+      end
+      else if (partyPidMr2 != 0) then begin
+      floater(partyPidMr2, 103, COLOR_MSG_NORMAL);
+      end
+      if (random(0,1) == 0) then begin
+      play_sfx("SALOON1");
+      end
+      else begin
+      play_sfx("SALOON2");
+      end
+      item_remove(dude_obj, objUsedPid, 1)
+      if (map_var(MVAR_DIEGO_C_BAR_MUSIC) == 0) then begin
+      set_REP(1)
+      end
+      inc_map_var(MVAR_DIEGO_C_BAR_MUSIC);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(104);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(105);
+   end
+end

@@ -1,0 +1,419 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_JCRanger
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure push_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure uninjure_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeSndDialog;
+procedure NodeSndDialog100;
+procedure NodeSndDialog101;
+procedure NodeSndDialog102;
+procedure NodeSndDialog103;
+procedure NodeSndDialog104;
+procedure NodeSndDialog200;
+procedure NodeSndDialog201;
+procedure NodeSndDialog202;
+procedure NodeSndDialog203;
+procedure NodeSndDialog204;
+procedure NodeSndDialog205;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodePartyAdd;
+
+//---------------------
+
+#define LVAR_Stop_Run                   (6) // возможность оставить персонажа одного
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (global_var(GVAR_JACKALS_STATUS_RANGER) == 0) then begin
+       set_injure_start(0,0,0,1,0) // травмировать (отметить нужное цифрой 1): a - левая рука, b - правая рука, c - левая нога, d - правая нога, e - слепота
+       end
+
+       if ((global_var(GVAR_JACKALS_STATUS_RANGER) == 1) and (cur_map_index != MAP_JACKALS)) then begin
+       rm_timer_event(self_obj);
+       add_timer_event(self_obj, 5, 3);
+       end
+       else if ((global_var(GVAR_JACKALS_STATUS_RANGER) == 0) and (global_var(GVAR_JACKALS_RANGER_CONTRAKT) == -2)) then begin
+       set_global_var(GVAR_JACKALS_STATUS_RANGER,2);
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+       else if ((global_var(GVAR_JACKALS_STATUS_RANGER) < 0) or (global_var(GVAR_JACKALS_STATUS_RANGER) >= 2)) then begin
+       rm_timer_event(self_obj);
+       set_obj_visibility(self_obj, 1);
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   set_injure_update(100,102)
+   if (getQuest(GVAR_JACKALS_UNION_CITY) == qEnd) then begin
+       if (global_var(GVAR_JACKALS_STATUS_RANGER) == 0) then begin
+           set_Medic_Quest;
+           set_obj_visibility(self_obj, 1);
+           set_global_var(GVAR_JACKALS_STATUS_RANGER,2);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (global_var(GVAR_JACKALS_STATUS_RANGER) == 0) then begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,123)
+   end
+   if (fixed_param == 3) then begin
+       dialogue_system_enter;
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   //--- Персонаж следует за ГГ
+   if (global_var(GVAR_JACKALS_STATUS_RANGER) == 1) then begin
+   if (local_var(LVAR_Stop_Run) == 0) then begin
+   partyRunToDude
+   end
+   end
+end
+
+procedure push_p_proc begin
+   if (global_var(GVAR_JACKALS_STATUS_RANGER) != 1) then begin
+   push_options(HomeTile,3,-1) //Толкать (точка отсчета, макс расстояние, фраза нпс при толкании), удалить если не надо
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+   skillUseDoctor(20)
+end
+
+procedure uninjure_proc begin
+   //не удалять
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   UsedToCrit_Stimpak_Doctor
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_JACKALS_STATUS_RANGER,-1);
+   kill_critter_opt
+   kill_critter_dude_reply(103,0)
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,80) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_JACKALS_STATUS_RANGER) == 0) then begin
+      if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+      end
+      else begin
+      call NodeSndDialog;
+      end
+   end
+   else if (global_var(GVAR_JACKALS_STATUS_RANGER) == 1) then begin
+      if (cur_map_index != MAP_JACKALS) then begin
+      call NodeSndDialog200;
+      end
+      else begin
+      call NodeSndDialog100;
+      end
+   end
+   else begin
+      call NodeSndDialog205;
+   end
+end
+
+//----- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_4);
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   BAnswer(202,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(203)
+   NAnswer(204,1,NodeStartDialog)
+end
+
+//----- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(220,1,NodeAnswer100)
+   NAnswer(230,1,NodeAnswer102)
+   NAnswer(233,1,NodeAnswer200)
+   NAnswer(248,1,NodeAnswer103)
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeSndDialog100 begin
+   if (cur_map_index != MAP_JACKALS) then begin
+   Reply(264)
+   end
+   else if (self_elevation != 0) then begin
+   Reply(262)
+   end
+   else if (tile_distance(dude_tile, 14899) <= 25) then begin
+   Reply(263)
+   end
+   else begin
+   Reply(264)
+   end
+
+   if weapon_invn_self then begin
+   NAnswer(292,1,NodeSndDialog103)
+   end
+   if (inven_armor(self_obj) > 0) then begin
+   NAnswer(293,1,NodeSndDialog104)
+   end
+
+   if (local_var(LVAR_Stop_Run) == 0) then begin
+   //NAnswer(290,1,NodeSndDialog101)
+   end
+   NAnswer(291,1,NodeSndDialog102)
+end
+
+procedure NodeSndDialog101 begin
+   set_local_var(LVAR_Stop_Run,1);
+   call Node999;
+end
+
+procedure NodeSndDialog102 begin
+   set_local_var(LVAR_Stop_Run,0);
+   call Node999;
+end
+
+procedure NodeSndDialog103 begin
+   inven_unwield(self_obj);
+   call NodeSndDialog100;
+end
+
+procedure NodeSndDialog104 begin
+   item_remove_armor(self_obj)
+   call NodeSndDialog100;
+end
+
+//--- ЗАВЕРШЕНИЕ ПОБЕГА
+
+procedure NodeSndDialog200 begin
+   Reply(270)
+   NAnswer(271,1,NodeSndDialog201)
+end
+
+procedure NodeSndDialog201 begin
+   Reply(272)
+   NAnswer(279,1,NodeSndDialog204)
+   NAnswerSkill(276,4,NodeSndDialog203,SKILL_SCOUT,35,273,NodeSndDialog202)
+end
+
+procedure NodeSndDialog202 begin
+   Reply(274)
+   NAnswer(275,1,NodeSndDialog204)
+end
+
+procedure NodeSndDialog203 begin
+   bitDialogExp(bit_5,35)
+   set_SLAVA(5)
+   setBonusReaction(10)
+   Reply(277)
+   NAnswer(278,1,NodeSndDialog204)
+end
+
+procedure NodeSndDialog204 begin
+   set_global_var(GVAR_JACKALS_STATUS_RANGER,2);
+   setBonusReaction(75)
+   set_SLAVA(35)
+   exp_add(300);
+   display_mstr(104);
+   rm_timer_event(self_obj);
+   party_remove(self_obj);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   set_obj_visibility(self_obj, 1);
+
+   if ((cur_map_index == MAP_RANGERS_BASA) or (cur_map_index == MAP_RANGERS_DAMBA) or (cur_map_index == MAP_RANGERS_RADIO)) then begin
+   Reply(282)
+   end
+   else begin
+   Reply(280)
+   end
+   NAnswer(281,1,Node999)
+end
+
+procedure NodeSndDialog205 begin
+   Reply(266)
+   NAnswer(267,1,Node999)
+end
+
+//--- РАССПРОСЫ
+
+procedure NodeAnswer100 begin
+   if (get_Medic_Quest == 0) then begin
+   Reply(221)
+   NAnswer(222,1,NodeAnswer101)
+   NAnswer(224,1,NodeStartDialog)
+   NAnswer(225,1,NodeStartDialog)
+   end
+   else begin
+   Reply(226)
+   NAnswer(227,1,NodePartyAdd)
+   NAnswer(228,1,NodeStartDialog)
+   end
+end
+
+procedure NodeAnswer101 begin
+   Reply(223)
+   NAnswer(224,1,NodeStartDialog)
+   NAnswer(225,1,NodeStartDialog)
+end
+
+procedure NodeAnswer102 begin
+   Reply(231)
+   NAnswer(232,1,NodeStartDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(249)
+   NAnswer(250,1,NodeStartDialog)
+end
+
+procedure NodeAnswer200 begin
+   Reply(234)
+   NAnswer(236,5,NodeAnswer201)
+   NAnswerStat(241,1,NodeAnswer203,STAT_iq,7,238,NodeAnswer202)
+   NAnswer(235,1,NodeStartDialog)
+end
+
+procedure NodeAnswer201 begin
+   bitDialogExp(bit_2,25)
+   Reply(237)
+   NAnswer(235,1,NodeStartDialog)
+end
+
+procedure NodeAnswer202 begin
+   Reply(239)
+   NAnswer(240,1,NodeStartDialog)
+end
+
+procedure NodeAnswer203 begin
+   bitDialogExp(bit_3,50)
+   Reply(242)
+   NAnswer(243,1,NodeAnswer204)
+   BAnswer(244,1,NodeAnswer204)
+end
+
+procedure NodeAnswer204 begin
+   Reply(245)
+   NAnswer(246,1,NodeStartDialog)
+   NAnswer(247,1,Node999)
+end
+
+procedure NodePartyAdd begin
+   if (cur_map_index == MAP_JACKALS) then begin
+   set_map_var(MVAR_Jkls_Dopusk,-1);
+   set_global_var(GVAR_TOWN_REP_JACKALS,-100);
+   end
+   set_global_var(GVAR_JACKALS_STATUS_RANGER,1);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   rm_timer_event(self_obj);
+   party_add(self_obj);
+
+   Reply(260)
+   NAnswer(261,1,Node999)
+end

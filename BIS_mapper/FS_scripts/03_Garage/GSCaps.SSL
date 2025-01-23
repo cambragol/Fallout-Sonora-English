@@ -1,0 +1,95 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_GSCaps
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure distroySelfObj;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(101);
+   if (getQuest(GVAR_GARAGE_QST_FAKECAPS) == qStart) then begin
+   floater(dude_obj,106,COLOR_MSG_NORMAL);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(101);
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call distroySelfObj;
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      call distroySelfObj;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_W_SLEDGEHAMMER) then begin
+      script_overrides;
+      call distroySelfObj;
+   end
+   else if (objUsedPid == PID_W_HAMMER) then begin
+      script_overrides;
+      call distroySelfObj;
+   end
+   else if (objUsedPid == PID_W_SUPER_SLEDGE) then begin
+      script_overrides;
+      call distroySelfObj;
+   end
+   else if (objUsedPid == PID_W_CROWBAR) then begin
+      script_overrides;
+      call distroySelfObj;
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+      script_overrides;
+      if (global_var(GVAR_GARAGE_STATUS_FAKECAPS) == 0) then begin
+      display_mstr(105);
+      item_add(dude_obj,PID_BOOTLE_CAPS,random(1,dude_agility)+proto_data(PID_TOOL_PARTS_MECHANICAL, it_cost))
+      item_remove(dude_obj,PID_TOOL_PARTS_MECHANICAL,1)
+      end
+      else begin
+      display_mstr(104);
+      end
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      call distroySelfObj;
+      end
+   end
+end
+
+procedure distroySelfObj begin
+   if (global_var(GVAR_GARAGE_STATUS_FAKECAPS) == 0) then begin
+      display_mstr(102);
+      play_sfx("CLANK1");
+      play_sfx("CLANG1");
+      set_obj_visibility(self_obj, 1);
+      create_object_sid(33556014,self_tile,self_elevation,-1);
+      set_global_var(GVAR_GARAGE_STATUS_FAKECAPS,-1);
+   end
+   else begin
+      display_mstr(103);
+   end
+end

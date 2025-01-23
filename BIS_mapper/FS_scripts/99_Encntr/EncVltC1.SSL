@@ -1,0 +1,181 @@
+#include "..\headers\define.h"
+//--------------------- Паладин
+
+#define NAME                            SCRIPT_EncVltC1
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO  // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_PALADIN        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      90 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure push_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+//---------------------
+
+#define LVAR_Party_Status               (6) // приобщение персонажа к партии ГГ: 0 - не приобщен, 1 - приобщен
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_local_var(LVAR_Party_Status,0);
+       set_start_home
+       if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   //--- Следует за ГГ
+   if (local_var(LVAR_Party_Status) > 0) then begin
+   partyRunToDude
+   end
+end
+
+procedure push_p_proc begin
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,-50) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+/*
+
+   Диалог в Ван Бюрен:
+
+	Как я могу помочь тебе, гражданин? / Пока никак. Расходимся.
+	Кто ты? / Капрал Армстронг из 4 - й танковой пехотной дивизии, Великого Среднезападного Содружества. Я помогу вам добраться до вашего убежища, гражданин.
+	Зачем мы здесь собрались? / Нам нужно попасть в убежище, но сначала придётся пройти через этот разрушенный город. Возможно, повстанцы-комунисты воспользуются бомбордировкой, так что будьте внимательны, гражданин!
+	Твои родители-коммунисты не поверили сиренам и были уничтожены в огне. Ты пробился в центр переселения и ......
+
+*/
+
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   //Я на задании. Говорят, где-то здесь есть Убежище. Но рейдеры не дают к нему подобраться. Я жду подкрепления, чтобы согнать их с места.
+   Reply(200)
+   NAnswer(201,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   /*
+   NAnswer(230,1,NodeAnswer100)
+   NAnswer(240,1,NodeAnswer200)
+   NAnswer(250,1,NodeAnswer300)
+
+   if (local_var(LVAR_Party_Status) == 0) then begin
+   NAnswer(254,1,NodeAnswer302)
+   end
+   */
+   NAnswer(221,1,Node999)
+end
+
+/*
+
+procedure NodeAnswer100 begin
+   Reply(232)
+   NAnswer(222,1,NodeSndDialog)
+end
+
+procedure NodeAnswer305 begin
+   inc_local_var(LVAR_Party_Status);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   Reply(263)
+   NAnswer(264,1,Node999)
+   NAnswer(265,1,Node999)
+end
+
+*/

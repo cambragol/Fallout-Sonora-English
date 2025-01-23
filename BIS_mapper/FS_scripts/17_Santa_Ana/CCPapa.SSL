@@ -1,0 +1,531 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_CCPapa
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SANTA_ANA // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANTA_ANA_CTZN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+#define TILE_CHRCH                      21905  // точка размещения внутри церкви
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeSndDialog;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeQstDialog100;
+procedure NodeQstDialog101;
+procedure NodeQstDialog102;
+procedure NodeQstDialog103;
+procedure NodeQstDialog104;
+procedure NodeQstDialog105;
+procedure NodeQstDialog200;
+procedure NodeQstDialog201;
+procedure NodeQstDialog202;
+procedure NodeQstDialog203;
+procedure NodeQstDialog204;
+procedure NodeQstDialog205;
+procedure NodeQstDialog206;
+procedure NodeQstDialog207;
+procedure NodeEndDialog;
+procedure NodeEndDialog200;
+procedure NodeEndDialog201;
+procedure NodeEndDialog202;
+procedure NodeEndDialog203;
+procedure NodeEndDialog204;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (5) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (self_elevation > 0) then begin
+       move_to(self_obj, HomeTile, 0);
+       end
+       set_start_home
+       if (self_elevation > 0) then begin
+       move_to(self_obj, TILE_CHRCH, 2);
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (self_elevation == 0) then begin
+       timer_move_to_home
+       end
+       else begin
+       timer_move_to_tile(0,TILE_CHRCH,5)
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_SANTAANA_STATUS_FIESTA) == 10) then begin
+       if (getQuest(GVAR_SANTAANA_QST_BOSS) == qZero) then begin
+          if ((self_elevation == 0) and (dude_elevation == 0)) then begin
+          move_to(self_obj, tile_num_in_direction(dude_tile,2,3), 0);
+          dialogue_system_enter;
+          end
+       end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_map_var(MVAR_SANTA_BOSS_ATTAK, 0);
+   set_global_var(GVAR_SANTAANA_STATUS_PAPA, -1);
+   if (self_elevation > 0) then begin
+   set_global_var(GVAR_SANTAANA_STATUS_PAPA, -10);
+   end
+   if (self_elevation == 0) then begin
+   set_global_var(GVAR_SANTAANA_STATUS_FIESTA, -1);
+   end
+   if (getQuest(GVAR_SANTAANA_QST_BOSS) < qEnd) then begin
+   setQuest(GVAR_SANTAANA_QST_BOSS, qStop);
+   end
+   setQuest(GVAR_SANTAANA_QST_BARTER, qStop);
+
+   if (source_obj == dude_obj) then begin
+      if (self_elevation == 0) then begin
+      set_REP(REP_KILL_CRITICAL)
+      end
+   end
+
+   stop_santa_fiesta
+   kill_critter_reput
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+   if ((global_var(GVAR_SANTAANA_STATUS_PAPA)>0) or (getQuest(GVAR_SANTAANA_QST_BOSS) >= qEnd)) then begin
+      if (self_elevation != 0) then begin
+      critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+      move_to(self_obj, HomeTile, 0);
+      end
+   end
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_SANTAANA_QST_BOSS) >= qEnd) then begin
+   call NodeEndDialog;
+   end
+   else if (getQuest(GVAR_SANTAANA_QST_BOSS) == qStart) then begin
+   call NodeQstDialog200;
+   end
+   else if ((getQuest(GVAR_SANTAANA_QST_BOSS) == qZero) and (global_var(GVAR_SANTAANA_STATUS_FIESTA) == 10)) then begin
+   call NodeQstDialog100;
+   end
+   else if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВАЯ ВСТРЕЧА ВО ВРЕМЯ ЦЕРЕМОНИИ
+
+procedure NodeFstDialog begin
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   bitDialogExp(bit_1,0)
+   dialog_qst_SANTA
+   Reply(204)
+   NAnswer(205,1,Node999)
+   BAnswer(206,1,Node999)
+end
+
+//--- ВТОРАЯ ВСТРЕЧА ВО ВРЕМЯ ЦЕРЕМОНИИ
+
+procedure NodeSndDialog begin
+   if (get_REP > 5) then begin
+   zReply(221)
+   end
+   else begin
+   Reply(220)
+   end
+   if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
+   NAnswer(230,3,NodeAnswer101)
+   end
+   NAnswer(233,3,NodeAnswer102)
+   if (bitDialog(bit_2) == 0) then begin
+   //NAnswer(239,3,NodeAnswer105)
+   end
+   NAnswer(222,1,Node999)
+end
+
+procedure NodeAnswer101 begin
+   Reply(231)
+   NAnswer(233,3,NodeAnswer102)
+   NAnswer(232,1,Node999)
+end
+
+procedure NodeAnswer102 begin
+   bitDialogExp(bit_2,0)
+   Reply(234)
+   //NAnswer(240,3,NodeAnswer105)
+   NAnswer(235,4,NodeAnswer103)
+   if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
+   NAnswer(230,3,NodeAnswer101)
+   end
+   NAnswer(232,1,Node999)
+end
+
+procedure NodeAnswer103 begin
+   Reply(236)
+   NAnswer(237,6,NodeAnswer104)
+   if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
+   NAnswer(230,3,NodeAnswer101)
+   end
+   if (bitDialog(bit_2) == 0) then begin
+   //NAnswer(239,3,NodeAnswer105)
+   end
+   NAnswer(232,1,Node999)
+end
+
+procedure NodeAnswer104 begin
+   bitDialogExp(bit_3,50)
+   Reply(238)
+   if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
+   NAnswer(230,3,NodeAnswer101)
+   end
+   if (bitDialog(bit_2) == 0) then begin
+   //NAnswer(239,3,NodeAnswer105)
+   end
+   NAnswer(232,1,Node999)
+end
+
+procedure NodeAnswer105 begin
+   mark_on_map(AREA_CASA_NUEVA)
+   mark_on_map(AREA_HERMOSILLO)
+   Reply(241)
+   if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
+   NAnswer(230,3,NodeAnswer101)
+   end
+   NAnswer(232,1,Node999)
+end
+
+//--- РАЗГОВОР У ЦЕРКВИ ПОСЛЕ УБИЙСТВА ЭЛЬ ДИАБЛО
+
+procedure NodeQstDialog100 begin
+   setQuest(GVAR_SANTAANA_QST_BOSS, qStart);
+   zReply(250)
+   if (bitDialog(bit_1) == 0) then begin
+   NAnswer(251,1,NodeQstDialog101)
+   end
+   else begin
+   NAnswer(242,1,NodeQstDialog101)
+   end
+   BAnswer(252,1,NodeQstDialog102)
+   GAnswer(253,1,NodeQstDialog103)
+end
+
+procedure NodeQstDialog101 begin
+   Reply(254)
+   NAnswer(255,1,NodeQstDialog104)
+end
+
+procedure NodeQstDialog102 begin
+   setBonusReaction(-20)
+   set_REP(-1)
+   call NodeQstDialog101;
+end
+
+procedure NodeQstDialog103 begin
+   setBonusReaction(20)
+   set_REP(1)
+   call NodeQstDialog101;
+end
+
+procedure NodeQstDialog104 begin
+   Reply(256)
+
+   if (global_var(GVAR_SANTAANA_STATUS_BOSS) > 0) then begin
+   GAnswer(287,1,NodeQstDialog202)
+   end
+   else if (global_var(GVAR_SANTAANA_STATUS_BOSS) < 0) then begin
+   GAnswer(286,1,NodeQstDialog202)
+   end
+   else begin
+
+   GAnswer(257,1,NodeQstDialog105)
+   NAnswer(258,1,Node999)
+   BAnswer(259,1,Node999)
+
+   end
+end
+
+procedure NodeQstDialog105 begin
+   set_map_var(MVAR_SANTA_BOSS_ATTAK, 1);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   move_to(self_obj, TILE_CHRCH, 2);
+   //move_to(dude_obj, tile_num_in_direction(TILE_CHRCH,3,2), 2);
+   call Node999;
+end
+
+procedure NodeQstDialog200 begin
+   if ((self_elevation == 2) and (global_var(GVAR_SANTAANA_STATUS_BOSS) != 0)) then begin
+   call NodeQstDialog202;
+   end
+   else begin
+   call NodeQstDialog201;
+   end
+end
+
+procedure NodeQstDialog201 begin
+   if (self_elevation == 0) then begin
+   Reply(260)
+   end
+   else begin
+   Reply(262)
+   end
+
+   if (global_var(GVAR_SANTAANA_STATUS_BOSS) > 0) then begin
+   GAnswer(265,1,NodeQstDialog202)
+   end
+   else if (global_var(GVAR_SANTAANA_STATUS_BOSS) < 0) then begin
+   GAnswer(264,1,NodeQstDialog202)
+   end
+   else begin
+
+   NAnswerSkill(275,3,NodeQstDialog205,SKILL_CONVERSANT,42,272,NodeQstDialog204)
+
+   if (self_elevation == 0) then begin
+   GAnswer(257,1,NodeQstDialog105)
+   NAnswer(258,1,Node999)
+   BAnswer(259,1,Node999)
+   end
+   else begin
+   NAnswer(263,1,Node999)
+   end
+
+   end
+end
+
+procedure NodeQstDialog202 begin
+   setQuest(GVAR_SANTAANA_QST_BOSS, qEnd+1);
+   set_global_var(GVAR_SANTAANA_STATUS_PAPA, 1);
+   set_map_var(MVAR_SANTA_BOSS_ATTAK, 0);
+   setBonusReaction(100)
+   set_SLAVA(25)
+   set_REP(10)
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
+   exp_add(750);
+   item_remove(self_obj,PID_W_PISTOL_22,1)
+   item_add(dude_obj,PID_W_PISTOL_22,1)
+
+   zReply(266)
+   //NAnswer(268,1,NodeQstDialog203)
+   NAnswer(267,1,Node999)
+end
+
+procedure NodeQstDialog203 begin
+   setQuest(GVAR_SANTAANA_QST_BARTER, qStart);
+   mark_on_map(AREA_CASA_NUEVA)
+   Reply(269)
+   if (global_var(GVAR_NUEVA_STATUS_MER) <0) then begin
+   NAnswer(282,1,NodeQstDialog207)
+   end
+   NAnswer(270,1,Node999)
+   NAnswer(271,1,Node999)
+end
+
+procedure NodeQstDialog204 begin
+   Reply(273)
+   if (self_elevation == 0) then begin
+   GAnswer(274,1,NodeQstDialog105)
+   NAnswer(258,1,Node999)
+   BAnswer(259,1,Node999)
+   end
+   else begin
+   NAnswer(263,1,Node999)
+   end
+end
+
+procedure NodeQstDialog205 begin
+   Reply(276)
+   NAnswer(277,1,NodeQstDialog206)
+   if (self_elevation == 0) then begin
+   GAnswer(278,1,NodeQstDialog105)
+   end
+   else begin
+   GAnswer(281,1,Node999)
+   end
+   NAnswer(279,1,Node999)
+end
+
+procedure NodeQstDialog206 begin
+   setQuest(GVAR_SANTAANA_QST_BOSS, qEnd);
+   setBonusReaction(20)
+   set_SLAVA(5)
+   setReaction(5)
+   exp_add(100);
+   call Node999;
+end
+
+procedure NodeQstDialog207 begin
+   setQuest(GVAR_SANTAANA_QST_BARTER, qStop);
+   zReply(283)
+   NAnswer(284,1,Node999)
+end
+
+//--- ФИНАЛЬНЫЙ ДИАЛОГ
+
+procedure NodeEndDialog begin
+   if (getQuest(GVAR_SANTAANA_QST_BARTER) >= qEnd) then begin
+   zReply(285)
+   end
+   else if (get_REP > 5) then begin
+   zReply(221)
+   end
+   else begin
+   Reply(220)
+   end
+
+   if (global_var(GVAR_SANTAANA_STATUS_PAPA) == 0) then begin
+   if (global_var(GVAR_SANTAANA_STATUS_BOSS) != 0) then begin
+      if (getQuest(GVAR_SANTAANA_QST_BOSS) == qEnd) then begin
+      GAnswer(280,1,NodeQstDialog202)
+      end
+   end
+   end
+
+   if (global_var(GVAR_SANTAANA_STATUS_PAPA) > 0) then begin
+      if (getQuest(GVAR_SANTAANA_QST_BARTER) == qZero) then begin
+      NAnswer(268,1,NodeQstDialog203)
+      end
+      if (getQuest(GVAR_SANTAANA_QST_BARTER) == qStart) then begin
+      if (global_var(GVAR_NUEVA_STATUS_MER) <0) then begin
+      NAnswer(282,1,NodeQstDialog207)
+      end
+      end
+   end
+
+   if (bitDialog(bit_4) == 0) then begin
+      NAnswer(290,1,NodeEndDialog200)
+   end
+
+   //!!! благодарность если жертва вернулась
+
+   NAnswer(222,1,Node999)
+end
+
+procedure NodeEndDialog200 begin
+   Reply(291)
+   NAnswer(293,1,NodeEndDialog201)
+   NAnswer(292,1,NodeEndDialog)
+end
+
+procedure NodeEndDialog201 begin
+   Reply(294)
+   NAnswer(295,1,NodeEndDialog202)
+   NAnswer(296,1,Node999)
+end
+
+procedure NodeEndDialog202 begin
+   Reply(297)
+   NAnswer(298,1,NodeEndDialog203)
+end
+
+procedure NodeEndDialog203 begin
+   Reply(299)
+   NAnswer(300,1,NodeEndDialog204)
+end
+
+procedure NodeEndDialog204 begin
+   bitDialogExp(bit_4,100)
+   Reply(301)
+   NAnswer(302,1,Node999)
+   NAnswer(303,1,Node999)
+end

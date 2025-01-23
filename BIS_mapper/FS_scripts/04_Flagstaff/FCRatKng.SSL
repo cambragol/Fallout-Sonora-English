@@ -1,0 +1,110 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCRatKng
+#define TOWN_REP_VAR                    -1   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RATS             // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      300 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_FLAG_RatKingVsbl) == 0) then begin
+       set_obj_visibility(self_obj, 1);
+   end
+   else begin
+       set_obj_visibility(self_obj, 0);
+   end
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(6)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,2,2,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectIntimidationPerk
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+   else if (map_var(MVAR_FLAGMINE_RAT_EXP)>0) then begin
+      if (fixed_param>0) then begin
+         set_damage_check
+         if (damage_amnt > 0) then begin
+         inc_global_var_amt(GVAR_EXPOINT_COMBAT_CHECK,damage_amnt);
+         end
+         damage_amnt := 0;
+      end
+      set_map_var(MVAR_FLAGMINE_RAT_EXP,0);
+   end
+end
+
+procedure destroy_p_proc begin
+   set_global_var(GVAR_FLAGSTAFF_RAT_KING_LIFE,-1);
+   set_map_var(MVAR_FLAGMINE_RAT_EXP,0);
+   kill_critter_opt
+   item_add(self_obj,PID_TOOTHS_RAT_KING,2)
+   kill_critter_dude_reply(102,0)
+end

@@ -1,0 +1,574 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_DCAlien
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_GRANDE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeAnswer100;
+procedure NodeAnswer101;
+procedure NodeAnswer102;
+procedure NodeAnswer102b;
+procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer109;
+procedure NodeAnswer200;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+procedure NodeSndDialog5;
+procedure NodeSndDialog6;
+procedure NodeSndDialog7;
+procedure NodeSndDialog8;
+procedure NodeSwim;
+procedure NodeSwim2;
+procedure NodeSwim3;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+procedure NodeQst107;
+procedure NodeQst108;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst204;
+procedure NodeQst205;
+procedure NodeQst206;
+procedure NodeQst207;
+procedure NodeQst300;
+procedure NodeQst301;
+procedure NodeQst302;
+
+//---------------------
+
+#define LVAR_Timer_Gonorar                 (6) // время до выплаты партнерского гонорара
+
+variable MedicMany;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+       party_remove(self_obj);
+       set_local_var(LVAR_Home_Tile,26110);
+       set_local_var(LVAR_Home_Rotat,3);
+       move_to(self_obj,HomeTile,0);
+       end
+       set_start_home
+       set_obj_visibility(self_obj,1);
+       if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) >= 0) then begin
+       if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_21) != 0) then begin
+       set_obj_visibility(self_obj,0);
+       end
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
+       timer_move_random_home(3)
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+   if (fixed_param == 3) then begin
+       KillScorpTail(-1) // фраза над жертвой (-1 если не нужна)
+   end
+   if (fixed_param == 4) then begin
+      set_global_var(GVAR_CGRANDE_STATUS_BATHHOUSE,1);
+      party_add(self_obj);
+      set_local_var(LVAR_Home_Tile,26110);
+      set_local_var(LVAR_Home_Rotat,3);
+      dude_teleport_map(0,0,MAP_CASA_GRANDE_CITY,5);
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   UsedToCrit_Scorp(104,3) // фраза над жертвой (-1 если не нужна), номер таймера
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   setQuest(GVAR_CGRANDE_QST_BATHHOUSE,qStop);
+   set_global_var(GVAR_CGRANDE_STATUS_BATHHOUSE,-2);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) < 0) then begin
+   floater(self_obj,103,COLOR_MSG_RED);
+   end
+   else begin
+   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_CGRANDE_QST_BATHHOUSE) >= qEnd) then begin
+      call NodeSndDialog4;
+   end
+   else if (getQuest(GVAR_CGRANDE_QST_BATHHOUSE) == qStart) then begin
+      if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) < 1) then begin
+      call NodeSndDialog2;
+      end
+      else if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) == 1) then begin
+      call NodeSndDialog3;
+      end
+      else begin
+      call NodeSndDialog4;
+      end
+   end
+   else begin
+      if (bitDialog(bit_1) == 0) then begin
+      call NodeFstDialog;
+      end
+      else begin
+      call NodeSndDialog;
+      end
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   zReply(202)
+   NAnswer(203,1,NodeAnswer100)
+end
+
+procedure NodeAnswer100 begin
+   Reply(206)
+   NAnswer(207,1,NodeAnswer101)
+   NAnswer(209,1,NodeAnswer102)
+   NAnswer(215,1,NodeAnswer105)
+end
+
+procedure NodeAnswer101 begin
+   Reply(208)
+   NAnswer(209,1,NodeAnswer102)
+   NAnswer(215,1,NodeAnswer105)
+end
+
+procedure NodeAnswer102 begin
+   Reply(210)
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswer(211,1,NodeAnswer103)
+   end
+   NAnswer(225,5,NodeAnswer102b)
+   NAnswer(215,1,NodeAnswer105)
+   NAnswer(207,1,NodeAnswer101)
+end
+
+procedure NodeAnswer102b begin
+   zReply(226)
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   NAnswer(211,1,NodeAnswer103)
+   end
+   NAnswer(215,1,NodeAnswer105)
+   NAnswer(207,1,NodeAnswer101)
+end
+
+procedure NodeAnswer103 begin
+   Reply(212)
+   NAnswer(213,1,NodeAnswer104)
+end
+
+procedure NodeAnswer104 begin
+   Reply(214)
+   NAnswer(215,1,NodeAnswer105)
+   NAnswer(207,1,NodeAnswer101)
+end
+
+procedure NodeAnswer105 begin
+   Reply(216)
+   NAnswer(217,1,NodeAnswer106)
+   NAnswer(207,1,NodeAnswer101)
+   NAnswer(209,1,NodeAnswer102)
+end
+
+procedure NodeAnswer106 begin
+   Reply(218)
+   NAnswer(219,1,NodeAnswer107)
+   NAnswer(222,1,NodeAnswer108)
+end
+
+procedure NodeAnswer107 begin
+   Reply(220)
+   NAnswer(221,1,Node999)
+end
+
+procedure NodeAnswer108 begin
+   Reply(223)
+   NAnswer(224,1,Node999)
+end
+
+procedure NodeAnswer109 begin
+   Reply(254)
+   NAnswer(255,1,NodeAnswer100)
+   NAnswer(256,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(431)
+   NAnswer(432,1,Node999)
+   NAnswer(433,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(102)
+   end
+   else begin
+   Reply(250)
+   end
+
+   if (getQuest(GVAR_CGRANDE_QST_BATHHOUSE) == qZero) then begin
+      if (map_is_known(MAP_CASA_GRANDE_GRAVE) == true) then begin
+      NAnswer(260,1,NodeQst100)
+      end
+      NAnswer(253,1,NodeAnswer109)
+      NAnswer(257,1,NodeAnswer100)
+   end
+
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+   NAnswer(430,3,NodeAnswer200)
+   end
+
+   NAnswer(251,1,Node999)
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(300)
+
+   if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin
+      NAnswer(302,1,NodeQst200)
+   end
+   else begin
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_24) != 0) then begin
+      NAnswer(305,1,NodeQst202)
+      end
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_23) != 0) then begin
+      BAnswer(308,1,NodeQst203)
+      end
+   end
+
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+   NAnswer(430,3,NodeAnswer200)
+   end
+
+   NAnswer(301,1,Node999)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(330)
+   NAnswer(332,3,NodeQst300)
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_25) != 0) then begin
+   NAnswer(338,3,NodeQst302)
+   end
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+   NAnswer(430,3,NodeAnswer200)
+   end
+   NAnswer(331,1,Node999)
+end
+
+procedure NodeSndDialog4 begin
+   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+   Reply(102)
+   end
+   else begin
+   Reply(random(350,355))
+   end
+
+   NAnswer(400,1,NodeSwim)
+   if ((local_var(LVAR_Barter_Timer) < game_time) and (local_var(LVAR_Barter_Timer) > 0)) then begin
+   NAnswer(410,1,NodeSndDialog5)
+   end
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+   NAnswer(430,3,NodeAnswer200)
+   end
+   NAnswer(356,1,Node999)
+end
+
+procedure NodeSndDialog5 begin
+   set_local_var(LVAR_Barter_Timer,-999);
+   Reply(411)
+   NAnswerSlava(412,1,NodeSndDialog7,0,412,NodeSndDialog6)
+   NAnswerRep(413,1,NodeSndDialog7,0,413,NodeSndDialog6)
+end
+
+procedure NodeSndDialog6 begin
+   Reply(414)
+   BAnswer(420,1,NodeSndDialog8)
+   NAnswer(415,1,Node999)
+   BAnswer(416,1,Node999)
+end
+
+procedure NodeSndDialog7 begin
+   item_add(dude_obj,PID_BOOTLE_CAPS,200)
+   Reply(417)
+   NAnswer(418,1,Node999)
+   BAnswer(419,1,Node999)
+end
+
+procedure NodeSndDialog8 begin
+   item_add(self_obj,PID_BOOTLE_CAPS,200)
+   call Node998;
+end
+
+//--- КУПАНИЕ
+
+procedure NodeSwim begin
+   MedicMany := 35;
+   Reply(mstr(401)+MedicMany+mstr(402))
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   NAnswer(404,1,NodeSwim2)
+   end
+   NAnswer(403,1,Node999)
+end
+
+procedure NodeSwim2 begin
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
+   call NodeSwim3;
+   end
+   else begin
+   call NodeSwim;
+   end
+end
+
+procedure NodeSwim3 begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
+   MedicMany := 0;
+   radiation_dec(dude_obj,5);
+   poison(dude_obj,-(get_poison(dude_obj)));
+   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
+   critter_heal(dude_obj,25);
+   play_sfx("CHEMICAL");
+   PLAY_FADE
+   call Node999;
+end
+
+//--- СДАЧА КВЕСТА 1
+
+procedure NodeQst100 begin
+   Reply(261)
+   NAnswer(262,1,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   Reply(263)
+   NAnswer(264,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(265)
+   NAnswer(266,1,NodeQst103)
+   NAnswer(268,1,NodeQst104)
+end
+
+procedure NodeQst103 begin
+   Reply(267)
+   GAnswer(270,1,NodeQst105)
+   NAnswer(271,1,NodeQst105)
+end
+
+procedure NodeQst104 begin
+   Reply(269)
+   GAnswer(270,1,NodeQst105)
+   NAnswer(271,1,NodeQst105)
+end
+
+procedure NodeQst105 begin
+   Reply(272)
+   NAnswer(273,1,NodeQst106)
+   NAnswer(275,1,NodeQst107)
+   NAnswer(278,1,NodeQst108)
+end
+
+procedure NodeQst106 begin
+   Reply(274)
+   NAnswer(275,1,NodeQst107)
+   NAnswer(281,1,NodeQst108)
+end
+
+procedure NodeQst107 begin
+   setQuest(GVAR_CGRANDE_QST_BATHHOUSE,qStart);
+   Reply(276)
+   NAnswer(277,1,Node999)
+end
+
+procedure NodeQst108 begin
+   Reply(279)
+   NAnswer(280,1,Node999)
+end
+
+//--- СДАЧА КВЕСТА 2
+
+procedure NodeQst200 begin
+   Reply(303)
+   NAnswer(304,1,NodeQst201)
+end
+
+procedure NodeQst201 begin
+   add_timer_event(self_obj,5,4);
+   call Node999;
+end
+
+procedure NodeQst202 begin
+   Reply(306)
+   NAnswer(307,1,NodeQst201)
+end
+
+procedure NodeQst203 begin
+   Reply(309)
+   BAnswer(311,1,NodeQst204)
+   NAnswer(310,1,Node999)
+end
+
+procedure NodeQst204 begin
+   zReply(312)
+   BAnswerSkill(318,3,NodeQst206,SKILL_CONVERSANT,40,314,NodeQst205)
+   NAnswer(313,1,Node999)
+end
+
+procedure NodeQst205 begin
+   Reply(315)
+   BAnswer(316,1,Node998)
+   NAnswer(317,1,Node999)
+end
+
+procedure NodeQst206 begin
+   Reply(319)
+   BAnswer(320,1,NodeQst207)
+   NAnswer(321,1,Node999)
+end
+
+procedure NodeQst207 begin
+   set_global_var(GVAR_CGRANDE_STATUS_BATHHOUSE,-1);
+   set_SLAVA(-25)
+   Reply(322)
+   NAnswer(323,1,Node999)
+end
+
+//--- СДАЧА КВЕСТА 3
+
+procedure NodeQst300 begin
+   Reply(333)
+   NAnswer(334,1,NodeQst301)
+end
+
+procedure NodeQst301 begin
+   Reply(335)
+   NAnswer(337,3,Node999)
+   NAnswer(336,3,Node999)
+end
+
+procedure NodeQst302 begin
+   setQuest(GVAR_CGRANDE_QST_BATHHOUSE,qEnd);
+   set_global_var(GVAR_CGRANDE_STATUS_BATHHOUSE,2);
+   set_local_var(LVAR_Timer_Gonorar, (ONE_GAME_MONTH*2) + game_time);
+   exp_add(350);
+   set_REP(5)
+   set_SLAVA(25)
+   setBonusReaction(100)
+   zReply(339)
+   NAnswer(340,1,Node999)
+end

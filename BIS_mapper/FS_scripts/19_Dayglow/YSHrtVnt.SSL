@@ -1,0 +1,52 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YSHrtVnt
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure map_enter_p_proc;
+procedure timed_event_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       if (local_var(LVAR_Status) == 0) then begin
+       add_timer_event(self_obj, 10, 2);
+       end
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 2) then begin
+       if (local_var(LVAR_Status) == 0) then begin
+       timer_floater(120,124,COLOR_MSG_GREY,70)
+       end
+   end
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   item_add(dude_obj, PID_M_ASH, 1)
+   RepairProcRepair(112,0,"TANKS")
+end

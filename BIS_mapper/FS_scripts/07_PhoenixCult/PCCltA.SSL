@@ -1,0 +1,172 @@
+#include "..\headers\define.h"
+//--------------------- Рядовой монах
+
+#define NAME                            SCRIPT_PCCltA
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CULT // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_CULT_ATOMIC      // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_CULT_PHENIX        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_PNXCULT          // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Flag_AttakNon                     (6) // индексирует союзников Матиаса
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+           set_local_var(LVAR_Flag_AttakNon,1);
+           item_remove(self_obj,PID_TEST,999)
+       end
+       if (self_elevation == 1) then begin
+           set_local_var(LVAR_Flag_AttakNon,1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+       /*
+       if ((self_elevation == 1) and (HomeTile == 18886)) then begin
+       timer_move_patrol(HomeTile,18910)
+       end
+       else begin
+       timer_move_to_home
+       end
+       */
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A)) then begin
+   end
+   else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+   end
+   else begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+
+   if (local_var(LVAR_Flag_AttakNon) > 0) then begin
+   pnxCultTeamNoAttak
+   end
+
+   if ((global_var(GVAR_PHENIX_PARTY_ATTAKTOAARON) > 0) and (local_var(LVAR_Flag_AttakNon) == 0)) then begin
+   set_critter_options(2,0)
+   end
+   else begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   if ((global_var(GVAR_PHENIX_MATIAS_NONATTAK) > 0) and (local_var(LVAR_Flag_AttakNon) == 0)) then begin
+   kill_critter_opt_norep
+   end
+   else begin
+   kill_critter_opt
+   end
+end
+
+procedure talk_p_proc begin
+   variable replyNumber;
+
+   if (cur_map_index == MAP_PHOENIX_CHURCH) then begin
+      if ((dude_elevation == 2) and (global_var(GVAR_PHENIX_STATUS_CULT_AARON) >= 0)) then begin
+         if (getQuest(GVAR_PHENIX_CULT_OWR_DOPUSK) == qStart) then begin
+         replyNumber := random(102,103);
+         end
+         if (global_var(GVAR_PHENIX_CULT_PREVTITUL) > 0) then begin
+         replyNumber := random(102,103);
+         end
+         if (getQuest(GVAR_BRAHMIN_QST_COMMANDER) >= qEnd) then begin
+         replyNumber := random(102,103);
+         end
+         if (item_amnt(dude_obj,PID_LETTER_CULT_FLAGSTAFF) > 0) then begin
+         replyNumber := random(102,103);
+         end
+         if (global_var(GVAR_TITUL_BOS) > 0) then begin
+         replyNumber := random(102,103);
+         end
+      end
+   end
+
+   if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
+      replyNumber := random(114,119);
+      if dude_is_female then begin
+      replyNumber := random(1114,1119);
+      end
+   end
+
+   if (replyNumber == 0) then begin
+      replyNumber := random(110,114);
+   end
+
+   floater(self_obj,replyNumber,COLOR_MSG_NORMAL);
+end

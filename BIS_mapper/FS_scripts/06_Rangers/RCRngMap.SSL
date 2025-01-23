@@ -61,7 +61,7 @@ procedure NodeQuartz107;
 //#define LVAR_Flag_A                     (6) // отвечает за ...
 
 //---------------------
-
+import variable box_stop_use;
 
 
 procedure start begin
@@ -93,6 +93,9 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) <= 0) then begin
+   set_using_stop // �������� ������� � ������� (�������, ���� �� �����)
+   end
    set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 
@@ -158,7 +161,8 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   NAnswer(201,1,NodeSndDialog)
+   NAnswer(201,4,NodeSndDialog)
+   NAnswer(202,-3,NodeSndDialog)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -180,78 +184,86 @@ procedure NodeSndDialog begin
 
    //--- вопросы
    if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
-      NAnswer(233,1,NodeAnswer106)
+      NAnswer(233,4,NodeAnswer106)
    end
-      NAnswer(220,1,NodeAnswer100)
+      NAnswer(220,4,NodeAnswer100)
    if (bitDialog(bit_2) != 0) then begin
-      NAnswer(229,1,NodeAnswer104)
+      NAnswer(229,4,NodeAnswer104)
       // added to allow viewing map as reward for survey quest - cambragol
       if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_13) == 0) or (getQuest(GVAR_RANGERS_QST_QUARTZMAP) >= qEnd) then begin
-      NAnswer(226,1,NodeAnswer103)
+      NAnswer(226,4,NodeAnswer103)
       end
    end   
 
    //--- Кварц
    if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) == qZero) then begin
       if (getQuest(GVAR_RANGERS_QST_QUARTZ) > qZero) then begin
-      NAnswer(250,1,NodeQuartz)
+      NAnswer(250,4,NodeQuartz)
+      NAnswer(276,-3,NodeQuartz)
       end
    end
    if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) == qEnd) then begin
-      NAnswer(270,1,NodeQuartz107)
+      GAnswer(270,4,NodeQuartz107)
+      GAnswer(282,-3,NodeQuartz107)
    end
 
-   NAnswer(211,1,Node999)
+   NAnswer(211,4,Node999)
+   NAnswer(281,-3,Node999)
 end
 
 //--- КВАРЦ
 
 procedure NodeQuartz begin
    Reply(251)
-   NAnswer(253,1,NodeQuartz101)
-   NAnswer(259,1,NodeQuartz103)
+   NAnswer(253,4,NodeQuartz101)
+   NAnswer(259,4,NodeQuartz103)
    if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) == qZero) then begin
-   NAnswer(261,1,NodeQuartz104)
+      NAnswer(261,4,NodeQuartz104)
+      NAnswer(278,-3,NodeQuartz104)
    end
-   NAnswer(252,1,NodeSndDialog)
-end
+      NAnswer(252,4,NodeSndDialog)
+      NAnswer(277,-3,NodeSndDialog)
+   end
 
 procedure NodeQuartz101 begin
    mark_on_map(AREA_QUARTZ)
    Reply(254)
-   NAnswer(257,3,NodeQuartz102)
-   NAnswer(255,1,NodeQuartz)
-   NAnswer(256,1,NodeSndDialog)
+   NAnswer(257,4,NodeQuartz102)
+   NAnswer(255,4,NodeQuartz)
+   NAnswer(256,4,NodeSndDialog)
 end
 
 procedure NodeQuartz102 begin
    Reply(258)
-   NAnswer(255,1,NodeQuartz)
-   NAnswer(256,1,NodeSndDialog)
+   NAnswer(255,4,NodeQuartz)
+   NAnswer(256,4,NodeSndDialog)
 end
 
 procedure NodeQuartz103 begin
    Reply(260)
-   NAnswer(255,1,NodeQuartz)
-   NAnswer(256,1,NodeSndDialog)
+   NAnswer(255,4,NodeQuartz)
+   NAnswer(256,4,NodeSndDialog)
 end
 
 procedure NodeQuartz104 begin
    Reply(262)
-   NAnswer(263,1,NodeQuartz105)
+   NAnswer(263,4,NodeQuartz105)
+   NAnswer(279,-3,NodeQuartz105)
 end
 
 procedure NodeQuartz105 begin
    Reply(264)
-   NAnswer(265,1,NodeQuartz106)
-   NAnswer(266,1,NodeQuartz)
+   NAnswer(265,4,NodeQuartz106)
+   NAnswer(266,4,NodeQuartz)
+   NAnswer(280,-3,NodeQuartz106)
 end
 
 procedure NodeQuartz106 begin
    setQuest(GVAR_RANGERS_QST_QUARTZMAP,qStart);
    Reply(267)
-   NAnswer(268,1,NodeQuartz)
-   NAnswer(269,1,Node999)
+   NAnswer(268,4,NodeQuartz)
+   NAnswer(269,4,Node999)
+   NAnswer(281,-3,Node999)
 end
 
 procedure NodeQuartz107 begin
@@ -262,28 +274,29 @@ procedure NodeQuartz107 begin
    exp_add(500);
 
    Reply(271)
-   zNAnswer(272,1,Node999)
-   NAnswer(273,1,Node999)
+   zNAnswer(272,4,Node999)
+   NAnswer(273,4,Node999)
+   NAnswer(283,-3,Node999)
 end
 
 //--- ВОПРОСЫ
 
 procedure NodeAnswer100 begin
    Reply(221)
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(222,4,NodeAnswer101)
+   NAnswer(212,4,NodeSndDialog)
 end
 
 procedure NodeAnswer101 begin
    Reply(223)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(224,4,NodeAnswer102)
+   NAnswer(212,4,NodeSndDialog)
 end
 
 procedure NodeAnswer102 begin
    bitDialogExp(bit_2,20)
    Reply(225)
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(212,4,NodeSndDialog)
 end
 
 procedure NodeAnswer103 begin
@@ -296,23 +309,23 @@ procedure NodeAnswer103 begin
    else begin
       Reply(227)
    end
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(212,4,NodeSndDialog)
 end
 
 procedure NodeAnswer104 begin
    Reply(230)
-   NAnswer(231,1,NodeAnswer105)
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(231,4,NodeAnswer105)
+   NAnswer(212,4,NodeSndDialog)
 end
 
 procedure NodeAnswer105 begin
    Reply(232)
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(212,4,NodeSndDialog)
 end
 
 procedure NodeAnswer106 begin
    Reply(234)
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(212,4,NodeSndDialog)
 end
 
 // added for intermediary point of quest. Player can't find all the survey markers - cambragol

@@ -1,0 +1,86 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_FSMinElc
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (map_var(MVAR_FLAGMINE_MAP_SOLAR) >0) then begin
+      call repair_proc;
+   end
+   else begin
+      display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(111);
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+#define RatGodObj                      tile_contains_pid_obj(elctrTile,self_elevation,PID_RAT_GOD) \
+
+#define tileRatGod(tile)               if (tile_contains_obj_pid(tile,self_elevation,PID_RAT_GOD) == true) then begin \
+                                           elctrTile := tile;                   \
+                                       end                                      \
+
+
+procedure repair_proc begin
+   variable elctrAmnt; // размер урона
+   variable elctrTile; // точка размещения крысобога
+
+   //--- Определение урона от навыка ремонта
+   elctrAmnt := random(10,20); // у крыса 68 ОЗ
+
+   //--- Определение местоположения крысиного короля
+   elctrTile := 0;
+
+   tileRatGod(18508)
+   tileRatGod(tile_num_in_direction(18508, 0, 1))
+   tileRatGod(tile_num_in_direction(18508, 1, 1))
+   tileRatGod(tile_num_in_direction(18508, 2, 1))
+   tileRatGod(tile_num_in_direction(18508, 3, 1))
+   tileRatGod(tile_num_in_direction(18508, 4, 1))
+   tileRatGod(tile_num_in_direction(18508, 5, 1))
+   tileRatGod(18907)
+   tileRatGod(18908)
+   tileRatGod(18909)
+
+   //--- Нанесение урона
+   play_sfx("ZAPPER2");
+   //display_mstr(112);
+   if (elctrTile>0) then begin
+      if (get_critter_stat(RatGodObj,STAT_current_hp)>0) then begin
+      set_map_var(MVAR_FLAGMINE_RAT_EXP, 1);
+      critter_dmg(RatGodObj, elctrAmnt, DMG_electrical);
+      end
+   end
+end

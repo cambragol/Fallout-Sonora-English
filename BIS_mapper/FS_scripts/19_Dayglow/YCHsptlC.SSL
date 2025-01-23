@@ -1,0 +1,293 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//--------------------- Госпиталь - гуль в заложниках
+
+#define NAME                            SCRIPT_YCHsptlC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      0  // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure push_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeSndDialog;
+procedure NodeSndDialog1;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable obj_critter_a; // указатель на гуля
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+       if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) == 1) then begin
+       set_obj_visibility(self_obj, 0);
+       end
+       else if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) != 0) then begin
+       destroy_object(self_obj);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       //timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) == 1) then begin
+   obj_critter_a := self_obj;
+   end
+
+   //--- Следует за ГГ
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) == 1) then begin
+      partyRunToDude
+      if dude_is_sneaking then begin
+         if (bitDialog(bit_6) == 0) then begin
+         floater(self_obj,107,COLOR_MSG_GREY);
+         bitDialogExp(bit_6,0)
+         end
+      end
+      else begin
+         if (bitDialog(bit_6) != 0) then begin
+         bitDialogZero(bit_6)
+         end
+      end
+   end
+
+   //--- Уходит с карты
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) >= 2) then begin
+      if (combat_is_initialized == false) then begin
+          if (self_tile == HomeTile) then begin
+          obj_critter_a := 0;
+          PLAY_FADE
+          set_obj_visibility(self_obj, 1);
+          destroy_object(self_obj);
+          end
+          else begin
+          move_to_tile(0,HomeTile,2)
+          end
+      end
+   end
+end
+
+procedure push_p_proc begin
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) != 1) then begin
+   script_overrides;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   obj_critter_a := 0;
+   set_global_var(GVAR_DAYGLOW_STATUS_ZERAF, -1);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) >= 2) then begin
+      if DudePerkHas(PERK_ghouling_fiziology) then begin
+      z_floater(self_obj, 210, COLOR_MSG_NORMAL);
+      end
+      else begin
+      floater(self_obj, 211, COLOR_MSG_NORMAL);
+      end
+   end
+   else if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) < 0) then begin
+      floater(self_obj, 103, COLOR_MSG_NORMAL);
+   end
+   else begin
+      setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+      fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) >= 2) then begin
+   //!!! смена дислокации или стартгекса
+   set_local_var(LVAR_Home_Tile, self_tile);
+   set_map_var(MVAR_DIEGOHSPTL_TIMER, ONE_GAME_HOUR + game_time);
+   end
+end
+
+procedure NodeStartDialog begin
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if (tile_distance(self_tile,8302) <= 20) then begin
+   call NodeSndDialog;
+   end
+   else if (tile_distance(self_tile,15126) <= 20) then begin
+   call NodeSndDialog;
+   end
+   else if (tile_distance(self_tile,23951) <= 52) then begin
+   call NodeSndDialog;
+   end
+   else if (tile_distance(self_tile,13512) <= 10) then begin
+   call NodeSndDialog;
+   end
+   else if (tile_distance(self_tile,16480) > 30) then begin
+   call NodeSndDialog;
+   end
+   else begin
+   call NodeSndDialog1;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   zReply(201)
+   end
+   else begin
+   Reply(200)
+   end
+   NAnswer(202,1,NodeFstDialog2)
+   BAnswer(203,1,NodeFstDialog3)
+   NAnswer(205,1,Node999) // NAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog2 begin
+   set_global_var(GVAR_DAYGLOW_STATUS_ZERAF, 1);
+   call Node999;
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   NAnswer(202,1,NodeFstDialog2)
+end
+
+/*
+procedure NodeFstDialog4 begin
+   set_map_var(MVAR_DIEGOHSPTL_ALARM, 2);
+   Reply(206)
+   NAnswer(207,1,Node999)
+   NAnswer(208,1,Node999)
+end
+*/
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   set_global_var(GVAR_DAYGLOW_STATUS_ZERAF, 2);
+   exp_add(500);
+   if DudePerkHas(PERK_ghouling_fiziology) then begin
+   zReply(210)
+   end
+   else begin
+   Reply(211)
+   end
+   NAnswer(212,1,NodeSndDialog2)
+end
+
+procedure NodeSndDialog1 begin
+   Reply(219)
+   if (map_var(MVAR_DIEGOHSPTL_BANDLIFE) <= 0) then begin
+   GAnswer(221,1,NodeSndDialog)
+   end
+   NAnswer(220,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(213)
+   NAnswer(214,1,NodeSndDialog3)
+   BAnswer(215,1,NodeSndDialog4)
+end
+
+procedure NodeSndDialog3 begin
+   set_REP(3)
+   call Node999;
+end
+
+procedure NodeSndDialog4 begin
+   inc_map_var(MVAR_DIEGOHSPTL_CAPS);
+   set_REP(-4)
+   Reply(216)
+   NAnswer(217,1,Node999)
+   NAnswer(218,1,Node999)
+end

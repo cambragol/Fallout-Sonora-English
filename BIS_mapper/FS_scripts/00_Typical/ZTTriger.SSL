@@ -1,0 +1,143 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ZTTriger
+
+procedure start;
+procedure map_enter_p_proc;
+procedure trigerRocks;
+procedure trigerRad;
+procedure trigerWind;
+procedure trigerWater;
+procedure trigerCarAccident;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_obj_visibility(self_obj, 1);
+       play_sfx("GUSTWIND");
+
+       if (item_amnt(self_obj,PID_TEST) == 1) then begin
+       call trigerRocks;      // обвал камней в горах
+       end
+       if (item_amnt(self_obj,PID_TEST) == 2) then begin
+       call trigerRad;        // облучение
+       end
+       if (item_amnt(self_obj,PID_TEST) == 3) then begin
+       call trigerWind;       // пылевая буря
+       end
+       if (item_amnt(self_obj,PID_TEST) == 4) then begin
+       call trigerWater;      // обезвоживание
+       end
+       if (item_amnt(self_obj,PID_TEST) == 5) then begin
+       call trigerCarAccident; // встреча с разбитым автомобилем
+       end
+
+       item_remove(self_obj,PID_TEST,999)
+       destroy_object(self_obj);
+   end
+end
+
+procedure trigerRocks begin
+   if (random(0,1) == 0) then begin
+      create_object_sid(PID_W_BROCK,tile_num_in_direction(dude_tile,random(0,5),random(1,5)),0,-1);
+      if (random(0,1) == 0) then begin
+      create_object_sid(PID_W_BROCK,tile_num_in_direction(dude_tile,random(0,5),random(1,5)),0,-1);
+      end
+   end
+
+   if dude_skill(SKILL_SCOUT,random(10,90)) then begin
+   display_mstr(101);
+   end
+   else begin
+   critter_dmg(dude_obj, random(1,10), DMG_normal_dam);
+   display_mstr(100);
+   end
+end
+
+procedure trigerRad begin
+   radiation_inc(dude_obj, random(1,10));
+   display_mstr(110);
+end
+
+procedure trigerWind begin
+   critter_dmg(dude_obj, random(1,10), DMG_normal_dam);
+   display_mstr(120);
+end
+
+procedure trigerWater begin
+   if (item_amnt(dude_obj,PID_TOOL_WATER_FLASK_VB)>0) then begin
+   display_mstr(133);
+   end
+   else if (item_amnt(dude_obj,PID_M_WATER_FLASK)>0) then begin
+   item_remove(dude_obj,PID_M_WATER_FLASK,1)
+   display_mstr(132);
+   end
+   else if dude_skill(SKILL_SCOUT,random(10,90)) then begin
+   display_mstr(131);
+   end
+   else begin
+   critter_dmg(dude_obj, random(1,10), DMG_normal_dam);
+   display_mstr(130);
+   end
+end
+
+procedure trigerCarAccident begin
+   variable objCheck;
+   objCheck := 0;
+   move_to(dude_obj, 20100, 0);
+
+   if (getQuest(GVAR_ENCOUNTER_CAR_ACCIDENT) == qZero) then begin
+       //- создание автомобиля:
+       create_object_sid(33556514,15886,0,SCRIPT_CSCar);
+       //create_object_sid(33554487,15903,0,-1);
+
+       //- создание блокираторов вокруг автомобиля:
+       create_object_sid(PID_HEX_BLOCKING,15692,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15692-2,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15692-4,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15692-8,0,-1);
+
+       create_object_sid(PID_HEX_BLOCKING,15691,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15691-2,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15691-4,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15691-6,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15691-8,0,-1);
+
+       create_object_sid(PID_HEX_BLOCKING,15891,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,15890,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16090,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16285,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16287,0,-1);
+
+       create_object_sid(PID_HEX_BLOCKING,15883,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16083,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16283,0,-1);
+
+       create_object_sid(PID_HEX_BLOCKING,16491,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16491-2,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16491-4,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16491-6,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16491-8,0,-1);
+
+       create_object_sid(PID_HEX_BLOCKING,16290,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16290-2,0,-1);
+       create_object_sid(PID_HEX_BLOCKING,16290-6,0,-1);
+
+       //- создание тел жестянщиков:
+       objCheck := create_object_sid(PID_TINNER,16884,0,-1);
+       anim(objCheck, ANIMATE_ROTATION, 1);
+       //item_add(objCheck,PID_M_STIMPAK,1)
+       kill_critter(objCheck, ANIM_big_hole_sf);
+
+       objCheck := create_object_sid(PID_TINNER,16293,0,-1);
+       anim(objCheck, ANIMATE_ROTATION, 3);
+       kill_critter(objCheck, ANIM_sliced_in_half_sf);
+
+       setQuest(GVAR_ENCOUNTER_CAR_ACCIDENT,qEnd);
+   end
+   objCheck := 0;
+   display_mstr(134);
+end

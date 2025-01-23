@@ -1,0 +1,249 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_ZTMin
+#define TRAP_ACTIV              PID_TRAP_Da
+#define TRAP_DSTR               PID_TRAP_Db
+#define TRAP_SCRIPT             SCRIPT_ZTLaser
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure spatial_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure detected_proc;
+procedure step_proc;
+procedure trap_destroy;
+procedure trap_vis;
+procedure trap_invis;
+
+variable critter_source;
+variable tile_source_var; // актуальный тайл размещения жертвы
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (difficulty_level == 2) then begin
+      call trap_invis;
+      end
+   end
+end
+
+procedure map_update_p_proc begin
+end
+
+procedure spatial_p_proc begin
+   critter_source := source_obj;
+   tile_source_var := 0;
+
+   //--- Обнаружение криттера:
+   if (source_obj == dude_obj) then begin
+      if (trapObj(TRAP_ACTIV) or trapObj(TRAP_DSTR)) then begin
+      end
+      else if ((map_var(MVAR_PnxVlt_OwrTrap) == 0) and (cur_map_index == MAP_PHOENIX_VAULT)) then begin
+      end
+      else if ((map_var(MVAR_TWOSUN_ZAX_TRAP) > 0) and (cur_map_index == MAP_TWO_SUN_ZAX)) then begin
+      end
+      else begin
+      call detected_proc;
+      end
+   end
+
+   //--- Просчет местоположения жертвы относительно ловушки:
+   if (source_tile == self_tile) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (self_tile+2)) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (self_tile+4)) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (self_tile+6)) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (self_tile+8)) then begin
+      tile_source_var := source_tile;
+   end
+
+   if (source_tile == tile_num_in_direction(self_tile, 4, 1)) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (tile_num_in_direction(self_tile, 4, 1)+2)) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (tile_num_in_direction(self_tile, 4, 1)+4)) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (tile_num_in_direction(self_tile, 4, 1)+6)) then begin
+      tile_source_var := source_tile;
+   end
+   if (source_tile == (tile_num_in_direction(self_tile, 4, 1)+8)) then begin
+      tile_source_var := source_tile;
+   end
+
+   if ((map_var(MVAR_PnxVlt_OwrTrap) == 0) and (cur_map_index == MAP_PHOENIX_VAULT)) then begin
+      tile_source_var := 0;
+   end
+   if ((map_var(MVAR_TWOSUN_ZAX_TRAP) > 0) and (cur_map_index == MAP_TWO_SUN_ZAX)) then begin
+      tile_source_var := 0;
+   end
+
+   //--- Прохождение криттера по ловушке:
+   if (tile_source_var >0) then begin
+      if trapObj(TRAP_DSTR) then begin
+      end
+      else begin
+         if ((critter_source == dude_obj) and DudePerkHas(PERK_light_step)) then begin
+            display_mstr(113);
+         end
+         else begin
+            call step_proc;
+         end
+      end
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   display_mstr(120);
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+
+      if (has_skill(dude_obj, SKILL_TRAPS) >= 80) then begin
+      exp_add(100);
+      dude_floater_OK;
+      display_mstr(116);
+      call trap_destroy;
+      end
+      else begin
+      skill_display_mstr(115,SKILL_TRAPS,80)
+      end
+   end
+
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+
+      if (has_skill(dude_obj, SKILL_REPAIR) >= 100) then begin
+      exp_add(100);
+      dude_floater_OK;
+      display_mstr(121);
+      call trap_destroy;
+      end
+      else begin
+      skill_display_mstr(122,SKILL_REPAIR,100)
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      call trap_destroy;
+   end
+end
+
+procedure detected_proc begin
+   variable detected_var;
+
+   //--- Просчет вероятности
+   detected_var := (dude_perception*5);
+   detected_var += (has_skill(dude_obj, SKILL_TRAPS)/2);
+   if (global_var(GVAR_LIGHT_MAP_GLOBAL) <= 20) then begin
+   detected_var -= 20;
+   end
+   else if (global_var(GVAR_LIGHT_MAP_GLOBAL) <= 50) then begin
+   detected_var -= 10;
+   end
+   if dude_is_sneaking then begin
+   detected_var += 20;
+   end
+   if DudePerkHas(PERK_light_step) then begin
+   detected_var += 100;
+   end
+
+   //--- Обнаружение ловушки
+   if (random(0,100) <= detected_var) then begin
+      call trap_vis;
+      floater(critter_source,110,COLOR_MSG_RED);
+      display_mstr(111);
+      reg_anim_clear(critter_source);
+   end
+end
+
+procedure step_proc begin
+   variable trapDamParam;
+   trapDamParam := 30;
+   if (combat_difficulty == 1) then begin
+   trapDamParam += 10;
+   end
+   if (combat_difficulty == 2) then begin
+   trapDamParam += 20;
+   end
+   if (inven_armor(critter_source) > 0) then begin
+      if (obj_pid(inven_armor(critter_source)) == PID_ARMOR_POWER_A) then begin
+      trapDamParam -= 25;
+      end
+      if (obj_pid(inven_armor(critter_source)) == PID_ARMOR_POWER_B) then begin
+      trapDamParam -= 35;
+      end
+      if (obj_pid(inven_armor(critter_source)) == PID_ARMOR_POWER_C) then begin
+      trapDamParam -= 35;
+      end
+   end
+
+   //--- Обновление ловушки
+   call trap_vis;
+   play_sfx("WAC1XXX1");
+
+   //--- Травмирование
+   create_object_sid(PID_HEX_BLOCKING, dude_tile+200, dude_elevation, -1);
+   critter_dmg(critter_source, random(10,20), DMG_laser);
+   destroy_object(tile_contains_pid_obj(dude_tile+200, dude_elevation, PID_HEX_BLOCKING));
+
+   if (random(0,100) <= trapDamParam) then begin
+       if (get_critter_stat(critter_source,STAT_current_hp) <=0) then begin
+       end
+       else if (critter_source == dude_obj) then begin
+          dam_to_dude_BLIND
+       end
+       else begin
+          critter_injure(critter_source, DAM_BLIND);
+       end
+   end
+
+   //--- Отчет
+   display_msg(obj_name(critter_source)+mstr(112));
+   //destroy_object(self_obj);
+end
+
+procedure trap_destroy begin
+   create_object_sid(TRAP_DSTR,self_tile,self_elevation,-1);
+   call trap_invis;
+   //destroy_object(self_obj);
+end
+
+procedure trap_vis begin
+   if (trapObj(TRAP_ACTIV) or trapObj(TRAP_DSTR)) then begin
+   end
+   else begin
+   create_object_sid(TRAP_ACTIV,self_tile,self_elevation,TRAP_SCRIPT);
+   end
+end
+
+procedure trap_invis begin
+   if trapObj(TRAP_ACTIV) then begin
+   destroy_object(tile_contains_pid_obj(self_tile, self_elevation, TRAP_ACTIV));
+   end
+end

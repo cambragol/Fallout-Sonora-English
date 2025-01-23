@@ -1,0 +1,41 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_AFDetals
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,110)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepair
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      RepairProcUsing(110,110)
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   create_object_sid(PID_TOOL_PARTS_ELECTRONIC, dude_tile, dude_elevation, -1);
+   RepairProcRepair(112,0,"FIXSTILL")
+end

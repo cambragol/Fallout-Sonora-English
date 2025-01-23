@@ -1,0 +1,282 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+//---------------------
+
+#define NAME                            SCRIPT_YCCrvRun
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
+
+#define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_NEITRAL    // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_BAD          // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      50 // Нижний порог для навыка кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - отказывается
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - отказывается
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog4_1;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
+procedure NodeFstDialog8;
+procedure NodeFstDialog9;
+procedure NodeFstDialog10;
+procedure NodeFstDialog10_1;
+procedure NodeFstDialog11;
+procedure NodeFstDialog12;
+procedure NodeFstDialog13;
+procedure NodeSndDialog;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (8) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_obj_visibility(self_obj, 1);
+   end
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_DIEGO_C_CARREGULATOR) == 3) then begin
+       set_obj_visibility(self_obj, 0);
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_random_home(3)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(0,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,2,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectRegeratHP
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   if (map_var(MVAR_DIEGO_C_CARREGULATOR) < 4) then begin
+   set_map_var(MVAR_DIEGO_C_CARREGULATOR, 4);
+   end
+end
+
+procedure talk_p_proc begin
+   if (self_elevation == 0) then begin
+   floater(self_obj,103,COLOR_MSG_NORMAL);
+   end
+   else if ((map_var(MVAR_DIEGO_C_CARREGULATOR) == 3) and (item_amnt(self_obj,PID_Q_DAYGLOW_CARAVAN_4) > 0)) then begin
+   setReaction(-1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj,102,COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   setNodeCombat;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeFstDialog2)
+   BAnswer(214,1,NodeFstDialog7)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   Reply(204)
+   zNAnswer(205,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   PLAY_FADE
+   Reply(206)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 1000) then begin
+   NAnswer(229,1,NodeFstDialog6)
+   end
+   NAnswer(207,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog4_1 begin
+   Reply(230)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 1000) then begin
+   NAnswer(229,1,NodeFstDialog6)
+   end
+   NAnswer(207,1,NodeFstDialog5)
+end
+
+procedure NodeFstDialog5 begin
+   Reply(208)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 1000) then begin
+   NAnswer(210,1,NodeFstDialog6)
+   end
+   NAnswer(209,1,Node999)
+end
+
+procedure NodeFstDialog6 begin
+   PLAY_FADE
+   item_add(self_obj,PID_BOOTLE_CAPS,1000)
+   item_remove(dude_obj,PID_BOOTLE_CAPS,1000)
+   call NodeFstDialog13;
+end
+
+procedure NodeFstDialog7 begin
+   Reply(215)
+   BAnswer(216,1,NodeFstDialog8)
+   NAnswer(203,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog8 begin
+   set_REP(-1)
+   setBonusReaction(-35)
+   Reply(217)
+   NAnswer(219,1,NodeFstDialog3)
+   BAnswer(218,1,NodeFstDialog9)
+end
+
+procedure NodeFstDialog9 begin
+   bitDialogExp(bit_2,0)
+   set_REP(-1)
+   setBonusReaction(-50)
+   Reply(220)
+   NAnswer(221,1,NodeFstDialog10)
+end
+
+procedure NodeFstDialog10 begin
+   Reply(222)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 800) then begin
+   NAnswer(228,1,NodeFstDialog12)
+   end
+   NAnswer(223,1,NodeFstDialog11)
+end
+
+procedure NodeFstDialog10_1 begin
+   Reply(231)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 800) then begin
+   NAnswer(228,1,NodeFstDialog12)
+   end
+   NAnswer(223,1,NodeFstDialog11)
+end
+
+procedure NodeFstDialog11 begin
+   Reply(224)
+   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 800) then begin
+   NAnswer(226,1,NodeFstDialog12)
+   end
+   BAnswer(227,1,Node998)
+   NAnswer(225,1,Node999)
+end
+
+procedure NodeFstDialog12 begin
+   item_add(self_obj,PID_BOOTLE_CAPS,800)
+   item_remove(dude_obj,PID_BOOTLE_CAPS,800)
+   call NodeFstDialog13;
+end
+
+procedure NodeFstDialog13 begin
+   item_add(dude_obj,PID_Q_DAYGLOW_CARAVAN_4,1)
+   item_remove(self_obj,PID_Q_DAYGLOW_CARAVAN_4,1)
+   set_map_var(MVAR_DIEGO_C_CARREGULATOR, 4);
+   Reply(211)
+   BAnswer(213,1,Node998)
+   NAnswer(212,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (bitDialog(bit_2) == 0) then begin
+   call NodeFstDialog4_1;
+   end
+   else begin
+   call NodeFstDialog10_1;
+   end
+end

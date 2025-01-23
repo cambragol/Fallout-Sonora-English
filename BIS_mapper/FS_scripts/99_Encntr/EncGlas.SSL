@@ -1,0 +1,39 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                    SCRIPT_EncGlas
+#define SKILL_LIMIT                     5
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepairB
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure repair_proc begin
+   RepairProcRepair(112,25,"FIXSTILL")
+   set_obj_visibility(self_obj, 1);
+   create_object_sid(PID_Q_GLASS_BIBL,self_tile,0,-1);
+   destroy_object(self_obj);
+end

@@ -1,0 +1,88 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_PVSBomb
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure activ_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   floater(dude_obj,114,COLOR_MSG_RED);
+   if (local_var(LVAR_Status) == 0) then begin
+   display_mstr(110);
+   end
+   else begin
+   display_mstr(111);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(120);
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(124);
+   end
+   else if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+      display_mstr(121);
+      end
+      else begin
+      call activ_proc;
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_NUKE_BOMB_DETONATOR) then begin
+   script_overrides;
+   display_mstr(112);
+   display_mstr(113);
+   dude_floater_OK;
+   play_sfx("WOR1XXX1");
+   item_remove(dude_obj, objUsedPid, 1)
+   set_local_var(LVAR_Status,1);
+   end
+end
+
+procedure activ_proc begin
+   if (global_var(GVAR_GAME_END) != 0) then begin
+      floater(dude_obj,115,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_PHENIX_CULT_DESTROY_TIMER) == 0) then begin
+       display_mstr(122);
+       if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PHOENIX_PLAZA) then begin
+       set_global_var(GVAR_CAR_MAP_INDEX,MAP_PHOENIX_SIGN);
+       end
+       if (getQuest(GVAR_PHENIX_CULT_DESTROY) == qZero) then begin
+       setQuest(GVAR_PHENIX_CULT_DESTROY,qStart);
+       end
+       set_global_var(GVAR_PHENIX_CULT_DESTROY_TIMER, (ONE_GAME_MINUTE*5) + game_time);
+       display_msg(mstr(505)+((global_var(GVAR_PHENIX_CULT_DESTROY_TIMER)-game_time)/ONE_GAME_SECOND)+mstr(506));
+   end
+   else begin
+       display_mstr(125);
+       /*
+       display_mstr(123);
+       if (getQuest(GVAR_PHENIX_CULT_DESTROY) == qStart) then begin
+       setQuest(GVAR_PHENIX_CULT_DESTROY,qZero);
+       end
+       set_global_var(GVAR_PHENIX_CULT_DESTROY_TIMER,0);
+       */
+   end
+end

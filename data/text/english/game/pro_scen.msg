@@ -97,7 +97,7 @@
 {4900}{}{*Exit cell}
 {4901}{}{A marker for the transition grids between locations. Displayed in Pip-Boy.}
 {5000}{}{Junk}
-{5001}{}{A car tire, buried in the sand. Some small pieces of wood are piled up around it}
+{5001}{}{A car tire, buried in the sand. Some small pieces of wood are piled up around it.}
 {5100}{}{Junk}
 {5101}{}{A small pile of random junk.}
 {5200}{}{Junk}
@@ -553,7 +553,7 @@
 {27700}{}{Cave}
 {27701}{}{It's damp and cold inside.}
 {27800}{}{Cave In}
-{27801}{}{A large amount of rock, far more than could ever be moved easily.}
+{27801}{}{A huge pile of rocks, far more than could ever be moved easily.}
 {27900}{}{Mountain}
 {27901}{}{These mountain walls look very inaccessible.}
 {28000}{}{Mountain}
@@ -577,7 +577,7 @@
 {28900}{}{Rocks}
 {28901}{}{A big pile of rocks. Probably formed after the cave in.}
 {29000}{}{Cave In}
-{29001}{}{A large amount of rock, far more than could ever be moved easily.}
+{29001}{}{A huge pile of rocks, far more than could ever be moved easily.}
 {29100}{}{Stalagmite}
 {29101}{}{A natural extension of the rock floor.}
 {29200}{}{Stalagmite}
@@ -752,11 +752,11 @@
 {39400}{}{Wheelbarrow}
 {39401}{}{A rougly made, but functional wheelbarrow.}
 {39500}{}{Rake}
-{39501}{}{This rake is the property of it's owners. You've used one like it many times before.}
+{39501}{}{This rake is the property of its owners. You've used one like it many times before.}
 {39600}{}{Rake}
-{39601}{}{This rake is the property of it's owners. You've used one like it many times before.}
+{39601}{}{This rake is the property of its owners. You've used one like it many times before.}
 {39700}{}{Rake}
-{39701}{}{This rake is the property of it's owners. You've used one like it many times before.}
+{39701}{}{This rake is the property of its owners. You've used one like it many times before.}
 {39800}{}{Gate}
 {39801}{}{This gate has a bar that raises and lowers.}
 {39900}{}{Gate}
@@ -1243,13 +1243,13 @@
 {65600}{}{Chair}
 {65601}{}{This chair is ruined.}
 {65700}{}{Chair}
-{65701}{}{This chair looks like it has seen better years}
+{65701}{}{This chair looks like it has seen better years.}
 {65800}{}{Chair}
-{65801}{}{This chair looks like it has seen better years}
+{65801}{}{This chair looks like it has seen better years.}
 {65900}{}{Chair}
-{65901}{}{This chair looks like it has seen better years}
+{65901}{}{This chair looks like it has seen better years.}
 {66000}{}{Chair}
-{66001}{}{This chair looks like it has seen better years}
+{66001}{}{This chair looks like it has seen better years.}
 {66100}{}{Chair}
 {66101}{}{This chair is falling apart. Quickly.}
 {66200}{}{Chair}
@@ -1347,9 +1347,9 @@
 {70800}{}{Surveillance Monitors}
 {70801}{}{Video monitor system. For some reason it doesn't work.}
 {70900}{}{Surveillance Monitors}
-{70901}{}{Video monitor system. All these monitors are smashed to pieces.}
+{70901}{}{Video monitor system. All these monitors were smashed to pieces.}
 {71000}{}{Surveillance Monitors}
-{71001}{}{Video monitor system. All these monitors are smashed to pieces.}
+{71001}{}{Video monitor system. All these monitors were smashed to pieces.}
 {71100}{}{Holo Generator}
 {71101}{}{A large-scale THT entertainment tape player. No new movies have been made in 90 years.}
 {71200}{}{Holo Generator}
@@ -1524,12 +1524,12 @@
 {79901}{}{This spiral staircase leads to the floor above.}
 {80000}{}{Stairs}
 {80001}{}{This spiral staircase leads to the floor below.}
-{80100}{}{Stairs}
-{80101}{}{This staircase leads down into the darkness.}
-{80200}{}{Stairs}
-{80201}{}{This staircase leads down into the darkness.}
-{80300}{}{Stairs}
-{80301}{}{This staircase leads down into the darkness.}
+{80100}{}{Ladder}
+{80101}{}{This ladder leads down into the darkness.}
+{80200}{}{Ladder}
+{80201}{}{This ladder leads down into the darkness.}
+{80300}{}{Ladder} #is this mislabelled, or is an object mislabelled?
+{80301}{}{This ladder leads down into the darkness.}
 {80400}{}{Manhole}
 {80401}{}{For some reason, this manhole does not have a ladder. It will not be possible to go down without a rope.}
 {80500}{}{Manhole}
@@ -1547,7 +1547,7 @@
 {81100}{}{Hole}
 {81101}{}{The ground caved in here, resulting in a descent to the lower level.}
 {81200}{}{Stop Sign}
-{81201}{}{A red sign with the word STOP written in large block letters. You have no idea what its for.}
+{81201}{}{A red sign with the word STOP written in large block letters. You have no idea what it's for.}
 {81300}{}{Stop Sign}
 {81301}{}{A red sign with the word STOP written in large block letters. The large bullet hole was added after manufacturing.}
 {81400}{}{Yield Sign}
@@ -1583,7 +1583,7 @@
 {82900}{}{Street Light}
 {82901}{}{Street light in the old style. This particular lantern is broken.}
 {83000}{}{Street Light}
-{83001}{}{This street light provides illumination after night falls, or in darkened areas}
+{83001}{}{This street light provides illumination after night falls, or in darkened areas.}
 {83100}{}{Street Light}
 {83101}{}{This street light provides illumination after night falls, or in darkened areas.}
 {83200}{}{Street Light}
@@ -1649,7 +1649,7 @@
 {86200}{}{Trash}
 {86201}{}{Some broken pieces of glass and other ruined pieces of junk.}
 {86300}{}{Trash}
-{86301}{}{A pipe that has been snapped in half. It looks like it rusted until it collapsed under it's own weight.}
+{86301}{}{A pipe that has been snapped in half. It looks like it rusted until it collapsed under its own weight.}
 {86400}{}{Tire}
 {86401}{}{An old rubber tire, collapsing under its own weight.}
 {86500}{}{Tires}
@@ -1718,9 +1718,9 @@
 {89800}{}{Door}
 {89801}{}{A finely constructed wooden door, reinforced with ornate metal braces of a decidedly rural design.}
 {89900}{}{Bars}
-{89901}{}{This powerful grille looks like it's quite firmly in place.}
+{89901}{}{This sturdy grille is quite firmly fixed in place.}
 {90000}{}{Bars}
-{90001}{}{This powerful grille looks like it's quite firmly in place.}
+{90001}{}{This sturdy grille is quite firmly fixed in place.}
 {90100}{}{Armored Door}
 {90101}{}{A very strong door. It will resist even an explosion.}
 {90200}{}{Gate}
@@ -1740,19 +1740,19 @@
 {90900}{}{Door}
 {90901}{}{A wooden door, in fair shape.}
 {91000}{}{Wall Lamp}
-{91001}{}{This lamp looks it is in good working condition.}
+{91001}{}{This lamp seems to be in good working condition.}
 {91100}{}{Wall Lamp}
 {91101}{}{A broken lamp. It is not surprising that it does not work.}
 {91200}{}{Wall Lamp}
-{91201}{}{This lamp looks it is in good working condition.}
+{91201}{}{This lamp seems to be in good working condition.}
 {91300}{}{Wall Lamp}
 {91301}{}{A broken lamp. It is not surprising that it does not work.}
 {91400}{}{Wall Lamp}
-{91401}{}{This lamp looks it is in good working condition.}
+{91401}{}{This lamp seems to be in good working condition.}
 {91500}{}{Wall Lamp}
 {91501}{}{A broken lamp. It is not surprising that it does not work.}
 {91600}{}{Wall Lamp}
-{91601}{}{This lamp looks it is in good working condition.}
+{91601}{}{This lamp seems to be in good working condition.}
 {91700}{}{Wall Lamp}
 {91701}{}{A broken lamp. It is not surprising that it does not work.}
 {91800}{}{Old Mattress}
@@ -1786,7 +1786,7 @@
 {93200}{}{Junk}
 {93201}{}{Some junk that you think might have been a bed matters before it was destroyed by the environment.}
 {93300}{}{Junk}
-{93301}{}{A pile of rotted and weathered wood. Not worth it's weight in, well, anything.}
+{93301}{}{A pile of rotted and weathered wood. Not worth its weight in, well, anything.}
 {93400}{}{Junk}
 {93401}{}{A pile of wood, with some rusty useless nails imbedded deeply.}
 {93500}{}{Boxes}
@@ -1964,11 +1964,11 @@
 {102100}{}{Door}
 {102101}{}{This large metal roll-door has been jammed shut from the inside.}
 {102200}{}{Door}
-{102201}{}{This door looks suspiciously like a...door.}
+{102201}{}{This door looks suspiciously like a... door.}
 {102300}{}{Door}
-{102301}{}{This door looks suspiciously like a...door.}
+{102301}{}{This door looks suspiciously like a... door.}
 {102400}{}{Door}
-{102401}{}{This door looks suspiciously like a...door.}
+{102401}{}{This door looks suspiciously like a... door.}
 {102500}{}{Shelves}
 {102501}{}{You see metal shelves.}
 {102600}{}{Shelves}
@@ -2034,7 +2034,7 @@
 {105600}{}{Pallets}
 {105601}{}{Old wooden pallets that crumble when touched.}
 {105700}{}{Box on a Pallet}
-{105701}{}{An old wooden pallet with a metal box. Inside the box is what appears to be...junk.}
+{105701}{}{An old wooden pallet with a metal box. Inside the box is what appears to be... junk.}
 {105800}{}{Machine}
 {105801}{}{This is some kind of manufacturing machine. What it made is anyone's guess.}
 {105900}{}{Machine}
@@ -2249,8 +2249,8 @@
 {116301}{}{A strange tree infected with a parasite.}
 {116400}{}{Ladder}
 {116401}{}{An ordinary wooden ladder. It's a little covered with mold, due to the dampness.}
-{116500}{}{Broken Staircase}
-{116501}{}{These wooden stairs are completely worn out. It is impossible to climb up it.}
+{116500}{}{Broken Ladder}
+{116501}{}{This wooden ladder is completely worn out. It is impossible to climb up it.}
 {116600}{}{Staircase}
 {116601}{}{This staircase leads to the town hall, but it is currently destroyed and covered in rubble. You won't be able to use them.}
 {116700}{}{Staircase}
@@ -2362,7 +2362,7 @@
 {122000}{}{Noose}
 {122001}{}{A harsh reckoning for anyone who dares defy the law.}
 {122100}{}{Book Collection}
-{122101}{}{A small cache of pre-war books, holding lost secrets of the old world.}
+{122101}{}{A small cache of pre-war books, holding lost secrets of the Old World.}
 {122200}{}{Distributor}
 {122201}{}{A power hub, long dormant. A single bare wire stretches out.}
 {122300}{}{Ventilation}
@@ -2380,9 +2380,9 @@
 {122900}{}{Table}
 {122901}{}{A homemade table made of planks on bricks.}
 {123000}{}{Butchering Table}
-{123001}{}{Jackals prepare...meat, on this table.}
+{123001}{}{Jackals prepare... meat, on this table.}
 {123100}{}{Butchering Table}
-{123101}{}{Jackals prepare...meat, on this table.}
+{123101}{}{Jackals prepare... meat, on this table.}
 {123200}{}{Totem}
 {123201}{}{The totem of Jackals, collected from improvised materials. Among them are human remains.}
 {123300}{}{Hearth}
@@ -2740,9 +2740,9 @@
 {140900}{}{Shelf}
 {140901}{}{A piece of furniture made specifically for storing valuables.}
 {141000}{}{Bank Lockers}
-{141001}{}{Metal shelvess for storing checks and banknotes. Now they're filled with dust and debris.}
+{141001}{}{Metal shelves for storing checks and banknotes. Now they're filled with dust and debris.}
 {141100}{}{Bank Lockers}
-{141101}{}{Metal shelvess for storing checks and banknotes. Now they're filled with dust and debris.}
+{141101}{}{Metal shelves for storing checks and banknotes. Now they're filled with dust and debris.}
 {141200}{}{Controller}
 {141201}{}{Unique equipment for a power plant.}
 {141300}{}{Water Tank}
@@ -2900,7 +2900,7 @@
 {149400}{}{Antenna}
 {149401}{}{This massive support holds some equipment above the ground.}
 {149500}{}{Pier}
-{149501}{}{A rotted wooden pier.}
+{149501}{}{An old, decaying wooden pier.}
 {149600}{}{Ferry Mechanism}
 {149601}{}{This mechanism activates the ferry's movement system. It requires a lever to turn.}
 {149700}{}{Cable Ferry}
@@ -2913,7 +2913,7 @@
 {150100}{}{Dam Wall}
 {150200}{}{Dam Wall}
 {150300}{}{Survey Marker}
-{150301}{}{An makeshift structure. It indicates a good place to survey the area from.}
+{150301}{}{A makeshift structure. It indicates a good place to survey the area from.}
 {150400}{}{Rundown Wall}
 {150401}{}{This wall has seen better days. It looks like it could collapse with a few blows of a hammer.}
 {150500}{}{Rundown Wall}
@@ -3382,7 +3382,7 @@
 {175200}{}{Jukebox}
 {175201}{}{Seems like this jukebox was operational not long ago.}
 {175300}{}{Stolen Cargo}
-{175301}{}{Raiders snatched this crate from the caravaneers.}
+{175301}{}{Raiders snatched this crate from the caravanners.}
 {175400}{}{Criminal's Head}
 {175401}{}{A criminal's head on a pole, with a description below vividly showcasing the local authority's power. Not a word is said about you.}
 {175500}{}{Signboard}
@@ -3940,9 +3940,9 @@
 {205300}{}{Old Lighthouse}
 {205301}{}{This ancient structure is called a lighthouse. Rumor has it that it once shone a light for sailors, but that's not certain.}
 {205400}{}{Spirit of St. Joseph}
-{205401}{}{Personal two-seater plane of Father Fred Stadtmaller.}
+{205401}{}{Personal two-seater plane of Father Fred Stadtmuller.}
 {205500}{}{Spirit of St. Joseph}
-{205501}{}{Personal two-seater plane of Father Fred Stadtmaller.}
+{205501}{}{Personal two-seater plane of Father Fred Stadtmuller.}
 {205600}{}{Trailer Home}
 {205601}{}{Someone's dilapidated dwelling.}
 {205700}{}{Trailer Home}
@@ -3997,9 +3997,9 @@
 {208101}{}{The wall of a buried building.}
 {208200}{}{Jet Car}
 {208201}{}{A jet-powered car. It's not working.}
-{208300}{}{Noose and Victum}
+{208300}{}{Noose and Victim}
 {208301}{}{A brutal punishment befell this criminal.}
-{208400}{}{Noose and Victum}
+{208400}{}{Noose and Victim}
 {208401}{}{A brutal punishment befell this criminal.}
 {208500}{}{Shadow}
 {208501}{}{The shadow of a radio tower.}

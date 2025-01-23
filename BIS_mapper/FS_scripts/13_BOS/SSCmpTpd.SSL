@@ -1,0 +1,566 @@
+#include "..\headers\define.h"
+#include "..\headers\COMPUTER.h"
+#define NAME                            SCRIPT_SSCmpTpd
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure sience_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeDialog;
+procedure NodeDialog2;
+procedure NodeDialog100;
+procedure NodeDialog101;
+procedure NodeDialog102;
+procedure NodeDialog103;
+procedure NodeDialog205;
+procedure NodeDialog200;
+procedure NodeDialog201;
+procedure NodeDialog202;
+procedure NodeDialog203;
+procedure NodeDialog204;
+procedure NodeDialog300;
+procedure NodeDialog301;
+procedure NodeDialog302;
+procedure NodeDialog303;
+procedure NodeDialog304;
+procedure NodeDialog400;
+procedure NodeDialog401;
+procedure NodeDialog402;
+procedure NodeDialog403;
+procedure NodeDialog404;
+procedure NodeDialog405;
+procedure NodeDialog406;
+procedure NodeDialog500;
+procedure NodeDialog501;
+procedure NodeDialog502;
+procedure NodeDialog503;
+procedure NodeDialog504;
+procedure NodeDialog505;
+procedure NodeDialog506;
+procedure NodeDialog507;
+procedure NodeDialog600;
+procedure NodeDialog601;
+procedure NodeDialog602;
+procedure NodeDialog700;
+procedure NodeDialog701;
+procedure NodeDialog702;
+procedure NodeDialog800;
+procedure NodeDialog801;
+procedure NodeDialog802;
+procedure NodeDialog803;
+procedure NodeDialog900;
+procedure NodeDialog901;
+procedure NodeDialog902;
+
+variable paramVisirA;
+variable paramVisirB;
+variable paramDistan;
+variable paramMode;
+variable paramModeGrad;
+variable paramSpeed;
+variable paramDeep;
+variable paramType;
+variable paramTimer;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if (dude_iq > 3) then begin
+   CompProcUsing
+   end
+   else begin
+   call talk_p_proc;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   CompVarCheck(120)
+   CompSkillScience
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else CompUsedLockpic
+   else CompUsedKey(PID_KEY_TORPED,1)
+end
+
+procedure sience_proc begin
+   CompProcSience(250)
+end
+
+procedure talk_p_proc begin
+   if (global_var(GVAR_GAME_END) != 0) then begin
+   floater(dude_obj,111,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) == 0) then begin
+   dialog_proc_obj(NodeStartDialog)
+   end
+   else begin
+   display_mstr(110);
+   end
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (dude_iq > 3) then begin
+   call NodeDialog;
+   end
+   else begin
+   call NodeDialog2;
+   end
+end
+
+//---
+
+procedure NodeDialog begin
+   Reply(200)
+   NAnswer(210,1,NodeDialog100)
+   if (paramTimer >= 10) then begin
+   if (paramType == 285) then begin
+   NAnswer(300,1,NodeDialog102) // Взрыв!
+   end
+   end
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog2 begin
+   Reply(200)
+   NAnswer(307,1,NodeDialog103)
+   NAnswer(201,1,Node999)
+end
+
+procedure NodeDialog100 begin
+   Reply(211)
+
+   NAnswer(228,1,NodeDialog205)
+   NAnswer(230,1,NodeDialog400)
+   NAnswer(240,1,NodeDialog500)
+   NAnswer(260,1,NodeDialog600)
+   NAnswer(270,1,NodeDialog700)
+   NAnswer(280,1,NodeDialog800)
+
+   NAnswer(212,1,NodeDialog101)
+   NAnswer(205,1,NodeDialog)
+   //NAnswer(213,1,Node999)
+end
+
+procedure NodeDialog101 begin
+   paramVisirA := 0;
+   paramVisirB := 0;
+   paramDistan := 0;
+   paramMode := 0;
+   paramModeGrad := 0;
+   paramSpeed := 0;
+   paramDeep := 0;
+   paramType := 0;
+   paramTimer := 0;
+   Reply(214)
+   NAnswer(206,1,NodeDialog)
+end
+
+procedure NodeDialog102 begin
+   Reply(301)
+   NAnswer(302,1,NodeDialog103)
+   NAnswer(303,1,Node999)
+end
+
+procedure NodeDialog103 begin
+   if (paramTimer < 10) then begin
+   paramTimer := (random(1,5)*60);
+   end
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) == qZero) then begin
+   setQuest(GVAR_PUERTO_BOS_DESTROY,qStart);
+   end
+   set_global_var(GVAR_PUERTO_BOS_DESTROY_TIMER, (ONE_GAME_SECOND*paramTimer) + game_time);
+   BarklyAttakDude
+
+   Reply(mstr(304)+paramTimer+mstr(305))
+   if (dude_iq > 3) then begin
+   NAnswer(306,1,Node999)
+   end
+   else begin
+   NAnswer(308,1,Node999)
+   end
+end
+
+//---
+
+procedure NodeDialog205 begin
+   Reply(211)
+   NAnswer(220,1,NodeDialog200)
+   NAnswer(221,1,NodeDialog300)
+   NAnswer(204,1,NodeDialog100)
+end
+
+procedure NodeDialog200 begin
+   if (paramVisirA >= 90) then begin
+      paramVisirA -= 90;
+   end
+   if (paramVisirA < 0) then begin
+      paramVisirA += 90;
+   end
+   Reply(mstr(222)+paramVisirA+mstr(223))
+   NAnswer(224,1,NodeDialog201)
+   NAnswer(225,1,NodeDialog202)
+   NAnswer(226,1,NodeDialog203)
+   NAnswer(227,1,NodeDialog204)
+   NAnswer(202,1,NodeDialog205)
+end
+
+procedure NodeDialog201 begin
+   paramVisirA += 10;
+   call NodeDialog200;
+end
+
+procedure NodeDialog202 begin
+   paramVisirA += 1;
+   call NodeDialog200;
+end
+
+procedure NodeDialog203 begin
+   paramVisirA -= 1;
+   call NodeDialog200;
+end
+
+procedure NodeDialog204 begin
+   paramVisirA -= 10;
+   call NodeDialog200;
+end
+
+//---
+
+procedure NodeDialog300 begin
+   if (paramVisirB >= 90) then begin
+      paramVisirB -= 90;
+   end
+   if (paramVisirB < 0) then begin
+      paramVisirB += 90;
+   end
+   Reply(mstr(222)+paramVisirB+mstr(223))
+   NAnswer(224,1,NodeDialog301)
+   NAnswer(225,1,NodeDialog302)
+   NAnswer(226,1,NodeDialog303)
+   NAnswer(227,1,NodeDialog304)
+   NAnswer(202,1,NodeDialog205)
+end
+
+procedure NodeDialog301 begin
+   paramVisirB += 10;
+   call NodeDialog300;
+end
+
+procedure NodeDialog302 begin
+   paramVisirB += 1;
+   call NodeDialog300;
+end
+
+procedure NodeDialog303 begin
+   paramVisirB -= 1;
+   call NodeDialog300;
+end
+
+procedure NodeDialog304 begin
+   paramVisirB -= 10;
+   call NodeDialog300;
+end
+
+//---
+
+procedure NodeDialog400 begin
+   if (paramDistan >= 1000) then begin
+      paramDistan := 1000;
+   end
+   if (paramDistan < 0) then begin
+      paramDistan := 0;
+   end
+   Reply(mstr(231)+paramDistan+mstr(232))
+   NAnswer(233,1,NodeDialog401)
+   NAnswer(234,1,NodeDialog402)
+   NAnswer(235,1,NodeDialog403)
+   NAnswer(236,1,NodeDialog404)
+   NAnswer(237,1,NodeDialog405)
+   NAnswer(238,1,NodeDialog406)
+   NAnswer(204,1,NodeDialog100)
+end
+
+procedure NodeDialog401 begin
+   paramDistan += 100;
+   call NodeDialog400;
+end
+
+procedure NodeDialog402 begin
+   paramDistan += 10;
+   call NodeDialog400;
+end
+
+procedure NodeDialog403 begin
+   paramDistan += 1;
+   call NodeDialog400;
+end
+
+procedure NodeDialog404 begin
+   paramDistan -= 1;
+   call NodeDialog400;
+end
+
+procedure NodeDialog405 begin
+   paramDistan -= 10;
+   call NodeDialog400;
+end
+
+procedure NodeDialog406 begin
+   paramDistan -= 100;
+   call NodeDialog400;
+end
+
+//---
+
+procedure NodeDialog500 begin
+   if (paramMode < 243) then begin
+   paramMode := 243;
+   end
+   if (paramModeGrad < 248) then begin
+   paramModeGrad := 248;
+   end
+   if (paramMode > 243) then begin
+   Reply(mstr(241)+mstr(paramMode)+mstr(242)+mstr(paramModeGrad))
+   NAnswer(mstr(247)+mstr(248),1,NodeDialog504)
+   NAnswer(mstr(247)+mstr(249),1,NodeDialog505)
+   NAnswer(mstr(247)+mstr(250),1,NodeDialog506)
+   NAnswer(mstr(247)+mstr(251),1,NodeDialog507)
+   end
+   else begin
+   Reply(mstr(241)+mstr(paramMode))
+   end
+   NAnswer(243,1,NodeDialog501)
+   NAnswer(244,1,NodeDialog502)
+   NAnswer(245,1,NodeDialog503)
+   NAnswer(204,1,NodeDialog100)
+end
+
+procedure NodeDialog501 begin
+   paramMode := 243;
+   call NodeDialog500;
+end
+
+procedure NodeDialog502 begin
+   paramMode := 244;
+   call NodeDialog500;
+end
+
+procedure NodeDialog503 begin
+   paramMode := 245;
+   call NodeDialog500;
+end
+
+procedure NodeDialog504 begin
+   paramModeGrad := 248;
+   call NodeDialog500;
+end
+
+procedure NodeDialog505 begin
+   paramModeGrad := 249;
+   call NodeDialog500;
+end
+
+procedure NodeDialog506 begin
+   paramModeGrad := 250;
+   call NodeDialog500;
+end
+
+procedure NodeDialog507 begin
+   paramModeGrad := 251;
+   call NodeDialog500;
+end
+
+//---
+
+procedure NodeDialog600 begin
+   if (paramSpeed >= 70) then begin
+      paramSpeed := 70;
+   end
+   if (paramSpeed < 0) then begin
+      paramSpeed := 0;
+   end
+   Reply(mstr(261)+paramSpeed+mstr(262))
+   NAnswer(263,1,NodeDialog601)
+   NAnswer(264,1,NodeDialog602)
+   NAnswer(204,1,NodeDialog100)
+end
+
+procedure NodeDialog601 begin
+   paramSpeed += 5;
+   call NodeDialog600;
+end
+
+procedure NodeDialog602 begin
+   paramSpeed -= 5;
+   call NodeDialog600;
+end
+
+//---
+
+procedure NodeDialog700 begin
+   if (paramDeep >= 15) then begin
+      paramDeep := 15;
+   end
+   if (paramDeep < 0) then begin
+      paramDeep := 0;
+   end
+   Reply(mstr(271)+paramDeep+mstr(272))
+   NAnswer(273,1,NodeDialog701)
+   NAnswer(274,1,NodeDialog702)
+   NAnswer(204,1,NodeDialog100)
+end
+
+procedure NodeDialog701 begin
+   paramDeep += 1;
+   call NodeDialog700;
+end
+
+procedure NodeDialog702 begin
+   paramDeep -= 1;
+   call NodeDialog700;
+end
+
+//---
+
+procedure NodeDialog800 begin
+   if (paramType < 282) then begin
+      paramType := 282;
+   end
+   Reply(mstr(281)+mstr(paramType))
+   if (paramType == 285) then begin
+   NAnswer(290,1,NodeDialog900)
+   end
+   NAnswer(283,1,NodeDialog801)
+   NAnswer(284,1,NodeDialog802)
+   NAnswer(285,1,NodeDialog803)
+   NAnswer(204,1,NodeDialog100)
+end
+
+procedure NodeDialog801 begin
+   paramType := 283;
+   call NodeDialog800;
+end
+
+procedure NodeDialog802 begin
+   paramType := 284;
+   call NodeDialog800;
+end
+
+procedure NodeDialog803 begin
+   paramType := 285;
+   call NodeDialog800;
+end
+
+//---
+
+procedure NodeDialog900 begin
+   if (paramTimer >= (5*60)) then begin
+      paramTimer := (5*60);
+   end
+   if (paramTimer < 10) then begin
+      paramTimer := 10;
+   end
+   Reply(mstr(291)+paramTimer+mstr(292))
+   NAnswer(293,1,NodeDialog901)
+   NAnswer(294,1,NodeDialog902)
+   NAnswer(204,1,NodeDialog100)
+end
+
+procedure NodeDialog901 begin
+   paramTimer += 10;
+   call NodeDialog900;
+end
+
+procedure NodeDialog902 begin
+   paramTimer -= 10;
+   call NodeDialog900;
+end
+
+/*
+
+{210}{}{Запуск торпед.}
+{211}{}{Внимание! Механизм открытия шлюзов не отвечает.}
+{212}{}{Отлично, значит, они никуда не уплывут. Задать параметры торпеды.}
+{213}{}{О, нет-нет, мне этого не нужно. Отмена, отмена!}
+{214}{}{Торпеды приведены в боевую готовность. Запуск через... }
+{215}{}{ секунд.}
+{216}{}{Упс, пора бежать с тонущего корабля...}
+{217}{}{Понажимать кнопки наугад.}
+{218}{}{Упс, кажется, начался какой-то отсчет...}
+{219}{}{Установить таймер на активацию торпед.}
+
+{220}{}{Введите время запуска.}
+{221}{}{300 секунд.}
+{222}{}{240 секунд.}
+{223}{}{180 секунд.}
+{224}{}{120 секунд.}
+{225}{}{60 секунд.}
+{226}{}{Отмена таймера.}
+
+*/
+
+/*
+
+procedure NodeDialog101 begin
+   Reply(220)
+   NAnswer(221,1,NodeDialog103)
+   NAnswer(222,1,NodeDialog104)
+   NAnswer(223,1,NodeDialog105)
+   NAnswer(224,1,NodeDialog106)
+   NAnswer(225,1,NodeDialog107)
+   NAnswer(226,1,NodeDialog)
+end
+
+#define timerSet(time)         set_global_var(GVAR_PUERTO_BOS_DESTROY_TIMER, (ONE_GAME_MINUTE*time) + game_time); \
+
+procedure NodeDialog102 begin
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) == qZero) then begin
+   setQuest(GVAR_PUERTO_BOS_DESTROY,qStart);
+   end
+   Reply(mstr(214)+((global_var(GVAR_PUERTO_BOS_DESTROY_TIMER)-game_time)/ONE_GAME_SECOND)+mstr(215))
+   if (dude_iq > 3) then begin
+   NAnswer(216,1,Node999)
+   end else begin
+   NAnswer(218,1,Node999)
+   end
+end
+
+procedure NodeDialog103 begin
+   timerSet(5)
+   call NodeDialog102;
+end
+procedure NodeDialog104 begin
+   timerSet(4)
+   call NodeDialog102;
+end
+procedure NodeDialog105 begin
+   timerSet(3)
+   call NodeDialog102;
+end
+procedure NodeDialog106 begin
+   timerSet(2)
+   call NodeDialog102;
+end
+procedure NodeDialog107 begin
+   timerSet(1)
+   call NodeDialog102;
+end
+
+*/

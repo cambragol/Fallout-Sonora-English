@@ -1,0 +1,65 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#include "..\headers\updatmap.h"
+#define NAME                            SCRIPT_VVSGntr
+#define SKILL_LIMIT                     120
+
+procedure start;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+variable itemUsed;
+
+
+
+procedure start begin
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   //RepairVarCheck
+   //RepairSkillRepairB
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+   if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   //RepairUsedJunk(PID_GENERATOR_ENERGY,140) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+
+   else if (objUsedPid == PID_GENERATOR_ENERGY) then begin
+      script_overrides;
+      if (local_var(LVAR_Status) == 0) then begin
+      call repair_proc;
+      item_remove(dude_obj, objUsedPid, 1)
+      end
+      else begin
+      call use_p_proc;
+      end
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+      RepairProcUsing(113,114)
+   end
+   else if (objUsedPid == PID_TOOL_PARTS_ELECTRONIC) then begin
+      RepairProcUsing(113,114)
+   end
+end
+
+procedure repair_proc begin
+   if (getQuest(GVAR_VAULT27_GENERATOR) <= qStart) then begin
+   setQuest(GVAR_VAULT27_GENERATOR,qEnd);
+   end
+   RepairProcRepair(112,250,"COOLANT")
+   set_light_level(INDOOR_LIGHT);
+end

@@ -1,0 +1,313 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_SCPldnB
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_BOS_PALADIN         // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_BOS              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      65 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeSndDialog;
+procedure NodeStory100;
+procedure NodeStory101;
+procedure NodeStory102;
+procedure NodeStory103;
+procedure NodeStory104;
+procedure NodeStory105;
+procedure NodeStory106;
+procedure NodeStory107;
+procedure NodeStory108;
+procedure NodeStory109;
+procedure NodeStory110;
+procedure NodeStory111;
+procedure NodeStory112;
+procedure NodeStory113;
+procedure NodeStory114;
+procedure NodeStory115;
+procedure NodeStory116;
+procedure NodeStory117;
+procedure NodeStory118;
+procedure NodeStory119;
+procedure NodeStory120;
+procedure NodeStory121;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+variable storyParam;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if self_enemy_dude then begin
+   BarklyAttakDude
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   if (source_obj == dude_obj) then begin
+   BarklyAttakDude
+   end
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+   kill_critter_BoS_item
+end
+
+procedure talk_p_proc begin
+   if (bitDialog(bit_2) == 0) then begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj,102,COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   NAnswer(201,1,NodeSndDialog)
+   BAnswer(202,1,NodeSndDialog)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (bitDialog(bit_2) == 0) then begin
+   Reply(210)
+   NAnswer(220,1,NodeStory100)
+   end
+   else begin
+   Reply(212)
+   end
+
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeStory100 begin
+   Reply(221)
+   NAnswer(222,1,NodeStory101)
+   BAnswer(223,1,NodeStory102)
+end
+
+procedure NodeStory101 begin
+   storyParam += 1;
+   call NodeStory103;
+end
+
+procedure NodeStory102 begin
+   storyParam -= 1;
+   call NodeStory103;
+end
+
+procedure NodeStory103 begin
+   Reply(224)
+   BAnswer(226,1,NodeStory105)
+   NAnswer(225,1,NodeStory104)
+end
+
+procedure NodeStory104 begin
+   storyParam += 1;
+   call NodeStory106;
+end
+
+procedure NodeStory105 begin
+   storyParam -= 1;
+   call NodeStory106;
+end
+
+procedure NodeStory106 begin
+   Reply(227)
+   NAnswer(228,1,NodeStory107)
+   BAnswer(229,1,NodeStory108)
+end
+
+procedure NodeStory107 begin
+   storyParam += 1;
+   call NodeStory109;
+end
+
+procedure NodeStory108 begin
+   storyParam -= 1;
+   call NodeStory109;
+end
+
+procedure NodeStory109 begin
+   Reply(230)
+   BAnswer(232,1,NodeStory110)
+   NAnswer(231,1,NodeStory111)
+end
+
+procedure NodeStory110 begin
+   storyParam += 1;
+   call NodeStory112;
+end
+
+procedure NodeStory111 begin
+   storyParam -= 1;
+   call NodeStory112;
+end
+
+procedure NodeStory112 begin
+   Reply(233)
+   NAnswer(234,1,NodeStory113)
+   BAnswer(235,1,NodeStory114)
+end
+
+procedure NodeStory113 begin
+   storyParam += 1;
+   call NodeStory115;
+end
+
+procedure NodeStory114 begin
+   storyParam -= 1;
+   call NodeStory115;
+end
+
+procedure NodeStory115 begin
+   Reply(236)
+   BAnswer(238,1,NodeStory117)
+   NAnswer(237,1,NodeStory116)
+end
+
+procedure NodeStory116 begin
+   storyParam += 1;
+   call NodeStory118;
+end
+
+procedure NodeStory117 begin
+   storyParam -= 1;
+   call NodeStory118;
+end
+
+procedure NodeStory118 begin
+   Reply(239)
+   NAnswer(240,1,NodeStory119)
+   BAnswer(241,1,NodeStory120)
+end
+
+procedure NodeStory119 begin
+   storyParam += 1;
+   call NodeStory121;
+end
+
+procedure NodeStory120 begin
+   storyParam -= 1;
+   call NodeStory121;
+end
+
+procedure NodeStory121 begin
+   bitDialogExp(bit_2,100)
+   if (storyParam>=3) then begin
+   set_REP(1)
+   end
+   if (storyParam<=-3) then begin
+   set_REP(-1)
+   end
+
+   if (storyParam!=0) then begin
+   setBonusReaction(storyParam*10)
+   end
+
+   call Node999;
+end

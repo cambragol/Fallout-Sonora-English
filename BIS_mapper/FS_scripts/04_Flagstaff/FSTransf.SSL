@@ -1,0 +1,82 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_FSTransf
+#define SKILL_LIMIT                     30
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure timed_event_p_proc;
+procedure description_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+#define LVAR_Exp                        (2) // опыт
+
+variable itemUsed;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_FLAGMINE_MAP_SOLAR) == 0) then begin
+   set_local_var(LVAR_Status,0);
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       itemUsed := create_object_sid(PID_BOOTLE_CAPS, self_tile, self_elevation, -1);
+                   use_obj_on_obj(itemUsed, self_obj);
+                   destroy_object(itemUsed);
+                   itemUsed := 0;
+   end
+end
+
+procedure description_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_p_proc begin
+   RepairProcUsing(110,111)
+end
+
+procedure use_skill_on_p_proc begin
+   RepairVarCheck
+   RepairSkillRepairB
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+
+   else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
+      script_overrides;
+      display_mstr(102);
+   end
+
+   else if (objUsedPid == PID_BOOTLE_CAPS) then begin
+      script_overrides;
+   end
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_FLAGMINE_MAP_SOLAR,1);
+
+   // removed to prevent interfering with drilling machine - cambragol
+   //if (local_var(LVAR_Exp) == 0) then begin
+   RepairProcRepair(112,50,"ZAPPER2")
+   //set_local_var(LVAR_Exp,1);
+   //end
+   //else begin
+   //RepairProcRepair(112,0,"ZAPPER2")
+   //end
+
+   add_timer_event(self_obj, 1, 1); // Эта опция нужна для инициирования процедуры map_update_p_proc в ZTMap (уловка для обмана движка)
+end

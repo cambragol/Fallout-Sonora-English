@@ -1,0 +1,302 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_RCCadetC
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (-100 для враждебности всего поселения)
+#define KILL_FRAC_REP                   FRAC_RANGER           // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      40 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog2;
+procedure NodeSndDialog;
+procedure NodeSndDialog2;
+procedure NodeSndDialog3;
+procedure NodeSndDialog4;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_patrol(HomeTile,16505)
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(110,119)
+   end
+end
+
+procedure critter_p_proc begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) <= 0) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+
+   if (bitDialog(bit_3) != 0) then begin
+      if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_7) == 0) then begin
+      floater(self_obj,102,COLOR_MSG_NORMAL);
+      end else begin
+      floater(self_obj,102,COLOR_MSG_RED);
+      end
+   end
+   else begin
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,50) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_PHENIX_CULT,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS,-40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else if ((gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_7) != 0) and (bitDialog(bit_3) == 0)) then begin
+   call NodeQst202;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   Reply(200)
+   BAnswer(201,1,NodeFstDialog2)
+   NAnswer(206,1,NodeSndDialog)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(202)
+   NAnswer(205,3,NodeSndDialog)
+   BAnswer(203,1,Node999)
+   NAnswer(204,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
+   Reply(210)
+   end
+   else begin
+   Reply(212)
+   end
+
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_8) == 0) then begin
+      NAnswer(220,3,NodeSndDialog2)
+   end
+   else begin
+      if (getQuest(GVAR_RANGERS_QST_INTENDANT) == qStart) then begin
+      if (item_amnt(dude_obj,PID_Q_PISTOL_LOST) > 0) then begin
+      GAnswer(255,4,NodeQst200)
+      end
+      NAnswer(249,4,NodeQst105)
+      end
+   end
+   NAnswer(211,1,Node999)
+end
+
+procedure NodeSndDialog2 begin
+   Reply(221)
+   NAnswer(222,3,NodeSndDialog3)
+   NAnswer(227,3,NodeSndDialog4)
+   if (getQuest(GVAR_RANGERS_QST_INTENDANT) == qStart) then begin
+   NAnswer(230,4,NodeQst100)
+   end
+   NAnswer(226,1,Node999)
+end
+
+procedure NodeSndDialog3 begin
+   Reply(223)
+   NAnswer(227,3,NodeSndDialog4)
+   if (getQuest(GVAR_RANGERS_QST_INTENDANT) == qStart) then begin
+   NAnswer(230,4,NodeQst100)
+   end
+   NAnswer(224,1,Node999)
+   BAnswer(225,1,Node999)
+end
+
+procedure NodeSndDialog4 begin
+   Reply(228)
+   NAnswer(222,3,NodeSndDialog3)
+   if (getQuest(GVAR_RANGERS_QST_INTENDANT) == qStart) then begin
+   NAnswer(230,4,NodeQst100)
+   end
+   NAnswer(229,1,Node999)
+end
+
+procedure NodeQst100 begin
+   Reply(231)
+   BAnswer(232,4,NodeQst101)
+   GAnswer(247,4,NodeQst106)
+   NAnswer(233,1,Node999)
+end
+
+procedure NodeQst101 begin
+   set_REP(-1)
+   setBonusReaction(-20)
+   Reply(234)
+   NAnswer(235,1,NodeQst102)
+   BAnswer(236,1,NodeQst102)
+end
+
+procedure NodeQst102 begin
+   Reply(237)
+   NAnswer(238,1,NodeQst103)
+end
+
+procedure NodeQst103 begin
+   Reply(239)
+   NAnswer(240,1,NodeQst104)
+   BAnswer(241,1,NodeQst104)
+end
+
+procedure NodeQst104 begin
+   Reply(242)
+   NAnswer(243,1,NodeQst105)
+end
+
+procedure NodeQst105 begin
+   set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_8);
+   Reply(244)
+   NAnswer(245,1,Node999)
+   BAnswer(246,1,Node999)
+end
+
+procedure NodeQst106 begin
+   Reply(248)
+   NAnswer(235,1,NodeQst102)
+   BAnswer(236,1,NodeQst102)
+end
+
+procedure NodeQst200 begin
+   if (item_amnt(dude_obj,PID_Q_PISTOL_LOST) > 0) then begin
+   call NodeQst201;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+procedure NodeQst201 begin
+   setQuest(GVAR_RANGERS_QST_INTENDANT,qEnd);
+   item_remove(dude_obj,PID_Q_PISTOL_LOST,1)
+   item_add(dude_obj,PID_AMMO_10_MM,12)
+   setBonusReaction(50)
+   set_REP(2)
+   exp_add(350);
+
+   Reply(250)
+   NAnswer(251,1,Node999)
+end
+
+procedure NodeQst202 begin
+   bitDialogExp(bit_3,0)
+   setBonusReaction(-50)
+   Reply(252)
+   NAnswer(253,1,Node999)
+   BAnswer(254,1,Node999)
+end

@@ -243,7 +243,7 @@ procedure NodeFstDialog begin
       Reply(199)
    end
    else begin
-      Reply(200)
+      zReply(200)
    end
    NAnswer(201,1,NodeFstDialog001)
    NAnswer(216,1,NodeFstDialog001)
@@ -348,10 +348,10 @@ end
 
 procedure NodeSndDialog begin
    if (getReaction >=0) then begin
-   Reply(250)
+   zReply(250)
    end
    else begin
-   Reply(251)
+   zReply(251)
    end
    NAnswer(253,1,NodeAnswer)
    NAnswer(310,1,NodeQuest)
@@ -389,7 +389,7 @@ end
 
 procedure NodeSndDialog4 begin
    bitDialogExp(bit_12,0)
-   Reply(287)
+   zReply(287)
    NAnswer(288,1,Node999)
    BAnswer(289,1,Node999)
 end
@@ -574,7 +574,7 @@ end
 
 procedure NodeAnswer102 begin
    bitDialogExp(bit_9,50)
-   Reply(294)
+   zReply(294)
    NAnswer(255,1,NodeAnswer000)
    if (bitDialog(bit_10) == 0) then begin
    NAnswer(257,1,NodeAnswer200)
@@ -604,7 +604,7 @@ end
 
 procedure NodeAnswer203 begin
    bitDialogExp(bit_10,150)
-   Reply(300)
+   zReply(300)
    BAnswer(301,1,NodeAnswer204)
    GAnswer(302,1,NodeAnswer205)
 end

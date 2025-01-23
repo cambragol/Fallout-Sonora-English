@@ -1,0 +1,20 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VVTExp
+
+procedure start;
+procedure spatial_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       if (getQuest(GVAR_VAULT27_VISITED) < qEnd) then begin
+           reg_anim_clear(source_obj);
+           exp_add_msg(1000,NAME,100,101);
+           setQuest(GVAR_VAULT27_VISITED,qEnd);
+       end
+   end
+end

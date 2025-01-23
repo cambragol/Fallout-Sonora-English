@@ -1,0 +1,226 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VVSInrcm
+
+procedure start;
+procedure map_update_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure talk_p_proc;
+
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeStopDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog1;
+procedure NodeFstDialog2;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeSndDialog;
+procedure NodeAnswer;
+procedure NodeAnswer100;
+procedure NodeAnswer200;
+procedure NodeAnswer300;
+procedure NodeAnswer400;
+procedure NodeAnswer401;
+procedure NodeAnswer500;
+procedure NodeAnswer501;
+procedure NodeQst;
+procedure NodeQst2;
+procedure NodeQst3;
+
+
+
+procedure start begin
+end
+
+procedure map_update_p_proc begin
+   if (global_var(GVAR_VAULT27_STATUS_MERC) == 0) then begin
+   floater(self_obj,102,COLOR_MSG_GREY);
+   end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (combat_is_initialized == true) then begin
+   display_mstr(103);
+   end
+   else begin
+   call talk_p_proc;
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      call use_p_proc;
+   end
+end
+
+procedure talk_p_proc begin
+   dialog_proc_obj(NodeStartDialog)
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (gvar_bit(GVAR_ENCOUNTERS_FLAGS_BIT,bit_4) !=0) then begin
+      call NodeStopDialog;
+   end
+   else if (global_var(GVAR_VAULT27_STATUS_MERC) != 0) then begin
+      call NodeStopDialog;
+   end
+   else if (getQuest(GVAR_VAULT27_QST_MERC) < qStart) then begin
+       call NodeFstDialog;
+   end
+   else if (getQuest(GVAR_VAULT27_QST_MERC) < qEnd) then begin
+       call NodeSndDialog;
+   end
+   else begin
+       call NodeStopDialog;
+   end
+end
+
+procedure NodeStopDialog begin
+   Reply(216)
+   NAnswer(217,1,Node999)
+end
+
+//--- ПЕРВИЧНЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   Reply(200)
+   NAnswer(201,4,NodeFstDialog1)
+   NAnswer(202,-3,NodeFstDialog1)
+end
+
+procedure NodeFstDialog1 begin
+   zReply(203)
+   NAnswer(204,1,NodeFstDialog2)
+end
+
+procedure NodeFstDialog2 begin
+   Reply(205)
+   NAnswer(206,1,NodeFstDialog3)
+end
+
+procedure NodeFstDialog3 begin
+   setQuest(GVAR_VAULT27_QST_MERC,qStart);
+   if (getQuest(GVAR_VAULT27_GENERATOR) < qStart) then begin
+   setQuest(GVAR_VAULT27_GENERATOR,qStart);
+   end
+   if (getQuest(GVAR_VAULT27_POISON) < qStart) then begin
+   setQuest(GVAR_VAULT27_POISON,qStart);
+   end
+   Reply(207)
+   NAnswer(208,1,NodeAnswer)
+   NAnswer(209,1,NodeFstDialog4)
+end
+
+procedure NodeFstDialog4 begin
+   Reply(214)
+   NAnswer(215,1,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   Reply(210)
+   NAnswer(211,1,NodeAnswer)
+   NAnswer(240,1,NodeQst)
+   NAnswer(212,1,Node999)
+end
+
+//--- ОТВЕТЫ
+
+procedure NodeAnswer begin
+   Reply(220)
+   NAnswer(221,1,NodeAnswer100)
+   NAnswer(223,1,NodeAnswer200)
+   if (global_var(GVAR_VAULT27_GHOST_KNOW) > 0) then begin
+   NAnswer(231,1,NodeAnswer500)
+   end
+   else begin
+   NAnswer(227,1,NodeAnswer400)
+   end
+   NAnswer(225,4,NodeAnswer300)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer100 begin
+   Reply(222)
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer200 begin
+   Reply(224)
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer300 begin
+   Reply(226)
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer400 begin
+   Reply(228)
+   NAnswer(229,1,NodeAnswer401)
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer401 begin
+   Reply(230)
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeAnswer500 begin
+   set_global_var(GVAR_VAULT27_GHOST_KNOW,2);
+   Reply(232)
+   NAnswer(233,1,NodeAnswer501)
+end
+
+procedure NodeAnswer501 begin
+   Reply(234)
+   NAnswer(213,1,NodeAnswer)
+   NAnswer(212,1,Node999)
+end
+
+//--- КВЕСТ
+
+procedure NodeQst begin
+   if (getQuest(GVAR_VAULT27_POISON) > qStart) then begin
+      Reply(243)
+      if (dude_elevation == 1) then begin
+         if (global_var(GVAR_VAULT27_GHOST_KNOW) > 0) then begin
+         NAnswer(245,1,NodeQst2)
+         end
+         else begin
+         NAnswer(244,1,NodeQst2)
+         end
+      end
+   end
+   else if (getQuest(GVAR_VAULT27_GENERATOR) > qStart) then begin
+      Reply(242)
+   end
+   else begin
+      Reply(241)
+   end
+   NAnswer(211,1,NodeAnswer)
+   NAnswer(212,1,Node999)
+end
+
+procedure NodeQst2 begin
+   Reply(246)
+   NAnswer(247,1,NodeQst3)
+end
+
+procedure NodeQst3 begin
+   Reply(248)
+   NAnswer(231,1,NodeAnswer500)
+   NAnswer(249,1,Node999)
+end

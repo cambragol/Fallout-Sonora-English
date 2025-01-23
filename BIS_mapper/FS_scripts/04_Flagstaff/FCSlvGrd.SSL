@@ -1,0 +1,153 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_FCSlvGrd
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF_MERC   // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_FLAGSTAFF_MERC    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_SLAVER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_BAD        // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure map_update_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+//---------------------
+
+#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
+#define LVAR_Alcoghol                   (7) // алкоголь: 0 - не использован, 1 - использован
+
+import variable box_stop_use;
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       set_local_var(LVAR_Alcoghol,0);
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+           if (item_amnt(self_obj,PID_TEST) == 1) then begin
+           set_local_var(LVAR_Tile_B,16718); // патрульный выше входа (следит за проходом к шахте)
+           end
+           if (item_amnt(self_obj,PID_TEST) == 2) then begin
+           set_local_var(LVAR_Tile_B, 21318); // патрульный ниже входа (следит за радиостанцией)
+           end
+           item_remove(self_obj,PID_TEST,999)
+       end
+   end
+end
+
+procedure map_update_p_proc begin
+   if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_6) != 0) then begin
+      if (tile_distance(HomeTile, 20294) < 9) then begin
+      set_obj_visibility(self_obj, 1);
+      dec_global_var(GVAR_FLAGSTAFF_MERCS_LIFE);
+      destroy_object(self_obj);
+      end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       if (local_var(LVAR_Tile_B) > 0) then begin
+       timer_move_patrol(HomeTile,local_var(LVAR_Tile_B))
+       end
+       else begin
+       timer_move_to_home
+       end
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   if (local_var(LVAR_Alcoghol)<3) then begin
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
+   end
+   if (local_var(LVAR_Alcoghol) == 0) then begin
+   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+   else begin
+   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+   if (itemTypeUseDude == 2) then begin
+       display_mstr(103);
+       inc_local_var(LVAR_Alcoghol);
+   end
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   dec_global_var(GVAR_FLAGSTAFF_MERCS_LIFE);
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   setReaction(-1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_ARIZONA_RANGER,-20) // Поправка к отношению за принадлежность к фракциям
+
+   if (local_var(LVAR_Alcoghol) > 0) then begin
+   floater(self_obj,102,COLOR_MSG_LIGHT_GREY);
+   end
+   else if (getReaction >= 0) then begin
+   floater(self_obj,random(110,119),COLOR_MSG_NORMAL);
+   end
+   else begin
+   floater(self_obj,random(120,129),COLOR_MSG_NORMAL);
+   end
+end

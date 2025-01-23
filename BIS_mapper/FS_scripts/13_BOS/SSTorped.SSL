@@ -1,0 +1,84 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_SSTorped
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure activ_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   if (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) == 0) then begin
+   display_mstr(110);
+   floater(dude_obj,111,COLOR_MSG_NORMAL);
+   end
+   else begin
+   display_mstr(112);
+   floater(dude_obj,113,COLOR_MSG_RED);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+      script_overrides;
+      display_mstr(120);
+   end
+   else if (action_being_used == SKILL_REPAIR) then begin
+      script_overrides;
+      display_mstr(121);
+   end
+   else if (action_being_used == SKILL_TRAPS) then begin
+      script_overrides;
+      if (has_skill(dude_obj, SKILL_TRAPS) >= 100) then begin
+      call activ_proc;
+      end
+      else begin
+      skill_display_mstr(122,SKILL_TRAPS,100)
+      end
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+end
+
+procedure activ_proc begin
+   if (global_var(GVAR_GAME_END) != 0) then begin
+       floater(dude_obj,114,COLOR_MSG_RED);
+   end
+   else if (global_var(GVAR_PUERTO_BOS_DESTROY_TIMER) == 0) then begin
+       display_mstr(123);
+       if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PUERTO_DOCS) then begin
+       set_global_var(GVAR_CAR_MAP_INDEX,MAP_PUERTO_DESTROY);
+       end
+       if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PUERTO_SIGN) then begin
+       set_global_var(GVAR_CAR_MAP_INDEX,MAP_PUERTO_DESTROY);
+       end
+       if (getQuest(GVAR_PUERTO_BOS_DESTROY) == qZero) then begin
+       setQuest(GVAR_PUERTO_BOS_DESTROY,qStart);
+       end
+       set_global_var(GVAR_PUERTO_BOS_DESTROY_TIMER, (ONE_GAME_MINUTE*5) + game_time);
+       display_msg(mstr(150)+((global_var(GVAR_PUERTO_BOS_DESTROY_TIMER)-game_time)/ONE_GAME_SECOND)+mstr(151));
+       BarklyAttakDude
+   end
+   else begin
+       display_mstr(125);
+       /*
+       display_mstr(124);
+       if (getQuest(GVAR_PUERTO_BOS_DESTROY) == qStart) then begin
+       setQuest(GVAR_PUERTO_BOS_DESTROY,qZero);
+       end
+       set_global_var(GVAR_PUERTO_BOS_DESTROY_TIMER,0);
+       */
+   end
+end

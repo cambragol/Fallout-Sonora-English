@@ -1,0 +1,91 @@
+#include "..\headers\define.h"
+#include "..\headers\REPAIR.h"
+#define NAME                            SCRIPT_ISPwrArm
+#define SKILL_LIMIT                     0
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure repair_proc;
+
+#define LVAR_Flag_Item                     (2) // число установленных недостающих деталей
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+end
+
+procedure use_p_proc begin
+   if (map_var(MVAR_INF_PWR_KNOW) == 0) then begin
+      set_map_var(MVAR_INF_PWR_KNOW, 1);
+   end
+
+   if (local_var(LVAR_Status)!=0) then begin
+      if (map_var(MVAR_INF_PWR_ADD)<=0) then begin
+      set_CITY_REP(GVAR_TOWN_REP_INFERNO_CULT,REP_KILL_CRITICAL) // ГГ станет врагом Особняка, если возьмет броню без спроса
+      end
+      item_add(dude_obj,PID_ARMOR_POWER_A,1)
+      play_sfx("ARMRPWR");
+      set_obj_visibility(self_obj, 1);
+      destroy_object(self_obj);
+   end
+   else if (local_var(LVAR_Flag_Item)>=2) then begin
+      script_overrides;
+      display_mstr(115);
+   end
+   else begin
+      RepairProcUsing(110,114)
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (local_var(LVAR_Status)!=0) then begin
+      script_overrides;
+      display_mstr(114);
+      if (map_var(MVAR_INF_PWR_KNOW) == 0) then begin
+      set_map_var(MVAR_INF_PWR_KNOW, 1);
+      end
+   end
+   else if (local_var(LVAR_Flag_Item)>=2) then begin
+      RepairVarCheck
+      RepairSkillRepair
+   end
+   else begin
+      call use_p_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   if (map_var(MVAR_INF_PWR_KNOW) == 0) then begin
+   set_map_var(MVAR_INF_PWR_KNOW, 1);
+   end
+
+   if (objUsedPid == PID_Q_PWR_HEAD) then begin
+   script_overrides;
+   inc_local_var(LVAR_Flag_Item);
+   play_sfx("TANKS");
+   dude_floater_OK;
+   display_mstr(111);
+   item_remove(dude_obj, objUsedPid, 1)
+   end
+   else if (objUsedPid == PID_Q_PWR_PROC) then begin
+   script_overrides;
+   inc_local_var(LVAR_Flag_Item);
+   play_sfx("TANKS");
+   dude_floater_OK;
+   display_mstr(112);
+   item_remove(dude_obj, objUsedPid, 1)
+   end
+end
+
+procedure repair_proc begin
+   set_map_var(MVAR_INF_PWR_KNOW, -1);
+   set_local_var(LVAR_Flag_Item,100);
+   RepairProcRepair(113,350,"FIXSTILL")
+end
