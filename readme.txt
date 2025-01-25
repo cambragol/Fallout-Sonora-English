@@ -35,13 +35,13 @@ It contains translated dialogue files, English interface graphics, English end a
 data_dayglow
 ------------------------------------------------------
 
-This folder contains the full English text for the Dayglow DLC, as well as english interface graphics.
+This folder contains the full English text for both the vanilla game and the Dayglow DLC, as well as english interface graphics. Further it contains the full content of the DLC .dat from Nevada Band
 
 ------------------------------------------------------
 data_script_patch
 ------------------------------------------------------
 
-This folder contains fixed scripts for both vanilla 1.14 and Dayglow 1.14. The fixes are for dialogues (corresponding dialogue files are already included in data and data_dayglow), quests and some features. There is also a modified AI.txt that handles the enhanced combat taunts to include both Spanish and translated Spanish versions (for use with the Hot-blooded Trait)
+This folder contains the full English text for both the vanilla game and the Dayglow DLC, as well as english interface graphics. Further it contains the full content of the DLC .dat from Nevada Band. This folder also contains fixed scripts for both vanilla 1.14 and Dayglow 1.14. The fixes are for dialogues, quests and some features. There is also a modified AI.txt that handles the enhanced combat taunts to include both Spanish and translated Spanish versions (for use with the Hot-blooded Trait)
 
 ------------------------------------------------------
 BIS_mapper
