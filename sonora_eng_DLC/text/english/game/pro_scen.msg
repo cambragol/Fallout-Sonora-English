@@ -1788,7 +1788,7 @@
 {93300}{}{Junk}
 {93301}{}{A pile of rotted and weathered wood. Not worth its weight in, well, anything.}
 {93400}{}{Junk}
-{93401}{}{A pile of wood, with some rusty useless nails imbedded deeply.}
+{93401}{}{A pile of wood deeply embedded with some rusty useless nails.}
 {93500}{}{Boxes}
 {93501}{}{A pile of old, cardboard boxes. You cannot believe that they have survived for this long.}
 {93600}{}{Boxes}
