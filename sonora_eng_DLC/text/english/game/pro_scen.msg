@@ -1780,11 +1780,11 @@
 {92900}{}{Bed}
 {92901}{}{A very comfortable looking bed.}
 {93000}{}{Junk}
-{93001}{}{A bed mattress in terrible condition. Even the rats won't sleep in or on it.}
+{93001}{}{A mattress in terrible condition. Even the rats won't sleep in or on it.}
 {93100}{}{Junk}
 {93101}{}{A twin bed mattress that has seen many better days than this one.}
 {93200}{}{Junk}
-{93201}{}{Some junk that you think might have been a bed matters before it was destroyed by the environment.}
+{93201}{}{Some junk that you think might have been a mattress before it was destroyed by the environment.}
 {93300}{}{Junk}
 {93301}{}{A pile of rotted and weathered wood. Not worth its weight in, well, anything.}
 {93400}{}{Junk}

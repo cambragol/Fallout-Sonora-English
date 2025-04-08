@@ -52,7 +52,7 @@
 {238}{}{(perking up) Great! That is... (makes a blank face) I would be grateful... Now we better split up before we raise suspicion. And don't tell anyone about this of course.}
 {239}{}{No problem.}
 {240}{}{Actually, I doubt I'll be back this way, so I'm sorry.}
-{241}{}{Oh that's... too bad... But if you do end up in in Casa Grande, then please, remember me. And now we better split up. Pretend this conversation never happened.}
+{241}{}{Oh that's... too bad... But if you do end up in Casa Grande, then please, remember me. And now we better split up. Pretend this conversation never happened.}
 {242}{}{No problem.}
 
 {250}{}{(surprised) Me? Well... Can... can we communicate in private?}
