@@ -48,7 +48,7 @@
 {235}{}{No}
 {236}{}{Pixeles Cuadrados}
 {237}{}{Original}      
-{238}{}{Por Defecto}        
+{238}{}{Estándar}        
 {239}{}{Grande}
 {240}{}{Enorme}
 
