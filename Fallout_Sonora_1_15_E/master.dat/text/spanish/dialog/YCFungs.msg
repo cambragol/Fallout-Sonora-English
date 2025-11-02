@@ -17,6 +17,7 @@
 {132}{}{¡Chingada madre!}
 
 {200}{}{¡Alto ahí! No te asustes, pero estás en mi propiedad. Bueno... No me importa que estés aquí. Pero, es para que lo sepas.}
+{1200}{}{¡Alto ahí! No te asustes, pero estás en mi propiedad. Bueno... No me importa que estés aquí. Pero, es para que lo sepas.}
 {201}{}{¿Vives en la alcantarilla? ¿En serio?}
 {202}{}{Sí, no tengo casa. ¿Y qué? ¡Vivo bien! Vivo en el lugar más bonito de Dayglow. ¿Me entiendes?}
 {203}{}{¿Has pensado en mudarte a la ciudad con los demás?}

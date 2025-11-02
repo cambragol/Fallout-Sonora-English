@@ -16,7 +16,8 @@
 {200}{}{Oye, pedazo de carne, ten cuidado. Hay un idiota de la Hermandad por aquí. Si lo ves, ten cuidado de que no te dispare.}
 {201}{}{Ya veo. Entonces me voy antes de que se ponga muy peligroso.}
 {202}{}{¡No te atrevas a meterte con la Hermandad! ¡No dejaré que hagas eso!}
-{203}{}{¡Vi que se escapó al puerto! Mientras hablabas solo, aprovechó de escapar.}
+{203}{}{¡Vi que se escapó hacia los muelles! Mientras hablabas solo, aprovechó de escapar.}
+{1203}{}{¡Vi que se escapó hacia los muelles! Mientras hablabas solo, aprovechó de escapar.}
 {204}{}{¿Qué demonios...? ¡Agh! ¡Lo voy a atrapar! ¡No escapará!}
 {205}{}{¡Apresúrate, grandulón!}
 {206}{}{¡Jajaja! ¡Eres un idiota! ¡Es más fácil engañarte a ti que a un niñito! ¿Qué te tiene tan molesto?}

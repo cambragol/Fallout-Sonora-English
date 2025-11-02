@@ -1,7 +1,8 @@
 {100}{}{Ves a Phil.}
 {101}{}{Ves a un necrófago anciano con gafas. Se balancea débilmente en su silla.}
 
-{200}{}{Oye, ¿qué personaje de libro se supone que eres? No recuerdo haber leído de ti.}
+{200}{}{Oiga, ¿qué personaje de libro se supone que es usted, mi estimado? No recuerdo haber leído de usted.}
+{1200}{}{Oiga, mi bella dama, ¿qué personaje de libro se supone que es? No recuerdo haber leído de usted.}
 {201}{}{¿De qué estás hablando, vejestorio?}
 {202}{}{¡Perdón, perdón! ¿Acaso un hombre ya no puede fantasear? Por cierto, soy Phil. Digamos que soy una especie de científico.}
 {203}{}{Encantado de conocerte, Phil. Los estudiosos son raros de encontrar en estos días.}
@@ -45,6 +46,7 @@
 {238}{}{Bueno, no me resultó.}
 {239}{}{Hablemos de otra cosa.}
 {240}{}{¿Me derrotaste? ¡Eso fue extraordinario!}
+{1240}{}{¿Me derrotaste? ¡Usted es una damisela extraordinaria!}
 {241}{}{¿Quieres jugar una partida de ajedrez?}
 {242}{}{¿Ahora ves que no vale la pena subestimar a tus oponentes?}
 {243}{}{Definitivamente fue un golpe de suerte. Siento haber batido tu récord mundial.}

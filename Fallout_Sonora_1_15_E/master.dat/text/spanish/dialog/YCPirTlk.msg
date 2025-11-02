@@ -1,10 +1,12 @@
 {100}{}{Ves a un necrófago.}
 {101}{}{Ves a un necrófago con armadura y casco de combate.}
 
-{200}{}{John me habló de ti, dijo que eres listo. ¿Pero en serio irás a la isla con esa suave carita de bebé?}
+{200}{}{John me habló de ti, dijo que eres un listillo. ¿Pero en serio irás a la isla con esa suave carita de bebé?}
+{1200}{}{John me habló de ti, dijo que eres una chica astuta. ¿Pero en serio irás a la isla con esa suave carita de bebé?}
 {201}{}{Buena pregunta. Tengo que pensarlo.}
-{202}{}{No debería importarle a tu cara de necrófago, estás hecho mierda.}
-{203}{}{John me habló de ti, dijo que eres listo. Te esperan problemas en esa isla, lo entiendes, ¿verdad?}
+{202}{}{Podré hacerle frente a todo lo que haya en esa isla, necrófago.}
+{203}{}{John me habló de ti, dijo que eres un listllo. Te esperan problemas en esa isla, lo entiendes, ¿verdad?}
+{1203}{}{John me habló de ti, dijo que eres una chica astuta. Te esperan problemas en esa isla, lo entiendes, ¿verdad?}
 {204}{}{Buena pregunta. Debería prepararme de antemano.}
 {205}{}{No recuerdo haberte preguntado.}
 {206}{}{John me habló de ti, pero no esperaba ver a la gente de Gustavo. ¿Qué está pasando?}
@@ -22,7 +24,8 @@
 {224}{}{¿Y por qué no han ido allá hasta ahora?}
 {225}{}{Por las armas de la isla. Varias sobrevivieron gracias a escudos durante el bombardeo. Están a través de toda la costa, y evitan que nos acerquemos demasiado. Además, hay barricadas, escombros en el agua, minas submarinas y robots patrulleros. Tampoco habíamos conseguido el transpondedor hasta ahora, lo recibimos de la fábrica de aviones. Buen trabajo, por cierto.}
 {226}{}{¿Cuál es mi objetivo en la isla?}
-{227}{}{Tu trabajo, suavecito, es deshabilitar el sistema de seguridad para que los robots y las armas dejen de dispararnos. Luego de eso, nosotros nos encargaremos nosotros.}
+{227}{}{Tu trabajo, suavecito, es deshabilitar el sistema de seguridad para que los robots y las armas dejen de dispararnos. Luego de eso, nos encargaremos nosotros.}
+{1227}{}{Tu trabajo, suavecita, es deshabilitar el sistema de seguridad para que los robots y las armas dejen de dispararnos. Luego de eso, nos encargaremos nosotros.}
 
 
 {250}{}{¡Ah! ¿Hueles ese aire fresco?}

@@ -2,6 +2,7 @@
 {101}{}{Ves a uno de los carroñeros. Aunque parece más un bandido.}
 {102}{}{Otro necrófago asqueroso. ¡Estoy cansado de ustedes!}
 {103}{}{¿A quién tenemos aquí? ¿Un amante de los necrófagos o un carroñero? De todas formas, no saldrás de aquí...}
+{1103}{}{¿A quién tenemos aquí? ¿La puta de los necrófagos, o de los carroñeros? De todas formas, no saldrás de aquí...}
 {104}{}{Lárgate de aquí, mientras estoy de buen humor.}
 
 {110}{}{¡No necesitamos ninguna competencia!}

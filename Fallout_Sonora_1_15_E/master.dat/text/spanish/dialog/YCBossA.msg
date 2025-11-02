@@ -94,6 +94,7 @@
 {281}{}{Ante ti yacen las ruinas de San Diego. Hay muchos peligros en ellas, así que ten más cuidado. Ve al bar y habla con Edward si necesitas suministros para el viaje.}
 {282}{}{Bien, nos vemos.}
 {283}{}{Dame un arma si quieres que sobreviva el viaje al Pueblo Viejo.}
+{1283}{}{Dame un arma si quieres que sobreviva el viaje al Pueblo Viejo.}
 {284}{}{Hmm, es razonable. ¿Con qué arma eres mejor?}
 {285}{}{[Toma: }
 {286}{}{]}
@@ -120,6 +121,7 @@
 {304}{}{Entendido. Hablamos luego.}
 {305}{}{Podrías solo decirme que no quieres hablarme. Adiós.}
 {306}{}{Compadre, siempre estaré feliz de escucharte y responder tus dudas. }
+{1306}{}{Compadre, siempre estaré feliz de escucharla y responder sus dudas. }
 {307}{}{Está bien, nos vemos.}
 
 {310}{}{Me gustaría saber más de ti.}

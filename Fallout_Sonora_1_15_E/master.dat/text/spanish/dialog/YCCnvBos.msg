@@ -37,6 +37,7 @@
 {229}{}{Ya, ya.}
 {230}{}{Ahora que lo dices, es una buena idea. ¿Qué debo hacer para que los dejes ir?}
 {231}{}{¡Qué sorpresa! Tráeme 10 microchips, será suficiente para acabar con el sufrimiento que implica estar aquí. Luego de eso, nos iremos a comerciar al norte.}
+{1231}{}{¡Qué sorpresa! Tráeme 10 microchips, será suficiente para acabar con el sufrimiento que implica estar aquí. Luego de eso, nos iremos a comerciar al norte.}
 {232}{}{Trato hecho.}
 {233}{}{Sí que eres valiente para decir eso. No te preocupes, ¡yo acabaré con tu sufrimiento!}
 {234}{}{Todavía estoy esperando por esos microchips. ¡Vamos, sorpréndeme!}
@@ -51,6 +52,7 @@
 {243}{}{No creo que nadie de aquí te extrañe.}
 {244}{}{Adiós.}
 {245}{}{¡Agh! Pensé que eras otro necrófago, pero sólo eres un mutante asqueroso. No te queremos aquí, lárgate.}
+{1245}{}{¡Agh! Pensé que eras otro necrófago, pero resultas ser otra perra asquerosa, y encima mutante... No te queremos aquí, vete.}
 
 {250}{}{Me envió el alcalde del Pueblo Viejo.}
 {251}{}{¿Ah, sí? ¿Y qué quiere?}

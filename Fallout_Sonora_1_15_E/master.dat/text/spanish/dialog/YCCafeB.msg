@@ -19,6 +19,7 @@
 {230}{}{¿Tienes algo más fuerte para beber, o sólo hay cerveza del siglo anterior?}
 {231}{}{Las botellas de buen licor son una rareza. Lo que encuentran en las ruinas suele venderse a las caravanas del norte, y el bar se queda con las migajas.}
 {232}{}{Eso es una pena, quería un buen trago...}
+{1232}{}{Eso es una pena, quería un buen trago...}
 {233}{}{Podría buscarte algunas botellas en las ruinas.}
 {234}{}{Tráeme botellas del whiskey de la preguerra y con gusto te pagaré el triple.}
 {235}{}{Trato hecho. Te traeré lo que encuentre allá afuera.}

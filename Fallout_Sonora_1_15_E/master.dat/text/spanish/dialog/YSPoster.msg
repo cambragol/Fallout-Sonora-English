@@ -6,3 +6,4 @@
 {105}{}{ puntos de experiencia.}
 {106}{}{Esto es propaganda. Luego de anexar México, buscaban reconciliar a los Americanos y a los Mexicanos. No fue nada fácil.}
 {107}{}{Tú ser inteligente. Gomer no poder leer.}
+{1107}{}{Tú ser inteligente. Gomer no poder leer.}

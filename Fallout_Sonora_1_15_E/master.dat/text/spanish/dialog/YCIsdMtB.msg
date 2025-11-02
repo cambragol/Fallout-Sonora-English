@@ -25,6 +25,7 @@
 {214}{}{¡Por favor, no nos hagas daño! ¡Somos de la misma sangre!}
 {215}{}{No somos enemigos, ambos somos mutantes. Seamos amigos, ¿bien?}
 {216}{}{¿Qué has dicho? ¡Cierra la boca, sabandija! No somos unos sucios mutantes, ¡somos soldados purasangre del Maestro!}
+{1216}{}{¿Qué has dicho? ¡Cierra la boca, perra! No somos unos sucios mutantes, ¡somos soldados purasangre del Maestro!}
 {217}{}{Parece que solo te enojé más...}
 {1217}{}{Parece que solo te enojé más..}
 {218}{}{Hmm, eso es cierto. Todos nos odian por esto, pero es lo único que nos une. No somos carroñeros como tú, ¡somos soldados purasangre del Maestro! Recuerda eso, mestizo.}

@@ -28,6 +28,7 @@
 {203}{}{¡Bastardo! ¡No le digas a nadie!}
 {204}{}{No te culpo, lo entiendo. Hiciste lo correcto.}
 {205}{}{Ay, amigo mío, no le digas a nadie, ¡por favor!}
+{1205}{}{Ay, señorita, no le diga a nadie, ¡por favor!}
 {206}{}{¿En serio? Bueno, gracias. Pero eso no traerá de vuelta a Zerah.}
 {207}{}{¿Estás seguro de que murió?}
 {208}{}{No mereces mi atención. Eres patético, un cobarde y un debilucho, ¡abandonaste a tu amigo cuando estaba en problemas!}

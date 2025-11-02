@@ -125,7 +125,8 @@
 
 {350}{}{Bien, lo he estado pensando, ¡Y ya me decidí! Verás, el Sr. Rutger tenía un valioso contrato del Eje para un intercambio tecnológico con la base naval Coronado. Sería MUY lucrativo para la ciudad, podemos restaurar las ruinas. ¡Y entonces el sueño de Dayglow será cumplido! *¡Viva América!*}
 {351}{}{¿Una base naval? ¿En serio?}
-{352}{}{Ahora mismo es inaccesible por las viejas defensas militares. Aquí tienes los códigos de acceso, debes transmitirlos desde la estación de radio que reparaste en San Isidro, no hay otro lugar con una señal tan fuerte. Una vez que hayas hecho eso, ve al puerto, habrá un bote esperando por ti. ¡Y ni una sola palabra de ésto a Gustavo!}
+{352}{}{Ahora mismo es inaccesible por las viejas defensas militares. Sin embargo, fabricamos un transpondedor con la chatarra de la fábrica, necesitamos configurarlo para que el sistema de defensa lo reconozca. Aquí tienes los códigos de acceso, debes transmitirlos desde la estación de radio que reparaste en San Isidro. ¡Y así es como nos haremos con la isla! Una vez que hayas hecho eso, ve a los muelles, te estará esperando un bote. ¡Y ni una sola palabra de esto a Gustavo, amigo mío!}
+{1352}{}{Ahora mismo es inaccesible por las viejas defensas militares. Sin embargo, fabricamos un transpondedor con la chatarra de la fábrica, necesitamos configurarlo para que el sistema de defensa lo reconozca. Aquí tienes los códigos de acceso, debes transmitirlos desde la estación de radio que reparaste en San Isidro. ¡Y así es como nos haremos con la isla! Una vez que hayas hecho eso, ve a los muelles, te estará esperando un bote. ¡Y ni una sola palabra de esto a Gustavo, nena!}
 {353}{}{[Salir]}
 
 # added by cambragol

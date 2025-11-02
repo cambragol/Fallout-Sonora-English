@@ -23,7 +23,8 @@
 {216}{}{Quizás.}
 {217}{}{¿Quién sabe?}
 {218}{}{Ah, ojalá hubiéramos tenido a alguien como tú hace seis años. ¡Cuántos de nosotros podrían haber sido salvados de los supermutantes!}
-{219}{}{En ese entonces, trabajaba en las plantaciones y no sabía nada de una guerra con supermutantes. Es por eso que amo mi estilo de vida rural.}
+{219}{}{En ese entonces, trabajaba en las plantaciones y no sabía nada de la guerra contra los supermutantes. Es por eso que amo mi estilo de vida rural.}
+{1219}{}{En ese entonces, vivía tranquila en mi Villa y no sabía nada de la guerra contra los supermutantes. Es por eso que amo mi estilo de vida rural.}
 {220}{}{Es suficiente, ya te salvé.}
 {221}{}{Bueno, necesito encontrar algún sitio en donde descansar. Gracias por ayudarme.}
 {222}{}{Ahora que lo pienso, ¿Qué está haciendo la Hermandad por aquí?}

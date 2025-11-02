@@ -36,6 +36,7 @@
 {231}{}{¿Qué quieres? ¿Quién te envía?}
 {232}{}{La Abuela Judy. Está buscando a su esposo desaparecido, y parece que está gastándose todo su dinero a escondidas.}
 {233}{}{(suspiro) Escucha, amiguito, ¿crees que estaría sentado aquí si quisiera estar con Judy?}
+{1233}{}{(suspiro) Nena, ¿crees que estaría sentado aquí si quisiera estar con Judy?}
 {234}{}{La verdad no me importa.}
 {235}{}{¿Y cuál es la razón detrás de tu comportamiento?}
 {236}{}{Eres un hombre, ¡Deberías entender cómo es que te fastidie tu mujer durante 80 años!}

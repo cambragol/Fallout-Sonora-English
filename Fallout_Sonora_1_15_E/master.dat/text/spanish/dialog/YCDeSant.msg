@@ -51,7 +51,8 @@
 {245}{}{Se llama Kurt, me debe 300 chapas. Sácaselas y tendrás la mitad.}
 {246}{}{Me pondré en ello.}
 {247}{}{Aquí tienes las chapas de Kurt, exactamente 300.}
-{248}{}{Ah, amo el amor a chapas por la mañana. Muy bien, te ganaste la mitad.}
+{248}{}{Ah, amo el amor a chapas por la mañana. Muy bien, niño, te ganaste la mitad.}
+{1248}{}{Ah, amo el amor a chapas por la mañana. Muy bien, muñeca, te ganaste la mitad.}
 {249}{}{Claro.}
 
 {250}{}{Me parece que este lugar se cae a pedazos. ¿Necesitas ayuda?}
@@ -81,7 +82,8 @@
 {271}{}{Me encantan los clásicos. Pero no te recomendaría verla, eres demasiado joven, pequeñín. Ten tu dinero y olvídalo.}
 {1271}{}{Me encantan los clásicos. Pero no te recomendaría verla, eres demasiado joven, cariño. Ten tu dinero y olvídalo.}
 {272}{}{Está bien.}
-{273}{}{Tengo un último trabajo para ti. La paga es buena - 500 chapas. Pero ten una cosa en cuenta, no voy a tolerar el fracaso.}
+{273}{}{Tengo un último trabajo para ti. La paga es buena - 500 chapas. Pero ten una cosa en cuenta, amiguito, no voy a tolerar el fracaso.}
+{1273}{}{Tengo un último trabajo para ti. La paga es buena - 500 chapas. Pero ten una cosa en cuenta, cariño, no voy a tolerar el fracaso.}
 {274}{}{Dime qué debo hacer.}
 {275}{}{Espere un momento, un señor. ¡Ni una palabra más! Esto se está poniendo serio, así que me voy.}
 {276}{}{En algún punto del camino a San Isidro, se perdió un robot mensajero que traía una parte. Necesito que me la traigas, es importante. Muévete, niño.}
@@ -158,7 +160,8 @@
 {353}{}{¡Ya llegó! Flores protegerá la propiedad de una forma excelente. Ya no tengo más trabajos para ti. Ten tu última paga, felicitaciones, viviste para ver tu retiro.}
 {354}{}{[Irse]}
 {355}{}{Flores está muerto.}
-{356}{}{Que malas noticias, y a mí no me gustan las malas noticias, me decepcionas. Lárgate, ya no tengo más trabajo para ti.}
+{356}{}{Que malas noticias, y a mí no me gustan las malas noticias, me decepcionas. Lárgate, niño, ya no tengo más trabajo para ti.}
+{1356}{}{Que malas noticias, y a mí no me gustan las malas noticias, me decepcionas. Lárgate, muñeca, ya no tengo más trabajo para ti.}
 {357}{}{[Irse]}
 {358}{}{Flores no quiso trabajar para ti, se fue con los carroñeros.}
 

@@ -15,7 +15,8 @@
 {204}{}{Cuidado con lo que dices, no me ando con juegos. Piérdete.}
 {205}{}{Como digas...}
 {206}{}{Ten, 10 chapas.}
-{207}{}{Muy bien... Veo que eres un ricachón, así que dame otras 10.}
+{207}{}{Buen chico... Veo que eres un ricachón, así que dame otras 10.}
+{1207}{}{Buena chica... Veo que tienes dinero, así que dame otras 10.}
 {208}{}{Aquí tienes las 10. ¿Estás contento?}
 {209}{}{Ten todo lo que tengo. ¿Estás contento?}
 {210}{}{Algo, amo los idiotas como tú. Aunque no es tan divertido como antes... ¿Por qué te estoy hablando? Lárgate.}
@@ -37,6 +38,7 @@
 {226}{}{[Corre del mendigo tan rápido como puedas]}
 {227}{}{[Ignóralo y sigue caminando]}
 {228}{}{¡Oye, detente! Te estoy hablando, normalucho.}
+{1228}{}{¡Oye, detente! Te estoy hablando, zorra normalucha.}
 {229}{}{[Ignóralo]}
 {230}{}{¿Qué quieres?}
 {231}{}{Está bien, tengo chapas. ¿Cuánto necesitas?}
