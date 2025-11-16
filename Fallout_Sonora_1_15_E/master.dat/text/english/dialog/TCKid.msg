@@ -1,7 +1,7 @@
 {100}{}{You see Romeo Six.}
 {101}{}{You see one of the Tinsmiths. He looks very young, almost a teenager.}
 {102}{}{Use the surgery skill to remove the implant.}
-{103}{}{Following the Tinsmith's instructions, you manage to remove the chip from his body.}
+{103}{}{Following the Tinsmiths' instructions, you manage to remove the chip from his body.}
 {104}{}{Outsider? Here? Perhaps I should recheck my weapons...}
 
 # First dialogue

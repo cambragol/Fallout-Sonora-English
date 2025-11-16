@@ -283,7 +283,7 @@
 #--- Dependencies
 {1104}{}{Disfrutas sin parar del sabor de Nuka-Cola, el refresco del mundo post-nuclear.}
 {1105}{}{Eres adicto a los esteroides. Debes tomarlos regularmente o sufrirás el "mono".}
-{1106}{}{Eres adicto a los mentats. Debes tomarlos regularmente o sufrirás el "mono".}
+{1106}{}{Eres adicto a los Mentats. Debes tomarlos regularmente o sufrirás el "mono".}
 {1107}{}{Eres adicto al psico. Si no lo tomas, sufrirás. Si lo tomas, sufrirán los demás.}
 {1108}{}{Eres adicto al RadAway. Debes tomarlo regularmente o sufrirás el "mono".}
 {1109}{}{Tienes un problema con el alcohol. Realmente tienes un grave problema con tus hábitos de bebida.}

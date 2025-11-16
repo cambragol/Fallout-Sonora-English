@@ -19,4 +19,4 @@
 {130}{}{Who the hell are you?}
 {131}{}{It's him, keep quiet.}
 {132}{}{I'd like armor like yours.}
-{133}{}{Are you one of the Tinsmith's creations?}
+{133}{}{Are you one of the Tinsmiths' creations?}

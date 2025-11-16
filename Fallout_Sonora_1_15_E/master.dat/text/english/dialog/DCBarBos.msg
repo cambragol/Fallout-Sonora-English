@@ -16,8 +16,8 @@
 {210}{}{Not my prob'. The mayor can take his daughter's place if he can't pay.}
 {211}{}{I'll tell him your demands.}
 {212}{}{What's your problem?}
-{213}{}{Your not from around here, are ya'? I'd know you otherwise.}
-{1213}{}{Your not from around here, are ya' miss? I'd know you otherwise.}
+{213}{}{You're not from around here, are ya'? I'd know you otherwise.}
+{1213}{}{You're not from around here, are ya' miss? I'd know you otherwise.}
 {214}{}{What does it matter?}
 {215}{}{Caps don't matter to me. There's an old cemetery east of the city. Mass grave. That's where the folks of Casa Grande rest, 'cluding my parents.}
 {216}{}{[Listen]}

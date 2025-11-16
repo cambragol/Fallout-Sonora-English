@@ -13,7 +13,7 @@
 {207}{}{Can I ask you a question?}
 
 #Re-dialogue
-{210}{}{Well, what is it wanderer?}
+{210}{}{Well, what is it, wanderer?}
 {1210}{}{What's on your mind, wanderer?}
 {211}{}{What's up, Ranger?}
 {212}{}{Later.}

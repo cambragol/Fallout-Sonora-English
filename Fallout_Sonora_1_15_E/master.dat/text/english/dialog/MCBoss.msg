@@ -93,8 +93,8 @@
 {288}{}{I saved your people in the Casa Grande bar. You can trust me.}
 {1288}{}{I saved your people in the Casa Grande bar. You can trust me.}
 
-{290}{}{I escaped from the Tinsmith's slave pen. Now I have nowhere to go.}
-{1290}{}{I escaped from the Tinsmith's slave pen. Now I have nowhere to go.}
+{290}{}{I escaped from the Tinsmiths' slave pen. Now I have nowhere to go.}
+{1290}{}{I escaped from the Tinsmiths' slave pen. Now I have nowhere to go.}
 {291}{}{(rasping) I get you. Tinsmiths have pissed off a lot of people in these lands. We've felt their sting too.}
 {292}{}{Does this mean you'll accept me?}
 {293}{}{You'll have to prove your loyalty to the gang.}
@@ -119,7 +119,7 @@
 {321}{}{That's it. Interesting.}
 {322}{}{But how did you get to this life? Where did all these guys come from?}
 {323}{}{Everyone's got a story. But we're all outcasts. Some were driven out of Casa Grande when that bastard Bustos took over. Others were kicked out by Tinsmiths. And some fled problems in Phoenix. This is our only way.}
-{324}{}{Everyones got a tough story I guess.}
+{324}{}{Everyone's got a tough story I guess.}
 {325}{}{What did the Tinsmiths do to you?}
 {326}{}{Their power is growing, and the wasteland just bows to it. They seize tech and resources, impose their own laws, and force settlements to work for their cause. Now we hit their caravans the same way.}
 {327}{}{[Listen]}

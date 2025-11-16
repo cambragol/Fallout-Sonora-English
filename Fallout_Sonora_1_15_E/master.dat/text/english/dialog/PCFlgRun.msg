@@ -45,5 +45,5 @@
 {226}{}{(sighs) Living in a colony, I never thought I'd have to earn money this way.}
 {227}{}{There's a first time for everything. Move that ass, we'll find a secluded spot.}
 {228}{}{Sorry, this was a bad idea. Forget it, I'm just gonna leave...}
-{229}{}{(after an hour of rough sex, you rise from the bed with satisfaction and look at the limp, naked body below; you take out the caps and silently throw them on the dirty sheet; the woman rolls to her side and sobbing quietly)}
+{229}{}{(after an hour of rough sex, you rise from the bed with satisfaction and look at the limp, naked body below; you take out the caps and silently throw them on the dirty sheet; the woman rolls on her side, sobbing quietly)}
 {230}{}{[Done]}

@@ -16,7 +16,7 @@
 {121}{}{You don't belong here.}  
 {122}{}{We know what kind of person you are. There's no place for that here.}  
 {123}{}{Get out of here.}  
-{124}{}{Leave, or the rangers will deal with you.}  
+{124}{}{Leave, or the Rangers will deal with you.}  
 {125}{}{Bother the locals, and Garth'll make sure you regret it.}  
 {126}{}{}
 {127}{}{}

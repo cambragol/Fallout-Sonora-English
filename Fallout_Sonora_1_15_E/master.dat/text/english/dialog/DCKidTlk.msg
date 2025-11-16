@@ -101,7 +101,7 @@
 
 {300}{}{[Pinch the handle of the music box and wind the mechanism]}
 {301}{}{(The child listens to the melody in fascination; surprise suddenly appears on his wild face, which has not known a child's feelings for a long time.)}
-{302}{}{Pretty cool huh? Do you want this?}
+{302}{}{Pretty cool, huh? Do you want this?}
 {303}{}{(The boy nods happily, expressing in every possible way his desire to possess the unusual object.)}
 {304}{}{Here you go.}
 {305}{}{[Hold out the music box, but then withdraw your hand]}

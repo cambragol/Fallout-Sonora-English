@@ -39,7 +39,7 @@
 
 {230}{}{Enough! You will be publicly flogged and hanged! Seize the heretic!}
 {1230}{}{Enough! You will be publicly flogged and hanged! Seize the heretic!}
-{231}{}{That's it! Time to die tyrant!}
+{231}{}{That's it! Time to die, tyrant!}
 {232}{}{You're a raving lunatic...}
 {233}{}{He is an enemy! Stop him in the name of the Fire!}
 {234}{}{Relax, now we're playing my game.}
@@ -344,7 +344,7 @@
 {562}{}{Alright, I'll go there and check it out.}
 {563}{}{I'm not entirely sure, but it seems pretty likely...}
 
-{570}{}{The acolytes routines were being leaked. By Matthias. He monitored the acolytes' schedule and then transmitted the data to the church's enemies via the radio.}
+{570}{}{The acolytes' routines were being leaked. By Matthias. He monitored the acolytes' schedule and then transmitted the data to the church's enemies via the radio.}
 {571}{}{(Lord Aaron's lips turn blood-red with anger) Matthias... I should have guessed earlier. How could one of my closest advisors betray me? Guards! Find Matthias and arrest him immediately.}
 {572}{}{Be gentle with this well-intentioned man.}
 {573}{}{Right. No mercy for that traitor.}
@@ -368,8 +368,8 @@
 {590}{}{You haven't really deemed that many people to be 'worthy' either, have you?}
 
 #Quest enhancement by cambragol
-{591}{}{Yes, the acolytes routines may have been leaked. Matthias seems to have been checking their schedules recently...}
-{592}{}{Yes, the acolytes routines may have been leaked. Matthias seems to have been using the radio to communicate with someone outside the cathedral...}
+{591}{}{Yes, the acolytes routines' may have been leaked. Matthias seems to have been checking their schedules recently...}
+{592}{}{Yes, the acolytes routines' may have been leaked. Matthias seems to have been using the radio to communicate with someone outside the cathedral...}
 {593}{}{Matthias? Are you insane? He is one of my most trusted advisors. Look elsewhere, fool.}
 {594}{}{Uh, yes, of course my Lord.}
 

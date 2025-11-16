@@ -28,5 +28,5 @@
 {132}{}{You know old tech too, like Rufus?}  
 {133}{}{Can you ride it?}  
 {134}{}{Think this bike can catch fish or predict the weather?}  
-{135}{}{The rangers should totally get motorcycles.}  
+{135}{}{The Rangers should totally get motorcycles.}  
 {136}{}{Where'd you find this bike?}  

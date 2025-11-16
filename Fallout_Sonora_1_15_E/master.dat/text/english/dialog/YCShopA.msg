@@ -11,7 +11,7 @@
 {204}{}{Goodbye.}
 {205}{}{Can I ask you about something else?}
 {206}{}{Hello, friend! Glad to see you. This is a workshop and general store. Come on in, pick anything you like. Big discounts for ghouls and mutants.}
-{207}{}{Sound's good.}
+{207}{}{Sounds good.}
 {208}{}{I need to take another look at what you have for sale.}
 {209}{}{}
 

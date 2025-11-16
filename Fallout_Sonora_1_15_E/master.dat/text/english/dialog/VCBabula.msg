@@ -24,7 +24,7 @@
 {225}{}{Thanks, Granny. Every little bit helps right now.}
 {226}{}{Family heirlooms? That's it? Damn, Granny, you're no help at all. Fine, I'll check out Dad's cellar.}
 {227}{}{Alright, I'll try to find them before I head out.}
-{228}{}{Be careful. The cellars are crawling with rats and darker than a brahmin's backside. Take this lighter, though it's like giving away my right arm. And when you find the family heirlooms, head straight to the plaza and find Jose. He's knows a bit that ought to help you along your way.}
+{228}{}{Be careful. The cellars are crawling with rats and darker than a brahmin's backside. Take this lighter, though it's like giving away my right arm. And when you find the family heirlooms, head straight to the plaza and find Jose. He knows a bit that ought to help you along your way.}
 {229}{}{Before I go down, I need to ask you something.}
 {1229}{}{Before I go down, I need to ask you something.}
 {230}{}{I'm going right now.}

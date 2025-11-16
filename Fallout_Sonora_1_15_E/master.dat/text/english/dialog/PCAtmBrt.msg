@@ -24,7 +24,7 @@
 {220}{}{Your boss promised to pay me for the job I helped him with.}
 {221}{}{Yes, yes, I remember. You can choose your reward.}
 {222}{}{Gimme some time to think. I'll be back soon.}
-{223}{}{Alright, sign here and here. Just kidding. You probably can't write. By the way, if you need batteries, come to me. The boss said its okay to trade with you.}
+{223}{}{Alright, sign here and here. Just kidding. You probably can't write. By the way, if you need batteries, come to me. The boss said it's okay to trade with you.}
 {224}{}{Nice. I'll remember that. See you later, Herbert.}
 {225}{}{250 caps.}
 {226}{}{Laser pistol.}

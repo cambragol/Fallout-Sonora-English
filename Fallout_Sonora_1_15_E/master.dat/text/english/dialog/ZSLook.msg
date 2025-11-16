@@ -49,7 +49,7 @@
 #San Brahmin
 {230}{}{This exhibit evokes both fear and awe.}
 {231}{}{It's good thing monsters like that don't exist in the world anymore... At least I think they don't.}
-{232}{}{Movie titles are written here. You've never seen them. You never seen any movies.}
+{232}{}{Movie titles are written here. You've never seen them. You've never seen any movies.}
 {233}{}{ }
 
 #Phoenix

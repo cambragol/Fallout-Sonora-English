@@ -17,7 +17,7 @@
 {210}{}{Well, it's a start.}
 {211}{}{Look at us. Are two intelligent beings really enemies here?}
 {212}{}{It's clear we need each other.}
-{213}{}{Good luck, smooth skin. But I'm fine on my own.}
+{213}{}{Good luck, smoothskin. But I'm fine on my own.}
 
 # Dialogue after communion
 {220}{}{What do you want?}

@@ -1,6 +1,6 @@
 {100}{}{You see Flick the trader.}
 {101}{}{You see Flick the wandering trader.}
-{102}{}{No more nuka-cola... honest.}
+{102}{}{No more Nuka-Cola... honest.}
 {103}{}{The merchant lost his harmful goods. Only thing left is to report the success to commander Helford.}
 
 #Start of Dialogue
@@ -69,7 +69,7 @@
 {305}{}{...}
 {310}{}{Leave me be. Not givin' up my goods.}
 {311}{}{Alright.}
-{312}{}{I could take all your irradiated nuka-cola off your hands.}
+{312}{}{I could take all your irradiated Nuka-Cola off your hands.}
 {313}{}{That'll cost ya a heap of caps. But I'm always up for tradin' trash for treasure. Show me what ya got.}
 {314}{}{[Continue]}
 {315}{}{Take care.}

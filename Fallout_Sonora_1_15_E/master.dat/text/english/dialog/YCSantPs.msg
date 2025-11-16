@@ -10,7 +10,7 @@
 {203}{}{Adios.}
 {204}{}{Maybe to Old Town, or maybe to the place across the street, or maybe nowhere. Why do you ask?}
 {205}{}{Why do you ask?}
-{206}{}{I can give you a lift. Or, are you headed to La Pensione? Just a heads up, though - it's a place for ghouls only, so I wouldn't recommend it for smooth skins like you. Besides, there's not much to do there. But if you're looking for 'relaxation', I can offer you some great options at a low price. Come check it out; you won't regret it.}
+{206}{}{I can give you a lift. Or, are you headed to La Pensione? Just a heads up, though - it's a place for ghouls only, so I wouldn't recommend it for smoothskins like you. Besides, there's not much to do there. But if you're looking for 'relaxation', I can offer you some great options at a low price. Come check it out; you won't regret it.}
 {207}{}{Alright, let's see what you've got.}
 {208}{}{I can give you a lift. Or, are you heading to La Pensione? It's just for ghouls, like you. But watch out - prices there are as high as my late wife's nagging! I can get you all kinds of 'relaxation' for a better price. Come on over; you won't regret it.}
 {209}{}{Hmm, I'll keep that in mind.}

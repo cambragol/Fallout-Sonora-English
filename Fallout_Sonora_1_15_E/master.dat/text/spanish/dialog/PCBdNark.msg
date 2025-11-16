@@ -57,7 +57,7 @@
 {240}{}{Debes parar, estás desperdiciando tu vida.}
 {241}{}{¡C-come monda! E-eso es asunto mío, y-yo decido qué drogas quiero y cuándo las quiero..}
 {242}{}{¿Qué es lo que estás usando, exactamente?}
-{243}{}{Una mezcla de Psico, analgésicos y mentats. Es de lo más fuerte que hay. Emp-piezas a ver d-duendes y autos voladores. A-al menos esto me deja ser feliz en este maldito barrio.}
+{243}{}{Una mezcla de Psico, analgésicos y Mentats. Es de lo más fuerte que hay. Emp-piezas a ver d-duendes y autos voladores. A-al menos esto me deja ser feliz en este maldito barrio.}
 {244}{}{¿Cuándo empezaste a meterte esta basura?}
 {245}{}{P-pues... empecé con un medicamento para la fiebre, me a-ayudó y me s-sentía mucho mejor, pero me di c-c-cuenta de que no podía parar. No es fácil dejar algo a-así.}
 {246}{}{¿Quién te vende las drogas?}
@@ -86,4 +86,4 @@
 {269}{}{¿¡U-unas semanas!? Dios mío... No tengo otra opción. Gracias..}
 {270}{}{Buena suerte, Larry.}
 {271}{}{No, perdón, ni tengo licencia.}
-{272}{}{Tengo unos mentats. Toma, quizás te hagan bien. Pero si sigues así, morirás en un par de semanas.}
+{272}{}{Tengo unos Mentats. Toma, quizás te hagan bien. Pero si sigues así, morirás en un par de semanas.}

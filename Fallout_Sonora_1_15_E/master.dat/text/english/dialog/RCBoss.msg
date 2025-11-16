@@ -108,7 +108,7 @@
 {302}{}{I know the location of their main base. And I managed to scout the inside a bit as well.}
 {303}{}{A bold claim. No one's ever found that place and lived to tell the tale.}
 {304}{}{What about the ranger I helped?}
-{305}{}{So that was your doing? Well, Ranger Jason's inexperience showed - he got lost on the way back and wandered the desert until he stumbled upon one of our abandoned outposts. We never got the exact coordinates of the Jackals base from him, and searching the whole area for their hideout was too much.}
+{305}{}{So that was your doing? Well, Ranger Jason's inexperience showed - he got lost on the way back and wandered the desert until he stumbled upon one of our abandoned outposts. We never got the exact coordinates of the Jackals' base from him, and searching the whole area for their hideout was too much.}
 {306}{}{Well, I guess he had to put his own survival first...}
 {307}{}{Trust me, I've got your only lead.}
 {308}{}{Indeed. So, where is this base?}

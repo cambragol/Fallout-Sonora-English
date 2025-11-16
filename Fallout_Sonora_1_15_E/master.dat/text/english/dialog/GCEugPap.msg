@@ -41,7 +41,7 @@
 {256}{}{This city will die sooner or later, and Eugene will be left with nothing but rubbish.}
 {257}{}{That might be true, but... So what? How do I know these Rangers really want what's best for Eugene? I don't believe them!}
 {258}{}{Trust Eugene. Otherwise, watch him languish in this landfill. Do you really want this? At least with the Rangers he'll have some kind of future.}
-{259}{}{Fine. You've got a real silver tongue mister... Take Eugene and take him to a 'better' place. But remember - if something happens to him, you'll answer for it with your head!}
+{259}{}{Fine. You've got a real silver tongue, mister... Take Eugene and take him to a 'better' place. But remember - if something happens to him, you'll answer for it with your head!}
 {260}{}{You don't have to worry about anything. Eugene is in good hands.}
 {261}{}{There's no convincing you.}
 {262}{}{One more word, I swear, it'll be your fuckin' last!}

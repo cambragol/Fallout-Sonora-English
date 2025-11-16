@@ -114,7 +114,7 @@
 {290}{}{If you leave us alone, I'll try it.}
 {291}{}{As Supreme Paladin, I *will* keep my word. Take action.}
 {292}{}{Alright. Goodbye.}
-{293}{}{It's strange to hear you saying its unfair, when you're the one behind it all.}
+{293}{}{It's strange to hear you saying it's unfair, when you're the one behind it all.}
 {294}{}{What the hell are you going on about? We're just buying nuclear batteries - ones the Tinsmiths of Two-Sun make. Sure, they get their uranium from Flagstaff, but that's their problem, not ours. I've heard their leadership got greedy, but what can we do about it? We need those batteries, and the whole region depends on them.}  
 {295}{}{Right. But *you* keep them all in business. Isn't that the fact of the matter?}
 {296}{}{Listen, son, we're not slave traders. The Brotherhood is an ancient and noble order. Our purpose is to maintain order in the wasteland - because right now, California's a damned mess. There's a war with an army of super mutants out there. If we fail to stop it, that menace will march right to your doorstep. Is that what you want?}  

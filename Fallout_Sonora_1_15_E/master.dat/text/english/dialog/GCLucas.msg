@@ -31,7 +31,7 @@
 {174}{}{So it'll be easier for you to get the contracts. I still need that info.}
 {175}{}{I'll go and get on with it then.}
 {176}{}{You know, I'm not so good with computers. So... it'll be pretty tough to finish your 'favor'.}
-{177}{}{What, you can't access the computer huh? Kogan probably keeps it protected by a password. Hmm... I'm a little reluctant, but I'll have to give you the decoder. It'll hack the system itself; you just have to give it some time.}
+{177}{}{What, you can't access the computer, huh? Kogan probably keeps it protected by a password. Hmm... I'm a little reluctant, but I'll have to give you the decoder. It'll hack the system itself; you just have to give it some time.}
 {178}{}{This changes things. I'll give it a try.}
 {179}{}{}
 {180}{}{Here's the contract data you asked for.}

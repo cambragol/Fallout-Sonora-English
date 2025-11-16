@@ -16,7 +16,7 @@
 {210}{}{If you answer my questions, you won't get hurt.}
 {211}{}{Leave me alone.}
 {212}{}{Oh well, whatever.}
-{213}{}{So it was your group that went to the rangers and turned off the path?}
+{213}{}{So it was your group that went to the Rangers and turned off the path?}
 
 #Re-dialogue
 {220}{}{What do you want?}

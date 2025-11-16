@@ -97,7 +97,7 @@
 {316}{}{I took it off to make things simple. When the pueblo's safe, it'll be back on my chest.}
 {317}{}{Why are the Rangers getting involved in this war?}
 {318}{}{We have two goals: make allies of the tribe and stop Phoenix's expansion.}
-{319}{}{Don't the Ranger's laws conflict with the tribes laws?}
+{319}{}{Don't the Rangers' laws conflict with the tribe's laws?}
 {320}{}{Simple rules for everyone: don't kill without reason, don't steal. As for local customs, we have to adapt.}
 {321}{}{I see.}
 

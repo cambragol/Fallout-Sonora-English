@@ -5,7 +5,7 @@
 
 {210}{}{A slight static crackle comes from the speaker.}
 {211}{}{Scan on the General frequency.}
-{212}{}{Tune to the Faber's mercenaries' frequency.}
+{212}{}{Tune to Faber's mercenaries' frequency.}
 {213}{}{Tune to the Rangers' frequency.}
 {214}{}{Tune to the Fire Worshippers' frequency.}
 {215}{}{Tune to the Phoenix rebels' frequency.}
@@ -38,7 +38,7 @@
 {248}{}{*sh-sh-sh* - "Bravo team, respond!" - *sh-sh-sh* - "Bravo team, respond!.. Damn..."}
 {249}{}{*sh-sh-sh*}
 
-{250}{}{...can't believe it! Who could have done this?! - The rangers have many enemies. But if the dam was destroyed from the inside, it must have been done by one of our own. They say some newbie was seen inside the dam before this. The guards were interrogated strictly. They won't see their badge again.}
+{250}{}{...can't believe it! Who could have done this?! - The Rangers have many enemies. But if the dam was destroyed from the inside, it must have been done by one of our own. They say some newbie was seen inside the dam before this. The guards were interrogated strictly. They won't see their badge again.}
 {251}{}{...at the base, be sure to check him out. That guy is a great mechanic. - I don't like dealing with teenagers. Just make sure he watches over the dam, old Rufus will soon kick the bucket, and then what?}
 {252}{}{...I noticed too. What happened? - The comms officer hired some farmer to fix the antenna. Now the radio works better and over a greater distance. - A farmer? That's a twist. I should treat him to some wasteland coffee when we meet.}
 {253}{}{...that fugitive was finally caught. The bastard was hiding in a cellar near the farmers on Route 95. - Right under our noses? And we couldn't catch him for so long? - He was an excellent spy, we could use such. They say it wasn't even the rangers who caught him, but some drifter. - Well, at least some use from strangers. - You don't say...}
@@ -53,7 +53,7 @@
 {267}{}{You have detected the source of the radio echo.}
 {268}{}{Head to the location right now.}
 {269}{}{}
-{270}{}{Hey, rangers, has anyone seen that legendary giant radscorpion?}
+{270}{}{Hey, Rangers, has anyone seen that legendary giant radscorpion?}
 {271}{}{Copy, rookie. It was last seen at these coordinates. Are you going hunting? Be careful, better not face that creature without a grenade launcher.}
 {272}{}{[Go to the provided coordinates]}
 {273}{}{Got it, ranger. Over and out.}

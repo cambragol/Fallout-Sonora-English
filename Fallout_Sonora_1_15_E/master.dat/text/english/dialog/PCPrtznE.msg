@@ -40,7 +40,7 @@
 {250}{}{Initiate? What brings you here?}
 {251}{}{I believe we seek the same person. Don't impede my mission, or face Aaron's wrath.}
 {252}{}{Aaron sent you? That changes things. We won't hinder you.}
-{253}{}{Thank you brothers.}
+{253}{}{Thank you, brothers.}
 {254}{}{Just searching for relics. Until next time, brother.}
 
 {260}{}{Initiate? Hmm, I don't recall seeing you before. What's your purpose here?}

@@ -702,7 +702,7 @@
 {34700}{}{Huesos}
 {34701}{}{Ves a Ed. Y Ed está muerto. El mono tiene el número 13 en su espalda.}
 {34800}{}{Máquina expendedora de Mentats}
-{34801}{}{Según las grandes letras rojas que dicen "MENTATS", esta máquina debe vender mentats.}
+{34801}{}{Según las grandes letras rojas que dicen "MENTATS", esta máquina debe vender Mentats.}
 {34900}{}{Restos de un robot}
 {34901}{}{Este robot ha caído en esta laguna tóxica. ¡Qué muerte tan horrorosa!}
 ###------- HOLODICKS

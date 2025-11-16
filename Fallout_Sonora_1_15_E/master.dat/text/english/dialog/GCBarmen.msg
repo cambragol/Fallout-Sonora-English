@@ -205,7 +205,7 @@
 {428}{}{Oh really? Good. 'Cause otherwise, we might have to roast you instead of that brahmin. We're in a hunger season here, and there isn't enough food for everyone.}
 {429}{}{Is it really that bad?}
 
-{430}{}{Exactly. Previously, we traded with southern cities, exchanging parts for products. But now have almost nothing to trade, and San Brahmin isn't selling their meat to anyone anymore.}
+{430}{}{Exactly. Previously, we traded with southern cities, exchanging parts for products. But now we have almost nothing to trade, and San Brahmin isn't selling their meat to anyone anymore.}
 {431}{}{And nothing can be done?}
 {432}{}{I don't know. We don't have caravans anymore. I can't even contact the traders.}
 {433}{}{Looks like you have a problem here.}
@@ -222,15 +222,15 @@
 {444}{}{There won't be any caravans coming. San Brahmin has formed an alliance with the Rangers.}
 {445}{}{That's bad news... This town won't last long on just coyote and iguana meat.}
 {446}{}{So what's to be done now?}
-{447}{}{Buy meat from the rangers.}
-{448}{}{I could buy meat from the rangers, but it'll come at a steep price. And I'm not thrilled about the idea of kowtowing to them. Garage City's relationship with them is already on thin ice, you know. But it seems we've got no other option now.}
+{447}{}{Buy meat from the Rangers.}
+{448}{}{I could buy meat from the Rangers, but it'll come at a steep price. And I'm not thrilled about the idea of kowtowing to them. Garage City's relationship with them is already on thin ice, you know. But it seems we've got no other option now.}
 {449}{}{It's better than nothing. I'll talk to someone at their base.}
 {450}{}{It's better than nothing. Good luck.}
-{451}{}{Well, none of the rangers will listen to me. Been down that road before.}
+{451}{}{Well, none of the Rangers will listen to me. Been down that road before.}
 {452}{}{I have bad news. No one in the ranger territory wants to trade food with you.}
 {453}{}{I understand. Thanks for trying.}
 {454}{}{Good luck. Hang in there.}
-{455}{}{Some people in the ranger territory have agreed to trade food with you.}
+{455}{}{Some people in the Ranger territory have agreed to trade food with you.}
 {456}{}{Well, well... business will be picking up, thanks to you. With food coming in again, the city won't be facing famine. But the Rangers' presence has already left its mark on my establishment. Maybe it's for the better, maybe not. Either way, thank you. Here, take a hundred caps as your share of the deal.}
 {457}{}{Thanks. And you're welcome.}
 {458}{}{Sorry to say, but there won't be any caravans coming. The tribes have become bitter towards outsiders after a series of murders.}

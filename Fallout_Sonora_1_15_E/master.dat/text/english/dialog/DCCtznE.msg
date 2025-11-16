@@ -77,7 +77,7 @@
 {275}{}{Efectivamente. En el sur hablan español, y no hablo bien tu idioma.}
 {276}{}{«So you came from the south? It must have been a hard road.»}
 {277}{}{«You're mad, old man. There's nothing but barren desert in the south, No one crosses it.»}
-{278}{}{«Came from the south huh? It's a miracle you survived.»}
+{278}{}{«Came from the south, huh? It's a miracle you survived.»}
 {279}{}{«It was hard to get through the desert. But we managed, because we had no choice. First we got to the city of Two-Sun, but we were driven out. Then we came to Casa Grande and settled in.»}
 {280}{}{Fue muy difícil cruzar el desierto. Pero lo hicimos porque no teníamos otra opción. Primero llegamos a la ciudad de Two-Sun, y de ahí nos echaron. Luego nos quedamos en Casa Grande.}
 {281}{}{«You say "we". Who else was with you?»}

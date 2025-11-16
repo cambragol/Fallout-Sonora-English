@@ -62,7 +62,7 @@
 {273}{}{So, who exactly are you?}
 {274}{}{A cheap trick to lure people in, cultist. You're not fooling me.}
 {275}{}{Alright, I'll head straight there.}
-{276}{}{Your church weilds enough power to carry out public executions?}
+{276}{}{Your church wields enough power to carry out public executions?}
 {277}{}{No, no, the execution was carried out by others, but under our supervision. And yet, the whole city owes the church. Owes for water, for electricity, for peace and order. Soon you will see all this with your own eyes, child of Radiation and Desolation.}
 {278}{}{You sure talk a good game, old man. I'll check it out myself to see if you're lying or not.}
 {279}{}{Well then, I should explore the city a bit and see. Goodbye.}

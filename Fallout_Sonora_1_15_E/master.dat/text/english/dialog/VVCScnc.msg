@@ -181,7 +181,7 @@
 {472}{}{There's no one to report to. The Cathedral of Fire is destroyed. Gone. I don't know what happened, but the fire worshippers are on the run, and no one needs a scientist like me.}
 {473}{}{Are you sure?}
 {474}{}{I have one lead. I found vague reports about a city of scientists to the south. I want to look for it and maybe find... a home. If you're heading that way, I'd like to tag along.}
-{475}{}{South huh? I'll think about it.}
+{475}{}{South, huh? I'll think about it.}
 {476}{}{Oh, by the way, I snagged some Rad-X and stimpaks from the lab. Take them as a small thank you for saving me.}
 {477}{}{Thanks. See you around.}
 {480}{}{Is this the place you were talking about?}

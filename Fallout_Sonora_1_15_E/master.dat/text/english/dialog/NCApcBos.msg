@@ -151,7 +151,7 @@
 {1384}{}{I didn't think of that.}
 {385}{}{It was the most effective way to halt the infection.}
 {386}{}{Of course! Leave it to a wasteland wanderer to solve a scientific problem... My god. I need to calm down.}
-{387}{}{?}
+{387}{}{Huh?}
 {388}{}{Sorry, your actions were commendable. Safety first, after all. But what if the infection appears somewhere else? Without the lab data, dealing with it will be a lot tougher. On the other hand, we now have plenty of time to prepare. So, in any case - thanks.}
 {389}{}{The main thing is that the problem's solved. Good luck with your research, Nestor.}
 {390}{}{Hey, hey! Am I gonna get paid? It wasn't that easy.}

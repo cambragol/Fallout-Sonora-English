@@ -16,7 +16,7 @@
 {207}{}{Got it. I've got some more questions, okay?}
 {208}{}{}
 {209}{}{}
-{210}{}{Tell me about yourself?}
+{210}{}{Tell me about yourself.}
 {211}{}{Retired Sergeant Robert Newsom. Before the war, I kept order in the streets of Bakersfield, and now I keep order in Dayglow. I love my job. And I won't let anyone mess around in my territory.}
 {212}{}{What do you think of Gustavo?}
 {213}{}{He's well-suited for the role of mayor. And ghouls respect him. At least here, in San Ysidro. Though in Old Town, not everyone is as respectful.}

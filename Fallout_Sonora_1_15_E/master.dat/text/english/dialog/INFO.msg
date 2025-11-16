@@ -249,7 +249,7 @@
 {512}{}{No fresh air }
 {513}{}{ suffocating in the freezer.}
 {514}{}{What is this? Are you threatening me?}
-{515}{}{Put your weapon away or I'll take out mine}
+{515}{}{Put your weapon away or I'll take out mine.}
 {516}{}{Power armor makes your interlocutor wary.}
 {517}{}{...}
 {518}{}{It seems this robot can't talk.}

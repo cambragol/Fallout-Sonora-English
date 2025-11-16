@@ -11,5 +11,5 @@
 {204}{}{[CHEAT: open]}
 {205}{}{(You hear a click, and the door unlocks.)}
 {206}{}{Looks like some silent types are in there...}
-{207}{}{I'm from the rangers. Here are my call signs.}
+{207}{}{I'm from the Rangers. Here are my call signs.}
 {208}{}{Prior Mathias sent me to help the Liberation Party.}

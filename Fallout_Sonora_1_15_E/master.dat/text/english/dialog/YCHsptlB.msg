@@ -8,7 +8,7 @@
 {113}{}{Still hurts...}
 
 {200}{}{Hey, human, give me a hand! Got myself trapped in a cave-in and busted a few bones. These old ruins are falling apart...}
-{200}{}{Hey, buddy, give me a hand! Got myself trapped in a cave-in and busted a few bones. These old ruins are falling apart...}
+{201}{}{Hey, buddy, give me a hand! Got myself trapped in a cave-in and busted a few bones. These old ruins are falling apart...}
 {202}{}{Damn! Hold still, I'll give you hand!}
 {203}{}{Dream on. I don't want to dirty my hands on a freak like you.}
 {204}{}{I'm not going to help you. I'll just take your stuff and leave you to die.}

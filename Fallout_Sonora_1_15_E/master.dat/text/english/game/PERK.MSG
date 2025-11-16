@@ -148,7 +148,7 @@
 {1120}{}{The healing of bodies comes easier to you with this Perk. Each level of this Perk heals 4-10 additional hit points when using the First Aid or Doctor skills.}
 {1121}{}{You've got a knack for unearthing treasure. Now, you'll find more valuable loot in greater quantities, and stashes will be marked on your mini-map. Plus, traders will have 10% more caps for you to barter with.}
 {1122}{}{The critical hits you cause in combat are more devastating. You gain a 20% bonus on the critical hit table, almost ensuring that more damage will be done. This does not affect the chance to cause a critical hit.}
-{1123}{}{You have studied other human beings, giving you inside knowledge of their emotional reaction to you.  You will see the reaction level of the person you are talking to when involved in an indepth conversation.}
+{1123}{}{You have studied other human beings, giving you inside knowledge of their emotional reaction to you.  You will see the reaction level of the person you are talking to when involved in an in-depth conversation.}
 {1124}{}{The Slayer walks the earth!  In hand-to-hand combat all of your hits are upgraded to critical hits, causing destruction and mayhem.}
 {1125}{}{You have mastered the firearm as a source of pain.  With this Perk, any successful hit in combat with a ranged weapon will be upgraded to a critical hit if you also make a Luck roll.}
 {1126}{}{While Sneaking, if you hit a critter in the back, you will cause double damage using a hand-to-hand attack.  Silent Death is that kind of Perk.}

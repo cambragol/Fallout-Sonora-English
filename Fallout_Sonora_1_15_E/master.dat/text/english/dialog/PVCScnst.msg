@@ -89,7 +89,7 @@
 {351}{}{Because I'm tired of idiots and ignorant monkeys.}
 {352}{}{Is that all?}
 {353}{}{I'm not going to discuss this.}
-{354}{}{I think your frustrated by unfulfilled hopes. Aren't you given proper freedom?}
+{354}{}{I think you're frustrated by unfulfilled hopes. Aren't you given proper freedom?}
 
 {355}{}{(Adjusts glasses in sarcastic bewilderment) Wow! Look, the first psychologist of post-nuclear civilization! Save those sweet consoling words for those above. If they paid more RESPECT to my work, I wouldn't have to raise my voice at everyone I meet.}
 {356}{}{Sure, whatever you say.}

@@ -44,7 +44,7 @@
 {233}{}{I managed to fix the cooling system.}
 {234}{}{Thank Ampere, you did it! I can't believe it. How did you manage?}
 {235}{}{I had to tinker with it all day.}
-{236}{}{Smoothtalk, smooth skin. However, I don't think it's a coincidence that your arrival coincided with the sabotage.}
+{236}{}{Smoothtalk, smoothskin. However, I don't think it's a coincidence that your arrival coincided with the sabotage.}
 {2236}{}{Smoothtalk, leather face. However, I don't think it's a coincidence that your arrival coincided with the sabotage.}
 {237}{}{Uh, sabotage?}
 {238}{}{We examined the wreckage. And what did we find? The system was deliberately blown up with dynamite. How do you explain that, my slippery smoothskinned friend?}

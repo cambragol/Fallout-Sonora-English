@@ -22,7 +22,7 @@
 #Cut-scene
 {120}{}{ }
 {121}{}{Mr. Kogan! Mr. Kogan!}
-{122}{}{Fuck Larry! Why the hell are you barging into my office?}
+{122}{}{Fuck, Larry! Why the hell are you barging into my office?}
 {123}{}{What the hell! You know better than to barge into my office...}
 {124}{}{Mr. Kogan! In the dorm, there's a serious problem!}
 {125}{}{God damn this hole! Well, what is it now? Probably another drunken brawl.}

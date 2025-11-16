@@ -6,7 +6,7 @@
 #Initial dialogue
 {200}{}{(As you approach the guards, you notice their faces change as they raise their weapons.) Stop, no outsiders allowed here.}
 {201}{}{What's in there?}
-{202}{}{Over *there*, behind *that* door? That's the main headquarters of the rangers.}
+{202}{}{Over *there*, behind *that* door? That's the main headquarters of the Rangers.}
 {203}{}{Ah, that's what it is. Then I don't need to go there.}
 {204}{}{Then don't loiter around here.}
 {205}{}{Okay.}
@@ -35,8 +35,8 @@
 {226}{}{I'm glad to see you're welcoming the kid.}
 {227}{}{Hey, are you tired of living?! What the hell happened with Flick?}
 {228}{}{Why, were you close with him?}
-{229}{}{Us? Most folks on the base couldn't stand the guy. But that doesn't mean you go and kill one of the few merchants we've got! Look, I don't know what went down - command will sort it out. Just know, if you're to blame, the rangers won't be cutting you any slack.}  
-{1229}{}{Us? Most folks on the base couldn't stand the guy. But that doesn't mean you go and kill one of the few merchants we've got! Look, I don't know what went down - command will sort it out. Just know, if you're to blame, the rangers won't be cutting you any slack.}
+{229}{}{Us? Most folks on the base couldn't stand the guy. But that doesn't mean you go and kill one of the few merchants we've got! Look, I don't know what went down - command will sort it out. Just know, if you're to blame, the Rangers won't be cutting you any slack.}  
+{1229}{}{Us? Most folks on the base couldn't stand the guy. But that doesn't mean you go and kill one of the few merchants we've got! Look, I don't know what went down - command will sort it out. Just know, if you're to blame, the Rangers won't be cutting you any slack.}
 
 {230}{}{Commander Helford guaranteed me a pass.}
 {231}{}{I've got a story from Kuyuk in Flagstaff that the general might be interested in.}

@@ -57,7 +57,7 @@
 {153}{}{¡Muta!}
 {154}{}{Adicto a la Nuka-Cola}
 {155}{}{Adicto a los esteroides}
-{156}{}{Adicto a los mentats}
+{156}{}{Adicto a los Mentats}
 {157}{}{Adicto al psico}
 {158}{}{Adicto al radaway}
 {159}{}{! Arma de gran distancia}

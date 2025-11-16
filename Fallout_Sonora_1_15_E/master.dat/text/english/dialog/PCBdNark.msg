@@ -57,7 +57,7 @@
 {240}{}{So you're the one who's wasting his life away with drugs?}
 {241}{}{Go to hell! It's my business w-what kind of dope I take and when I t-take it.}
 {242}{}{What kind of drugs *are* you taking?}
-{243}{}{A mixture of Psycho, p-painkillers, and mentats. Killer stuff. You start s-s-seeing leprechauns and flying cars. At least there's some joy in these d-damn slums.}
+{243}{}{A mixture of Psycho, p-painkillers, and Mentats. Killer stuff. You start s-s-seeing leprechauns and flying cars. At least there's some joy in these d-damn slums.}
 {244}{}{Why did you even start with this crap?}
 {245}{}{Well, it started with a f-fever medicine. It really cured me, made me f-feel great again, but then I r-realized I c-c-couldn't stop taking it. It's not easy to quit.}
 {246}{}{Who supplies you?}
@@ -86,4 +86,4 @@
 {269}{}{A few weeks!? Oh god... Looks like I have no choice but to quit. Thanks, doc.}
 {270}{}{Good luck, Larry.}
 {271}{}{No, sorry, I'm not a doctor.}
-{272}{}{I have some mentats. Try them, maybe it'll clear your head. But this stuff is going to kill you in a few weeks.}
+{272}{}{I have some Mentats. Try them, maybe it'll clear your head. But this stuff is going to kill you in a few weeks.}

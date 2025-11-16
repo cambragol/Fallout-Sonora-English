@@ -88,9 +88,9 @@
 {285}{}{What does it take for you to finally open your eyes?}
 {286}{}{Prove to me that the Rangers are best choice. Maybe they have already proven themselves somewhere in the wasteland? Or tell us what bad things the alliance with Phoenix would bring us. Have you examples that will change my mind? There may be evil plans in the missionary camp to take over San Brahmin, but until I know the truth of this, I will not change my mind.}
 {287}{}{Okay. I'll look into it.}
-{288}{}{You're ahead of everyone, Chatto. Like a Brahmin who has strayed from the herd. You don't know where you're going.}
+{288}{}{You're ahead of everyone, Chatto. Like a brahmin who has strayed from the herd. You don't know where you're going.}
 {289}{}{I do not think so...}
-{290}{}{Brahmin are herd animals. This is the only way they can protect themselves from enemies. The single Brahmin is doomed.}
+{290}{}{Brahmin are herd animals. This is the only way they can protect themselves from enemies. The single brahmin is doomed.}
 {291}{}{(sigh) So what should I do? Please give your wisdom, because you and I are alike, wanderer. Should I stay in the camp and protect its old way of life? Or continue to fight against foolish old men who live in the past?}
 {1291}{}{(sigh) So what should I do? Please give your wisdom, because you and I are alike, wandering woman. Should I stay in the camp and protect its old way of life? Or continue to fight against foolish old men who live in the past?}
 {292}{}{I don't know, Chatto. I also ask myself this question. Let's put this conversation aside for now, okay?}

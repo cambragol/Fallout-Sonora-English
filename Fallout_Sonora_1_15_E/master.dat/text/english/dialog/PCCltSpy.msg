@@ -62,13 +62,13 @@
 {273}{}{May the Holy Fire forgive us. Amen.}
 {274}{}{Uh, whatever you say, Prior. Goodbye.}
 
-{275}{}{Aaron and his Advisor are well protected, but if you act quickly and decisively, you'll be strong enough. We need to take them by surprise in different parts of the cathedral so that they cannot unite. I'm will make sure that the peaceful monks do not interfere with your attack.}
+{275}{}{Aaron and his Advisor are well protected, but if you act quickly and decisively, you'll be strong enough. We need to take them by surprise in different parts of the cathedral so that they cannot unite. I will make sure that the peaceful monks do not interfere with your attack.}
 {276}{}{Great. I'll give the signal to attack. In the meantime, warn the monks.}
 {277}{}{Is it possible to do this without bloodshed?}
 {278}{}{Alas, Aaron and his allies will not give up without a fight. But there is another option. Under the cathedral there are underground levels where the Advisor has been working on a new weapon for several years. It is capable of destroying this entire cathedral.}
 {279}{}{This is a little too much. We'll just take over the church. I'll give the signal to attack. In the meantime, warn the monks.}
 {280}{}{This is a crazy plan. But that's why I like it.}
-{281}{}{You are the last hope for peace. I'm will give you the key to the basement where the Advisor is located, and I'll give a signal to my like-minded people so that they do not disturb you. Take action.}
+{281}{}{You are the last hope for peace. I will give you the key to the basement where the Advisor is located, and I'll give a signal to my like-minded people so that they do not disturb you. Take action.}
 {282}{}{Great.}
 
 # Aaron's Quest

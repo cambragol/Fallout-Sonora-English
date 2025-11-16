@@ -158,7 +158,7 @@
 {7601}{}{Do not use (Electronics).}
 {7700}{}{Gas Mask}
 {7701}{}{An old, damaged civilian model gas mask. It may still serve you for a while.}
-{7800}{}{Tinsmith's Goggles}
+{7800}{}{Tinsmiths' Goggles}
 {7801}{}{Electronic goggles made by Two-Sun Tinsmiths. Equipped with a night vision device, interchangeable lenses and various sensors. The battery lasts for 10 minutes.}
 {7900}{}{Flare}
 {7901}{}{A flare.  Creates light for a short period of time.  The paper is a little worn, but otherwise it is in good condition. Turn the top to turn it on.}
@@ -275,7 +275,7 @@
 {13400}{}{Punch Knife}
 {13401}{}{A large knife with a double-edged blade. Still surprisingly spicy. Min ST: 1.}
 {13500}{}{Ripper}
-{13501}{}{A Ripper(tm) vibroblade. Powered by a micro fusion cell, the chainblade rips and tears into it's target. Min ST: 1.}
+{13501}{}{A Ripper(tm) vibroblade. Powered by a micro fusion cell, the chainblade rips and tears into its target. Min ST: 1.}
 {13600}{}{Atomic Cutter}
 {13601}{}{A working tool for cutting hard material. Breaks molecular bonds with powerful radiation. Powered by a battery on the belt. Min ST: 1.}
 {13700}{}{Spear}

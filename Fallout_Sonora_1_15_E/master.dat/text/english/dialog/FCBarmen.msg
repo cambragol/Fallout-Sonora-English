@@ -100,7 +100,7 @@
 {257}{}{Ah, you and your rural superstitions... Throwing caps at them's just a waste. Give it another think.}
 {258}{}{(grins ominously) Time to flaunt this thing... Oh yeah - here's your 100 caps.}
 {259}{}{Deal's done.}
-{260}{}{Later Joe.}
+{260}{}{Later, Joe.}
 {261}{}{Looks like you're not keen on hashing this out. Let's talk about something else.}
 {262}{}{I'm not backing down from anyone. But if that's how it is, let's switch gears.}
 {263}{}{Take it for free. But do me a favor and mention my name in your stories, alright?}

@@ -6,7 +6,7 @@
 {199}{}{Who... my god, more nightmares? Now reavers plague me? Wait, can you speak? Say something! Please, don't be just in my head... A-and don't touch the weeds! They're dangerous!}
 {200}{}{Who's there? Say something! Please, don't be just in my head... A-and don't touch the weeds! They're dangerous!}
 {201}{}{Okay, calm down.}
-{202}{}{I'm Lamont. I have a farm in a canyon nearhere. Well, I used to have one.}
+{202}{}{I'm Lamont. I have a farm in a canyon near here. Well, I used to have one.}
 {203}{}{Why? Are there weeds there too?}
 {204}{}{They're worse than mantises... (glancing around in fear) The weeds - they're everywhere!}
 {205}{}{Come on, it's just a tumbleweed...}

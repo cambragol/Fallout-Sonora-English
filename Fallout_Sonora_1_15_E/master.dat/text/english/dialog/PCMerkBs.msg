@@ -238,7 +238,7 @@
 {421}{}{Ah, so our old friend Hernando is dead. He won't be makin' any more jokes about me! Let's see his head.}
 {422}{}{Here's the head.}
 {423}{}{Bitch, he made a lot of noise. Good to hear his big mouth will never make a sound again. Where's his head?}
-{424}{}{Yes. I'm here to claim the bounty on Eydie Gorme}
+{424}{}{Yes. I'm here to claim the bounty on Eydie Gorme.}
 {425}{}{Eh, she was once a beauty and performed in the casino. Strange fate. I don't understand why she lost her mind. Where is that pretty head?}
 {426}{}{Yes. I'm here to claim the bounty on Chucho Navarro.}
 {427}{}{Hernando Aviles is dead. But I couldn't take his head.}
@@ -321,7 +321,7 @@
 {501}{}{My people undergo regular training. They know their worth. And I know who is better suited for this or that job. Don't worry, they are professionals in their field.}
 {502}{}{In the murder business?}
 {503}{}{Exactly. Real killers. Cool and precise.}
-{504}{}{Sounds cool. How can I become a real KILLER? Can I take your training to too?}
+{504}{}{Sounds cool. How can I become a real KILLER? Can I take your training too?}
 {505}{}{Uh, too much talk of killing. Let's change the subject, okay?}
 {506}{}{Look, this is a pricey operation. And you're not in the guild yet. With all the costs, it's gonna run you 50,000 caps. But once you're trained up, you'll be making good money taking out all kinds of scum.}
 {507}{}{I don't have that kind of money! And I seriously doubt I could earn them back, even with your *training*. Goodbye.}
