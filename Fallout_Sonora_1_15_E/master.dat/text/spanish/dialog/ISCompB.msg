@@ -1,7 +1,7 @@
 {100}{}{Ves una computadora.}
 {101}{}{Estás viendo una antigua computadora. Es sorprendente que siga funcionando.}
 
-**#Dialogue**
+# Dialogue
 {200}{}{Se ha cargado el sistema.}
 {201}{}{Cerrar sesión}
 {202}{}{Regresar}

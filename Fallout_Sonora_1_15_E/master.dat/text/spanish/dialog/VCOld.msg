@@ -33,33 +33,6 @@
 {226}{}{Hr-r-r... snrk... khhr-khhr-khhr...}
 {227}{}{Está dormido. No valdrá la pena levantarlo...}
 
-
-vbnet
-Copy code
-{200}{}{(Estás viendo al anciano Hidalgo; está masticando algo mientras anda medio dormido, como siempre)}
-{201}{}{Hm. ¿Querías hablar conmigo, anciano?}
-{202}{}{Ah... }
-{203}{}{...Hrrm... que... eh... mm... aquí...}
-{204}{}{Mira, si dejas de mascar tabaco, quizás entienda lo que quieras decirme.}
-{205}{}{(Lo escupe y se limpia la boca con su mano huesuda) Te digo... que los demás te quieren en la reunión. Pensamos que ya es hora de que nos digas lo que piensas.}
-{206}{}{¿Qué reunión?}
-{207}{}{Hay decisiones que debemos tomar. Salvar a los demás no será nuestro último problema.}
-{208}{}{¿A qué hora se reunirán todos?}
-{209}{}{Esta noche, cuando no haya sol y se haya trabajado. A los mayores como yo nos gusta tomarlo con calma, así que no esperes que termine rápido.}
-{210}{}{Entonces vendré a esa hora. Nos vemos.}
-{211}{}{Bueno, tengo que ir.}
-{212}{}{Mejor espero aquí. ¿Qué tal si jugamos a los dados para pasar el rato?}
-{213}{}{Yo estaré esperando. No hay prisa.}
-
-{220}{}{, recuerdas que tenemos reunión, ¿verdad?}
-{221}{}{Por supuesto, seré puntual.}
-{222}{}{Ya cayó el sol. Es la hora.}
-{223}{}{¿Qué tal si jugamos a los dados? Será más entretenido esperar así.}
-{224}{}{Voy a esperar.}
-{225}{}{Llegaste tarde, ya están todos dormidos.}
-{226}{}{Hr-r-r... snrk... khhr-khhr-khhr...}
-{227}{}{Está dormido. No valdrá la pena levantarlo...}
-
 {230}{}{La reunión está a punto de empezar.}
 {231}{}{La reunión ha acabado.}
 {232}{}{¿Ya estamos todos? Muy bien. Necesitamos la opinión de cada uno de ustedes.}

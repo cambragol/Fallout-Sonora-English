@@ -34,7 +34,7 @@
 {228}{}{Muy bien hecho.}
 {229}{}{Está bien, no quiero problemas.}
 
-// added for the case that the player robs him of the money before asking for it - cambragol
+# added for the case that the player robs him of the money before asking for it - cambragol
 {230}{}{¿¡Qué!? No sé por qué te importa. Además, alguien robó mis chapas. Estoy quebrado.}
 {231}{}{Por alguna razón, te creo. Tuviste suerte.}
 

@@ -1,7 +1,7 @@
 {100}{}{You see a computer.}
 {101}{}{You see a decrepit terminal, barely functional but still clinging to the public network.}
 
-Dialogue
+# Dialogue
 {200}{}{Enter command.}
 {201}{}{End session.}
 {202}{}{Go back.}

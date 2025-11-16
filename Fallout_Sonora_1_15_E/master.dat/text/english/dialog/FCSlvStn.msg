@@ -34,7 +34,7 @@
 {228}{}{That's what I thought.}
 {229}{}{Alright. I don't want any trouble.}
 
-// added for the case that the player robs him of the money before asking for it - cambragol
+# added for the case that the player robs him of the money before asking for it - cambragol
 {230}{}{What!? I never asked for that shit. Besides, someone robbed me blind. I'm broke.}
 {231}{}{For some reason I believe you. Consider yourself lucky.}
 

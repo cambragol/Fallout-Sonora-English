@@ -33,33 +33,6 @@
 {226}{}{Hr-r-r... snrk... khhr-khhr-khhr...}
 {227}{}{He's fast asleep. No use trying to wake him now...}
 
-
-vbnet
-Copy code
-{200}{}{(Before you stands Old Man Hidalgo; as usual, he's half-asleep, chewing on something.)}
-{201}{}{Ahem. Old man, you wanted to see me?}
-{202}{}{Ahh... }
-{203}{}{...Hrrm... wh... uh... mm... here...}
-{204}{}{Look, if you stop chewing that tobacco, I might actually hear what you're saying.}
-{205}{}{(He spits and wipes his mouth with a bony hand.) I'm saying... the community wants you at the gathering. We figured it's time for you to throw in your two cents.}
-{206}{}{What gathering?}
-{207}{}{The community's gotta decide what to do next. Saving our folks wasn't the end of our troubles.}
-{208}{}{When's the meeting?}
-{209}{}{This evening, once everyone's finished their chores and gathered in the hall. Us old folks don't rush things, so count on it taking all night.}
-{210}{}{I'll be there on time. See you then.}
-{211}{}{Alright, I'll make sure to be there.}
-{212}{}{Might as well wait here. How about a game of dice to kill the time?}
-{213}{}{I'll wait around. No need to hurry.}
-
-{220}{}{, you remember about the gathering?}
-{221}{}{Yeah, I'll be there on time.}
-{222}{}{It's evening. Time to get started.}
-{223}{}{How about a game of dice while we wait?}
-{224}{}{I'll wait right here.}
-{225}{}{You're late. Everyone's already asleep.}
-{226}{}{Hr-r-r... snrk... khhr-khhr-khhr...}
-{227}{}{He's fast asleep. No use trying to wake him now...}
-
 {230}{}{The gathering's starting.}
 {231}{}{The gathering's over.}
 {232}{}{Is everyone here? Good. We need to hear from everyone.}

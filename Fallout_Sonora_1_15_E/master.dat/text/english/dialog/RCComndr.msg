@@ -168,7 +168,7 @@
 {364}{}{Glad to be of service.}
 {1364}{}{Glad to be of service.}
 {365}{}{Here's to future cooperation.}
-// added by cambragol for mid-way feedback
+# added by cambragol for mid-way feedback
 {366}{}{Radio's nearly fixed. Just working on possible interference with the signal.}
 {367}{}{Report back when it's done.}
 {368}{}{Got it.}

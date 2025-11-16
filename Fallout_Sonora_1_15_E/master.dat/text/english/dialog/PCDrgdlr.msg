@@ -132,7 +132,6 @@
 {315}{}{If I told you, I'd have to kill you too.}
 {316}{}{Damn, I hate when someone messes with my customers.}
 {317}{}{You mean that junkie... what's his name... Larry?}
-{317}{}{You mean that junkie... Larry, right?}
 {318}{}{Yeah, Larry. He might've been trash, but I still made some easy caps off him. What am I gonna do now?}
 {319}{}{You wouldn't have made money off him for long. Think about it.}
 
