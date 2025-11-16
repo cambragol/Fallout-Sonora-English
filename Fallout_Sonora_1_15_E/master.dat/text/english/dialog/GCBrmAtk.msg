@@ -44,6 +44,6 @@
 {258}{}{See you in Garage City.}
 {259}{}{We've almost got the brahmin. Wait until I bring it closer...}
 
-// added this to have better responses for buying the brahmin - cambragol
+# added this to have better responses for buying the brahmin - cambragol
 {260}{}{I traded with the herders for the Brahmin. It's ours now.}
 

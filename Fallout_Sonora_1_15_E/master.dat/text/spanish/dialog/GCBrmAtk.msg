@@ -44,6 +44,6 @@
 {258}{}{Nos vemos en Ciudad Garaje.}
 {259}{}{Ya casi tenemos al brahmán. Espera a que lo acerque un poco más...}
 
-// added this to have better responses for buying the brahmin - cambragol
+# added this to have better responses for buying the brahmin - cambragol
 {260}{}{Pude llegar a un acuerdo por el brahmán. Ahora es nuestro.}
 

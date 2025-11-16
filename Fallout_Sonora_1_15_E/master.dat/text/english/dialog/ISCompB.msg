@@ -1,7 +1,7 @@
 {100}{}{You see a computer.}
 {101}{}{You see an ancient computer. It's remarkable that it still functions.}
 
-**#Dialogue**
+# Dialogue
 {200}{}{System loaded}
 {201}{}{End session}
 {202}{}{Back}
