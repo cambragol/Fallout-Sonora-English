@@ -3,8 +3,7 @@
 {102}{}{The computer won't start due to lack of power.}
 {103}{}{It won't turn on.}
 
-Dialogue
-
+# Dialogue
 {200}{}{Enter command:}
 {201}{}{End session}
 {202}{}{Back}

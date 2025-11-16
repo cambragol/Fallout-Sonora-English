@@ -1,7 +1,7 @@
 {100}{}{Ves una computadora.}
 {101}{}{Ves una computadora viejísima, apenas funciona, pero sigue conectada a la red pública.}
 
-Dialogue
+# Dialogue
 {200}{}{Introducir comando.}
 {201}{}{Cerrar sesión.}
 {202}{}{Regresar.}

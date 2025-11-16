@@ -6,4 +6,4 @@
 {102}{}{ADDICT}
 {103}{}{POISONED}
 {104}{}{RADIATED}
-{105}{}{CRIPPLED}//added for sfall -cambragol
+{105}{}{CRIPPLED} # added for sfall -cambragol

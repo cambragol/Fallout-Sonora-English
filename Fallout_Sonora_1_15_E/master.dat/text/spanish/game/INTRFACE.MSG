@@ -6,4 +6,4 @@
 {102}{}{ADICTO}
 {103}{}{ENVENENADO}
 {104}{}{IRRADIADO}
-{105}{}{FRACTURA}//added for sfall -cambragol
+{105}{}{FRACTURA} # added for sfall -cambragol
