@@ -1,11 +1,11 @@
-#######################################################
+################################################## #####
 #
 # Names of areas for the location loading window
 #
-#######################################################
+################################################## #####
 
 
-# Villa
+#Villa 
 {200}{}{Residential Area}
 {201}{}{Plaza de la Sombra}
 {202}{}{Villa Cellars}
@@ -45,12 +45,12 @@
 {244}{}{Ambush Site}
 {245}{}{Old Town}
 #
-# Puerto Penasco
+# Puerto Penasco 
 {250}{}{Main Street}
 {251}{}{Old Port}
 {252}{}{Brotherhood of Steel Base}
 #
-# Rangers
+#Rangers 
 {260}{}{Road to the Dam}
 {261}{}{Dam}
 {262}{}{Aqueduct}
@@ -60,7 +60,7 @@
 {266}{}{Giers Wash}
 {267}{}{Citadel}
 #
-# Phoenix
+#Phoenix 
 {270}{}{City Gate}
 {271}{}{Downtown}
 {272}{}{Slums}
@@ -79,7 +79,7 @@
 {283}{}{Oil Platform}
 {284}{}{Black Lagoon}
 #
-# Casa Grande
+#CasaGrande
 {290}{}{Water Pump}
 {291}{}{Mansion}
 {292}{}{Graveyard}
@@ -115,7 +115,7 @@
 #! Empty slot
 {340}{}{Desert}
 #
-# Dead Motel
+#DeadMotel 
 {350}{}{Old Motel}
 #
 # Dayglow DLC
@@ -134,12 +134,12 @@
 # ! Empty slot
 #{370}{}{Desert}
 #
-# Santa Ana
+# SantaAna
 {380}{}{Plaza Zaragoza}
 {381}{}{Ancient Monument}
 {382}{}{Ancient Cemetery}
 #
-# ! Empty slot
+#! Empty slot
 {390}{}{Desert}
 #
 # Jackals
@@ -202,43 +202,43 @@
 # Explosion crater in Puerto
 {500}{}{Blast Epicenter}
 #
-# Special Encounter - Gold
+# Special Encounter- Gold
 {510}{}{Sonoran Wasteland}
 #
-# Special Encounter - Henry Bemis
+# Special Encounter- Henry Bemis
 {520}{}{Sonoran Wasteland}
 #
-# Special Encounter - Roadside Cafe
+# Special Encounter- Roadside Cafe
 {530}{}{Sonoran Wasteland}
 #
-# Special Encounter - Bomber
+# Special Encounter- Bomber
 {540}{}{Sonoran Wasteland}
 #
-# Special Encounter - Petro-Chico Truck
+# Special Encounter- Petro-Chico Truck
 {550}{}{Sonoran Wasteland}
 #
-# Special Encounter - Scream of Silence
+# Special Encounter- Scream of Silence
 {560}{}{Sonoran Wasteland}
 #
-# Special Encounter - Night movie screening
+# Special Encounter- Night movie screening
 {570}{}{Sonoran Wasteland}
 #
-# Special Encounter - Padre
+# Special Encounter- Padre
 {580}{}{Sonoran Wasteland}
 #
-# Special Encounter - Baron of Arizona
+# Special Encounter- Baron of Arizona
 {590}{}{Sonoran Wasteland}
 #
-# Special Encounter - Snowfall
+# Special Encounter- Snowfall
 {600}{}{Sonoran Wasteland}
 #
-# Special Encounter - Lost Vault (Van Buren)
+# Special Encounter- Lost Sanctuary (Van Buren)
 {610}{}{Sonoran Wasteland}
 #
-# Special Encounter - Mobile fortress of the Master's army
+# Special Encounter- Mobile fortress of the Master's army
 {620}{}{Sonoran Wasteland}
 #
-# Special Encounter - Rail Nomads
+# Special Encounter- Rail Nomads
 {630}{}{Sonoran Wasteland}
 #
 #! Empty slot
@@ -266,11 +266,11 @@
 {680}{}{Camp in the Mountains}
 
 
-#######################################################
+################################################## #####
 #
 # Miscellaneous
 #
-#######################################################
+################################################## #####
 
 # Signature when hovering over the GG marker (does not work, a rudiment of Fallout 1):
 {1000}{}{Desert}
@@ -288,16 +288,16 @@
 {1503}{}{This is a motorcycle. Apparently it doesn't work.}
 
 
-#######################################################
+################################################## #####
 #
 # Description of encounters on the world map
 #
-#######################################################
+################################################## #####
 
 {2998}{}{You encounter:}
 {2999}{}{Do you wish to encounter:}
 
-# Encounter Table 0 -- TEST_D
+# Encounter Table 0-- TEST_D
 {3000}{}{A Red Rider.}
 {3001}{}{Rockfall!}
 {3002}{}{Radioactive fog!}
@@ -330,7 +330,7 @@
 {3029}{}{A Mobile Fortress.}
 {3030}{}{Legend City.}
 
-# Encounter Table 1 -- VILL_D
+# Encounter Table 1-- VILL_D
 {3050}{}{Some giant ants.}
 {3051}{}{A pack of coyotes.}
 {3052}{}{A pack of pig rats.}
@@ -349,7 +349,7 @@
 {3065}{}{A Mobile Fortress.}
 {3066}{}{Legend City.}
 
-# Encounter Table 2 -- FLAG_D
+# Encounter Table 2-- FLAG_D
 {3100}{}{A Red Rider.}
 {3101}{}{A pack of pig rats.}
 {3102}{}{A pack of wolves.}
@@ -370,7 +370,7 @@
 {3117}{}{A Mobile Fortress.}
 {3118}{}{Legend City.}
 
-# Encounter Table 3 -- FLAG_M
+# Encounter Table 3-- FLAG_M
 {3150}{}{A Red Rider.}
 {3151}{}{Rockfall!}
 {3152}{}{A pack of mole rats.}
@@ -388,7 +388,7 @@
 {3164}{}{The Lost Vault.}
 {3165}{}{Legend City.}
 
-# Encounter Table 4 -- FLAG_R
+# Encounter Table 4-- FLAG_R
 {3200}{}{A Red Rider.}
 {3201}{}{A pack of pig rats.}
 {3202}{}{A band of highwaymen.}
@@ -398,7 +398,7 @@
 {3206}{}{A group of colonizers.}
 {3207}{}{A pack of stray dogs.}
 
-# Encounter Table 5 -- RNGR_D
+# Encounter Table 5-- RNGR_D
 {3250}{}{A Red Rider.}
 {3251}{}{A dust storm!}
 {3252}{}{A pack of coyotes.}
@@ -423,7 +423,7 @@
 {3271}{}{The terrible monster La Fantasma!}
 {3272}{}{Dehydration!}
 
-# Encounter Table 6 -- DSRT_A
+# Encounter Table 6-- DSRT_A
 {3300}{}{A dust storm!}
 {3301}{}{Dehydration!}
 {3302}{}{A pack of radscorpions.}
@@ -441,7 +441,7 @@
 {3314}{}{A Mobile Fortress.}
 {3315}{}{Legend City.}
 
-# Encounter Table 7 -- DSRT_B
+# Encounter Table 7-- DSRT_B
 {3350}{}{A dust storm!}
 {3351}{}{Dehydration!}
 {3352}{}{A pack of radscorpions.}
@@ -461,7 +461,7 @@
 {3366}{}{Legend City.}
 {3367}{}{A wrecked car.}
 
-# Encounter Table 8 -- MEXI_D
+# Encounter Table 8-- MEXI_D
 {3400}{}{A Red Rider.}
 {3401}{}{A pack of radscorpions.}
 {3402}{}{A swarm of Mantises.}
@@ -483,7 +483,7 @@
 {3418}{}{Legend City.}
 {3419}{}{A Mexican running from a centipede.}
 
-# Encounter Table 9 -- MEXI_M
+# Encounter Table 9-- MEXI_M
 {3450}{}{Red Rider.}
 {3451}{}{Rockfall!}
 {3452}{}{A pack of mole rats.}
@@ -501,7 +501,7 @@
 {3464}{}{Legend City.}
 {3465}{}{A carnivorous brahmin.}
 
-# Encounter Table 10 -- CALF_D
+# Encounter Table 10-- CALF_D
 {3500}{}{A Red Rider.}
 {3501}{}{Radioactive fog!}
 {3502}{}{A pack of rats.}
@@ -520,7 +520,7 @@
 {3515}{}{A Mobile Fortress.}
 {3516}{}{Legend City.}
 
-# Encounter Table 11 -- PHNX_D
+# Encounter Table 11-- PHNX_D
 {3550}{}{A Red Rider.}
 {3551}{}{A pack of rats.}
 {3552}{}{A pack of stray dogs.}
@@ -536,14 +536,14 @@
 {3562}{}{The Lost Vault.}
 {3563}{}{Legend City.}
 
-# Encounter Table 12 -- PHNX_M
+# Encounter Table 12-- PHNX_M
 {3600}{}{Radioactive fog!}
 {3601}{}{A group of giant ants.}
 {3602}{}{The body of an unlucky marauder.}
 {3603}{}{A lonely scavenger.}
 {3604}{}{A pissed off Mr. Handy.}
 
-# Encounter Table 13 -- ROAD_D
+# Encounter Table 13-- ROAD_D
 {3650}{}{A Red Rider.}
 {3651}{}{A body abandoned on the road.}
 {3652}{}{A pack of rats.}
@@ -557,7 +557,7 @@
 {3660}{}{The Lost Vault.}
 {3661}{}{Legend City.}
 
-# Encounter Table 14 -- TUSN_D
+# Encounter Table 14-- TUSN_D
 {3700}{}{A Red Rider.}
 {3701}{}{A pack of rats.}
 {3702}{}{A pack of radscorpions.}
@@ -567,7 +567,7 @@
 {3706}{}{The corpse of a runaway slave.}
 {3707}{}{A cyborg.}
 
-# Encounter Table 15 -- TUSN_M
+# Encounter Table 15-- TUSN_M
 {3750}{}{Rockfall!}
 {3751}{}{A pack of mole rats.}
 {3752}{}{A pack of wolves.}
@@ -584,7 +584,7 @@
 {3763}{}{The Lost Vault.}
 {3764}{}{Legend City.}
 
-# Encounter Table 16 -- INFN_D
+# Encounter Table 16-- INFN_D
 {3800}{}{Radioactive fog!}
 {3801}{}{A group of giant ants.}
 {3802}{}{A slew of scavengers.}
@@ -592,7 +592,7 @@
 {3804}{}{A USP agent.}
 {3805}{}{Harvey.}
 
-# Encounter Table 17 -- PORT_D
+# Encounter Table 17-- PORT_D
 {3850}{}{A Red Rider.}
 {3851}{}{Dehydration!}
 {3852}{}{Some giant ants.}
@@ -600,7 +600,7 @@
 {3854}{}{A pack of radscorpions.}
 {3855}{}{A Brotherhood of Steel Patrol.}
 
-# Encounter Table 18 -- ISLD_D
+# Encounter Table 18-- ISLD_D
 {3900}{}{A group of giant ants exploring the coast.}
 {3901}{}{A monster.}
 {3902}{}{A body washed ashore.}
@@ -608,7 +608,7 @@
 {3904}{}{The body of a scout.}
 {3905}{}{Some raiders torturing a clerk.}
 
-# Encounter Table 19 -- ISLD_M
+# Encounter Table 19-- ISLD_M
 {3950}{}{Rockfall!}
 {3951}{}{Radioactive fog!}
 {3952}{}{A group of giant ants.}
@@ -625,5 +625,5 @@
 {3963}{}{A flying Padre.}
 {3964}{}{Legend City.}
 
-# Encounter Table 20 -- OCEAN_O
+# Encounter Table 20-- OCEAN_O
 {4000}{}{Radioactive fog!}
