@@ -132,7 +132,6 @@
 {315}{}{Si te lo dijera, tendría que matarte.}
 {316}{}{Así que tú fuiste quien ayudó a Larry... odio cuando alguien se mete con mis clientes.}
 {317}{}{Larry... ah, el drogadicto, ¿no?}
-{317}{}{Larry... ah, el drogadicto, ¿no?}
 {318}{}{Sí, Larry. Puede que el tipo haya sido una basura, pero gracias a él ganaba algunas chapas muy fáciles. ¿Qué voy a hacer ahora?}
 {319}{}{Luego de un tiempo, él no te iba a hacer tanto dinero. Piénsatelo.}
 

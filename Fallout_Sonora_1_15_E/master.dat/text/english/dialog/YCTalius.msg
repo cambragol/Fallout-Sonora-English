@@ -76,7 +76,7 @@
 {1275}{}{That's really awful. I wish I could help you.}
 {276}{}{Thank you for your kind words. You know, I used to be an atheist. But after fate made me immortal, it's hard not to believe there's some sort of plan. Maybe this is all just a... test?}
 {277}{}{I suppose it was tough, but nothing can be done about it now.}
-{276}{}{Your compassion is greatly appreciated. You know, I once denied the existence of any higher power. But with my transformation into something enduring, I find myself pondering the notion of a greater design. Perhaps this life is but a... test?}
+{278}{}{Your compassion is greatly appreciated. You know, I once denied the existence of any higher power. But with my transformation into something enduring, I find myself pondering the notion of a greater design. Perhaps this life is but a... test?}
 {279}{}{Shall we talk about something else?}
 {280}{}{Good luck, Father Talius.}
 
