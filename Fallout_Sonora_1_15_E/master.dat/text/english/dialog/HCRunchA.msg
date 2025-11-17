@@ -156,7 +156,7 @@
 {357}{}{«I've been to San Brahmin. The locals revered these animals as sacred.»}
 {358}{}{«Holy Brahmin? Never heard of it. Sounds stupid to me.»}
 {359}{}{«Perhaps. But for them, it was a matter of survival.»}
-{260}{}{«Exactly. Never seen anything dumber.»}
+{360}{}{«Exactly. Never seen anything dumber.»}
 {361}{}{«Your questions are tiresome. I have to mind my own business.»}
 {362}{}{«I'm already heading out, don't worry.»}
 

@@ -156,7 +156,7 @@
 {357}{}{«Yo he ido a San Brahmán, allí creen que estos animales son sagrados.»}
 {358}{}{«¿San Brahmán? Nunca escuché de algo así. Me suena a que es una tarugada.»}
 {359}{}{«Puede ser, pero ellos estaban dispuestos a arriesgarse la vida por los animales.»}
-{260}{}{«Así es. Jamás había visto semejante idiotez.»}
+{360}{}{«Así es. Jamás había visto semejante idiotez.»}
 {361}{}{«Me están cansando tus preguntas, tengo que ir a hacer mis cosas.»}
 {362}{}{«Ya me voy, no te preocupes.»}
 
