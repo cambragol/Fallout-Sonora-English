@@ -10,7 +10,7 @@
 {205}{}{Tengo que irme.}
 {206}{}{Ya veo.}
 
-{207}{}{¿Te ayudo en algo?} // added this to make the dialogue smoother - cambragol
+{207}{}{¿Te ayudo en algo?} # added this to make the dialogue smoother - cambragol
 
 
 {210}{}{¿Cuánto le pagas a los trabajadores?}

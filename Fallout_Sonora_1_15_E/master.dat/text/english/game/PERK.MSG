@@ -97,7 +97,7 @@
 {193}{}{Here and Now}
 {194}{}{Block Strike} # changed
 {195}{}{Sonoran Expert}
-{196}{}{Hollywood Karma}*** what to do...
+{196}{}{Hollywood Karma} # what to do...
 {197}{}{Light Step}
 {198}{}{Living Anatomy}
 {199}{}{Intimidation} # changed

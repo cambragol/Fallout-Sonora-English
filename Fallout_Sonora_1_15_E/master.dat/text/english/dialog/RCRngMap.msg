@@ -27,7 +27,7 @@
 {233}{}{Why haven't you left?}
 {234}{}{Despite the command center being in ruins, it doesn't absolve me of my duties.}
 
-- added below for mid-quest help in survey quest and map reward for same quest - cambragol
+# added below for mid-quest help in survey quest and map reward for same quest - cambragol
 {235}{}{So where are these survey markers?}
 {236}{}{Like I said, they're like a tripod of metal and junk, stuck into an old tire.}
 {237}{}{Alright, I'll keep at it.}

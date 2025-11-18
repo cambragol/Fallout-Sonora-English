@@ -3,8 +3,7 @@
 {102}{}{La computadora no enciende por la falta de energía.}
 {103}{}{No enciende.}
 
-Dialogue
-
+# Dialogue
 {200}{}{Introducir comando:}
 {201}{}{Cerrar sesión}
 {202}{}{Regresar}

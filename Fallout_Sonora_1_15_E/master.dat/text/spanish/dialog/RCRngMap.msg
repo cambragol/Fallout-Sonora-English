@@ -27,7 +27,7 @@
 {233}{}{¿Por qué no te has ido de aquí?}
 {234}{}{A pesar de que el centro de mando esté en ruinas, eso no me absuelve de mi deber.}
 
-- added below for mid-quest help in survey quest and map reward for same quest - cambragol
+# added below for mid-quest help in survey quest and map reward for same quest - cambragol
 {235}{}{¿En dónde están los marcadores topográficos?}
 {236}{}{Como dije, son un trípode de madera y chatarra, insertados en un neumático viejo.}
 {237}{}{Entiendo, iré a buscarlos.}

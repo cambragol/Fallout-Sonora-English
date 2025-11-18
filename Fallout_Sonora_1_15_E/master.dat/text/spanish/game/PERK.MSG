@@ -97,7 +97,7 @@
 {193}{}{Aquí y ahora}
 {194}{}{Bloqueo Melee} # changed
 {195}{}{Experto Sonorense}
-{196}{}{Karma resplandeciente}*** what to do...
+{196}{}{Karma resplandeciente} # what to do...
 {197}{}{Paso ligero}
 {198}{}{Anatomía vital}
 {199}{}{Intimidación} # changed
