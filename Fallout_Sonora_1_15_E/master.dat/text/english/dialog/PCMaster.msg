@@ -368,8 +368,8 @@
 {590}{}{You haven't really deemed that many people to be 'worthy' either, have you?}
 
 #Quest enhancement by cambragol
-{591}{}{Yes, the acolytes routines' may have been leaked. Matthias seems to have been checking their schedules recently...}
-{592}{}{Yes, the acolytes routines' may have been leaked. Matthias seems to have been using the radio to communicate with someone outside the cathedral...}
+{591}{}{Yes, the acolytes' routines may have been leaked. Matthias seems to have been checking their schedules recently...}
+{592}{}{Yes, the acolytes' routines may have been leaked. Matthias seems to have been using the radio to communicate with someone outside the cathedral...}
 {593}{}{Matthias? Are you insane? He is one of my most trusted advisors. Look elsewhere, fool.}
 {594}{}{Uh, yes, of course my Lord.}
 

@@ -2,7 +2,7 @@
 {101}{}{Estás viendo a un hombre bajo y calvo con ropa muy desgastada.}
 {102}{}{Has descansado bien, te sientes con energía.}
 
-Reaction to armor
+#Reaction to armor
 {160}{}{Que bonito traje tienes, hasta diría que es demasiado. ¿Lo vendes?}
 {161}{}{No está a la venta. Es una reliquia familiar.}
 {162}{}{(frunce los labios, pensativo) Hmm. Parece que en tu sangre corre una afinidad por las cosas viejas.}
@@ -43,7 +43,7 @@ Reaction to armor
 {198}{}{Lo dudo mucho.}
 {199}{}{No peleemos, vengo en son de paz.}
 
-First dialogue
+#First dialogue
 {200}{}{(Estás viendo a un hombre calvo de chaqueta raída; te mira con suspicacia a través de la penumbra del vestíbulo del motel, el cual está mal ventilado.)}
 {201}{}{Hola.}
 {202}{}{¡Oye, oye! Esos tipos eran unos vándalos, no quería problemas y por eso ignoraba sus actos. ¿Qué iba a hacer? Yo también soy una víctima de mi situación. Pero, los mataste... Hagamos esto. Yo no vi nada y tú te irás. ¿Bien?}

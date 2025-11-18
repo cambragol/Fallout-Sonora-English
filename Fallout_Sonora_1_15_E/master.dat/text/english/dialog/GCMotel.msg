@@ -2,7 +2,7 @@
 {101}{}{You see a short, bald man in very worn clothes.}
 {102}{}{You are well rested and energized.}
 
-Reaction to armor
+#Reaction to armor
 {160}{}{That's quite the outfit you have. Maybe a tad too much. Selling?}
 {161}{}{It's not for sale. It's a family heirloom.}
 {162}{}{(purses lips thoughtfully) Hmm. An affinity for old stuff must be in your blood.}
@@ -43,7 +43,7 @@ Reaction to armor
 {198}{}{I highly doubt it.}
 {199}{}{Let's not fight. I am here for peaceful purposes.}
 
-First dialogue
+#First dialogue
 {200}{}{(You see a balding man in a shabby jacket; he peers at you suspiciously through the gloom of the stuffy motel lobby.)}
 {201}{}{Hello.}
 {202}{}{Hey hey! Those guys were just hooligans. I didn't want any problems and turned a blind eye to their antics. What was I to do? I'm also a victim of circumstances. But killing them... Let's just say I didn't see anything, and you just leave, okay?}

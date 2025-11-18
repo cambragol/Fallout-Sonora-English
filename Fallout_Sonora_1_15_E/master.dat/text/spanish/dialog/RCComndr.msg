@@ -168,7 +168,7 @@
 {364}{}{A su servicio.}
 {1364}{}{A su servicio.}
 {365}{}{Espero que podamos seguir cooperando en el futuro.}
-// added by cambragol for mid-way feedback
+# added by cambragol for mid-way feedback
 {366}{}{Ya casi arreglo la radio, pero hay algo de interferencia en la señal y estoy trabajando en ello.}
 {367}{}{Una vez que hayas terminado, házmelo saber. Quizás debas rastrear la frecuencia, de alguna forma.}
 {368}{}{Vale.}

@@ -10,7 +10,7 @@
 {205}{}{It's time for me to go.}
 {206}{}{I see.}
 
-{207}{}{How can I help you?} // added this to make the dialogue smoother - cambragol
+{207}{}{How can I help you?} # added this to make the dialogue smoother - cambragol
 
 
 {210}{}{How much do you pay your workers?}
