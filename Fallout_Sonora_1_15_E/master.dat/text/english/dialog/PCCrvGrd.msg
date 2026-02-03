@@ -1,5 +1,6 @@
 {100}{}{You see a guard.}
 {101}{}{You see a caravan guard, preparing for the journey ahead.}
+{1101}{}{You see a caravan guard, preparing for the journey ahead.}
 
 {110}{}{Great.}
 {111}{}{Gimme a rest.}

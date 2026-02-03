@@ -71,7 +71,7 @@
 
 {270}{}{I know you helped the Cardinals sabotoge the cooling system.}
 {271}{}{Speak softer, no need for such harshness. Now, let's move to a quieter spot...}
-{272}{}{[Continue]}
+{272}{}{[More]}
 {273}{}{So you must have connections with the fire worshippers, otherwise how would you know about our secret deal?}
 {274}{}{I have plenty of connections. But what are *you* after? You want to take your boss's place?}
 {275}{}{Such a shortsighted motive. Please. Remember, I'm a hundred years old. If we were in the Old World, I'd be climbing the corporate ladder. But what do we have now? Ruin, no infrastruture, no services, roads, running water...people only saw street lighting again thanks to us and the Church of the Holy Fire.}

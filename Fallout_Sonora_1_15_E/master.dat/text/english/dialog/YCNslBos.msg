@@ -27,8 +27,10 @@
 {1219}{}{Back then, I was living in my Villa and had no idea there was a war with super mutants. That's why I cherish my rural life.}
 {220}{}{I did manage to save you, so that's something.}
 {221}{}{Okay, now I need to find a place to clean up. Thanks, brother.}
+{1221}{}{Okay, now I need to find a place to clean up. Thanks, sister.}
 {222}{}{By the way, what's the Brotherhood doing here?}
 {223}{}{When the elders found out that mutants were moving toward San Diego, they dispatched me and my squad to scout the area. I never expected to find such chaos here - radiation, monsters, super mutants, ghouls, and robots; it's a nightmare! I need to report this to the commander. This place isn't safe for ordinary people.}
 {224}{}{Got it. Well then, safe travels. Watch out for mutants.}
 {225}{}{Thanks again.}
+{226}{}{Have a safe trip. Don't get caught by mutants again.}
 

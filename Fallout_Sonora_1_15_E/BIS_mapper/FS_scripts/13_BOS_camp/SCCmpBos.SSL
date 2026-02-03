@@ -288,7 +288,7 @@ procedure NodeSndDialog3 begin
    set_global_var(GVAR_PUERTO_RUN_BANDITS_CAMP,0);
    set_REP(-10)
    set_SLAVA(-50)
-   Reply(234)
+   zReply(234)
    NAnswer(235,1,Node999)
    BAnswer(236,1,Node999)
 end
@@ -347,7 +347,7 @@ end
 
 procedure NodeQst105 begin
    item_remove(dude_obj,PID_Q_BOS_RELICT,1)
-   Reply(254)
+   zReply(254)
    zNAnswer(247,1,NodeQst101)
 end
 

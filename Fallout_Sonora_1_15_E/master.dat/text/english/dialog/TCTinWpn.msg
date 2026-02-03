@@ -35,5 +35,5 @@
 {240}{}{Very well. Now we can transact business.}
 {241}{}{So, how about a brief introduction?}
 {242}{}{Do you grasp the fundamentals of quantum mechanics? If so, let us proceed...}
-{243}{}{[Continue]}
+{243}{}{[More]}
 {244}{}{The Tinsmith turned out to be a demanding teacher, but you learned a great deal from him.}

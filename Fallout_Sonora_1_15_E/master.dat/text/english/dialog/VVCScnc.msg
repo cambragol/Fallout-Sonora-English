@@ -11,7 +11,7 @@
 {116}{}{These guys don't just read books. Who are they?}
 
 #Before the escape (in the reactor room)
-{200}{}{I was expecting rescuers from Phoenix, but who are YOU?}
+{200}{}{I was expecting rescuers from Phoenix... who are YOU?}
 {201}{}{I'm a peasant from Villa. My ancestors are somehow connected with this vault. And I'm here to find out how.}
 {1201}{}{I'm a peasant girl from Villa. My ancestors are somehow connected with this vault. And I'm here to find out how.}
 {202}{}{Impressive that you made it this far. You know, I heard about this story with Villa. But if you want to know the details, then help me finish my business in this vault.}
@@ -41,7 +41,7 @@
 {229}{}{Yes, that's right. Apparently, the residents resisted the overseer's actions and were able to stop some of the procedures. They saved their lives but doomed themselves to many years of terrible suffering, becoming... like undead... zombies.}
 {230}{}{I think they were suffering long before that happened too.}
 {231}{}{If we stick around here, we might end up like them.}
-{232}{}{Yeah... right... Look, I need to get to the surface. I don't think there's anything of value left here. I see no point in exposing myself to further danger. Together we have a better chance of making it out. Will you help me?}
+{232}{}{Yeah... right... Look, I need to get to the surface. I don't think there's anything of value left here. Together we have a better chance of making it out. Will you help me?}
 {233}{}{Let's go. I'll get you to the surface.}
 {234}{}{Very good. You lead. I'm not much for combat, but I'll keep an eye on the rear.}
 {235}{}{Go ahead.}
@@ -51,28 +51,28 @@
 {251}{}{Time to move on.}
 
 {260}{}{Can you tell me anything about this room?}
-{261}{}{This is the reactor level. Once upon a time, the reactor overheated and melted down, destroying part of the level. Fortunately, the rock protects us from its powerful radiation.}
-{262}{}{This is the service level. The vault control center and various support services were located here. I'd love to see all this technological splendor in its original form.}
-{263}{}{Education Center. The library is in electronic form. The amazing ingenuity of our ancestors.}
+{261}{}{This is the reactor level. Once upon a time, the reactor overheated and melted down, destroying part of the level. Fortunately, the rock protects us from its intense radiation.}
+{262}{}{This is the service level. The vault control center and various support services were located here.}
+{263}{}{Education Center. The library is in electronic form. The ingenuity of our ancestors was amazing.}
 {264}{}{This is the entertainment hall. But it seems that because of overpopulation, it was utilized for extra living quarters, rather than recreation.}
 {265}{}{This is the overseer's post, the vault 'manager', one might say. From here it was possible to control all the vault systems. Nothing is working here now - it looks like the overseer destroyed the equipment with an electromagnetic pulse explosion.}
 {266}{}{This is one of the residential levels. Apart from the sleeping quarters, there's nothing much here.}
 {267}{}{I had another question.}
 
-{270}{}{You saved me. Without you, I would have been stuck there forever, maybe evening doomed to become one of those... zombies. It's made me look at what's important in life a bit differently.}
-{1270}{}{You saved me. Without you, I would have been stuck there forever, maybe evening doomed to become one of those... zombies. It's made me look at what's important in life a bit differently.}
-{271}{}{Anyway, you're free now. Time to help those still breathing.}
-{272}{}{Just "a bit"? Seems life ain't teaching you much, Mister Scientist.}
+{270}{}{You saved me. Without you, I would have been stuck there forever, maybe evening doomed to become one of those... zombies. And there's still no sign of the rescue team from Phoenix. Oh, I'll really lay into some people when I get back!}
+{1270}{}{You saved me. Without you, I would have been stuck there forever, maybe evening doomed to become one of those... zombies. And there's still no sign of the rescue team from Phoenix. Oh, I'll really lay into some people when I get back!}
+{271}{}{[Next]}
+{272}{}{Then we need to hurry!}
 {273}{}{I can't repay you right now, but when I get to Phoenix, I'll tell my friends in the Cathedral of Fire about you. You should visit there too. But... Uhm... I'll need help getting to Phoenix. Care to join me?}
 {274}{}{Sure, let's head to Phoenix. Why not?}
-{275}{}{Thanks. You're saving me again. If we're going together, I can carry some gear. I also wouldn't mind some detours to interesting places along the way.}
+{275}{}{Thanks. You're saving me again. If we're going together, I can carry some gear. I also wouldn't mind taking the 'long way' back. See the sights... you know.}
 {276}{}{Great. Let's move, Arthur.}
 {277}{}{Whatever you do, don't run off without me.}
 {278}{}{I'd love to have you on the team. But what about those answers you promised?}
-{279}{}{I heard there's trouble at the Cathedral. We better get moving.}
-{1279}{}{I heard there's trouble at the Cathedral. We better get moving.}
+{279}{}{I heard there's trouble at the Cathedral.}
+{1279}{}{I heard there's trouble at the Cathedral.}
 {280}{}{Actually, I'm not heading to Phoenix anytime soon.}
-{281}{}{No problem. Drop me at the nearest settlement, and I'll find my way. I can carry some things, and wouldn't mind seeing some interesting places along the way.}
+{281}{}{No problem. Drop me at the nearest settlement, and I'll find my way. I can carry some things, and wouldn't mind taking the 'long way' back. See the sights... you know}
 {282}{}{Consider yourself on the team. Let's go, Arthur.}
 {283}{}{Then you're carrying all my stuff. And don't complain. Move out!}
 {284}{}{Welcome to the team. Now, can we talk about those answers you promised?}
@@ -115,17 +115,17 @@
 {360}{}{Tell me what happened to the expedition.}
 {361}{}{We split into two groups - one to check the backup generator, and the other, led by me, went to the reactor. Things went south after that.}
 {362}{}{What happened to your group?}
-{363}{}{We got to the reactor and started exploring. There was a... trap I guess. The explosion killed my team and knocked me out. When I came to, the elevator was up, power off, no contact with the first group.}
-{364}{}{What happened to the first group?}
-{365}{}{They were likely attacked by zombies. You'd know better than me. The generator couldn't fail on its own. One of the zombies must have pulled the fusion cells, leaving me trapped.}
-{366}{}{I found your group. One had a bullet wound to the head. Explain that.}
-{1366}{}{I found your group. One had a bullet wound to the head. Explain that.}
-{367}{}{Why dig through dirty laundry? I wasn't the only survivor. Another was wounded, but caring for him would drain my resources. I couldn't afford it.}
-{368}{}{Seems like you played it safe while your team perished.}
-{369}{}{Caution kept me alive. Only in the vault did my ambitions get the best of me. I had to act, the expedition was at risk - the cult could let me go or replace me if I failed. I couldn't let that happen!}
+{363}{}{We got to the reactor and started exploring. Then the zombies attacked. I barely escaped to the reactor room. After that, someone disabled the backup generator. A little while later, the entire group went... silent.}
+{364}{}{It sounds more like saved yourself while your men died.}
+{365}{}{Sounds like you rushed into things a little recklessly.}
+{366}{}{There was a mercenary's body lying near the reactor room with a large laser beam burn. Explain that.}
+{1366}{}{There was a mercenary's body lying near the reactor room with a large laser beam burn. Explain that.}
+{367}{}{Why dig through dirty laundry? Yes, I wasn't the only survivor. But he was wounded. He drove me crazy with his moans for an hour. And I didn't know how to help him. So... I eased his suffering.}
+{368}{}{Let's change the subject.}
+{369}{}{Caution allowed me to live to my age. And only here, in this vault, did my ambitions get the best of me. Yes, I was in a hurry. After all, the expedition could have been abandoned at any moment. Or worse, they could have sent someone to replace me!}
 
-{370}{}{What do you know about 'zombies'?}
-{371}{}{I'd say they're the unfortunate results of complications from the "Protocol Zero": toxic gases, airborne viruses, radiation, meds, and more. They stayed in a limbo for decades until we disturbed them. Their minds rotted away, leaving nothing but primal instincts.}
+{370}{}{What do you know about these 'zombies'?}
+{371}{}{I'd say they're the unfortunate results of complications from the "Protocol Zero": toxic gases, airborne viruses, radiation, meds, and more. They stayed in a suspended animation for decades until we disturbed them. Their minds rotted away, leaving nothing but primal instincts.}
 {372}{}{Did you notice I mutated into something similar?}
 {1372}{}{Did you notice I mutated into something similar?}
 {373}{}{Similar, though distinct. I did almost take you for one of them when we met. You've got a long, strange life ahead of you.}
@@ -137,6 +137,7 @@
 {384}{}{You shouldn't have lied to me. Consider this your first and last warning.}
 {385}{}{Thanks for the card, at least. I'll check it out.}
 {386}{}{Go back down into that hellhole? This is going to be tough.}
+{387}{}{There's no need for that now. I found some journals. Everything was laid out in them.}
 
 {390}{}{What's your next move?}
 {391}{}{I'll write a big report and try to squeeze more resources out of the cult to finish the expedition. I need reliable security to clear the vault of zombies and a fresh batch of slaves.}
@@ -150,7 +151,7 @@
 {399}{}{What do you mean?}
 {400}{}{Technology won't save a corrupt society. It'll just spark wars for its power.}
 {401}{}{Hmm... Never thought of that. Phoenix is changing under the Fire Cult. Old tech benefits but also divides us... Maybe I should read up on sociology.}
-{402}{}{Just thinking out loud. Forget it.}
+{402}{}{It's good that we're seeing eye to eye. Now answer my other questions.}
 {403}{}{This wraps up our chat. Bye.}
 {404}{}{Glad you're seeing things more clearly. Now, about those other questions...}
 
@@ -171,15 +172,17 @@
 {463}{}{We've made it to Phoenix. Q.E.D. With folks like you on the expedition, I wouldn't have failed.}
 {464}{}{What's next for you?}
 {465}{}{I've got a lot on my plate. First, I need to meet with the client and report my findings. That'll take a few days. Till then, I'll be busy.}
-{466}{}{Okay. We'll regroup here in two days.}
+{466}{}{Okay. We'll regroup here in 24 hours.}
 {467}{}{Hail to my savior.}
+{1467}{}{Hail to my savior.}
 {468}{}{Bye, Arthur.}
+{469}{}{What the hell happened here?! The cathedral was destroyed?! This is beyond belief!}
 
 {470}{}{Here comes my savior. Good to see you.}
 {1470}{}{Here comes my savior. Good to see you.}
 {471}{}{How'd your report go? You don't look too thrilled.}
-{472}{}{There's no one to report to. The Cathedral of Fire is destroyed. Gone. I don't know what happened, but the fire worshippers are on the run, and no one needs a scientist like me.}
-{473}{}{Are you sure?}
+{472}{}{There's no one to report to. The Cathedral of Fire is destroyed. Gone. I don't know what happened, but the fire worshippers are on the run, and no one needs a scientist like me. Or the results of my months of work.}
+{473}{}{Then what now?}
 {474}{}{I have one lead. I found vague reports about a city of scientists to the south. I want to look for it and maybe find... a home. If you're heading that way, I'd like to tag along.}
 {475}{}{South, huh? I'll think about it.}
 {476}{}{Oh, by the way, I snagged some Rad-X and stimpaks from the lab. Take them as a small thank you for saving me.}
@@ -188,11 +191,28 @@
 {481}{}{This is it! A city of science and progress, a real oasis in the desert. Even the air's different. Perfect for my research.}
 {482}{}{So, it's time to part ways?}
 {483}{}{Yes. Let's check our bags. Do I still have any of your stuff? I'm heading staight into the town to get settled in as soon as I can.}
-{484}{}{[More]}
+{484}{}{[Part Ways]}
 {485}{}{I'm glad we met. I never imagined a wastelander would teach me the most important lesson: to value human life. I used to chase science for fortune and glory. Now it's time to do something truly meaningful.}
 {486}{}{Goodbye, Arthur.}
 {487}{}{The client was furious with my report. I was chastised for waste and inefficiency, even threatened with burning at the stake. How was I to know the vault had those... "zombies", or was so wrecked? They said the expedition's costs weren't justified. Damn money-grubbers! Looks like my scientific career ends here.}
+{488}{}{I think they're talking about Casa Nueva. It's going to be a tough road there.}
+
+{489}{}{So what?}
+{490}{}{Bye-bye.}
+{491}{}{Oh!}
+{492}{}{'Kay.}
+{493}{}{Go.}
+{494}{}{You not needed.}
+{495}{}{Hide gun.}
+{496}{}{Take armor off.}
+{497}{}{Eh.}
+{498}{}{Uh-huh.}
+{499}{}{Nobody.}
+{500}{}{[Point at broken machine]}
+{501}{}{Ooo, z-zombies! Me no wanna be zombie!}
+{502}{}{Here?}
+{503}{}{}
 
 # added to fix arthur recognizing Casa Nueva
-{488}{}{Well, I think I'd like to head back to Casa Nueva. Something about that place really hit me. I think I could make a life there, a home. If you're heading that way, I'd like to tag along. }
-{489}{}{Here we are. Your new home sweet home.}
+{588}{}{Well, I think I'd like to head back to Casa Nueva. Something about that place really hit me. I think I could make a life there, a home. If you're heading that way, I'd like to tag along. }
+{589}{}{Here we are. Your new home sweet home.}

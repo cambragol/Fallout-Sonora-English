@@ -235,7 +235,7 @@ procedure NodeFinalDialog begin
    set_SLAVA(50)
    setBonusReaction(80)
 
-   zReply(280)
+   Reply(280)
    zGAnswer(281,1,NodeFinalDialog2)
    NAnswer(284,1,NodeFinalDialog3)
 end
@@ -322,6 +322,9 @@ procedure NodeSndDialog begin
    if (getQuest(GVAR_OIL_PLATFORM_QST_C) == qStart) then begin
       if (global_var(GVAR_OIL_STATUS_GHOUL) != 0) then begin
       GAnswer(324,1,NodeQst301)
+      end
+      else begin
+      NAnswer(339,3,NodeQst300)
       end
    end
    if (getQuest(GVAR_OIL_PLATFORM_QST_C) == qZero) then begin
@@ -494,7 +497,7 @@ procedure NodeAnswer304 begin
       end
    end
    else begin
-      zReply(346)
+      Reply(346)
    end
    NAnswer(342,1,NodeAnswer305)
 end

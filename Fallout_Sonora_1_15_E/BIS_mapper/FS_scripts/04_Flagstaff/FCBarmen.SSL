@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_FCBarmen
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения от 1 до 10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_FLAGSTAFF_CITIZEN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -140,31 +141,38 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
 procedure setBarterA begin
-         if (map_first_run) then begin
-         check_restock_item(PID_W_KNUCKLES_BRASS, 1, 1, 100)
-         check_restock_item(PID_AMMO_44_MAGNUM, 2, 2, 100)
-         check_restock_item(PID_M_STIMPAK, 2, 2, 100)
-         end
-         check_restock_item(PID_M_STIMPAK, 1, 1, 100)
-         check_restock_item(PID_M_FRUIT, 1, 3, 100)
-         check_restock_item(PID_M_MEAT_JERKY, 2, 5, 100)
-         check_restock_item(PID_M_BRAHMIN_POTROH, 1, 2, 100) // added because he is selling them to the mine admin and maybe more - cambragol
-         if (local_var(LVAR_Alcohol_Status) == 0) then begin
-            check_restock_item(PID_M_BEER, 2, 5, 100)
-            check_restock_item(PID_M_TEQUILA, 1, 4, 100)
-         end
-         else begin
-            check_restock_item(PID_M_BEER, 1, 2, 100)
-            check_restock_item(PID_M_BOOZE, 2, 5, 100)
-         end
+        //- крышки
+        if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+        check_restock_many(400,500)
+        end
+        else begin
+        check_restock_many(800,1000)
+        end
 
-        //- ??????
-         check_restock_many(380,460)
+        //- вещи
+        if (map_first_run) then begin
+        check_restock_item(PID_W_KNUCKLES_SPIKED, 2, 2, 100)
+        end
+        check_restock_item(PID_AMMO_44_MAGNUM, 2, 3, 100)
+        check_restock_item(PID_M_STIMPAK, 3, 5, 100)
+
+        //- еда
+        check_restock_item(PID_M_FRUIT, 2, 5, 100)
+        check_restock_item(PID_M_MEAT_JERKY, 2, 5, 100)
+        check_restock_item(PID_M_BRAHMIN_POTROH, 1, 2, 100) // added because he is selling them to the mine admin and maybe more - cambragol
+        if (local_var(LVAR_Alcohol_Status) == 0) then begin
+        check_restock_item(PID_M_TEQUILA, 1, 4, 100)
+        check_restock_item(PID_M_BEER, 2, 5, 100)
+        end else begin
+        check_restock_item(PID_M_BEER, 1, 4, 100)
+        check_restock_item(PID_M_BOOZE, 2, 5, 100)
+        end
+
 end
 
 procedure setBarterB begin
@@ -232,6 +240,9 @@ procedure replyfloat_proc begin
        // Культ Огня
        if (replyFloat == 116) then begin
            if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+           replyFloat += 1;
+           end
+           else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
            replyFloat += 1;
            end
            else if (getQuest(GVAR_PHENIX_QST_CULT_C) >= qStart) then begin
@@ -341,6 +352,7 @@ procedure talk_p_proc begin
    floater(self_obj,102,COLOR_MSG_RED);
    end
    else begin
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(105,0,NodeStartDialog,-1,-1)
    end
 end
@@ -393,47 +405,47 @@ procedure NodeSndDialog begin
 
    //--- Локальные ситуации
    if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qStart) then begin
-   NAnswer(290,1,NodeVilla)
+   NAnswer(290,0,NodeVilla)
    end
    if ((item_amnt(dude_obj,PID_TOOTHS_RAT_KING) > 0) and (bitDialog(bit_4) == 0)) then begin
-   NAnswer(250,1,NodeKingRat)
+   NAnswer(250,0,NodeKingRat)
    end
    if (item_amnt(dude_obj,PID_RELICT_FLAG) > 0) then begin
    if (map_var(MVAR_FLAG_Arizona) == 0) then begin
-   GAnswer(341,3,NodeFlag)
+   GAnswer(341,0,NodeFlag)
    end
    end
 
    //--- Квесты бара
    if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) == qZero) then begin
       if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) >= qEnd) then begin
-      NAnswer(310,1,NodeQst101)
+      NAnswer(310,0,NodeQst101)
       end
    end
    if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) == qStart) then begin
       if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= 50) then begin
-      GAnswer(323,1,NodeQst106)
+      GAnswer(323,0,NodeQst106)
       end
    end
    if (getQuest(GVAR_FLAGSTAFF_QST_TRAPERS) == qZero) then begin
-      //NAnswer(430,1,NodeQst300) //!!! ???
       if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) >= qEnd) then begin
-      NAnswer(430,1,NodeQst300)
+      NAnswer(430,0,NodeQst300)
       end
    end
    if (getQuest(GVAR_FLAGSTAFF_QST_TRAPERS) == qStart) then begin
-      NAnswer(437,1,NodeQst302)
+      NAnswer(437,0,NodeQst302)
    end
+
    if (map_var(MVAR_FLAG_GameStatus) > 0) then begin
       // added to fix pinball machine quest reactions - cambragol
       if (map_var(MVAR_FLAG_GameStatus) >= 2) and (getQuest(GVAR_FLAGSTAFF_QST_GAME) != qEnd) then begin
       NAnswer(361,0,NodeGame105)
       end
       else if (getQuest(GVAR_FLAGSTAFF_QST_GAME) == qZero) then begin
-      NAnswer(330,1,NodeGame)
+      NAnswer(330,0,NodeGame)
       end
       if (getQuest(GVAR_FLAGSTAFF_QST_GAME) == qStart) then begin
-      NAnswer(350,1,NodeGame100)
+      NAnswer(350,0,NodeGame100)
       end
    end
 
@@ -533,11 +545,6 @@ procedure NodeGame104 begin
 end
 
 procedure NodeGame105 begin
-   if (getQuest(GVAR_FLAGSTAFF_QST_GAME) == qZero) then begin
-      Reply(368)
-      setQuest(GVAR_FLAGSTAFF_QST_GAME,qEnd);
-   end
-   else begin
    setQuest(GVAR_FLAGSTAFF_QST_GAME,qEnd);
    item_add(dude_obj,PID_BOOTLE_CAPS,50)
    setBonusReaction(20)
@@ -547,7 +554,6 @@ procedure NodeGame105 begin
    end
    else begin
    Reply(366)
-   end
    end
    NAnswer(363,0,NodeGame106)
 end
@@ -764,12 +770,16 @@ procedure NodeBarterTeam begin
 
    if (getQuest(GVAR_VILLA_QST_CULON) == qStart) then begin
       if (local_var(LVAR_Culon_Status) == 0) then begin
-      NAnswer(380,1,NodeBarterTeam101)
+      NAnswer(380,0,NodeBarterTeam101)
       end
    end
 
+   if (bitDialog(bit_10) == 0) then begin
    NAnswer(272,3,NodeBarterTeam100)
+   end
+   if (bitDialog(bit_5) == 0) then begin
    NAnswer(274,3,NodeBarterTeam200)
+   end
    NAnswer(236,3,NodeBarterTeam300)
    if (bitDialog(bit_6) == 0) then begin
    NAnswerRep(280,3,NodeBarterTeam400,30,280,NodeBarterTeam401)
@@ -784,6 +794,7 @@ procedure NodeBarterTeam begin
 end
 
 procedure NodeBarterTeam100 begin
+   bitDialogExp(bit_10,0)
    Reply(273)
    NAnswer(212,0,NodeBarterTeam)
    NAnswer(202,0,Node999)
@@ -955,6 +966,11 @@ procedure NodeQst106 begin
    item_remove(dude_obj,PID_BOOTLE_CAPS,50)
 
    Reply(324)
+   if (getQuest(GVAR_FLAGSTAFF_QST_TRAPERS) == qZero) then begin
+      if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) >= qEnd) then begin
+      NAnswer(430,0,NodeQst300)
+      end
+   end
    NAnswer(325,0,Node999)
 end
 
@@ -1002,9 +1018,8 @@ procedure NodeQst210 begin
    else if (global_var(GVAR_FLAGSTAFF_TIMER_DINNER)<game_time) then begin
    BAnswer(404,0,NodeQst212)
    end
-   else begin
+
    NAnswer(401,0,NodeQst211)
-   end
 end
 
 procedure NodeQst211 begin
@@ -1024,6 +1039,7 @@ procedure NodeQst212 begin
 end
 
 procedure NodeQst213 begin
+   setQuest(GVAR_FLAGSTAFF_BARMEN_DINNER, qStop);
    Reply(408)
    NAnswer(409,0,Node999)
    NAnswer(410,0,Node999)
@@ -1038,6 +1054,11 @@ procedure NodeQst214 begin
    exp_add(100);
 
    Reply(412)
+   if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) >= qEnd) then begin
+   if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) == qZero) then begin
+   NAnswer(310,0,NodeQst101)
+   end
+   end
    NAnswer(413,0,Node999)
 end
 

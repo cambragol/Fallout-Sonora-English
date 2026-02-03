@@ -121,6 +121,9 @@ procedure talk_p_proc begin
    if ((map_var(MVAR_ROADWAR_DOPUSK) <= 0) or town_rep_is_hated) then begin
    floater(self_obj,102,COLOR_MSG_RED);
    end
+   else if (bitDialog(bit_1) != 0) then begin
+   floater(self_obj,210,COLOR_MSG_NORMAL);
+   end
    else begin
    setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,90) // Поправка к отношению за принадлежность к фракциям
@@ -149,37 +152,37 @@ end
 
 procedure NodeFstDialog begin
    Reply(200)
-   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(201,0,NodeFstDialog2)
 end
 
 procedure NodeFstDialog2 begin
    Reply(202)
-   NAnswer(203,1,NodeFstDialog3)
+   NAnswer(203,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog3 begin
    bitDialogExp(bit_1,0)
    set_REP(3)
    item_add(dude_obj,PID_W_SHOTGUN_DUBLET,1)
-   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,16)
+   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,2)
    Reply(204)
-   NAnswer(205,1,NodeFstDialog4)
-   NAnswer(208,1,NodeFstDialog5)
+   NAnswer(205,0,NodeFstDialog4)
+   NAnswer(208,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog4 begin
    Reply(206)
-   NAnswer(207,1,Node999)
+   NAnswer(207,0,Node999)
 end
 
 procedure NodeFstDialog5 begin
    Reply(209)
-   NAnswer(207,1,Node999)
+   NAnswer(207,0,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
    Reply(210)
-   NAnswer(211,1,Node999)
+   NAnswer(211,0,Node999)
 end

@@ -28,6 +28,7 @@ procedure pickup_p_proc;
 procedure combat_p_proc;
 procedure damage_p_proc;
 procedure destroy_p_proc;
+procedure stop_quest;
 procedure talk_p_proc;
 
 procedure Node998;
@@ -62,6 +63,14 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       if (gvar_bit(GVAR_ENCOUNTERS_FLAGS_BIT, bit_6) != 0) then begin
+       if ((getQuest(GVAR_GARAGE_QST_FAKECAPS) >= qEnd) or (getQuest(GVAR_GARAGE_QST_FAKECAPS) <= qStop)) then begin
+          call stop_quest;
+          move_to(self_obj, 26692, 0);
+          anim(self_obj, ANIMATE_ROTATION, 4);
+          kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+       end
+       end
    end
 end
 
@@ -77,7 +86,7 @@ procedure timed_event_p_proc begin
    // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
    // Таймер за номером 2 зарезервирован под всплывающие реплики
    if (fixed_param == 1) then begin
-       timer_move_random_home(2)
+       timer_move_to_home
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
@@ -110,10 +119,14 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
+   call stop_quest;
+   kill_critter_opt
+end
+
+procedure stop_quest begin
    if (getQuest(GVAR_GARAGE_QST_DOGS) == qStart) then begin
    setQuest(GVAR_GARAGE_QST_DOGS,qStop);
    end
-   kill_critter_opt
 end
 
 procedure talk_p_proc begin

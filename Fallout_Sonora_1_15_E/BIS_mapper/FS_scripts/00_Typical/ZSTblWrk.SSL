@@ -16,7 +16,6 @@ procedure NodeStartDialog;
 procedure NodeListA;
 procedure NodeListB;
 procedure NodeAmmo01;
-procedure NodeAmmo02;
 procedure NodeAmmo03;
 procedure NodeAmmo04;
 procedure NodeAmmo05;
@@ -76,7 +75,7 @@ procedure use_obj_on_p_proc begin
    stopUseCarGaz
    else if (objUsedPid == PID_OIL) then begin
        script_overrides;
-       item_add(dude_obj,PID_AMMO_TANK,5)
+       item_add(dude_obj,PID_AMMO_TANK,4)
        item_remove(dude_obj, objUsedPid, 1)
        play_sfx("TANKS");
        dude_floater_OK;
@@ -117,7 +116,6 @@ procedure NodeListA begin
    Reply(200)
 
    NAnswer(proto_data(PID_AMMO_22_LR,it_name)+mstr(204),1,NodeAmmo01)
-   //NAnswer(proto_data(PID_AMMO_9_MM,it_name)+mstr(204),1,NodeAmmo02)
    NAnswer(proto_data(PID_AMMO_10_MM,it_name)+mstr(204),1,NodeAmmo03)
    NAnswer(proto_data(PID_AMMO_44_MAGNUM,it_name)+mstr(204),1,NodeAmmo04)
    NAnswer(proto_data(PID_AMMO_50_AE,it_name)+mstr(204),1,NodeAmmo05)
@@ -148,36 +146,32 @@ procedure NodeAmmo01 begin
 setNodeAmmo(PID_AMMO_22_LR,8)
 end
 
-procedure NodeAmmo02 begin
-setNodeAmmo(PID_AMMO_9_MM,20)
-end
-
 procedure NodeAmmo03 begin
-setNodeAmmo(PID_AMMO_10_MM,20)
+setNodeAmmo(PID_AMMO_10_MM,1)
 end
 
 procedure NodeAmmo04 begin
-setNodeAmmo(PID_AMMO_44_MAGNUM,16)
+setNodeAmmo(PID_AMMO_44_MAGNUM,2)
 end
 
 procedure NodeAmmo05 begin
-setNodeAmmo(PID_AMMO_50_AE,10)
+setNodeAmmo(PID_AMMO_50_AE,1)
 end
 
 procedure NodeAmmo06 begin
-setNodeAmmo(PID_AMMO_5_MM,7) // в пачке 5 патронов
+setNodeAmmo(PID_AMMO_5_MM,1)
 end
 
 procedure NodeAmmo07 begin
-setNodeAmmo(PID_AMMO_308,12)
+setNodeAmmo(PID_AMMO_308,2)
 end
 
 procedure NodeAmmo08 begin
-setNodeAmmo(PID_AMMO_SHOTGUN_SHELLS,8)
+setNodeAmmo(PID_AMMO_SHOTGUN_SHELLS,2)
 end
 
 procedure NodeAmmo09 begin
-setNodeAmmo(PID_AMMO_SHOTGUN_SHELLS_BULLET,8)
+setNodeAmmo(PID_AMMO_SHOTGUN_SHELLS_BULLET,2)
 end
 
 procedure NodeAmmo10 begin
@@ -189,27 +183,42 @@ setNodeAmmo(PID_AMMO_40_MM,3)
 end
 
 procedure NodeFinal begin
+   variable summaAmmo;
+   summaAmmo := 1;
         if (has_skill(dude_obj, SKILL_REPAIR) >= 100) then begin
    inc_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt));
    end
-   else if (has_skill(dude_obj, SKILL_REPAIR) >= 80) then begin
-   inc_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt)/2);
-   end
-   else if (has_skill(dude_obj, SKILL_REPAIR) >= 60) then begin
-   inc_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt)/4);
-   end
-   else if (has_skill(dude_obj, SKILL_REPAIR) >= 40) then begin
-   end
-   else begin
-   dec_local_var_amt(LVAR_ItemAmnt,local_var(LVAR_ItemAmnt)/4);
+
+   if (local_var(LVAR_ItemAmnt) <= 0) then begin
+   set_local_var(LVAR_ItemAmnt,1);
    end
 
-   if (local_var(LVAR_ItemPID) == PID_AMMO_22_LR) then begin
-   Reply(mstr(205)+(local_var(LVAR_ItemAmnt)*5)+mstr(206))
+   if (local_var(LVAR_ItemPID) == PID_AMMO_5_MM) then begin
+   summaAmmo := 25;
    end
-   else begin
-   Reply(mstr(205)+local_var(LVAR_ItemAmnt)+mstr(206))
+   else if (local_var(LVAR_ItemPID) == PID_AMMO_10_MM) then begin
+   summaAmmo := 12;
    end
+   else if (local_var(LVAR_ItemPID) == PID_AMMO_50_AE) then begin
+   summaAmmo := 6;
+   end
+   else if (local_var(LVAR_ItemPID) == PID_AMMO_44_MAGNUM) then begin
+   summaAmmo := 6;
+   end
+   else if (local_var(LVAR_ItemPID) == PID_AMMO_SHOTGUN_SHELLS) then begin
+   summaAmmo := 6;
+   end
+   else if (local_var(LVAR_ItemPID) == PID_AMMO_SHOTGUN_SHELLS_BULLET) then begin
+   summaAmmo := 6;
+   end
+   else if (local_var(LVAR_ItemPID) == PID_AMMO_308) then begin
+   summaAmmo := 5;
+   end
+   else if (local_var(LVAR_ItemPID) == PID_AMMO_22_LR) then begin
+   summaAmmo := 5;
+   end
+
+   Reply(mstr(205)+(local_var(LVAR_ItemAmnt)*summaAmmo)+mstr(206))
    NAnswer(207,1,repair_proc)
    NAnswer(208,1,NodeListA)
 end

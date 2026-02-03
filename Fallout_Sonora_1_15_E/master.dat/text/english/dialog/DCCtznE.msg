@@ -159,3 +159,10 @@
 {359}{}{No voy a ninguna parte contigo.}
 {360}{}{«As expected. Maybe you can at least answer some more questions?»}
 {361}{}{«Then stay here. Farewell, old man.»}
+
+{370}{}{«Have you seen the Tinsmiths' ambassador?»}
+{371}{}{(glances around and gives a slight nod)}
+{372}{}{«He never made it back to Two-Sun. Do you know anything about that?»}
+{373}{}{«You didn't hear this from me, but you'll find your answer at the local graveyard. And don't ask me about it again.»}
+{374}{}{«Alright.»}
+

@@ -178,6 +178,7 @@ procedure NodeDialog201 begin
    NAnswer(213,1,NodeDialog202)
    // added alternative goodbye here, to have an actual negative response to the raiders question  - cambragol
    NAnswer(214,1,Node999)
+   NAnswer(201,1,Node999)
 end
 
 procedure NodeDialog202 begin

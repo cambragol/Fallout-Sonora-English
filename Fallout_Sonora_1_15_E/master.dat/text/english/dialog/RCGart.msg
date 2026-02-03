@@ -6,7 +6,7 @@
 {104}{}{If this is some sort of trick, you'll pay dearly for it.}
 {200}{}{Hmm? I don't recall meeting you before. Welcome to Aqueduct. What brings you here?}
 {201}{}{I have business here.}
-{202}{}{Whatever you say. Just make sure your "business" doesn't become my problem. I don't take kindly to newcomers trying to set new rules.}
+{202}{}{Whatever you say. Just make sure your "business" doesn't become my problem.}
 {203}{}{And who might you be?}
 {204}{}{You might not recognize a fellow Ranger. I recently joined the ranks.}
 {1204}{}{You might not recognize a fellow Ranger. I recently joined the ranks.}

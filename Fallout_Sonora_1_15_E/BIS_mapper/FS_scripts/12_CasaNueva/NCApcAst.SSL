@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_NCApcAst
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_NUEVA // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_CASANUEVA_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_CULT_APOCALIPSIS   // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -73,7 +74,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -162,6 +163,7 @@ procedure talk_p_proc begin
    floater(self_obj,104,COLOR_MSG_RED);
    end
    else begin
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(102,0,NodeStartDialog,-1,-1)
    end
 end
@@ -220,13 +222,13 @@ procedure NodeSndDialog begin
    if ((global_var(GVAR_GAME_END) != 0) and (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd)) then begin
    NAnswer(222,1,NodeAnswer105)
    end
-   if (bitDialog(bit_3) != 0) then begin
-   if (get_BarterDopusk == 0) then begin
-      NAnswer(250,1,NodeAnswer200)
-   end
-   end
    NAnswer(235,1,NodeAnswer102)
    NAnswer(230,1,NodeAnswer100)
+   if (bitDialog(bit_3) != 0) then begin
+   if (get_BarterDopusk == 0) then begin
+   NAnswer(250,1,NodeAnswer200)
+   end
+   end
    NAnswer(225,1,NodeBarter)
    NAnswer(221,1,Node999)
 end

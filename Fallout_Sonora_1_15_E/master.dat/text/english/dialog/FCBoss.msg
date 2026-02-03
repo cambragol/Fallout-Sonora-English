@@ -115,10 +115,10 @@
 {294}{}{Yeah. See ya.}
 {295}{}{Ranger? Just another criminal playing hero. Well, good job. Here's your 200 caps.}
 {296}{}{Hey, we agreed on 300!}
-{297}{}{Your memory's failing you. You won't get any more.}
+{297}{}{You won't get any more.}
 {298}{}{Fine, whatever... Later.}
 {299}{}{Any idea what it could be?}
-{300}{}{Most likely, another big beast or a gang has holed up in the ruins. You'll find out for sure once you locate the missing patrols.}
+{300}{}{It could be anything: another mutant, a gang, or something else.}
 
 {301}{}{One of your subordinates owes the bar 100 caps.}
 {302}{}{I've heard something about that, but I'm not gonna intervene over such a tiny sum.}
@@ -188,3 +188,16 @@
 {362}{}{...Alright. I'm not against getting rid of Lash. It'll be amusing to see one overseer replace another. Though, I still don't get why you care.}
 {363}{}{No reason.}
 {364}{}{I just can't stand injustice.}
+
+{370}{}{The patrols were taken out by a ranger saboteur. He's hiding out in the old museum basement.}
+{371}{}{A ranger? Criminal scum playing hero. I'll send in a squad of my men. We'll smoke that son of a bitch out! As for the tip - 50 caps should do.}
+{372}{}{I wanted a solution to the problem. You just brought me information. That's all it's worth.}
+{1372}{}{I wanted a solution to the problem. You just brought me information. That's all it's worth.}
+{373}{}{Fine...}
+
+{380}{}{There's something else. The elders are afraid of being enslaved again.}
+{381}{}{A fear of outsiders is normal. But my mine doesn't need that many slaves anymore - it's running at full capacity. I doubt I'll be organizing another convoy.}
+{382}{}{That's uh... reassuring. I'll let them know.}
+{383}{}{If the mine were really running at full capacity, I wouldn't have to rely on slavery. Until I can get a proper operation going, I'll keep looking for labor wherever I find it.}
+{384}{}{I see.}
+{385}{}{So what's wrong with the mine?}

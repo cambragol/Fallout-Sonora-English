@@ -46,6 +46,7 @@
 #Attack on Followers
 {300}{}{I'm investigating an attack on some Followers. What do you know about it?}
 {301}{}{You think you can barge in and interrogate me? Guys, throw this pest out.}
+{1301}{}{You think you can barge in and interrogate me? Guys, throw this bitch out.}
 {302}{}{Just try it!}
 {303}{}{Okay, I'm leaving.}
 {304}{}{Is barging in with interrogations the norm for Followers now? I'll answer out of respect for the church that feeds the city.}

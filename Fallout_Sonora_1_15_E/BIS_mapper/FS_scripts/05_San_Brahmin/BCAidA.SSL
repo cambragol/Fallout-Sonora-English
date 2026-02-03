@@ -47,6 +47,12 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
        set_injure_start(0,0,0,0,1) // травмировать (отметить нужное цифрой 1): a - левая рука, b - правая рука, c - левая нога, d - правая нога, e - слепота
+       if (get_Medic_Quest == 0) then begin
+          reg_anim_clear(self_obj);
+          reg_anim_begin();
+          reg_anim_animate(self_obj,ANIM_fall_back_sf,-1);
+          reg_anim_end();
+       end
    end
 end
 
@@ -78,6 +84,13 @@ procedure timed_event_p_proc begin
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
    end
+   if (fixed_param == 3) then begin
+       set_local_var(LVAR_Home_Rotat,4);
+       reg_anim_clear(self_obj);
+       reg_anim_begin();
+       reg_anim_animate(self_obj,ANIM_back_to_standing,-1);
+       reg_anim_end();
+   end
 end
 
 procedure critter_p_proc begin
@@ -95,6 +108,7 @@ procedure uninjure_proc begin
    inc_map_var(MVAR_BRAHMIN_FIRST_AID);
    set_REP(2)
    set_SLAVA(10)
+   add_timer_event(self_obj, 10, 3);
 end
 
 procedure pickup_p_proc begin
@@ -120,7 +134,7 @@ end
 
 procedure talk_p_proc begin
    if (get_Medic_Quest == 0) then begin
-   floater(self_obj,104,COLOR_MSG_NORMAL);
+   floater(self_obj,104,COLOR_MSG_RED);
    end
    else begin
    floater(self_obj,103,COLOR_MSG_NORMAL);

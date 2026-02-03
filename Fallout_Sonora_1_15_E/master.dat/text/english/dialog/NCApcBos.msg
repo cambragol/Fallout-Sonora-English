@@ -17,12 +17,15 @@
 
 #Medicine
 {220}{}{I need healing.}
-{221}{}{Strange. I don't see how I can help you. Many would envy your health.}
-{222}{}{What a joy, Doctor! Somehow I feel better already.}
-{223}{}{Oh, well... I can heal you. But, the treatment is very expensive. We'll have to spend at least }
-{224}{}{ caps on your course. Can you offer that many in compensation?}
-{225}{}{Yes. Exactly as many as needed.}
-{226}{}{I don't have that many caps.}
+{221}{}{Oh, I'm sorry... I can cure you. But the medicine doesn't come free.}
+{222}{}{I don't have anything valuable.}
+{223}{}{[Heal wounds for }
+{224}{}{ caps]}
+{225}{}{[Heal injuries for }
+{226}{}{[Remove all radiation for }
+{227}{}{[Remove all poisons for }
+{228}{}{Don't you have anything to pay with? You look like wealthy enough.}
+{229}{}{Sorry, I never meant to cheat you...}
 
 {230}{}{Wait a minute, are you alright? You don't look well.}
 {231}{}{Doctor, I'm hurting... I gotta shake this addiction!}
@@ -41,6 +44,10 @@
 {243}{}{Take a bath? Wow!}
 {244}{}{Acquired the Rehabilitation Perk.}
 {245}{}{After a week of treatment and training, you have overcome your addiction and are stronger against future relapses.}
+{246}{}{I don't really need any treatment.}
+{247}{}{Does it hurt now?}
+{248}{}{I'm fine, Doc.}
+{249}{}{Yeah, thanks, but there's one more thing.}
 
 #Dialogue
 {250}{}{You mentioned pre-war medicine and experiments?}
@@ -220,6 +227,7 @@
 {453}{}{How did your founders live there then?}
 {454}{}{Vaults were built to survive tough times after a nuclear attack. According to legend, the founders left the Vault to help the world be reborn. This sacrifice is appreciated by all Followers.}
 {455}{}{I was there. The place is truly cursed. Everything useful has been scavenged long ago.}
+{1455}{}{I was there. The place is truly cursed. Everything useful has been scavenged long ago.}
 {456}{}{Not surprising. I heard about the Great Exodus of ghouls south to the Glow. It looks like they found a suitable place for themselves. Let that radioactive land be lenient towards them.}
 {457}{}{Yeah, something like that. Shall we talk about something else?}
 {458}{}{I have a relic from that vault. Look, this is a copy of the overseer's diaries.}

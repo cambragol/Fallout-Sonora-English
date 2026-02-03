@@ -210,7 +210,7 @@ procedure NodeStopDialog3 begin
 end
 
 procedure NodeStopDialog4 begin
-   Reply(208)
+   zReply(208)
    NAnswer(209,1,NodeStopDialog5)
    NAnswer(212,1,NodeStopDialog6)
    NAnswer(229,1,NodeStopDialog11)

@@ -8,7 +8,7 @@
 #First Dialogue
 {200}{}{I've been informed that a certain peasant was insisting on meeting with me over an important matter. Usually, scouts and envoys handle external contacts. So, I hope this is truly something important?}
 {1200}{}{I've been informed that a certain peasant woman was insisting on meeting with me over an important matter. Usually, scouts and envoys handle external contacts. So, I hope this is truly something important?}
-{201}{}{[Continue]}
+{201}{}{[More]}
 {202}{}{So, why are you here?}
 {203}{}{You know, now I realize I have no business being here. This was a mistake. I'll leave, and you'll forget about me.}
 {204}{}{Is this some kind of absurd joke?}
@@ -295,7 +295,7 @@
 {496}{}{So how did it all end in San Brahmin? I'm waiting for the full report...}
 {497}{}{[Report]}
 {498}{}{Excellent work. Together, we've secured the tribe's freedom. This victory will remind everyone of the Rangers' worth - and we've got a fresh supply of brahmin meat to show for it.}  
-{499}{}{[Next]}
+{499}{}{[More]}
 
 #Phoenix - Quest Conclusion
 {500}{}{I need to talk to you about Phoenix.}
@@ -306,7 +306,7 @@
 {505}{}{Thank you, this might help.}
 {506}{}{Why is it so important to get rid of Aaron and his church?}
 {507}{}{The cult is nothing more than a puppet in Aaron's hands, the de facto 'lord' of Phoenix. He's set on building an empire, conquering territory, and silencing any opposition by force.}  
-{508}{}{[Next]}
+{508}{}{[More]}
 {509}{}{Then I need to find those rebels quickly. How do I do that?}
 {510}{}{But why is it so important to get rid of the Church of the Holy Fire?}
 {511}{}{The Cathedral of Fire in Phoenix has been destroyed.}

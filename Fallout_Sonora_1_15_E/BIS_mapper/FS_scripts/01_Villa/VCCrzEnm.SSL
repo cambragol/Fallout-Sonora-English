@@ -96,7 +96,7 @@ procedure critter_p_proc begin
       if (global_var(GVAR_VILLA_STATUS_CHRIS) == 2) then begin
          if (bitDialog(bit_1) == 0) then begin
             if (tile_distance_objs(self_obj, dude_obj) < 4) then begin
-            invisToDude(0,102) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога
+            invisToDude(5,102) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога
             end
             dialogue_system_forcing(4)
          end
@@ -161,31 +161,33 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(210)
-   BAnswer(211,1,NodeFstDialog101)
-   NAnswer(230,1,NodeFstDialog200)
-   BAnswer(240,1,NodeFstDialog300)
+   BAnswer(211,4,NodeFstDialog101)
+   NAnswer(230,4,NodeFstDialog200)
+   BAnswer(240,4,NodeFstDialog300)
+   BAnswer(227,-3,NodeFstDialog106)
 end
 
 procedure NodeFstDialog101 begin
    Reply(212)
-   NAnswer(213,1,NodeFstDialog102)
+   NAnswer(213,4,NodeFstDialog102)
 end
 
 procedure NodeFstDialog102 begin
    Reply(214)
-   NAnswerSkill(215,1,NodeFstDialog103,SKILL_CONVERSANT,100,224,NodeFstDialog103)
+   NAnswerSkill(215,4,NodeFstDialog103,SKILL_CONVERSANT,100,224,NodeFstDialog103)
+   NAnswer(236,4,NodeFstDialog105)
 end
 
 procedure NodeFstDialog103 begin
    Reply(216)
    if dude_skill(SKILL_CONVERSANT,100) then begin
-   NAnswer(217,1,NodeFstDialog104)
+   NAnswer(217,4,NodeFstDialog104)
    end
    if ((global_var(GVAR_VILLA_STATUS_OLD)>=10) or (get_REP>=30)) then begin
-   NAnswer(225,1,NodeFstDialog107)
+   NAnswer(225,4,NodeFstDialog107)
    end
-   zNAnswer(220,1,NodeFstDialog105)
-   BAnswer(221,1,NodeFstDialog106)
+   zNAnswer(220,4,NodeFstDialog105)
+   BAnswer(221,4,NodeFstDialog106)
 end
 
 procedure NodeFstDialog104 begin
@@ -197,8 +199,9 @@ procedure NodeFstDialog104 begin
    */
    set_local_var(LVAR_Home_Tile,10);
    move_to(self_obj, HomeTile, self_elevation);
+
    Reply(218)
-   NAnswer(219,1,Node999)
+   NAnswer(219,4,Node999)
 end
 
 procedure NodeFstDialog105 begin
@@ -212,8 +215,9 @@ procedure NodeFstDialog106 begin
    set_REP(-10)
    set_local_var(LVAR_Home_Tile,10);
    move_to(self_obj, HomeTile, self_elevation);
-   Reply(222)
-   NAnswer(223,1,Node999)
+   zReply(222)
+   NAnswer(223,4,Node999)
+   NAnswer(228,-3,Node999)
 end
 
 procedure NodeFstDialog107 begin
@@ -226,17 +230,18 @@ procedure NodeFstDialog107 begin
    set_local_var(LVAR_Home_Tile,10);
    move_to(self_obj, HomeTile, self_elevation);
    Reply(226)
-   NAnswer(219,1,Node999)
+   NAnswer(219,4,Node999)
 end
 
 procedure NodeFstDialog200 begin
    Reply(231)
-   NAnswer(232,1,NodeFstDialog201)
+   NAnswer(232,4,NodeFstDialog201)
+   BAnswer(235,4,NodeFstDialog101)
 end
 
 procedure NodeFstDialog201 begin
    Reply(233)
-   NAnswer(234,1,NodeFstDialog105)
+   NAnswer(234,4,NodeFstDialog105)
 end
 
 procedure NodeFstDialog300 begin
@@ -246,6 +251,6 @@ procedure NodeFstDialog300 begin
    else begin
    Reply(242)
    end
-   NAnswer(243,1,NodeFstDialog105)
-   BAnswer(244,1,NodeFstDialog106)
+   NAnswer(243,4,NodeFstDialog105)
+   BAnswer(244,4,NodeFstDialog106)
 end

@@ -14,6 +14,8 @@
 {213}{}{Why should I talk to you? I don't see the point in this. Just wasting breath on empty talk.}
 {214}{}{I'll find a way to get you chatting.}
 {215}{}{Okay, fine. Have it your way.}
+{216}{}{Hello.}
+{217}{}{To improve their attitude, open your backpack and use a food item on them.}
 
 {220}{}{Well, Garage City is a city of scavengers. Everyone here lives off the ruins, the 'mine' as most call it, which is controlled by Mr. Kogan's cartel.}
 {221}{}{Thanks, that was a comprehensive answer.}

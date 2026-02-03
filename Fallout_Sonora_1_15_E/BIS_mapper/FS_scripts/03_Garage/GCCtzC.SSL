@@ -181,33 +181,33 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   zBAnswer(201,1,NodeFstDialog2)
-   NAnswer(207,1,NodeFstDialog3)
+   zBAnswer(201,0,NodeFstDialog2)
+   NAnswer(207,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog2 begin
    setBonusReaction(-35)
    set_REP(-1)
    zReply(202)
-   zNAnswer(204,1,NodeFstDialog3)
-   NAnswer(203,1,Node999)
+   zNAnswer(204,0,NodeFstDialog3)
+   NAnswer(203,0,Node999)
 end
 
 procedure NodeFstDialog3 begin
    Reply(205)
-   NAnswer(208,1,NodeFstDialog4)
-   NAnswer(206,1,Node999)
+   NAnswer(208,0,NodeFstDialog4)
+   NAnswer(206,0,Node999)
 end
 
 procedure NodeFstDialog4 begin
    Reply(213)
-   NAnswer(214,1,NodeQst100)
+   NAnswer(214,0,NodeQst100)
 end
 
 procedure NodeFstDialog5 begin
    Reply(210)
-   NAnswer(211,1,NodeQst100)
-   NAnswer(212,1,Node999)
+   NAnswer(211,0,NodeQst100)
+   NAnswer(212,0,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -224,43 +224,34 @@ procedure NodeSndDialog begin
    end
 
    if (getQuest(GVAR_GARAGE_QST_APPARAT) == qStart) then begin
-   NAnswer(250,1,NodeQst200)
+   NAnswer(250,0,NodeQst200)
    end
    NAnswer(240,3,NodeAnswer100)
-   NAnswer(233,1,Node999)
+   NAnswer(233,0,Node999)
 end
 
 procedure NodeAnswer100 begin
-/*
-Чем ты занимаешься, Фрэнк?
-Ну, я больше специалист по железу. Сварка, крепеж, полировка - я годами оттачивал свое мастерство.
-Должно быть, прибыльное дело?
-Когда-то это было так. Да и сейчас мои навыки восстребованы. Вот только работы в городе почти не осталось. К тому же кто-то украл мой сварочный аппарат.
-Когда-то это было так. Да и сейчас мои навыки восстребованы. Вот только работы в городе почти не осталось. К тому же та история со сварочным аппаратом была весьма не кстати.
-Можно задать тебе еще вопрос?
-Понятно. Пока.
-*/
    Reply(241)
-   NAnswer(243,1,NodeAnswer101)
-   NAnswer(242,1,NodeAnswer101)
+   NAnswer(243,0,NodeAnswer101)
+   NAnswer(242,0,NodeAnswer101)
 end
 
 procedure NodeAnswer101 begin
    Reply(244)
-   NAnswer(245,1,NodeSndDialog)
-   NAnswer(246,1,Node999)
+   NAnswer(245,0,NodeSndDialog)
+   NAnswer(246,0,Node999)
 end
 
 procedure NodeQst100 begin
    bitDialogExp(bit_1,0)
    bitDialogExp(bit_2,0)
    Reply(215)
-   NAnswer(216,1,NodeQst101)
+   NAnswer(216,0,NodeQst101)
 end
 
 procedure NodeQst101 begin
    Reply(217)
-   NAnswer(218,1,NodeQst102)
+   NAnswer(218,0,NodeQst102)
 end
 
 procedure NodeQst102 begin
@@ -268,28 +259,28 @@ procedure NodeQst102 begin
    setBonusReaction(10)
    Reply(219)
    if (global_var(GVAR_TITUL_ARIZONA_RANGER)>0) then begin
-   zBAnswer(221,1,NodeQst103)
+   zBAnswer(221,0,NodeQst103)
    end
-   NAnswer(220,1,Node999)
+   NAnswer(220,0,Node999)
 end
 
 procedure NodeQst103 begin
    Reply(222)
-   NAnswer(223,1,Node999)
+   NAnswer(223,0,Node999)
 end
 
 procedure NodeQst200 begin
    Reply(251)
-   NAnswer(253,1,NodeQst201)
+   NAnswer(253,0,NodeQst201)
    if (item_amnt(dude_obj,PID_Q_WELDING_MACHINE)>0) then begin
-   GAnswer(256,1,NodeQst202)
+   GAnswer(256,0,NodeQst202)
    end
-   NAnswer(252,1,NodeSndDialog)
+   NAnswer(252,0,NodeSndDialog)
 end
 
 procedure NodeQst201 begin
    Reply(254)
-   NAnswer(255,1,NodeSndDialog)
+   NAnswer(255,0,NodeSndDialog)
 end
 
 procedure NodeQst202 begin
@@ -302,17 +293,18 @@ procedure NodeQst202 begin
    exp_add(250);
 
    Reply(257)
-   NAnswer(258,1,NodeQst203)
-   NAnswer(262,1,NodeQst204)
+   NAnswer(258,0,NodeQst203)
+   NAnswer(262,0,NodeQst204)
 end
 
 procedure NodeQst203 begin
    Reply(mstr(259)+proto_data(PID_Q_WELDING_MACHINE,it_cost)+mstr(260))
-   NAnswer(261,1,Node999)
+   NAnswer(261,0,Node999)
 end
 
 procedure NodeQst204 begin
+   set_gvar_bit_on(GVAR_ENCOUNTERS_FLAGS_BIT, bit_6); // Тодда линчуют
    setBonusReaction(25)
    Reply(mstr(263)+proto_data(PID_Q_WELDING_MACHINE,it_cost)+mstr(264))
-   NAnswer(265,1,Node999)
+   NAnswer(265,0,Node999)
 end

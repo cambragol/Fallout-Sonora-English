@@ -1,0 +1,62 @@
+#include "..\headers\define.h"
+#define NAME                            SCRIPT_ASWtrTtm
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_skill_on_p_proc;
+procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure zipper_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (map_first_run == true) then begin
+      anim(self_obj, ANIMATE_ROTATION, random(0,5));
+      end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if ((action_being_used == SKILL_TRAPS) or (action_being_used == SKILL_REPAIR)) then begin
+      script_overrides;
+      call zipper_proc;
+   end
+end
+
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if (objUsedPid == PID_TOOL_ZIPPER) then begin
+      script_overrides;
+      play_sfx("ZAPPER2");
+      call zipper_proc;
+   end
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      call zipper_proc;
+   end
+end
+
+procedure zipper_proc begin
+   inc_map_var(MVAR_FELIPE_WATER_TOTEMS);
+
+   if (map_var(MVAR_FELIPE_WATER_SVR_AMNT)>=FELIPE_WATER_SVR_AMNT) then begin
+      display_mstr(103);
+   end
+   else if (map_var(MVAR_FELIPE_WATER_TOTEMS)>=FELIPE_WATER_TOTEMS) then begin
+      display_mstr(104);
+   end
+   else begin
+      display_mstr(102);
+   end
+
+   play_sfx("WH21WXX1");
+   set_obj_visibility(self_obj, 1);
+   destroy_object(self_obj);
+end

@@ -1,10 +1,11 @@
 {100}{}{You see a colonist.}
-{101}{}{You see a citizen of Flagstaff.}
+{101}{}{You see a colony resident.}
 {102}{}{It's past curfew. Get out of here.}
 
 #Dialogue
 {200}{}{Hey, are you blind? This house is taken. What do you want?}
 {201}{}{That's no way to greet someone.}
+{1201}{}{That's no way to greet someone.}
 {202}{}{Why should I greet you when you barge into my house? Just so you know, this is a small town. Everyone knows each other by sight, and I don't know you.}
 {203}{}{Right back at you.}
 {204}{}{You're a real piece of work.}

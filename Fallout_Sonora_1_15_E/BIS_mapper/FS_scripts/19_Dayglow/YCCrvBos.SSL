@@ -93,7 +93,7 @@ end
 procedure setBarterA begin
         check_restock_item(PID_M_FRUIT, 7, 7, 100)
         check_restock_item(PID_W_GRENADE_PULSE, 7, 7, 100)
-        check_restock_item(PID_AMMO_50_AE, 40, 40, 100)
+        check_restock_item(PID_AMMO_50_AE, 7, 7, 100)
         check_restock_item(PID_W_PISTOL_50, 1, 1, 100)
         check_restock_item(PID_ARMOR_COMBAT, 1, 1, 100)
 

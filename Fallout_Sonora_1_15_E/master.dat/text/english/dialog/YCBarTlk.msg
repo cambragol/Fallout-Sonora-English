@@ -1,7 +1,7 @@
 {100}{}{You see Jeffrey.}
 {101}{}{You see a ghoul in an old pair of pajamas, calmly sipping a cocktail.}
 {102}{}{I can't stop you from being here. But stay out of my way.}
-{103}{}{Smoothskins are such xenophobes. Am I right?}
+{103}{}{Smoothskins are such prissies... Buy me a drink?}
 {104}{}{Laws? I don't think you'd like living in a "lawful state".}
 
 {200}{}{Hey, welcome, dead friend. Where you from?}

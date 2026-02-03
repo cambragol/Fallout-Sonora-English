@@ -1,8 +1,8 @@
 {100}{}{You see an agave farmer.}
 {101}{}{You see a deeply tanned man wearing a straw hat and a fresh linen shirt.}
-{102}{}{Weapons are prohibited in town. Hide 'em pronto.}
+{102}{}{Weapons are prohibited in town. Put 'em away, pronto.}
 {103}{}{Oh, my respects, sir... I, uh, need to work... if I may...}
-{104}{}{«Don't talk to me while there's a curfew in town...»}
+{104}{}{«Don't talk to me while the curfew's on...»}
 {105}{}{You see Juan.}
 
 
@@ -82,6 +82,7 @@
 
 {250}{}{«Why are weapons forbidden here?»}
 {251}{}{«It's not wise to go against the rules, dear viajero. These bans at the front gates are written in blood.»}
+{1251}{}{«It's not wise to go against the rules, dear viajera. These bans at the front gates are written in blood.»}
 {252}{}{«Sorry, that was an unnecessary question. Forget it.»}
 {253}{}{«And why do you carry that strange spear?»}
 {254}{}{«Ha-ha, that's not a weapon, it's a coa. I cut agave leaves with it during the harvest. And I have permission from the Mayor. Without permission, even carrying a coa openly is forbidden.»}
@@ -113,7 +114,7 @@
 {1276}{}{Lo siento, señora.}
 {277}{}{Sí, por supuesto, señor.}
 {1277}{}{Sí, por supuesto, señora.}
-{278}{}{[Continue]}
+{278}{}{[More]}
 {279}{}{[You switch to speaking Spanish]}
 {280}{}{(looks at you and steps back) Wh... what y-you want?}
 {281}{}{(looks at you and goes pale) I n-no... speak English! Go away!}

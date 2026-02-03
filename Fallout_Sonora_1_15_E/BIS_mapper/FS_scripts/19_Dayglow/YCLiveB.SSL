@@ -223,10 +223,12 @@ end
 procedure NodeSndDialog begin
    Reply(220)
    if (bitDialog(bit_2) == 0) then begin
-   NAnswer(222,0,NodeSndDialog2)
+      NAnswer(222,0,NodeSndDialog2)
    end
    else if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_25) != 0) then begin
-   zNAnswer(250,0,NodeSndDialog200)
+      if (getQuest(GVAR_DAYGLOW_QST_LIVE) <= qEnd) then begin
+      zNAnswer(250,0,NodeSndDialog200)
+      end
    end
    NAnswer(221,0,Node999)
 end

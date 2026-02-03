@@ -123,6 +123,7 @@ procedure uninjure_proc begin
    if (get_Medic_Quest == 0) then begin
    PLAY_FADE
    set_REP(3)
+   set_SLAVA(3)
    exp_add(150);
    display_mstr(102);
    set_Medic_Quest;

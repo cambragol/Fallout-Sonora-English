@@ -440,7 +440,7 @@
 #72: SanFelipeLight, FelipeA.MAP
 #---------------------------------------
 {416}{}{Lighthouse Settlement}
-{417}{}{Artificial Grotto}
+{417}{}{Fresh Water Source}
 {418}{}{Old Lighthouse}
 #---------------------------------------
 #73: BSCamp1, BSCampA.MAP
@@ -631,7 +631,7 @@
 #---------------------------------------
 #104. Special Baron Encounter, rndBaron.MAP
 #---------------------------------------
-{512}{}{Somewhere in the Sonoran Wasteland}
+{512}{}{Gathering point for departure to Dayglow}
 {513}{}{}
 {514}{}{}
 #---------------------------------------
@@ -956,7 +956,7 @@
 {1536}{}{The Cry of Silence}
 {1537}{}{Outdoor Cinema}
 {1538}{}{Padre}
-{1539}{}{Baron of Arizona}
+{1539}{}{Gathering Point}
 {1540}{}{Snowfall}
 {1541}{}{The Lost Vault}
 {1542}{}{Mobile Fortress}

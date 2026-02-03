@@ -5,6 +5,7 @@
 #define NAME                            SCRIPT_YCCafeB
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -85,7 +86,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -166,6 +167,7 @@ procedure talk_p_proc begin
    floater(self_obj, 102, COLOR_MSG_RED);
    end
    else begin
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -315,7 +317,7 @@ procedure NodeBarterRoom7 begin
    critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
    poison(dude_obj,-100);
    radiation_dec(dude_obj,10);
-   critter_heal(dude_obj,25);
+   critter_heal(dude_obj,dude_max_hits/2);
    game_time_advance(ONE_GAME_HOUR*12);
    call Node999;
 end

@@ -193,7 +193,7 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
-   if (((getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) == qEnd) and (global_var(GVAR_STATUS_FLAGSTAFF_FABER) == -1)) or (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd)) then begin
+   if (((getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) == qEnd) and (global_var(GVAR_STATUS_FLAGSTAFF_FABER) == -1)) or (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    call NodeDialogStop;
    end
    else if (bitDialog(bit_1) == 0) then begin
@@ -255,6 +255,9 @@ procedure NodeDialogStop3 begin
    Reply(255)
    end
    else if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   Reply(256)
+   end
+   else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
    Reply(256)
    end
    else begin
@@ -455,6 +458,9 @@ end
 
 procedure NodeAnswer103 begin
    if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   Reply(243)
+   end
+   else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
    Reply(243)
    end
    else begin

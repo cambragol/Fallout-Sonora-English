@@ -4,11 +4,9 @@
 
 procedure start;
 procedure map_enter_p_proc;
+procedure map_update_p_proc;
 procedure use_skill_on_p_proc;
-procedure use_obj_on_p_proc;
-procedure food_proc;
-
-variable FoodCheck;
+procedure use_p_proc;
 
 
 
@@ -18,37 +16,38 @@ end
 procedure map_enter_p_proc begin
 end
 
-procedure use_skill_on_p_proc begin
-   FoodCheck := 0;
+procedure map_update_p_proc begin
+   if ((getQuest(GVAR_DAYGLOW_MAIN_C) != qZero) or (global_var(GVAR_DAYGLOW_CORONADO_STATUS) != 0)) then begin
+   set_obj_visibility(self_obj, 1);
+   create_object_sid(self_PID, self_tile, self_elevation, -1);
+   destroy_object(self_obj);
+   end
+end
 
-   if (action_being_used == SKILL_SCIENCE) then begin
+procedure use_p_proc begin
+   if SELF_IS_LOCKED then begin
        script_overrides;
 
-       //подсчет еды + мука + PID_AGAVE_JUICE + хвост скорпиона + протухшее блюдо
+       reg_anim_begin();
+       reg_anim_clear(self_obj);
+       reg_anim_clear(source_obj);
+       reg_anim_end();
 
-       if (FoodCheck > 0) then begin
-       call food_proc;
-       end
-       else begin
        display_mstr(110);
+       if (dude_iq>=4) then begin
+       floater(dude_obj, 111, COLOR_MSG_NORMAL);
        end
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_SCIENCE) then begin
+       script_overrides;
+       call use_p_proc;
    end
 
    if (action_being_used == SKILL_REPAIR) then begin
        script_overrides;
-       display_mstr(111);
+       call use_p_proc;
    end
-end
-
-procedure use_obj_on_p_proc begin
-   stopUseCarGaz
-end
-
-procedure food_proc begin
-   PLAY_FADE
-   play_sfx("CHEMICA1");
-   game_time_advance(ONE_GAME_HOUR); // ! время расчитывать от размера FoodCheck
-   //удаление пищи
-   //создание смеси
-   //очистка ядерколы
 end

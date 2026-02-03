@@ -20,7 +20,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
       if (map_first_run) then begin
-         if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_CORONADO)) then begin
+         if ((cur_map_index >= MAP_DAYGLOW_TIJUANA) and (cur_map_index <= MAP_DAYGLOW_CORONADO)) then begin
          item_add(self_obj,PID_M_NUKA_COLA_RAD,random(5,5+dude_luck))
          end
          else if ((cur_map_index == MAP_INFIERNO_CITY) or (cur_map_index == MAP_INFIERNO_SHOP) or (cur_map_index == MAP_INFIERNO_POLICE) or (cur_map_index == MAP_INFIERNO_CHURCH)) then begin

@@ -49,11 +49,16 @@ procedure NodeAnswer201;
 procedure NodeAnswer300;
 procedure NodeAnswer400;
 procedure NodeFAID;
-procedure NodeFAID1;
-procedure NodeFAID2;
+procedure NodeFAIDcost;
+procedure NodeFAIDnon;
 procedure NodeFAID100;
 procedure NodeFAID101;
 procedure NodeFAID102;
+procedure NodeFAID103;
+procedure NodeFAID104;
+procedure NodeFAID105;
+procedure NodeFAID106;
+procedure NodeFAIDEnd;
 procedure NodeFAID200;
 procedure NodeFAID201;
 procedure NodeFAID202;
@@ -269,100 +274,129 @@ end
 
 //--- ЛЕЧЕНИЕ
 
+#define AnswerCost(msg,node)      call NodeFAIDcost; \
+                                  if ((item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) or (MedicMany == 0)) then begin \
+                                  NAnswer(mstr(msg)+MedicMany+mstr(227),0,node) \
+                                  end else begin \
+                                  NAnswer(mstr(msg)+MedicMany+mstr(227),0,NodeFAIDnon) \
+                                  end \
+
+procedure NodeFAIDcost begin
+   MedicMany += MedicMany; // общая надбавка по сравнению с остальными медиками
+
+   if (global_var(GVAR_TITUL_BOS) > 0) then begin
+   MedicMany -= MedicMany/2;
+   end
+
+   if (MedicMany<0) then begin
+   MedicMany := 0;
+   end
+end
+
 procedure NodeFAID begin
    if (global_var(GVAR_TWOSUN_STATUS_BOSS) > 0) then begin
-   call NodeFAID2;
+   call NodeFAID100;
    end
    else begin
-   call NodeFAID1;
+   call NodeFAID101;
    end
-end
-
-procedure NodeFAID1 begin
-   Reply(221)
-   NAnswer(222,1,NodeSndDialog)
-end
-
-procedure NodeFAID2 begin
-   MedicMany := 0;
-   Reply(223)
-   if (dude_cur_hits<dude_max_hits) then begin
-   NAnswer(225,1,NodeFAID100)
-   end
-   else if dude_is_crippled then begin
-   NAnswer(225,1,NodeFAID100)
-   end
-   if (local_var(LVAR_Implant_A) == 0) then begin
-   NAnswer(250,1,NodeFAID200)
-   end
-   NAnswer(224,1,NodeSndDialog)
 end
 
 procedure NodeFAID100 begin
-   MedicMany := (dude_max_hits-dude_cur_hits)*5;
+   MedicMany := 0;
+   Reply(225)
 
-   if (critter_state(dude_obj) bwand DAM_CRIP_LEG_LEFT) then begin
-   MedicMany += 20;
-   end
-   if (critter_state(dude_obj) bwand DAM_CRIP_LEG_RIGHT) then begin
-   MedicMany += 20;
-   end
-   if (critter_state(dude_obj) bwand DAM_CRIP_ARM_LEFT) then begin
-   MedicMany += 20;
-   end
-   if (critter_state(dude_obj) bwand DAM_CRIP_ARM_RIGHT) then begin
-   MedicMany += 20;
-   end
-   if (critter_state(dude_obj) bwand DAM_BLIND) then begin
-   MedicMany += 20;
+   NAnswer(236,1,NodeFAID106)
+
+   if (local_var(LVAR_Implant_A) == 0) then begin
+   NAnswer(250,1,NodeFAID200)
    end
 
-   MedicMany += MedicMany;
-   if (has_skill(dude_obj, SKILL_BARTER) > 0) then begin
-   MedicMany -= (MedicMany*has_skill(dude_obj, SKILL_BARTER))/100;
-   end
-   if (MedicMany < 0) then begin
-   MedicMany := 1;
-   end
-
-   Reply(mstr(227)+MedicMany+mstr(228))
-   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
-   NAnswer(229,1,NodeFAID101)
-   end
-   NAnswer(231,1,NodeSndDialog)
-   NAnswer(230,1,Node999)
+   NAnswer(224,1,NodeSndDialog)
 end
 
 procedure NodeFAID101 begin
-   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
-   call NodeFAID102;
+   MedicMany := 0;
+   Reply(223)
+
+   if (dude_cur_hits<dude_max_hits) then begin
+      MedicMany := (dude_max_hits-dude_cur_hits)*3;
+      AnswerCost(226,NodeFAID102)
    end
-   else begin
-   call Node999;
+   if dude_is_crippled then begin
+      MedicMany := 25;
+      AnswerCost(228,NodeFAID103)
    end
+   if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
+      MedicMany := get_critter_stat(dude_obj,STAT_current_rad)*3;
+      AnswerCost(229,NodeFAID104)
+   end
+   if (get_poison(dude_obj)>0) then begin
+      MedicMany := get_poison(dude_obj)*3;
+      AnswerCost(230,NodeFAID105)
+   end
+
+   if (local_var(LVAR_Implant_A) == 0) then begin
+   NAnswer(250,1,NodeFAID200)
+   end
+
+   NAnswer(224,1,NodeSndDialog)
 end
 
 procedure NodeFAID102 begin
    critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
-   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
-   if (MedicMany > 0) then begin
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID103 begin
+   critter_uninjure_full(dude_obj);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID104 begin
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID105 begin
+   poison(dude_obj,-(get_poison(dude_obj)));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID106 begin
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   critter_uninjure_full(dude_obj);
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   poison(dude_obj,-(get_poison(dude_obj)));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAIDnon begin
+   Reply(232)
+   NAnswer(234,0,Node999)
+end
+
+procedure NodeFAIDEnd begin
+   if (MedicMany>0) then begin
    item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
    end
-   MedicMany := 0;
    PLAY_FADE
    Reply(232)
+   NAnswer(231,1,NodeSndDialog)
    NAnswer(233,1,Node999)
-   NAnswer(234,1,Node999)
 end
 
 procedure NodeFAID200 begin
-   Reply(251)
+   zReply(251)
    NAnswer(252,1,NodeFAID201)
 end
 
 procedure NodeFAID201 begin
    Reply(253)
-   NAnswer(254,1,NodeFAID202)
+   if (global_var(GVAR_TWOSUN_STATUS_BOSS) > 0) then begin
+   zNAnswer(254,1,NodeFAID202)
+   end
+   NAnswer(270,1,NodeSndDialog)
 end
 
 procedure NodeFAID202 begin

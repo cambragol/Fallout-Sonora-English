@@ -1,0 +1,74 @@
+#include "..\headers\define.h"
+#include "..\headers\dayglow.h"
+#define NAME                    SCRIPT_YTInfo
+
+procedure start;
+procedure spatial_p_proc;
+procedure info_proc;
+
+#define LVAR_INFO_FLAG                 (0)
+
+variable paramMsg;
+variable paramCl;
+
+#define setInfoTriger(msg,tile,map,cl) if (cur_map_index == map) then begin     \
+                                           if ((tile <= 0) or (tile == self_tile)) then begin \
+                                               paramMsg := msg;                 \
+                                               paramCl := cl;                   \
+                                           end                                  \
+                                       end                                      \
+
+
+
+procedure start begin
+end
+
+procedure spatial_p_proc begin
+   if (source_obj == dude_obj) then begin
+       if (local_var(LVAR_INFO_FLAG) == 0) then begin
+           call info_proc;
+           set_local_var(LVAR_INFO_FLAG,1);
+       end
+   end
+end
+
+procedure info_proc begin
+   paramMsg := 0;
+
+   //--- Идентификация
+   /* setInfoTriger(msg,tile,map,cl) - расшифровка:
+         Номер сообщения (при <=0 сообщение не выводится),
+             тайл триггера (при <=0 игнорируется),
+                 номер карты (обязательно),
+                     приказ ГГ оставиться (при <=0 игнорируется)
+   */
+
+   //- Сияние Дня
+   if (self_elevation == 1) then begin
+   setInfoTriger(153,-1,MAP_DAYGLOW_PATRUL,0)
+   end
+   if (self_elevation == 1) then begin
+   setInfoTriger(150,-1,MAP_DAYGLOW_CAMP_OLD_TOWN,0)
+   end
+   if (self_elevation == 0) then begin
+   setInfoTriger(151,-1,MAP_DAYGLOW_TIJUANA,0)
+   end
+   if (self_elevation == 0) then begin
+   setInfoTriger(152,-1,MAP_DAYGLOW_CITYHEART,0)
+   end
+   if (self_elevation == 1) then begin
+   setInfoTriger(152,-1,MAP_DAYGLOW_NATIONALCITY,0)
+   end
+   if (self_elevation == 1) then begin
+   setInfoTriger(152,-1,MAP_DAYGLOW_PIRS,0)
+   end
+
+   //--- Сообщение
+   if (paramMsg >0) then begin
+   play_sfx("ICSXXXX1");
+   display_mstr(paramMsg);
+   end
+   if (paramCl>0) then begin
+   reg_anim_clear(source_obj);
+   end
+end

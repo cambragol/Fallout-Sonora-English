@@ -1,6 +1,7 @@
 {100}{}{You see Christopher.}
 {101}{}{You see a young soldier, his expression both sad and contemplative.}
 {102}{}{Watch out for the super mutants, buddy.}
+{1102}{}{Watch out for the super mutants, babe.}
 
 {200}{}{Hello... uh... Didn't know there were civilians... uh... Welcome aboard.}
 {201}{}{You seem a little distracted.}

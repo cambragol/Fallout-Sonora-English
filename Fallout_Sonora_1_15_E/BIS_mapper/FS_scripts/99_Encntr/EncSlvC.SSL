@@ -179,7 +179,7 @@ procedure NodeFstDialog3 begin
 end
 
 procedure NodeFstDialog4 begin
-   Reply(207)
+   zReply(207)
    NAnswer(208,1,NodeAnswer)
 end
 

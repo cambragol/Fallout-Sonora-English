@@ -382,7 +382,7 @@ procedure NodeFstDialog304 begin
    GAnswer(266,1,NodeFstDialog203)
    end
    else begin
-   GAnswer(267,1,NodeFstDialog203)
+   zGAnswer(267,1,NodeFstDialog203)
    end
    BAnswer(265,1,Node998)
 end
@@ -489,6 +489,9 @@ procedure NodeSndDialog begin
       end
       else if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_28) != 0) then begin
       NAnswer(391,1,NodeQst200)
+      end
+      else if (global_var(GVAR_CGRANDE_STATUS_SHEFF) > 0) then begin
+      NAnswer(390,1,NodeQst200)
       end
    end
 
@@ -661,7 +664,7 @@ procedure NodeQst201 begin
    set_REP(15)
    setReaction(35)
    exp_add(1000);
-   item_add(dude_obj,PID_AMMO_TANK,2)
+   item_add(dude_obj,PID_AMMO_TANK,6)
    item_add(dude_obj,PID_W_FLAMER,1)
    item_add(dude_obj,PID_ARMOR_ROAD,1)
    box_stop_use := 0;

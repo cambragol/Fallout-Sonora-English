@@ -14,6 +14,7 @@
 
 #Re-dialogue
 {220}{}{Hola, gringo.}
+{1220}{}{Hola, gringa.}
 {221}{}{Hola, amigo.}
 {1221}{}{Hola, amiga.}
 {222}{}{Adios, Enrique.}
@@ -89,5 +90,6 @@
 {299}{}{El Diablo also attacked wild animals and raiders who threatened us. We became his herd, and he ate us when he was hungry.}
 {300}{}{But you kept sacrificing to him?}
 {301}{}{Every few months, we'd give a sacrifice we raised for this purpose. Hilario turned it into a ceremony, preaching divine purification. So we lived with the devil, until you showed up, gringo.}
+{1301}{}{Every few months, we'd give a sacrifice we raised for this purpose. Hilario turned it into a ceremony, preaching divine purification. So we lived with the devil, until you showed up, gringa.}
 {302}{}{Well, I hope you can return to normal life. Time for me to go.}
 {303}{}{Shame on you. All of you. At the Villa, we stick together. Hearing your story makes me want to return to my home. Goodbye.}

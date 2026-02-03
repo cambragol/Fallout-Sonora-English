@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_MCRdrBld
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_RAIDERS // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения от 1 до 10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_WAR_ROADS        // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_WAR_ROAD           // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -60,7 +61,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
        set_injure_start(0,1,0,0,0) // травмировать (отметить нужное цифрой 1): a - левая рука, b - правая рука, c - левая нога, d - правая нога, e - слепота
    end
 end
@@ -70,8 +71,8 @@ procedure setBarterA begin
 end
 
 procedure setBarterB begin
-        check_restock_item(PID_W_GRENADE_MOLOTOV, 4, 6, 100)
-        check_restock_item(PID_AMMO_TANK, 4, 5, 100) // в пачке 5 шт
+        check_restock_item(PID_W_GRENADE_MOLOTOV, 5, 10, 100)
+        check_restock_item(PID_AMMO_TANK, 10, 20, 100)
    set_BarterDopusk;
 end
 
@@ -155,13 +156,14 @@ procedure talk_p_proc begin
    floater(self_obj,108,COLOR_MSG_RED);
    end
    else if (get_Medic_Quest == 0) then begin
-   floater(self_obj,104,COLOR_MSG_NORMAL);
+   floater(self_obj,104,COLOR_MSG_RED);
    end
    else begin
    //floater(self_obj,105,COLOR_MSG_NORMAL);
    setReaction(-1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,70) // Поправка к отношению за принадлежность к фракциям
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end

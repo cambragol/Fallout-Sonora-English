@@ -28,7 +28,7 @@
 {219}{}{}
 {220}{}{Tell me about the area around here.}
 {221}{}{San Ysidro and Old Town are the main ghoul settlements. Between them, you've got radioactive ruins and charred parks crawling with rogue scavengers and all kinds of monsters.}
-{222}{}{[Next]}
+{222}{}{[More]}
 {223}{}{The nukes mostly hit the naval base and the industrial zone, but downtown San Diego took a heavy blow too. Now it's just ruins, high radiation, skeletons everywhere - and military robots patrolling all over. They've been roaming since the alarms went off at the base.}
 {224}{}{Tell me how to get to Chula Vista.}
 {225}{}{You need to cross the Otay River Valley. There are two shortcuts... One is across the surviving bridge, but it's occupied by robots and mined. The other is through the Otay Valley, but you can't get down there without equipment. And besides, it's full of terrible monsters. So... we always take the 'long' way round.}

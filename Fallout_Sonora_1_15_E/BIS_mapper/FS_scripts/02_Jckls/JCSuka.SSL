@@ -120,7 +120,7 @@ procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
    if (objUsedPid == PID_SCORPION_TAIL) then begin
    script_overrides;
-   floater(self_obj,104,COLOR_MSG_RED);
+   z_floater(self_obj,104,COLOR_MSG_RED);
    set_enemy_dude;
    end
 end
@@ -283,7 +283,7 @@ end
 
 procedure NodeSndDialog begin
    if (getQuest(GVAR_JACKALS_UNION_CITY) >= qEnd) then begin
-   Reply(253)
+   zReply(253)
    end
    else if (getReaction>=20) then begin
    Reply(250)

@@ -1,14 +1,18 @@
 {100}{}{You see John Sullivan.}
 {101}{}{You see a man who commands respect. He looks very clean and well-groomed.}
 {102}{}{You're not going to wander around here in this, are you?}
-{103}{}{You have a deathwish? Get out of town, you god damn highwayman.}
+{103}{}{Got a death wish? Get out of town, you go damn highwayman!}
+{1103}{}{Got a death wish? Get out of town, you damned raider!}
+{104}{}{I'll put this town in order myself. Relax and take a bath. I told the trader to give you a discount.}
 
-#Before repair
-{200}{}{Hey, stranger. I don't like strangers messing around on my property.}
-{1200}{}{Aw, lady, what a surprise to see a lady here. Although I don't usually like strangers hanging around on my property.}
-{201}{}{Is this your water pump? Do you own it?}
-{202}{}{It is and I do. I'm John Sullivan. And I own this entire pump. Do you have business with me? If not, then step outside. I need to fix this filter, not chat with strangers.}
-{203}{}{Sorry to bother you. I'll leave right away.}
+
+# First Meeting
+{200}{}{Hey, stranger. I don't like outsiders hanging around the pump.}
+{1200}{}{Well now, that's unexpected - a señorita. Still, I don't like outsiders hanging around the pump.}
+{201}{}{Is this your water pump?}
+{202}{}{Who the hell are you?}
+{203}{}{John Sullivan. I own this whole damn pump. You got business with me?}
+
 {204}{}{I'm new here. Can I ask you a couple of questions about the city?}
 {205}{}{Am I speaking quietly? I HAVE NO TIME to chat with you.}
 {206}{}{Oh, then I'll leave right now.}
@@ -25,28 +29,25 @@
 {217}{}{Really? If you fix the filter, I'll pay. Less than the Tinsmiths, of course. But in the end, everyone wins.}
 {218}{}{Okay... This will take some time.}
 {219}{}{Hmm, the tech is too complicated for me. I'm afraid I can't handle it.}
-{220}{}{You again? What is it this time?}
-{221}{}{Uh, nothing.}
-{222}{}{About the pump. Why not have it repaired?}
-{223}{}{The filter is fine. Dirt and sand messed up some parts, but I managed to fix them.}
-{224}{}{I appreciate efficiency. Here, take these 200 caps as payment for your work.}
-{225}{}{Thanks.}
-{226}{}{That's not enough.}
-{227}{}{That's plenty. If you wanted more, I wouldn't have offered you the job.}
-{228}{}{You're really tightfisted.}
-{229}{}{Thanks anyway.}
-{230}{}{This barely covers the cost of the extra parts.}
-{231}{}{Alright, here's another 50 caps. And don't ask for more.}
-{232}{}{You're really tightfisted.}
-{233}{}{That'll do, thanks.}
 
-{234}{}{I'm looking for a Tinsmith. Has one been here recently?}
-{235}{}{Yes, he was here. Checked the pump, discussed some minor repairs, and then headed off to see the mayor. Haven't seen him since.}
-{236}{}{Thanks, I'll go talk to the mayor.}
-{237}{}{Actually, I'm tracking some slaves taken to Two-Sun.}
-{238}{}{Then head to Two-Sun. Why ask me? We just service the caravans and send them on their way. It's just business.}
-{239}{}{Convenient excuse, huh?}
-{240}{}{Makes sense.}
+{220}{}{You here on business, or just loitering?}
+{221}{}{Nothing special. I'll be going.}
+{222}{}{Okay.}
+{223}{}{You're not planning to wander around here dressed like THAT, are you?}
+{224}{}{You again? What is it this time?}
+
+{230}{}{I know about the attack on the trader. Poverty makes people desperate. Forget it happened - and don't pull a stunt like that again.}
+{231}{}{No problem. I didn't see anything, didn't hear anything.}
+{1231}{}{No problem. I didn't see anything, didn't hear anything.}
+{232}{}{That's the right answer.}
+{233}{}{Uh... okay.}
+{234}{}{Silence has a price.}
+{235}{}{It's simple: keep your mouth shut, and you won't have any trouble.}
+{236}{}{So that's how it is...}
+{237}{}{Silence has a price. You don't seriously expect this story to bury itself, do you?}
+{238}{}{A businesslike approach. (counts out }
+{239}{}{ caps) But watch your tongue. Otherwise you'll have real problems in this little town.}
+{240}{}{Oh, I understand you perfectly...}
 
 {241}{}{What kind of disagreement did you have with the mayor?}
 {242}{}{Time and children have softened the old tyrant. He lost his edge and the right to dictate to me. Before, I had to play the role of manager because of him. Now, it's my turn to live well.}
@@ -54,20 +55,25 @@
 {244}{}{Find someone else to chat with. I don't have the time or the interest.}
 {245}{}{Alright then, I won't bother you.}
 
-#After repair
-{250}{}{Now we can talk a little. What do you need?}
-{251}{}{Nothing special. Bye.}
+# Questions
+{250}{}{I'm looking for a Tinsmith.}
+{251}{}{The last Tinsmith I saw came by to inspect the pump. Then he went to see the mayor. Haven't seen him since.}
+{252}{}{Thanks. I'll go talk to the mayor.}
+{253}{}{I'm tracking a slave convoy. It was heading toward Two-Sun.}
+{254}{}{Then go to Two-Sun. It's farther south along the highway. Caravans don't linger here long.}
+{255}{}{Thanks. Now I know where to go.}
 
-{260}{}{Is this all a water pump? Impressive.}
-{261}{}{Yep, over a century old. We just keep the old machinery ticking.}
-{262}{}{Why stockpile so much water?}
-{263}{}{I've got to go. See you around.}
-{264}{}{Hold on, one more question.}
-{265}{}{Why not? Everyone needs water. Out here, it's the lifeblood. For me, it's also a good way to earn caps. This pump supplies the whole city.}
-{266}{}{Aren't you the one running the show here?}
-{267}{}{Water pulls in the caravans, which means more business for the town. Plus, the mayor needs his cut. Gotta keep him happy.}
-{268}{}{And I guess you're not too thrilled about that?}
-{269}{}{Someone has to handle the paperwork and deal-making. I'd rather be fixing things. I just wish Alfred was tougher on his clients. I'm sick of bouncing between customers.}
+{260}{}{This pump is enormous. Impressive.}
+{261}{}{This old lady's over a hundred years old. Seen more than you can imagine. Still standing - thanks to me and the Tinsmiths.}
+{262}{}{Must be a profitable operation.}
+{263}{}{I see. I should be going.}
+{264}{}{One more question?}
+{265}{}{Of course. Everyone needs water - especially out here, halfway between Phoenix and Two-Sun. That's why caravans stop so often. You could say this pump feeds the whole town.}
+{266}{}{How did you manage such complicated machinery?}
+{267}{}{Truth is, the heavy repairs were done by the Tinsmiths. Cost me plenty. But no one else could've done it. And the Tinsmiths benefit from the caravans, too.}
+{268}{}{You know those tech fanatics were destroyed by their own technology?}
+{269}{}{I heard. And it's damn bad news. First, fewer caravans. Second - what do we do when the pump needs major repairs again? Without the Tinsmiths, this town's as good as dead.}
+
 {270}{}{Alright, let's rewind a bit.}
 {271}{}{Where'd you get all that knowledge of pre-war tech?}
 {272}{}{Honestly, the Tinsmiths handle the big repairs. I know a few tricks from experience, but the other guys here just push buttons.}
@@ -79,37 +85,66 @@
 {278}{}{I've heard. Doesn't bother me. But... what happens when the pump needs another major repair? I don't even want to think about it.}
 {279}{}{Let's rewind a bit.}
 {280}{}{Who's in charge around here?}
-{281}{}{I call the shots here.}
-{282}{}{Interesting. So, you're the one I need to talk to.}
-{283}{}{The mayor and I run things together. His name's Bustos; he lives down the road in a big mansion.}
-{284}{}{Tell me about the mayor. What's he like?}
-{285}{}{Known him a long time. We get along, though we clash sometimes -- especially over his daughter. He lets her get away with too much.}
+{281}{}{I am.}
+{282}{}{Well, that's a twist. Guess you're the one I should be talking to.}
+{283}{}{The mayor's name is Don Bustos. He lives in a hacienda down the road.}
+{284}{}{Tell me about the mayor. What kind of man is he?}
+{285}{}{We've been partners a long time. Though we don't always see eye to eye - especially when it comes to his daughter. He lets her get away with too much.}
 {286}{}{He's got a daughter?}
 {287}{}{Yeah, a nice but headstrong girl. I don't get why Bustos lets her off the hook so easily. If she were mine, I'd have set her straight with a belt ages ago.}
 {288}{}{I see. Let's backtrack a bit.}
-{289}{}{What's your opinion of the mayor?}
-{290}{}{What, you want me to bad-mouth my best friend? What's it to you, anyway?}
-{291}{}{Nothing, nothing. I'm just passing through.}
-{292}{}{Any work around town?}
-{293}{}{Try the mayor. There's nothing left for you to do here at the pump.}
-{294}{}{Yeah, there's nothing else around here for you.}
-{295}{}{Alright. Let's talk about something else.}
-{296}{}{Guess I'm wasting my time in this town. Goodbye.}
-{297}{}{All I've got is fixing that damn filter. Are you good with tech?}
-{298}{}{Nah, not really my thing. Let's talk about something else..}
-{299}{}{Let me take a look. Maybe I can help out.}
+{289}{}{How do you really feel about him?}
+{290}{}{We're longtime partners. That's all you need to know. You don't seriously expect me to gossip about my best friend, do you?}
+{291}{}{What kind of disagreements did you have with the mayor?}
+{292}{}{Time and children changed the old wolf. He lost the right to tell me what to do. I used to be content running things for him. Now it's my turn to live well.}
+{293}{}{Can't argue with that. At least - not anymore.}
 
-{300}{}{By the way, I know what went down at the merchant's place. Poverty makes folks do crazy things.}
-{301}{}{What's that supposed to mean?}
-{302}{}{If you've got any sense, you won't mention it. We've got a reputation to protect.}
-{303}{}{No worries. I didn't see or hear a thing.}
-{1303}{}{No worries. I didn't see or hear anything.}
-{304}{}{Smart choice. Maybe you and I can get along.}
-{305}{}{Yes... of course.}
-{306}{}{Keeping quiet isn't free, you know.}
-{307}{}{Keep your trap shut and you'll stay out of trouble. It's that simple.}
-{308}{}{Oh, is that how it's gonna be...?}
-{309}{}{Silence costs. You don't expect this story to bury itself, do you?}
-{310}{}{Business talk, huh? (hands over 10 caps) But mind your tongue. Cause any trouble here, and you'll regret it.}
-{311}{}{Oh, I get you loud and clear...}
+# Quest - Repairs
+{300}{}{Any work in town?}
+{301}{}{You good with machinery? Then you can fix that damn filter.}
+{302}{}{No, that's not my field.}
+{303}{}{I've got no other work.}
+{304}{}{No other work. Try the mayor.}
+{305}{}{Alright. Let's change the subject.}
+{306}{}{Then I'll go see him right now.}
+{307}{}{Let me take a look. Maybe I can figure something out.}
+{308}{}{Really? If you fix the filter, I'll pay you. Less than the Tinsmiths, sure - but we both come out ahead.}
+{309}{}{I think I can handle it quickly.}
+{310}{}{Fine. But it may take some time.}
+
+{320}{}{Try the mayor. No more work at the pump.}
+{321}{}{Nope. No more work here.}
+{322}{}{Alright. Mind if I take a bit more of your time?}
+{323}{}{I see.}
+
+{330}{}{About the pump - what's wrong with the filter?}
+{331}{}{The Tinsmiths charge an arm and a leg for everything. They know water's the most valuable resource around. But we can't give them everything. And without them, no one else can do this kind of work - only they have the machines, the knowledge, the skills.}
+{332}{}{Got it.}
+{333}{}{The filter's fixed. Dirt and sand damaged some parts, but I managed to restore them.}
+{334}{}{That kind of work deserves pay. Here - }
+{335}{}{ caps.}
+{336}{}{Thanks.}
+{337}{}{That's not enough!}
+{338}{}{If it were more, I wouldn't have offered the job at all.}
+{339}{}{You're a real cheapskate.}
+{340}{}{Thanks anyway.}
+{341}{}{That barely covers the cost of replacement parts.}
+{342}{}{Fine. Here's another }
+{343}{}{ caps. Don't ask again.}
+{344}{}{You're still a cheapskate.}
+{345}{}{That'll do. Thanks.}
+
+# Overthrowing the Mayor
+{350}{}{I know you and Bustos don't see eye to eye. Want to talk about it?}
+{351}{}{That's none of your business.}
+{352}{}{Technically, you're right.}
+{353}{}{You've had issues with Bustos. So have the highwaymen. Maybe we could work together?}
+{354}{}{What the hell are you talking about?}
+{355}{}{Just nonsense. Forget it.}
+{356}{}{The highwaymen want to overthrow the mayor. They'll never deal with him - but they might deal with you.}
+{357}{}{Bustos has gotten on my last nerve. He brought order once. Now he drinks himself senseless while I bust my ass running this damn water pump!}
+{358}{}{Sounds like it's time for him to retire.}
+{359}{}{I've made my decision! I'll gather my men and take control of the city! Let's head to city hall...}
+{360}{}{Whoa - that fast?}
+{361}{}{Maybe it's not so easy for him either. Cool off for now.}
 

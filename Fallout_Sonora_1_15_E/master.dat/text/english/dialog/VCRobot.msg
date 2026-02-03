@@ -5,13 +5,15 @@
 {200}{}{Ah, finally! I haven't seen a living human being for a long time. Decades of solitude leave their mark even on *my* neural connections... Who are you? Tell me about yourself.}
 {201}{}{I'm }
 {202}{}{ from Villa. But who are you... or WHAT are you?}
-{203}{}{Lo siento, mi joven descendiente. Technically, I'm a machine from the Old World. But more importantly, I carry the persona of Felix Tejada, your direct ancestor. Don't be surprised, great-great-grandchild. There used to be many robots like me all across the continent.}
+{203}{}{Lo siento, mi joven descendiente. Technically, I'm a machine from the Old World. But more importantly, I carry the persona of Felix Tejada, your direct ancestor. Don't be surprised, great-great-grandson. There used to be many robots like me all across the continent.}
+{1203}{}{Lo siento, mi joven descendiente. Technically, I'm a machine from the Old World. But more importantly, I carry the persona of Felix Tejada, your direct ancestor. Don't be surprised, great-great-granddaughter. There used to be many robots like me all across the continent.}
 {204}{}{This is amazing!}
 {205}{}{You probably have a lot of questions. I can answer them and in turn you can answer mine.}
 {206}{}{I actually have some questions for you, Mister Robot.}
 {207}{}{I need to look around first. Let's talk later.}
 
-{208}{}{«I'm sorry, my young descendant.» Technically, I'm a machine from the Old World. But more importantly, I carry the persona of Felix Tejada, your direct ancestor. Don't be surprised, great-great-grandchild. There used to be many robots like me all across the continent.}
+{208}{}{«I'm sorry, my young grandson.» Technically, I'm a machine from the Old World. But more importantly, I carry the persona of Felix Tejada, your direct ancestor. Don't be surprised, great-great-grandson. There used to be many robots like me all across the continent.}
+{1208}{}{«I'm sorry, my young granddaughter.» Technically, I'm a machine from the Old World. But more importantly, I carry the persona of Felix Tejada, your direct ancestor. Don't be surprised, great-great-granddaughter. There used to be many robots like me all across the continent.}
 
 
 {210}{}{Ah! How nice it is to see the light of the sun again.}

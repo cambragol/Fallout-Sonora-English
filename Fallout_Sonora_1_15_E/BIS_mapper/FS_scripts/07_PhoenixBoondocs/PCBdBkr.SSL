@@ -186,7 +186,7 @@ procedure NodeSndDialog begin
    end
    BAnswer(220,1,NodeSndDialog100)
    if (global_var(GVAR_TITUL_ARENA_MASTER) > 0) then begin
-   BAnswer(240,1,NodeSndDialog300)
+   zBAnswer(240,1,NodeSndDialog300)
    end
    else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
    BAnswer(241,1,NodeSndDialog300)

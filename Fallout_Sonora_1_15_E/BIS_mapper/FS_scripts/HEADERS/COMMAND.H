@@ -245,8 +245,7 @@
                                                          end                               \
                                                       end                                  \
 
-#define setNodeCombat                                 set_enemy_dude;                      \
-                                                      g_display_mstr(509)                  \
+#define setNodeCombat                                 set_enemy_dude                       \
 
 /* Диалог - стандарт */
 

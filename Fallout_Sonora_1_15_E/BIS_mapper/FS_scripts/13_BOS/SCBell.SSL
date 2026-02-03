@@ -321,7 +321,7 @@ end
 
 procedure NodeSndDialog102 begin
    setQuest(GVAR_PUERTO_QST_BELL,qEnd);
-   item_add(dude_obj,PID_AMMO_10_MM_NSP,35)
+   item_add(dude_obj,PID_AMMO_10_MM_NSP,2)
    exp_add(500);
    set_REP(5)
    Reply(238)

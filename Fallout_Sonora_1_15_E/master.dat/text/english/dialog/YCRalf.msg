@@ -13,6 +13,7 @@
 {208}{}{Did you mean - as an apology for what you did there? Alright, I'll take it. See you, Ralph.}
 {209}{}{Good luck then. I'll tell the others how I came to my senses with your help. You probably want them to know, because it doesn't seem like you're well-liked around here.}
 {210}{}{Thanks, Ralph. I appreciate it.}
+{1210}{}{Thanks, Ralph. I appreciate it.}
 {211}{}{It's nothing. I'm not worried about my reputation. Goodbye.}
 
 {220}{}{I had some good times at the power plant. I wonder how things are going there now?}

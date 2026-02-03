@@ -1,11 +1,12 @@
 #include "..\headers\define.h"
-#define NAME                            SCRIPT_PSAtmElc
+#define NAME                            SCRIPT_PSAtmDor
 
 procedure start;
 procedure map_enter_p_proc;
 procedure map_update_p_proc;
 procedure use_p_proc;
 procedure use_obj_on_p_proc;
+procedure door_open_anal;
 
 
 
@@ -16,25 +17,54 @@ procedure map_enter_p_proc begin
 end
 
 procedure map_update_p_proc begin
-   if (map_var(MVAR_PNX_PLANT_VENTIL)>0) then begin
-   obj_close(self_obj);
-   obj_lock(self_obj);
+   if (self_PID == 33555117) then begin
    end
    else begin
-   obj_unlock(self_obj);
+      if (map_var(MVAR_PNX_PLANT_VENTIL)>0) then begin
+      obj_close(self_obj);
+      obj_lock(self_obj);
+      end
+      else begin
+      obj_unlock(self_obj);
+      end
    end
 end
 
 procedure use_p_proc begin
-   if SELF_IS_LOCKED then begin
+   if (self_PID == 33555117) then begin
+       script_overrides;
+       call door_open_anal;
+   end
+   else begin
+       if SELF_IS_LOCKED then begin
        script_overrides;
        reg_anim_begin();
        reg_anim_clear(self_obj);
        reg_anim_clear(source_obj);
        reg_anim_end();
+       end
    end
 end
 
 procedure use_obj_on_p_proc begin
    stopUseCarGaz
+end
+
+procedure door_open_anal begin
+   variable objDoorClose;
+   objDoorClose := tile_contains_pid_obj(25322, self_elevation, PID_DOOR_VLT_BA);
+
+   if (tile_contains_obj_pid(25322,self_elevation,PID_DOOR_VLT_BA) == true) then begin
+       if (obj_is_locked(objDoorClose) != 0) then begin
+           obj_unlock(objDoorClose);
+           obj_open(objDoorClose);
+       end
+       else begin
+           obj_close(objDoorClose);
+           obj_lock(objDoorClose);
+       end
+   end
+   else begin
+       play_sfx("SLDOORSA");
+   end
 end

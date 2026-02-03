@@ -3,6 +3,8 @@
 
 #define NAME                            SCRIPT_DCCrvBos
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_CASA_GRANDE // привязка к репутации (-1, если не нужно)
+#define BOX_TILE                        12  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения от 1 до 10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_CARAVAN_DRIVER     // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -20,6 +22,8 @@
 
 procedure start;
 procedure map_enter_p_proc;
+procedure setBarterA;
+procedure setBarterB;
 procedure look_at_p_proc;
 procedure description_p_proc;
 procedure timed_event_p_proc;
@@ -76,10 +80,24 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       if (map_first_run) then begin
-       item_add(self_obj,PID_BOOTLE_CAPS,random(40,60))
-       end
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
+end
+
+procedure setBarterA begin
+        if (map_first_run == true) then begin
+        check_restock_item(PID_TOOL_BOOTS, 1, 1, 100)
+        check_restock_item(PID_TOOL_SHOVEL, 1, 1, 100)
+        check_restock_item(PID_M_ANTIDOTE, 2, 2, 100)
+        check_restock_item(PID_M_STIMPAK, 1, 1, 100)
+        check_restock_item(PID_W_KNIFE, 1, 1, 100)
+        check_restock_item(PID_AMMO_SHOTGUN_SHELLS, 5, 5, 100)
+        check_restock_item(PID_W_SHOTGUN_DUBLET, 1, 1, 100)
+        end
+        check_restock_many(500,700) // обновляются только деньги, а товар разовый
+end
+
+procedure setBarterB begin
 end
 
 procedure look_at_p_proc begin
@@ -131,15 +149,17 @@ end
 
 procedure destroy_p_proc begin
    kill_critter_opt
+   kill_critter_box
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-50) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-50) // Поправка к отношению за принадлежность к фракциям
-   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
 procedure Node998 begin

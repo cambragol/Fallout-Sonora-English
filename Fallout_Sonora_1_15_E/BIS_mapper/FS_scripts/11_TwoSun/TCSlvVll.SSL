@@ -221,7 +221,7 @@ procedure NodeSndDialog begin
 end
 
 procedure NodeSndDialog2 begin
-   zReply(213)
+   Reply(213)
    NAnswer(214,1,NodeSndDialog3)
 end
 

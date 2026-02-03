@@ -52,7 +52,9 @@ procedure NodeAnswer103;
 procedure NodeAnswer104;
 procedure NodeAnswer105;
 procedure NodeAnswer301;
+procedure NodeAnswer301b;
 procedure NodeAnswer302;
+procedure NodeAnswer302b;
 procedure NodeAnswer303;
 procedure NodeAnswer304;
 
@@ -371,11 +373,23 @@ end
 
 procedure NodeAnswer301 begin
    Reply(271)
+   NAnswer(284,1,NodeAnswer301b)
+   NAnswer(272,1,NodeSndDialog)
+end
+
+procedure NodeAnswer301b begin
+   Reply(285)
    NAnswer(272,1,NodeSndDialog)
 end
 
 procedure NodeAnswer302 begin
    Reply(274)
+   NAnswer(286,1,NodeAnswer302b)
+   NAnswer(275,1,NodeSndDialog)
+end
+
+procedure NodeAnswer302b begin
+   Reply(287)
    NAnswer(275,1,NodeSndDialog)
 end
 

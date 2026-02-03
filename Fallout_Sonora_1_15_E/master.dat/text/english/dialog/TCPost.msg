@@ -26,15 +26,24 @@
 {221}{}{Definitely. We have special agreements with the Brotherhood.}
 {222}{}{Wonderful. Just great.}
 {223}{}{Ah, it's you again... But I must inform you that the discount on our services has now been revoked. And there's no need to be indignant. This is a management decision, not mine.}
-{224}{}{Yes, bad luck...}
+{224}{}{Hmm, bummer...}
 
 #First dialogue
 {230}{}{How can I help?}
 {231}{}{What is this place?}
-{232}{}{Regional office of the courier company "Sonora Express". We handle various types of deliveries.}
+{232}{}{Regional office of the courier company "Sonora Express". We handle various types of deliveries, and provide storage locker services.}
 {233}{}{And how big is your caravan network?}
 {234}{}{We deliver near or far. It all depends on the specific order. Our central office is in Phoenix, with routes extending to the surrounding settlements.}
 {235}{}{I see. I'll keep that in mind for the future.}
 
 # added by cambragol
 {236}{}{Sonora Express again? Man, how big is your caravan network?}
+
+{260}{}{I need a storage locker.}
+{261}{}{Certainly. Each locker costs }
+{262}{}{ bottle caps.}
+{263}{}{That's too expensive for me.}
+{264}{}{Great. I'll take one locker.}
+{265}{}{Excellent. You can access the locker anytime.}
+{266}{}{Thank you.}
+{267}{}{I need another storage locker.}

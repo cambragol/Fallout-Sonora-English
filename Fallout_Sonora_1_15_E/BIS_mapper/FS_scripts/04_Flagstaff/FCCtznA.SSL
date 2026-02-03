@@ -156,7 +156,7 @@ end
 
 procedure NodeFstDialog begin
    Reply(200)
-   NAnswer(201,1,NodeFstDialog2)
+   zNAnswer(201,1,NodeFstDialog2)
 end
 
 procedure NodeFstDialog2 begin

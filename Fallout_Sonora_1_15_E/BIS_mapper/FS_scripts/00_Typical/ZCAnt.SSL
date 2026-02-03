@@ -88,7 +88,12 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   variable paramAttak;
+   paramAttak := 0;
+   if (self_PID == PID_ANT_GLOW) then begin
+   paramAttak := 5;
+   end
+   effectAttak(0,paramAttak,1,1,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
    effectIntimidationPerk
 end
 

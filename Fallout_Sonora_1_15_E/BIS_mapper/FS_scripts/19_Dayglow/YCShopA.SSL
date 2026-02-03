@@ -5,6 +5,7 @@
 #define NAME                            SCRIPT_YCShopA
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
 #define BOX_TILE                        11  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -80,7 +81,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_MONTH)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -89,23 +90,25 @@ procedure setBarterA begin
 
         check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
         check_restock_item(PID_ARMOR_JACKET_C, 1, 1, 100)
-        check_restock_item(PID_W_KNUCKLES_SPIKED, 1, 1, 100)
-        check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
         check_restock_item(PID_TOOL_BOOTS, 5, 5, 100)
         check_restock_item(PID_TOOL_SHOVEL, 2, 2, 100)
         check_restock_item(PID_TOOL_ROPE, 2, 2, 100)
         check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 1, 1, 100)
         check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
         check_restock_item(PID_TOOL_LOCKPICKS_EL, 1, 1, 100)
+        check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
+
+        check_restock_item(PID_W_KNUCKLES_SPIKED, 1, 1, 100)
+        check_restock_item(PID_W_KNIFE_MEAT, 1, 1, 100)
         check_restock_item(PID_W_GRENADE_FRAG, 5, 7, 100)
-        check_restock_item(PID_AMMO_44_MAGNUM, 60, 60, 100)
         check_restock_item(PID_W_SPEAR_ELECTRO, 1, 1, 100)
         check_restock_item(PID_W_RIPPER, 1, 1, 100)
-        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 40, 40, 100)
+           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 4, 4, 100)
         check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
-        check_restock_item(PID_AMMO_308, 50, 50, 100)
+           check_restock_item(PID_AMMO_308, 10, 10, 100)
         check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
-        check_restock_item(PID_AMMO_10_MM, 120, 120, 100)
+           check_restock_item(PID_AMMO_44_MAGNUM, 10, 10, 100)
+           check_restock_item(PID_AMMO_10_MM, 10, 10, 100)
         check_restock_item(PID_W_SMG_UZI, 1, 1, 100)
 end
 
@@ -177,6 +180,7 @@ procedure talk_p_proc begin
    floater(self_obj, 103, COLOR_MSG_NORMAL);
    end
    else if ((map_var(MVAR_DIEGO_A_SHOP) != 0) or (get_REP >= 15) or DudePerkHas(PERK_ghouling_fiziology) or (getQuest(GVAR_DAYGLOW_MAIN_A) != qZero)) then begin
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
    else begin

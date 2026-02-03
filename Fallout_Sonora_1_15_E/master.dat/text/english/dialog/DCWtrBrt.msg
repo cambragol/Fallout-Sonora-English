@@ -1,9 +1,9 @@
 {100}{}{You see a water merchant.}
 {101}{}{You see an unusually clean man. With a job like his, he doesn't have to get dirty.}
-{102}{}{Are you from the Tinsmiths? Then don't scare people with this tin can.}
-{103}{}{Highwaymen have no place in this city. Get out before I shoot you.}
-{104}{}{This is the price for your greed, bitch.}
-{105}{}{Remember your words? This is your payback for greed.}
+{102}{}{Wow. Never seen armor that huge. Tinsmith tech, I'm guessing. You here for water?}
+{103}{}{Highway scum have no place in this city. Get lost before someone puts a hole in you.}
+{104}{}{That's the price of your greed, you little bastard.}
+{105}{}{That's what your greed gets you.}
 {106}{}{From now on, the water merchant's selection of goods for you has been expanded.}
 {107}{}{I can't talk to two people at the same time.}
 
@@ -18,8 +18,8 @@
 {1205}{}{Can see that in your eyes. Chill out, pal. Anyway, where am I exactly?}
 {206}{}{This is the water pump. We pull water from underground and sell it to those who need it. This here's the bottling point. Need any water?}
 {207}{}{Nah, I'm looking for something else.}
-{208}{}{I'm too busy for chit-chat. Don't distract me from my work.}
-{209}{}{Jeez, not the friendliest welcome...}
+{208}{}{Listen, I don't get paid to chat. You buying water or not?}
+{209}{}{Jeez, friendly bunch...}
 {210}{}{Yes, I need water, and fast.}
 {211}{}{Of course. Everyone needs water. But if ya' wanna drink, ya' gotta pay. Nothin's free here.}
 {212}{}{Got it. I'll come by when I need to restock. Later.}
@@ -39,10 +39,12 @@
 {226}{}{My god, how many miles did you trek under this blazing sun? Fine, take some water. Just don't drop dead on my floor.}
 {227}{}{Thanks a lot...}
 {1227}{}{Thanks a lot...}
+{228}{}{[Barter]}
+{229}{}{Uh-huh.}
 
 {230}{}{Hey, hold up a minute. Let me see your neck. Come on, show it.}
 {231}{}{What's the deal with this?}
-{232}{}{Sorry to be pushy, but after the fall of the Tinsmiths, a lot of slaves escaped from Two-Sun. Can't trust 'em. Just making sure I'm talking to a free person.}
+{232}{}{Sorry to be pushy, but after the fall of the Tinsmiths, a lot of slaves escaped from Two-Sun. Can't trust 'em. Just making sure I'm talking to someone trustworthy.}
 {233}{}{You've got some nerve, you know that?}
 {234}{}{I don't need any trouble.}
 {235}{}{No collar marks. Good... for both of us.}
@@ -63,37 +65,36 @@
 
 # Water Exchange
 {250}{}{Ya' need some water?}
-{251}{}{No thanks, I'm okay.}
+{251}{}{Not right now.}
 {252}{}{Yeah, definitely.}
 {253}{}{I just need to refill my water supplies.}
 {254}{}{Yes, I need to top off my water supply.}
 {255}{}{Here ya' go. Use it wisely.}
 {256}{}{Thanks. Goodbye.}
 
-{257}{}{Actually, I've got some questions.}
-{258}{}{Listen, I jus' sell water. If ya' need answers, talk to my boss or someone else.}
-{259}{}{Alright. Later.}
+{257}{}{Huh? What?}
+{258}{}{Well I'll be damned.}
+{259}{}{}
 {260}{}{I'm on the trail of a slave convoy...}
 {261}{}{I'm looking for a Tinsmith...}
 {262}{}{I don't know shit about that. Do ya' need water or not?}
 {263}{}{Nope, just passing through.}
-{264}{}{Who's running this place?}
-{265}{}{John Sullivan. He's in the generator room, fixing yet another breakdown.}
+{264}{}{Nope.}
+{265}{}{}
 {266}{}{Got it. Thanks.}
 {267}{}{How are you managing without your boss around?}
 {268}{}{I'm handling things for him now. He did me a favor by "stepping down."}
 {269}{}{I see. Good luck.}
 
 {270}{}{Thanks for dealing with that maniac. He's been a problem for a while. Hopefully, this serves as a warning to others.}
-{271}{}{No problem.}
-{272}{}{It was a tough call.}
-{273}{}{Here, take some clean water. Just keep this incident to yourself.}
-{274}{}{Got it. Won't say a word.}
-{1274}{}{Got it. Won't say a word.}
-{275}{}{Don't mind that lunatic. He's had it coming for a long time. This should set an example.}
-{276}{}{You've got a madhouse here.}
-{277}{}{Not sure what to make of this.}
-{278}{}{Just keep to yourself. Don't talk about it if ya' want to avoid trouble.}
+{271}{}{Thanks for dealing with that lunatic. If not for you, he'd have jumped me. Take some water.}
+{272}{}{Forget that psycho. He'd been begging for trouble. Now he's a warning to the others.}
+{273}{}{Why did he attack you?}
+{274}{}{Oof!}
+{275}{}{This station's been fought over for a long time. That loser backed the wrong side.}
+{276}{}{Guess he had his reasons. Like it or not.}
+{277}{}{Sounds like ancient history. Not worth worrying about.}
+{278}{}{Why did he try to attack you?}
 {279}{}{Thanks for dealing with that psycho. I thought he was going to attack me. Here's some water. Keep quiet about this, alright?}
 {280}{}{Why did that guy go after you?}
 {281}{}{Trust me, yer' better off not knowing. There was a clan war over this pump in the past. He thought the water should be shared.}

@@ -5,6 +5,7 @@
 {104}{}{Daddy... daddy... he's gone...}
 {105}{}{Where did you get THIS? Hide it right away before anyone sees it. Dad's bodyguards shoot at any highwaymen on sight.}
 {106}{}{What's going on? Where's my dad?}
+{107}{}{Dad's gone, and Sullivan's taken over the city. And now I'm his too. How could it all turn out like this?!}
 
 {110}{}{Z-z-z...}
 {111}{}{Hrr...}
@@ -19,7 +20,7 @@
 
 {120}{}{*Humming*}
 {121}{}{Great day for pranks.}
-{122}{}{Should I offer that new guy a game of poker?}
+{122}{}{How about a game of poker?}
 {123}{}{I need to ask daddy for more caps.}
 {124}{}{It's okay, daddy will forgive me.}
 {125}{}{Oh, how boring...}
@@ -121,7 +122,8 @@
 {1331}{}{Yes, I saw it with my own eyes. How are you?}
 {332}{}{I'm fine. Honestly. But, while I was hostage, the highwaymen were discussing my father. They said that he took power from the previous mayor, that he mercilessly killed half of the residents who opposed his power. I was too young to remember those days. Is it all really true?}
 {333}{}{Stop being a naive fool, open your eyes - any power is violence. Your daddy is just an example this.}
-{334}{}{I understand... Perhaps he was a tyrant and committed terrible crimes. But for me he was my... dad. He always tolerated my whims and gave me the best. How could things turn out this way?}
+{334}{}{I understand... Maybe he was a tyrant and committed terrible crimes. But for me he was my... dad. He always tolerated my whims and gave me the best. How could things turn out this way?}
+{1334}{}{I understand... Maybe he was a tyrant and committed terrible crimes. But for me he was my... dad. He always tolerated my whims and gave me the best. How could things turn out this way?}
 {335}{}{Welcome to the world of reality, baby. A world built on blood.}
 {336}{}{Yes. I get it now. And I'm gonna do everything to prevent this from happening again.}
 {337}{}{It's up to you. For me, my business in this city is finished. It's time to hit the road.}
@@ -138,3 +140,9 @@
 {347}{}{Then why do you have such a sad face?}
 {348}{}{Hey, where's that naive girl's passionate, eager look?}
 {349}{}{At least he loves you. This means that deep down he's not a tyrant. It's just the way things turned out.}
+
+{350}{}{Do you know what happened to the tinsmiths' envoy?}
+{351}{}{Off the record? He's already lying in his grave. Go check the cemetery if you don't believe me.}
+{352}{}{Damn, don't like the sound of that...}
+{353}{}{No, I don't know.}
+{354}{}{Alright.}

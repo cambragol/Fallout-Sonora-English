@@ -18,8 +18,11 @@
 {209}{}{Sorry, that's not what I meant.}
 
 {220}{}{What do you want, stranger?}
+{1220}{}{What do you want, woman?}
 {221}{}{What do you want, man from the Villa?}
+{1221}{}{What do you want, woman from the Villa?}
 {222}{}{Good to see you, friend.}
+{1222}{}{Good to see you, friend.}
 {223}{}{I don't need anything. Bye.}
 
 {230}{}{What are you doing here?}

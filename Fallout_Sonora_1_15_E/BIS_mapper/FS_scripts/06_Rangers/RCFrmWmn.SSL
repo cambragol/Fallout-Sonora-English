@@ -165,45 +165,45 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   NAnswer(dude_name+mstr(201),1,NodeFstDialog1)
-   NAnswer(202,1,NodeFstDialog2)
+   NAnswer(dude_name+mstr(201),0,NodeFstDialog1)
+   zNAnswer(202,0,NodeFstDialog2)
 end
 
 procedure NodeFstDialog1 begin
    setBonusReaction(5)
    Reply(mstr(203)+dude_name+mstr(204))
-   NAnswer(206,1,NodeFstDialog5)
-   BAnswer(207,1,NodeFstDialog3)
+   NAnswer(206,0,NodeFstDialog5)
+   BAnswer(207,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog2 begin
    setBonusReaction(-5)
    Reply(mstr(205)+mstr(204))
-   NAnswer(206,1,NodeFstDialog5)
-   BAnswer(207,1,NodeFstDialog3)
+   NAnswer(206,0,NodeFstDialog5)
+   BAnswer(207,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog3 begin
    setBonusReaction(-5)
    Reply(208)
-   zNAnswer(209,1,NodeFstDialog4)
+   zNAnswer(209,0,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
    Reply(210)
-   NAnswer(211,1,NodeFstDialog5)
+   NAnswer(211,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog5 begin
    Reply(212)
-   NAnswer(213,1,NodeFstDialog6)
-   NAnswer(214,1,Node999)
+   NAnswer(213,0,NodeFstDialog6)
+   NAnswer(214,0,Node999)
 end
 
 procedure NodeFstDialog6 begin
    bitDialogExp(bit_2,0)
    Reply(215)
-   NAnswer(214,1,Node999)
+   NAnswer(214,0,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -211,13 +211,13 @@ end
 procedure NodeSndDialog begin
    Reply(220)
    if (bitDialog(bit_2) == 0) then begin
-   NAnswer(213,1,NodeFstDialog6)
+   NAnswer(213,0,NodeFstDialog6)
    end
-   NAnswer(221,1,Node999)
+   NAnswer(221,0,Node999)
 end
 
 procedure NodeSndDialog2 begin
    zReply(222)
-   BAnswer(223,1,Node999)
-   NAnswer(224,1,Node999)
+   BAnswer(223,0,Node999)
+   NAnswer(224,0,Node999)
 end

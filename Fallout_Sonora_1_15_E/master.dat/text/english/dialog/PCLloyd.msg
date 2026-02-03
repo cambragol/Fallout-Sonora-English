@@ -27,7 +27,7 @@
 {221}{}{Here's a cap. A newbie needs advice.}
 {222}{}{Here's a cap. What do you got for me this time?}
 {223}{}{Here's a cap. Let's hear some interesting rumors.}
-{224}{}{[Next]}
+{224}{}{[More]}
 {225}{}{Thanks, boss.}
 {1225}{}{Thanks, boss lady.}
 {226}{}{Thanks, boss. But old Lloyd's outta tips for now.}
@@ -51,7 +51,7 @@
 {241}{}{Keep going.}
 {242}{}{Talk.}
 {243}{}{[Listen]}
-{244}{}{[Next]}
+{244}{}{[More]}
 {245}{}{What do you have?}
 
 {250}{}{Hey there. How do you like my new threads? Bought 'em with your caps, so thanks. Sometimes I think I can get outta this hole and start fresh. But who am I kidding...}

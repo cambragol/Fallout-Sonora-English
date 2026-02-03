@@ -8,11 +8,11 @@
 {202}{}{Good. I'm a crack shot, so don't try anything funny.}
 {203}{}{[More]}
 {204}{}{Threatening me? You got some nerve!}
-{205}{}{(swiftly (and expertly) draws his gun)}
+{205}{}{(fires at your feet) The next round goes through your skull.}
 {206}{}{Wait! Don't shoot!}
 {207}{}{Son of a bitch!}
 {208}{}{Take it easy. What's going on?}
-{209}{}{Seems like you're a bit confused. This is a gun. It's loaded. And it'll kill you if you make a move. Got it?}
+{209}{}{This rifle is real. And it's loaded. You twitch-you die. Got it?}
 {210}{}{Got it.}
 
 {211}{}{Hmm. (lowers the gun) You don't seem like a mercenary. Who are you, and what are you doing here?}
@@ -31,21 +31,24 @@
 {221}{}{I'm not convinced. You're either here against your will or working for the mercenaries from the garrison.}
 {222}{}{I can't exactly ask the garrison for food. We have to scavenge in the ruins.}
 {223}{}{I'm just after scrap metal, plain and simple.}
-{224}{}{This used to be the Northern Arizona Museum, a city landmark.}
+{224}{}{This used to be the Northern Arizona Museum. A city landmark, once.}
 {225}{}{I'm telling the truth.}
 {226}{}{I lied. But I am here for a reason.}
 {227}{}{Exactly. And I aim to deliver your head to them.}
+{228}{}{To hell with this-FIGHT!}
+{229}{}{Me want eat!}
 
 {230}{}{(raises weapon again) Seems you think I'm an idiot.}
 {231}{}{You see through it, huh? I'm here for something else entirely.}
 {232}{}{Explaining will take too long. I'd rather end this right now.}
 
 {233}{}{Alright, let's entertain that. But how did you manage to bypass my traps?}
-{234}{}{Are you trying to catch children with those? Might work on them, but I'm an experienced trapper.}
+{234}{}{Are you trying to catch kids with those? Might work on them, but I'm an experienced trapper.}
 {235}{}{Just incredibly attentive, I guess.}
-{236}{}{Traps? Seriously? Chinga tu madre! You should've posted a warning at the entrance.}
-{237}{}{(shows wounds) Well, that's not entirely true.}
-{238}{}{I don't know, luck maybe.}
+{236}{}{There were traps? Seriously? You should've put up a sign!}
+{237}{}{(show your wounds) It wasn't exactly that simple.}
+{238}{}{Got lucky.}
+{239}{}{Maybe they work on kids. Not on someone experienced.}
 
 {240}{}{Should've paid more attention during Traps 101 I guess.}
 {241}{}{So, you're not gonna shoot?}
@@ -55,6 +58,11 @@
 {250}{}{Not this time. You're free to go. But watch your back on the way out.}
 {251}{}{Alright.}
 {252}{}{Wait, I need to ask you a few things.}
+{253}{}{Chinga tu madre! Never seen settlers speak Spanish?}
+{254}{}{(show your wounds) Me hurt!}
+{255}{}{No shoot?}
+{256}{}{Hhh...}
+{257}{}{«Fuck you!» Never seen settlers speak Spanish?}
 
 {260}{}{I'm a bounty hunter. Word is there's a hefty price on your head.}
 {261}{}{That's right. Faber's got a nagging conscience, knowing there's a higher justice out there. Well, your demise will serve as a little reminder for him...}
@@ -67,8 +75,8 @@
 {268}{}{My kin are locked up in the garrison's pen. I need to set them free.}
 {1268}{}{My kin are locked up in the garrison's pen. I need to set them free.}
 {269}{}{So that's what's driving you into the hunt? (starts to lower weapon) Fits right in with Faber's style.}
-{270}{}{So you're not pulling the trigger?}
-{271}{}{But not mine. Take this!}
+{270}{}{You're not going to shoot?}
+{271}{}{Fooled you. Eat this!}
 
 {280}{}{I'm on a mission to free my kin from captivity.}
 {281}{}{Enslaved too, huh? Faber's thugs are getting bolder by the day. Used to be they only forced criminals into labor, now they're snatching up innocent folk.}
@@ -83,10 +91,11 @@
 # Re-dialogue
 {300}{}{Go ahead.}
 {301}{}{Until next time, Ranger.}
+{302}{}{Later.}
 
 # Traps
 {310}{}{Show me your traps, or I'm gonna leave here a cripple.}
-{311}{}{Only fools or traitors would ask such a thing. My survival depends on keeping those secret.}
+{311}{}{Those traps are the reason I'm still breathing. And you want me to give that up?}
 {312}{}{I see. Then my fate rests on your conscience. Goodbye.}
 
 {313}{}{C'mon, I'm a ranger too, you can trust me.}
@@ -98,9 +107,10 @@
 {318}{}{Thanks.}
 {319}{}{Sorry, no can do.}
 {320}{}{The ranger revealed all of his traps within the building.}
-{321}{}{Are you trying to get me killed?}
-{322}{}{No... Fine, I'll show you. Just remember, avoid the doorways and stay away from the back exit.}
+{321}{}{You really want me dead?}
+{322}{}{Fine. I'll show you. Avoid doorways. Don't touch the back door.}
 {323}{}{Thanks.}
+{324}{}{No. But I didn't drag you in here.}
 
 # Questions
 {330}{}{Tell me about yourself.}
@@ -117,98 +127,90 @@
 {341}{}{I'm still a ranger, badge and all. They might scold me for going rogue, but I'll still be one of them.}
 {342}{}{You've got an interesting name.}
 {343}{}{Not many of my tribe left. Doubt you've heard of us.}
+{1343}{}{Not many of my tribe left. Doubt you've heard of us.}
 {344}{}{Sounds like an Indian name. Mojave, Hopi...Navajo?}
-{345}{}{Hmm. Surprising. Our tribes usually kept hidden from the white folks after the Rain of Fire. I left the Reservation when the slavers came.}
+{345}{}{Hm. You surprise me. After the Fire Rain, my tribe kept its distance from white men.}
 {346}{}{Our stories sound similar. My village suffered the same fate.}
 {347}{}{I'm sorry... (hands you several rifle rounds) Take them. Seek your vengeance.}
 {348}{}{Uh, thanks.}
 {349}{}{Will do.}
 
+# About the rangers
 {370}{}{Tell me about the rangers.}
 {371}{}{What about them?}
 {372}{}{Give me more details about the rangers.}
 {373}{}{Enough about the rangers.}
-{374}{}{Who are you guys, anyway?}
-{375}{}{We're the guardians of Law and Order. We hunt criminals, protect settlers, and strive to restore peace to the wasteland.}
-{376}{}{Uh huh.}
-{377}{}{Hence, your average ranger is a skilled fighter and adept at surviving in the wilderness.}
-{378}{}{Why aren't there more stories about you?}
-{1378}{}{Why aren't there more stories about you?}
-{379}{}{Because we don't boast. And because most folks see us merely as bounty hunters.}
-{380}{}{What does it take to become a ranger?}
-{381}{}{Five years of grueling training, then prove yourself on a mission. Many cadets don't make it through the training.}
-{382}{}{And those who fail?}
-{383}{}{Some get dusted on missions, others become guards, mercenaries, or caravan masters out in the wasteland. A lucky few find roles on base as support staff.}
-{384}{}{Where's your base?}
-{385}{}{Why would I share that with you?}
-{386}{}{C'mon, I mean no harm.}
-{387}{}{I'm interested in joining the rangers.}
-{388}{}{I need the rangers' aid to free my kin.}
-{389}{}{}
-{390}{}{You could pass that info to my enemies. Can't risk it.}
-{391}{}{Understandable concern. Let's move on.}
-{392}{}{Agreed. Let's move past this.}
-{393}{}{Alright, I'll show you on the map. The base sits along the Colorado River, within the walls of the old dam.}
-{394}{}{Appreciate it.}
+{374}{}{Who are the rangers, really?}
+{375}{}{We uphold Law and Order in the wastelands. Hunt criminals, protect settlers, help rebuild a normal life. A ranger is first and foremost a fighter-and a survivor.}
 
-# Re-dialogue
-{400}{}{Can you explain your mission?}
-{401}{}{As a ranger, it's my duty to uphold law and justice. The colonists broke those rules by turning to slavery. My bullets will serve as their punishment.}
+{380}{}{What does it take to become a ranger?}
+{381}{}{Years of training. Then you prove yourself on a live mission. Not everyone makes it through the hardship.}
+
+{384}{}{Where's your base?}
+{385}{}{Why would I tell you that?}
+{386}{}{I have no ill intent.}
+{387}{}{I want to join the rangers.}
+{388}{}{The rangers could help me save my village.}
+{390}{}{You could hand those coordinates to our enemies. I won't risk it.}
+{391}{}{Fair enough. Forget I asked.}
+{392}{}{Then I'll manage without your help.}
+{393}{}{Colorado River. Inside the old dam. I'll mark it on your map.}
+{394}{}{Thank you.}
+
+# What you're doing here
+{400}{}{Let's talk about your mission.}
+{401}{}{I'm a ranger. My duty is to defend law and justice. The colonists crossed the line-they embraced slavery. My bullets are their sentence.}
 {402}{}{What was that about your mission?}
-{403}{}{I want to ask you about something else.}
-{404}{}{Let's return to discussing your mission.}
-{405}{}{You're hurting innocent people, not just criminals.}
-{406}{}{To eradicate a greater evil, sometimes we must resort to lesser ones. Collateral damage, unfortunate as it is, is sometimes unavoidable.}
-{407}{}{Doesn't your conscience bother you?}
-{408}{}{No.}
-{409}{}{But the colonists also support law and order.}
-{410}{}{Sure, but only within the confines of their oppressive colonial society, and at the expense of others. It can't go on like this. They weren't invited here, weren't asked to build a city on the backs of slaves.}
-{411}{}{What's your end goal?}
-{412}{}{As long as Roy Faber breathes, and there are people in his pen, I won't rest.}
-{413}{}{Ambitious. No stopping until Faber's dead or the prisoners are free huh?}
-{414}{}{So, you're the one who shot the garrison patrolmen?}
-{415}{}{Correct. Their actions got them what they deserved.}
-{416}{}{What "actions" are you referring to?}
-{417}{}{Their involvement in Roy Faber's criminal activities: tyranny, slavery, banditry.}
-{418}{}{Do the Rangers condone murder?}
+{403}{}{Let's change the subject.}
+{404}{}{Back to your mission.}
+{405}{}{But the colonists claim to uphold law and order too-even if you see it differently.}
+{406}{}{Nonsense! Their law is a lie. In truth, everything's decided by the rich, who don't give a damn about anyone else. That's wrong-and I'm fixing it.}
+{407}{}{You're right. They deserve punishment for using slave labor.}
+{408}{}{Good. Then we agree. The rich decide everything, and that must end.}
+{411}{}{Alright. What exactly are you trying to achieve?}
+{412}{}{I won't rest while Roy Faber still breathes Arizona air. Without him, things will change. His death will be a warning to the rest.}
+{413}{}{I see. Your stance is clear, ranger.}
+{414}{}{So you're the one who gunned down the garrison patrols?}
+{415}{}{Affirmative. They got what they deserved.}
+{416}{}{Doesn't your conscience bother you?}
+{417}{}{No.}
+{418}{}{I see.}
+
 {419}{}{Only in self-defense or for the greater good.}
 {420}{}{Did you know Faber's put a bounty on your head?}
 {421}{}{He should triple it.}
-{422}{}{What do you know about Faber?}
+{422}{}{What do you think of Faber?}
 {423}{}{A tyrant with grand ambitions, dreaming of his own empire. In reality, he's just a criminal who controls through fear and violence.}
+{424}{}{Thanks.}
 
+# Leaving Flagstaff
 {450}{}{I'm asking you to leave Flagstaff.}
 {451}{}{I'm staying.}
-{452}{}{Fine, stay. I don't really care.}
-{453}{}{You'll regret it. You'll see.}
+{452}{}{Then stay. I won't stop you.}
+{453}{}{We'll see what your command has to say. Until next time.}
 {454}{}{What could change your mind?}
 {455}{}{I won't rest as long as slavery persists here.}
-{456}{}{Your base is under water. Don't you think you should be helping your people?}
-{457}{}{What are you talking about?}
-{458}{}{I don't know. Just rumors. Forget it.}
-{459}{}{Well, looks like you're a little behind on the news about the dam breach. You might want to get up to speed.}
-{460}{}{Dam breach? That can't be true... I need to get in contact with an outpost. If they confirm this, I'll be heading back to base.}
-{461}{}{Go to it then.}
-{462}{}{The general's ordered your return to base.}
-{463}{}{Damn it, why can't he leave me alone?! My mission's too important to abandon now.}
-{464}{}{Don't forget about your fellow rangers. Your help at base may be more critical than you think.}
-{465}{}{Hmm. Perhaps you're right. Maybe I've been getting a little too wrapped up in vengeance. Alright, I'll break radio silence and head back to base.}
-{466}{}{Good call.}
-{467}{}{You're not being entirely honest with yourself. Think about your motives carefully.}
-{468}{}{My motives are to stamp out injustice in these lands.}
-{469}{}{Well, it seems futile to argue. Stay if you must.}
-{470}{}{Seems persuasion's out of the question. I'm leaving.}
-{471}{}{No. Your motives are driven by your past.}
-{472}{}{What do you know about my past? I've fought so much, I've forgotten about peace... Home, family... All lost because of scum like Faber!}
-{473}{}{Like I said. Cease the bloodshed. Return to your people.}
-{474}{}{If vengeance is all you can think of, I won't be able to sway you. Keep fighting then.}
-{475}{}{I'm staying.}
-{476}{}{I guess I am a little too bent on vengeance. The general did warn me about this... Alright. I'm leaving Flagstaff and heading back to base. Thanks, friend.}
-{1476}{}{I guess I am a little too bent on vengeance. The general did warn me about this... Alright. I'm leaving Flagstaff and heading back to base. Thanks, ma'am.}
-{477}{}{Best of luck.}
-{478}{}{Safe travels.}
+{456}{}{Your dam base is flooded. Don't you need to get back?}
+{457}{}{Damn it! I'd know if not for radio silence. That's bad news. I'll contact the outpost. If they confirm it, I'm heading back.}
+{458}{}{Then we're agreed. Farewell, ranger.}
+{459}{}{General Mossman orders you back to base. That's an order.}
+{460}{}{Damn it, why can't he leave me alone?! This mission matters too... Fine. I'll check with the outpost. If they confirm it, I'll return.}
+{461}{}{Good. Farewell, ranger.}
+{462}{}{Your actions hurt innocents, not just criminals.}
+{463}{}{Sometimes lesser evil is necessary to destroy a greater one. It's not justification-it's necessity.}
+{464}{}{I... hadn't thought of that. Maybe I should coordinate with HQ after all. I'll return and talk to the general.}
+{465}{}{A wise choice. Farewell, ranger.}
 
-{480}{}{Faber's dead. Is that enough for you?}
-{481}{}{So it's true? (sighs deeply and pauses) You know, I don't feel anything at all. I thought rooting out evil would bring me peace. But now I finally see. Killing Faber won't solve anything. Another tyrant will rise in his place, and the cycle will continue... People never change. The general was right about me being consumed. Thank you for your help. It's time for me to head back to base.}
-{482}{}{Well, glad that's settled.}
-{483}{}{Okay, good luck then.}
+{467}{}{Be honest with yourself. Think about your motives.}
+{468}{}{My motive is to eradicate injustice. Isn't that enough?}
+{469}{}{Hard to argue with that.}
+{470}{}{Seems persuasion's out of the question. I'm leaving.}
+{471}{}{You're obsessed because of your past.}
+{472}{}{What do you know about my past? I've fought so much, I've forgotten about peace... Home, family... All lost because of scum like Faber!}
+{473}{}{That's my point. You're not honest with yourself. You're killing for revenge.}
+{474}{}{I... maybe I am obsessed. The general said something like that too. Fine. I'll go back and talk to him.}
+{475}{}{Farewell, ranger.}
+
+{480}{}{Faber is dead. Is that enough?}
+{481}{}{Is it true? (inhales sharply, pauses) Feels like Arizona's air just got cleaner. Thank you. I can finally return to base.}
+{482}{}{Farewell, ranger.}

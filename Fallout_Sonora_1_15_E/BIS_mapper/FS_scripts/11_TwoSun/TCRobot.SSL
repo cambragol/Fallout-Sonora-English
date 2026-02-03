@@ -67,7 +67,7 @@ end
 
 procedure critter_p_proc begin
    if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 0) then begin
-   invisToDude(6,102) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога
+   invisToDude(10,102) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога
    set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
    end
    else begin

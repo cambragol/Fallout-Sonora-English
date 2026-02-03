@@ -190,7 +190,7 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    if (global_var(GVAR_TITUL_BOS)>0) then begin
-   Reply(210)
+   zReply(210)
    GAnswer(211,1,NodeFstDialog103)
    //NAnswer(211,1,NodeFstDialog103)
    BAnswer(213,1,NodeFstDialog104)
@@ -242,7 +242,7 @@ end
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_BOS)>0) then begin
-   Reply(221)
+   zReply(221)
    end
    else begin
    zReply(220)
@@ -288,7 +288,7 @@ procedure NodeGame2 begin
 end
 
 procedure NodeGame3 begin
-   Reply(255)
+   zReply(255)
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=50) then begin
    NAnswer(253,1,NodeGame4)
    end
@@ -317,7 +317,7 @@ end
 
 procedure NodeGame7 begin
    if (gameStatus == 0) then begin
-   item_add(dude_obj,PID_AMMO_5_MM,2)
+   item_add(dude_obj,PID_AMMO_5_MM,1)
    end
    else begin
    item_add(dude_obj,PID_M_IRP,1)

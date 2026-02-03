@@ -175,35 +175,37 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   BAnswer(201,1,NodeFstDialog2)
-   NAnswer(205,1,NodeFstDialog3)
+   BAnswer(201,0,NodeFstDialog2)
+   NAnswer(205,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog2 begin
    Reply(202)
-   NAnswer(203,1,NodeParty)
-   NAnswer(204,1,Node999)
+   NAnswer(203,0,NodeParty)
+   NAnswer(204,0,Node999)
 end
 
 procedure NodeFstDialog3 begin
    Reply(206)
-   NAnswer(207,1,NodeParty)
-   NAnswer(208,1,Node999)
+   NAnswer(207,0,NodeParty)
+   NAnswer(208,0,Node999)
 end
 
 procedure NodeSndDialog begin
    Reply(210)
-   NAnswer(220,1,NodeAnswer100)
    if ((self_elevation == 0) and (tile_distance(dude_tile, TILE_RUN_FLAG) <= 15)) then begin
-   NAnswer(211,1,NodeSndDialog2)
+   NAnswer(211,0,NodeSndDialog2)
    end
-   NAnswer(209,1,NodeNonParty)
-   NAnswer(207,1,NodeParty)
+   else begin
+   NAnswer(220,0,NodeAnswer100)
+   NAnswer(209,0,NodeNonParty)
+   NAnswer(207,0,NodeParty)
+   end
 end
 
 procedure NodeSndDialog2 begin
    Reply(212)
-   NAnswer(213,1,NodeSndDialog3)
+   NAnswer(213,0,NodeSndDialog3)
 end
 
 procedure NodeSndDialog3 begin
@@ -233,19 +235,19 @@ end
 
 procedure NodeAnswer100 begin
    Reply(221)
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(226,1,NodeSndDialog)
+   NAnswer(222,0,NodeAnswer101)
+   NAnswer(224,0,NodeAnswer102)
+   NAnswer(226,0,NodeSndDialog)
 end
 
 procedure NodeAnswer101 begin
    Reply(223)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(226,1,NodeSndDialog)
+   NAnswer(224,0,NodeAnswer102)
+   NAnswer(226,0,NodeSndDialog)
 end
 
 procedure NodeAnswer102 begin
    Reply(225)
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(226,1,NodeSndDialog)
+   NAnswer(222,0,NodeAnswer101)
+   NAnswer(226,0,NodeSndDialog)
 end

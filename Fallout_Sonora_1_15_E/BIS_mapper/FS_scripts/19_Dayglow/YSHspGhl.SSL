@@ -14,6 +14,11 @@ end
 
 procedure use_p_proc begin
    script_overrides;
+   if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) == 0) then begin
+   if ((map_var(MVAR_DIEGOHSPTL_TIMER) > 0) and (map_var(MVAR_DIEGOHSPTL_TIMER) < game_time)) then begin
+   set_global_var(GVAR_DAYGLOW_STATUS_ZERAF,-1);
+   end
+   end
 
    if (global_var(GVAR_DAYGLOW_STATUS_ZERAF) < 0) then begin
    display_mstr(106);

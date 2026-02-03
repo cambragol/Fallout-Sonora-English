@@ -43,12 +43,14 @@
 #define TEAM_TWOSUN_SLAVES                      (68) // беглые рабы ТуСана
 #define TEAM_CASAGRANDE_PEASAN                  (37) // житель КасаГранде
 #define TEAM_CASAGRANDE_CITYHALL                (74) // мэрия КасаГранде
+#define TEAM_CASAGRANDE_WATERSTAN               (83) // рабочие на водяной станции
 #define TEAM_CASANUEVA_PEASAN                   (38) // житель КасаНуэвa
 #define TEAM_MOTEL_MUTANT                       (39) // мутанты Мотеля
 #define TEAM_VAULT_GHOST                        (40) // призраки убежища 27
 #define TEAM_INFIERNO_CULT                      (41) // разумные гули Инферно
 #define TEAM_INFIERNO_GHOUL                     (42) // дикие гули Инферно (не актуально)
 #define TEAM_SANFELIPE_CTZN                     (76) // жители Сан-Фелипе
+#define TEAM_SANFELIPE_SAVAGE                   (84) // дикари Сан-Фелипе
 #define TEAM_SANTA_ANA_CTZN                     (77) // жители Санта Аны
 #define TEAM_SANTA_ANA_CRCH                     (78) // сторонники старосты в церкви (Санта Ана)
 #define TEAM_OIL_PLATFORM_CTZN                  (79) // жители рыбацкой деревни у платформы
@@ -64,6 +66,7 @@
 #define TEAM_WAR_ROADS                          (55) // магистральщики
 #define TEAM_RANGERS_GART                       (56) // рейнджеры - группа Гарта
 #define TEAM_HERMO_FORT                         (73) // гарнизон Эрмосильо
+#define TEAM_HERMO_DESPERADOS                   (85) // мексиканские бандиты
 
 //--- Локальные группы Феникса
 

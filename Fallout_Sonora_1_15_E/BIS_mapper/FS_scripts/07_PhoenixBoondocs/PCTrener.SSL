@@ -443,7 +443,7 @@ procedure NodeTrener107 begin
 end
 
 procedure NodeTrener108 begin
-   Reply(287)
+   zReply(287)
    NAnswer(288,1,Node999)
    BAnswer(289,1,Node999)
 end
@@ -620,6 +620,6 @@ end
 
 procedure NodeTrener400 begin
    bitDialogExp(bit_8,0)
-   Reply(332)
+   zReply(332)
    NAnswer(333,1,Node999)
 end

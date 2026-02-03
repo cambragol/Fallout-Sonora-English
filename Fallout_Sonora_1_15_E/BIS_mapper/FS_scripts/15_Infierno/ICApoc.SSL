@@ -167,7 +167,10 @@ procedure timed_event_p_proc begin
    // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
    // Таймер за номером 2 зарезервирован под всплывающие реплики
    if (fixed_param == 1) then begin
-       if (self_TEAM != TEAM_PLAYER) then begin
+       if (self_TEAM == TEAM_PLAYER) then begin
+       add_timer_event(self_obj, 20, 1);
+       end
+       else begin
        timer_move_to_home
        end
    end
@@ -220,17 +223,15 @@ procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 
    if (self_TEAM == TEAM_PLAYER) then begin
-      if (cur_map_index == MAP_PHOENIX_BNDCS) then begin
-         if (map_var(MVAR_PNX_RING_START) == 1) then begin 
-            call NodePartyNon2;
-         end
+      if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+      call NodePartyNon2;
       end
    end
 
    if (partyPidSelf!=0) then begin
-      if (local_var(LVAR_Flag_Run) != 0) then begin
-         partyRunToDude // персонаж бегает вслед за ГГ
-      end
+   if (local_var(LVAR_Flag_Run) != 0) then begin
+      partyRunToDude // персонаж бегает вслед за ГГ
+   end
    end
 end
 
@@ -879,7 +880,7 @@ procedure NodePartyDialog begin
    zReply(528)
    end
    else begin
-   Reply(500)
+   zReply(500)
    end
 
    if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
@@ -921,13 +922,13 @@ end
 
 procedure NodeParty100 begin
    set_local_var(LVAR_Flag_Run,1);
-   Reply(515)
+   zReply(515)
    NAnswer(516,1,Node999)
 end
 
 procedure NodeParty101 begin
    set_local_var(LVAR_Flag_Run,0);
-   Reply(518)
+   zReply(518)
    NAnswer(519,1,Node999)
 end
 
@@ -1028,6 +1029,10 @@ procedure NodePartyNon2 begin
    end
    set_local_var(LVAR_Home_Tile,self_tile);
    set_local_var(LVAR_Home_Rotat,self_cur_rot);
+   if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+   set_local_var(LVAR_Home_Tile, 18297);
+   set_local_var(LVAR_Home_Rotat,2);
+   end
 
    call Node999;
 end
@@ -1187,6 +1192,7 @@ procedure NodeParty303 begin
    exp_add(750);
    set_SLAVA(25)
    set_REP(5)
+   set_CITY_REP(GVAR_TOWN_REP_CASA_NUEVA,5)
    move_obj_inven_to_obj(self_obj,dude_obj);
 
    call NodePartyNon2;

@@ -134,10 +134,12 @@ end
 procedure NodeStartDialog begin
    bitDialogExp(bit_1,0)
    inc_map_var(MVAR_ENC_CRY_STATUS);
+   if (HomeTile>0) then begin
    move_to(self_obj,HomeTile,0);
    move_to(dude_obj,tile_num_in_direction(HomeTile, 2, 2),0);
    anim(dude_obj, ANIMATE_ROTATION, 5);
    anim(self_obj, ANIMATE_ROTATION, 2);
+   end
 
    if (map_var(MVAR_ENC_CRY_STATUS) > 3) then begin
    call NodeDialog306;
@@ -217,7 +219,9 @@ end
 
 procedure NodeDialog305 begin
    exp_add(500);
+   if (HomeTile>0) then begin
    move_to(dude_obj,tile_num_in_direction(HomeTile, 2, 6),0);
+   end
    Reply(230)
    NAnswer(231,1,Node999)
 end

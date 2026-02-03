@@ -185,7 +185,7 @@ procedure timed_event_p_proc begin
        if ((cur_map_index == MAP_DAYGLOW_BONITA_DUM) and (self_elevation == 0) and (map_var(MVAR_DIEGODUM_ALARMA) > 0)) then begin
        timer_move_random
        end
-       else if ((cur_map_index == MAP_DAYGLOW_START) and (self_elevation == 2)) then begin
+       else if ((cur_map_index == MAP_DAYGLOW_TIJUANA) and (self_elevation == 2)) then begin
        timer_move_random
        end
        else if ((cur_map_index == MAP_DAYGLOW_PATRUL) and (self_elevation == 0)) then begin
@@ -229,8 +229,7 @@ procedure critter_p_proc begin
       if ((global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK)>0) or (self_TEAM == TEAM_PLAYER)) then begin
       attakParam := 0;
       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
-      end
-      else begin
+      end else begin
       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
       end
    end
@@ -303,7 +302,7 @@ end
 procedure use_skill_on_p_proc begin
    skillUseSteal
    skillUseFAid
-   skillUseScience(80)
+   skillUseScience(75)
 end
 
 procedure pickup_p_proc begin
@@ -347,11 +346,8 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
-   if ((cur_map_index == MAP_DAYGLOW_START) and (self_elevation == 2)) then begin
-   set_global_var(GVAR_DAYGLOW_STATUS_ROBOT, -1);
-   end
-   if (cur_map_index == MAP_TWO_SUN_GRAVE) then begin
-   item_add(self_obj, PID_AMMO_MICRO_FUSION_CELL, random(2,5))
+   if ((cur_map_index == MAP_DAYGLOW_TIJUANA) and (self_elevation == 2)) then begin
+       set_global_var(GVAR_DAYGLOW_STATUS_ROBOT, -1);
    end
    if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
        if (self_elevation == 2) then begin

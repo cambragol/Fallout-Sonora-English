@@ -322,10 +322,10 @@ procedure NodeFstDialog begin
    end
    else if (inven_armor(dude_obj) > 0) then begin
       if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) then begin
-      NAnswer(238,1,NodeFstDialog105)
+      zNAnswer(238,1,NodeFstDialog105)
       end
       else if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) then begin
-      NAnswer(238,1,NodeFstDialog105)
+      zNAnswer(238,1,NodeFstDialog105)
       end
    end
 
@@ -372,7 +372,7 @@ end
 
 procedure NodeFstDialog102 begin
    Reply(224)
-   NAnswer(225,1,NodeFstDialog4)
+   zNAnswer(225,1,NodeFstDialog4)
 end
 
 procedure NodeFstDialog103 begin
@@ -392,7 +392,7 @@ procedure NodeFstDialog104 begin
 end
 
 procedure NodeFstDialog105 begin
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    Reply(239)
    NAnswer(240,1,Node999)
    end
@@ -410,7 +410,7 @@ procedure NodeFstDialog106 begin
 end
 
 procedure NodeFstDialog107 begin
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    Reply(239)
    NAnswer(240,1,Node999)
    end

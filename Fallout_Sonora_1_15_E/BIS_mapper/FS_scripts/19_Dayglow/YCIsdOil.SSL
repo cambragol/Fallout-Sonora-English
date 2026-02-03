@@ -5,6 +5,7 @@
 #define NAME                            SCRIPT_YCIsdOil
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
 #define BOX_TILE                        11  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_DAY*3)
 
 #define NUM_TEAM                        TEAM_DAYGLOW_GHOUL    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          -1                    // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -57,7 +58,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_DAY*3)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
        set_obj_visibility(self_obj, 1);
        if (global_var(GVAR_DAYGLOW_PATRUL_SIGNAL_NON) > 0) then begin
        set_obj_visibility(self_obj, 0);
@@ -145,6 +146,7 @@ procedure talk_p_proc begin
    setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
    fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
    if ((bitDialog(bit_2) != 0) or DudePerkHas(PERK_ghouling_fiziology)) then begin
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
    else begin

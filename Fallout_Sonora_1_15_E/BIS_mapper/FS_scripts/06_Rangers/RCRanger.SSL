@@ -132,6 +132,9 @@ procedure replyfloat_proc begin
            if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
            replyFloat += 1;
            end
+           else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
+           replyFloat += 1;
+           end
            else if (getQuest(GVAR_PHENIX_QST_CULT_C) >= qEnd) then begin
            replyFloat += 2;
            end
@@ -160,16 +163,28 @@ procedure replyfloat_proc begin
        // Реплики про ГГ
        if (replyFloat == 131) then begin
            if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
-           replyFloat += random(0,1);
+               replyFloat += random(0,1);
+               if dude_is_female then begin
+               replyFloat += 1000;
+               end
            end
            else if town_rep_is_liked then begin
-           replyFloat += random(0,1);
+               replyFloat += random(0,1);
+               if dude_is_female then begin
+               replyFloat += 1000;
+               end
            end
            else if town_rep_is_antipaty then begin
-           replyFloat += random(4,5);
+               replyFloat += random(4,5);
+               if dude_is_female then begin
+               replyFloat += 1000;
+               end
            end
            else begin
-           replyFloat += random(2,3);
+               replyFloat += random(2,3);
+               if dude_is_female then begin
+               replyFloat += 1000;
+               end
            end
        end
 

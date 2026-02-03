@@ -102,6 +102,8 @@ procedure spatial_p_proc begin
          if ((critter_source == dude_obj) and DudePerkHas(PERK_light_step)) then begin
             display_mstr(113);
          end
+         else if ((party_member_obj(obj_pid(critter_source)) > 0) and DudePerkHas(PERK_light_step)) then begin
+         end
          else begin
             call step_proc;
          end

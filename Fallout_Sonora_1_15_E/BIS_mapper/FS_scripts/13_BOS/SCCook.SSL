@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_SCCook
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        11  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_BOS_CAVALER        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -91,7 +92,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -184,6 +185,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_BOS_TRAITOR,-90) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
 
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -396,7 +398,7 @@ procedure NodeAnswer112 begin
 end
 
 procedure NodeAnswer113 begin
-   item_add(dude_obj,PID_AMMO_10_MM_NSP,48)
+   item_add(dude_obj,PID_AMMO_10_MM_NSP,2)
    Reply(286)
    NAnswer(287,1,Node999)
 end

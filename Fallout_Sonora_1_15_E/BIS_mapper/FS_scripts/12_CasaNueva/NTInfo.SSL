@@ -28,6 +28,7 @@ procedure info_proc begin
    reg_anim_clear(source_obj);
 
    critterObj := create_object_sid(PID_GHOUL_SPORONOS,21732,self_elevation,-1);
+                 item_add(critterObj,PID_Q_NUEVA_FAMILY_CULON,1)
                  anim(critterObj, ANIMATE_ROTATION, 5);
                  kill_critter(critterObj,ANIM_fall_front_blood_sf);
                  critterObj := 0;

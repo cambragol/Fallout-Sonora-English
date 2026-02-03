@@ -8,6 +8,7 @@ procedure map_update_p_proc;
 procedure use_p_proc;
 procedure use_skill_on_p_proc;
 procedure use_obj_on_p_proc;
+procedure damage_p_proc;
 procedure activ_proc;
 procedure map_destroy_movie_dayglow;
 
@@ -46,6 +47,12 @@ end
 
 procedure use_obj_on_p_proc begin
    stopUseCarGaz
+end
+
+procedure damage_p_proc begin
+   if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      call activ_proc;
+   end
 end
 
 procedure activ_proc begin

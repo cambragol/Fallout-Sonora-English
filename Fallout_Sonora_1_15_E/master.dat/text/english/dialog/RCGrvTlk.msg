@@ -10,7 +10,7 @@
 
 #Dialogue
 {200}{}{(You see an old man, standing thoughtfully in front of a grave)}
-{201}{}{[Next]}
+{201}{}{[More]}
 {210}{}{Eh? What do you want from me?}
 {211}{}{Don't mind me.}
 {212}{}{Got it.}

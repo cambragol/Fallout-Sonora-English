@@ -18,6 +18,7 @@
 
 procedure start;
 procedure map_enter_p_proc;
+procedure weapon_check;
 procedure look_at_p_proc;
 procedure description_p_proc;
 procedure timed_event_p_proc;
@@ -48,7 +49,7 @@ procedure NodeAnswer102;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+#define LVAR_Weapon_Lvl                     (6) // текущий уровень оружия
 
 //---------------------
 
@@ -60,6 +61,51 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       if (bitDialog(bit_1) == 0) then begin
+       if (map_var(MVAR_FLAG_Huligan) == 0) then begin
+       call weapon_check;
+       end
+       end
+   end
+end
+
+procedure weapon_check begin
+   variable weaponPID := 0;
+   variable weaponObj := 0;
+
+   if (dude_level>17) then begin
+      weaponPID := PID_W_KNUCKLES_PNEUMATIC;
+      item_remove(self_obj,PID_W_KNUCKLES_THORNS,1)
+      item_remove(self_obj,PID_W_KNUCKLES_SPIKED,1)
+      item_remove(self_obj,PID_W_KNUCKLES_BRASS,1)
+   end
+   else if (dude_level>12) then begin
+      weaponPID := PID_W_KNUCKLES_THORNS;
+      item_remove(self_obj,PID_W_KNUCKLES_SPIKED,1)
+      item_remove(self_obj,PID_W_KNUCKLES_BRASS,1)
+   end
+   else if (dude_level>7) then begin
+      weaponPID := PID_W_KNUCKLES_SPIKED;
+      item_remove(self_obj,PID_W_KNUCKLES_BRASS,1)
+   end
+   else if (dude_level>3) then begin
+      weaponPID := PID_W_KNUCKLES_BRASS;
+   end
+
+   //-- вооружить:
+   set_local_var(LVAR_Weapon_Lvl, dude_level);
+
+   if (weaponPID>0) then begin
+      weaponObj := create_object_sid(weaponPID,0,0,-1);
+      add_mult_objs_to_inven(self_obj,weaponObj,1);
+      end
+
+   if (weaponObj >0) then begin
+      inven_unwield(self_obj);
+      reg_anim_clear(self_obj);
+      reg_anim_begin();
+      wield_obj(weaponObj);
+      reg_anim_end();
    end
 end
 
@@ -79,6 +125,9 @@ procedure timed_event_p_proc begin
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
+   end
+   if (fixed_param == 3) then begin
+       attack(dude_obj);
    end
 end
 
@@ -166,6 +215,7 @@ end
 
 procedure Node998 begin
    set_enemy_dude;
+   add_timer_event(self_obj, 3, 3);
 end
 
 procedure Node999 begin

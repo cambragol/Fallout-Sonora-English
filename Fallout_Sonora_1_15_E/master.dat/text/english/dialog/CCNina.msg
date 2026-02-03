@@ -47,6 +47,7 @@
 {233}{}{(She lowers her head to her knees)}
 {234}{}{«Are you okay?»}
 {235}{}{(pulls her hand back and pushes you away) ¡Vete, gringo! ¡El Diablo ya está aquí!}
+{1235}{}{(pulls her hand back and pushes you away) ¡Vete, gringa! ¡El Diablo ya está aquí!}
 {236}{}{El Diablo? Who is this? What are you even talking about? I don't understand...}
 {237}{}{El Diablo is dead. Understand? (gestures emphatically) Dead!}
 {238}{}{(raises her eyes in amazement) ¿Está muerto el Diablo?... No... No! No! No! (runs away from the church)}
@@ -56,6 +57,7 @@
 {241}{}{Hey, how are you?}
 {242}{}{«Are you okay?»}
 {243}{}{(pulls her hand back and pushes you away) «Get out of here, gringo! El Diablo is already here!»}
+{1243}{}{(pulls her hand back and pushes you away) «Get out of here, gringa! El Diablo is already here!»}
 {244}{}{«El Diablo? Who is this? What are you even talking about? I don't understand...»}
 {245}{}{(raises her eyes in amazement) «Is El Diablo dead?... No... No! No! No!» (runs away from the church)}
 {246}{}{«Come on, get some fresh air. Now you can afford to.»}

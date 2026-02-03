@@ -63,6 +63,7 @@
 {235}{}{«I understand. Alright, I'm leaving.»}
 {236}{}{«Could I join you?»}
 {237}{}{«A northern yankee becoming one of us? I think not. Just leave.»}
+{1237}{}{«A northern yankee becoming one of us? I think not. Just leave.»}
 {238}{}{«Ouch...»}
 {239}{}{«To hell with that. I'm not leaving».}
 

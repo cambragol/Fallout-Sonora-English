@@ -135,7 +135,7 @@ end
 
 procedure NodeDialog begin
    Reply(200)
-   NAnswer(201,1,NodeDialog1)
+   zNAnswer(201,1,NodeDialog1)
    BAnswer(210,1,NodeDialog2)
 end
 
@@ -143,7 +143,7 @@ procedure NodeDialog1 begin
    display_mstr(112);
    set_REP(1)
    set_SLAVA(20)
-   Reply(202)
+   zReply(202)
    NAnswer(203,1,Node999)
    NAnswer(204,1,Node999)
    NAnswer(205,1,Node999)

@@ -6,6 +6,7 @@
 {1201}{}{Why are you afraid of me? I haven't done anything wrong.}
 {202}{}{Then stop whining, it's getting on my nerves.}
 {203}{}{So... you're not a raider?}
+{1203}{}{So... you're not a raider?}
 {204}{}{No, I'm }
 {205}{}{. And who are you?}
 {206}{}{I'm Frank. Since the overseer passed away, I've been in charge here. And, honestly, it's been rough.}

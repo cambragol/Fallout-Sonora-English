@@ -25,7 +25,7 @@
 {221}{}{Weapons are only given out for missions and drills only. And you have to conserve ammo. I wanted to take the rifle and head to the Giers Wash cave. But the quartermaster figured out my plan quickly.}
 {222}{}{What's so important about that cave?}
 {223}{}{Locals say that there's a lot of rodents living in that cave, and they are seriously harming the villagers. But the Rangers are too busy to deal with such a small thing, and the commanders refuse to send cadets, since they say we're "not ready."}
-{224}{}{[Continue]}
+{224}{}{[More]}
 {225}{}{I wanted to solve the problem alone, myself, to show those stubborn old people how wrong they are. We should be doing something, not fooling around in the training room!}
 {226}{}{Your dedication demands respect.}
 {227}{}{I think you just wanted to show what *you* were capable of.}

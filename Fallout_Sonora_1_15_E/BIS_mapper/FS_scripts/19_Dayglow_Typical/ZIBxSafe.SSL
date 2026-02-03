@@ -493,7 +493,6 @@ procedure trap_proc begin
 
    if (local_var(LVAR_Trap_Type) == TRAP_CALIBR) then begin
       display_mstr(156);
-      create_object_sid(PID_AMMO_SHOTGUN_SHELLS, dude_tile, dude_elevation, -1);
    end
 
    if (local_var(LVAR_Trap_Type) == TRAP_GRANAD) then begin
@@ -503,7 +502,6 @@ procedure trap_proc begin
 
    if (local_var(LVAR_Trap_Type) == TRAP_ELECTR) then begin
       display_mstr(158);
-      create_object_sid(PID_AMMO_MICRO_FUSION_CELL, dude_tile, dude_elevation, -1);
    end
 
    if (local_var(LVAR_Trap_Type) == TRAP_ALARMS) then begin

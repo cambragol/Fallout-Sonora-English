@@ -119,7 +119,7 @@ end
 procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
-   dialog_proc(0,1,NodeStartDialog,-1,-1)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
 end
 
 procedure Node998 begin
@@ -131,54 +131,55 @@ end
 
 procedure NodeStartDialog begin
    Reply(200)
-   NAnswer(202,1,NodeDialog01)
+   NAnswer(202,4,NodeDialog01)
    if (bitDialog(bit_2) == 0) then begin
-   NAnswer(203,1,NodeDialog02)
+   NAnswer(203,4,NodeDialog02)
    end
-   NAnswer(201,1,Node999)
+   NAnswer(201,4,Node999)
+   NAnswer(217,-3,Node999)
 end
 
 procedure NodeDialog01 begin
    Reply(204)
-   NAnswer(215,1,NodeDialog01b)
+   NAnswer(215,4,NodeDialog01b)
 end
 
 procedure NodeDialog01b begin
    Reply(216)
    if (bitDialog(bit_2) == 0) then begin
-   NAnswer(203,1,NodeDialog02)
+   NAnswer(203,4,NodeDialog02)
    end
-   NAnswer(201,1,Node999)
+   NAnswer(201,4,Node999)
 end
 
 procedure NodeDialog02 begin
    Reply(205)
    BAnswer(206,5,NodeDialog03)
-   NAnswer(202,1,NodeDialog01)
-   NAnswer(201,1,Node999)
+   NAnswer(202,4,NodeDialog01)
+   NAnswer(201,4,Node999)
 end
 
 procedure NodeDialog03 begin
    bitDialogExp(bit_2,75)
    Reply(207)
-   BAnswer(208,1,NodeDialog03a)
-   NAnswer(209,1,NodeDialog03b)
-   GAnswer(210,1,NodeDialog03c)
+   BAnswer(208,4,NodeDialog03a)
+   NAnswer(209,4,NodeDialog03b)
+   GAnswer(210,4,NodeDialog03c)
 end
 
 procedure NodeDialog03a begin
    setBonusReaction(-20)
    Reply(211)
-   NAnswer(212,1,Node999)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeDialog03b begin
    Reply(213)
-   NAnswer(212,1,Node999)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeDialog03c begin
    setBonusReaction(20)
    Reply(214)
-   NAnswer(212,1,Node999)
+   NAnswer(212,4,Node999)
 end

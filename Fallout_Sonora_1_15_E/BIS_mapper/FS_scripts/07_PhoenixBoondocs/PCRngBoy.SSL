@@ -44,6 +44,15 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       if (map_first_run == true) then begin
+          if (random(0,1) == 1) then begin
+             if (random(0,1) == 1) then begin
+             item_add(self_obj,PID_M_BEER,1)
+             end else begin
+             item_add(self_obj,PID_M_NUKA_COLA,1)
+             end
+          end
+       end
        set_local_var(LVAR_Flag_Stavka,random(0,1));
        if (global_var(GVAR_PHENIX_STATUS_ARENABOSS) < 0) then begin
        rm_timer_event(self_obj);

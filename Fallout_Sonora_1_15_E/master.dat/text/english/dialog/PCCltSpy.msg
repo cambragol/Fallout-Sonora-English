@@ -1,6 +1,7 @@
 {100}{}{You see Matthias.}
 {101}{}{You see one of the Followers. He seems to be deep in thought.}
 {102}{}{Go ahead, acolyte.}
+{1102}{}{Go ahead, acolyte.}
 {103}{}{This man quickly utters prayers for the salvation of all mankind.}
 {104}{}{. . .}
 {105}{}{Now the church will return to its original mission. You have my undying gratitude.}
@@ -58,6 +59,7 @@
 {269}{}{Find the fuses in the professor's office. Once they are activated, you'll have a few minutes to escape from the cathedral.}
 {270}{}{Okay then. But how can I get there? It's a secured area, right?}
 {271}{}{I will give you the key and Follower's robe. Introduce yourself to the guards as a newcomer who has been sent to report to the professor.}
+{1271}{}{I will give you the key and Follower's robe. Introduce yourself to the guards as a newcomer who has been sent to report to the professor.}
 {272}{}{Give me the key and the robe. I'm going straight to it.}
 {273}{}{May the Holy Fire forgive us. Amen.}
 {274}{}{Uh, whatever you say, Prior. Goodbye.}
@@ -89,6 +91,7 @@
 {317}{}{It's not what you think...}
 {318}{}{I can convince Aaron to conduct a full search of your belongings and contacts. What do you say to that?}
 {319}{}{You're testing my patience, atomic worm. Get out.}
+{1319}{}{You're testing my patience, atomic worm. Get out.}
 {320}{}{You're gonna come off worse in this.}
 {321}{}{Ah, holy heavens! You've only recently come to this cathedral, and you're already digging deeper than the Vault-Tec prophets.}
 {322}{}{Vault... What?}
@@ -99,6 +102,7 @@
 
 # Dialogue in the confessional
 {330}{}{I have to say, I didn't expect a newcomer from the wasteland to be able to solve this case. Up until now, I had managed to hide my actions even from Aaron.}
+{1330}{}{I have to say, I didn't expect a newcomer from the wasteland to be able to solve this case. Up until now, I had managed to hide my actions even from Aaron.}
 {331}{}{So why is Aaron's 'loyal' servant helping his enemies?}
 {332}{}{Under Aaron's leadership, the church has changed its beliefs. The stronghold of holiness and wisdom it once was, has become a receptacle for sin. I can't stand it anymore.}
 {333}{}{Tell me the story.}
@@ -127,6 +131,7 @@
 {354}{}{I've changed my mind. I'm just gonna tell Aaron everything.}
 {1354}{}{I've changed my mind. I'm just gonna tell Aaron everything.}
 {355}{}{Go ahead, acolyte.}
+{1355}{}{Go ahead, acolyte.}
 {356}{}{Okay.}
 {357}{}{I need to know which of the Red Cardinals is leaking information about the gang to you.}
 {358}{}{What an outrageous question! Even if I knew, I certainly wouldn't tell you.}

@@ -43,30 +43,28 @@ procedure use_skill_on_p_proc begin
 end
 
 procedure obval_proc begin
-   variable elctrAmnt; // размер урона
-   elctrAmnt := 0;
+   variable damageAmnt; // размер урона
+   damageAmnt := 0;
 
    //--- Определение урона
    if (obj_critter_a > 0) then begin
-       if (tile_distance_objs(self_obj,obj_critter_a)<=3) then begin
-       elctrAmnt := random(22,30)+(has_skill(dude_obj, SKILL_TRAPS)/4);
+       if (tile_distance_objs(self_obj,obj_critter_a)<=4) then begin
+       damageAmnt := get_critter_stat(obj_critter_a,STAT_max_hit_points)/5;
+       damageAmnt += random(1,10);
        end
-   end
-   if (combat_is_initialized == false) then begin
-       elctrAmnt := 0;
    end
 
    //--- Нанесение урона
-   if (elctrAmnt > 0) then begin
+   if (damageAmnt > 0) then begin
       play_sfx("ORE1");
       display_mstr(111);
       if (get_critter_stat(obj_critter_a,STAT_current_hp)>0) then begin
-      critter_dmg(obj_critter_a, elctrAmnt, DMG_normal_dam);
+      critter_dmg(obj_critter_a, damageAmnt, (DMG_normal_dam BWOR DMG_BYPASS_ARMOR));
       end
       set_obj_visibility(self_obj, 1);
       destroy_object(self_obj);
    end
    else begin
-      display_mstr(110);
+      display_mstr(112);
    end
 end

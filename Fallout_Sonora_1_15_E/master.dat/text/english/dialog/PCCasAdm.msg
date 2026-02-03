@@ -7,13 +7,15 @@
 {201}{}{Unimpressive. I thought it would be more... lively here.}
 {202}{}{It should be. However, the people of Phoenix are going through tough times, and it's affecting our business. What can one do, right?}
 {203}{}{Can't argue with that.}
-{204}{}{The casino looks great. It's amazing what you've done with it.}
-{205}{}{We got here through long, hard work. All thanks to Don Diego.}
-{206}{}{I see.}
+{204}{}{This place is incredible. Hard to believe you managed to restore it.}
+{205}{}{It took years of hard work and determination. All thanks to Don Diego.}
+{206}{}{I see..}
+{207}{}{Wow!}
 
 #Re-dialogue
-{210}{}{Can I be of assistance?}
-{211}{}{No, I'm okay.}
+{210}{}{Can I be of any assistance?}
+{211}{}{Not right now.}
+{212}{}{Later.}
 
 #Banning casino games
 {220}{}{I hope so. Why won't they let me play in the casino?}
@@ -21,8 +23,8 @@
 {222}{}{We are happy to continue providing our entertainment services to you. But only with the chips you have left. We won't issue new ones.}
 {223}{}{Why?}
 {224}{}{Can you explain?}
-{225}{}{It's not hard to guess that if people win too much, it hurts the casino's profits. You've already earned enough for a comfortable old age. It's time to give way to new players. Don't you think?}
-{1225}{}{It's not hard to guess that if people win too much, it hurts the casino's profits. You've already earned enough for a comfortable old age. It's time to give way to new players. Don't you think?}
+{225}{}{It's not hard to guess that if people win too much, it hurts the casino's profits. You've already earned enough for a comfortable old age.}
+{1225}{}{It's not hard to guess that if people win too much, it hurts the casino's profits. You've already earned enough for a comfortable old age.}
 {226}{}{So I broke the house, right? You can't fool me.}
 {227}{}{I can understand your logic, but it still sucks.}
 {228}{}{Please, don't be upset. We always value wealthy clients. Let me give you a small gift from our casino to keep things friendly. This bottle contains *real* pre-war whiskey. Not poisoned or irradiated. An expensive and rare pleasure these days.}
@@ -57,12 +59,12 @@
 {273}{}{I think you underestimate his contribution to the business... Anyway, let's change the subject.}
 
 {275}{}{I see the casino is still open after that explosion?}
-{276}{}{Yes, a terrible event. We were lucky that the explosion was underground and quite far away. And yet, the building suffered serious damage. We'll have it repaired to its original form within a year... Well, so I hope.}
+{276}{}{Yes, that was terrible. We were lucky the explosion was underground and quite far away. But still, the building was damaged quite seriously. We'll have it repaired to its original form within a year... Well, I hope.}
 {277}{}{I see.}
 {278}{}{Hard to believe.}
 
 {280}{}{They say some Followers were killed near the casino?}
-{281}{}{Yes, a terrible story. Personally, I didn't see anything. And retelling rumors is an unpleasant matter. Talk to those who were on the street that day.}
+{281}{}{So I've heard. I didn't see anything myself. And dealing in rumors is not to my taste. Talk to those who were on the street that day.}
 {282}{}{Of course I will.}
 {283}{}{Or maybe you're protecting your casino? Maybe it wasn't an accident that the attack happened nearby?}
 {284}{}{(the manager's face contorts in tension) We do not deserve such slander. Do you have any solid evidence against us? I thought not. Then we had best end this conversation. Thank you for understanding.}
@@ -86,6 +88,9 @@
 {302}{}{By the way, if you decide to relax in the casino, keep in mind that the rules are the same for everyone. If you want to play roulette, buy chips and play like a regular player. If you get into debt, the casino won't write it off your account. Got it? Good.}
 {303}{}{Fair rules. Well, time to go.}
 {304}{}{I'll treat the place like I own it.}
+{305}{}{Whoa!}
+{306}{}{Uh-huh.}
+{307}{}{Wow!}
 
 #Work and access to the boss
 {320}{}{Do you have any openings? I'm looking for a job.}
@@ -106,6 +111,7 @@
 {335}{}{Great. So can I meet your boss?}
 {336}{}{Don Diego sent me to work. What's your problem?}
 {337}{}{Ah, this is our new employee. How nice it is to relieve oneself of the burden of responsibility, at least in small things.}
+{1337}{}{Ah, this is our new employee. How nice it is to relieve oneself of the burden of responsibility, at least in small things.}
 {338}{}{Continue.}
 {339}{}{After Don Diego died, all hell broke loose. I could really use a smart employee.}
 

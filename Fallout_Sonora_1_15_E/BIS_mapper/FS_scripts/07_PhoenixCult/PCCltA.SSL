@@ -47,8 +47,11 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
        if (item_amnt(self_obj,PID_TEST) > 0) then begin
-           set_local_var(LVAR_Flag_AttakNon,1);
+           set_local_var(LVAR_Flag_AttakNon,1); // (версия 1.16) теперь это лишнее
            item_remove(self_obj,PID_TEST,999)
+       end
+       if (self_elevation == 0) then begin
+           set_local_var(LVAR_Flag_AttakNon,1);
        end
        if (self_elevation == 1) then begin
            set_local_var(LVAR_Flag_AttakNon,1);
@@ -87,6 +90,8 @@ procedure critter_p_proc begin
    if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A)) then begin
    end
    else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+   end
+   else if ((global_var(GVAR_PHENIX_MATIAS_NONATTAK) > 0) and (local_var(LVAR_Flag_AttakNon) > 0)) then begin
    end
    else begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)

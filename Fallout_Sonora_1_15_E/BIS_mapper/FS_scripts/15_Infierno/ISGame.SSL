@@ -1,6 +1,5 @@
 #include "..\headers\define.h"
 #define NAME                            SCRIPT_ISGame
-#define TILE_ACTIV                      11103
 
 procedure start;
 procedure map_enter_p_proc;
@@ -42,24 +41,14 @@ end
 
 procedure use_p_proc begin
    script_overrides;
-   if (self_tile == TILE_ACTIV) then begin
    display_mstr(111);
-   end
-   else begin
-   display_mstr(110);
-   end
 end
 
 procedure use_obj_on_p_proc begin
    stopUseCarGaz
    else if (objUsedPid == PID_MANY) then begin
       script_overrides;
-      if (self_tile == TILE_ACTIV) then begin
       call game_start;
-      end
-      else begin
-      display_mstr(110);
-      end
    end
 end
 
@@ -81,19 +70,6 @@ procedure game_start begin
        item_remove(dude_obj,PID_MANY,1)
        call game_process;
    end
-
-   /*
-   Изначальная версия (НЕ для специальных встреч):
-
-   else if dude_skill(SKILL_GAMBLING,100) then begin
-       item_remove(dude_obj,PID_MANY,1)
-       call game_process;
-   end
-   else begin
-       skill_display_mstr(124,SKILL_GAMBLING,100)
-       floater(dude_obj,125,COLOR_MSG_NORMAL);
-   end
-   */
 end
 
 procedure game_process begin
@@ -127,37 +103,6 @@ procedure game_process begin
        end
        display_msg(mstr(132)+local_var(LVAR_GamePoint)+mstr(133));
    end
-
-   /*
-   Изначальная версия (НЕ для специальных встреч):
-
-   check_point := 0;
-
-   if (has_skill(dude_obj, SKILL_GAMBLING) >= random(30,130)) then begin
-   check_point += random(200,300);
-   end
-   else begin
-   check_point -= random(25,100);
-   end
-   inc_local_var_amt(LVAR_GamePoint,check_point);
-
-   if (local_var(LVAR_GamePoint) >= 1000) then begin
-       call game_finish;
-   end
-   else begin
-       if (check_point < 0) then begin
-       play_sfx("IISXXXX1");
-       display_msg(mstr(140)+(check_point)+mstr(141));
-       floater(dude_obj,random(142,149),COLOR_MSG_NORMAL);
-       end
-       else begin
-       play_sfx("ICSXXXX1");
-       display_msg(mstr(130)+(check_point)+mstr(131));
-       floater(dude_obj,random(134,139),COLOR_MSG_NORMAL);
-       end
-       display_msg(mstr(132)+local_var(LVAR_GamePoint)+mstr(133));
-   end
-   */
 end
 
 procedure game_finish begin

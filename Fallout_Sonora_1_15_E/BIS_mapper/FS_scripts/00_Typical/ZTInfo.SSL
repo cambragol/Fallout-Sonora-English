@@ -2,8 +2,11 @@
 #define NAME                    SCRIPT_ZTInfo
 
 procedure start;
+procedure map_enter_p_proc;
 procedure spatial_p_proc;
 procedure info_proc;
+procedure spatial_sanbrahmin_sign;
+procedure invis_sanbrahmin_sign;
 
 #define LVAR_INFO_FLAG                 (0)
 
@@ -20,6 +23,16 @@ variable paramCl;
 
 
 procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   if (map_first_run == true) then begin
+      if (cur_map_index == MAP_SAN_BRAHMIN_SIGN) then begin
+      call invis_sanbrahmin_sign;
+      end
+   end
+   end
 end
 
 procedure spatial_p_proc begin
@@ -39,7 +52,7 @@ procedure info_proc begin
          Номер сообщения (при <=0 сообщение не выводится),
              тайл триггера (при <=0 игнорируется),
                  номер карты (обязательно),
-                     приказ ГГ оставиться (при <=0 игнорируется)
+                     приказ ГГ остановиться (при <=0 игнорируется)
    */
 
    //- Вилла
@@ -100,6 +113,11 @@ procedure info_proc begin
    setInfoTriger(134,26514,MAP_CASA_GRANDE_CITY,1)
    end
    setInfoTriger(135,17100,MAP_CASA_GRANDE_CITY,1)
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+   if (map_var(MVAR_CGRANDE_CHIP_GRAVE) == 0) then begin
+   setInfoTriger(150,-1,MAP_CASA_GRANDE_GRAVE,1)
+   end
+   end
 
    //- Инферно
    setInfoTriger(136,-1,MAP_INFIERNO_CITY,1)
@@ -121,17 +139,56 @@ procedure info_proc begin
    setInfoTriger(146,-1,MAP_OLD_MOTEL,1)
    end
    setInfoTriger(147,-1,MAP_SAN_BRAHMIN_CAVE,1)
+
+   if (cur_map_index == MAP_SAN_BRAHMIN_SIGN) then begin
+       if DudePerkHas(PERK_marauder) then begin
+          if (paramMsg == 0) then begin
+             setInfoTriger(152,-1,MAP_SAN_BRAHMIN_SIGN,1)
+             if (paramMsg == 152) then begin
+             call spatial_sanbrahmin_sign;
+             end
+          end
+       end
+   end
+
    if (self_elevation == 1) then begin
    setInfoTriger(148,-1,MAP_OIL_PLATFORMDRILL,1)
    end
    setInfoTriger(149,-1,MAP_OIL_COAST,0)
+   setInfoTriger(151,-1,MAP_OIL_CITY,0)
 
    //--- Сообщение
-   if (paramMsg >0) then begin
+   if (paramMsg>0) then begin
+   play_sfx("ICSXXXX1");
    display_mstr(paramMsg);
    end
    if (paramCl>0) then begin
    reg_anim_clear(source_obj);
    end
+end
 
+#define setVisibleObjBrahmin(tile,pid,vis)   if (tile_contains_obj_pid(tile,0,pid) == true) then begin \
+                                             set_obj_visibility(tile_contains_pid_obj(tile,0,pid), vis); \
+                                             end \
+
+procedure spatial_sanbrahmin_sign begin
+   setVisibleObjBrahmin(self_tile,33554482,1) // колеса над люком
+   setVisibleObjBrahmin(21535,33554482,1) // колеса над люком
+
+   setVisibleObjBrahmin(self_tile,33555240,0) // люк
+   setVisibleObjBrahmin(self_tile,33555241,0) // крышка люк
+
+   setVisibleObjBrahmin(21535,33555240,0) // люк
+   setVisibleObjBrahmin(21535,33555241,0) // крышка люк
+end
+
+procedure invis_sanbrahmin_sign begin
+   setVisibleObjBrahmin(self_tile,33554482,0) // колеса над люком
+   setVisibleObjBrahmin(21535,33554482,0) // колеса над люком
+
+   setVisibleObjBrahmin(self_tile,33555240,1) // люк
+   setVisibleObjBrahmin(self_tile,33555241,1) // крышка люк
+
+   setVisibleObjBrahmin(21535,33555240,1) // люк
+   setVisibleObjBrahmin(21535,33555241,1) // крышка люк
 end

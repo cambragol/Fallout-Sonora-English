@@ -61,6 +61,8 @@ procedure NodeAnswer200;
 
 //#define LVAR_Flag_A                     (6) // отвечает за ...
 
+import variable box_stop_use;
+
 //---------------------
 
 
@@ -74,7 +76,7 @@ procedure map_enter_p_proc begin
        if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
           set_obj_visibility(self_obj, 1);
        end
-       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+       if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
           set_obj_visibility(self_obj, 1);
           destroy_object(self_obj);
        end
@@ -101,6 +103,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
+   set_using_stop
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 
@@ -151,6 +154,9 @@ procedure NodeStartDialog begin
    call NodeFstDialog;
    end
    else if ((bitDialog(bit_6) == 0) and (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd)) then begin
+   call NodeSndDialog400;
+   end
+   else if ((bitDialog(bit_6) == 0) and (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    call NodeSndDialog400;
    end
    else if (bitDialog(bit_6) != 0) then begin
@@ -244,7 +250,7 @@ procedure NodeSndDialog begin
    Reply(210)
 
    if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
-   NAnswer(230,1,NodeSndDialog102)
+   zNAnswer(230,1,NodeSndDialog102)
    end
    else begin
    NAnswer(220,1,NodeSndDialog101)

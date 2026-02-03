@@ -39,7 +39,7 @@
 {1115}{}{¿You want push el waka?}
 {1116}{}{Better stay lejos de nuestros waks. They no like strangers.}
 {1117}{}{You wanna ride waks? Then... pay doble de pesos, chica.}
-{1118}{}{You really payin’ con chapas? ¡Pf-ja-ja-ja!}
+{1118}{}{You really payin' con chapas? ¡Pf-ja-ja-ja!}
 {1119}{}{¡Stupid girl of the north! ¡Stupid northerner! ¡Be-be-be!}
 {1120}{}{My zapatos... they broked. You think... maybe arreglar them?}
 

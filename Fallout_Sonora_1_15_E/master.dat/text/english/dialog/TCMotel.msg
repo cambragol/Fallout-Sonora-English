@@ -20,6 +20,7 @@
 {215}{}{(leaning towards you) The Tinsmiths are wary of spies and don't want their plans leaked. So, I gotta be cautious with strangers.}
 {216}{}{Glad we understand each other.}
 {217}{}{As a Follower of Fire, I am insulted by your service!}
+{1217}{}{As a Follower of Fire, I am insulted by your service!}
 {218}{}{I think the Brotherhood of Steel would frown upon such treatment of their members.}
 {219}{}{Come on, why so unfriendly?}
 {220}{}{You're not from around here.}

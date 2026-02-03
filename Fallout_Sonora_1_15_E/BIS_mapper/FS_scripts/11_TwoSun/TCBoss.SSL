@@ -28,6 +28,7 @@ procedure pickup_p_proc;
 procedure combat_p_proc;
 procedure damage_p_proc;
 procedure destroy_p_proc;
+procedure stop_quest;
 procedure talk_p_proc;
 
 procedure Node998;
@@ -159,6 +160,12 @@ end
 procedure destroy_p_proc begin
    dec_global_var(GVAR_TWOSUN_STATUS_CTZN);
    set_global_var(GVAR_TWOSUN_STATUS_BOSS,-1);
+   call stop_quest;
+   kill_critter_opt
+   kill_critter_dude_reply(102,0)
+end
+
+procedure stop_quest begin
    set_gvar_bit_off(GVAR_DIALOGS_FLAGS_BIT, bit_27);
    if (getQuest(GVAR_TWOSUN_QST_ZAX)<qEnd) then begin
    setQuest(GVAR_TWOSUN_QST_ZAX,qStop);
@@ -166,8 +173,9 @@ procedure destroy_p_proc begin
    if (global_var(GVAR_TWOSUN_QST_BAND_SLAVES) < 10) then begin
    setQuest(GVAR_TWOSUN_QST_BAND_SLAVES,0);
    end
-   kill_critter_opt
-   kill_critter_dude_reply(102,0)
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN)<qEnd) then begin
+   setQuest(GVAR_TWOSUN_QST_LOST_TIN,qStop);
+   end
 end
 
 procedure talk_p_proc begin
@@ -719,7 +727,7 @@ end
 procedure NodeAnswer400 begin
    bitDialogExp(bit_4,10)
    Reply(256)
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    NAnswer(267,1,NodeAnswer401)
    end
    NAnswer(232,1,NodeAnswer)

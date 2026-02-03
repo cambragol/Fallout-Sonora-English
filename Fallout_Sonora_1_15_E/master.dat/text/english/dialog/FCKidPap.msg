@@ -1,5 +1,5 @@
 {100}{}{You see Gray.}
-{101}{}{You see a weary citizen of Flagstaff.}
+{101}{}{You see a weary citizen of the colony.}
 {102}{}{I'm sleepy, leave me alone.}
 {103}{}{*Yawn*}
 {104}{}{Z-z-z}

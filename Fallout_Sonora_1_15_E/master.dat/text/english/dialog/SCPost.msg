@@ -10,12 +10,12 @@
 {201}{}{Never mind, I'm leaving.}
 {202}{}{I was traveling along the coast and just stumbled upon you. What is this place?}
 {203}{}{You're better off not knowing. Move along.}
-{204}{}{You guys seem a bit surly.}
-{205}{}{Wait... Why the hell are you staring? We don't need troublemakers here. Get out and don't come back. Move it...}
-{206}{}{Uh... Uh...}
-{207}{}{Closed? Like this? Don't know.}
-{208}{}{Yes. We've gone a little mad here. Not enough convolutions, huh? Our clerks should run tests on you. But I don't want to get dirty. (threateningly) Get out of here.}
-{209}{}{Oh, go. I understand it. Yes.}
+{204}{}{Hmph. Okay then.}
+{205}{}{What the hell are you staring at? We don't need troublemakers here. Get lost and don't come back. Move it...}
+{206}{}{Uh... I...}
+{207}{}{Purpose? What do you mean? I don't know!}
+{208}{}{Okay. We've got a little wise ass here. Off your meds, moron, huh? Our clerks should use idiots like you for tests. (threateningly) Get out of here.}
+{209}{}{Oh, get out. I understand. Okay.}
 
 #Re-dialogue
 {210}{}{You may pass.}

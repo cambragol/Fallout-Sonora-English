@@ -1,5 +1,7 @@
 {100}{}{This is the designated assembly point for the departure to Sonora.}
 {101}{}{From here, you can return to the wastelands of Sonora.}
+{102}{}{Before leaving, you discarded some now-useless items from your backpack (}
+{103}{}{).}
 
 {110}{}{The assembly point is here.}
 {111}{}{[Wait for the guide and return to the Sonoran wasteland.]}

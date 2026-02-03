@@ -58,19 +58,19 @@ procedure gener_items begin
    item_add(self_obj,PID_AMMO_22_LR,random(1,5)) // в пачке 5 шт
    end
    if (itemgenerVar == 4) then begin
-   item_add(self_obj,PID_AMMO_10_MM,random(2,10))
+   item_add(self_obj,PID_AMMO_10_MM,1)
    end
    if (itemgenerVar == 5) then begin
-   item_add(self_obj,PID_AMMO_44_MAGNUM,random(2,10))
+   item_add(self_obj,PID_AMMO_44_MAGNUM,1)
    end
    if (itemgenerVar == 6) then begin
-   item_add(self_obj,PID_AMMO_5_MM,random(1,5)) // в пачке 5 шт
+   item_add(self_obj,PID_AMMO_5_MM,1)
    end
    if (itemgenerVar == 7) then begin
-   item_add(self_obj,PID_AMMO_308,random(2,8))
+   item_add(self_obj,PID_AMMO_308,1)
    end
    if (itemgenerVar == 8) then begin
-   item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,random(2,8))
+   item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,1)
    end
    if (itemgenerVar == 9) then begin
    item_add(self_obj,PID_AMMO_SIGNAL_A,random(2,6))

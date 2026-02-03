@@ -41,13 +41,14 @@
 {216}{}{Look at these pagan things - books, technologies, dubious and dangerous substances... We always rejected them because they are dangerous. Nothing is more valuable than life of our tribe and brahmin. And now Chatto, along with other youth, collects outsiders things and tries to learn and understand them. Dark Brahmin has taken minds of our youth!}
 {217}{}{And this is our future? When did we fall so low that even our youth go against tribe? It is missionaries' fault! Drive them away! Our pueblo must remain ours...}
 {218}{}{Oh, I see an outsider here now. Who are you? What are you doing in our tribe?}
+{1218}{}{Oh, I see an outsider here now. Who are you, woman? What are you doing in our tribe?}
 {219}{}{Oh, I see a fire worshipper in the pueblo. What do you want? To take our children and our brahmin? We have already told those before you that the San Brahmin tribe cannot be bought, as you did with others. Go back to your stinking Phoenix, outsider!}
 {220}{}{I am going to speak with your chief on behalf of the Villa. Nana let me in.}
 {221}{}{Ah, Divine Brahmin of Peace! If Nana lets outsider in, there must be reasons. Alright, go ahead. But know that nothing will escape my eagle eye. I will watch your every step in pueblo.}
 {222}{}{Thank you, Mangas. Please don't be angry with me for my intrusion.}
 {223}{}{You've gone completely nuts in your old age. Leave me alone and get out of my way.}
 {224}{}{See you, Mangas.}
-{225}{}{[Continue]}
+{225}{}{[More]}
 
 #Repeat dialogue
 {230}{}{Greetings, outsider from Villa.}
@@ -104,6 +105,7 @@
 {282}{}{Yes, and I have long looked for person who will find and destroy this place... this 'factory'. Without firewater, it will be easier for our tribe to resist outsiders. Find it and destroy it, and I will reward you generously.}
 {283}{}{Alright. I'll do it.}
 {284}{}{I will offer sacrifices to Divine Brahmin to guide and protect you on your journey. Good luck, my friend.}
+{1284}{}{I will offer sacrifices to Divine Brahmin to guide and protect you on your journey. Good luck, my friend.}
 {285}{}{Goodbye, Mangas.}
 {286}{}{Wait, I want to ask something else.}
 {287}{}{There's probably plenty of security there. And I don't even know where this 'place' is. Nope, I won't get involved with this crazy idea.}
@@ -111,6 +113,7 @@
 
 {290}{}{Rejoice, Mangas! The tequila production in Phoenix is completely destroyed.}
 {291}{}{Divine Brahmin must have helped you in this difficult task. Now I see that I was wrong about you. Not all outsiders try to conquer or rob us. Thank you, my friend from Villa.}
+{1291}{}{Divine Brahmin must have helped you in this difficult task. Now I see that I was wrong about you. Not all outsiders try to conquer or rob us. Thank you, my friend from Villa.}
 {292}{}{You're welcome.}
 {293}{}{You mentioned a reward?}
 {294}{}{You deserve respect and reward. Take these old things that I took from wayward tribesmen. I'm sure you will find use for them.}

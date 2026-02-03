@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_DCBarmen
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_FLAGSTAFF   // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        11  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_FLAGSTAFF_CITIZEN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -55,7 +56,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
 
        if ((global_var(GVAR_GAME_END)>0) and (global_var(GVAR_TWOSUN_STATUS_ZAX)<0) and (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) >= qEnd)) then begin
        set_obj_visibility(self_obj, 0);
@@ -135,6 +136,7 @@ end
 
 procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 

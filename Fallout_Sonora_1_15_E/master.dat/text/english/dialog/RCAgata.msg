@@ -121,7 +121,7 @@
 
 {320}{}{Did you know the quartermaster's missing some weapons from the armory?}
 {321}{}{Yes. And of course, you're trying to sort out this mess, right? But you know what, that pack rat needs to clean up his dusty old storeroom. Because I don't believe for a second my cadets stole anything.}
-{322}{}{[Continue]}
+{322}{}{[More]}
 {323}{}{And I won't let anyone accuse them. Got it? Now, I need to get back to training.}
 {324}{}{Of course, no problem.}
 {325}{}{Yeah, sure.}

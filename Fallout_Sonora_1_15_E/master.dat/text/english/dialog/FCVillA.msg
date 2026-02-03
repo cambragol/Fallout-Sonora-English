@@ -5,9 +5,11 @@
 {103}{}{Traitor! You've been possessed by Diablo!}
 {1103}{}{Traitorous whore! You've been possessed by Diablo!}
 {104}{}{Now Sancho will never return to Villa.}
-{105}{}{Sancho returns to Villa.}
-{106}{}{Alright, if it must be done.}
+{105}{}{Sancho returns to the Villa. For saving him, you receive }
+{106}{}{Okay, if it must be so.}
 {107}{}{See you at the Villa, amigo.}
+{1107}{}{See you at the Villa, amiga.}
+{108}{}{ experience points.}
 
 #First dialogue
 {200}{}{? Is that you? It's a miracle! We thought we were done for.}
@@ -22,7 +24,7 @@
 {209}{}{Alright, let's go.}
 
 {210}{}{We were split up when we were first brought here. Some, including your madre, were left in the pen. The rest were taken out of Flagstaff; I haven't seen them since.}
-{211}{}{It was a stupid plan. We tried to dig a tunnel out to the wasteland and escape, but we needed explosives. We messed it up — the explosion collapsed the tunnel behind us.}
+{211}{}{It was a stupid plan. We tried to dig a tunnel out to the wasteland and escape, but we needed explosives. We messed it up  -  the explosion collapsed the tunnel behind us.}
 {212}{}{One of the slaves told us the collars don't work in the mine.}
 {213}{}{Just a deep, damp hole with giant rats everywhere. You won't find creatures like this at the Villa. They say there are even more. We were lucky to avoid them.}
 {214}{}{Why did the mercenaries bring you here?}

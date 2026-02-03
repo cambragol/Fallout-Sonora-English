@@ -292,7 +292,7 @@ procedure NodeQst105 begin
    setBonusReaction(50)
    exp_add(250);
    zReply(238)
-   NAnswer(239,1,Node999)
+   zNAnswer(239,1,Node999)
 end
 
 procedure NodeQst106 begin

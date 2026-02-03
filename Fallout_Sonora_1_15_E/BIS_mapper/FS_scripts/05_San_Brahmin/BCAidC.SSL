@@ -133,7 +133,7 @@ end
 
 procedure talk_p_proc begin
    if (get_Medic_Quest == 0) then begin
-   floater(self_obj,104,COLOR_MSG_NORMAL);
+   floater(self_obj,104,COLOR_MSG_RED);
    end
    else begin
    floater(self_obj,103,COLOR_MSG_NORMAL);

@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_TCBarter
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_CULT_TWOSUN        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -110,8 +111,9 @@ end
 
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
+       set_map_var(MVAR_TWOSUN_Alarma,0);
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -126,17 +128,18 @@ procedure setBarterA begin
         check_restock_item(PID_TOOL_LOCKPICKS_EL, 1, 2, 100)
         check_restock_item(PID_TOOL_NV_GLASSES, 2, 2, 100)
 
+        check_restock_item(PID_W_FLAMER, 1, 1, 100)
         check_restock_item(PID_W_CROWBAR, 1, 1, 100)
         check_restock_item(PID_W_COMBAT_KNIFE, 1, 1, 100)
-        check_restock_item(PID_W_THROWING_KNIFE, 1, 4, 100)
-        check_restock_item(PID_W_KNUCKLES_PNEUMATIC, 1, 3, 100)
+        check_restock_item(PID_W_THROWING_KNIFE, 7, 10, 100)
+        check_restock_item(PID_W_KNUCKLES_PNEUMATIC, 1, 2, 100)
         check_restock_item(PID_W_SPEAR_PNEUMATIC, 1, 2, 100)
         check_restock_item(PID_W_SLEDGEHAMMER, 1, 1, 100)
+           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
         check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
-           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 18, 36, 100)
 
         //- крышки
-        check_restock_many(1500,2500)
+        check_restock_many(2000,2500)
 end
 
 procedure setBarterB begin
@@ -148,13 +151,11 @@ procedure setBarterB begin
         end
         check_restock_item(PID_ARMOR_TESLA, 1, 1, 100)
         check_restock_item(PID_W_KNUCKLES_SHOCKER, 1, 1, 100)
+        check_restock_item(PID_W_LIGHT_AUTOGUN, 1, 1, 100)
         check_restock_item(PID_W_RIPPER, 1, 1, 100)
         check_restock_item(PID_W_HAMMER, 1, 1, 100)
         check_restock_item(PID_W_PLASMA_PISTOL, 1, 1, 100)
         check_restock_item(PID_W_LASER_RIFLE, 1, 1, 100)
-           if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) < qEnd) then begin
-           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 25, 50, 100)
-           end
 
    set_BarterDopusk;
 end
@@ -171,7 +172,12 @@ procedure timed_event_p_proc begin
    // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
    // Таймер за номером 2 зарезервирован под всплывающие реплики
    if (fixed_param == 1) then begin
+       if (map_var(MVAR_TWOSUN_Alarma)>0) then begin
+       timer_move_to_tile(1,map_var(MVAR_TWOSUN_Alarma),random(0,5))
+       end
+       else begin
        timer_move_to_home
+       end
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
@@ -180,6 +186,13 @@ end
 
 procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   if (map_var(MVAR_TWOSUN_Alarma)>0) then begin
+   if self_can_see_dude_bit then begin
+   if (tile_distance(dude_tile, map_var(MVAR_TWOSUN_Alarma)) <= 9) then begin
+      self_attack_dude;
+   end
+   end
+   end
 end
 
 procedure use_skill_on_p_proc begin
@@ -205,6 +218,7 @@ end
 
 procedure destroy_p_proc begin
    dec_global_var(GVAR_TWOSUN_STATUS_CTZN);
+   set_map_var(MVAR_TWOSUN_Alarma,0);
    kill_critter_opt
    kill_critter_box
    item_remove(self_obj, PID_GENERATOR_ENERGY, 1)
@@ -219,7 +233,13 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-25) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
 
+   if (map_var(MVAR_TWOSUN_Alarma)>0) then begin
+   floater(self_obj, 103, COLOR_MSG_RED);
+   end
+   else begin
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
+   end
 end
 
 procedure Node998 begin
@@ -312,7 +332,7 @@ end
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
-   if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B)) then begin
+   if ((bitDialog(bit_8) == 0) and ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C))) then begin
    Reply(102)
    end
    else begin
@@ -448,6 +468,7 @@ procedure NodeRepairArm2 begin
 end
 
 procedure NodeRepairArm3 begin
+   bitDialogExp(bit_8,0)
    setQuest(GVAR_PUERTO_POWER_ARMOR,qEnd);
    item_remove(dude_obj,PID_ARMOR_POWER_A,1)
    item_add(self_obj,PID_ARMOR_POWER_B,1)
@@ -512,11 +533,11 @@ procedure NodeRepairEnd begin
    play_sfx("FIXSTILL");
    PLAY_FADE
 
-//- Bike
-/*
-Changing the bike's appearance if it is on the same map
-Although you can't enter the hangar on a bike, you should consider this possibility for the future.
-*/
+   //- Байк
+   /*
+   Смена внешнего вида байка, если он находится на той же карте
+   Хотя на байке в ангар не заедешь, нужно учесть такую возможность на будущее.
+   */
    if (upNumber == 11) then begin
    set_global_var(GVAR_CAR_SPEED_UPGD,1);
    game_time_advance(ONE_GAME_HOUR*20);
@@ -536,37 +557,45 @@ end
 
 procedure NodeCoastCorrect begin
    /*
-   Comment:
-   I had to contrive such a complex formula,
-   because the engine does not correctly perceive multiplication by a negative number
-   (it resulted in huge numbers)
+   Комментарий:
+      пришлось исхитриться такой сложной формулой,
+      потому что движок некорректно воспринимает умножение на отрицательное число
+      (получались огромные числа)
    */
+   /*
    if (local_var(LVAR_Barter_Mod) > 0) then begin
    upCoast += (upCoast*(local_var(LVAR_Barter_Mod)))/100;
    end
    if (local_var(LVAR_Barter_Mod) < 0) then begin
    upCoast -= (upCoast*(local_var(LVAR_Barter_Mod)*(-1)))/100;
    end
+   */
+   if (difficulty_level == 2) then begin
+   upCoast += upCoast/2;
+   end
+   if (upCoast<0) then begin
+   upCoast := 1;
+   end
 end
 
 //--- ТОРГОВЛЯ
 
 /*
-{280}{}{Can I count on goods "for the worthy"?}
-{281}{}{Can I count on goods "for our own"?}
-{282}{}{After dismantling Master Hard, I have no choice but to trade with everyone. Here are all my goods.}
-{283}{}{A reasonable decision.}
-{284}{}{Did Master Hard add you to the list of trade partners?}
-{285}{}{Master Hard gave me access to basic types of goods.}
-{286}{}{[Trade 75] It is profitable to do business with me.}
-{287}{}{Perhaps. But your words alone are not enough.}
-{288}{}{It is a pity that you do not see your own benefit.}
-{289}{}{Okay, that is enough. Take a look at these beautiful pieces of technology and name your price.}
-{290}{}{I wish I could do it that way.}
-{291}{}{Only at Master Hard's discretion.}
-{292}{}{[Trade 100] I can be trusted.}
-{293}{}{Master Hard trusts me. Query his system.}
-{294}{}{Now that Master Hard is out of business, there's no point in you holding on to the goods.}
+{280}{}{Я могу расчитывать на товар "для достойных"?}
+{281}{}{Я могу расчитывать на товар "для своих"?}
+{282}{}{После демонтажа Мастера Харда мне ничего не остается, как торговать со всеми подряд. Вот весь мой товар.}
+{283}{}{Разумное решение.}
+{284}{}{Разве Мастер Хард добавил тебя в список торговых партнеров?}
+{285}{}{Мастер Хард дал мне допуск к основным видам товаров.}
+{286}{}{[Торговля 75] Со мной выгодно вести бизнес.}
+{287}{}{Возможно. Но одних твоих слов не достаточно.}
+{288}{}{Жаль, что ты не видишь своей выгоды.}
+{289}{}{Окей, этого достаточно. Взгляни на эти прекрасные предметы технологий и назови свою цену.}
+{290}{}{Вот так бы сразу.}
+{291}{}{Только по решению Мастера Харда.}
+{292}{}{[Торговля 100] Мне можно доверять.}
+{293}{}{Мастер Хард мне доверяет. Сделай запрос его системе.}
+{294}{}{Теперь, когда Мастер Хард не у дел, тебе нет смысла удерживать товар.}
 */
 
 procedure NodeBarter begin
@@ -596,7 +625,7 @@ procedure NodeBarter102 begin
 end
 
 procedure NodeBarter103 begin
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    Reply(243)
    end
    else begin
@@ -780,7 +809,6 @@ end
 
 procedure NodeQstBonus12 begin
    item_add(dude_obj,PID_W_PLASMA_PISTOL,1)
-   //item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,16)
    call NodeQstBonus20;
 end
 
@@ -793,12 +821,13 @@ end
 
 procedure NodeQstBonus14 begin
    item_add(dude_obj,PID_TOOL_STEALTH_BOY,1)
+   item_add(dude_obj,PID_TOOL_MOTION_SENSOR,1)
    item_add(dude_obj,PID_TOOL_NV_GLASSES,1)
    call NodeQstBonus20;
 end
 
 procedure NodeQstBonus15 begin
-   item_add(dude_obj,PID_TOOL_CAR_GAZ,1)
+   item_add(dude_obj,PID_TOOL_CAR_GAZ,2)
    call NodeQstBonus20;
 end
 

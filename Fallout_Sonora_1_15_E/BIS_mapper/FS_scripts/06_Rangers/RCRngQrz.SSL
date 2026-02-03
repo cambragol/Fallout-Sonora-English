@@ -34,6 +34,8 @@ procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
 procedure NodeFstDialog2;
+procedure NodeFstDialog2_1;
+procedure NodeFstDialog2_2;
 procedure NodeFstDialog3;
 procedure NodeFstDialog4;
 procedure NodeFstDialog5;
@@ -42,11 +44,10 @@ procedure NodeFstDialog7;
 procedure NodeFstDialog8;
 procedure NodeSndDialog;
 procedure NodeAnswer100;
-procedure NodeAnswer101;
-procedure NodeAnswer102;
 procedure NodeAnswer200;
 procedure NodeAnswer300;
 procedure NodeAnswer301;
+procedure NodeAnswer302set;
 procedure NodeAnswer302;
 procedure NodeAnswer303;
 procedure NodeAnswer304;
@@ -161,47 +162,57 @@ procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    zReply(200)
    if (getQuest(GVAR_RANGERS_QST_QUARTZ) > qZero) then begin
-   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(201,4,NodeFstDialog2)
    end
    if (getQuest(GVAR_RANGERS_QST_QUARTZMAP) > qZero) then begin
-   NAnswer(203,1,NodeFstDialog3)
+   NAnswer(203,4,NodeFstDialog3)
    end
-   NAnswer(205,1,NodeFstDialog4)
-   BAnswer(207,1,NodeFstDialog5)
+   NAnswer(205,4,NodeFstDialog4)
+   BAnswer(207,4,NodeFstDialog5)
+   GAnswer(270,-3,NodeFstDialog2_1)
+end
+
+procedure NodeFstDialog2_1 begin
+   Reply(271)
+   NAnswer(272,-3,NodeFstDialog2_2)
+end
+
+procedure NodeFstDialog2_2 begin
+   Reply(273)
+   NAnswer(274,-3,Node999)
 end
 
 procedure NodeFstDialog2 begin
    setBonusReaction(20)
    Reply(202)
-   NAnswer(209,1,NodeFstDialog6)
+   NAnswer(209,4,NodeFstDialog6)
 end
 
 procedure NodeFstDialog3 begin
    setBonusReaction(20)
    Reply(204)
-   NAnswer(209,1,NodeFstDialog6)
+   NAnswer(209,4,NodeFstDialog6)
 end
 
 procedure NodeFstDialog4 begin
    Reply(206)
-   NAnswer(209,1,NodeFstDialog6)
+   NAnswer(209,4,NodeFstDialog6)
 end
 
 procedure NodeFstDialog5 begin
    setBonusReaction(-40)
    Reply(208)
-   NAnswer(209,1,NodeFstDialog6)
+   NAnswer(209,4,NodeFstDialog6)
 end
 
 procedure NodeFstDialog6 begin
    Reply(210)
-   GAnswer(211,1,NodeFstDialog7)
-   BAnswer(212,1,NodeFstDialog8)
-   NAnswer(213,1,Node999)
+   GAnswer(211,4,NodeFstDialog7)
+   BAnswer(212,4,NodeFstDialog8)
 end
 
 procedure NodeFstDialog7 begin
-   setBonusReaction(20)
+   setBonusReaction(10)
    call Node999;
 end
 
@@ -220,81 +231,71 @@ procedure NodeSndDialog begin
    Reply(220)
    end
 
-   NAnswer(230,1,NodeAnswer100)
-   NAnswer(240,1,NodeAnswer200)
-   NAnswer(250,1,NodeAnswer300)
-   NAnswer(221,1,Node999)
+   if (map_var(MVAR_Quartz_GhoulDead)<6) then begin
+   NAnswer(230,4,NodeAnswer100)
+   end
+
+   if (gvar_bit(GVAR_RANGERS_BIT_FAMILY, bit_12) == 0) then begin
+   if (global_var(GVAR_HOLODISK_04) == 0) then begin
+   NAnswer(240,4,NodeAnswer200)
+   end
+   end
+
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(250,4,NodeAnswer300)
+   end else begin
+   call NodeAnswer302set;
+   end
+
+   NAnswer(221,4,Node999)
+   NAnswer(275,-3,Node999)
 end
 
 procedure NodeAnswer100 begin
-   if (dude_elevation == 2) then begin
-   Reply(237)
-   end
-   else begin
    Reply(232)
-   end
-   NAnswer(233,1,NodeAnswer101)
-   NAnswer(235,1,NodeAnswer102)
-   NAnswer(222,1,NodeSndDialog)
-end
-
-procedure NodeAnswer101 begin
-   Reply(234)
-   NAnswer(235,1,NodeAnswer102)
-   NAnswer(222,1,NodeSndDialog)
-end
-
-procedure NodeAnswer102 begin
-   Reply(236)
-   NAnswer(233,1,NodeAnswer101)
-   NAnswer(222,1,NodeSndDialog)
+   NAnswer(222,4,NodeSndDialog)
 end
 
 procedure NodeAnswer200 begin
    Reply(241)
-   NAnswer(222,1,NodeSndDialog)
+   NAnswer(222,4,NodeSndDialog)
 end
 
 procedure NodeAnswer300 begin
+   bitDialogExp(bit_2,0)
    Reply(251)
-   NAnswer(252,1,NodeAnswer301)
-   if (local_var(LVAR_Party_Status) == 0) then begin
-   NAnswer(254,1,NodeAnswer302)
-   end
-   NAnswer(222,1,NodeSndDialog)
+   call NodeAnswer302set;
+   NAnswer(222,4,NodeSndDialog)
 end
 
-procedure NodeAnswer301 begin
-   Reply(253)
+procedure NodeAnswer302set begin
    if (local_var(LVAR_Party_Status) == 0) then begin
       if (get_SLAVA >0) then begin
-      NAnswer(254,1,NodeAnswer302)
-      end
-      else begin
-      NAnswer(254,1,NodeAnswer303)
+      NAnswer(254,4,NodeAnswer302)
+      end else begin
+      NAnswer(254,4,NodeAnswer303)
       end
    end
-   NAnswer(222,1,NodeSndDialog)
 end
 
 procedure NodeAnswer302 begin
    Reply(255)
    NAnswerSkill(256,3,NodeAnswer305,SKILL_CONVERSANT,75,256,NodeAnswer304)
    if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
-   NAnswer(257,1,NodeAnswer305)
+   NAnswer(257,4,NodeAnswer305)
    end
-   NAnswer(222,1,NodeSndDialog)
+   NAnswer(222,4,NodeSndDialog)
 end
 
 procedure NodeAnswer303 begin
    Reply(258)
-   NAnswer(259,1,NodeSndDialog)
+   zNAnswer(259,4,NodeSndDialog)
 end
 
 procedure NodeAnswer304 begin
    Reply(260)
-   NAnswer(261,1,NodeSndDialog)
-   NAnswer(262,1,Node999)
+   NAnswer(261,4,NodeSndDialog)
+   NAnswer(262,4,Node999)
 end
 
 procedure NodeAnswer305 begin
@@ -302,6 +303,5 @@ procedure NodeAnswer305 begin
    setBonusReaction(20)
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
    Reply(263)
-   NAnswer(264,1,Node999)
-   NAnswer(265,1,Node999)
+   NAnswer(264,4,Node999)
 end

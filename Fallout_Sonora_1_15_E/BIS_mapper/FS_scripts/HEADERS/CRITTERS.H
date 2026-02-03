@@ -50,16 +50,18 @@
 #define set_BarterBoxProc(time)              selfBarterBoxGener                                \
                                              move_obj_inven_to_obj(selfBarterBoxObj,self_obj); \
                                              inven_unwield(self_obj);                          \
-                                             if (local_var(LVAR_Barter_Timer) < game_time) then begin \
+                                             set_BarterBoxLvar(time)                           \
+                                             if ((BOX_TILE>0) and (has_skill(dude_obj, SKILL_STEAL)<FLAG_STEAL)) then begin   \
+                                             move_obj_inven_to_obj(self_obj,selfBarterBoxObj); \
+                                             end
+
+#define set_BarterBoxLvar(time)              if (local_var(LVAR_Barter_Timer) < game_time) then begin \
                                                   call setBarterA;                             \
                                                   if (get_BarterDopusk != 0) then begin        \
                                                   call setBarterB;                             \
                                                   end                                          \
                                                   set_local_var(LVAR_Barter_Timer, time + game_time); \
                                              end                                               \
-                                             if ((BOX_TILE>0) and (has_skill(dude_obj, SKILL_STEAL)<FLAG_STEAL)) then begin   \
-                                             move_obj_inven_to_obj(self_obj,selfBarterBoxObj); \
-                                             end
 
 #define set_BarterDopusk                     set_lvar_bit_on(LVAR_Self_Flags, bit_10) \
 
@@ -232,63 +234,15 @@
                                     end                                         \
 */
 
-variable damage_amnt;
-
 #define set_damage_dude             if (source_obj == dude_obj) then begin      \
                                         if (self_TEAM == TEAM_PLAYER) then begin \
                                             off_enemy_dude;                     \
                                         end                                     \
                                         else if (fixed_param>0) then begin      \
                                             set_enemy_dude;                     \
-                                            set_damage_check                    \
-                                            if (damage_amnt > 0) then begin     \
-                                            inc_global_var_amt(GVAR_EXPOINT_COMBAT_CHECK,damage_amnt); \
                                             set_damage_fire                     \
-                                            end                                 \
                                         end                                     \
-                                        damage_amnt := 0;                       \
                                     end                                         \
-                                    //display_msg(" "+damage_amnt);               \
-
-//опыт = (урон*3) + ((урон*сопротивляемость) / 100)*3
-#define set_damage_check            damage_amnt := fixed_param;                 \
-                                        if (self_cur_hits <= 0) then begin      \
-                                        damage_amnt += self_cur_hits;           \
-                                        end                                     \
-                                        damage_amnt := damage_amnt*3;           \
-                                        if (damage_amnt>0) then begin           \
-                                            if (weapon_dmg_type(target_obj)>0) then begin \
-                                            damage_amnt += ((damage_amnt * get_critter_stat(self_obj, STAT_dmg_resist + weapon_dmg_type(target_obj))) / 100); \
-                                            end else begin                      \
-                                            damage_amnt += ((damage_amnt * get_critter_stat(self_obj, STAT_dmg_resist)) / 100); \
-                                            end                                 \
-                                        end                                     \
-                                        if (self_TEAM == TEAM_PLAYER) then begin \
-                                        damage_amnt := 0;                       \
-                                        end                                     \
-
-/*
-До версии 1.08 было так:
-
-#define set_damage_check            damage_amnt := fixed_param;                 \
-                                        if (self_cur_hits <= 0) then begin      \
-                                        damage_amnt += self_cur_hits;           \
-                                        end                                     \
-                                        damage_amnt := damage_amnt*3;           \
-                                        if (weapon_dmg_type(target_obj)>0) then begin \
-                                            if ((get_critter_stat(self_obj, STAT_dmg_resist+weapon_dmg_type(target_obj))/10)>0) then begin \
-                                            damage_amnt *= get_critter_stat(self_obj, STAT_dmg_resist+weapon_dmg_type(target_obj))/10;     \
-                                            end                                 \
-                                        end else begin                          \
-                                            if ((get_critter_stat(self_obj, STAT_dmg_resist)/10)>0) then begin \
-                                            damage_amnt *= get_critter_stat(self_obj, STAT_dmg_resist)/10;     \
-                                            end                                 \
-                                        end                                     \
-                                        if (self_TEAM == TEAM_PLAYER) then begin \
-                                        damage_amnt := 0;                       \
-                                        end                                     \
-
-*/
 
 #define set_damage_fire             if (weapon_dmg_type(target_obj) == DMG_fire) then begin \
                                         if ((critter_is_fleeing(self_obj) == false) and (self_cur_hits>0)) then begin \
@@ -304,7 +258,7 @@ variable damage_amnt;
 /*
 Увы, set_damage_EMP не работает.
    Во-первых, функция set_critter_stat действует только в отношении ГГ и не действует в отношении нпс.
-   Во-вторых, функция не срабатывает, если урон оказался без потери хотя бы 1 ОЗ, но ЭМИ не действует на живых нпс.
+   Во-вторых, функция не срабатывает, если урон оказался без потери хотя бы 1 ОЗ, при этом ЭМИ не действует на живых нпс.
 */
 #define set_damage_EMP              if (weapon_dmg_type(target_obj) == DMG_emp) then begin   \
                                        if (lvar_bit(LVAR_Self_Flags, bit_8) == 0) then begin \
@@ -411,7 +365,7 @@ variable damage_amnt;
                                                  display_msg(self_name+g_mstr(321));            \
                                                  g_floater(self_obj,322,COLOR_MSG_RED);         \
                                                  play_sfx("HMXXXXCH");                          \
-                                                 critter_heal(self_obj,self_max_hits/15);       \
+                                                 critter_heal(self_obj,self_max_hits/random(5,10)); \
                                                  critter_uninjure(self_obj, (DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT)); \
                                                  reg_anim_clear(self_obj);                      \
                                                  reg_anim_begin();                              \
@@ -553,10 +507,10 @@ variable damage_amnt;
 
 #define invisToDude(hexBns,msg)          variable ItemDudeHend;                 \
                                          if (self_elevation == dude_elevation) then begin \
-                                           ItemDudeHend := 5+dude_perception;     \
-                                           if (hexBns!=0) then begin              \
-                                           ItemDudeHend += hexBns;                \
+                                           if (hexBns>0) then begin               \
+                                           ItemDudeHend := hexBns;                \
                                            end                                    \
+                                           ItemDudeHend += dude_perception;       \
                                            if (self_visible == false) then begin  \
                                             if (inven_hand_R(dude_obj) > 0) then begin \
                                                if (obj_pid(inven_hand_R(dude_obj)) == PID_TOOL_MOTION_SENSOR) then begin \
@@ -727,10 +681,6 @@ variable damage_amnt;
                                             critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER); \
                                             set_local_var(LVAR_Flags,0);                                  \
                                             off_enemy_dude;                                               \
-                                            if (lvar_bit(LVAR_Self_Flags, bit_13) == 0) then begin        \
-                                            exp_add(3*x);                                                 \
-                                            set_lvar_bit_on(LVAR_Self_Flags, bit_13);                     \
-                                            end                                                           \
                                             g_display_mstr(502);                                          \
                                             dude_floater_OK;                                              \
                                             end                                                           \
@@ -1188,10 +1138,12 @@ itemTypeUseDude фиксирует успех применения предме�
                                     else if type_kill(KILL_TYPE_ghoul) then begin   \
                                     end                                             \
                                     else if type_kill(KILL_TYPE_robot) then begin   \
-                                        if ((random(0,2) == 1) or (self_PID == PID_ROBOT_ARMY)) then begin      \
+                                        if ((random(0,100)<=20) or (self_PID == PID_ROBOT_ARMY)) then begin \
                                         item_add(self_obj,PID_TOOL_PARTS_ELECTRONIC,1) \
                                         end                                         \
-                                        item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,1+random(1,dude_luck)) \
+                                        if ((random(0,100)<=20) or (self_PID == PID_ROBOT_ARMY)) then begin \
+                                        item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,1) \
+                                        end                                         \
                                     end                                             \
                                     else if type_kill(KILL_TYPE_brahmin) then begin \
                                         item_add(self_obj,PID_M_MEAT_JERKY,random(3,6)) \
@@ -1256,26 +1208,11 @@ itemTypeUseDude фиксирует успех применения предме�
                                        end                                          \
                                     end                                             \
 
-#define kill_critter_Ant_items      if (random(0,2) == 0) then begin                \
-                                       if (random(0,1) == 0) then begin             \
-                                       item_add(self_obj,PID_AMMO_308,1)            \
-                                       end else begin                               \
-                                       item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,1) \
-                                       end                                          \
-                                    end                                             \
-                                    else if (random(0,1) == 0) then begin           \
-                                       if (random(0,1) == 0) then begin             \
-                                       item_add(self_obj,PID_AMMO_44_MAGNUM,1)      \
-                                       end else begin                               \
-                                       item_add(self_obj,PID_AMMO_10_MM,1)          \
-                                       end                                          \
+#define kill_critter_Ant_items      if (random(0,1) == 0) then begin                \
+                                       item_add(self_obj,PID_BOOTLE_CAPS,1)         \
                                     end                                             \
                                     else begin                                      \
-                                       if (random(0,1) == 0) then begin             \
-                                       item_add(self_obj,PID_BOOTLE_CAPS,1)         \
-                                       end else begin                               \
                                        item_add(self_obj,PID_W_BROCK,1)             \
-                                       end                                          \
                                     end                                             \
 
 #define kill_critter_BoS_item       item_add(self_obj,PID_BOS_ARMY_TAG,1)           \

@@ -5,7 +5,7 @@
 
 #First dialogue
 {200}{}{(As you approach the bar, you notice the wariness in the eyes of the bartender and the surrounding patrons.) What do ya want?}
-{201}{}{I'd like black coffee and a cinnamon bun, please.}
+{201}{}{Do you have wasteland coffee and pickled cactus tacos?}
 {202}{}{(the wariness of others gives way to bewilderment and laughter) I don't have anything like that. Do you really have any idea where you are?}
 {203}{}{Well then, I want to know more about this place.}
 {204}{}{Just wanted to take a look. Your establishment is interesting.}
@@ -42,7 +42,7 @@
 {243}{}{No, no problem, sir. I'm a regular visitor.}
 {1243}{}{No, no problem, sir. I'm just a regular visitor.}
 {244}{}{I think bars are just for brawling.}
-{245}{}{Then remember a simple rule. If someone decides to make a commotion here, they will immediately end up on the street and won't be back.}
+{245}{}{Then remember a simple rule. You make a scene here, and you'll be out on the street and won't be back.}
 {246}{}{I understand. No problem, sir.}
 {247}{}{Don't threaten me. Otherwise I'll get angry. You won't like me angry.}
 
@@ -113,7 +113,7 @@
 {306}{}{No need to be so rude, bartender.}
 {307}{}{Why don't you ask them about it?}
 {308}{}{What's going on around here?}
-{309}{}{Nothing special. The city is impoverished, and no one knows what to do about it.}
+{309}{}{Nothing special. The city is dying, and no one knows what to do about it.}
 {310}{}{The good news is that the cartel has finally got one of the factories up and running. This will breathe life into a dying city.}
 {311}{}{Why do you live in such terrible huts?}
 {312}{}{You can find better houses among the local ruins.}

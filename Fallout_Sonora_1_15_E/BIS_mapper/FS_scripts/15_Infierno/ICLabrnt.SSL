@@ -102,7 +102,10 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   if town_rep_is_liked then begin
+   if (global_var(GVAR_TITUL_REBIRTH) > 0) then begin
+   floater(self_obj,random(130,136),COLOR_MSG_GREEN);
+   end
+   else if town_rep_is_liked then begin
    floater(self_obj,random(120,129),COLOR_MSG_GREEN);
    end
    else begin

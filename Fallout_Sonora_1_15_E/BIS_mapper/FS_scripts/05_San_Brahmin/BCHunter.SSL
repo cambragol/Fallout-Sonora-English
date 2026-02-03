@@ -194,13 +194,13 @@ end
 
 procedure NodeSndDialog begin
    if (getReaction>=25) then begin
-   Reply(222)
+   zReply(222)
    end
    else if (getReaction<0) then begin
-   Reply(221)
+   zReply(221)
    end
    else begin
-   Reply(220)
+   zReply(220)
    end
 
    if (getQuest(GVAR_BRAHMIN_QST_OASIS) == qZero) then begin

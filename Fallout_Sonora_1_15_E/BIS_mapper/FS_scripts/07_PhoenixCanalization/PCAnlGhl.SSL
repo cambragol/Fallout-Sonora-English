@@ -76,7 +76,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   invisToDude(0,0) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
+   invisToDude(5,0) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
    if (bitDialog(bit_1) == 0) then begin
    if self_can_see_dude then begin
    dialogue_system_forcing(5)

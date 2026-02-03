@@ -89,21 +89,10 @@ end
 
 procedure damage_p_proc begin
    set_damage_dude
-   else if (map_var(MVAR_FLAGMINE_RAT_EXP)>0) then begin
-      if (fixed_param>0) then begin
-         set_damage_check
-         if (damage_amnt > 0) then begin
-         inc_global_var_amt(GVAR_EXPOINT_COMBAT_CHECK,damage_amnt);
-         end
-         damage_amnt := 0;
-      end
-      set_map_var(MVAR_FLAGMINE_RAT_EXP,0);
-   end
 end
 
 procedure destroy_p_proc begin
    set_global_var(GVAR_FLAGSTAFF_RAT_KING_LIFE,-1);
-   set_map_var(MVAR_FLAGMINE_RAT_EXP,0);
    kill_critter_opt
    item_add(self_obj,PID_TOOTHS_RAT_KING,2)
    kill_critter_dude_reply(102,0)

@@ -150,8 +150,13 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
+   if (getQuest(GVAR_BRAHMIN_ATTAK) == qStart) then begin
+   floater(self_obj,103,COLOR_MSG_NORMAL);
+   end
+   else begin
    setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
 end
 
 procedure Node998 begin

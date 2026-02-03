@@ -140,7 +140,7 @@ end
 
 procedure Node999 begin
    if ((bitDialog(bit_2) != 0) and (bitDialog(bit_3) != 0) and (bitDialog(bit_4) != 0)) then begin
-      set_local_var(LVAR_Home_Tile,29348);
+      set_local_var(LVAR_Home_Tile,27533);
       set_local_var(LVAR_Invis_Flag,1);
       rm_timer_event(self_obj);
       add_timer_event(self_obj, 10, 1);

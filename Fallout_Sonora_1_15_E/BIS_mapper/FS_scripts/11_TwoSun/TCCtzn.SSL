@@ -35,6 +35,8 @@ procedure talk_p_proc;
 
 //#define LVAR_Flag_A                     (6) // отвечает за ...
 
+import variable box_stop_use;
+
 variable replyFloat;
 
 //---------------------
@@ -107,7 +109,7 @@ procedure replyfloat_proc begin
        end
 
        if (replyFloat == 119) then begin
-           if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+           if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
            replyFloat += 1;
            end
            else if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
@@ -143,6 +145,7 @@ procedure replyfloat_proc begin
 end
 
 procedure critter_p_proc begin
+   set_using_stop
    set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 

@@ -154,7 +154,7 @@ procedure NodeFstDialog begin
 end
 
 procedure NodeFstDialog2 begin
-   Reply(203)
+   zReply(203)
    NAnswer(mstr(204)+dude_name+mstr(205),1,NodeFstDialog3)
 end
 

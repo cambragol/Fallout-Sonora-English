@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_GCDed
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE   // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения от 1 до 10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_GARAGE_CITIZEN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -114,7 +115,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -180,6 +181,7 @@ end
 
 procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 

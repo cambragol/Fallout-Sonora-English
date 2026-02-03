@@ -34,13 +34,14 @@
 
 {240}{}{Damn it! Why did the Followers have to fall like this, just when business started booming?}
 {241}{}{Were they that important to your caravan?}
-{242}{}{After the Followers, no one will want to do business with me. We only worked with them. Plus, without the Followers, the Tinsmiths will likely reduce their output. Hell, the entire economy of Phoenix might collapse because of some ridiculous explosion. What the hell happened to them there?}
+{242}{}{We only worked with them! And now, with the Followers gone, no one will want to do business with me. Now the Tinsmiths will probably reduce their output. Hell, the entire economy of Phoenix might collapse. How did this happen?}
 {243}{}{Who knows? I generally mind my own business. Bye.}
 {244}{}{I had nothing to do with this! It's definitely not because of me.}
-{245}{}{Well of course. As if the Followers could be taken out by some ordinary wastelander. Oh well.}
+{245}{}{Well of course. As if the Followers could be taken out by some ordinary wastelander. Damn.}
+{1245}{}{Well of course. As if the Followers could be taken out by some ordinary wastelander. Damn.}
 {246}{}{Whew, I thought for a second you uh... suspected me. That's a relief. Welp, bye.}
-{247}{}{Do you think maybe they blew themselves up?}
-{248}{}{Well, that's one theory. They were advanced with all this nuclear tech. Rumor has it they were assembling a nuke in the cathedral's basement. Maybe something went wrong - and this is the result.}
+{247}{}{Well, they didn't blow themselves up, did they?}
+{248}{}{Exactly. They were too clever for that. Their enemies probably did it. And now we'll all have to suffer the fallout!}
 {249}{}{But why does this bother you so much? Did your caravan depend on the temple?}
 
 {250}{}{I'm looking for some slaves. They were brought from the Flagstaff colony.}

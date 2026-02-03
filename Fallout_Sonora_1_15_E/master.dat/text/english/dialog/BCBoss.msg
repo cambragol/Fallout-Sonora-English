@@ -27,6 +27,7 @@
 {214}{}{I'll talk to him.}
 {215}{}{Me and the rest of the Villa, we have no intention of participating in this war.}
 {216}{}{Then, you should remember that you are an uninvited guest in our lands. Stay out of our way if you are not going to help.}
+{1216}{}{Then, you should remember that you are an uninvited guest in our lands. Stay out of our way if you are not going to help.}
 {217}{}{Okay. I'll head out soon.}
 {218}{}{You can stay at camp for now. Go.}
 {219}{}{Goodbye, Chief.}
@@ -36,6 +37,7 @@
 {223}{}{Where do I start?}
 {224}{}{Speak to your brother ranger, Oscar. He stays in a hut near the sanctuary.}
 {225}{}{I'll do that, Chief.}
+{226}{}{My village suffered at the hands of slavers recently. Now I'm trying to find a way to protect it.}
 
 #Re-dialogue
 {230}{}{You test our patience in vain. Watch your tongue or you will become enemy of our tribe.}
@@ -80,6 +82,8 @@
 {265}{}{Thanks.}
 {266}{}{I hope your search for your missing kin will meet great success. To this I tell you, our scouts report that a group of slaves were seen being herded toward Flagstaff. Look there.}
 {267}{}{Thanks, Chief.}
+{268}{}{I hope your search for protectors for your Villa will have great success.}
+{269}{}{I hope your search for your missing tribesmen will meet great success. To this I tell you, our scouts report that a group of slaves were seen being herded toward Flagstaff. Look there.}
 
 {270}{}{I think you should reopen the caravan route to Garage City.}
 {271}{}{All roads and trade routes with the Phoenix colonies are closed. This is the Council of Elders' decision.}

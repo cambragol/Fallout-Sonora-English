@@ -1,5 +1,5 @@
 {100}{}{You see a colonist.}
-{101}{}{You see a citizen of Flagstaff.}
+{101}{}{You see a citizen of the colony.}
 {102}{}{What are you doing out after curfew?}
 {103}{}{I have better things to do than chat with strangers.}
 {104}{}{Don't push me. I'm not myself since my son died.}

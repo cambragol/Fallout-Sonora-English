@@ -162,8 +162,8 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   if (item_amnt(self_obj, PID_AMMO_5_MM) < 20) then begin
-   item_add(self_obj,PID_AMMO_5_MM,20) // в пачке 5 патронов
+   if (item_amnt(self_obj, PID_AMMO_5_MM) < 4) then begin
+   item_add(self_obj,PID_AMMO_5_MM,4)
    end
    effectAttak(0,0,0,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
 end
@@ -220,6 +220,7 @@ end
 
 procedure Node999 begin
    set_map_var(MVAR_PnxVlt_Alarm,0);
+   set_map_var(MVAR_PnxVlt_OwrTrap,0);
    set_map_var(MVAR_PnxVlt_Dopusk,1);
 end
 
@@ -612,7 +613,7 @@ end
 
 procedure NodeQst101 begin
    Reply(355)
-   NAnswer(356,1,NodeQst102)
+   zNAnswer(356,1,NodeQst102)
 end
 
 procedure NodeQst102 begin
@@ -664,7 +665,7 @@ procedure NodeDopusk begin
    NAnswer(304,1,NodeDopusk2)
    end
    if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
-   NAnswer(305,1,NodeDopusk2)
+   zNAnswer(305,1,NodeDopusk2)
    end
    NAnswerSkill(306,1,NodeDopusk2,SKILL_CONVERSANT,40,306,NodeDopusk3)
    NAnswer(307,1,Node999)
@@ -672,6 +673,7 @@ end
 
 procedure NodeDopusk2 begin
    item_add(dude_obj,PID_KEY_VAULT25_YLW,1)
+   set_map_var(MVAR_PnxVlt_OwrTrap, 0);
    bitDialogExp(bit_4,100)
    Reply(308)
    NAnswer(309,1,Node999)
@@ -684,7 +686,7 @@ procedure NodeDopusk3 begin
    NAnswer(304,1,NodeDopusk2)
    end
    if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
-   NAnswer(305,1,NodeDopusk2)
+   zNAnswer(305,1,NodeDopusk2)
    end
    NAnswer(307,1,Node999)
 end

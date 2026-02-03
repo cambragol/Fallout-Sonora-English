@@ -5,6 +5,8 @@
 {103}{}{I have shoes.}
 {104}{}{Wow, thanks a lot!}
 {105}{}{Changing shoes makes a child happy.}
+{106}{}{You received a (}
+{107}{}{).}
 
 {200}{}{(On the side of the street, you spot a kid with a wild, unkempt look. His clothes are ragged and stained, and he's tossing a small metal object in his hand, watching your reaction intently. It looks suspiciously like a grenade.)}
 {201}{}{Hey boy. Do you know that thing is dangerous?}

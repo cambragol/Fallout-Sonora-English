@@ -33,24 +33,24 @@ procedure talk_p_proc;
 procedure Node998;
 procedure Node999;
 procedure NodeStartDialog;
-procedure NodeFstDialog;
-procedure NodeFstDialog2;
-procedure NodeFstDialog3;
-procedure NodeFstDialog4;
-procedure NodeFstDialog5;
-//procedure NodeFstDialog6;
-//procedure NodeFstDialog7;
-procedure NodeFstDialogEnd;
-procedure NodeFstDialogEnd2;
-procedure NodeFstDialogEnd3;
-procedure NodeFstDialogEnd4;
-procedure NodeFstDialogEnd5;
-procedure NodeFstDialogEnd6;
-procedure NodeFstDialogEnd7;
-procedure NodeFstDialogEnd8;
-procedure NodeFstDialogEnd9;
-procedure NodeFstDialogEnd10;
-procedure NodeFstDialogEnd11;
+procedure NodeFstDialog101;
+procedure NodeFstDialog102;
+procedure NodeFstDialog103;
+procedure NodeFstDialog104;
+procedure NodeFstDialog105;
+procedure NodeFstDialog201;
+procedure NodeFstDialog202;
+procedure NodeFstDialog202b;
+procedure NodeFstDialog203;
+procedure NodeFstDialog204;
+procedure NodeFstDialog205;
+procedure NodeFstDialog301;
+procedure NodeFstDialog302;
+procedure NodeFstDialog303;
+procedure NodeFstDialog304;
+procedure NodeFstDialog305;
+procedure NodeFstDialog306;
+procedure NodeFstDialog307;
 procedure NodeSndDialog;
 
 //---------------------
@@ -67,6 +67,9 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
+       set_obj_visibility(self_obj, 1);
+       end
    end
 end
 
@@ -106,7 +109,6 @@ procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
    if (itemTypeUseDude == 2) then begin
       if (bitDialog(bit_3) == 0) then begin
-      set_REP(1)
       bitDialogExp(bit_3,0)
       end
    end
@@ -126,7 +128,7 @@ end
 
 procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-   dialog_proc(1,0,NodeStartDialog,-1,-1)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
 end
 
 procedure Node998 begin
@@ -139,10 +141,10 @@ end
 procedure NodeStartDialog begin
    if (bitDialog(bit_1) == 0) then begin
       if (bitDialog(bit_3) == 0) then begin
-      call NodeFstDialog;
+      call NodeFstDialog101;
       end
       else begin
-      call NodeFstDialogEnd;
+      call NodeFstDialog201;
       end
    end
    else begin
@@ -150,140 +152,141 @@ procedure NodeStartDialog begin
    end
 end
 
-procedure NodeFstDialog begin
+procedure NodeFstDialog101 begin
    if (map_var(MVAR_FLAG_Huligan) >0) then begin
    Reply(203)
-   end else begin
+   end
+   else if (global_var(GVAR_STATUS_FLAGSTAFF_FABER)<0) then begin
+   zReply(214)
+   end
+   else if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   Reply(213)
+   end
+   else begin
    zReply(202)
    end
 
-   /*
-   if (item_amnt(dude_obj,PID_M_TEQUILA) >0) then begin
-   NAnswer(224,1,NodeFstDialog7)
-   end
-   if (item_amnt(dude_obj,PID_M_BEER) >0) then begin
-   NAnswer(223,1,NodeFstDialog6)
-   end
-   */
-
-   NAnswer(220,1,NodeFstDialog5)
+   NAnswer(220,4,NodeFstDialog105)
    if (bitDialog(bit_2) == 0) then begin
-   BAnswer(204,1,NodeFstDialog2)
+   BAnswer(204,4,NodeFstDialog102)
    end else begin
-   NAnswer(204,1,Node999)
+   NAnswer(204,4,Node999)
    end
+   NAnswer(260,-3,Node999)
 end
 
-procedure NodeFstDialog2 begin
+procedure NodeFstDialog102 begin
    Reply(205)
-   BAnswer(206,1,NodeFstDialog3)
-   NAnswer(207,1,Node999)
+   BAnswer(206,4,NodeFstDialog103)
+   NAnswer(207,4,Node999)
 end
 
-procedure NodeFstDialog3 begin
+procedure NodeFstDialog103 begin
    Reply(208)
-   BAnswer(209,1,NodeFstDialog4)
-   NAnswer(210,1,Node999)
+   BAnswer(209,4,NodeFstDialog104)
+   NAnswer(210,4,Node999)
 end
 
-procedure NodeFstDialog4 begin
+procedure NodeFstDialog104 begin
    bitDialogExp(bit_2,0)
    set_REP(-1)
-   set_SLAVA(-2)
-   setBonusReaction(-40)
+   set_SLAVA(-1)
+   setBonusReaction(-20)
    zReply(211)
-   NAnswer(212,1,Node999)
+   NAnswer(212,4,Node999)
 end
 
-procedure NodeFstDialog5 begin
+procedure NodeFstDialog105 begin
    zReply(221)
-   NAnswer(222,1,Node999)
+   NAnswer(222,4,Node999)
 end
 
-/*
-procedure NodeFstDialog6 begin
-   item_remove(dude_obj, PID_M_BEER, 1)
-   call NodeFstDialogEnd;
-end
-
-procedure NodeFstDialog7 begin
-   item_remove(dude_obj, PID_M_TEQUILA, 1)
-   call NodeFstDialogEnd;
-end
-*/
-
-procedure NodeFstDialogEnd begin
+procedure NodeFstDialog201 begin
    bitDialogExp(bit_1,100)
-   set_REP(1)
-   setBonusReaction(20)
+   setBonusReaction(50)
    Reply(225)
-   NAnswer(226,1,NodeFstDialogEnd2)
+   NAnswer(226,4,NodeFstDialog202)
+   NAnswer(261,-3,NodeFstDialog202b)
 end
 
-procedure NodeFstDialogEnd2 begin
+procedure NodeFstDialog202 begin
    Reply(227)
-   NAnswer(228,1,NodeFstDialogEnd3)
+   NAnswer(228,4,NodeFstDialog203)
 end
 
-procedure NodeFstDialogEnd3 begin
+procedure NodeFstDialog202b begin
+   Reply(262)
+   NAnswer(263,-3,NodeFstDialog301)
+end
+
+procedure NodeFstDialog203 begin
    Reply(229)
-   NAnswer(230,1,NodeFstDialogEnd4)
-   NAnswer(231,1,NodeFstDialogEnd5)
+   NAnswer(230,4,NodeFstDialog204)
+   BAnswer(231,4,NodeFstDialog205)
 end
 
-procedure NodeFstDialogEnd4 begin
+procedure NodeFstDialog204 begin
    Reply(232)
-   NAnswer(233,1,NodeFstDialogEnd6)
+   NAnswer(233,4,NodeFstDialog301)
 end
 
-procedure NodeFstDialogEnd5 begin
+procedure NodeFstDialog205 begin
+   setBonusReaction(-10)
    Reply(234)
-   NAnswer(235,1,NodeFstDialogEnd6)
+   NAnswer(233,4,NodeFstDialog301)
 end
 
-procedure NodeFstDialogEnd6 begin
-   Reply(236)
-   NAnswer(237,1,NodeFstDialogEnd7)
-end
-
-procedure NodeFstDialogEnd7 begin
-   Reply(238)
-   NAnswer(239,1,NodeFstDialogEnd8)
-   NAnswer(241,1,NodeFstDialogEnd9)
-   NAnswer(246,1,NodeFstDialogEnd11)
-   //NAnswer(243,1,NodeFstDialogEnd10)
-end
-
-procedure NodeFstDialogEnd8 begin
+procedure NodeFstDialog301 begin
    Reply(240)
-   NAnswer(241,1,NodeFstDialogEnd9)
-   NAnswer(246,1,NodeFstDialogEnd11)
-   NAnswer(243,1,NodeFstDialogEnd10)
+   NAnswer(241,0,NodeFstDialog302)
 end
 
-procedure NodeFstDialogEnd9 begin
+procedure NodeFstDialog302 begin
    Reply(242)
-   NAnswer(239,1,NodeFstDialogEnd8)
-   NAnswer(246,1,NodeFstDialogEnd11)
-   NAnswer(243,1,NodeFstDialogEnd10)
+   NAnswer(243,4,NodeFstDialog303)
+   NAnswer(264,-3,NodeFstDialog303)
 end
 
-procedure NodeFstDialogEnd10 begin
+procedure NodeFstDialog303 begin
    Reply(244)
-   NAnswer(245,1,Node999)
+   NAnswer(245,4,NodeFstDialog304)
+   NAnswer(248,4,NodeFstDialog305)
+
+   NAnswer(265,-3,NodeFstDialog304)
+   NAnswer(266,-3,NodeFstDialog305)
 end
 
-procedure NodeFstDialogEnd11 begin
-   Reply(247)
-   NAnswer(239,1,NodeFstDialogEnd8)
-   NAnswer(241,1,NodeFstDialogEnd9)
-   NAnswer(243,1,NodeFstDialogEnd10)
+procedure NodeFstDialog304 begin
+   //решение против карла
+   set_REP(1)
+   set_SLAVA(-5)
+   setBonusReaction(50)
+   Reply(246)
+   NAnswer(247,4,NodeFstDialog306)
+   NAnswer(267,-3,NodeFstDialog307)
+end
+
+procedure NodeFstDialog305 begin
+   //решение за карла
+   set_REP(-1)
+   set_SLAVA(5)
+   setBonusReaction(50)
+   Reply(249)
+   NAnswer(250,4,NodeFstDialog306)
+   NAnswer(267,-3,NodeFstDialog307)
+end
+
+procedure NodeFstDialog306 begin
+   Reply(251)
+   NAnswer(252,4,Node999)
+end
+
+procedure NodeFstDialog307 begin
+   Reply(268)
+   NAnswer(269,-3,Node999)
 end
 
 procedure NodeSndDialog begin
    Reply(200)
-   if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) < qEnd) then begin
-   NAnswer(248,1,NodeFstDialogEnd6)
-   end
-   NAnswer(201,1,Node999)
+   NAnswer(201,0,Node999)
 end

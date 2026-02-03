@@ -5,6 +5,7 @@
 
 # First dialogue
 {200}{}{Hello, Guerrero. So we owe this strong union to you? You're the best of the best. But now you can relax and return to your former life. We, the Rangers, will keep peace and order in and around the Villa.}
+{1200}{}{Hello, Guerrero. So we owe this strong union to you? You're the best of the best. But now you can relax and return to your former life. We, the Rangers, will keep peace and order in and around the Villa.}
 {201}{}{I thought they would send more rangers here.}
 {1201}{}{I thought they would send more rangers here.}
 {202}{}{Don't worry, I'm not alone. The rest are patrolling and scouting the area. If needed, I can call them by radio.}

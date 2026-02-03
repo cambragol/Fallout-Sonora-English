@@ -39,15 +39,15 @@ end
 
 procedure repair_proc begin
    if (has_skill(dude_obj, SKILL_REPAIR) >= 100) then begin
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,20)
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,3)
    RepairProcRepair(114,0,"FIXSTILL")
    end
-   else if (has_skill(dude_obj, SKILL_REPAIR) >= 60) then begin
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,16)
+   else if (has_skill(dude_obj, SKILL_REPAIR) >= 50) then begin
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,2)
    RepairProcRepair(113,0,"FIXSTILL")
    end
    else begin
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,8)
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,1)
    RepairProcRepair(112,0,"FIXSTILL")
    end
 end

@@ -17,6 +17,7 @@
 {111}{}{You're a big guy. You're not going to break the rest of my ribs, are you?}
 
 {200}{}{Hail to our savior!}
+{1200}{}{Hail to our savior!}
 {201}{}{Take care.}
 {202}{}{During treatment, you were wary of pre-war medicine. Why?}
 {203}{}{Our ancestors always told us not to trust anything from the Old World. Said it was cursed by spirits and full of danger. But one of those things just saved my life. Now I'm wondering... am I cursed?}
@@ -24,7 +25,7 @@
 {205}{}{That outsider sure knows what they're doing. I've never felt this good after being sick! But the ancestors always warned us about trusting Old World things. Now people are going to think I'm cursed or something!}
 {206}{}{At least you survived. Now rest.}
 {207}{}{How are you feeling after the treatment?}
-{208}{}{I thought I was a done for. But now I feel fine. You perform miracles. In the past, anyone who broke a bone rarely survived. How did we not see your gift before?}
+{208}{}{I thought I was a done for. But now I feel fine. You perform... miracles! How did we not see your gift before?}
 {209}{}{The important thing is that you're alive. Now rest.}
 
 {210}{}{What do you know about the world outside the Villa?}
@@ -35,3 +36,7 @@
 {215}{}{Do you know anyone who has been outside the Villa?}
 {216}{}{What... from the Villa?! Who would leave their home and venture out into the scorching desert?}
 {217}{}{Well, yes, um, I have to practice my skills on someone. Gotta go.}
+
+# low int
+{218}{}{Eh!}
+{219}{}{Go now.}

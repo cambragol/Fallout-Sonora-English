@@ -1,5 +1,7 @@
-{100}{}{You see a guard in front of you.}
-{101}{}{You see one of the guild's mercenaries. She's watching you closely.}
+{100}{}{You see a guard.}
+{1100}{}{You see a guard.}
+{101}{}{You see one of the guild's mercenaries. He's watching you closely.}
+{1101}{}{You see one of the guild's mercenaries. She's watching you closely.}
 
 {110}{}{Bruce's got a temper tougher than old boots.}
 {111}{}{Bruce doesn't just keep order, he *enforces* it.}

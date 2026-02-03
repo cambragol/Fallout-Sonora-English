@@ -213,12 +213,12 @@ end
 procedure talk_p_proc begin
    if (map_var(MVAR_ROADWAR_DOPUSK) > 0) then begin
    setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-   fracReaction(GVAR_TITUL_WARRIOR_ROAD,40) // Поправка к отношению за принадлежность к фракциям
+   fracReaction(GVAR_TITUL_WARRIOR_ROAD,50) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-50) // Поправка к отношению за принадлежность к фракциям
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else begin
-   floater(self_obj,102,COLOR_MSG_RED);
+   z_floater(self_obj,102,COLOR_MSG_RED);
    end
 end
 
@@ -271,7 +271,7 @@ procedure NodeStopDialog101 begin
    NAnswer(201,1,NodeStopDialog102)
    end
    else begin
-   Reply(205)
+   zReply(205)
    BAnswer(206,1,NodeStopDialog103)
    NAnswer(208,1,NodeStopDialog104)
    end
@@ -325,7 +325,7 @@ procedure NodeFstDialog102 begin
 end
 
 procedure NodeFstDialog103 begin
-   Reply(225)
+   zReply(225)
    NAnswer(226,1,NodeAnswer100)
 end
 
@@ -628,7 +628,6 @@ procedure NodeAnswer310 begin
 end
 
 procedure NodeAnswer311 begin
-   // fixed 343 to 344 - it was using the PCs 'why' answer instead of proper response - cambragol
    Reply(344)
    NAnswer(345,1,NodeAnswer312)
 end

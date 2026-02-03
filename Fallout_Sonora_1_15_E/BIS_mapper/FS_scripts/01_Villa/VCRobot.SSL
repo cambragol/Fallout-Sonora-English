@@ -94,10 +94,8 @@ procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 
    if (self_TEAM == TEAM_PLAYER) then begin
-      if (cur_map_index == MAP_PHOENIX_BNDCS) then begin
-         if (map_var(MVAR_PNX_RING_START) == 1) then begin
-            call NodePartyNon2;
-         end
+      if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+      call NodePartyNon2;
       end
    end
 
@@ -171,10 +169,10 @@ end
 procedure NodeFstDialog2 begin
    // added because he uses a Spanish sentence - cambragol
    if DudeTraitHas(TRAIT_espanol) then begin
-      Reply(208)
+      zReply(208)
    end
    else begin
-      Reply(203)
+      zReply(203)
    end
    NAnswer(204,1,NodeFstDialog3)
 end
@@ -197,7 +195,6 @@ procedure NodeSndDialog begin
    else if (cur_map_index == MAP_PHOENIX_ANAL) then begin
    Reply(219)
    end
-   // added zReply to differentiate between granddaughter and grandson - cambragol
    else if ((cur_map_index == MAP_VILLA_CRYPT) and (self_elevation != 0)) then begin
    zReply(211)
    end
@@ -235,7 +232,6 @@ procedure NodePartyAdd begin
    party_add(self_obj);
 
    if (local_var(LVAR_Flag_Sarcasm) == 0) then begin
-   // added zReply to differentiate between granddaughter and grandson - cambragol
    zReply(241)
    NAnswer(242,1,Node999)
    end
@@ -263,6 +259,11 @@ procedure NodePartyNon2 begin
    rm_timer_event(self_obj);
    party_remove(self_obj);
    set_local_var(LVAR_Home_Tile, self_tile);
+   set_local_var(LVAR_Home_Rotat,self_cur_rot);
+   if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+   set_local_var(LVAR_Home_Tile, 18701);
+   set_local_var(LVAR_Home_Rotat,2);
+   end
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
 end
 
@@ -287,7 +288,6 @@ end
 //--- РАССПРОСЫ
 
 procedure NodeAnswer begin
-   // added zReply to differentiate between granddaughter and grandson - cambragol
    zReply(214)
    NAnswer(220,1,NodeAnswer100)
    NAnswer(227,1,NodeAnswer200)

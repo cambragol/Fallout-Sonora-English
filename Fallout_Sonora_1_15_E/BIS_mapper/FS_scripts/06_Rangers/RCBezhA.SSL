@@ -47,7 +47,6 @@ procedure NodeFstDialog109;
 procedure NodeFstDialog110;
 procedure NodeFstDialog111;
 procedure NodeFstDialog112;
-procedure NodeFstDialog113;
 procedure NodeFstDialog114;
 procedure NodeFstDialog115;
 procedure NodeFstDialog116;
@@ -56,11 +55,9 @@ procedure NodeFstDialog118;
 procedure NodeGoParom;
 procedure NodeSndDialog;
 procedure NodeSndDialog100;
-procedure NodeSndDialog101;
 procedure NodeSndDialog102;
 procedure NodeSndDialog103;
 procedure NodeSndDialog104;
-procedure NodeSndDialog105;
 procedure NodeSndDialog106;
 procedure NodeFinal;
 procedure NodeFinal2;
@@ -85,6 +82,7 @@ procedure map_enter_p_proc begin
        critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
        end
        set_obj_visibility(self_obj, 1);
+       critter_set_flee_state(self_obj, 1);
 
        if (cur_map_index == MAP_RANGERS_PAROM) then begin
           rm_timer_event(self_obj);
@@ -293,7 +291,6 @@ procedure NodeFstDialog105 begin
 
    NAnswer(208,1,NodeFstDialog110)
    NAnswer(213,1,NodeFstDialog112)
-   NAnswer(217,1,NodeFstDialog113)
    NAnswer(207,1,Node999)
 end
 
@@ -334,11 +331,6 @@ end
 procedure NodeFstDialog112 begin
    Reply(214)
    NAnswer(215,1,NodeFstDialog104)
-end
-
-procedure NodeFstDialog113 begin
-   Reply(218)
-   NAnswer(219,1,NodeFstDialog104)
 end
 
 procedure NodeFstDialog114 begin
@@ -399,15 +391,7 @@ end
 
 procedure NodeSndDialog100 begin
    Reply(311)
-   NAnswer(312,5,NodeSndDialog101)
    NAnswer(302,1,NodeSndDialog)
-end
-
-procedure NodeSndDialog101 begin
-   bitDialogExp(bit_3,20)
-   Reply(313)
-   NAnswer(324,1,NodeSndDialog)
-   BAnswer(325,1,NodeSndDialog)
 end
 
 procedure NodeSndDialog102 begin
@@ -424,13 +408,7 @@ end
 
 procedure NodeSndDialog104 begin
    Reply(319)
-   NAnswer(320,5,NodeSndDialog105)
-   NAnswer(302,1,NodeSndDialog)
-end
-
-procedure NodeSndDialog105 begin
-   bitDialogExp(bit_5,20)
-   Reply(321)
+   GAnswer(321,1,NodeSndDialog)
    NAnswer(322,1,NodeSndDialog)
 end
 

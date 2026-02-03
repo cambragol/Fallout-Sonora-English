@@ -71,7 +71,7 @@
 {311}{}{Alright.}
 {312}{}{I could take all your irradiated Nuka-Cola off your hands.}
 {313}{}{That'll cost ya a heap of caps. But I'm always up for tradin' trash for treasure. Show me what ya got.}
-{314}{}{[Continue]}
+{314}{}{[More]}
 {315}{}{Take care.}
 {316}{}{Hand over *all* that irradiated cola. No arguments.}
 {317}{}{Damned if I will!}

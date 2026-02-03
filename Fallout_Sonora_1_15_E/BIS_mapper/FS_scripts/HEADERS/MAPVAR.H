@@ -46,6 +46,10 @@
 
 #define MVAR_VILLA_MaraudersKnow         (1)
 
+//------------------------------- Погреба
+
+#define MVAR_VILLA_SolarBonus            (1) // число активных фонарей в погребах
+
 
 /***************************************************************
 ************************* ШАКАЛЫ *******************************
@@ -159,7 +163,7 @@
 //------------------------------- Шахта (под землей)
 
 #define MVAR_FLAGMINE_MAP_SOLAR          (1) // бонус освещения: 0 - не задан, 1 - задан (точные изменения записаны в скрипте ZTMap, процедура map_light_proc)
-#define MVAR_FLAGMINE_RAT_EXP            (2) // служит для расчета урона, получаемого королем крыс от электрической ловушки (иначе опыт не начисляется)
+//с версии 1.16 не используется - #define MVAR_FLAGMINE_RAT_EXP            (2) // служит для расчета урона, получаемого королем крыс от электрической ловушки (иначе опыт не начисляется)
 #define MVAR_FLAG_RatKingVsbl            (4) // обнаружение крысиного короля: 0 - невидим, 1 - видим
 
 //------------------------------- Заброшенный район (музей)
@@ -419,6 +423,8 @@
 #define MVAR_CGRANDE_SAIF_CODE          (2) // ГГ узнал код от сейфа
 #define MVAR_CGRANDE_PRISON_FREE        (3) // >0 - свобода заключенному
 
+#define bitGrande_shrf_attak_mer        gvar_bit(GVAR_ENCOUNTERS_FLAGS_BIT,bit_7) \
+
 //------------------------------- Могильник
 
 #define MVAR_CGRANDE_CHIP_GRAVE         (1) // инициирует появление рейнджера после раскопок могилы с чипом
@@ -468,6 +474,7 @@
 #define BoxObjAngarPompa                 tile_contains_pid_obj(16710,0,251) \
 
 #define MVAR_TWOSUN_AgentKnow            (1) // -1 - агент мертв, 0 - не определено, 1 - ГГ поговорил с агентом БС, 2 - ГГ поговорил об агенте с Хардом, 3 - финальный диалог с агентом, после чего тот исчезает
+#define MVAR_TWOSUN_Alarma               (2) // поднят сигнал тревоги (переменная передаёт номер гекса, где сработала сигнализация)
 
 //------------------------------- Могильник списанной техники
 
@@ -484,6 +491,7 @@
 //------------------------------- Старый Город (Руины Тусона)
 
 #define MVAR_TsnBank_TrapVsbl            (2) // отображение ловушек на карте
+#define MVAR_TsnBank_Enemy               (3) // при <0 беглые рабы стали врагами ГГ
 
 /***************************************************************
 ************************ КАСА-НУЭВA ***************************
@@ -491,36 +499,36 @@
 
 //------------------------------- Поселение
 
-#define MVAR_NUEVA_MER_DIALOG            (1) // !=0 - MC talked to the mayor at least once
-#define MVAR_NUEVA_MER_ROSAKNOW          (2) // >0 - MC gave up Rosalia in a conversation with the mayor about missing people, <0 - MC had a dialogue but did not give up Rosalia
-#define MVAR_NUEVA_CURFEW                (3) // number of MC detentions during curfew
-#define MVAR_NUEVA_WATERFLASK            (4) // MC gave water to the man at the pillory
+#define MVAR_NUEVA_MER_DIALOG            (1) // !=0 - ГГ поговорил с мэром хотя бы раз
+#define MVAR_NUEVA_MER_ROSAKNOW          (2) // >0 - ГГ в разговоре с мэром о пропаже людей сдал Розалию, <0 - ГГ провел диалог, но не выдал Розилию
+#define MVAR_NUEVA_CURFEW                (3) // число задержаний ГГ в комендантский час
+#define MVAR_NUEVA_WATERFLASK            (4) // ГГ дал воды человеку у позорного столба
 
-//------------------------------- Quarry
+//------------------------------- Карьер
 
-#define MVAR_NUEVA_MEAT_TILE             (1) // tile for moving El Gigante to the meat drop-off point
+#define MVAR_NUEVA_MEAT_TILE             (1) // тайл для перемещения Эль Гиганте к месту сброса мяса
 
-//------------------------------- Greenhouses (exterior)
+//------------------------------- Теплицы (эктерьер)
 
-#define MVAR_NUEVA_LAB_DOCS_DISC         (1) // !=0 - PC has obtained documentation from the lab computer
+#define MVAR_NUEVA_LAB_DOCS_DISC         (1) // !=0 - ГГ получил документацию в лабораторном компьютере
 
-//------------------------------- Greenhouses (interior)
+//------------------------------- Теплицы (интерьер)
 
-#define MVAR_NUEVA_LAB_CLIMAT_A          (1) // !=0 - PC has activated ventilation at level 1 (dome)
-#define MVAR_NUEVA_LAB_CLIMAT_B          (2) // !=0 - PC has activated ventilation at level 2 (greenhouse on the right)
-#define MVAR_NUEVA_LAB_CLIMAT_C          (3) // !=0 - PC has activated ventilation at level 3 (greenhouse on the left)
-#define MVAR_NUEVA_LAB_MANTIS_GENER      (4) // !=0 - The Converted has summoned a Mantis for battle (reset when Mantis or Converted dies)
-#define MVAR_NUEVA_LAB_MANTIS_COUNT      (5) // stores the number of Mantises generated in battle
+#define MVAR_NUEVA_LAB_CLIMAT_A          (1) // !=0 - ГГ запустил вентиляцию на уровне 1 (купол)
+#define MVAR_NUEVA_LAB_CLIMAT_B          (2) // !=0 - ГГ запустил вентиляцию на уровне 2 (теплица справа)
+#define MVAR_NUEVA_LAB_CLIMAT_C          (3) // !=0 - ГГ запустил вентиляцию на уровне 3 (теплица слева)
+#define MVAR_NUEVA_LAB_MANTIS_GENER      (4) // !=0 - Обращенный призвал мантиса на помощь в бою (обнуляется когда мантис или Обращенный погибнет)
+#define MVAR_NUEVA_LAB_MANTIS_COUNT      (5) // хранит количество сгенерированных в бою мантисов
 
 /***************************************************************
-************************ SANTA ANA *****************************
+************************ САНТА АНА *****************************
 ***************************************************************/
 
-//------------------------------- Settlement
+//------------------------------- Поселение
 
-#define MVAR_SANTA_DIALOG                (1) // number of dialogues conducted for quest GVAR_SANTAANA_QST_DIALOG
-#define MVAR_SANTA_BOSS_ATTAK            (2) // initiation of the fight with the elder in the church
-#define MVAR_SANTA_MEAT_TILE             (3) // tile for moving El Diablo to the meat drop-off point
+#define MVAR_SANTA_DIALOG                (1) // число проведенных диалогов по квесту GVAR_SANTAANA_QST_DIALOG
+#define MVAR_SANTA_BOSS_ATTAK            (2) // инициация драки со старостой в церкви
+#define MVAR_SANTA_MEAT_TILE             (3) // тайл для перемещения Эль Диабло к месту сброса мяса
 
 #define dialog_qst_SANTA                 if (getQuest(GVAR_SANTAANA_QST_DIALOG) == qStart) then begin \
                                             inc_map_var(MVAR_SANTA_DIALOG); \
@@ -601,7 +609,6 @@
 #define MVAR_OIL_PLATFORM_POISON         (1) // число вылеченных больных
 #define MVAR_OIL_PLATFORM_BOAT_REPAIR    (2) // факт починки лодки
 #define MVAR_OIL_PLATFORM_INFIERNOINFO   (3) // староста отсылает к смотрителю по вопросу об Инферно
-#define MVAR_OIL_PLATFORM_NEWHEX         (4) // смена позиции после возвращения с платформы
 #define MVAR_OIL_PLATFORM_GHOULSAMNT     (5) // текущее число диких гулей на карте во время их нашествия
 #define MVAR_OIL_PLATFORM_KILL_A         (6) // дело об убийстве - зацепка 1 (разговор с Капитаном)
 #define MVAR_OIL_PLATFORM_KILL_B         (7) // дело об убийстве - зацепка 2 (Тин Тан)
@@ -625,6 +632,28 @@
 //------------------------------- Платформа - старый маяк
 
 #define MVAR_OIL_PLATFORM_GHOUL_INVIS    (1) // сигнал гулю пропасть с карты до следующей загрузки
+
+/***************************************************************
+************************ САН-ФЕЛИПЕ ****************************
+***************************************************************/
+
+//------------------------------- Поселение на берегу + Источник пресной воды
+
+#define MVAR_FELIPE_WATER_SVR_AMNT       (2) // подсчет числа убитых дикарей на источнике
+#define MVAR_FELIPE_WATER_PSN_AMNT       (3) // подсчет числа убитых разведчиков на источнике
+#define MVAR_FELIPE_WATER_TOTEMS         (4) // подсчет числа ликвидированных тотем
+
+#define FELIPE_WATER_SVR_AMNT            (4) // общее число дикарей у источника
+#define FELIPE_WATER_TOTEMS              (5) // общее число тотемов у источника
+
+//------------------------------- Фондепорт
+
+#define MVAR_FELIPE_MONSTR_COAST_AMNT    (2) // подсчет числа монстров на карте
+#define MVAR_FELIPE_MONSTR_COAST_FIRE    (3) // число разведенных костров для отпугивания монстров
+
+//------------------------------- Логово монстров
+
+#define MVAR_FELIPE_MONSTR_CAVE_AMNT     (2) // подсчет числа монстров на карте
 
 /***************************************************************
 ************************ ЭРМОСИЛЬО ****************************

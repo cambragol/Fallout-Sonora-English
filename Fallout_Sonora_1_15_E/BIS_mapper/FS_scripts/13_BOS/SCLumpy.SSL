@@ -169,39 +169,39 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,100)
    Reply(200)
-   NAnswer(201,1,NodeFstDialog100)
-   BAnswer(212,1,NodeFstDialog104)
+   NAnswer(201,0,NodeFstDialog100)
+   BAnswer(212,0,NodeFstDialog104)
 end
 
 procedure NodeFstDialog100 begin
    Reply(202)
-   NAnswer(203,1,NodeFstDialog101)
+   NAnswer(203,0,NodeFstDialog101)
 end
 
 procedure NodeFstDialog101 begin
    Reply(204)
-   NAnswer(205,1,NodeFstDialog102)
-   NAnswer(206,1,NodeFstDialog102)
+   NAnswer(205,0,NodeFstDialog102)
+   NAnswer(206,0,NodeFstDialog102)
 end
 
 procedure NodeFstDialog102 begin
    Reply(207)
-   NAnswer(208,1,NodeFstDialog103)
-   NAnswer(209,1,NodeFstDialog103)
+   NAnswer(208,0,NodeFstDialog103)
+   NAnswer(209,0,NodeFstDialog103)
 end
 
 procedure NodeFstDialog103 begin
    Reply(210)
-   NAnswer(211,1,Node999)
+   NAnswer(211,0,Node999)
 end
 
 procedure NodeFstDialog104 begin
    Reply(213)
-   NAnswer(214,1,NodeFstDialog105)
+   NAnswer(214,0,NodeFstDialog105)
 end
 
 procedure NodeFstDialog105 begin
    Reply(215)
-   NAnswer(205,1,NodeFstDialog102)
-   NAnswer(206,1,NodeFstDialog102)
+   NAnswer(205,0,NodeFstDialog102)
+   NAnswer(206,0,NodeFstDialog102)
 end

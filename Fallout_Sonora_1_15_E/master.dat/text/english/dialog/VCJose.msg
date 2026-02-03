@@ -6,6 +6,12 @@
 {105}{}{You're haunted by the demons of the wasteland. Leave the village. Leave us in peace.}
 {1105}{}{You're haunted by the demons of the wasteland. Leave the village. Leave us in peace.}
 
+{120}{}{*Whistles*}
+{121}{}{*Sighs*}
+{122}{}{Ay, ay, ay...}
+{123}{}{Eh...}
+{124}{}{So... what do we do now, eh?}
+
 # added by cambragol
 {199}{}{«Ah, my dear friend», I'm so glad fate left you with us! Ay, ay, ay, those cursed raiders. You're lucky you weren't here.}
 # First Dialogue
@@ -29,6 +35,8 @@
 {215}{}{Sorry, but they took them. Only the old folks and kids were left behind.}
 {216}{}{Let's get serious, Jose. I need to know what really happened here.}
 {217}{}{Bastards!}
+{218}{}{Oh!}
+{219}{}{[Listen]}
 
 {220}{}{Now that's the spirit of a true valiente guerrero! What will you do now? Start tracking the raiders? They're long gone.}
 {1220}{}{Now that's the spirit of a true valiente guerrero! What will you do now? Start tracking the raiders? They're long gone.}
@@ -36,7 +44,7 @@
 {222}{}{First, tell me again about the raid.}
 {223}{}{Well, first head to Garage City. It's a nasty place, but the raiders will definitely pass through there. Ask the locals, their tongues loosen up when you grease them a little.}
 {224}{}{Grease them?}
-{225}{}{You know, booze. But be careful with those folks, they'd sell their own mother for profit. Here, take some fruits and cornmeal for the road. For things like these, they'll tell you something.}
+{225}{}{You know, booze. But be careful with those folks, they'd sell their own mother for profit. Here, take some fruits and cornmeal for the road. For things like these, they'll tell you anything.}
 {226}{}{Thanks, Jose.}
 {227}{}{Don't mention it. The raiders took everything they could find. I'm giving you my last. Use it wisely.}
 {228}{}{That's it? Well, thanks, I guess.}
@@ -47,11 +55,21 @@
 {233}{}{Looks like I'll have to figure the rest out on my own. Adios, Uncle Jose!}
 {234}{}{Alright.}
 
+{235}{}{Huh?}
+{236}{}{Tank yu.}
+{237}{}{Kay.}
+
+
 {240}{}{Thank the heavens, you're back and you brought the others with you!}
 {1240}{}{Thank the heavens, you're back and you brought the others with you!}
 {241}{}{Yeah, it was no easy journey. You know, there's a big world out there beyond the Villa. No one ever told me about it.}
 {242}{}{Best to keep that to yourself, amigo. Outsiders have their truth, and we have ours. We'll never see eye to eye, which is why we live apart. No one can corrupt us, no one can force their rules on us. You've seen what that raid did. We can't let something like that happen again, right?}
 {243}{}{I'll think about your words, Jose.}
+
+{244}{}{Ba-boom! Big boom! Lotta people!}
+{245}{}{Uh-huh.}
+{246}{}{Thank heavens you're back and brought the others with you! And I didn't even get a chance to chat with you before you left. You're something!}
+{1246}{}{Thank heavens you're back and brought the others with you! And I didn't even get a chance to chat with you before you left. You're something!}
 
 # Repeated Dialogue
 {250}{}{Good to see you, amigo.}
@@ -63,44 +81,45 @@
 {253}{}{I have a few questions... No, many questions.}
 {254}{}{Ask anything you want.}
 {255}{}{What do you know about the world beyond the Villa?}
-{256}{}{What's the story with Villa's cellars?}
+{256}{}{Did you know there's a secret stash in the Villa's cellars?}
 {257}{}{Wanna come with me?}
-{258}{}{}
-{259}{}{I have another question.}
+{258}{}{Let's go.}
+{259}{}{Let's change the topic.}
 
 {260}{}{Wild desert wastelands. Cannibal savages to the north, a junk city to the east, and a few small villages and Ranger outposts. There's also talk of a big city, but I've never been further than Garage City.}
-{261}{}{Why do you call the surroundings wild?}
-{262}{}{We've been avoiding outsiders for years. Only when we're in dire need do we trade with them. You can't trust outsiders, they usually have no families or homes. How can you make friends with such people? That's why your padre drove all the outsiders away.}
-{263}{}{It seems our knowledge of the outside world is quite limited. Don't you think?}
-{264}{}{Aren't raiders and cannibal savages enough? And marauders? No, we keep our distance for a reason. In the wasteland, people don't live. They survive.}
+{261}{}{It seems our knowledge of the outside world is pretty... sparse. Don't you think?}
+{262}{}{Raiders not enough for you? Cannibal savages? Scavengers? No, no - we're right to keep strangers out. You can't trust outsiders. Most of them got no family, no home. Out there in the wasteland, people don't live. They survive.}
+{263}{}{You gonna keep standing there, or you got something to ask?}
+{264}{}{}
 {265}{}{Tell me about the savages.}
-{266}{}{Jackals, we call them. They're so wild they barely even know human language. And it's said they're all cannibals. Luckily, we're too tough for them to handle, but the scavengers from the nearby city often talked about them, with fear. So definitely steer clear of those savages.}
+{266}{}{Jackals, we call them. So wild they don't even speak human tongue anymore. Folks say they eat people. Luckily, we're too tough for them to handle, but the scavengers from the nearby city often talked about them, with fear. So steer clear of those savages.}
 {267}{}{Who are the Rangers?}
 {268}{}{Tough, cocky guys. They say they protect us from evildoers, but who knows what they're really up to? They come around sometimes to show off, but we manage without their help... though, you know, right now we could really use some help.}
-{269}{}{Has anyone been further than Garage City?}
-{270}{}{Your Uncle Miguel, for example. He had a falling out with your padre and left the Villa. We haven't heard from him in years.}
+{269}{}{Has anyone ever left our valley?}
+{270}{}{Well... your Uncle Miguel did. He had a falling out with your padre and left the Villa. We haven't heard from him in years.}
 {271}{}{What was their falling out?}
 {272}{}{They argued about how the Villa should deal with outsiders. One thought they should be driven away, the other suggested doing business with them. They never found common ground. Though, both had valid points.}
 
-{273}{}{Tell me about the neighboring city.}
-{274}{}{Garage City? It's a nasty town with nasty people.}
-{275}{}{What kind of people live there?}
-{276}{}{Scavengers. That's what they call themselves. They wander through ruins looking for anything valuable. Be careful with them - they're all crooks and they smell bad.}
-{277}{}{Where could Miguel have gone?}
-{278}{}{He mentioned wanting to visit that big city from the legends. But I'm afraid he found nothing but death in the sands.}
+{273}{}{Did Miguel say where he was headed?}
+{274}{}{Last I remember, he wanted to see that big city folks talk about in legends. But I'm afraid the sands gave him nothing but death.}
+{275}{}{}
+{276}{}{}
+
+{277}{}{Tell me about the neighboring city.}
+{278}{}{Garage City. Rotten place, rotten people. Scavengers - that's what they call themselves. Crawl through ruins looking for junk to sell. Watch yourself with them - every one's a cheat.}
 {279}{}{How do you know about Garage City?}
 {280}{}{Hey, I'm the main trader with outsiders here in the Villa. Who else would know? Caravans sometimes come from there, we exchange a few words and part peacefully.}
-{281}{}{What's the Villa's relationship with Garage City?}
-{282}{}{Your padre hasn't told you, has he? Bad people live there. But we have to trade with them. We give them food, and they give us tools and repair services. That's the extent of our "relationship."}
-{283}{}{It sounds like you don't like that city.}
-{284}{}{You know old Jose - treat me kindly, and I'll treat you the same. But those folks, they cheat, try to rob, or say something rude. And they think poorly of us too. They're jealous that we live better than they do.}
+{281}{}{Sounds like you don't care much for that place.}
+{282}{}{You know old José - someone comes with good intentions, I answer the same. But those people? Cheat in trade, try to steal, throw sharp words. And believe me, they don't think much better of us. But, they envy us.}
+{283}{}{}
+{284}{}{}
 {285}{}{}
-{286}{}{}
-{287}{}{(shakes his head sadly) Ay, amigo, the wasteland's really done a number on you, hasn't it? Does it hurt? Well, you made it here, that's what matters. Don't worry - we're family, we stick together.}
-{1287}{}{(shakes his head sadly) Ay, amiga, the wasteland's really done a number on you, hasn't it? Does it hurt? Well, you made it here, that's what matters. Don't worry - we're family, we stick together.}
-{288}{}{Thanks, Jose. I'll manage with this skin somehow.}
-{289}{}{Problem, smoothskin? I don't need your pity, so better shut up.}
-
+{286}{}{Heh.}
+{287}{}{(shakes his head sadly) Ay, amigo... the damned wasteland's been rough on you. Skin still holding? That's something. Don't you worry - we're still with you. Same blood, after all... well. At least we were.}
+{1287}{}{(shakes his head sadly) Ay, amiga... the damned wasteland's been rough on you. Skin still holding? That's something. Don't you worry - we're still with you. Same blood, after all... well. At least we were.}
+{288}{}{Thanks, José. I'll manage - even looking like this.}
+{289}{}{Problems, smoothskin? I don't need your pity, so keep it to yourself.}
+{290}{}{Ahh, so Grandma Adonsia's been whisperin' ghost stories in your ear, huh? Heh-heh. Forget it. Nothin' down there but rats and spoiled flour.}
 {290}{}{What are you talking about? We store grain there. Ah, grandma Adonisia filled your head with those old tales, didn't she? Ha-ha, forget it, there's nothing there.}
 {291}{}{Then how do you explain this jumpsuit and wrist computer?}
 {292}{}{Hmm? Found them under the town hall, did you? Well, then talk to your padre. Jose knows nothing.}
@@ -115,9 +134,14 @@
 {299}{}{You're not happy, Jose. You can't be. People died, others were taken into slavery, the Villa is ruined... Stop pretending you're cheerful.}
 {300}{}{(lip trembling) Amigo... Why do you say such things...}
 {1300}{}{(lip trembling) Amiga... Why do you say such things...}
-{301}{}{Now go have a good cry...}
-{302}{}{It's okay, uncle, just let your feelings out, don't hold them in...}
-{303}{}{What do you mean?}
+{301}{}{Go on... let it out.}
+{302}{}{It's alright, Jose. Let yourself feel it. Don't keep it all bottled up...}
+{303}{}{Thank you, Uncle Jose. That means a lot to me.}
+{304}{}{Don't worry! Things'll work out!}
+{305}{}{I hope so. Let's get back to my questions.}
+{306}{}{I just wanted to say "thank you" for the support. It really means a lot, Uncle Jose.}
+{307}{}{Hey, enough of this! I'm just a trader with a bad leg. The elders don't share their secrets with me.}
+{308}{}{Alright. Let's change the subject.}
 
 #Quests
 {310}{}{Is there anything I can do before I leave?}
@@ -125,26 +149,26 @@
 {312}{}{Anything else?}
 {313}{}{There are some outsiders, marauders probably, lurking out on the plantations. It'd be good to drive them away.}
 {314}{}{Anything else?}
-{315}{}{Also, the raiders damaged the weather station. It needs repairs. There might be parts in Garage City.}
-{316}{}{Is that all?}
-{317}{}{That's all I can think of.}
+{315}{}{Well, the raiders damaged the weather station. It needs repairs. There might be parts in Garage City.}
+{316}{}{I'll see what I can do?}
+{317}{}{}
 {318}{}{The marauders on the plantations are no longer a problem.}
 {319}{}{You did it! Things might have turned out bad, without your help. The Villa's lucky to have you.}
 {320}{}{Goodbye.}
 {321}{}{The weather station is all fixed up.}
-{322}{}{Great news! Without you, we wouldn't have managed the repairs. Thank you.}
+{322}{}{Great news! I couldn't have fixed it without you. Thank you.}
 {323}{}{Goodbye.}
 
 #Gambling
 {350}{}{Uncle Jose, I know you love gambling. Wanna play?}
-{351}{}{What! You need to save our people! Once they're back in the Villa, I'd be happy to shake the dice with you.}
-{352}{}{Then let's forget about games for now and talk about something else.}
-{353}{}{Of course, you're right, I should hurry.}
-{354}{}{Don't tell me what to do. Anyway, I don't feel like playing anymore.}
+{351}{}{Ay, no! Our people need savin' first. When they're back in Villa safe and sound, then I'll gladly rattle the dice with you.}
+{352}{}{That's actually what I wanted to talk to you about.}
+{353}{}{You're right. I shouldn't waste time.}
+{354}{}{Well now, you've gone and killed the mood. Don't even feel like playin' anymore.}
 {355}{}{Well, now that our people are back, I could use a bit of fun. Just remember, I won't be going easy on you.}
 {356}{}{Excellent, get the board and set up the dice...}
-{357}{}{Hmm, it might be better not to play. Let's just chat instead.}
+{357}{}{Hmm, it might be better if we didn't play. Let's just chat instead.}
 {358}{}{You know, now's not the best time. We'll do it later.}
 {359}{}{You just beat one of the Villa's best players, and you've improved your skills.}
-{360}{}{ }
+{360}{}{}
 {361}{}{You lost. Well, it's not the first time, and it won't be the last.}

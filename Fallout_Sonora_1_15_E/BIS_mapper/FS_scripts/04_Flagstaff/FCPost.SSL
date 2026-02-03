@@ -39,6 +39,10 @@ procedure NodeFstDialog3;
 procedure NodeSndDialog;
 procedure NodeSndDialog2;
 
+procedure NodeBox100;
+procedure NodeBox101;
+procedure NodeBox102;
+
 procedure NodeQst100;
 procedure NodeQst101;
 procedure NodeQst102;
@@ -157,13 +161,15 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_1);
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_7);
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_10);
+   set_map_var(MVAR_FLAG_PostSlav,-1);
    set_map_var(MVAR_FLAG_Vor,-1);
    if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
    item_remove(dude_obj,PID_Q_PORTMONE,1)
    setQuest(GVAR_FLAGSTAFF_POST_VOR, qStop);
    end
-   set_map_var(MVAR_FLAG_PostSlav,-1);
-   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_1);
    kill_critter_opt
 end
 
@@ -237,12 +243,13 @@ procedure NodeSndDialog begin
       end
    end
    */
-
-   //- Вопросы
-   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
-   NAnswer(280,3,NodeQst200)
+   if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_7) == 0) then begin
+      NAnswer(260,1,NodeBox100)
    end
-   else begin
+   else if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_10) == 0) then begin
+      NAnswer(267,1,NodeBox100)
+   end
+
    // added below to make the PC recognize the Sonora express at other locations - cambragol
    if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_7) != 0) then begin
    NAnswer(334,1,NodeAnswer101)
@@ -251,9 +258,7 @@ procedure NodeSndDialog begin
    NAnswer(300,1,NodeAnswer100)
    set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_7);
    end
-   end
-   
-   //NAnswer(300,1,NodeAnswer100)
+      
    NAnswer(320,1,NodeAnswer200)
    if ((bitDialog(bit_2) != 0) and (bitDialog(bit_10) == 0)) then begin
       if ((getQuest(GVAR_MAIN_QUEST_PHENIX) == qStart) and (town_known(AREA_PHOENIX) < MARK_STATE_VISITED)) then begin
@@ -261,6 +266,10 @@ procedure NodeSndDialog begin
       end
    end
 
+   //- Квесты
+   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
+   NAnswer(280,3,NodeQst200)
+   end
    if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qZero) then begin
    NAnswer(270,3,NodeQst100)
    end
@@ -274,6 +283,39 @@ procedure NodeSndDialog2 begin
    setBonusReaction(60)
    Reply(218)
    NAnswer(219,1,Node999)
+end
+
+//--- КАМЕРЫ ХРАНЕНИЯ
+
+#define COAST_BOX                  250
+
+procedure NodeBox100 begin
+   Reply(mstr(261)+COAST_BOX+mstr(262))
+   if (dude_caps>=COAST_BOX) then begin
+   NAnswer(264,1,NodeBox101)
+   end
+   NAnswer(263,1,NodeSndDialog)
+end
+
+procedure NodeBox101 begin
+   if (dude_caps>=COAST_BOX) then begin
+   call NodeBox102;
+   end
+   else begin
+   call NodeBox100;
+   end
+end
+
+procedure NodeBox102 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,COAST_BOX)
+   if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_7) == 0) then begin
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_7);
+   end
+   else if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_10) == 0) then begin
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_10);
+   end
+   Reply(265)
+   NAnswer(266,1,Node999)
 end
 
 //--- КВЕСТ
@@ -364,7 +406,7 @@ procedure NodeQst208 begin
    BAnswer(299,1,Node999)
 end
 
-//--- ???????
+//--- ВОПРОСЫ
 
 procedure NodeAnswer100 begin
    bitDialogExp(bit_2,0)

@@ -3,49 +3,47 @@
 {102}{}{I heard about such armor, but thought it was fiction.}
 {103}{}{I won't tolerate this highway scum in my city.}
 {104}{}{I advise you two to leave the city immediately.}
+{105}{}{Sullivan won this battle!}
 
 #First meeting
 {200}{}{(As you enter the office of the local mayor, you immediately notice the unpleasant smell of alcohol. Looking around, you finally notice a man in a chair, wearily looking at you through his fingers. "Huh?" he grumbles after a brief pause.)}
 {201}{}{Where is the mayor? I'd like to talk with him.}
-{202}{}{(With a heavy sigh, the man in the chair frees himself from his bent position and leans back tiredly). He's right in front of you. But who are you?}
-{203}{}{You're the mayor? You look more like a clerk who's blown all his salary at the bar.}
-{204}{}{Let's get something straight. I am the legitimate mayor of this city. If you're not going to recognize local authority and accept local rules, then get out of Casa Grande immediately. My city doesn't need troublesome outsiders. Got it?}
-{205}{}{Yeah, I see.}
-{206}{}{Sorry, Mr. Mayor. I'm not going to cause any trouble.}
-{207}{}{That's good. So where did you come from?}
-{1207}{}{That's good. So where did you come from?}
-{208}{}{My name is }
-{209}{}{, I'm traveling.}
-{210}{}{Okay, }
-{211}{}{. And where are you from?}
-{212}{}{Why is this so important?}
-{213}{}{Because in a small town like this, everyone wants to know who you're dealing with and how much they can trust. And no one here knows you at all.}
-{214}{}{No one should care about my origins.}
-{215}{}{So, don't you want to accept the rules? You're walking on a dangerous path, stranger. Then explain to me what the hell you're doing here?}
-{1215}{}{So, don't you want to accept the rules? You're walking on a dangerous path, missy. Then explain to me what the hell you're doing here?}
-{216}{}{I'm from a small village far away from here. We just call it Villa.}
-{217}{}{Never heard of it. But let's assume this is true. What are you doing in my city so far from home?}
-{218}{}{I'm just traveling. Can I spend the night at your place?}
-{219}{}{I don't mind. Usually visitors spend the night near the water pump, in the barracks of the caravan workers.}
-{220}{}{Thanks, Mr. Mayor.}
-{221}{}{What kind of town do you have if there isn't even a motel? Okay, a barracks will do. Goodbye, mayor.}
-{222}{}{Bustos. My name is Alfred Bustos. Now go. I've wasted too much time on you.}
-{223}{}{[Done]}
+{202}{}{You're looking at him. And who the hell are you?}
+{203}{}{My name is }
+{204}{}{.}
+{205}{}{Never mind. You don't look much like a mayor.}
+{206}{}{Let's get something straight. I'm the lawful mayor of this town. If anyone's got a problem with that  -  the wasteland's wide open. Clear enough?}
+{207}{}{Yeah.}
+{208}{}{My apologies, Señor Mayor. I'm not here to cause trouble. My name is }
+{209}{}{Good.}
+{210}{}{Alright, }
+{211}{}{. So? What brings you to Casa Grande?}
+{212}{}{By the will of the Sacred Fire, you will answer my questions.}
+{213}{}{You're with the Fire Church? Thanks to your missions, my city sees extra caps. What can I do for you?}
+{214}{}{I'm looking for a convoy carrying specific slaves. Maybe one passed through here recently.}
+{215}{}{I don't stick my nose into that business. But lately the Tinheads have been rounding up slaves for something big. Plenty of those caravans passed through here. You should check Two-Sun.}
+{216}{}{So, Two-Sun... Thanks, Señor Mayor.}
+{217}{}{I'm just passing through. Anywhere I can sleep?}
+{218}{}{No free rooms in town. You can crash in the caravan shack by the water station.}
+{219}{}{Thank you, Señor Mayor.}
+{220}{}{Let the bugs live in the shack. See you, Mayor.}
+{221}{}{Bustos. Don Alfredo Bustos. Welcome to my city. But I don't have time for you right now.}
+{222}{}{Bustos. Don Alfredo Bustos. Now get out. I don't have time for you.}
+{223}{}{Why? Something happen?}
 
-{224}{}{I'm looking for my people. They were captured by slave traders.}
-{225}{}{(raises one eyebrow) Slaves? Is there anything else you're counting on?}
-{226}{}{Have you heard anything about them?}
-{227}{}{Slave owners sometimes lead their slaves through my city. But I don't ask where they get them from.}
-{228}{}{Where are they taking them?}
-{229}{}{Some are being taken south to work. Others are just dragging their luggage... Listen, stranger... what's your name?}
-{1229}{}{Some are being taken south to work. Others are just dragging their luggage... Listen, woman... what's your name?}
-{230}{}{Never mind.}
-{231}{}{.}
-{232}{}{Slave owners are a serious force. If they took your family, then you have no chance of restoring their freedom. Besides, my city lives off the caravan people. Don't you dare muck up this order.}
-{233}{}{I'm not afraid of the slavers or you. Goodbye, mayor.}
-{234}{}{I just want my family back. You must understand this, Mr. Mayor.}
+{224}{}{I'm looking for my people. Slavers took them.}
+{225}{}{(raises an eyebrow) Slaves? And you think you've got a chance? Suit yourself. Caravans haul slaves through my city sometimes. I don't ask where they get them. Now listen, uh... what was your name?}
+{226}{}{.}
+{227}{}{Doesn't matter.}
+{228}{}{Slavers are serious players. If they took your kin, you've got no chance of freeing them. And my city lives off caravans. Don't you dare mess with my business.}
+{229}{}{I'm not afraid of slavers. Or you. Goodbye, Mayor.}
+{230}{}{I just want my family back. You should understand that, Señor Mayor.}
+{231}{}{I'd like to speak with you, Don Bustos.}
+{232}{}{Ooga-booga-splash!}
+{233}{}{What the hell does that mean? Who even let you in here? Guards! Get this idiot out of my office!}
+{234}{}{Boo.}
+{235}{}{[Leave]}
 
-{235}{}{There are no vacancies in the city. You can spend the night in the barracks with caravan workers near the water pump.}
 {236}{}{Bustos. My name is Alfred Bustos. Welcome to my city.}
 {237}{}{I need the mayor of this city. I'm from the Church of the Holy Fire.}
 {238}{}{What a surprise. Usually I am warned about the appearance of an ambassador from your church.}
@@ -57,18 +55,18 @@
 {243}{}{Goodbye, Don Bustos.}
 {244}{}{(As you enter the office, you find the local mayor leaning tiredly on the table. In his other hand he holds a bottle of alcohol. "Oh..." he says, seeing your colorful robe.) What a surprise. I'm usually warned about any visits of ambassadors from your church.}
 {245}{}{I'm just passing through here.}
-{246}{}{Of course. Make yourself comfortable. Heading to Two-Sun? Is there anything I can do to help?}
-{247}{}{I'm interested in a slave convoy. Perhaps one of these passed here recently.}
-{248}{}{Lately the Tinsmiths have been collecting slaves for some important task. Several such caravans passed through my city. But I don't ask where they got the slaves from.}
-{249}{}{So, Two-Sun... Thanks, Mr. Mayor. See you.}
+{246}{}{Of course you are. Make yourself comfortable. Heading to Two-Sun? Anything I can help with?}
+{247}{}{Come in. Make yourself at home.}
+{248}{}{}
+{249}{}{}
 
 #Bath
 {250}{}{I need to talk to you about the bathhouse.}
 {251}{}{That old abandoned building across the street? What do you care about it?}
 {252}{}{Just idle curiosity. I won't distract you anymore, Mr. Mayor.}
 {253}{}{Well, there is a man hoping to reopen it.}
-{254}{}{He and I have already discussed this. In our small town everyone knows each other. People here have been building relationships for years, and many are uncomfortable with a stranger with a questionable past in the neighborhood. I won't tolerate scammers in my city.}
-{255}{}{Hmm. Where then is the real owner of the bathhouse?}
+{254}{}{We already discussed it. In a town this small, everyone knows everyone. And nobody knows him. Folks don't like strangers with shady pasts settling nearby.}
+{255}{}{So where's the real owner, then?}
 {256}{}{Must have been eaten by radscorpions. These creatures are rampant in our area.}
 {257}{}{Well that's too bad. I'll have to tell him your refusal.}
 {258}{}{Then before you go, remember that I don't like people prying into others' business.}
@@ -99,8 +97,8 @@
 {283}{}{We know each other well. I guarantee he can be trusted.}
 {284}{}{Then you should talk to him. Although this is unlikely to atone for my sins.}
 {285}{}{Great. I'll go to encourage him.}
-{286}{}{? Isn't it surprising that a person with such a name can't sit still. }
-{287}{}{If this is a joke, it's a bad one. If something happens to you, they'll think about me, because no one will realize that there are two people with the same name in the city. This will be very unpleasant... }
+{286}{}{? Ha! No wonder someone with a name like that can't sit still.}
+{287}{}{If this is a joke, it's a bad one. If something happens to you, they'll blame me. No one'll think there are two Bustoses in town...}
 
 {290}{}{That guy won't bother you anymore.}
 {291}{}{Very good. I don't like getting my hands dirty.}
@@ -110,7 +108,7 @@
 {295}{}{It's not in my best interest to ruin relationships with potential clients.}
 
 #Stop the dialogue
-{300}{}{I don't know what you want to achieve, but you've added more enemies to your list. Get out of my city. I don't need assholes like you.}
+{300}{}{I don't know what you're trying to achieve, but you've made yourself a new enemy. Get out of my city!}
 {301}{}{[Exit building]}
 {302}{}{(Security escorts you outside.)}
 
@@ -155,19 +153,19 @@
 {342}{}{[Done]}
 
 #Questions
-{350}{}{I'm looking for a Tinsmith who was sent to you as an ambassador.}
-{351}{}{Didn't he go back to Two-Sun? How would I know where he is?}
+{350}{}{I'm looking for a Tinsmith envoy who was sent here.}
+{351}{}{Didn't he return to Two-Sun?}
 {352}{}{He was here?}
-{353}{}{Yes, but he disappeared without saying a word. I thought he just left.}
-{354}{}{And you didn't see anything strange in that?}
-{355}{}{The Tinsmiths consider us mere mortals to be something close to savages. They're strange people, you never know what to expect from them. So, I didn't worry about the quiet departure of our guest. I'm sure he's already among his own.}
-{356}{}{No, he didn't return to Two-Sun. Master Hard asked me to find him.}
-{357}{}{Ah, I see. Well, I told you everything I know. You can ask around somewhere else.}
-{358}{}{I will. Goodbye.}
-{359}{}{I think there's something fishy here. I'll be surprised, mayor, if his disappearance has nothing to do with you.}
-{360}{}{Seems the locals don't like Tinsmiths. Who would wish him harm?}
-{361}{}{Stop right there, mercenary. We are indebted to the Tinsmiths for repairing the water pump and regular caravans. None of the locals would even think of harming them.}
-{1361}{}{Stop right there, mercenary. We are indebted to the Tinsmiths for repairing the water pump and regular caravans. None of the locals would even think of harming them.}
+{353}{}{Yes. He was here, but vanished soon after without a word. I figured he just moved on.}
+{354}{}{And you didn't find that strange?}
+{355}{}{The Tinsmiths consider us savages and never bother explaining their plans.}
+{356}{}{He never returned to Two-Sun. Master Hard asked me to find him.}
+{357}{}{Anything could've happened on the road.}
+{358}{}{True enough. Goodbye.}
+{359}{}{}
+{360}{}{Seems like the locals don't like the Tinsmiths much. Who would want him dead?}
+{361}{}{Watch your tongue, mercenary! We owe the Tinsmiths for fixing the water pump and keeping the caravans running. No one here would even think of harming them.}
+{1361}{}{Watch your tongue, mercenary! We owe the Tinsmiths for fixing the water pump and keeping the caravans running. No one here would even think of harming them.}
 {362}{}{Still, I'll check this story out. Goodbye.}
 {363}{}{That kinda confidence just breeds more doubt, Mayor. Hope it doesn't turn on you.}
 {364}{}{Don't you think it's strange that he disappeared?}
@@ -184,28 +182,28 @@
 {373}{}{No one knows Casa Grande better than I do. What do you want to know?}
 {374}{}{Now I know enough. Goodbye.}
 {375}{}{Let me take a little more of your time.}
-{376}{}{In the former moonshiner's shack to the east. Tinsmiths don't like to be around... "ordinary" people.}
+{376}{}{In the old moonshiner's shack. Near the cemetery. Tinmen don't like living among... "ordinary" people.}
 
-{380}{}{What is there to do in this city?}
-{381}{}{Casa Grande is a small town. We used to have a saloon, famous throughout the area for its home-brewed booze and old music. But the bar is closed and the music machine is broken, and now people entertain themselves.}
-{382}{}{What happened?}
-{383}{}{A big shootout in the bar. But that's a thing of the past. Just keep in mind that the bar is closed.}
-{384}{}{We both know it wasn't exactly a shootout.}
-{385}{}{You talk too much. Then, in the bar, my people took out an enemy clan. The bartender got hit by a stray bullet. I'm sorry, he was a nice guy.}
-{386}{}{Thanks for your honest answer. I think it's best to change the subject.}
-{387}{}{Wow, its own booze?}
-{388}{}{Yes, locally made. Perhaps you've never tried this wonderful drink? The moonshiner supplied us with beer and traded it with Phoenix. Eh, if it weren't for those damn radscorpions, he would still continue to bring good income to the treasury.}
-{389}{}{I've seen tequila production in Phoenix before.}
-{390}{}{Really? Sometimes caravans bring fire agave syrup from the south for Phoenix. For our brewer, this competition was a tough pill to swallow. And actually, now we ourselves are buying this Phoenix swill.}
-{391}{}{Enough about the sad stuff. Let's talk about something else.}
-{392}{}{Is there a store here?}
-{393}{}{If you need water, go to the water pump. We take the rest of the goods from the caravan workers at the parking lot nearby.}
+{380}{}{What is there to do in this town?}
+{381}{}{Casa Grande's a small place. We used to have a saloon  -  famous for its homemade booze and old music. But the bar's closed now, and the jukebox is busted. Folks entertain themselves these days.}
+{382}{}{I've seen tequila production in Phoenix.}
+{383}{}{Really? Caravans sometimes haul fire agave juice to Phoenix. Our brewer hated that competition. Now we buy that Phoenix swill ourselves. There's nothing else left.}
+{384}{}{Enough gloom. Let's change the subject.}
+{385}{}{}
+{386}{}{}
+{387}{}{}
+{388}{}{}
+{389}{}{}
+{390}{}{}
+{391}{}{}
+{392}{}{Is there a shop here?}
+{393}{}{We buy straight from caravans. They usually stop by the water pump. You can also buy clean water there.}
 {394}{}{Why are there so many caravans here?}
-{395}{}{Because we have a lot of water and we are halfway between Phoenix and the Two-Sun settlement. Good situation, except for the damned highwaymen.}
-{396}{}{Rumor has it that the Tinsmiths are no longer in business. How will this affect Casa Grande?}
-{397}{}{Well, there are other settlements in the south. And we can still trade water. Also, having heard this story, many raiders and highwaymen rushed south. So we'll stay afloat for now, but what happens next?}
-{398}{}{They say the Fire Church in Phoenix has been destroyed.}
-{399}{}{Yes, and that's a problem. The Church, in a sense, actively supported this caravan route. Without it, there'll be fewer caravans. But in time, someone will eventually take their place.}
+{395}{}{Because we have water. And we're halfway between Phoenix and Two-Sun. Good location  -  if it weren't for those damn highway raiders.}
+{396}{}{But the Tinmen are gone now. How will that affect Casa Grande?}
+{397}{}{Bad for business. But there are other settlements besides the Tinsmiths. And after that story spread, a lot of scavengers rushed to Two-Sun. For now, we're staying afloat  -  but who knows what comes next.}
+{398}{}{They say the Fire Church has fallen.}
+{399}{}{Yes, and that's a problem. The Church supported this caravan route in its own way. Without them, there'll be fewer caravans. I hope someone fills the gap.}
 {400}{}{What are these highwaymen?}
 {401}{}{You see all sorts of rabble along Interstate 10. They're just raiders who rob caravans and other travelers, rather than settlements. Hitting the caravans causes us to suffer losses.}
 {402}{}{Did you try to catch them?}
@@ -216,20 +214,20 @@
 {407}{}{Talk to someone at the pump about it.}
 {408}{}{Okay, I'll check there later.}
 {409}{}{Great idea, I'll go there right now.}
-{410}{}{Tell about this to Sullivan. Who is he?}
+{410}{}{Tell me about this Sullivan.}
 {411}{}{I don't discuss my people with strangers. If you want to know Sullivan, talk to him in person.}
 {412}{}{One more question before I go.}
 {413}{}{Then I'll go straight to him. Goodbye.}
-{414}{}{Tell about this to Sullivan. He is a good man?}
-{415}{}{He's like a brother to me. We started together. I knew how to negotiate with people, and he knew how to solve problems. It would have been hard without John.}
+{414}{}{Tell me about this Sullivan. Is he a good guy?}
+{415}{}{The most trusted man in all of Casa Grande. Like a brother to me. We started together  -  I talked, he solved problems. Without John, things would've been very different.}
 {416}{}{Seems like you really are like brothers. But I'm more interested in the city.}
 {417}{}{Usually the word "brother" loses all meaning when it comes to business.}
 {418}{}{I'll let this slide. Perhaps in a big city the caps are separated, but here this is not the case. I value John as a reliable person. The most reliable in Casa Grande.}
-{419}{}{Was Sullivan your friend?}
-{420}{}{Don't mention his name. We started together, and I could never have expected such a betrayal. Now I don't even want to hear about him.}
+{419}{}{You and Sullivan were friends?}
+{420}{}{Don't mention his name! We started together, and I could never have expected such a betrayal. Now I don't even want to hear about him.}
 {421}{}{Didn't you call him "the most trusted man in Casa Grande" earlier?}
 {422}{}{Looks like you're really hurt by this. Let's not talk about this anymore.}
-{423}{}{(slams fist on table) Sullivan... He got what he deserved for his villainy. All I can do is erase this traitor from my life. You better hold your tongue before our relationship deteriorates completely.}
+{423}{}{(slams fist on the table) Sullivan... He got what he deserved for his treachery. There's only one thing left for me  -  to ERASE that traitor from my life!}
 {424}{}{Sorry, let's not talk about this anymore.}
 {425}{}{If you want to close your eyes to past mistakes, that's up to you. Let's talk about something else.}
 {426}{}{You really are bringing death to your city. I've had enough of these creepy stories.}
@@ -245,7 +243,7 @@
 {435}{}{I know what happened here in the past. You seized power in Casa Grande by force.}
 {436}{}{That raider claimed that you killed half the population to come to power.}
 {437}{}{Tough times call for tough decisions. If I hadn't started the fight then, someone else would have started it. This is the natural state of affairs.}
-{438}{}{Was it inevitable?}
+{438}{}{So it was inevitable?}
 {439}{}{Too many people and too few resources. This town survives by water pumping and as a caravan camp. There is nothing left in this desert that could give life. As a result, many did not find a place for themselves, banditry and clan wars began.}
 {440}{}{Now I understand why you're always drunk.}
 {441}{}{So that's why you need so many bodyguards.}
@@ -256,17 +254,18 @@
 {446}{}{If this conversation is too heavy for you, let's talk about something else.}
 {447}{}{Now I know what to do with my head held high. Goodbye.}
 {448}{}{Shut your mouth and listen. I AM THE MAYOR OF THIS CITY. I am responsible for it. And I won't allow ANYONE to tarnish its good name. Who are you to judge me? Just a drifter passing through. So keep drifting.}
+{1448}{}{Shut your mouth and listen. I AM THE MAYOR OF THIS CITY. I am responsible for it. And I won't allow ANYONE to tarnish its good name. Who are you to judge me? Just a drifter passing through. So keep drifting.}
 {449}{}{You're right. I'm just a traveler stopping by for a drink. Goodbye, Mayor.}
 {1449}{}{You're right. I'm just a traveler stopping by for a drink. Goodbye, Mayor.}
 
 #First quest
 {450}{}{Are there any jobs in town? I could use some income while I'm here.}
-{451}{}{I don't have a job for you.}
-{452}{}{I see. But maybe you can answer a couple of questions?}
-{453}{}{Okay, I'll go ask the rest of the people around town.}
-{454}{}{I don't have a job for you... However, you could solve one problem for me.}
-{455}{}{What are we talking about?}
-{456}{}{Some highwaymen robbed one of the caravans near the train station and locked themselves in with the goods inside. It looks like they're not going to leave, as if they're provoking or testing us. Go there and find out what they want.}
+{451}{}{}
+{452}{}{}
+{453}{}{Remind me where the caravan was attacked.}
+{454}{}{If you're not afraid, there is one job.}
+{455}{}{What is it?}
+{456}{}{Highwaymen hit a caravan near the railroad station. They barricaded themselves inside with the cargo and don't seem eager to leave  -  like they're testing us. Go there and find out what they want. The station is a bit south of here.}
 {457}{}{Are your guys standing around here just for show?}
 {458}{}{Isn't there a sheriff here to deal with stuff like this?}
 {459}{}{No one wants to risk their life over a box of old junk. We're just hoping that the highwaymen will get tired of being locked up and will eventually leave on their own.}
@@ -345,6 +344,7 @@
 {546}{}{I appreciate people who do their jobs well. You deserve a reward... (takes caps out of the safe) Here are 500 caps, as we agreed. Now leave me. I want to rest.}
 {547}{}{Goodbye, Don.}
 {548}{}{Hey, where's my reward? I didn't just trek across half the wasteland with a bag of rotting flesh for nothing.}
+{1548}{}{Hey, where's my reward? I didn't just trek across half the wasteland with a bag of rotting flesh for nothing.}
 {549}{}{Of course. This is your honestly earned right... (takes out caps from the safe) There are 500 caps here, as we agreed. Now leave me.}
 
 {550}{}{I destroyed the Blue Shields' fuel depots. This will definitely weaken the gang.}

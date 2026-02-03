@@ -32,7 +32,7 @@
 {200}{}{Locate the Villa's people in the prison pen}  
 {201}{}{Free your fellow villagers from captivity by any means necessary}  
 {202}{}{Rescue your kinsmen trapped in the mine}  
-{203}{}{Repair the drilling machine}  
+{203}{}{Repair the drilling machine in the mine}  
 {204}{}{Eliminate the rat king in the mine}  
 {205}{}{Investigate who is attacking patrols in the abandoned area}  
 {206}{}{Deliver lunch to the mine administrator}  
@@ -58,7 +58,8 @@
 {307}{}{Set up a trade route to the Ranger lands}  
 {308}{}{Arrange an alcohol supply from Flagstaff}  
 {309}{}{Shut down the counterfeiting operation}  
-{310}{}{Find and return the welding machine}  
+{310}{}{Find and return Frank's welding machine}  
+{311}{}{Find the Jackals' lair for the gatekeeper}
 
 #---------------------------------------------------------------- --------
 # SanBrahmin
@@ -86,7 +87,7 @@
 {504}{}{Deactivate the security of the Forbidden Zone for the Tinsmiths}  
 {505}{}{Identify and stop whoever attacked the caravan}  
 {506}{}{Find the missing Tinsmith in Casa Grande}  
-{507}{}{Locate Cody's family in Casa Grande}  
+{507}{}{Find out the fate of Cody's family in Casa Grande}  
 {508}{}{Get the fusion cell for the peasant}  
 {509}{}{}  
 
@@ -145,7 +146,7 @@
 {808}{}{Locate a Liberation Party agent in the ruins}  
 {809}{}{Sabotage the Cathedral at the Liberation Party's request}  
 {810}{}{Collect a large debt owed to the casino}  
-{811}{}{Recover the stolen letters}  
+{811}{}{Recover the stolen letters for the Sonora Express}
 {812}{}{Assist the Red Cardinal gang in their troubles}  
 {813}{}{Address the accident at the nuclear power plant}  
 {814}{}{Help Iron Mike seek justice}  
@@ -165,7 +166,10 @@
 {903}{}{Deliver the Geiger counter to the merchant}  
 {904}{}{Help Ruiz search for treasure}  
 {905}{}{Catch the creature stealing fish catches}  
-{906}{}{Investigate a mysterious murder}  
+{906}{}{Investigate a mysterious murder on the shore} 
+{907}{}{}
+{908}{}{}
+{909}{}{} 
 
 #---------------------------------------------------------------- --------  
 # Casa Grande  
@@ -178,7 +182,7 @@
 {1004}{}{Rescue the villager at the train station}  
 {1005}{}{Destroy the Blue Shields' fuel depot}  
 {1006}{}{Claim the mayor's bounty for the head of the Blue Shields' leader}  
-{1007}{}{}  
+{1007}{}{Say hello at Dominguez's ranch in Hermosillo}
 {1008}{}{}  
 {1009}{}{}  
 
@@ -190,13 +194,17 @@
 {1101}{}{Escort the prisoner to Puerto Penasco}  
 
 #---------------------------------------------------------------- --------  
-# San Felipe (Old Lighthouse)  
+# San Felipe
 #---------------------------------------------------------------- --------  
 
-{1200}{}{Check rumors about monsters in the ship graveyard}  
-{1201}{}{Eliminate the monsters}  
-{1202}{}{Repair the beacon}  
-{1203}{}{Find and rescue Gloria}  
+{1200}{}{Restore the old lighthouse}
+{1201}{}{Investigate rumors of monsters in the ship graveyard}
+{1202}{}{Wipe out the giant leech nest}
+{1203}{}{Rescue Gloria}
+{1204}{}{Scout the area around San Felipe}
+{1205}{}{Find a source of clean fresh-water}
+{1206}{}{Withstand the savages' siege}
+{1207}{}{Convince the captain to leave the bay}
 
 #---------------------------------------------------------------- --------  
 # Inferno  

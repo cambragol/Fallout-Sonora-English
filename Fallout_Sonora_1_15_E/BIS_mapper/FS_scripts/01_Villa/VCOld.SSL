@@ -323,7 +323,7 @@ procedure NodeFstDialog3 begin
 end
 
 procedure NodeFstDialog4 begin
-   zReply(207)
+   Reply(207)
    NAnswer(208,1,NodeFstDialog5)
    NAnswer(213,1,NodeFstDialog6)
    GAnswer(212,7,NodeFstDialog7)
@@ -498,19 +498,24 @@ procedure NodeConcuilA200 begin
    (сокрушенное молчание) Что ж, мы были к этому готовы. Твой падре был суровым, но верным лидером. name, ты наместник своего падре. Тебе перенимать правление общиной после его смерти.
    */
    if (global_var(GVAR_VILLA_STATUS_PADRE) < 0) then begin
-   dec_map_var(MVAR_Plaza_OldRespect);
-   Reply(mstr(284)+dude_name+mstr(285))
-   BAnswer(287,1,NodeConcuilA201)
-   zNAnswer(286,1,NodeConcuilA201)
+      dec_map_var(MVAR_Plaza_OldRespect);
+      if dude_is_female then begin
+      Reply(mstr(1284)+dude_name+mstr(285))
+      end
+      else begin
+      Reply(mstr(284)+dude_name+mstr(285))
+      end
+      BAnswer(287,1,NodeConcuilA201)
+      zNAnswer(286,1,NodeConcuilA201)
    end
    else if (global_var(GVAR_VILLA_STATUS_PADRE) > 0) then begin
-   inc_map_var(MVAR_Plaza_OldRespect);
-   Reply(mstr(280)+dude_name+mstr(281))
-   BAnswer(283,1,NodeConcuilA201)
-   zNAnswer(282,1,NodeConcuilA201)
+      inc_map_var(MVAR_Plaza_OldRespect);
+      Reply(mstr(280)+dude_name+mstr(281))
+      BAnswer(283,1,NodeConcuilA201)
+      zNAnswer(282,1,NodeConcuilA201)
    end
    else begin
-   call NodeConcuilA201;
+      call NodeConcuilA201;
    end
 end
 

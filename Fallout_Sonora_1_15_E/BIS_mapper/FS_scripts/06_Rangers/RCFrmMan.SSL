@@ -408,14 +408,18 @@ end
 
 procedure NodeAnswer150 begin
    if (global_var(GVAR_TITUL_ARIZONA_RANGER) >0) then begin
-   Reply(294)
-   NAnswer(295,1,NodeAnswer151)
+      Reply(294)
+      NAnswer(295,1,NodeAnswer151)
    end
    else begin
-   Reply(291)
-   NAnswerSkill(296,1,NodeAnswer152,SKILL_BARTER,40,296,NodeAnswer154)
-   NAnswerReaction(298,1,NodeAnswer153,50,298,NodeAnswer154)
-   NAnswer(292,1,NodeAnswer100)
+      Reply(291)
+      if dude_is_female then begin
+      NAnswerSkill(1296,1,NodeAnswer152,SKILL_BARTER,40,1296,NodeAnswer154)
+      end else begin
+      NAnswerSkill(296,1,NodeAnswer152,SKILL_BARTER,40,296,NodeAnswer154)
+      end
+      NAnswerReaction(298,1,NodeAnswer153,50,298,NodeAnswer154)
+      NAnswer(292,1,NodeAnswer100)
    end
 end
 

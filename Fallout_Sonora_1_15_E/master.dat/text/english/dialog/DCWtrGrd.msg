@@ -12,3 +12,26 @@
 {118}{}{Keeping this pump secure has become tiresome.}
 {119}{}{Highwaymen are hurting our business.}
 {120}{}{It's best not to deal with highwaymen.}
+
+{130}{}{Sullivan ran this water pump with an iron fist.}
+{131}{}{We need a new boss. Otherwise this whole place'll fall apart.}
+{132}{}{Sullivan was one hell of a bastard.}
+{133}{}{So what the hell are we supposed to do now?}
+
+{140}{}{Sullivan's tough.}
+{141}{}{Now we're the ones in charge!}
+{142}{}{Now Sullivan runs the whole town.}
+{143}{}{Should've kicked that useless mayor out a long time ago.}
+
+{150}{}{The sooner we're done, the sooner we head home.}
+
+
+
+
+
+
+
+
+
+
+

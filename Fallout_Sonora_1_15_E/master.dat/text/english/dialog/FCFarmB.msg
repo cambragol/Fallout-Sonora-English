@@ -10,6 +10,7 @@
 {204}{}{I come in peace. The farmer says you took his house and land.}
 {1204}{}{I come in peace. The farmer says you took his house and land.}
 {205}{}{The farmer is a hypocrite like everyone else. You came to these lands, killed our people, and took our land. We're just taking it back.}
+{1205}{}{The farmer is a hypocrite like everyone else. You came to these lands, killed our people, and took our land. We're just taking it back.}
 {206}{}{You're just common thieves.}
 {207}{}{I don't know this side of the story. What's going on?}
 {208}{}{Of course, you don't know. Our ancestors lived here for generations. Then Faber's people came, enslaved us, and killed those who resisted. We were the only survivors. Now we want revenge. Blood for blood is our custom.}

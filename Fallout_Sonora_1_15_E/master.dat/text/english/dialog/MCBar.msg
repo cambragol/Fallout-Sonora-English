@@ -6,7 +6,7 @@
 {201}{}{They've got plenty on their minds. You still robbing and taking hostages since that bar incident?}
 {202}{}{Stuff like that. But we got more going on here. Ben's got a plan. Talk to him; he might have use for you.}
 {203}{}{I'll do that.}
-{204}{}{Wait. I've been thinking about what happened at the bar. I don't know why you helped us, but you earned some respect. I've told the others about you, so they'll treat you better. Here, take a gun and some ammo. You might not want to hurt anyone, but you should still protect yourself.}
+{204}{}{Wait. I've been thinking about what happened at the bar. I don't know why you helped us, but you earned some respect. I've told the others about you, so they'll treat you better. Here, take this gun and some ammo. You might not want to hurt anyone, but you should still protect yourself.}
 {205}{}{Thanks.}
 {206}{}{Real survivors don't say "thank you" or "please." Remember that.}
 {207}{}{Alright, bye.}

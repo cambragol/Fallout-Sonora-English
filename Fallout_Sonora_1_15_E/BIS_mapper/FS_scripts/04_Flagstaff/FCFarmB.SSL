@@ -213,7 +213,7 @@ procedure NodeFstDialog102 begin
 end
 
 procedure NodeFstDialog103 begin
-   Reply(205)
+   zReply(205)
    NAnswer(207,4,NodeFstDialog104)
    BAnswer(206,1,NodeFstDialog102)
 end

@@ -35,6 +35,7 @@
 {221}{}{That's a serious accusation.}
 {222}{}{That's what people are saying...}
 {223}{}{Remember, outsider, I don't like panic or rumor-mongering in my town. Don't want trouble? Then don't make things worse. Simple as that.}
+{1223}{}{Remember, woman, I don't like panic or rumor-mongering in my town. Don't want trouble? Then don't make things worse. Simple as that.}
 {224}{}{Yeah, I don't want any trouble.}
 {225}{}{The same goes for you. Remember, justice catches up to everyone eventually.}
 {226}{}{Seems I should thank you for everything you've done for us.}
@@ -56,6 +57,7 @@
 
 {243}{}{Stop! (raises his rifle) Put away your weapon. Open carry is prohibited here.}
 {244}{}{Sorry, sheriff. I'm not familiar with the local rules.}
+{1244}{}{Sorry, sheriff. I'm not familiar with the local rules.}
 {245}{}{I don't care about your rules.}
 {246}{}{Heh! [Comply]}
 {247}{}{Nope! [Continue waving weapon at him]}
@@ -129,6 +131,7 @@
 {315}{}{I know of only one other time a Deathclaw got into a town and stirred up a bunch of trouble. It was in the Boneyard. A female set up in an abandoned basement and even laid eggs. But one brave merc found them and took them out, destroying the eggs. Just imagine if those things had hatched.}
 {316}{}{Terrifying.}
 {317}{}{Well, a fine job, warrior. You should join our ranks.}
+{1317}{}{Well, a fine job, lady. You should join our ranks.}
 {318}{}{Maybe...maybe... I had some other questions though.}
 {319}{}{You mentioned training. Where was that?}
 {320}{}{I'm a paladin of the Brotherhood of Steel. Our local base is in Puerto Penasco, with the main headquarters far off in California. That's where I trained before volunteering for this desert mission.}

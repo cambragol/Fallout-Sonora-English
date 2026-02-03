@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_PCCasBar
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX_CASINO // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        16                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_PHOENIX_CASINO   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -83,7 +84,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -169,6 +170,7 @@ procedure talk_p_proc begin
    setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_PHENIX_CASINO,50) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_ARENA_MASTER,15) // Поправка к отношению за принадлежность к фракциям
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,102,NodeStartDialog,-1,-1)
    end
 end
@@ -280,7 +282,7 @@ end
 procedure NodeSndDialog2 begin
    bitDialogExp(bit_4,0)
    item_add(dude_obj,PID_M_BEER,1)
-   Reply(212)
+   zReply(212)
    NAnswer(213,1,NodeStartDialog)
    BAnswer(214,1,NodeStartDialog)
 end

@@ -172,7 +172,7 @@ end
 
 procedure NodeFstDialog105 begin
    Reply(209)
-   GAnswer(210,1,NodeFstDialog106)
+   zGAnswer(210,1,NodeFstDialog106)
    NAnswer(211,1,Node999)
 end
 

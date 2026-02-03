@@ -198,9 +198,6 @@ procedure destroy_p_proc begin
    if (getQuest(GVAR_PUERTO_QST_RANGERS) == qStart) then begin
    setQuest(GVAR_PUERTO_QST_RANGERS,qStop);
    end
-   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
-   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP,qStop);
-   end
    kill_critter_opt
 end
 
@@ -304,13 +301,6 @@ end
 //--- ПЕРВЫЙ ДИАЛОГ
 
 procedure NodeFstDialog begin
-   /*
-   - Что это за шутки, мать вашу? Кого-то сегодня ждет серьезный выговор за пропуск гражданских на базу. Ладно, говори, кто ты и чего хочешь?
-   - Я здесь потому, что вы повинны в бедах моей деревни.
-   - Вот как? Интересное дело. Я дам тебе минуту, рассказывай.
-   - Из-за вашей тяги к источникам энергии в колонии Флагпула используют рабскую силу. И мою деревню поработили из-за этого.
-   */
-
    if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
       call NodeFstDialog300;
    end
@@ -323,7 +313,6 @@ procedure NodeFstDialog begin
    else begin
       call NodeFstDialog2;
    end
-
 end
 
 procedure NodeFstDialog2 begin
@@ -383,7 +372,7 @@ end
 procedure NodeFstDialog105 begin
    zReply(221)
    BAnswer(293,0,NodeFstDialog106)
-   //NAnswer(222,0,NodeFstDialog200)
+   NAnswer(222,0,NodeFstDialog106)
 end
 
 procedure NodeFstDialog106 begin
@@ -400,13 +389,16 @@ end
 procedure NodeFstDialog200 begin
    Reply(230)
    NAnswer(231,0,NodeFstDialog201)
-   NAnswer(232,0,NodeFstDialog201)
+   BAnswer(232,0,NodeFstDialog201)
 end
 
 procedure NodeFstDialog201 begin
+   /*
    Reply(233)
    NAnswer(234,0,NodeFstDialog202)
    BAnswer(235,0,NodeFstDialog202)
+   */
+   call NodeFstDialog202;
 end
 
 procedure NodeFstDialog202 begin
@@ -444,7 +436,6 @@ procedure NodeFstDialog207 begin
    mark_on_map(AREA_RANGERS)
    bitDialogExp(bit_1,0)
    bitDialogExp(bit_2,100)
-   
    // added this for the tiny bit of spanish spoken by the general - cambragol
    if DudeTraitHas(TRAIT_espanol) then begin
       Reply(208)
@@ -458,17 +449,11 @@ end
 procedure NodeFstDialog208 begin
    Reply(257)
    GAnswer(258,0,Node999)
-   NAnswer(259,0,Node999)
 end
 
 procedure NodeFstDialog300 begin
    bitDialogExp(bit_1,0)
-   if (get_REP<0) then begin
    zReply(260)
-   end
-   else begin
-   zReply(261)
-   end
    BAnswer(262,0,NodeFstDialog301)
 end
 
@@ -482,19 +467,16 @@ procedure NodeFstDialog302 begin
    if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
       setBonusReaction(-50)
       Reply(266)
-      NAnswer(267,1,NodeFstDialog303)
+      NAnswer(267,0,NodeFstDialog303)
    end
    else if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
       call NodeFstDialog303;
    end
-   else if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   else if ((getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) or (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd)) then begin
       call NodeFstDialog304;
    end
-   else if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
-      call NodeFstDialog305;
-   end
    else begin
-      call NodeFstDialog306;
+      call NodeFstDialog305;
    end
 end
 
@@ -504,32 +486,23 @@ procedure NodeFstDialog303 begin
       Reply(268)
       NAnswer(269,0,NodeFstDialog304)
    end
-   else if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   else if ((getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) or (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd)) then begin
       call NodeFstDialog304;
    end
-   else if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
-      call NodeFstDialog305;
-   end
    else begin
-      call NodeFstDialog306;
+      call NodeFstDialog305;
    end
 end
 
 procedure NodeFstDialog304 begin
-   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
-      setBonusReaction(-25)
-      set_REP(-5)
-      Reply(270)
-      NAnswer(271,0,NodeFstDialog305)
-   end
-   else if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd) then begin
+   if ((getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) or (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) >= qEnd)) then begin
       setBonusReaction(-25)
       set_REP(-5)
       Reply(270)
       NAnswer(271,0,NodeFstDialog305)
    end
    else begin
-      call NodeFstDialog306;
+      call NodeFstDialog305;
    end
 end
 
@@ -555,7 +528,7 @@ procedure NodeFstDialog308 begin
 end
 
 procedure NodeFstDialog309 begin
-   Reply(282)
+   zReply(282)
    NAnswer(283,0,NodeFstDialog310)
    BAnswer(284,0,NodeFstDialog310)
 end
@@ -638,7 +611,6 @@ procedure NodeRangers begin
    if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
    GAnswer(411,0,NodeRangers5)
    end
-   //!!! альтернатива - союз с рейнджерами
    NAnswer(402,0,NodeRangers2)
 end
 
@@ -692,11 +664,8 @@ procedure NodeTitul begin
    if (getReaction<=-50) then begin
    titulParam -= 25;
    end
-   else if (getReaction<0) then begin
-   titulParam -= 10;
-   end
    else if (getReaction>=50) then begin
-   titulParam += 10;
+   titulParam += 25;
    end
 
    if (getQuest(GVAR_PUERTO_QST_RANGERS) >= qEnd) then begin
@@ -715,9 +684,8 @@ procedure NodeTitul begin
    titulParam += 25;
    end
    if (getQuest(GVAR_OIL_PLATFORM_QST_A) >= qEnd) then begin
-   titulParam += 10;
+   titulParam += 15;
    end
-
 
    if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
       zReply(439)

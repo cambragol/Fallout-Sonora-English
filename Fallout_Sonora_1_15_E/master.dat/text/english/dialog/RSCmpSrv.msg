@@ -45,6 +45,7 @@
 {262}{}{Several Rangers are operating covertly in Phoenix for intel gathering. Their current priority is to make contact with a guerrilla group opposing the Fire Cult.}
 {263}{}{Support for runaway slaves in Two-Sun}
 {264}{}{The activities of techno-worshippers in Two-Sun pose a significant threat to surrounding settlements. Fire worshippers in Phoenix collaborate with them to obtain goods and services. Due to the region's remoteness, control is difficult, so spies have been dispatched to assist fugitive slaves in sabotage activities. }
+{265}{}{The cult is in decline and under persecution. Their main base was destroyed by urban insurgent forces. Currently, only isolated groups of cultists pose a threat.}
 
 {290}{}{Threat from the south}
 {291}{}{Scouts report the destruction of the main Brotherhood of Steel fort in the south. This day will be remembered in Arizona's history as a day of freedom and independence!}

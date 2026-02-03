@@ -49,13 +49,25 @@ procedure map_enter_p_proc begin
 end
 
 procedure look_at_p_proc begin
-   lookProcMsg
+   //lookProcMsg
+   script_overrides;
+   if self_is_female then begin
+   display_mstr(1100);
+   end
+   else begin
+   display_mstr(100);
+   end
 end
 
 procedure description_p_proc begin
    //dsrptProcMsg
    script_overrides;
+   if self_is_female then begin
+   display_mstr(random(1101,1105));
+   end
+   else begin
    display_mstr(random(101,105));
+   end
 end
 
 procedure timed_event_p_proc begin

@@ -1,9 +1,15 @@
 {100}{}{You see a slum dweller.}
 {101}{}{You see a slum dweller. A sorry sight.}
-{102}{}{You see a slum dweller. They pick at their ear.}
-{103}{}{You see a slum dweller. They brush dirt out of their hair.}
-{104}{}{You see a slum dweller. They lovingly straighten their filthy rags.}
-{105}{}{You see a local resident. Their bald spots hint at the unhealthy conditions of the slums.}
+{102}{}{You see a slum dweller. He is picking his ear.}
+{103}{}{You see a slum dweller. He is combing dirt out of his hair.}
+{104}{}{You see a slum dweller. He carefully adjusts his only rags.}
+{105}{}{You see a local resident. His bald patches speak of the unhealthy conditions in the slums.}
+{1101}{}{You see a slum dweller. A sorry sight.}
+{1102}{}{You see a slum dweller. She is picking her ear.}
+{1103}{}{You see a slum dweller. She is combing dirt out of her hair.}
+{1104}{}{You see a slum dweller. She carefully adjusts her only rags.}
+{1105}{}{You see a local resident. Her bald patches speak of the unhealthy conditions in the slums.}
+
 
 {110}{}{I'm starving.}
 {111}{}{If only I could catch a rat to fry for dinner.}

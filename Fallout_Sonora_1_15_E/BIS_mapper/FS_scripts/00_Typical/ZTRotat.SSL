@@ -7,6 +7,7 @@ procedure map_enter_p_proc;
 procedure timed_event_p_proc;
 
 variable distanSnd;
+variable dudeLvl;
 
 /*
 ВАЖНО:
@@ -19,6 +20,7 @@ variable distanSnd;
 
 
 procedure start begin
+   set_obj_visibility(self_obj, 1);
 end
 
 procedure map_enter_p_proc begin
@@ -29,6 +31,7 @@ procedure map_enter_p_proc begin
        if (item_amnt(self_obj,PID_TEST) > 0) then begin
        distanSnd := item_amnt(self_obj,PID_TEST);
        end
+   dudeLvl := dude_elevation;
    set_obj_visibility(self_obj, 1);
    if (is_loading_game == false) then begin
    add_timer_event(self_obj,1,1);
@@ -40,5 +43,18 @@ procedure timed_event_p_proc begin
       if (tile_distance_objs(self_obj, dude_obj) <= distanSnd) then begin
       anim(dude_obj, ANIMATE_ROTATION, obj_get_rot(self_obj));
       end
+      dudeLvl := dude_elevation;
    end
+end
+
+procedure critter_p_proc begin
+   distanSnd := MAXDISTAN;
+   if (dude_elevation == self_elevation) then begin
+      if (tile_distance_objs(self_obj, dude_obj) <= distanSnd) then begin
+         if (dude_elevation != dudeLvl) then begin
+         anim(dude_obj, ANIMATE_ROTATION, obj_get_rot(self_obj));
+         end
+      end
+   end
+   dudeLvl := dude_elevation;
 end

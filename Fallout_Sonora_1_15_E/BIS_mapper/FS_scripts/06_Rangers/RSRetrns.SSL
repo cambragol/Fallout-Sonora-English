@@ -30,14 +30,14 @@ procedure use_skill_on_p_proc begin
       script_overrides;
       display_mstr(113);
       item_add(dude_obj,PID_TOOL_PARTS_ELECTRONIC,1)
-      item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,5)
+      item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,1)
       call repair_proc;
    end
    if (action_being_used == SKILL_TRAPS) then begin
       script_overrides;
       display_mstr(113);
       item_add(dude_obj,PID_TOOL_PARTS_ELECTRONIC,1)
-      item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,5)
+      item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,1)
       call repair_proc;
    end
    if (action_being_used == SKILL_SCIENCE) then begin

@@ -184,7 +184,7 @@ procedure NodeQst200 begin
    NAnswer(220,1,NodeQst300)
    end
    NAnswer(212,1,NodeQst201)
-   NAnswer(211,1,Node999)
+   zNAnswer(211,1,Node999)
 end
 
 procedure NodeQst201 begin
@@ -207,20 +207,20 @@ procedure NodeQst300 begin
 end
 
 procedure NodeQst301 begin
-   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,random(3,5))
+   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,1)
 
    if (random(0,1) == 0) then begin
-   item_add(dude_obj,PID_AMMO_308,random(3,6))
+   item_add(dude_obj,PID_AMMO_308,2)
    end
    else begin
-   item_add(dude_obj,PID_AMMO_5_MM,random(2,3)) // в пачке 5 патронов
+   item_add(dude_obj,PID_AMMO_5_MM,1)
    end
 
    if (random(0,1) == 0) then begin
-   item_add(dude_obj,PID_AMMO_10_MM,random(4,8))
+   item_add(dude_obj,PID_AMMO_10_MM,1)
    end
    else begin
-   item_add(dude_obj,PID_AMMO_44_MAGNUM,random(4,8))
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,1)
    end
 
    Reply(225)

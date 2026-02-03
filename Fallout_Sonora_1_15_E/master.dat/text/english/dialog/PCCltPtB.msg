@@ -16,5 +16,6 @@
 {210}{}{Get back there with the others in the cathedral. Our goal is Aaron and his Advisor. Don't get distracted by anything else.}
 {211}{}{Alright.}
 {212}{}{Aaron and the Advisor are dead.}
-{213}{}{We did it! This day will go down in history as the day of Phoenix's liberation. Phoenix, and the wasteland, thanks to you.}
-{214}{}{I hope your reign will be more just. Goodbye, Marcos.}
+{213}{}{We did it! This day will go down in history as the day of Phoenix's liberation. Thank you, our gran guerrero.}
+{1213}{}{We did it! This day will go down in history as the day of Phoenix's liberation. Thank you, our gran guerrera.}
+{214}{}{I hope your rule will be more just. I doubt we'll meet again. Goodbye, Marcos.}

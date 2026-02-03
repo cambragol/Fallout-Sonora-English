@@ -288,7 +288,7 @@ end
 procedure NodeAnswer202 begin
    inc_local_var(LVAR_Inv_Qst);
    item_add(dude_obj,PID_W_RIFLE_HUNTING,1)
-   item_add(dude_obj,PID_AMMO_308,20)
+   item_add(dude_obj,PID_AMMO_308,4)
    Reply(258)
    NAnswer(256,1,NodeAnswer201)
 end
@@ -296,7 +296,6 @@ end
 procedure NodeAnswer203 begin
    inc_local_var(LVAR_Inv_Qst);
    item_add(dude_obj,PID_W_SMG_10,1)
-   item_add(dude_obj,PID_AMMO_10_MM,30)
    item_add(dude_obj,PID_W_GRENADE_FRAG,2)
    item_add(dude_obj,PID_M_STIMPAK,1)
    Reply(260)

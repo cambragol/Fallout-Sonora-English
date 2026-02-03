@@ -47,10 +47,13 @@
 #define GVAR_REPUTATION_PELGRIM              (4)   // титул Пилигрим (Миролюбивый странник)
 #define GVAR_REPUTATION_KILLER               (8)   // титул Убийца
 #define GVAR_REPUTATION_KILLER_CK            (9)   // титул Убийца (счетчик)
+#define GVAR_REPUTATION_KILLER_LIMIT         (14)  // титул Убийца (лимит - значение задаётся в VAULT13.GAM)
 #define GVAR_REPUTATION_HUNTER               (10)  // титул Охотник
 #define GVAR_REPUTATION_HUNTER_CK            (11)  // титул Охотник (счетчик)
+#define GVAR_REPUTATION_HUNTER_LIMIT         (15)  // титул Охотник (лимит - значение задаётся в VAULT13.GAM)
 #define GVAR_REPUTATION_MUTAKILLER           (12)  // титул Истребитель
 #define GVAR_REPUTATION_MUTAKILLER_CK        (13)  // титул Истребитель (счетчик)
+#define GVAR_REPUTATION_MUTAKILLER_LIMIT     (16)  // титул Истребитель (лимит - значение задаётся в VAULT13.GAM)
 #define GVAR_REPUTATION_GRAVES_CK            (5)   // титул Гробокопатель (счетчик) (скрытый титул, не отображается в свойствах ГГ)
 
 //--- Репутационные звания:
@@ -120,11 +123,8 @@
 ******************     Системные переменные   ********************
 ******************************************************************/
 
-#define GVAR_GAME_VERSIA                      (45) // текущая версия игры
-
 #define GVAR_DUDE_DAMAGE_AMT                  (19) // количество нанесенного герою урона в рукопашном бою
 #define GVAR_EXPOINT_CHECK                    (28) // служит для расчета конечных очков опыта
-#define GVAR_EXPOINT_COMBAT_CHECK             (20) // служит для подсчета количества боевых очков опыта
 #define GVAR_RADIOACTIV_STOP                 (339) // запрет облучения на уровне на время диалога
 #define GVAR_RADIOACTIV_GLOBAL                (70) // глобальный уровень радиации (действует в пределах карты)
 #define GVAR_RADIOACTIV_GLBLTIMER            (463) // таймер для глобального уровня радиации GVAR_RADIOACTIV_GLOBAL
@@ -139,7 +139,6 @@
 #define GVAR_PERSONAL_REACTION               (303) // подсчет персонального отношения в диалоге
 #define GVAR_RANDOM_CAVE_ENEMIES             (375) // отвечает за подбор врагов в пещерах случайных встреч (см SCRIPT_ZSRandom)
 #define GVAR_GAZ_MASK_ACTIVE                 (376) // текущая защита одетого противогаза
-#define GVAR_SHOVEL_STATUS                   (448) // текущее состояние лопаты (понижается при использовании, а дойдя до критического значения лопата уничтожается, переменная вновь устанавливается в ноль)
 
 //--- Для скриптинга карт:
 #define GVAR_LOAD_MAP_INDEX                   (27)
@@ -218,6 +217,12 @@
                                                     - bit_4  ГГ отправил заказ в Флагпул
                                                     - bit_5  ГГ отправил заказ в Феникс
                                                     - bit_6  ГГ отправил заказ в ТуСан
+                                                    - bit_7  ГГ получил доступ к камере хранения Флагпул
+                                                    - bit_8  ГГ получил доступ к камере хранения Феникс
+                                                    - bit_9  ГГ получил доступ к камере хранения ТуСан
+                                                    - bit_10 ГГ получил доступ к камере хранения Флагпул 2
+                                                    - bit_11 ГГ получил доступ к камере хранения Феникс 2
+                                                    - bit_12 ГГ получил доступ к камере хранения ТуСан 2
                                                     */
 #define GVAR_RADIO_FLAGS_BIT                 (138) // битовые маски отражающие знание радиочастоты тех или иных фракций:
                                                     /*
@@ -302,11 +307,13 @@
                                                     */
 #define GVAR_ENCOUNTERS_FLAGS_BIT            (377) // битовые маски для различных событий на карте мира:
                                                     /*
-                                                    - bit_1 фиксирует появление уникального пистолета на теле мексиканского имигранта
-                                                    - bit_2 фиксирует факт получения сигнала из Хаба по рации на карте мира
-                                                    - bit_3 фиксирует перенос Юнги из корабля в разрушенный Пуэрто-Пеньяско
-                                                    - bit_4 останавливает действие интеркома в убежище 27
-                                                    - bit_5
+                                                    - bit_1  фиксирует появление уникального пистолета на теле мексиканского имигранта
+                                                    - bit_2  фиксирует факт получения сигнала из Хаба по рации на карте мира
+                                                    - bit_3  фиксирует перенос Юнги из корабля в разрушенный Пуэрто-Пеньяско
+                                                    - bit_4  останавливает действие интеркома в убежище 27
+                                                    - bit_5  используется в скрипте лодки для размещения ГГ рядом с ней после отплытия
+                                                    - bit_6  ГГ сдал Тодда тому, у кого он украл сварочный аппарат = Тодда линчуют
+                                                    - bit_7  КасаГранде: Салливан инициировал нападение на мера
                                                     */
 #define GVAR_SPECIAL_ENCOUNTER_GOLD          (600) // спецвстреча Золото
 #define GVAR_SPECIAL_ENCOUNTER_BIBL          (601) // спецвстреча Генри Бимис
@@ -394,6 +401,7 @@
 #define GVAR_GARAGE_QST_MOTEL_BOYS           (431) // спасение девушки в мотеле: <0 - девушка погибла, 0 - событие не инициировано, 1 - инициировано, 2 - девушка спасена
 #define GVAR_GARAGE_QST_FAKECAPS             (432) // квест Остановить фальшивокрышечное производство: <0 - провален, 0 - не взят, 1 - взят, 2 - завершен
 #define GVAR_GARAGE_STATUS_FAKECAPS          (433) // состояние фальшивокрышечного производства: < 0 - уничтожено, 0 - действует
+#define GVAR_GARAGE_QST_JAKALSINFO           (572) // квест найти логово шакалов: <0 - провален, 0 - не взят, 1 - взят, 2 - завершен
 
 //--- Флагпул:
 #define GVAR_STATUS_FLAGSTAFF_FABER          (122) // статус Надзирателя в Флагпуле: <0 - мертв, 0 - жив
@@ -404,12 +412,12 @@
 #define GVAR_FLAGSTAFF_RADIO_MARK             (87) // состояние радиостанции наемников: 0 - цела, 1 - отключена, 2 - уничтожена
 #define GVAR_FLAGSTAFF_SLAVES_DIALOG          (88) // квест Проникнуть в загон и поговорить с соплеменниками
 #define GVAR_FLAGSTAFF_SLAVES_ZAGON           (89) // квест Любым способом освободить соплеменников из загона: 0 - не принят, 1 - принят, 2 - успешно завершен
-#define GVAR_FLAGSTAFF_SLAVES_MINE            (90) // квест Спасти соплеменников из западни в шахтах: <0 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_FLAGSTAFF_SLAVES_MINE            (90) // квест Спасти соплеменников из западни в шахте: <0 - провален, 0 - не взят, 1 - взят, 2 - завершен
 #define GVAR_FLAGSTAFF_ROBOT_REPAIR           (92) // квест Починить бурового робота: 0 - не взят, 1 - взят, 2 - завершен
 #define GVAR_FLAGSTAFF_ROBOT_STATUS          (120) // статус бурового робота в шахтах: 0 - поврежден, 1 - починен
 #define GVAR_FLAGSTAFF_RAT_KING_QST           (93) // квест Ликвидировать крысиного короля в шахтах: 0 - не взят, 1 - взят, 2 - завершен
 #define GVAR_FLAGSTAFF_RAT_KING_LIFE          (94) // статус крысиного короля: <0 - мертв, 0 - жив
-#define GVAR_FLAGSTAFF_MINES_DESTROY         (121) // уничтожение шахт: <0 - ГГ отказался выполнять, 0 - квест не получен и подрыв невозможен, 1 - квест получени подрыв возможен, 2 - квест завершен, подрыв осуществлен
+#define GVAR_FLAGSTAFF_MINES_DESTROY         (121) // уничтожение шахт: <0 - ГГ отказался выполнять, 0 - квест не получен и подрыв невозможен, 1 - квест получен и подрыв возможен, 2 - квест завершен, подрыв осуществлен
 #define GVAR_FLAGSTAFF_MERCS_LIFE            (124) // число живых наемников на локации загона в Флагпуле (не считая босса)
 #define GVAR_FLAGSTAFF_SLAVES_RUN            (126) // побег рабов из загона при условии смерти наемников и ликвидации радиовышки: 0 - побега не было, 1 - побег в процессе, 2 - побег совершен
 #define GVAR_FLAGSTAFF_RANGER_KILL           (127) // квест Убить рейнджера: 0 - не взят, 1 - взят, 2 - завершен
@@ -475,7 +483,7 @@
                                                     + битовые маски по другим квестам:
                                                      - bit_10 беженцы в ГаражСити - погиб кто-то из беженцев
                                                      - bit_11 беженцы в ГаражСити - ГГ узнал от них нужную информацию
-                                                     - bit_12 Кварцзит - ГГ изучил Наукой реактор
+                                                     - bit_12 Кварцсайт - ГГ изучил Наукой реактор
                                                      - bit_13 доступ ГГ к картографическому столу
                                                     */
 #define GVAR_RANGERS_QST_QUARTZ              (203) // квест Узнать что случилось в Кварце: 0 - не взят, 1 - взят, 2 - завершен
@@ -671,18 +679,18 @@
 #define GVAR_RAIDER_STATUS_HAK               (446) // статус новичка Чака: <0 - мертв, 0 - не определен, 1 - сняты обвинения
 #define GVAR_RAIDER_STATUS_ENCHELP           (447) // статус магистральщика на спецвстрече на карте мира: <0 - мертв, 0 - не определен, 1 - защищен от охотников за головами
 
-//--- Tu-San:
-#define GVAR_TWOSUN_STATUS_CTZN              (383) // number of deceased city residents (mostly generic NPCs)
-#define GVAR_TWOSUN_STATUS_DUDE              (161) // how the PC ended up in TuSan: 0 - arrived independently, 1 - forcibly arrived through dialogue with Aaron, 2 - forcibly arrived through Uncle Miguel
-#define GVAR_TWOSUN_STATUS_ZAX               (162) // status of ZAX: -2 - destroyed, -1 - deactivated, 0 - unchanged, 1 - its functions activated and expanded
-#define GVAR_TWOSUN_STATUS_BOSS              (163) // status of the leader of the Tinmen: -1 - dead, 0 - alive, 1 - PC received a recommendation from the boss for the Brotherhood of Steel.
-#define GVAR_TWOSUN_STATUS_KARLOS            (227) // status of Karlos: -1 - dead, 0 - alive, 1 - moved to C-Nueva, 2 - moved to the Villa, 3 - went on a journey
-#define GVAR_TWOSUN_QST_ZONA                 (164) // quest to infiltrate the Control Center of the Forbidden Zone in TuSan: 0 - not taken, 1 - taken, 2 - completed
-#define GVAR_TWOSUN_QST_KARLOS               (165) // quest to save Karlos: 0 - not taken, 1 - taken, 2 - completed by any means
-#define GVAR_TWOSUN_QST_PADRE                (166) // quest to find and talk to the padre: 0 - not taken, 1 - taken, 2 - completed
-#define GVAR_TWOSUN_QST_POMPA                (167) // quest to acquire parts for the hydroponic farm from the Tinmen: 0 - not taken, 1 - taken, 2 - completed
-#define GVAR_TWOSUN_QST_FAMILY_PIP           (168) // quest for Cody and his family: 0 - not taken, 1 - taken, 2 - completed by any means
-#define GVAR_TWOSUN_QST_FAMILY_STATUS        (169) // bitmasks for the Tinman's quest and his family:
+//--- Ту-Сан:
+#define GVAR_TWOSUN_STATUS_CTZN              (383) // число умерших жителей города (в основном типовых нпс)
+#define GVAR_TWOSUN_STATUS_DUDE              (161) // как ГГ оказался в ТуСане: 0 - прибыл самостоятельно, 1 - прибыл принудительно через диалог с Аароном, 2 - прибыл принудительно через Дядюшку Мигеля
+#define GVAR_TWOSUN_STATUS_ZAX               (162) // статус ZAX: -2 - уничтожен, -1 - отключен, 0 - без изменений, 1 - его функции активированы и расширены
+#define GVAR_TWOSUN_STATUS_BOSS              (163) // статус лидера жестянщиков: -1 - мертв, 0 - жив, 1 - ГГ получил от босса рекомендацию для Братства Стали.
+#define GVAR_TWOSUN_STATUS_KARLOS            (227) // статус Карлоса: -1 - мертв, 0 - жив, 1 - переехал в КНуэвa, 2 - переехал на Виллу, 3 - отправился в путешествие
+#define GVAR_TWOSUN_QST_ZONA                 (164) // квест на проникновение в контрольный центр Запретной Зоны ТуСана: 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_TWOSUN_QST_KARLOS               (165) // квест спасти Карлоса: 0 - не взят, 1 - взят, 2 - завершен любым способом
+#define GVAR_TWOSUN_QST_PADRE                (166) // квест найти и поговорить с падре: 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_TWOSUN_QST_POMPA                (167) // квест приобрести у жестянщиков детали для гидропонической фермы: 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_TWOSUN_QST_FAMILY_PIP           (168) // квест Коди и его семьи: 0 - не взят, 1 - взят, 2 - завершен любым способом
+#define GVAR_TWOSUN_QST_FAMILY_STATUS        (169) // битовые маски для квеста жестянщика и его семьи:
                                                     /*
                                                     - bit_1 Коди погиб
                                                     - bit_2 Семья жестянщика погибла
@@ -714,20 +722,20 @@
 #define GVAR_TWOSUN_QST_LOVE_PIP             (269) // квест жестянщика-любовника: 0 - не взят, 1 - взят, 2 - завершен любым способом
 
 //--- Каса-Нуэвa:
-#define GVAR_NUEVA_STATUS_APOC               (256) // status of the leader of the Followers of the Apocalypse: -1 - dead, 0 - alive
-#define GVAR_NUEVA_STATUS_MER                (366) // status of the mayor of Casa-Nueva: -999 - suicide in free play, -1 - violently dead, 0 - alive
-#define GVAR_NUEVA_STATUS_EL_GIGANTO         (359) // status of El Giganto: -1 - dead, 0 - alive
-#define GVAR_NUEVA_QST_APOC_HOME             (340) // Follower's quest in Inferno for escort to C-Nueva: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
-#define GVAR_NUEVA_USING_INSECTICIDES        (363) // if !=0, PC used insecticide on the scarecrow at the plantations
-#define GVAR_NUEVA_KNOW_SPORE                (364) // if !=0, PC learned about the Sporebearers on the plantation
-#define GVAR_NUEVA_QST_PLANT_DEAD            (365) // resident's quest to find the missing person: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
-#define GVAR_NUEVA_QST_PLANT_INSECT          (366) // quest to clear the plantations: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
-#define GVAR_NUEVA_QST_EL_GIGANTO            (367) // quest to eliminate El Giganto: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
-#define GVAR_NUEVA_STATUS_LABA               (368) // status of the laboratory: != 0 - laboratory destroyed (burned down)
-#define GVAR_NUEVA_STATUS_PINKI              (369) // status of the pig-rat Pinki: < 0 - dead (if <-1 killed by PC), 1 - cured, >=2 - joined the PC for relocation to the plantation
-#define GVAR_NUEVA_QST_PINKI                 (370) // quest of the sick Pinki: <0 - failed, 0 - not taken, 1 - taken, 2 - completed by eliminating Pinki, 3 - completed by saving Pinki
-#define GVAR_NUEVA_QST_BOOKS_PUERTO          (371) // school quest to deliver e-books from Puerto: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
-#define GVAR_NUEVA_STATUS_CLIMAT             (374) // electricity connection in the greenhouses: 0 - not connected, 1 - connected
+#define GVAR_NUEVA_STATUS_APOC               (256) // статус лидера Последователей Апокалипсиса: -1 - мертв, 0 - жив
+#define GVAR_NUEVA_STATUS_MER                (366) // статус мэра Каса-Нуэвa: -999 - мертв самоубийством во фриплее, -1 - мертв насильственно, 0 - жив
+#define GVAR_NUEVA_STATUS_EL_GIGANTO         (359) // статус Эль Гиганто: -1 - мертв, 0 - жив
+#define GVAR_NUEVA_QST_APOC_HOME             (340) // квест Последователя в Инферно по сопровождению в КНуэвa: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
+#define GVAR_NUEVA_USING_INSECTICIDES        (363) // при !=0 ГГ использовал инсектицид на пугало на плантациях
+#define GVAR_NUEVA_KNOW_SPORE                (364) // при !=0 ГГ разузнал о спороносах на плантации
+#define GVAR_NUEVA_QST_PLANT_DEAD            (365) // квест жителя на поиск пропавшего: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
+#define GVAR_NUEVA_QST_PLANT_INSECT          (366) // квест по очистке плантаций: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
+#define GVAR_NUEVA_QST_EL_GIGANTO            (367) // квест по ликвидации Эль Гиганто: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
+#define GVAR_NUEVA_STATUS_LABA               (368) // статус лаборатории: != 0 - лаборатория уничтожена (сожжена)
+#define GVAR_NUEVA_STATUS_PINKI              (369) // статус свинокрыса Пинки: < 0 - мертв (при <-1 убит руками ГГ), 1 - излечен, >=2 - приобщился к ГГ для перемещения на плантацию
+#define GVAR_NUEVA_QST_PINKI                 (370) // квест больного Пинки: <0 - провален, 0 - не взят, 1 - взят, 2 - завершен ликвидацией Пинки, 3 - завершен спасением Пинки
+#define GVAR_NUEVA_QST_BOOKS_PUERTO          (371) // квест школы по доставке электронных книг из Пуэрто: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
+#define GVAR_NUEVA_STATUS_CLIMAT             (374) // подключение электроэнергии в теплицах: 0 -  не подключено, 1 - подключено
 
 //--- Пуэрто-Пеньяско:
 #define GVAR_PUERTO_BOS_DESTROY_TIMER        (252) // таймер до взрыва торпед
@@ -747,7 +755,7 @@
 #define GVAR_PUERTO_RUN_BANDITS_CAMP         (360) // флажок бега за ГГ напарников во время квеста GVAR_PUERTO_QST_BANDITS: 0 - стоят на местах, 1 - следуют за ГГ
 #define GVAR_PUERTO_STATUS_CRVN_BNDS         (361) // статус заложника у бандитов по квесту GVAR_PUERTO_QST_BANDITS: <0 - погиб, 0 - в заложниках, >0 - освобожден (доведен до точки эвакуации)
 #define GVAR_PUERTO_SKLAD_DOPUSK             (362) // допуск к расширенному товару интенданта от кого-то из старших: 1 - генерал, 2 - начальник патрульной службы, 3 - верховный писарь
-#define GVAR_PUERTO_QST_SANFELIPE_PIP        (464) // квест на Сан-Фелипе: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_PUERTO_QST_SANFELIPE_PIP        (464) // квест разведка в Сан-Фелипе: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
 #define GVAR_PUERTO_STATUS_PAUL              (470) // статус Пауля со спец встречи: <0 - мертв, 0 - жив, 1 - спасен и переправился в Пуэрто
 #define GVAR_PUERTO_STATUS_ENCSCRIBE         (495) // статус писаря - заложника на спецвстрече на карте мира: < 0 - мертв, 0 - не определен, 1 - освобожден из плена
 
@@ -773,11 +781,27 @@
 #define GVAR_SANFELIPE_STATUS_BOSS           (473) // статус лидера поселения: -1 - мертв, 0 - жив, 1 - низложен населением
 #define GVAR_SANFELIPE_STATUS_CTZNCAVE       (474) // статус выжившей в пещере с монстрами: -1 - мертв, 0 - жив, 1 - бежит за ГГ, 2 - на свободе
 #define GVAR_SANFELIPE_STATUS_MONSTRCAVE     (475) // число убитых монстров в пещере
+#define SANFELIPE_DEAD_MONSTRCAVE             (11) // лимит убитых монстров в пещере
 #define GVAR_SANFELIPE_STATUS_MONSTRCOAST    (476) // число убитых монстров на побережье
-#define SANFELIPE_DEAD_MONSTRCOAST             (7) // число убитых монстров на побережье
+#define SANFELIPE_DEAD_MONSTRCOAST             (4) // лимит убитых монстров на побережье
 #define GVAR_SANFELIPE_DESTROY_CAVE          (477) // взрыв пещеры
 #define GVAR_SANFELIPE_STATUS_LAMPARA        (478) // статус лампы в маяке: <=0 не работает, 1 восстановлена
 #define GVAR_SANFELIPE_QST_FAROLAMPARA       (479) // квест починить маяк: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_SANFELIPE_QST_MONSTRSCOAST      (573) // квест уничтожить гигантских пиявок на берегу: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_SANFELIPE_QST_MONSTRSCAVE       (574) // квест уничтожить логово гигантских пиявок: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_SANFELIPE_QST_GMAP              (575) // квест разведка полуострова: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_SANFELIPE_BITS                  (576) // битовые маски для квестов Сан-Фелипе
+                                                    /*
+                                                    - bit_1 Ян вернулся в свою хижину на берегу
+                                                    - bit_2 Ян погиб
+                                                    - bit_3 ГГ узнал предисторию миграции населения
+                                                    - bit_4 ГГ договорился о перемирии между Сан-Фелипе и Братством Стали
+                                                    - bit_5 насос на судне починен
+                                                    - bit_6 Капитан решил покинуть бухту
+                                                    */
+#define GVAR_SANFELIPE_QST_WATER             (577) // квест захват источника пресной воды: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_SANFELIPE_QST_INDIAN_ATTAK      (578) // квест осада дикарей: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
+#define GVAR_SANFELIPE_QST_RUN               (579) // квест убедить капитана покинуть Сан-Фелипе: -1 - провален, 0 - не взят, 1 - взят, 2 - завершен
 
 //--- Санта-Ана:
 #define GVAR_SANTAANA_STATUS_EL_DIABLO       (483) // статус Эль Дьябло: -1 - мертв, 0 - жив

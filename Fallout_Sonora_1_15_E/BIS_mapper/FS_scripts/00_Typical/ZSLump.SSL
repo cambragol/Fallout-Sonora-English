@@ -8,7 +8,7 @@ procedure use_p_proc;
 procedure use_obj_on_p_proc;
 procedure damage_p_proc;
 procedure lump_gener;
-procedure delete_lump;
+//procedure delete_lump;
 
 #define LVAR_Solar_Timer                 (0) // Время свечения лампы
 
@@ -35,9 +35,9 @@ end
 procedure map_enter_p_proc begin
    if (local_var(LVAR_Solar_Timer) < game_time) then begin
        call ID_proc;
-       if (lumpPID > 0) then begin
-       //call delete_lump;
-       end
+       /*if (lumpPID > 0) then begin
+       call delete_lump;
+       end*/
    end
 end
 
@@ -95,13 +95,19 @@ procedure lump_gener begin
 
    if (cur_map_index == MAP_VILLA_CAVE) then begin
    display_mstr(110);
+   inc_map_var(MVAR_VILLA_SolarBonus);
    end
    if ((cur_map_index == MAP_GARAGE_TRILER) and (self_elevation == 0)) then begin
    display_mstr(114);
    inc_map_var(MVAR_GARAGE_TRILER_FIRE);
    end
+   if ((cur_map_index == MAP_SAN_FELIPE_COAST) and (self_elevation == 0)) then begin
+   display_mstr(115);
+   inc_map_var(MVAR_FELIPE_MONSTR_COAST_FIRE);
+   end
 end
 
+/*
 procedure delete_lump begin
    if (tile_contains_obj_pid(self_tile,self_elevation,lumpPID) == true) then begin
    destroy_object(tile_contains_pid_obj(self_tile, self_elevation, lumpPID));
@@ -109,3 +115,4 @@ procedure delete_lump begin
    set_obj_visibility(self_obj, 0);
    obj_set_light_level(self_obj, 0, 0);
 end
+*/

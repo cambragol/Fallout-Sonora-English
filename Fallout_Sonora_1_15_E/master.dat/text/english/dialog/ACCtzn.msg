@@ -1,8 +1,14 @@
 {100}{}{You see a resident of San Felipe.}
 {101}{}{You see an ordinary peasant of Mexican appearance.}
 
-{110}{}{Â¡Hola!}
-{111}{}{Â¡Hola, hÃ©roe!}
-{112}{}{Â¡Hola, amigo!}
-{1112}{}{Â¡Hola, amiga!}
-{113}{}{Â¡Vete, traidor!}
+{110}{}{¡Hola!}
+{111}{}{¡Hola, héroe!}
+{112}{}{¡Hola, amigo!}
+{1112}{}{¡Hola, amiga!}
+{113}{}{¡Vete, traidor!}
+
+{210}{}{«Hello!»}
+{211}{}{«Hello, hero!»}
+{212}{}{«Hello, friend!»}
+{1212}{}{«Hello, friend!»}
+{213}{}{«Go away, traitor!»}

@@ -46,3 +46,7 @@
 {151}{}{This is the road you took from Sonora. To return, wait at the gathering point.}
 {152}{}{The road is blocked by collapsed buildings.}
 {153}{}{The bridge is destroyed. But going down is an option, if you're smart about it.}
+
+{150}{}{Tracks lead from the moonshiner's hut toward the cemetery. It looks like someone was dragged here.}
+{151}{}{What a stench! It's obvious this place hasn't been cleaned in a while.}
+{152}{}{Thanks to your scavenger senses, you found a sand-covered hatch.}

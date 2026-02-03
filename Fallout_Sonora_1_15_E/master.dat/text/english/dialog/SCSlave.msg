@@ -1,4 +1,4 @@
-{100}{}{You see a servant.}
+{100}{}{You see a janitor.}
 {101}{}{You see a gaunt Mexican man, clad in a striped shirt and collar, clutching a mop with calloused hands.}
 
 {110}{}{Of course, sir!}
@@ -16,13 +16,13 @@
 {200}{}{How can I serve, senor... Oh, you're not with the Brotherhood. Then best we don't speak, the paladins frown upon it.}
 {1200}{}{How can I serve, senora... Oh, you're not with the Brotherhood. Then best we don't speak, the paladins frown upon it.}
 {201}{}{Why's that?}
-{202}{}{They're always sniffing out conspiracies. And if they suspect you, it's inspections and public floggings. It's strict here. They drowned someone just last week for stealing food from the supreme paladin. I don't want to end up like him.}
+{202}{}{The paladins won't like it. They're always sniffing out conspiracies. It's strict here.}
 {203}{}{I see. Well, take care.}
 
 {210}{}{(glances around nervously) Look, we could get in trouble talking like this.}
 {211}{}{I see.}
 {212}{}{Tell me a little more about this ship and the Brotherhood.}
-{213}{}{You're not with the Brotherhood. Answering your questions could get me in trouble. And what's in it for me, huh? Talking only stirs up trouble.}
+{213}{}{Shh! You're not with the Brotherhood. You could get me in trouble. And what's in it for me, huh? Talking only stirs up trouble.}
 {214}{}{Alright then.}
 {215}{}{Keep your voice down, someone might be listening.}
 {216}{}{Best not anger the paladins. Goodbye.}
@@ -42,13 +42,13 @@
 {228}{}{I scrub this cursed deck four times a day! Or I haul boxes. The Order's always getting and sending things.}
 {229}{}{Who else is doing time here besides you?}
 {230}{}{Can you leave this place?}
-{231}{}{If I go too far from the ship, the collar will explode. It's a scribe invention. They don't go easy on the locals here. Besides, they feed me here. In the wasteland, I'd be scavenging for food again. Tough choice, you know.}
+{231}{}{Not really. There's nothing around for miles! The nearest settlements are all controlled by the Order. Besides, they feed me here. In the wasteland, I'd be scavenging and starving again. Not much of a choice, you know.}
 {232}{}{Listen. You either spill everything you know, or you'll "accidentally" go overboard.}
 {233}{}{What do you want from me? Don't you know where you are?}
 {234}{}{I need information.}
 
 {240}{}{What do you know about the Brotherhood of Steel?}
-{241}{}{Not much. They keep quiet about themselves. This is just an outpost; their main base is far to the west. These are the toughest guys in all of Sonora. Even the Tinsmiths don't compare.}
+{241}{}{Not much. They keep quiet about themselves. This is just an outpost; their main base is in some 'California'. These are the toughest guys in all of Sonora. Even the Tinsmiths don't compare.}
 {242}{}{Got it. Seems like the Brotherhood is no joke. Let's talk about something else.}
 {243}{}{Who's in charge around here?}
 {244}{}{General Dixon. You'll find him in his cabin or the wardroom.}
@@ -58,8 +58,8 @@
 {251}{}{No, there are places even I can't go. Especially the lower holds and storage areas.}
 {252}{}{Okay, no problem.}
 {253}{}{What's in the lower holds?}
-{254}{}{Torpedo room. They say it's full of explosives. There's also a reactor and rats as big as dogs.}
-{255}{}{Wow, that's something to check out.}
+{254}{}{Torpedo room. They say it's full of explosives. There's also rats as big as dogs.}
+{255}{}{Hmm, that's worh a look.}
 {256}{}{Who has the keys to all the doors?}
 {257}{}{Most people have limited access. Only the Supreme Paladin has keys to everything.}
-{258}{}{Hmm. Looks like the general doesn't trust even his own men completely.}
+{258}{}{Hmm. Looks like the general doesn't even trust his own men completely.}

@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_PCDrgdlr
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        14                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_PHOENIX_PIMP     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_DRUG_DILLER        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -94,7 +95,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -108,7 +109,7 @@ procedure setBarterA begin
         check_restock_item(PID_M_RADAWAY, 2, 3, 100)
         check_restock_item(PID_M_RAD_X, 1, 2, 100)
 
-        //- ??????
+        //- крышки
         if (global_var(GVAR_PHENIX_STATUS_CARDINAL) < 0) then begin
         check_restock_many(200,250)
         end
@@ -141,7 +142,7 @@ procedure timed_event_p_proc begin
    end
    if (fixed_param == 2) then begin
       // tuned on so drug-dealer hawks his goods - cambragol
-       timer_float_reply(210,215)
+      timer_float_reply(210,215)
    end
 end
 
@@ -191,6 +192,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,35) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_PHENIX_STATUS_CARDINAL,50) // Поправка к отношению за принадлежность к фракциям
 
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -202,9 +204,11 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
-   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_20) == 0)) then begin
+   if (bitDialog(bit_20) == 0) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    decBarterMod(20); // в отличии от рынка, драгдилер наоборот понижает цены, так как у него теперь нет преград в виде огнепоклонников для открытой торговли наркотой
    bitDialogExp(bit_20,0)
+   end
    end
 
    if (bitDialog(bit_1) == 0) then begin
@@ -242,7 +246,7 @@ end
 
 procedure NodeEnemy2 begin
    bitDialogExp(bit_3,0)
-   zReply(220)
+   Reply(220)
    BAnswer(221,1,NodeEnemy4)
    NAnswer(222,1,Node999)
 end
@@ -333,7 +337,7 @@ procedure NodeFstDialog2 begin
 end
 
 procedure NodeFstDialog3 begin
-   Reply(205)
+   zReply(205)
    NAnswer(206,1,NodeFstDialog2)
    NAnswer(207,1,NodeFstDialog2)
 end
@@ -421,7 +425,7 @@ procedure NodeAnswer103 begin
    GAnswer(250,1,NodeBarterOk)
    end
 
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    NAnswer(252,1,NodeBarterOk)
    end
    else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin

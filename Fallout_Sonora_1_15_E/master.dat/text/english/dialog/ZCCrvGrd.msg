@@ -7,3 +7,7 @@
 {113}{}{It'd be nice to finally have some real food.}
 {114}{}{This journey's been brutal.}
 {115}{}{Brahmin are too slow when they're loaded up.}
+
+{120}{}{Damn, they killed the boss!}
+{121}{}{There's no one to pay - I guess we'll be going our separate ways...}
+{122}{}{We'll split our things and go our separate ways.}

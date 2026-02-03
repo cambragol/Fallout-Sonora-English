@@ -11,6 +11,7 @@
 {205}{}{It's a pity your mind is as miniscule as an atom in a nuclear womb. We'll have to split you until nothing remains!}
 {206}{}{What are you talking about...?}
 {207}{}{If you are truly a Brother of Fire, then you should know: if you are not initiated into the most important matters, you are not worthy.}
+{1207}{}{If you are truly a Follower of Fire, then you should know: if you are not initiated into the most important matters, you are not worthy.}
 {208}{}{So, can I ask a question?}
 {209}{}{You seem smart, what's the harm in a little conversation?}
 

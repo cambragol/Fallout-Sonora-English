@@ -27,7 +27,7 @@
 
 {230}{}{Are there any residents left here?}
 {231}{}{I'm here on Commander Helford's request. Where is the refugee camp?}
-{232}{}{The locals can no longer be called human. They've gone mad, don't understand speech, and attack anyone they see. They still mostly haunt the trailer park across from the gas station. Go down the street and then turn left.}
+{232}{}{Refugees from Phoenix settled here. But really, they can't be called human anymore. They've gone mad, don't understand speech, and attack anyone they see. If you see any, best to shoot on sight. Put them out of their misery.}
 {233}{}{Who are they?}
 {234}{}{Just ordinary refugees from the east. Came here hoping for a new life, but found only suffering. If you see them, it's better to put them out of their misery.}
 {235}{}{Why have they gone mad?}
@@ -35,14 +35,14 @@
 {237}{}{The locals can no longer be called human. They've gone mad, don't understand speech, and attack anyone they see. They still mostly roam around the trailer park.}
 
 {240}{}{Why is it radioactive here?}
-{241}{}{I'd like to know that too. After the Great War, there was high radiation here due to winds from California. But over time, the radiation levels normalized. The locals must have found something they shouldn't have.}
+{241}{}{I'd like to know that too. After the Great War, there was high radiation here due to winds from California. But over time, it returned to normal. And now it's risen again. The locals must have found something they shouldn't have.}
 
 {250}{}{Who are you?}
-{251}{}{I'm a ranger. My task is to set up radiation warnings and, if possible, eliminate all the crazed locals. After that, I'll return to my duty in the east.}
+{251}{}{I'm a ranger. My task is to set up radiation warnings. Maybe take out the crazed locals. After that, I'll return to my duty in the east.}
 {252}{}{Are you here alone?}
 {253}{}{Yeah. Many rangers have been sent east, leaving only a few patrols here. Anyway, this area's always been sparsely populated.}
 {254}{}{I need an escort. Will you come with me?}
-{255}{}{That's too dangerous. Two of us attract their attention, and I'm better out in the wasteland than in the city.}
+{255}{}{Too dangerous. Two of us attract their attention.}
 {256}{}{Without your protection, I won't make it out alive.}
 {257}{}{I'm a ranger too. Together, we can deal with these locals more easily.}
 {258}{}{I don't protect people like you.}
@@ -53,3 +53,11 @@
 {263}{}{(skeptically) Okay. But don't forget about the radiation.}
 {264}{}{Let's go!}
 {265}{}{Let's move.}
+
+#Low Intelligence
+{270}{}{Coo-coo!}
+{271}{}{Poor thing. You don't even know where you're going, do you?}
+{272}{}{Heh!}
+{273}{}{It's very dangerous here. You understand? VERY DANGEROUS! There's high ra-di-a-tion here and the people are crazy. Okay? So get out of here... Anyway, you've been warned.}
+{274}{}{Okie-dokie.}
+{275}{}{Goodbye-bye.}

@@ -77,6 +77,7 @@
 {303}{}{It's not for you to decide how we should live! The Villa has survived thanks to the traditions and values we chose. The wasteland can dictate another path to us. But you...}
 {304}{}{What?}
 {305}{}{You're just a hypocrite hiding your foolishness behind the outside world! Get out and don't come back. I curse you, }
+{1305}{}{You're just a hypocrite hiding your foolishness behind the outside world! Get out and don't come back. I curse you, }
 {306}{}{!}
 {307}{}{Take it easy, Granny.}
 {308}{}{You're the hypocrites. I'm not taking another step into this snake pit.}

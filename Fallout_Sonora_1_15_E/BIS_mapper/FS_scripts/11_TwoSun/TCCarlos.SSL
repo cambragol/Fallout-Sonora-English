@@ -114,7 +114,7 @@ procedure timed_event_p_proc begin
    // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
    // Таймер за номером 2 рарезервирован под всплывающие реплики
    if (fixed_param == 1) then begin
-       timer_move_to_home
+       timer_move_patrol(HomeTile,tile_num_in_direction(HomeTile,5,5))
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(110,116)
@@ -180,6 +180,9 @@ procedure Node998 begin
 end
 
 procedure Node999 begin
+   if (global_var(GVAR_TWOSUN_STATUS_KARLOS)>0) then begin
+   set_obj_visibility(self_obj, 1);
+   end
 end
 
 procedure NodeStartDialog begin
@@ -205,12 +208,12 @@ procedure NodeFstDialog2 begin
 end
 
 procedure NodeFstDialog3 begin
-   zReply(204)
+   Reply(204)
    NAnswer(205,1,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
-   zReply(206)
+   Reply(206)
    NAnswer(207,1,Node999)
    NAnswer(208,1,Node999)
 end

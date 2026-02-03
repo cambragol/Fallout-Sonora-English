@@ -59,6 +59,8 @@ procedure NodeAnswer112;
 procedure NodeAnswer113;
 procedure NodeAnswer114;
 procedure NodeAnswer115;
+procedure NodeAnswer116;
+procedure NodeAnswer117;
 procedure NodeAnswer200;
 procedure NodeAnswer201;
 procedure NodeAnswer202;
@@ -74,7 +76,7 @@ procedure NeedFoodDialog; // added to make giving the old man food open (or not 
 
 //---------------------
 
-#define LVAR_Flag_Food                     (6) // ????????? ???? ?????????? ???
+#define LVAR_Flag_Food                     (6) // ???????? ?? ...
 
 //---------------------
 
@@ -314,7 +316,11 @@ procedure NodeSndDialog begin
 
    if (bitDialog(bit_3) != 0) then begin
    if (getQuest(GVAR_CGRANDE_QST_SALUT) == qZero) then begin
-   NAnswerReaction(350,5,NodeAnswer113,10,350,NodeAnswer115)
+      NAnswerReaction(350,5,NodeAnswer113,10,350,NodeAnswer115)
+   if (getQuest(GVAR_TWOSUN_QST_LOST_TIN) == qStart) then begin
+      NAnswer(370,3,NodeAnswer116)
+   end
+
    end
    end
 
@@ -464,7 +470,9 @@ procedure NodeAnswer113 begin
 end
 
 procedure NodeAnswer114 begin
-   setQuest(GVAR_CGRANDE_QST_SALUT,qStart);
+   if (getQuest(GVAR_CGRANDE_QST_SALUT) == qZero) then begin
+      setQuest(GVAR_CGRANDE_QST_SALUT,qStart);
+   end
    if DudeTraitHas(TRAIT_espanol) then begin
    Reply(354)
    NAnswer(356,0,NodeSndDialog)
@@ -486,6 +494,16 @@ procedure NodeAnswer115 begin
    Reply(359)
    NAnswer(212,0,Node999)
    end
+end
+
+procedure NodeAnswer116 begin
+   Reply(371)
+   NAnswer(372,0,NodeAnswer117)
+end
+
+procedure NodeAnswer117 begin
+   Reply(373)
+   NAnswer(374,0,Node999)
 end
 
 //--- ??? ????????????

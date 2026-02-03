@@ -311,7 +311,7 @@ procedure NodeAnswer103 begin
    setQuest(GVAR_OIL_PLATFORM_QST_TAG, qStart);
    Reply(226)
    if (item_amnt(dude_obj,PID_Q_ARMYTAG_PESCADOR)>0) then begin
-   GAnswer(243,1,NodeFstDialog203)
+   zGAnswer(243,1,NodeFstDialog203)
    end
    NAnswer(227,1,Node999)
    NAnswer(228,1,Node999)

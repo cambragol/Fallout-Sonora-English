@@ -55,7 +55,6 @@ procedure NodeAnswer201;
 procedure NodeAnswer202;
 procedure NodeAnswer203;
 procedure NodeAnswer204;
-procedure NodeAnswer205;
 procedure NodeQst;
 procedure NodeQst2;
 procedure NodeQst3;
@@ -145,8 +144,8 @@ procedure talk_p_proc begin
 
    if (getQuest(GVAR_PHENIX_PARTY_QST_B) == qStart) then begin
       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
-      setQuest(GVAR_PHENIX_PARTY_QST_B,qEnd);
       exp_add(1000);
+      setQuest(GVAR_PHENIX_PARTY_QST_B,qEnd);
       end
    end
 
@@ -220,7 +219,7 @@ end
 
 procedure NodeFstDialog105 begin
    Reply(216)
-   NAnswerSkill(222,3,NodeFstDialog107,SKILL_CONVERSANT,50,217,NodeFstDialog106)
+   NAnswerSkill(222,4,NodeFstDialog107,SKILL_CONVERSANT,70,217,NodeFstDialog106)
    BAnswer(218,1,Node998)
 end
 
@@ -320,7 +319,7 @@ end
 
 procedure NodeAnswer200 begin
    Reply(271)
-   NAnswerSkill(273,3,NodeAnswer202,SKILL_CONVERSANT,40,273,NodeAnswer201)
+   NAnswerSkill(273,3,NodeAnswer202,SKILL_CONVERSANT,50,273,NodeAnswer201)
    NAnswer(272,1,NodeSndDialog)
 end
 
@@ -337,15 +336,10 @@ end
 
 procedure NodeAnswer203 begin
    Reply(278)
-   NAnswer(279,1,NodeAnswer204)
+   NAnswer(281,1,NodeAnswer204)
 end
 
 procedure NodeAnswer204 begin
-   Reply(280)
-   NAnswer(281,1,NodeAnswer205)
-end
-
-procedure NodeAnswer205 begin
    Reply(282)
    NAnswer(283,1,NodeSndDialog)
 end

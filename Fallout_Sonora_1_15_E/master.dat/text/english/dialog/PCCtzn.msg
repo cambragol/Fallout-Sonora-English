@@ -239,3 +239,5 @@
 {397}{}{After the Cathedral explosion, caps started losing their value.}
 {398}{}{Who's going to control the cap market now?}
 {399}{}{Looks like caps are going back to being worthless junk.}
+
+{400}{}{They say Aaron is dead. Is that true?}

@@ -51,6 +51,7 @@
 {241}{}{Enough. Bye.}
 {242}{}{I found this tag among a pile of bones on the platform. It must have belonged to your dad.}
 {243}{}{I just happened to be on the platform and found this tag there. It has your last name on it.}
+{1243}{}{I just happened to be on the platform and found this tag there. It has your last name on it.}
 
 {250}{}{Hello.}
 {251}{}{Bye.}

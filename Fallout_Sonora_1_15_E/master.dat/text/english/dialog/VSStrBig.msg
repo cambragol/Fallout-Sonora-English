@@ -1,0 +1,1 @@
+{110}{}{The stairs are blocked. You can't use them right now.}

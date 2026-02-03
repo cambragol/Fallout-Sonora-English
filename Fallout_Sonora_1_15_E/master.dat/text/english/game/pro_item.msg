@@ -199,7 +199,7 @@
 {9700}{}{Wet Wipes}
 {9701}{}{A sealed package of sanitary napkins. Replaces a bath while traveling through the Wasteland.}
 {9800}{}{Wasteland Gum}
-{9801}{}{Mature leaves of a rare wasteland plant. Valued by travelers for their high micronutrient content, these leaves are also sought after by city dwellers for their soothing, pleasurable effects.}
+{9801}{}{Mature leaves of a rare wasteland plant. Valued by travelers for their high micronutrient content, these leaves are also sought after by city dwellers for their soothing, pleasurable effects. Worth saving for trade.}
 {9900}{}{Coffee}
 {9901}{}{This jar contains some kind of "coffee beans". Apparently this is a barely surviving product of the Old World.}
 {10000}{}{Tire Sandals}
@@ -809,7 +809,7 @@
 {40000}{}{Gil McCord's Head}
 {40001}{}{The severed head of a legendary marksman from the Mercenary Guild.}
 {40100}{}{Spear Fragment}
-{40101}{}{A fragment of a spear taken from the shell of a giant radscorpion.}
+{40101}{}{A fragment of a spear taken from the shell of a giant radscorpion. It could serve as evidence that the legendary monster is dead.}
 {40200}{}{Glowing Mushroom}
 {40201}{}{An unusual fungus that forms in toxic puddles, inedible for humans.}
 {40300}{}{High-Tech Gadget}
@@ -990,16 +990,16 @@
 {49001}{}{Military pass for the Coronado Naval Base. Color: blue.}
 {49100}{}{Coronado Pass}
 {49101}{}{Military pass for the Coronado Naval Base. Color: red.}
-{49200}{}{}
-{49201}{}{}
-{49300}{}{}
-{49301}{}{}
+{49200}{}{Wedding Pendant}
+{49201}{}{A pendant marking marital bonds. You found it on the Casa Nueva plantations.}
+{49300}{}{Cleaver}
+{49301}{}{A kitchen knife used for butchering meat.}
 {49400}{}{}
 {49401}{}{}
-{49500}{}{}
-{49501}{}{}
-{49600}{}{}
-{49601}{}{}
+{49500}{}{Broken Shotgun}
+{49501}{}{A Winchester Widowmaker - a 12-gauge double-barrel shotgun. Shortened barrels, redwood sawed-off stock. DOES NOT FIRE.}
+{49600}{}{Zip Gun}
+{49601}{}{A homemade single-shot firearm.}
 {49700}{}{12 Gauge Flare Gun}
 {49701}{}{A pistol originally designed to shoot flares. You've modified its barrel to fire shotgun shells. Shooting has become heavier, but deadlier. Min ST: 5.}
 {49800}{}{Laser Emitter (Improved)}

@@ -15,6 +15,7 @@ procedure damage_p_proc;
 procedure locked_proc;
 procedure trap_expl;
 procedure trap_proc;
+procedure trap_proc_twosun_barter;
 
 #define LVAR_Open                       (0) // Сломан ли замок
 #define LVAR_Locked_Level               (1) // Уровень сложности замка
@@ -75,14 +76,6 @@ procedure map_enter_p_proc begin
           set_obj_visibility(self_obj, 0);
           end
       end
-   end
-end
-
-procedure description_p_proc begin
-   //dsrptProcMsg
-   //script_overrides;
-   if (combat_is_initialized == TRUE) then begin
-       script_overrides;
    end
 end
 
@@ -241,7 +234,7 @@ procedure set_level_lock begin
           else if (cur_map_index == MAP_TWO_SUN_WORKSHOP) then begin
              set_local_var(LVAR_Locked_Level,90);
              if (self_tile == 19118) then begin
-             set_local_var(LVAR_Trap_Type,TRAP_ELECTR);
+             set_local_var(LVAR_Trap_Type,TRAP_ALARMS);
              end
           end
 
@@ -581,6 +574,7 @@ procedure damage_p_proc begin
          end
          else begin
          set_local_var(LVAR_Open,1);
+         call trap_proc_twosun_barter;
          display_mstr(166);
          obj_unlock(self_obj);
          destroy_object(self_obj);
@@ -738,10 +732,10 @@ procedure trap_expl begin
       end
 
          //--- Локальная ситуация на карте:
+         call trap_proc_twosun_barter;
          if (cur_map_index == MAP_PHOENIX_VAULT) then begin
-         set_map_var(MVAR_PnxVlt_Alarm,1);
+            set_map_var(MVAR_PnxVlt_Alarm,1);
          end
-
          if ((cur_map_index == MAP_PUERTO_BASA) and (self_tile == 19656)) then begin
             if (map_var(MVAR_PUERTO_ALARM_BOS) == 0) then begin
             set_map_var(MVAR_PUERTO_ALARM_BOS,1); // дверь в коморку позади генерала
@@ -771,7 +765,6 @@ procedure trap_proc begin
 
    if (local_var(LVAR_Trap_Type) == TRAP_CALIBR) then begin
       display_mstr(156);
-      create_object_sid(PID_AMMO_SHOTGUN_SHELLS, dude_tile, dude_elevation, -1);
    end
 
    if (local_var(LVAR_Trap_Type) == TRAP_GRANAD) then begin
@@ -781,7 +774,6 @@ procedure trap_proc begin
 
    if (local_var(LVAR_Trap_Type) == TRAP_ELECTR) then begin
       display_mstr(158);
-      create_object_sid(PID_AMMO_MICRO_FUSION_CELL, dude_tile, dude_elevation, -1);
    end
 
    if (local_var(LVAR_Trap_Type) == TRAP_ALARMS) then begin
@@ -790,4 +782,12 @@ procedure trap_proc begin
 
    dude_floater_OK;
    set_local_var(LVAR_Trap_Type,TRAP_NON);
+end
+
+procedure trap_proc_twosun_barter begin
+   if (cur_map_index == MAP_TWO_SUN_WORKSHOP) then begin
+      if (self_tile == 19118) then begin
+      set_map_var(MVAR_TWOSUN_Alarma,17517); //set_map_var(MVAR_TWOSUN_Alarma,self_tile);
+      end
+   end
 end

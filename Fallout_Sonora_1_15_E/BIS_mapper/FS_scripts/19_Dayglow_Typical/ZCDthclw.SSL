@@ -39,9 +39,15 @@ procedure start begin
 end
 
 procedure map_enter_p_proc begin
+   if (cur_map_index == MAP_SAN_BRAHMIN_CAVE) then begin
+      obj_critter_a := self_obj;
+   end
    if (is_loading_game == false) then begin
        set_start_home
        if (cur_map_index == MAP_CASA_NUEVA_CEMENT) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+       if (cur_map_index == MAP_SAN_BRAHMIN_CAVE) then begin
        set_obj_visibility(self_obj, 1);
        end
        if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
@@ -137,7 +143,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   invisToDude(12,105)
+   invisToDude(10,105)
 
    if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
    if (map_var(MVAR_DIEGOHEART_DWCL_VISBL) > 0) then begin
@@ -180,15 +186,6 @@ end
 
 procedure damage_p_proc begin
    set_damage_dude
-   else if ((cur_map_index == MAP_SANTA_ANA_PLAZA) or (cur_map_index == MAP_CASA_NUEVA_CEMENT) or (cur_map_index == MAP_DAYGLOW_CITYHEART)) then begin
-      if (fixed_param>0) then begin
-         set_damage_check
-         if (damage_amnt > 0) then begin
-         inc_global_var_amt(GVAR_EXPOINT_COMBAT_CHECK,damage_amnt);
-         end
-         damage_amnt := 0;
-      end
-   end
 end
 
 procedure destroy_p_proc begin

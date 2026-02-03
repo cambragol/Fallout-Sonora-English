@@ -5,6 +5,7 @@
 {201}{}{I am death to tyrants like you.}
 {202}{}{I was wondering if I should join your army.}
 {203}{}{¿De qué hablas? Seize this espía!}
+{1203}{}{¿De qué hablas? ¡Seize this espía woman!}
 {204}{}{Oh well...}
 {205}{}{You're making a big mistake, General.}
 {206}{}{A Civilian. I want to join your army, General!}

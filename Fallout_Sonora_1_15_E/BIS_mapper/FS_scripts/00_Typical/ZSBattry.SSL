@@ -19,12 +19,12 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
       if (map_first_run) then begin
-         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,20)
+         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,2)
          if (dude_luck>=5) then begin
-         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,20)
+         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,2)
          end
          if (dude_luck>=8) then begin
-         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,20)
+         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,2)
          end
       end
    end
@@ -137,12 +137,11 @@ procedure use_obj_on_p_proc begin
       else if (itemPID >0) then begin
          item_add(self_obj,objUsedPid,1)
          item_remove(dude_obj, objUsedPid, 1)
-         item_add(dude_obj,itemPID,20)
-         item_remove(self_obj, itemPID, 20)
+         item_add(dude_obj,itemPID,2)
+         item_remove(self_obj, itemPID, 2)
 
          play_sfx("BEER");
-         //dude_floater_OK;
-         display_mstr(119);
+         display_msg(mstr(119)+proto_data(itemPID, it_name)+mstr(121));
       end
       else begin
          dude_floater_NON;

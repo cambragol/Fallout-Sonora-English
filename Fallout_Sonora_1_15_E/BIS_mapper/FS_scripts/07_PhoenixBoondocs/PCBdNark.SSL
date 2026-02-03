@@ -209,9 +209,8 @@ end
 
 procedure NodeSndDialog begin
    Reply(210)
-   NAnswer(220,1,NodeAnswer100)
    if (bitDialog(bit_3) == 0) then begin
-   NAnswerSkill(233,3,NodeAnswer201,SKILL_DOCTOR,40,230,NodeAnswer200)
+      NAnswerSkill(233,3,NodeAnswer201,SKILL_DOCTOR,40,230,NodeAnswer200)
    end
    if (getQuest(GVAR_PHENIX_QST_BNDCS_A) == qStart) then begin
       NAnswer(240,1,NodeAnswer300)
@@ -219,6 +218,7 @@ procedure NodeSndDialog begin
       NAnswer(250,1,NodeAnswer304)
       end
    end
+   NAnswer(220,1,NodeAnswer100)
    NAnswer(211,1,Node999)
 end
 
@@ -280,8 +280,8 @@ end
 
 procedure NodeAnswer304 begin
    Reply(251)
-   NAnswerSkill(260,3,NodeAnswer308,SKILL_CONVERSANT,40,257,NodeAnswer307)
-   NAnswerSkill(264,3,NodeAnswer309,SKILL_DOCTOR,40,263,NodeAnswer307)
+   NAnswerSkill(260,3,NodeAnswer308,SKILL_CONVERSANT,60,257,NodeAnswer307)
+   NAnswerSkill(264,3,NodeAnswer309,SKILL_DOCTOR,60,263,NodeAnswer307)
    if (map_var(MVAR_PNX_LARRY_STOP) > 0) then begin
    NAnswer(253,1,NodeAnswer305)
    end

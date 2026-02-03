@@ -49,6 +49,7 @@ procedure NodeSndDialog;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
+procedure NodeAnswer103;
 procedure NodeQuestInfo;
 procedure NodeQuest000;
 procedure NodeQuest001;
@@ -133,7 +134,7 @@ procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
    // - added to match fcbarmen - cambragol
    if (objUsedPid == PID_M_BRAHMIN_POTROH) then begin
-   if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
+      if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
       script_overrides;
       if ((global_var(GVAR_STATUS_FLAGSTAFF_ADMIN) != 0) or (global_var(GVAR_FLAGSTAFF_TIMER_DINNER)<game_time)) then begin
          floater(self_obj, 105, COLOR_MSG_RED);
@@ -218,41 +219,41 @@ procedure NodeStopDialog begin
    Reply(300)
 
    if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) == qStart) then begin
-   NAnswer(302,1,NodeStopDialog2)
+   NAnswer(302,0,NodeStopDialog2)
    end
    else if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qStart) then begin
-   NAnswer(302,1,NodeStopDialog2)
+   NAnswer(302,0,NodeStopDialog2)
    end
    if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) == qStart) then begin
-   NAnswer(233,1,NodeAnswer101)
+   NAnswer(233,0,NodeAnswer101)
    end
 
-   NAnswer(301,1,Node999)
+   NAnswer(301,0,Node999)
 end
 
 procedure NodeStopDialog2 begin
    call stopQuiest;
    Reply(303)
-   NAnswer(304,1,Node999)
+   NAnswer(304,0,Node999)
 end
 
 procedure NodeStopDialog3 begin
    Reply(237)
 
    if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) == qStart) then begin
-   NAnswer(239,1,NodeStopDialog4)
+   NAnswer(239,0,NodeStopDialog4)
    end
    else if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qStart) then begin
-   NAnswer(239,1,NodeStopDialog4)
+   NAnswer(239,0,NodeStopDialog4)
    end
 
-   NAnswer(238,1,Node999)
+   NAnswer(238,0,Node999)
 end
 
 procedure NodeStopDialog4 begin
    call stopQuiest;
    Reply(240)
-   NAnswer(241,1,Node999)
+   NAnswer(241,0,Node999)
 end
 
 //----- ПЕРВЫЙ ДИАЛОГ (знакомство)
@@ -260,27 +261,27 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,25)
    Reply(200)
-   BAnswer(201,1,NodeFstDialog1)
-   NAnswer(202,1,NodeFstDialog3)
+   BAnswer(201,0,NodeFstDialog1)
+   NAnswer(202,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog1 begin
    setBonusReaction(-10)
    Reply(203)
-   BAnswer(204,1,NodeFstDialog2)
-   NAnswer(202,1,NodeFstDialog3)
+   BAnswer(204,0,NodeFstDialog2)
+   NAnswer(202,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog2 begin
    setBonusReaction(-10)
    set_REP(-1)
    Reply(205)
-   NAnswer(206,1,NodeSndDialog)
+   NAnswer(206,0,NodeSndDialog)
 end
 
 procedure NodeFstDialog3 begin
    Reply(207)
-   NAnswer(208,1,NodeSndDialog)
+   NAnswer(208,0,NodeSndDialog)
 end
 
 procedure NodeFstDialog4 begin
@@ -289,7 +290,7 @@ procedure NodeFstDialog4 begin
    // - added to match fcbarmen - cambragol
    item_remove(dude_obj,PID_M_BRAHMIN_POTROH,1)
    zReply(243)
-   NAnswer(244,1,Node999)
+   NAnswer(244,0,Node999)
 end
 
 //----- ПОВТОРНЫЙ ДИАЛОГ
@@ -297,67 +298,88 @@ end
 procedure NodeSndDialog begin
    Reply(210)
 
+   //--- Сюжетные квесты:
+   if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) == qStart) then begin
+      NAnswer(233,0,NodeAnswer101)
+   end
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) == qStart) then begin
+      NAnswer(284,0,NodeAnswer103)
+   end
+
+   //--- Основные квесты шахты:
    if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
-      NAnswer(236,1,NodeStopDialog3)
+      NAnswer(236,0,NodeStopDialog3)
    end
    else begin
       if (getQuest(GVAR_FLAGSTAFF_MERPSWDR) == qStart) then begin
       if (bitDialog(bit_4) == 0) then begin
-      NAnswer(250,1,NodeQuest000)
+      NAnswer(250,0,NodeQuest000)
       end
       end
       if (getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) == qStart) then begin
-      NAnswer(260,1,NodeQuest100)
+      NAnswer(260,0,NodeQuest100)
       end
       if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qStart) then begin
-      NAnswer(270,1,NodeQuest200)
+      NAnswer(270,0,NodeQuest200)
       end
    end
 
+   //--- Расспросы:
    if (bitDialog(bit_2) == 0) then begin
-      NAnswer(212,1,NodeSelf)
+      NAnswer(212,0,NodeSelf)
    end
    if (getQuest(GVAR_MAIN_QUEST_PHENIX) == qStart) then begin
-      NAnswer(230,1,NodeAnswer100)
-   end
-   if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) == qStart) then begin
-      NAnswer(233,1,NodeAnswer101)
+      NAnswer(230,0,NodeAnswer100)
    end
    if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qStart) then begin
-      NAnswer(245,1,NodeAnswer102)
+      NAnswer(245,0,NodeAnswer102)
    end
    else if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qZero) then begin
       if (map_var(MVAR_FLAG_SlavMineDlg) == 1) then begin
-      NAnswer(245,1,NodeAnswer102)
+      NAnswer(245,0,NodeAnswer102)
       end
    end
+
+   //--- Доставка еды:
    // - added to match fcbarmen - cambragol
    if (item_amnt(dude_obj,PID_M_BRAHMIN_POTROH) > 0) then begin
    if (global_var(GVAR_STATUS_FLAGSTAFF_ADMIN) == 0) then begin
    if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
    if (global_var(GVAR_FLAGSTAFF_TIMER_DINNER)>=game_time) then begin
-   NAnswer(242,1,NodeFstDialog4)
+   NAnswer(242,0,NodeFstDialog4)
    end
    end
    end
    end
-   NAnswer(290,1,NodeQuestInfo)
-   NAnswer(211,1,Node999)
+
+   NAnswer(290,0,NodeQuestInfo)
+   NAnswer(211,0,Node999)
 end
 
 procedure NodeAnswer100 begin
    Reply(231)
-   NAnswer(232,1,NodeStartDialog) // не NodeSndDialog!
+   NAnswer(232,0,NodeStartDialog) // не NodeSndDialog!
 end
 
 procedure NodeAnswer101 begin
    Reply(234)
-   NAnswer(235,1,NodeStartDialog) // не NodeSndDialog!
+   NAnswer(235,0,NodeStartDialog) // не NodeSndDialog!
 end
 
 procedure NodeAnswer102 begin
    Reply(246)
-   NAnswer(247,1,Node999)
+   NAnswer(247,0,Node999)
+end
+
+procedure NodeAnswer103 begin
+   if ((getQuest(GVAR_FLAGSTAFF_ROBOT_REPAIR) >= qEnd) and (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) >= qEnd)) then begin
+   Reply(287)
+   NAnswer(288,0,Node999)
+   end
+   else begin
+   Reply(285)
+   NAnswer(286,0,NodeQuestInfo)
+   end
 end
 
 //----- ЗАДАНИЯ В ШАХТАХ
@@ -380,31 +402,31 @@ procedure NodeQuestInfo begin
    end
 
    if (bitDialog(bit_4) == 0) then begin
-   NAnswer(298,1,NodeQuest001)
+   NAnswer(298,0,NodeQuest001)
    end
-   NAnswer(291,1,NodeSndDialog)
-   NAnswer(292,1,Node999)
+   NAnswer(291,0,NodeSndDialog)
+   NAnswer(292,0,Node999)
 end
 
 procedure NodeQuest000 begin
    if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) < qEnd) then begin
    Reply(251)
-   NAnswer(252,1,NodeQuest001)
+   NAnswer(252,0,NodeQuest001)
    end
    else begin
    Reply(299)
-   NAnswer(292,1,Node999)
+   NAnswer(292,0,Node999)
    end
 end
 
 procedure NodeQuest001 begin
    if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) < qEnd) then begin
    Reply(253)
-   NAnswer(254,1,NodeQuest002)
+   NAnswer(254,0,NodeQuest002)
    end
    else begin
    Reply(299)
-   NAnswer(292,1,Node999)
+   NAnswer(292,0,Node999)
    end
 end
 
@@ -418,7 +440,7 @@ procedure NodeQuest002 begin
    end
 
    Reply(255)
-   NAnswer(256,1,Node999)
+   NAnswer(256,0,Node999)
 end
 
 procedure NodeQuest100 begin
@@ -435,7 +457,7 @@ end
 
 procedure NodeQuest101 begin
    Reply(263)
-   NAnswer(257,1,NodeSndDialog)
+   NAnswer(257,0,NodeSndDialog)
 end
 
 procedure NodeQuest102 begin
@@ -443,18 +465,18 @@ procedure NodeQuest102 begin
    item_add(dude_obj,PID_BOOTLE_CAPS,200)
    set_REP(5)
    Reply(265)
-   NAnswer(266,1,NodeQuest999)
+   NAnswer(266,0,NodeQuest999)
 end
 
 procedure NodeQuest200 begin
    Reply(271)
    if (global_var(GVAR_FLAGSTAFF_RAT_KING_LIFE) != 0) then begin
-   NAnswer(272,1,NodeQuest202)
+   NAnswer(272,0,NodeQuest202)
    end
    if (bitDialog(bit_3) == 0) then begin
    NAnswerSkill(275,4,NodeQuest201,SKILL_CONVERSANT,60,275,NodeQuest204)
    end
-   NAnswer(257,1,NodeSndDialog)
+   NAnswer(257,0,NodeSndDialog)
 end
 
 procedure NodeQuest201 begin
@@ -463,21 +485,21 @@ procedure NodeQuest201 begin
    item_add(dude_obj,PID_KEY_FLAGSTAFF_MINE,1)
    item_remove(self_obj, PID_KEY_FLAGSTAFF_MINE, 1)
    Reply(276)
-   NAnswer(277,1,Node999)
+   NAnswer(277,0,Node999)
    end
    else begin
    Reply(279)
-   NAnswer(280,1,Node999)
-   NAnswer(283,1,Node999)
+   NAnswer(280,0,Node999)
+   NAnswer(283,0,Node999)
    end
 end
 
 procedure NodeQuest202 begin
    Reply(273)
    if (item_amnt(dude_obj,PID_TOOTHS_RAT_KING) >0) then begin
-   NAnswer(274,1,NodeQuest203)
+   NAnswer(274,0,NodeQuest203)
    end
-   NAnswer(257,1,NodeSndDialog)
+   NAnswer(257,0,NodeSndDialog)
 end
 
 procedure NodeQuest203 begin
@@ -487,12 +509,12 @@ procedure NodeQuest203 begin
    item_add(dude_obj,PID_BOOTLE_CAPS,200)
    set_REP(5)
    Reply(281)
-   NAnswer(282,1,NodeQuest999)
+   NAnswer(282,0,NodeQuest999)
 end
 
 procedure NodeQuest204 begin
    Reply(278)
-   NAnswer(258,1,NodeSndDialog)
+   NAnswer(258,0,NodeSndDialog)
 end
 
 procedure NodeQuest999 begin
@@ -503,8 +525,8 @@ procedure NodeQuest999 begin
       else begin
       setQuest(GVAR_FLAGSTAFF_MERPSWDR,qEnd);
       Reply(267)
-      NAnswer(268,1,Node999)
-      NAnswer(269,1,Node999)
+      NAnswer(268,0,Node999)
+      NAnswer(269,0,Node999)
       end
    end
    else begin
@@ -516,17 +538,17 @@ end
 
 procedure NodeSelf begin
    Reply(213)
-   NAnswer(223,1,NodeSelf1)
+   NAnswer(223,0,NodeSelf1)
    NAnswer(214,4,NodeSelf2)
-   NAnswer(222,1,NodeSndDialog)
-   NAnswer(209,1,Node999)
+   NAnswer(222,0,NodeSndDialog)
+   NAnswer(209,0,Node999)
 end
 
 procedure NodeSelf1 begin
    Reply(224)
    NAnswer(214,4,NodeSelf2)
-   NAnswer(222,1,NodeSndDialog)
-   NAnswer(209,1,Node999)
+   NAnswer(222,0,NodeSndDialog)
+   NAnswer(209,0,Node999)
 end
 
 procedure NodeSelf2 begin
@@ -534,19 +556,19 @@ procedure NodeSelf2 begin
    if (bitDialog(bit_2) == 0) then begin
    NAnswerSkill(216,4,NodeSelf3,SKILL_CONVERSANT,60,216,NodeSelf4)
    end
-   NAnswer(222,1,NodeSndDialog)
-   NAnswer(209,1,Node999)
+   NAnswer(222,0,NodeSndDialog)
+   NAnswer(209,0,Node999)
 end
 
 procedure NodeSelf3 begin
    Reply(217)
-   NAnswer(218,1,NodeSelf5)
+   NAnswer(218,0,NodeSelf5)
 end
 
 procedure NodeSelf4 begin
    Reply(221)
-   NAnswer(222,1,NodeSndDialog)
-   NAnswer(209,1,Node999)
+   NAnswer(222,0,NodeSndDialog)
+   NAnswer(209,0,Node999)
 end
 
 procedure NodeSelf5 begin
@@ -554,6 +576,6 @@ procedure NodeSelf5 begin
    setBonusReaction(20)
    set_REP(1)
    Reply(219)
-   NAnswer(220,1,NodeSndDialog)
-   NAnswer(209,1,Node999)
+   NAnswer(220,0,NodeSndDialog)
+   NAnswer(209,0,Node999)
 end

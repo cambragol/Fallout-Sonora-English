@@ -4,6 +4,7 @@
 
 #First dialogue
 {200}{}{What do you want, gringo?}
+{1200}{}{What do you want, gringa?}
 {201}{}{Oh, you speak English?}
 {202}{}{A little. I'm Antonio. My parents were from the north, so I understand a bit of your language.}
 {203}{}{I guess I'm lucky. How come you're in here? Aren't you joining the celebrations with everyone?}
@@ -12,6 +13,7 @@
 {206}{}{How can you celebrate a Day of Life when so many people have died? This old man and everyone else are just happy they weren't the ones who died. Bastards.}
 {207}{}{Can't argue with that. Only a bastard would thank a saint who allowed many to die.}
 {208}{}{Exactly! I like you, gringo.}
+{1208}{}{Exactly! I like you, gringa.}
 {209}{}{Okay, I haven't looked around here yet. See you.}
 {1209}{}{Alright, I haven't looked around everywhere yet. See you.}
 {210}{}{Hey, don't be sad and ruin the holiday. Everyone deserves to be happy.}
@@ -21,7 +23,9 @@
 #Re-dialogue
 {220}{}{Hey, hi!}
 {221}{}{Hey, gringo.}
+{1221}{}{Hey, gringa.}
 {222}{}{What do you want, gringo?}
+{1222}{}{What do you want, gringa?}
 {223}{}{See you.}
 
 {230}{}{Did you know someone stole the crown?}
@@ -33,6 +37,7 @@
 {236}{}{I didn't want Lucia to be crowned.}
 {237}{}{Is that so bad?}
 {238}{}{You're a gringo, you don't understand! If she wears the crown, I'll never be able to... be her... And she... I love her...}
+{1238}{}{You're a gringa, you don't understand! If she wears the crown, I'll never be able to... be her... And she... I love her...}
 {239}{}{Boy, I think you're being selfish.}
 {240}{}{Maybe so. I don't care!}
 {241}{}{So where's the crown, kid?}

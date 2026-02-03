@@ -100,28 +100,28 @@ procedure generLoot begin
          itemGenerNum := random(0,7);
 
          if (itemGenerNum == 0) then begin
-         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,10)
+         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,1)
          end
          if (itemGenerNum == 1) then begin
          item_add(self_obj,PID_AMMO_22_LR,random(4,5))
          end
          if (itemGenerNum == 2) then begin
-         item_add(self_obj,PID_AMMO_10_MM,random(5,15))
+         item_add(self_obj,PID_AMMO_10_MM,1)
          end
          if (itemGenerNum == 3) then begin
-         item_add(self_obj,PID_AMMO_44_MAGNUM,random(6,12))
+         item_add(self_obj,PID_AMMO_44_MAGNUM,random(1,2))
          end
          if (itemGenerNum == 4) then begin
-         item_add(self_obj,PID_AMMO_50_AE,6)
+         item_add(self_obj,PID_AMMO_50_AE,1)
          end
          if (itemGenerNum == 5) then begin
-         item_add(self_obj,PID_AMMO_5_MM,random(4,5))
+         item_add(self_obj,PID_AMMO_5_MM,1)
          end
          if (itemGenerNum == 6) then begin
-         item_add(self_obj,PID_AMMO_308,6)
+         item_add(self_obj,PID_AMMO_308,1)
          end
          if (itemGenerNum == 7) then begin
-         item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,random(4,8))
+         item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,1)
          end
       end
 

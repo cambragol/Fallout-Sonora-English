@@ -31,9 +31,9 @@ procedure map_enter_p_proc begin
             end
          end
          if (AutomatType == 1) then begin
-            item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,20)
+            item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,1)
             if DudePerkHas(PERK_marauder) then begin
-            item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,10)
+            item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,1)
             end
          end
          if (AutomatType == 2) then begin
@@ -167,9 +167,9 @@ procedure use_obj_on_p_proc begin
       if (item_amnt(self_obj,PID_M_MEX_BEER) >0) then begin
       itemPID := PID_M_MEX_BEER;
       end
-      else if (item_amnt(self_obj,PID_AMMO_MICRO_FUSION_CELL) >0) then begin
+      else if (item_amnt(self_obj,PID_AMMO_MICRO_FUSION_CELL) > 0) then begin
       itemPID := PID_AMMO_MICRO_FUSION_CELL;
-      itemAmnt := 10;
+      itemAmnt := 1;
       end
       else if (item_amnt(self_obj,PID_M_RAD_X) >0) then begin
       itemPID := PID_M_RAD_X;

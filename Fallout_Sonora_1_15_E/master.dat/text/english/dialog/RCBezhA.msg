@@ -22,7 +22,7 @@
 {214}{}{To look him in the eye, and tell him the truth about his men. He may not know what they're are up to, but I intend to hold him accountable for their actions and demand compensation.}
 {215}{}{That's quite brave of you.}
 {216}{}{Are you done with your questions?}
-{217}{}{Is that your child?}
+{217}{}{Is that your kid?}
 {218}{}{Yes. Why do you care?}
 {219}{}{Just curious. Forget it.}
 
@@ -35,9 +35,9 @@
 {225}{}{I'll accompany you, but not right now.}
 
 {226}{}{The guards are gone.}
-{227}{}{I can see that, but it changes nothing. We still can't get to the General. The dam is swarming with Rangers. We wouldn't even make it to the citadel on the other side. Either snipers will take us out, or patrols will catch us.}
+{227}{}{I can see that, but it changes nothing. We still can't get to the General. The dam is swarming with Rangers. We wouldn't even make it to the citadel on the other side. They'll either shoot us or capture us.}
 {228}{}{The General is dead.}
-{229}{}{Are you sure about that? It's not a trick? Well, I've heard the same. Seems like he really did kick the bucket. That's a relief. But what now - I have no idea.}
+{229}{}{So it's true? It's not a trick? Well, I've heard the same. Seems like he really did kick the bucket. That's a relief. But what now - I have no idea.}
 
 {230}{}{Hey, traveler. You also trying to escape this hell?}
 {1230}{}{Hey, traveler. You also trying to escape this hell?}
@@ -55,35 +55,35 @@
 {241}{}{Is that supposed to make me feel better? Hm. Well, since we're in the same boat, we should help each other survive.}
 
 #On the ferry map
-{300}{}{Let's talk when we reach the ferry. Right now, our voices might attract coyotes.}
-{301}{}{Agreed. Let's focus on getting there safely for now.}
-{302}{}{Alright.}
+{300}{}{Let's talk when we reach the ferry.}
+{301}{}{Alright. Let's get to the ferry.}
+{302}{}{Okay.}
 
-{303}{}{I don't like how you're eyeing the child. Don't scare him, or you'll regret it for the rest of your life.}
-{304}{}{I meant no harm!}
-{305}{}{Threats won't work in your favor, lady.}
+{303}{}{I don't like how you're eyeing the kid. Don't scare him, or you'll regret it for the rest of your life.}
+{304}{}{I wouldn't hurt him!}
+{305}{}{It's not in your best interests to threaten me, woman.}
 
 {310}{}{What's your name, ma'am?}
 {311}{}{I'm Cecilia, and this is my son.}
 {312}{}{He doesn't look much like you.}
-{313}{}{He's adopted. I found him among the ruins and couldn't leave him behind.}
+{313}{}{He's... adopted. I found him in some ruins and couldn't just leave him behind.}
 {314}{}{Was your husband really a criminal?}
 {315}{}{I didn't ask where he got his supplies. But it was clear he was robbing travelers and farmers to provide for us. We had to survive somehow. It was worse in Phoenix; he was forced into much dirtier work there.}
 {316}{}{Did you escape Phoenix?}
-{317}{}{Yes... Big city. Too many people, too few resources. In the wastelands, you're honest with fate, but in the city, you're always at someone's mercy.}
+{317}{}{Yes... Big city. Too many people, too few resources. In the wastelands, you're fate's in your own hands, but in the city, you're always at someone's mercy.}
 {318}{}{Do you hate the Rangers now?}
-{319}{}{Absolutely.}
-{320}{}{They aim to prevent stories like yours.}
-{321}{}{But it still happened. It's their fault. Can't undo it now.}
+{319}{}{Of course. Even if they were right, and my husband really was a criminal, that doesn't make it any easier for me!}
+{320}{}{}
+{321}{}{I get it.}
 {322}{}{My village wouldn't condone that either.}
 {323}{}{Hmm, in our Villa, every peasant follows the community's whims too. But it's different.}
 {324}{}{That's commendable.}
 {325}{}{Should've warned me earlier.}
 
 {330}{}{The ferry's ready to depart. Get on; I'll take you across.}
-{331}{}{I'm deeply grateful. Not everyone would help us, especially in Ranger territory. But what about you? Will you come with us to California?}
+{331}{}{I'm deeply grateful. Not everyone would help us, especially in Ranger territory. But what about you? Will you... come with us to California?}
 {332}{}{I can't. I have commitments to my family and home.}
-{333}{}{Understood. It's rare to find people as loyal to their communities as you. Good luck to you. Thanks for everything.}
+{333}{}{Ah... I understand. It's rare to find someone as loyal to their people as you. Good luck. And thank you for everything.}
 {334}{}{Go on.}
 {335}{}{I have nothing to offer in return, but if you find yourself in Phoenix, tell the bartender at the casino about me, maybe he'll give you a discount. Now goodbye.}
 {336}{}{[Send family to the other side]}

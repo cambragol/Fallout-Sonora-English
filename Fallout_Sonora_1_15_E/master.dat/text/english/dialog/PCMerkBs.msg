@@ -15,6 +15,7 @@
 {214}{}{In my shoes, you'd be dead already.}
 {215}{}{Think it's funny, smoothie?}
 {216}{}{(raises an eyebrow) No. Not at all, big guy.}
+{1216}{}{(raises an eyebrow) No. Not at all, babe.}
 {217}{}{Good.}
 {218}{}{Next time, I might take it personally.}
 
@@ -54,6 +55,7 @@
 {250}{}{What a surprise. We usually chase after the criminals, not the other way around.}
 {251}{}{But I'm not a criminal.}
 {252}{}{Who you calling a criminal?}
+{1252}{}{Who you calling a criminal?}
 {253}{}{You didn't know that Flagstaff has declared you their 'most wanted'? You're lucky they haven't offered a reward for you yet. However, now I know you and where to find you. Keep that in mind and be cool.}
 {254}{}{No problem, sheriff.}
 {255}{}{I'm not the sheriff, idiot. But if it comes down to it, I'll be worse than any sheriff.}
@@ -63,19 +65,22 @@
 {258}{}{And I know you, and where to find you. Keep *that* in mind.}
 {259}{}{(slowly places his hand on his machine gun, looking into your eyes) Get out of my office.}
 
-{260}{}{Welcome... Stop. Show me your neck. Those are marks from a slave collar. It's pretty strange for a runaway slave to come here. What do you want, *slave*?}
+{260}{}{Welcome... Hold up. Show me your neck. Those are marks from a slave collar. It's pretty strange for a runaway slave to come here. What do you want, *slave*?}
+{1260}{}{Welcome... Hold up. Show me your neck. Those are marks from a slave collar. It's pretty strange for a runaway slave to come here. What do you want, *slave*?}
 {261}{}{Don't call me that. Or you'll regret it.}
 {262}{}{You don't seem to understand your precarious position. Guys... (gives a sign)}
 {263}{}{Not in the face...}
 {264}{}{Step up slavers, time to die...}
 {265}{}{I want my freedom back. The Tinsmiths treated me badly.}
-{266}{}{Hmm. Tinsmiths won't want to buy a runaway slave again at the same price. You're putting me in an awkward position. Well, I'm ready to buy your rights and sign your freedom. But it'll cost 1000 caps. I doubt you have that amount.}
+{266}{}{Hmm. Tinsmiths won't want to buy a runaway slave back at the same price. You're putting me in an awkward position. Well, I'm ready to buy your rights and sign your freedom. But it'll cost 1000 caps. I doubt you have that much.}
+{1266}{}{Hmm. Tinsmiths won't want to buy a runaway slave back at the same price. You're putting me in an awkward position. Well, I'm ready to buy your rights and sign your freedom. But it'll cost 1000 caps. I doubt you have that much.}
 {267}{}{I'll come up with it.}
 {268}{}{Then I have no choice... I'll just kill you.}
 {269}{}{Hmm. Okay, agreed. I'm waiting for 1000 caps.}
 
-{270}{}{(squints at your face) Hmm. I recently got a tip about one of the Blue Shields. And you are suspiciously close to his description.}
-{271}{}{It's a coincidence. Do you have *any* evidence?}
+{270}{}{(squints at your face) Hmm. I recently got a tip about one of the Blue Shields. And you're suspiciously close to his description.}
+{1270}{}{(squints at your face) Hmm. I recently got a tip about one of the Blue Shields. And you're suspiciously close to her description.}
+{271}{}{That's just coincidence. Got *any* evidence?}
 {272}{}{No. But I'll keep an eye on you.}
 {273}{}{Alright then.}
 {274}{}{Keep an eye on your own business.}
@@ -132,6 +137,7 @@
 {1320}{}{Done. You are now officially free. Congratulations. Cherish your second chance.}
 {321}{}{Definitely. Goodbye.}
 {322}{}{Hey, it's not like you actually freed me. I was always free. Just needed off your stupid list.}
+{1322}{}{Hey, it's not like you actually freed me. I was always free. Just needed off your stupid list.}
 
 # Quest of the Cardinals
 {323}{}{You'll regret this.}
@@ -195,8 +201,8 @@
 {382}{}{Hmph. I could've figured that out on my own.}
 {1382}{}{Hmph. I could've figured that out without you.}
 {383}{}{Okay, checked the invoices... Several slaves originally from Villa ended up in the Flagstaff colony. They were bought by fire worshippers and transported to Two-Sun. Must've been damn good slaves to be worth the journey.}
-{384}{}{Thanks, Bruce. It's time to pay a visit to Two-Sun. I hope there are caravans going there.}
-{385}{}{You know, Bruce, you weren't that big of a help help. Goodbye.}
+{384}{}{Thanks, Bruce. It's time to pay a visit to this 'Two-Sun' place. I hope there are caravans going there.}
+{385}{}{You know, Bruce, you weren't that big of a help. Goodbye.}
 {386}{}{I'll come back later. I don't have that many caps on me right now.}
 
 # Eliminating George Crook

@@ -42,7 +42,6 @@ procedure NodeSndDialog4;
 procedure NodeAnswer;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
-procedure NodeAnswer102;
 procedure NodeAnswer103;
 procedure NodeAnswer104;
 procedure NodeAnswer200;
@@ -152,7 +151,7 @@ end
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
-   zReply(200)
+   Reply(200)
    NAnswer(201,1,NodeFstDialog2)
 end
 
@@ -160,8 +159,7 @@ procedure NodeFstDialog2 begin
    Reply(202)
    if (local_var(LVAR_Flag_Food)>0) then begin
    NAnswer(212,1,NodeAnswer)
-   end
-   else begin
+   end else begin
    NAnswer(212,1,NodeSndDialog2)
    end
    NAnswer(203,1,Node999)
@@ -174,8 +172,7 @@ procedure NodeSndDialog begin
    //!!! Чем выше Красноречие, Наука и Медицина, тем больше ГГ сможет выведать у раба.
    if (local_var(LVAR_Flag_Food)>0) then begin
    NAnswer(212,1,NodeAnswer)
-   end
-   else begin
+   end else begin
    NAnswer(212,1,NodeSndDialog2)
    end
    NAnswer(211,1,Node999)
@@ -218,14 +215,6 @@ end
 procedure NodeAnswer101 begin
    set_map_var(MVAR_PUERTO_SLAVE_DIALOG,1);
    Reply(224)
-   NAnswer(225,1,NodeAnswer102)
-   NAnswer(227,1,NodeAnswer103)
-   NAnswer(230,1,NodeAnswer104)
-   NAnswer(222,1,NodeAnswer)
-end
-
-procedure NodeAnswer102 begin
-   Reply(226)
    NAnswer(227,1,NodeAnswer103)
    NAnswer(230,1,NodeAnswer104)
    NAnswer(222,1,NodeAnswer)
@@ -233,15 +222,12 @@ end
 
 procedure NodeAnswer103 begin
    Reply(228)
-   NAnswer(225,1,NodeAnswer102)
    NAnswer(230,1,NodeAnswer104)
    NAnswer(222,1,NodeAnswer)
 end
 
 procedure NodeAnswer104 begin
    Reply(231)
-   //!!! Наукой 100 урегулировать ошейник так, чтобы раб умер. После этого можно поговорить с учеными и признаться, но вместо огорчения они будут удивлены, что какой-то крестьянин из пустошей так хорошо разбирается в Науке.
-   NAnswer(225,1,NodeAnswer102)
    NAnswer(227,1,NodeAnswer103)
    NAnswer(222,1,NodeAnswer)
 end

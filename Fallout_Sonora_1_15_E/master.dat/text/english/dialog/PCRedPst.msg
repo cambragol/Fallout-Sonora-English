@@ -66,4 +66,5 @@
 {254}{}{Yeah.}
 {255}{}{I also make "my own way." Want to know how? Beatin' the crap out of people in the ring.}
 {256}{}{Yeah, you're one of those tough bastards who survived the ring. I respect that. Here, take the letters. Maybe show me some moves sometime?}
+{1256}{}{Yeah, you're one of those tough broads who survived the ring. I respect that. Here, take the letters. Maybe show me some moves sometime?}
 {257}{}{I'll think about it. Business to handle with these letters right now.}

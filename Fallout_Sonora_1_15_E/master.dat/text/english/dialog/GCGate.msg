@@ -80,8 +80,8 @@
 {263}{}{Why not wipe them out?}
 {264}{}{We'd love to take care of them, but we don't know where they're based. You happen to know where their main camp is?}
 {265}{}{No, I don't.}
-{266}{}{Figured as much.}
-{267}{}{Enough talk about these Jackals.}
+{266}{}{Thought so. If you find their lair, let me know. It's probably somewhere to the north or northwest.}
+{267}{}{I'll keep that in mind.}
 {268}{}{Actually, yes.}
 {269}{}{Really? That changes things! Listen, we've got a couple of guys here itching to take those savages out. If you lead them to their lair, we can deal with them once and for all.}
 {270}{}{I'm in. Their main camp is due north, along a dry river bed. Just follow it until you reach an old brick house. I'll wait for your guys near there.}
@@ -94,6 +94,7 @@
 {276}{}{Yeah, heard about it. The Rangers have gone completely off the rails. After this, they won't be welcome any where near Garage City. Pass on that message if you cross paths with them.}
 {277}{}{Alright.}
 {278}{}{Hey. Nice armor, by the way.}
+{279}{}{About the Jackal tribe...}
 
 # Refugees
 {280}{}{I hear you've got some refugees?}
@@ -162,6 +163,8 @@
 {340}{}{And keep in mind, the convoy is well-armed and organized. They aren't just wasteland raiders.}
 {341}{}{Thanks for the information.}
 {342}{}{I need to get going. Goodbye.}
+{343}{}{How do I get to Flagstaff from here?}
+{344}{}{Take the highway due east. It'll take a few days. But if I were you, I'd follow the highway, in the wasteland. Mark my words: it's better to meet a wild animal than a man on the highway.}
 
 {345}{}{A-ba-boo-ba-gee!}
 {346}{}{Uh... (stares at you in complete confusion) Listen, I'm not sure you should go into town... They might mistake you for a Jackal. Get it? So if you decide to go in, don't say I didn't warn you.}
@@ -189,7 +192,7 @@
 {364}{}{What's the point of a gun that won't fire?}
 {365}{}{Intimidation, mostly! And for emergencies, I can always jab someone with the barrel. Right?}
 {366}{}{No one here to fix it?}
-{367}{}{Our mechanic's short on parts. Working firearms are rare here. Even if fixed, it's useless without ammo.}
+{367}{}{Our mechanic's short on parts. Working firearms are rare here.}
 {368}{}{I can fix it.}
 {369}{}{Really? That'd be a lifesaver. I'll toss you 25 caps if you pull it off.}
 {370}{}{I can't work on it now. I'll check it out later.}
@@ -199,13 +202,14 @@
 {374}{}{Got it. Looks like I should mosey along.}
 {375}{}{Seems like you're in a bind. I'll take off.}
 {376}{}{Let's give it a whirl...}
-{377}{}{Well, I'll be damned, you did it! But it's odd seeing a farmer with a firearm, huh? (chuckles) I appreciate it. Here's your 25 caps, as promised. Wish I could find more ammo...}
+{377}{}{Well, I'll be damned, you did it! But it's odd seeing a peasant with a firearm, huh? (chuckles) I appreciate it. Here's your 25 caps, as promised. Wish I could find more ammo...}
 {378}{}{All the best, my business here's done.}
 {379}{}{Actually... I don't think I can fix it.}
 {380}{}{Figured as much.}
 {381}{}{Can't fix it right now. Maybe later.}
 {382}{}{Forget it, I won't touch your gun now.}
 {383}{}{For that price, I'll toss it in the nearest trash heap. Find someone else.}
+{384}{}{I have an extra gun. Let's try taking parts from it.}
 
 {390}{}{Hey, I thought you were meeting those guys to raid the Jackals?}
 {391}{}{I changed my mind.}

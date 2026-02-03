@@ -110,7 +110,10 @@ procedure talk_p_proc begin
       end
    end
    else begin
-      if town_rep_is_idolized then begin
+      if (global_var(GVAR_DAYGLOW_CORONADO_STATUS) != 0) then begin
+      floater(self_obj, 115, COLOR_MSG_GREEN);
+      end
+      else if town_rep_is_idolized then begin
       floater(self_obj, 114, COLOR_MSG_GREEN);
       end
       else if (DudePerkHas(PERK_ghouling_fiziology) or town_rep_is_liked) then begin

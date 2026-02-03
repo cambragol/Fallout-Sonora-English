@@ -65,6 +65,15 @@
 {254}{}{OF COURSE I can write! Otherwise, I wouldn't be able to work here.}
 {255}{}{Yeah, yeah, yeah.}
 
+{260}{}{Can I leave my gear with you?}
+{261}{}{Certainly. We have a storage locker. Your things will be kept under a secure combination lock and constant supervision. The price per locker is }
+{262}{}{ bottle caps.}
+{263}{}{That's too expensive for me.}
+{264}{}{Fine. I wanna rent one locker.}
+{265}{}{Very well. You can access the locker at any time.}
+{266}{}{Thanks.}
+{267}{}{I need another storage locker.}
+
 # Quest
 {270}{}{I'm looking for a job. Do you have any vacancies?}
 {271}{}{Unfortunately, no. To be honest, there is quite a line forming to guard our caravans.}

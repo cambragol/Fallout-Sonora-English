@@ -26,7 +26,8 @@
 {205}{}{And that made him beat you? You're in a tough spot here...}
 {206}{}{That's an understatement. We're behind schedule, and there are rumors about giant rats in the mine. The bosses are angry and take it out on us.}
 {207}{}{I see.}
-{208}{}{Hey, you don't seem to be one of the guards. Are you a caravan driver or something?}
+{208}{}{Hey, you're not one of the guards. Are you a caravan driver or something?}
+{1208}{}{Hey, you're not one of the guards. Are you a caravan driver or something?}
 {209}{}{No. I'm looking for my relatives. Peasants from Villa. Do you know anything about them?}
 {210}{}{Everyone here knows them! But I have to disappoint you - Sancho and Hugo went underground and haven't returned yet.}
 {211}{}{Thanks for the information. Rest if you can.}

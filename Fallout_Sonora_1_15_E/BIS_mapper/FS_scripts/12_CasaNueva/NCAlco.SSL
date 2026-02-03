@@ -40,9 +40,21 @@ procedure timed_event_p_proc begin
    if (fixed_param == 1) then begin
       reg_anim_clear(self_obj);
       reg_anim_begin();
-      animate_stand;
+         reg_anim_animate(self_obj,ANIM_stand,-1); //animate_stand;
       reg_anim_end();
-      add_timer_event(self_obj, random(70,120), 1);
+      add_timer_event(self_obj, random(70,100), 2);
+   end
+   if (fixed_param == 2) then begin
+      /*
+      Странно, что reg_anim_animate не работает повторно.
+      Нужно делать реверс после каждого применения.
+      Наверное, недоработка движка.
+      */
+      reg_anim_clear(self_obj);
+      reg_anim_begin();
+         reg_anim_animate_reverse(self_obj,ANIM_stand,-1);
+      reg_anim_end();
+      add_timer_event(self_obj, random(70,100), 1);
    end
 end
 

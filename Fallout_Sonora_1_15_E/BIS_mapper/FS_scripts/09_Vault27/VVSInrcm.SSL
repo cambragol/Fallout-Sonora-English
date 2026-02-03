@@ -83,7 +83,7 @@ end
 
 procedure NodeStopDialog begin
    Reply(216)
-   NAnswer(217,1,Node999)
+   NAnswer(217,0,Node999)
 end
 
 //--- ПЕРВИЧНЫЙ ДИАЛОГ
@@ -96,12 +96,14 @@ end
 
 procedure NodeFstDialog1 begin
    zReply(203)
-   NAnswer(204,1,NodeFstDialog2)
+   NAnswer(204,4,NodeFstDialog2)
+   NAnswer(199,-3,NodeFstDialog2)
 end
 
 procedure NodeFstDialog2 begin
    Reply(205)
-   NAnswer(206,1,NodeFstDialog3)
+   NAnswer(206,4,NodeFstDialog3)
+   NAnswer(218,-3,NodeFstDialog3)
 end
 
 procedure NodeFstDialog3 begin
@@ -113,81 +115,83 @@ procedure NodeFstDialog3 begin
    setQuest(GVAR_VAULT27_POISON,qStart);
    end
    Reply(207)
-   NAnswer(208,1,NodeAnswer)
-   NAnswer(209,1,NodeFstDialog4)
+   NAnswer(208,4,NodeAnswer)
+   NAnswer(209,4,NodeFstDialog4)
+   NAnswer(219,-3,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
    Reply(214)
-   NAnswer(215,1,Node999)
+   NAnswer(215,4,Node999)
+   NAnswer(219,-3,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
    Reply(210)
-   NAnswer(211,1,NodeAnswer)
-   NAnswer(240,1,NodeQst)
-   NAnswer(212,1,Node999)
+   NAnswer(211,4,NodeAnswer)
+   NAnswer(240,4,NodeQst)
+   NAnswer(212,4,Node999)
+   NAnswer(219,-3,Node999)
 end
 
 //--- ОТВЕТЫ
 
 procedure NodeAnswer begin
    Reply(220)
-   NAnswer(221,1,NodeAnswer100)
-   NAnswer(223,1,NodeAnswer200)
+   NAnswer(221,4,NodeAnswer100)
+   NAnswer(223,4,NodeAnswer200)
    if (global_var(GVAR_VAULT27_GHOST_KNOW) > 0) then begin
-   NAnswer(231,1,NodeAnswer500)
-   end
-   else begin
-   NAnswer(227,1,NodeAnswer400)
+   NAnswer(231,4,NodeAnswer500)
+   end else begin
+   NAnswer(227,4,NodeAnswer400)
    end
    NAnswer(225,4,NodeAnswer300)
-   NAnswer(212,1,Node999)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeAnswer100 begin
    Reply(222)
-   NAnswer(213,1,NodeAnswer)
-   NAnswer(212,1,Node999)
+   NAnswer(213,4,NodeAnswer)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeAnswer200 begin
    Reply(224)
-   NAnswer(213,1,NodeAnswer)
-   NAnswer(212,1,Node999)
+   NAnswer(213,4,NodeAnswer)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeAnswer300 begin
    Reply(226)
-   NAnswer(213,1,NodeAnswer)
-   NAnswer(212,1,Node999)
+   NAnswer(213,4,NodeAnswer)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeAnswer400 begin
    Reply(228)
-   NAnswer(229,1,NodeAnswer401)
-   NAnswer(213,1,NodeAnswer)
-   NAnswer(212,1,Node999)
+   NAnswer(229,4,NodeAnswer401)
+   NAnswer(213,4,NodeAnswer)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeAnswer401 begin
    Reply(230)
-   NAnswer(213,1,NodeAnswer)
-   NAnswer(212,1,Node999)
+   NAnswer(213,4,NodeAnswer)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeAnswer500 begin
    set_global_var(GVAR_VAULT27_GHOST_KNOW,2);
    Reply(232)
-   NAnswer(233,1,NodeAnswer501)
+   NAnswer(233,4,NodeAnswer501)
 end
 
 procedure NodeAnswer501 begin
    Reply(234)
-   NAnswer(213,1,NodeAnswer)
-   NAnswer(212,1,Node999)
+   NAnswer(213,4,NodeAnswer)
+   NAnswer(212,4,Node999)
 end
 
 //--- КВЕСТ
@@ -197,10 +201,10 @@ procedure NodeQst begin
       Reply(243)
       if (dude_elevation == 1) then begin
          if (global_var(GVAR_VAULT27_GHOST_KNOW) > 0) then begin
-         NAnswer(245,1,NodeQst2)
+         NAnswer(245,4,NodeQst2)
          end
          else begin
-         NAnswer(244,1,NodeQst2)
+         NAnswer(244,4,NodeQst2)
          end
       end
    end
@@ -210,17 +214,17 @@ procedure NodeQst begin
    else begin
       Reply(241)
    end
-   NAnswer(211,1,NodeAnswer)
-   NAnswer(212,1,Node999)
+   NAnswer(211,4,NodeAnswer)
+   NAnswer(212,4,Node999)
 end
 
 procedure NodeQst2 begin
    Reply(246)
-   NAnswer(247,1,NodeQst3)
+   NAnswer(247,4,NodeQst3)
 end
 
 procedure NodeQst3 begin
    Reply(248)
-   NAnswer(231,1,NodeAnswer500)
-   NAnswer(249,1,Node999)
+   NAnswer(231,4,NodeAnswer500)
+   NAnswer(249,4,Node999)
 end

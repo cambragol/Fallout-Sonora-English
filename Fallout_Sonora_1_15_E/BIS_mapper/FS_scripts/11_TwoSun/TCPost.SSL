@@ -38,6 +38,9 @@ procedure NodeFstDialog2;
 procedure NodeFstDialog3;
 procedure NodeDialog;
 procedure NodeDialog2;
+procedure NodeBox100;
+procedure NodeBox101;
+procedure NodeBox102;
 procedure NodeCurier;
 procedure NodeCurierSkidka;
 procedure NodeCurier1;
@@ -117,6 +120,8 @@ end
 
 procedure destroy_p_proc begin
    set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_3);
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_9);
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_12);
    kill_critter_opt
 end
 
@@ -191,6 +196,14 @@ procedure NodeDialog begin
    NAnswer(204,1,NodeCurier2)
    end
    */
+
+   if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_9) == 0) then begin
+      NAnswer(260,1,NodeBox100)
+   end
+   else if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_12) == 0) then begin
+      NAnswer(267,1,NodeBox100)
+   end
+
    if ((bitDialog(bit_3) == 0) and (getQuest(GVAR_PUERTO_BOS_DESTROY) < qEnd)) then begin
       if (global_var(GVAR_TITUL_BOS) >0) then begin
       NAnswer(220,1,NodeCurierSkidka)
@@ -204,6 +217,39 @@ procedure NodeDialog2 begin
    bitDialogZero(bit_3)
    Reply(223)
    NAnswer(224,1,Node999)
+end
+
+//--- КАМЕРЫ ХРАНЕНИЯ
+
+#define COAST_BOX                  500
+
+procedure NodeBox100 begin
+   Reply(mstr(261)+COAST_BOX+mstr(262))
+   if (dude_caps>=COAST_BOX) then begin
+   NAnswer(264,1,NodeBox101)
+   end
+   NAnswer(263,1,NodeDialog)
+end
+
+procedure NodeBox101 begin
+   if (dude_caps>=COAST_BOX) then begin
+   call NodeBox102;
+   end
+   else begin
+   call NodeBox100;
+   end
+end
+
+procedure NodeBox102 begin
+   item_remove(dude_obj,PID_BOOTLE_CAPS,COAST_BOX)
+   if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_9) == 0) then begin
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_9);
+   end
+   else if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_12) == 0) then begin
+   set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_12);
+   end
+   Reply(265)
+   NAnswer(266,1,Node999)
 end
 
 //--- ОТПРАВКА ПОСЫЛКИ

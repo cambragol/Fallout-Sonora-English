@@ -49,9 +49,9 @@
 
 #Quest to Find Vault 27
 {240}{}{Have you come across items from the Vaults?}
-{241}{}{Vaults? What are you... Ah, I see! Vault-Tec Vaults - Legendary. They say some of our ancestors lived there after the Great War. But it's been so long that nobody knows where those Vaults are anymore.}
+{241}{}{Vaults? What are you... Ah, I see! Vault-Tec Vaults-real legends. They say some of our ancestors lived there after the Great War. But it's been so long that nobody knows where those Vaults are anymore.}
 {242}{}{Who might know?}
-{243}{}{You need to go to the Followers of Fire. They have so much knowledge in their library that they don't even know what to do with it all. Maybe they've got the coordinates of the Vaults. But they won't share without a good reason.}
+{243}{}{Try the Followers of Fire. They have so much knowledge in their library that they don't even know what to do with it all. Maybe they've got the coordinates of the Vaults. But they won't share without a good reason.}
 {244}{}{What about scavengers?}
 {245}{}{Heh, you think a scavenger worth his salt would reveal the location of a Vault? Legend has it there's a damn treasure trove of relics in them! But if you're a chatty type, go visit Bob in the slums. He's one of the oldest scavengers in Phoenix.}
 {246}{}{Got it.}
@@ -97,7 +97,7 @@
 {285}{}{[Can of Coffee]}
 {286}{}{You're in luck. These are coffee beans. They used to make a popular drink from them in the Old World. And now coffee has become so rare that it's only served to wealthy clients in the casino across the street.}
 {287}{}{Can you tell me where to get batteries for a bike?}
-{288}{}{Oh, that's a very rare and expensive thing these days. I heard the Tinsmiths in Two-Sun might be actually making them now though. Also, ask the ghouls at our power plant. For a while, they were getting batteries from junk colonies like Garage City. I think you can still find them on your own in the ruins where scavengers haven't picked things clean.}
+{288}{}{Oh, that's a very rare and expensive thing these days. I heard the Tinsmiths in Two-Sun might be actually making them now though. Also, ask the ghouls at our power plant. For a while, they were getting batteries from junk towns like Garage City. I think you can still find them on your own in the ruins where scavengers haven't picked things clean.}
 
 {289}{}{The trader has lowered their prices by 5%.}
 {290}{}{You might be interested in this. Look, if you shake it, it's like it's snowing inside...}
@@ -130,5 +130,5 @@
 {314}{}{Well, the monks were peacefully walking down the street. Suddenly, people in balaclavas burst out of several alleys. There were about five of them, I think. They were mostly shooting with submachine guns. They killed the monks and then quickly disappeared back into the alleys. These guys planned the attack well.}
 {315}{}{I see. But if you're hiding something, it'll cost you dearly.}
 {316}{}{Thanks, you've been very helpful.}
-{317}{}{The situation is becoming clearer.}
-{318}{}{Things are coming into focus. Time to talk to Aaron about this.}
+{317}{}{(2/3) First testimonies regarding the attacks obtained.}
+{318}{}{(3/3) Final testimonies obtained. Time to speak with Aaron.}

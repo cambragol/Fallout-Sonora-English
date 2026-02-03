@@ -82,6 +82,7 @@
 #define SCRIPT_ZCGhoul          (45)
 #define SCRIPT_ZCFloatr        (644)
 #define SCRIPT_ZCSclpnd        (802)
+#define SCRIPT_ZCSprMut        (998)
 
 #define SCRIPT_ZCBandit        (396)
 #define SCRIPT_ZCRedRdr        (444)
@@ -109,6 +110,7 @@
 #define SCRIPT_ZCMrHand        (643)
 #define SCRIPT_ZCCannbl        (645)
 #define SCRIPT_ZCMaxx          (647)
+#define SCRIPT_ZCDsprdo        (999)
 
 #define SCRIPT_ZCDstMnt        (618)
 #define SCRIPT_ZCDstRat        (619)
@@ -209,6 +211,7 @@
 #define SCRIPT_VCRobot         (688)
 #define SCRIPT_VCMineA         (737)
 #define SCRIPT_VCMineB         (738)
+#define SCRIPT_VSStrBig        (1000)
 
 //------------------------------------------------------
 //---------------------- Шакалы
@@ -928,6 +931,13 @@
 #define SCRIPT_ASFaro          (748)
 #define SCRIPT_ASLampar        (749)
 #define SCRIPT_ATCave          (750)
+#define SCRIPT_ACAnti          (991)
+#define SCRIPT_ASFlag          (992)
+#define SCRIPT_ASBoat          (993)
+#define SCRIPT_ASNasos         (994)
+#define SCRIPT_ACWtrSvr        (995)
+#define SCRIPT_ACWtrPsn        (996)
+#define SCRIPT_ASWtrTtm        (997)
 
 //------------------------------------------------------
 //---------------------- Санта Ана

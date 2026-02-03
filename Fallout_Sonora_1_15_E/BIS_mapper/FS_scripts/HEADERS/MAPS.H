@@ -44,7 +44,7 @@
 #define AREA_SPECIAL_CRY            (36)
 #define AREA_SPECIAL_DRIVE_IN       (37)
 #define AREA_SPECIAL_PADRE          (38)
-#define AREA_SPECIAL_BARON          (39)
+#define AREA_DAYGLOW_START_POINT    (39)
 #define AREA_SPECIAL_SNOW           (40)
 #define AREA_SPECIAL_VAULT          (41)
 #define AREA_SPECIAL_ARMY           (42)
@@ -88,6 +88,7 @@
 #define MAP_RND_COAST_2             (19)
 #define MAP_RND_COAST_3             (20)
 #define MAP_RND_COAST_4             (145)
+#define MAP_RND_999                 (150)
 
 //--- Специальные встречи
 #define MAP_CAR_PIT_STOP            (53)
@@ -100,7 +101,6 @@
 #define MAP_SPECIAL_CRY             (101)
 #define MAP_SPECIAL_DRIVE_IN        (102)
 #define MAP_SPECIAL_PADRE           (103)
-#define MAP_SPECIAL_BARON           (104)
 #define MAP_SPECIAL_SNOW            (105)
 #define MAP_SPECIAL_VAULT           (106)
 #define MAP_SPECIAL_ARMY            (107)
@@ -205,18 +205,18 @@
 #define MAP_OIL_COAST               (130)
 
 //--- Резерв
-#define MAP_reserv_131              (131)
-#define MAP_reserv_132              (132)
-#define MAP_reserv_133              (133)
-#define MAP_reserv_134              (134)
-#define MAP_reserv_135              (135)
-#define MAP_reserv_136              (136)
-#define MAP_reserv_137              (137)
-#define MAP_reserv_138              (138)
-#define MAP_reserv_139              (139)
-#define MAP_reserv_140              (140)
-#define MAP_reserv_141              (141)
-#define MAP_reserv_150              (150)
+#define MAP_reserv_104              (104) // DLC
+#define MAP_reserv_131              (131) // DLC
+#define MAP_reserv_132              (132) // DLC
+#define MAP_reserv_133              (133) // DLC
+#define MAP_reserv_134              (134) // DLC
+#define MAP_reserv_135              (135) // DLC
+#define MAP_reserv_136              (136) // DLC
+#define MAP_reserv_137              (137) // DLC
+#define MAP_reserv_138              (138) // DLC
+#define MAP_reserv_139              (139) // DLC
+#define MAP_reserv_140              (140) // DLC
+#define MAP_reserv_141              (141) // DLC
 
 //------------------------------------------------------
 //---------------------- Ящики Сонора Экспресс
@@ -255,11 +255,11 @@
 #define dude_elevation              (elevation(dude_obj))
 
 /*
-Teleportation of the main character to another map:
-   fa   - fade (ignored if <=0)
-   fb   - screen restoration (ignored if <=0)
-   map  - index of the loaded map
-   hour - number of hours to be scrolled (ignored if <=0)
+Телепортация ГГ на другую карту:
+   fa   - затухание (при <=0 игнорируется)
+   fb   - восстановление экрана (при <=0 игнорируется)
+   map  - индекс загружаемой карты
+   hour - число часов, которое нужно промотать (при <= 0 игнорируется)
 */
 #define dude_teleport_map(fa,fb,map,hour)                                       \
                                     if (fa >0) then begin                       \

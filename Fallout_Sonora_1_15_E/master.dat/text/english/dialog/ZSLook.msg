@@ -73,8 +73,8 @@
 {255}{}{Maybe it's worth visiting Two-Sun and checking out the slave situation.}
 {256}{}{You found some kind of code on the back of the painting.}
 {257}{}{Hmm, what do these numbers mean?}
-{258}{}{These mercenaries were killed by a massive explosion. But one of them died from a shot to the head with a 10mm bullet.}
-{259}{}{Not worth looking at for too long.}
+{258}{}{This mercenary died from a laser beam blast.}
+{259}{}{Best not to stare at it for too long.}
 
 #Rangers, Quartzsite
 {260}{}{This ancient sign shows the distance to the dam. A painted inscription on top reads: "Rangers Territory".}

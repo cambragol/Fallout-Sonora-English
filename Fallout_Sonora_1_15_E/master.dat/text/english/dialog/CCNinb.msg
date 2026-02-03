@@ -20,6 +20,7 @@
 {204}{}{(turns halfway) Antonio?}
 {205}{}{Yes, miss. He was looking for you.}
 {206}{}{(falls to her knees and sobs) El Diablo... *sob* *sob* You don't understand, gringo. I lived for this.}
+{1206}{}{(falls to her knees and sobs) El Diablo... *sob* *sob* You don't understand, gringa. I lived for this.}
 {207}{}{I don't know what you're saying in your language, but there's no point in getting upset. Let's go to the others.}
 {208}{}{(grabs your sleeve) This is my fate! I've lost all sense of life!}
 {209}{}{Are you saying you've been groomed for sacrifice your whole life? Then it's clear why you're struggling to accept freedom.}
@@ -33,12 +34,14 @@
 
 
 {220}{}{«You again, gringo?»}
+{1220}{}{«You again, gringa?»}
 {221}{}{«There you are. I've been looking for you everywhere.»}
 {222}{}{(turns away)}
 {223}{}{«... And I'm not the only one. Antonio is looking for you too.»}
 {224}{}{(turns back halfway) «Antonio?»}
 {225}{}{«He's the one, señora. He's the one who stole the crown from the ceremony to save you from death.»}
 {226}{}{(falls to her knees and sobs) «But El Diablo... *sob* *sob* You don't understand, gringo. I've been prepared for this my whole life. I knew this day would come.»}
+{1226}{}{(falls to her knees and sobs) «But El Diablo... *sob* *sob* You don't understand, gringa. I've been prepared for this my whole life. I knew this day would come.»}
 {227}{}{«Isn't it better now that you're free?»}
 {228}{}{(grabs your sleeve) «This was my destiny! I had to go to El Diablo to save the rest of the townspeople!»}
 {229}{}{«Then I understand why you're so disheartened. But in all my travels, I have never seen such devilry. No one sacrifices their loved ones to monsters.»}

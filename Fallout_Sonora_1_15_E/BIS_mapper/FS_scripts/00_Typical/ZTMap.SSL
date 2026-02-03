@@ -78,9 +78,6 @@ procedure map_enter_p_proc begin
       set_global_var(GVAR_RADIOACTIV_GLOBAL,0);
       set_global_var(GVAR_RADIOACTIV_STOP,0);
       set_global_var(GVAR_RANDOM_CAVE_ENEMIES,random(0,6)); // см SCRIPT_ZSRandom
-      if (global_var(GVAR_GAME_DLC_1) == 0) then begin
-      //set_global_var(GVAR_GAME_DLC_1,0); // !!! даёт допуск к DLC
-      end
 
       if (map_first_run) then begin
           //--- Встречная реплика при первом входе на карту
@@ -134,14 +131,6 @@ procedure map_enter_p_proc begin
          if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
          override_map_start_hex(17300, 1, 5);
          set_map_start((17300 % 200), (17300 / 200), 1, 5);
-         end
-      end
-
-      if (cur_map_index == MAP_OIL_CITY) then begin
-         if (map_var(MVAR_OIL_PLATFORM_NEWHEX) > 0) then begin
-         move_to(dude_obj, map_var(MVAR_OIL_PLATFORM_NEWHEX), 0);
-         tile_set_center(map_var(MVAR_OIL_PLATFORM_NEWHEX));
-         set_map_var(MVAR_OIL_PLATFORM_NEWHEX, 0);
          end
       end
 end
@@ -280,9 +269,7 @@ procedure map_destroy_movie_puerto begin
            if (getQuest(GVAR_PUERTO_QST_RANGERS) == qStart) then begin
            setQuest(GVAR_PUERTO_QST_RANGERS,qStop);
            end
-           if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
            setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP,qStop);
-           end
            item_remove(dude_obj,PID_KEY_TORPED,1)
 
            //- Перемещение ГГ:
@@ -434,7 +421,6 @@ procedure map_exit_p_proc begin
    else exit_in_car(MAP_SPECIAL_CRY)
    else exit_in_car(MAP_SPECIAL_DRIVE_IN)
    else exit_in_car(MAP_SPECIAL_PADRE)
-   else exit_in_car(MAP_SPECIAL_BARON)
    else exit_in_car(MAP_SPECIAL_SNOW)
    else exit_in_car(MAP_SPECIAL_VAULT)
    else exit_in_car(MAP_SPECIAL_ARMY)
@@ -563,6 +549,7 @@ procedure map_light_proc begin
    else setMapLight(MAP_CASA_NUEVA_GIDROPONIC,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_PUERTO_DOCS,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_PUERTO_SIGN,L_STREET,L_STREET,L_STREET)
+   else setMapLight(MAP_SAN_FELIPE_CITY,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_SAN_FELIPE_COAST,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_SAN_FELIPE_CAVE,L_STREET,L_CAVE,L_CAVE)
    else setMapLight(MAP_SPECIAL_VAULT,L_STREET,L_VAULT,L_STREET)
@@ -590,6 +577,11 @@ procedure map_light_proc begin
    else if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
        if (getQuest(GVAR_VAULT27_GENERATOR) >= qEnd) then begin
        setMapLight(MAP_VAULT_27_INTERIER,L_ROOM,L_ROOM,L_ROOM)
+       end
+   end
+   else if (cur_map_index == MAP_VAULT_27_EXTERIER) then begin
+       if (getQuest(GVAR_VAULT27_GENERATOR) >= qEnd) then begin
+       setMapLight(MAP_VAULT_27_EXTERIER,L_STREET,L_ROOM,L_ROOM)
        end
    end
    else if (cur_map_index == MAP_PUERTO_BASA) then begin
@@ -743,7 +735,6 @@ procedure gvar_special_enc begin
    set_var_special_map(MAP_SPECIAL_CRY,GVAR_SPECIAL_ENCOUNTER_CRY)
    set_var_special_map(MAP_SPECIAL_DRIVE_IN,GVAR_SPECIAL_ENCOUNTER_DRIVE)
    set_var_special_map(MAP_SPECIAL_PADRE,GVAR_SPECIAL_ENCOUNTER_PADRE)
-   set_var_special_map(MAP_SPECIAL_BARON,GVAR_SPECIAL_ENCOUNTER_BARON)
    set_var_special_map(MAP_SPECIAL_SNOW,GVAR_SPECIAL_ENCOUNTER_SNOW)
    set_var_special_map(MAP_SPECIAL_VAULT,GVAR_SPECIAL_ENCOUNTER_VAULT)
    set_var_special_map(MAP_SPECIAL_ARMY,GVAR_SPECIAL_ENCOUNTER_ARMY)
@@ -1052,15 +1043,20 @@ procedure end_game_cities begin
    if (town_known(AREA_JACKALS) <= MARK_STATE_KNOWN) then begin
       set_global_var(GVAR_ENDGAME_JUCKALS,0);
    end
-	else if (global_var(GVAR_JACKALS_DEAD) >= LIMIT_JACKALS_DEAD) then begin
+   else if (global_var(GVAR_JACKALS_DEAD) >= LIMIT_JACKALS_DEAD) then begin
       set_global_var(GVAR_ENDGAME_JUCKALS,2); // END_JC2
-	end
-	else if ((global_var(GVAR_JACKALS_RANGER_CONTRAKT) == 1) and (getQuest(GVAR_JACKALS_UNION_CITY) == qEnd)) then begin
+   end
+   else if ((global_var(GVAR_JACKALS_RANGER_CONTRAKT) == 1) and (getQuest(GVAR_JACKALS_UNION_CITY) == qEnd)) then begin
+      if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      set_global_var(GVAR_ENDGAME_JUCKALS,3); // END_JC3
+      end
+      else begin
       set_global_var(GVAR_ENDGAME_JUCKALS,1); // END_JC1
-	end
-	else begin
-	   //нет слайда?
-	end
+      end
+   end
+   else begin
+      //нет слайда?
+   end
 
    //--- Сан-Брамин:
 

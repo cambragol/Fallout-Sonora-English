@@ -83,11 +83,10 @@
 {305}{}{Listen, buddy, you're scaring the residents a bit. You'd better head to the power plant with the other freaks.}
 {1305}{}{Listen, uh... lady, you're scaring the residents a bit. You'd better head to the power plant with the other freaks.}
 
-
 {310}{}{I'm investigating an attack on the Followers. What do you know about it?}
-{311}{}{The situation is becoming clearer.}
-{312}{}{The situation is becoming clearer. Time to discuss this with Aaron.}
-{313}{}{(frowns and twitches nervously) So, another Follower's lackey? I already told the monks everything. Leave us be.}
+{311}{}{(2/3) Initial testimony regarding the attacks has been obtained.}
+{312}{}{(3/3) Final testimony regarding the attacks has been obtained. It's time to discuss this with Aaron.}
+{313}{}{(frowns, a nervous twitch crossing his face) So, another Follower's lackey? I already told the monks everything. Leave us be.}
 {314}{}{(twitches nervously with a frown) Didn't think they'd rope you in too. But I already told the monks everything I know.}
 {315}{}{Guess you'll have to tell your story again.}
 {316}{}{We didn't kill anyone. The monks were asking for alms around here and got nothing. Once outside, they were grabbed by masked men and strung up on lamp posts. We don't know who did it, but they were clearly well-prepared.}
@@ -198,7 +197,7 @@
 {435}{}{You're a true hero! We've been hoping for a miracle, and we got one! Now we have hope for a new life. Thank you so much.}
 {1435}{}{You're a true heroine! We've been hoping for a miracle, and we got one! Now we have hope for a new life. Thank you so much.}
 {436}{}{That's good. The main thing is no one threatens you now.}
-{437}{}{Spare me the sappy story. Hand over the caps. Do you think I went through all this trouble out of kindness?}
+{437}{}{Spare me the sappy story. Hand over the caps. I didn't risk my neck out of kindness.}
 {438}{}{Uh, yeah, take these caps. There's 217 of them. That's all we could gather.}
 {439}{}{Idiot! I wouldn't have risked my life if I'd known you'd only collected this measly amount! Damn it. Hand 'em over.}
 {1439}{}{Idiot! I wouldn't have risked my life if I'd known you'd only collected this measly amount! Damn it. Hand 'em over.}
@@ -206,7 +205,7 @@
 {441}{}{Sorry it's so little. You can stay here as long as you want.}
 {442}{}{Goodbye, Vernon.}
 {443}{}{You can return all the caps you collected for the bounty. I was after justice.}
-{444}{}{You're amazing. Please know, you're always welcome here.}
+{444}{}{You're an extraordinary person. Please know, you're always welcome here.}
 {445}{}{Goodbye, Vernon.}
 {446}{}{Thanks for your help with Larry and Badi, but you really should... move on. I don't want any more trouble.}
 {447}{}{You try to help somebdy...}

@@ -14,7 +14,6 @@ procedure timed_event_p_proc;
 variable gooDamageAmnt;
 variable gooObj;
 variable bootsDudeMsg; // контроль сообщений по теме состояния сапог
-variable dudeStep;     // количество проделанных ГГ шагов по жиже (для работы перка Легкий шаг)
 
 #define armorObj                       inven_armor(gooObj) \
 
@@ -98,18 +97,8 @@ procedure goo_proc begin
       //--- Облучение:
 
       if (gooObj == dude_obj) then begin
-         if (dudeStep != 0) then begin
-            gooDamageAmnt := 0;
-         end
-
          if DudePerkHas(PERK_light_step) then begin
-            dudeStep += 1;
-            if (dudeStep >3) then begin
-            dudeStep := 0;
-            end
-         end
-         else begin
-            dudeStep := 0;
+         gooDamageAmnt := 0;
          end
       end
 

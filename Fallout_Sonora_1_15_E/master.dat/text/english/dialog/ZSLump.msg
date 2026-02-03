@@ -6,3 +6,4 @@
 {112}{}{This lamp dimly illuminates the cellar.}
 {113}{}{This lamp is out of oil.}
 {114}{}{The fire and smoke scare off the local coyotes.}
+{115}{}{The fire keeps the floating monsters away.}

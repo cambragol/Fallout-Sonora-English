@@ -4,7 +4,7 @@
 {103}{}{We're closed. Come back during business hours.}
 
 #Dialogue
-{200}{}{Yes?}
+{200}{}{Can I help you?}
 {201}{}{Goodbye.}
 {202}{}{I need to send a package to Flagstaff.}
 {203}{}{I need to send a package to Two-Sun.}
@@ -32,12 +32,21 @@
 {226}{}{No. I'm leaving this place. For good.}
 {230}{}{Welcome. How can I help you?}
 {231}{}{Excuse me, what is this place?}
-{232}{}{This is a courier delivery service. Didn't the sign outside tell you anything?}
-{233}{}{Such a service is a bit... unusual, considering the scorched wasteland around. What do you transport?}
-{234}{}{We transport anything, even a dead flea, if it pays the right price. Are you just curious, or are you ready to place an order?}
+{232}{}{This is a courier delivery service. We'll transport anything, even a dead mole rat, for the right price. Are you just curious or ready to place an order?}
+{233}{}{}
+{234}{}{}
 {235}{}{Maybe. I want to know more.}
 {236}{}{No, no, I was just attracted by the sign. Goodbye.}
 {237}{}{I think you're being a little rude. With service like this, you won't catch me here again.}
+
+{260}{}{I need a storage locker.}
+{261}{}{Certainly. One locker costs }
+{262}{}{ bottle caps.}
+{263}{}{That's too much for me.}
+{264}{}{Great. I'll take one locker.}
+{265}{}{Excellent. The locker is available for your use anytime.}
+{266}{}{Thank you.}
+{267}{}{I need another storage locker.}
 
 {280}{}{I need to know, did any of your caravans escort a man named Tin-Tan?}
 {281}{}{We keep a log. But I'm not digging through it for free.}
@@ -93,8 +102,8 @@
 {326}{}{Let's sign a short contract. There... Excellent. Now head to the slums and deliver the letter with a receipt. Good luck.}
 {327}{}{[Leave the office]}
 {330}{}{The letter is delivered. Here's the recipient's receipt.}
-{331}{}{Wonderful. Here are your hard-earned 25 caps. I hope I don't need to specify that we won't tolerate any deceit.}
-{332}{}{Of course.}
+{331}{}{Wonderful. Here are your hard-earned 25 caps.}
+{332}{}{Great.}
 {333}{}{Thanks for your help. It's been a pleasure working with you. Unfortunately, we won't have any new deliveries for a while.}
 {334}{}{Goodbye.}
 {335}{}{About that letter. There's no one left to receive it. The recipient's dead.}

@@ -58,7 +58,6 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   //invisToDude(0,0) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
    set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 

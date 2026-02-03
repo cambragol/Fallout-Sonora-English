@@ -30,35 +30,35 @@ export variable obj_critter_b; // указатель на криттера 2
 
 --- Памятка по настройке новой карты/локации:
 
-   data/MAPS.txt - register the map
-         MAP.MSG - label levels of the new map
-         WORLDMAP.MSG - label the new area for the location
-         ZTMAP.msg - write the start message
-         MAPS.H - register the macro (map section)
-   data/city.txt - register the location
-         MAP.MSG - label the new location (lines 1500+Area)
-         INFO.msg - update the list of locations
-         MAPS.H - register the macro (area section)
-         Consider in the Sonora Expert perk (SCRIPT_OBJ_DUDE - critter_p_proc)
-   WORLDMAP.TXT - add a new encounter
-         WORLDMAP.TXT - recalculate the total probability for all encounters in the set
-         WORLDMAP.MSG - label the new encounter (starting from 3000) + don't forget the entry point
-         VAULT13.GAM - for the special encounter:
-             + register GVAR (starting from 600)
-             + add GVAR to macros
-             + include in the gvar_special_enc procedure in ZTMap
+   data/MAPS.txt - зарегистрировать карту
+         MAP.MSG - подписать уровни новой карты
+         WORLDMAP.MSG - подписать новый район для локации
+         ZTMAP.msg - написать стартовое сообщение
+         MAPS.H - зарегистрировать макрос (раздел map)
+   data/city.txt - зарегистрировать локацию
+         MAP.MSG - подписать новую локацию (строки 1500+Area)
+         INFO.msg - обновить список локаций
+         MAPS.H - зарегистрировать макрос (раздел area)
+         Учесть в перке Знаток Соноры (SCRIPT_OBJ_DUDE - critter_p_proc)
+   WORLDMAP.TXT - внести новую встречу
+         WORLDMAP.TXT - пересчитать сумму вероятностей для всех встреч набора
+         WORLDMAP.MSG - подписать новую встречу (начиная с 3000) + не забыть точку входа
+         VAULT13.GAM - для спецвстречи:
+             + зарегистрировать GVAR (начиная с 600)
+             + добавить GVAR в макросы
+             + внести в процедуру gvar_special_enc в ZTMap
 
-   Create a map:
-         + Create a gam file with 10 mvars (1 for encounter maps)
-         + Create a map file
-             + Remove unnecessary levels
-             + Attach the ZTMAP script
-             + If needed, place the PC's vehicle generator on the map
-             + If needed, add environmental randomizers
-             + If needed, add the Mysterious Stranger
-             + Set lighting, IF it differs from the standard
-             + Block individual operations during map loading
-             + Initiate the rad-timer if necessary
+   Создать карту:
+         + Создать gam-файл с 10 mvar (1 для карт встреч)
+         + Создать map-файл
+             + Удалить ненужные уровни
+             + Привязать скрипт ZTMAP
+             + По необходимости разместить на карте генератор транспорта ГГ
+             + По необходимости добавить рендомизаторы окружения
+             + По необходимости добавить Таинственного Незнакомца
+             + Задать освещение, ЕСЛИ оно отлично от стандарта
+             + Блок индивидуальных операций при загрузке карты
+             + Инициация рад-таймера по необходимости
 */
 
 
@@ -73,7 +73,7 @@ procedure timed_event_p_proc begin
    if (fixed_param == 2) then begin
        if (combat_is_initialized == false) then begin
        if (game_ui_is_disabled == false) then begin
-            if ((global_var(GVAR_GAME_DLC_1) > 0) and (dude_level >= 7)) then begin
+            if ((getQuest(GVAR_GAME_DLC_1) == qStart) and (dude_level >= 10)) then begin
             if (getQuest(GVAR_DAYGLOW_VISITED) == qZero) then begin
             if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20) == 0) then begin
                if (cur_map_index == MAP_PHOENIX_ANAL) then begin
@@ -110,7 +110,7 @@ procedure timed_event_p_proc begin
                end
                else if ((cur_map_index == MAP_PUERTO_DOCS) and (dude_elevation>0)) then begin
                end
-               else if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+               else if (cur_map_index == MAP_DAYGLOW_START_POINT) then begin
                end
                else begin
                game_ui_disable;
@@ -131,13 +131,13 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
       set_global_var(GVAR_RADIOACTIV_GLOBAL,0);
       set_global_var(GVAR_RADIOACTIV_STOP,0);
-      set_global_var(GVAR_RANDOM_CAVE_ENEMIES,random(0,6)); // ?? SCRIPT_ZSRandom
-      if (global_var(GVAR_GAME_DLC_1) == 0) then begin
-      set_global_var(GVAR_GAME_DLC_1,1); // !!! ??? ?????? ? DLC
+      set_global_var(GVAR_RANDOM_CAVE_ENEMIES,random(0,6)); // см SCRIPT_ZSRandom
+      if (getQuest(GVAR_GAME_DLC_1) == qZero) then begin
+      setQuest(GVAR_GAME_DLC_1,qStart); // !!! даёт допуск к DLC
       end
       // tweaked to allow eye-robot for DLC to approach *after* any dialogues are triggered -cambragol
       add_timer_event(self_obj, 20, 2);
-
+      
       if (map_first_run) then begin
           //--- Встречная реплика при первом входе на карту
           mapIndexMsg := cur_map_index;
@@ -150,7 +150,6 @@ procedure map_enter_p_proc begin
           //--- Дополнительные операции для отдельных локаций
           call map_first_proc; // Эта процедура должна быть внутри map_first_run!
       end
-
 
       if (cur_map_index == MAP_PUERTO_BASA) then begin
           if (map_var(MVAR_PUERTO_ALARM_A) > 0) then begin
@@ -187,27 +186,19 @@ procedure map_enter_p_proc begin
       call end_game;
    end
 
-      if (cur_map_index == MAP_PHOENIX_PLAZA) then begin
-         if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if (cur_map_index == MAP_PHOENIX_PLAZA) then begin
+      if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
          override_map_start_hex(17300, 1, 5);
          set_map_start((17300 % 200), (17300 / 200), 1, 5);
-         end
       end
+   end
 
-      if (cur_map_index == MAP_OIL_CITY) then begin
-         if (map_var(MVAR_OIL_PLATFORM_NEWHEX) > 0) then begin
-         move_to(dude_obj, map_var(MVAR_OIL_PLATFORM_NEWHEX), 0);
-         tile_set_center(map_var(MVAR_OIL_PLATFORM_NEWHEX));
-         set_map_var(MVAR_OIL_PLATFORM_NEWHEX, 0);
-         end
-      end
-
-      if (getQuest(GVAR_GAME_DLC_1) >= qEnd) then begin
-      if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_CORONADO)) then begin
+   if ((cur_map_index >= MAP_DAYGLOW_TIJUANA) and (cur_map_index <= MAP_DAYGLOW_CORONADO)) then begin
+      if (getQuest(GVAR_GAME_DLC_1) != qStart) then begin
          mark_area_known(MARK_TYPE_TOWN, AREA_DAYGLOW, MARK_STATE_INVISIBLE);
          world_map;
       end
-      end
+   end
 end
 
 procedure map_destroy_movie begin
@@ -344,9 +335,7 @@ procedure map_destroy_movie_puerto begin
            if (getQuest(GVAR_PUERTO_QST_RANGERS) == qStart) then begin
            setQuest(GVAR_PUERTO_QST_RANGERS,qStop);
            end
-           if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
            setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP,qStop);
-           end
            item_remove(dude_obj,PID_KEY_TORPED,1)
 
            //- Перемещение ГГ:
@@ -382,12 +371,12 @@ procedure map_update_p_proc begin
       mark_area_known(MARK_TYPE_TOWN, AREA_PUERTO_STEEL, MARK_STATE_INVISIBLE);
       mark_area_known(MARK_TYPE_TOWN, AREA_PUERTO_DESTROY, MARK_STATE_VISITED);
    end
-   //--- ???????? ???????????? ?????? ? ??????? ????? (????? ????? ??? ?????? ??????)
+   //--- Удаление разрушенного Арройо и возврат Виллы (опция нужна для обхода движка)
    if (town_known(AREA_VILLA_DSTR) != MARK_STATE_INVISIBLE) then begin
       mark_area_known(MARK_TYPE_TOWN, AREA_VILLA_DSTR, MARK_STATE_INVISIBLE);
       mark_area_known(MARK_TYPE_TOWN, AREA_VILLA, MARK_STATE_VISITED);
    end
-   //--- ???????? ???-????? ? ????? ???? ????? ??? ?????????
+   //--- Удаление Сан-Диего с карты мира после его посещения
    if (town_known(AREA_DAYGLOW) != MARK_STATE_INVISIBLE) then begin
       mark_area_known(MARK_TYPE_TOWN, AREA_DAYGLOW, MARK_STATE_INVISIBLE);
    end
@@ -408,15 +397,15 @@ end
 
 procedure map_exit_p_proc begin
    /*
-   ?????: ??? ???? ? ??????? ????????? ??????????? ?????? ?? ?????? ?? ????? ????,
-          ?? ???? ??? ?? ???????? ?? ??????? ??????, ????????? ? ??????? load_map.
-          ?? ? ???? ???????? ?? ???? ???? ???????. ??????? ??? ????? ?????? ?? ???????.
+   ВАЖНО: При игре в маппере процедура срабатывает только по выходу на карту мира,
+          то есть она не работает на зеленых сетках, лестницах и функции load_map.
+          Но в игре работает во всех этих случаях. Поэтому для теста маппер не годится.
    */
 
-   //--- ??????????? ?????? ???????? ?????? ? ?????? ??
+   //--- Перемещение ящиков Экспресс Сонора в рюкзак ГГ
    //call express_box_exit;
 
-   //--- ???????? ??? ????????? ????
+   //--- Поправки для локальных карт
    if (cur_map_index == MAP_FLAGSTAFF_SLAVE) then begin
        if (getQuest(GVAR_FLAGSTAFF_SLAVES_RUN) < qEnd) then begin
            if (global_var(GVAR_FLAGSTAFF_MERCS_LIFE) <= 2) then begin
@@ -507,7 +496,6 @@ procedure map_exit_p_proc begin
    else exit_in_car(MAP_SPECIAL_CRY)
    else exit_in_car(MAP_SPECIAL_DRIVE_IN)
    else exit_in_car(MAP_SPECIAL_PADRE)
-   else exit_in_car(MAP_SPECIAL_BARON)
    else exit_in_car(MAP_SPECIAL_SNOW)
    else exit_in_car(MAP_SPECIAL_VAULT)
    else exit_in_car(MAP_SPECIAL_ARMY)
@@ -598,7 +586,7 @@ procedure map_first_proc begin
                 play_gmovie(MOVIE_PHOENIX_VISITED);
    end
 
-   else if (cur_map_index == MAP_DAYGLOW_START) then begin
+   else if (cur_map_index == MAP_DAYGLOW_TIJUANA) then begin
                 set_map_var(MVAR_DIEGOSTART_DUDEMANY, item_amnt(dude_obj,PID_BOOTLE_CAPS));
                 play_gmovie(MOVIE_SAN_DIEGO_VISID);
    end
@@ -657,6 +645,7 @@ procedure map_light_proc begin
    else setMapLight(MAP_CASA_NUEVA_GIDROPONIC,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_PUERTO_DOCS,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_PUERTO_SIGN,L_STREET,L_STREET,L_STREET)
+   else setMapLight(MAP_SAN_FELIPE_CITY,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_SAN_FELIPE_COAST,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_SAN_FELIPE_CAVE,L_STREET,L_CAVE,L_CAVE)
    else setMapLight(MAP_SPECIAL_VAULT,L_STREET,L_VAULT,L_STREET)
@@ -665,7 +654,7 @@ procedure map_light_proc begin
    else setMapLight(MAP_OIL_PLATFORMROOMS,L_ROOM,L_ROOM,L_ROOM)
    else setMapLight(MAP_OIL_PLATFORMDRILL,L_STREET,L_STREET,L_STREET)
 
-   else setMapLight(MAP_DAYGLOW_START,L_STREET,L_STREET,L_STREET)
+   else setMapLight(MAP_DAYGLOW_TIJUANA,L_STREET,L_STREET,L_STREET)
    else setMapLight(MAP_DAYGLOW_VAULT,L_DARK,L_DARK,L_DARK)
    else setMapLight(MAP_DAYGLOW_BONITA_DUM,L_STREET,L_CAVE,L_CAVE)
    else setMapLight(MAP_DAYGLOW_CAMP_OLD_TOWN,L_STREET,L_STREET,L_ROOM)
@@ -695,6 +684,11 @@ procedure map_light_proc begin
    else if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
        if (getQuest(GVAR_VAULT27_GENERATOR) >= qEnd) then begin
        setMapLight(MAP_VAULT_27_INTERIER,L_ROOM,L_ROOM,L_ROOM)
+       end
+   end
+   else if (cur_map_index == MAP_VAULT_27_EXTERIER) then begin
+       if (getQuest(GVAR_VAULT27_GENERATOR) >= qEnd) then begin
+       setMapLight(MAP_VAULT_27_EXTERIER,L_STREET,L_ROOM,L_ROOM)
        end
    end
    else if (cur_map_index == MAP_PUERTO_BASA) then begin
@@ -777,7 +771,7 @@ procedure map_rad_timer_proc begin
    else set_glbl_rad(radBig,radNon,radNon,MAP_PUERTO_DESTROY)
    else set_glbl_rad(radSml,radNon,radNon,MAP_RND_DESERT_9)
    else set_glbl_rad(radSml,radNon,radNon,MAP_RND_CITY_9)
-   else set_glbl_rad(radNon,radSml,radNon,MAP_DAYGLOW_START)
+   else set_glbl_rad(radNon,radSml,radNon,MAP_DAYGLOW_TIJUANA)
    else set_glbl_rad(radSml,radSml,radSml,MAP_DAYGLOW_PATRUL)
    else set_glbl_rad(radNrm,radNon,radNrm,MAP_DAYGLOW_CHULAVISTA)
    else set_glbl_rad(radNrm,radNrm,radNrm,MAP_DAYGLOW_NATIONALCITY)
@@ -806,12 +800,12 @@ end
                                        end                                      \
 
 procedure map_area_exit_proc begin
-    /*
-     Explanation: the need to change coordinates arises when the player character
-     transitions from one level to another within the same map through a transition grid (e.g., caves).
-     In this case, when exiting to the world map, the player character would end up at the coordinates of the location from city.txt.
-     This is intended for stationary locations.
-     However, for random encounters, this leads to a bug, so the coordinates must be updated.
+   /*
+     Пояснение: необходимость в смене координат возникает в том случае,
+     когда герой переходит с уровня на уровень одной карты через сетку перехода (пример: пещеры).
+     В этом случае при выходе на карту мира ГГ окажется в координатах локации из city.txt.
+     На стационарных локациях так и должно быть.
+     Но на случайных встречах это приводит к багу, поэтому приходится обновлять координаты.
    */
 
         set_exitmap(MAP_RND_CITY_2,AREA_RND_CITY)
@@ -872,7 +866,6 @@ procedure gvar_special_enc begin
    set_var_special_map(MAP_SPECIAL_CRY,GVAR_SPECIAL_ENCOUNTER_CRY)
    set_var_special_map(MAP_SPECIAL_DRIVE_IN,GVAR_SPECIAL_ENCOUNTER_DRIVE)
    set_var_special_map(MAP_SPECIAL_PADRE,GVAR_SPECIAL_ENCOUNTER_PADRE)
-   set_var_special_map(MAP_SPECIAL_BARON,GVAR_SPECIAL_ENCOUNTER_BARON)
    set_var_special_map(MAP_SPECIAL_SNOW,GVAR_SPECIAL_ENCOUNTER_SNOW)
    set_var_special_map(MAP_SPECIAL_VAULT,GVAR_SPECIAL_ENCOUNTER_VAULT)
    set_var_special_map(MAP_SPECIAL_ARMY,GVAR_SPECIAL_ENCOUNTER_ARMY)
@@ -1181,15 +1174,20 @@ procedure end_game_cities begin
    if (town_known(AREA_JACKALS) <= MARK_STATE_KNOWN) then begin
       set_global_var(GVAR_ENDGAME_JUCKALS,0);
    end
-	else if (global_var(GVAR_JACKALS_DEAD) >= LIMIT_JACKALS_DEAD) then begin
+   else if (global_var(GVAR_JACKALS_DEAD) >= LIMIT_JACKALS_DEAD) then begin
       set_global_var(GVAR_ENDGAME_JUCKALS,2); // END_JC2
-	end
-	else if ((global_var(GVAR_JACKALS_RANGER_CONTRAKT) == 1) and (getQuest(GVAR_JACKALS_UNION_CITY) == qEnd)) then begin
+   end
+   else if ((global_var(GVAR_JACKALS_RANGER_CONTRAKT) == 1) and (getQuest(GVAR_JACKALS_UNION_CITY) == qEnd)) then begin
+      if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
+      set_global_var(GVAR_ENDGAME_JUCKALS,3); // END_JC3
+      end
+      else begin
       set_global_var(GVAR_ENDGAME_JUCKALS,1); // END_JC1
-	end
-	else begin
-	   //нет слайда?
-	end
+      end
+   end
+   else begin
+      //нет слайда?
+   end
 
    //--- Сан-Брамин:
 

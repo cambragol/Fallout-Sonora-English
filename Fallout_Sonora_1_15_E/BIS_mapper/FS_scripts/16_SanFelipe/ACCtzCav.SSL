@@ -45,6 +45,7 @@ procedure NodeFstDialog7;
 procedure NodeFstDialog8;
 procedure NodeRun;
 procedure NodeEndDialog;
+procedure NodeEndDialog2;
 procedure NodeSndDialog;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
@@ -65,13 +66,14 @@ procedure NodeAnswer106;
 procedure start begin
 end
 
+// modified for specific handling of Espanol Trait by cambragol
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       // added to allow for combat taunts to be either pure spanish, or 'translated' via the Espanol Trait - cambragol
        if DudeTraitHas(TRAIT_espanol) then begin
-          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_MEXIC_GEN_ENG);
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_MEXIC_GEN_ENG);
        end
+
        if (cur_map_index == MAP_SAN_FELIPE_CAVE) then begin
           set_injure_start(0,0,0,0,1) // травмировать (отметить нужное цифрой 1): a - левая рука, b - правая рука, c - левая нога, d - правая нога, e - слепота
           if ((get_Medic_Quest == 0) and (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero)) then begin
@@ -95,6 +97,10 @@ procedure map_enter_p_proc begin
              rm_timer_event(self_obj);
              set_obj_visibility(self_obj, 1);
           end
+       end
+
+       if (getQuest(GVAR_SANFELIPE_QST_RUN) >= qEnd) then begin
+          set_obj_visibility(self_obj, 1);
        end
    end
 end
@@ -173,8 +179,6 @@ procedure destroy_p_proc begin
    kill_critter_opt
 end
 
-//This script was tweaked to standardize handling of the espanol perk - cambragol
-
 procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
 
@@ -234,41 +238,44 @@ end
 
 //--- ПЕРВЫЙ ДИАЛОГ
 
+// Spanish and English entry point
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
+   Reply(200)
    if DudeTraitHas(TRAIT_espanol) then begin
-      Reply(180)
-      GAnswer(179,1,NodeFstDialog6)
+      GAnswer(209,1,NodeFstDialog6)
    end
-   else begin
-      Reply(200)
-      NAnswer(201,1,NodeFstDialog2)
-      BAnswer(202,1,NodeFstDialog3)
-   end
+   NAnswer(201,1,NodeFstDialog2)
+   BAnswer(202,1,NodeFstDialog3)
 end
 
+// English only
 procedure NodeFstDialog2 begin
    Reply(203)
    GAnswer(204,1,NodeFstDialog4)
    NAnswer(205,1,NodeFstDialog5)
 end
 
+// English only
 procedure NodeFstDialog3 begin
    setBonusReaction(-20)
    call NodeFstDialog2;
 end
 
+// English only
 procedure NodeFstDialog4 begin
    setBonusReaction(10)
    call NodeFstDialog5;
 end
 
+// English only
 procedure NodeFstDialog5 begin
    Reply(206)
    GAnswer(207,1,NodeRun)
    NAnswer(208,1,Node999)
 end
 
+// Spanish only
 procedure NodeFstDialog6 begin
    setBonusReaction(30)
    Reply(210)
@@ -276,11 +283,13 @@ procedure NodeFstDialog6 begin
    BAnswer(212,1,NodeFstDialog7)
 end
 
+// Spanish only
 procedure NodeFstDialog7 begin
    setBonusReaction(-10)
    call NodeFstDialog8;
 end
 
+// Spanish only
 procedure NodeFstDialog8 begin
    setBonusReaction(10)
    Reply(213)
@@ -288,6 +297,7 @@ procedure NodeFstDialog8 begin
    BAnswer(215,1,Node999)
 end
 
+// Spanish and English 
 procedure NodeRun begin
    setQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE, qStart);
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
@@ -295,12 +305,12 @@ procedure NodeRun begin
    //party_add(self_obj);
 
    if DudeTraitHas(TRAIT_espanol) then begin
-   Reply(217)
-   NAnswer(181,1,Node999)
+      Reply(217)
+      NAnswer(218,1,Node999)
    end
    else begin
-   Reply(216)
-   NAnswer(218,1,Node999)
+      Reply(216)
+      NAnswer(418,1,Node999)
    end
 end
 
@@ -315,50 +325,66 @@ procedure NodeEndDialog begin
 
    if DudeTraitHas(TRAIT_espanol) then begin
       Reply(112)
-      NAnswer(182,1,Node999)
+      NAnswer(114,1,NodeEndDialog2)
    end
    else begin
       Reply(113)
-      NAnswer(114,1,Node999)
+      NAnswer(314,1,NodeEndDialog2)
    end
+end
+
+procedure NodeEndDialog2 begin
+   set_obj_visibility(self_obj, 1);
+   call Node999;
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
+// Spanish and English
 procedure NodeSndDialog begin
    if DudeTraitHas(TRAIT_espanol) then begin
-   Reply(221)
+      Reply(221)
+
+      NAnswer(230,1,NodeAnswer100)
+      if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero) then begin
+         NAnswer(222,1,NodeRun)
+         NAnswer(223,1,Node999)
+      end
+      else begin
+         NAnswer(224,1,Node999)
+      end
    end
    else begin
-   Reply(220)
-   end
-
-   NAnswer(230,1,NodeAnswer100)
-
-   if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero) then begin
-   NAnswer(222,1,NodeRun)
-   NAnswer(223,1,Node999)
-   end
-   else begin
-   NAnswer(224,1,Node999)
+      Reply(220)
+      
+      NAnswer(430,1,NodeAnswer100)
+      if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero) then begin
+         NAnswer(422,1,NodeRun)
+         NAnswer(423,1,Node999)
+      end
+      else begin
+         NAnswer(424,1,Node999)
+      end
    end
 end
 
+// Spanish and English
 procedure NodeAnswer100 begin
    if DudeTraitHas(TRAIT_espanol) then begin
-   Reply(233)
-   NAnswer(235,1,NodeAnswer101)
-   NAnswer(237,1,NodeAnswer102)
-   NAnswer(239,1,NodeAnswer103)
-   NAnswer(241,1,NodeAnswer104)
-   NAnswer(234,1,NodeSndDialog)
+      Reply(233)
+      NAnswer(235,1,NodeAnswer101)
+      NAnswer(237,1,NodeAnswer102)
+      NAnswer(239,1,NodeAnswer103)
+      NAnswer(241,1,NodeAnswer104)
+      NAnswer(234,1,NodeSndDialog)
    end
    else begin
-   Reply(231)
-   NAnswer(232,1,NodeSndDialog)
+      Reply(231)
+      NAnswer(232,1,NodeSndDialog)
    end
 end
 
+// Spanish only
 procedure NodeAnswer101 begin
    Reply(236)
    NAnswer(249,1,NodeAnswer102)
@@ -367,6 +393,7 @@ procedure NodeAnswer101 begin
    NAnswer(250,1,NodeSndDialog)
 end
 
+// Spanish only
 procedure NodeAnswer102 begin
    bitDialogExp(bit_2,10)
    Reply(238)
@@ -376,6 +403,7 @@ procedure NodeAnswer102 begin
    NAnswer(250,1,NodeSndDialog)
 end
 
+// Spanish only
 procedure NodeAnswer103 begin
    bitDialogExp(bit_3,10)
    if (self_elevation == 2) then begin
@@ -390,17 +418,20 @@ procedure NodeAnswer103 begin
    NAnswer(250,1,NodeSndDialog)
 end
 
+// Spanish only
 procedure NodeAnswer104 begin
    Reply(242)
    NAnswerSkill(246,1,NodeAnswer106,SKILL_SCIENCE,35,243,NodeAnswer105)
 end
 
+// Spanish only
 procedure NodeAnswer105 begin
    bitDialogExp(bit_4,20) // понижено относительно NodeAnswer106
    Reply(244)
    NAnswer(245,1,NodeSndDialog)
 end
 
+// Spanish only
 procedure NodeAnswer106 begin
    bitDialogExp(bit_4,75) // повышено относительно NodeAnswer105
    Reply(247)

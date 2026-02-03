@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_BCLthr
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_BRAHMIN // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_SANBRAHMIN_PEASAN // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_CULT_BRAHMIN       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -90,7 +91,7 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        inven_unwield(self_obj);
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -99,8 +100,9 @@ procedure setBarterA begin
 end
 
 procedure setBarterB begin
-        check_restock_item(PID_W_SPEAR, 1, 3, 100)
+        check_restock_item(PID_W_SPEAR, 2, 3, 100)
         check_restock_item(PID_ARMOR_LEATHER, 2, 3, 100)
+        check_restock_item(PID_ARMOR_INDIAN_PROTEGER, 2, 3, 100)
         check_restock_item(PID_TOOL_SHOVEL, 1, 1, 100)
         check_restock_item(PID_TOOL_ROPE, 1, 3, 100)
 
@@ -173,6 +175,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-40) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,10) // Поправка к отношению за принадлежность к фракциям
 
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -221,10 +224,10 @@ end
 procedure NodeStopDialog102 begin
    bitDialogExp(bit_3,0)
    call setBarterB;
-   item_add(self_obj,PID_W_LAUNCHER,1)
    item_add(self_obj,PID_AMMO_40_MM,8)
+   item_add(self_obj,PID_W_LAUNCHER,1)
+   item_add(self_obj,PID_AMMO_308,2)
    item_add(self_obj,PID_W_RIFLE_HUNTING,1)
-   item_add(self_obj,PID_AMMO_308,12)
    item_add(self_obj,PID_W_KNIFE,1)
 
    Reply(270)
@@ -234,10 +237,10 @@ end
 procedure NodeStopDialog103 begin
    bitDialogExp(bit_4,0)
    call setBarterB;
-   item_add(self_obj,PID_W_SMG_22,1)
    item_add(self_obj,PID_AMMO_22_LR,10)
+   item_add(self_obj,PID_W_SMG_22,1)
+   item_add(self_obj,PID_AMMO_5_MM,2)
    item_add(self_obj,PID_W_CATTLE_PROD_A,1)
-   item_add(self_obj,PID_AMMO_5_MM,10)
    item_add(self_obj,PID_W_KNIFE,1)
 
    Reply(271)

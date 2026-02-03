@@ -74,7 +74,6 @@ procedure NodeVilla202;
 procedure NodeVilla203;
 procedure NodeMainQst;
 procedure NodeRadio1;
-procedure NodeRadio1b;//added by cambragol
 procedure NodeRadio2;
 procedure NodeRadio3;
 procedure NodeRadio4;
@@ -413,7 +412,7 @@ procedure NodeAcv2 begin
    BAnswer(395,0,Node999)
 end
 
-//--- ������� �������
+//--- РЯДОВЫЕ ВОПРОСЫ
 
 procedure NodeAnswer begin
    Reply(214)
@@ -487,7 +486,7 @@ procedure NodeBezh2 begin
 end
 
 procedure NodeBezh3 begin
-   Reply(255)
+   zReply(255)
    NAnswer(256,0,NodeBezh4)
 end
 
@@ -499,8 +498,8 @@ end
 
 procedure NodeBezh5 begin
    bitDialogExp(bit_8,20)
-   item_add(dude_obj,PID_AMMO_308,4)
-   item_add(dude_obj,PID_AMMO_44_MAGNUM,6)
+   item_add(dude_obj,PID_AMMO_308,1)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,1)
    Reply(260)
    NAnswer(261,0,Node999)
 end
@@ -615,14 +614,7 @@ procedure NodeMainQst begin
       else if (global_var(GVAR_RANGER_RADIOTRANSLTR) >= 2) then begin
       GAnswer(360,0,NodeRadio3)
       end
-      // added to handle mid-way point in Radio quest - cambragol
-      else if (global_var(GVAR_RANGER_RADIOTRANSLTR) >= 1) then begin
-      GAnswer(366,0,NodeRadio1b)
-      end
-      // added the below else to make the response mutually exclusive with above. either the radio is fixed, or you ask about how to fix it. - cambragol
-      else begin
       NAnswer(357,0,NodeRadio1)
-      end
    end
 
    if (getQuest(GVAR_RANGERS_QST_QUARTZ) == qStart) then begin
@@ -702,12 +694,6 @@ end
 procedure NodeRadio1 begin
    Reply(358)
    NAnswer(359,0,NodeMainQst)
-end
-
-// added to handle mid-way point in Radio quest - cambragol
-procedure NodeRadio1b begin
-   Reply(367)
-   NAnswer(368,0,NodeMainQst)
 end
 
 procedure NodeRadio2 begin

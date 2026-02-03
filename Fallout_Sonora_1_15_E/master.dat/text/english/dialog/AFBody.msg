@@ -1,4 +1,4 @@
-{110}{}{This body needs a closer look.}
+{110}{}{You see the corpse of a young man. A closer look might determine the cause of death.}
 {111}{}{This is difficult to do during combat.}
 
 {200}{}{You see the body of a teenager. It's been here for quite some time now.}

@@ -210,8 +210,10 @@ procedure NodeSndDialog begin
    if (getQuest(GVAR_DAYGLOW_QST_LIVE) == qStart) then begin
    NAnswer(215,0,NodeSndDialog2)
    end
+   if (getQuest(GVAR_DAYGLOW_QST_LIVE) == qStart) then begin
    if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_23) != 0) then begin
    NAnswer(217,0,NodeSndDialog3)
+   end
    end
    //! Твой муж сейчас находится в отеле "Ла Пенсионе".
    NAnswer(221,0,Node999)

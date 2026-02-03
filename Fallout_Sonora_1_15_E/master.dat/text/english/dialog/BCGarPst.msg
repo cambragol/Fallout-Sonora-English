@@ -2,6 +2,7 @@
 {102}{}{This is one of the local herders. His face seems familiar to you.}
 
 {200}{}{Well, look who wind drag in! I know this face. You are scoundrel who try to take our brahmin near Garage City.}
+{1200}{}{Well, look who wind drag in! I know this face. You are squaw who try to take our brahmin near Garage City.}
 {201}{}{Yeah, but it all ended okay, right? You're still breathing, aren't you?}
 {202}{}{Hmm... You talk down those raiders? That does not change truth. I do not trust you more than I can spit. I hope elders send you out of pueblo soon.}
 {203}{}{Oh, come on...}

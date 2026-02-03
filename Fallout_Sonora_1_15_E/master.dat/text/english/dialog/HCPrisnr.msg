@@ -62,6 +62,7 @@
 {264}{}{The Brotherhood of Steel runs the show here. Great guys, if you don't piss them off. Keep your gun in your holster and watch your language; they don't like cowboys and anyone giving lip.}
 {265}{}{Some call this place the Devil's City. They say demons roam the streets here or something like that. Look, do we have to stick around here?}
 {266}{}{So the monks hid this vault from the rest of the city for years and years? Damn, what other secrets are they keeping?}
+{267}{}{Never been here before. Isn't this your village?}
 
 {300}{}{Tell me about yourself.}
 {301}{}{Nothing much to tell. Call me Pancho if you like. I'm here on the orders of caravanners from the north. They needed guys to explore these southern lands. They hoped to find settlements suitable for trade here. But it looks like the idea is doomed to failure.}
@@ -75,6 +76,7 @@
 {309}{}{My employers are there. I need to report on the work done... But I couldn't find out anything special. It would be good to collect more intel for them in Hermosillo.}
 {310}{}{Sounds like a good deal. Great, I'm in.}
 {311}{}{Good to hear, partner. You won't regret it.}
+{1311}{}{Good to hear, compañera. You won't regret it.}
 {312}{}{Then let's head to Puerto Penasco...}
 {313}{}{I'll take you to the port, but if it's some kind of scam, you'll pay dearly.}
 {314}{}{I'm telling you, this is just business. Don't worry, you'll get a cut of the pay too.}
@@ -104,6 +106,7 @@
 {338}{}{I don't know. Without the Brotherhood, towns around these parts will decline... and without caps, there's no point in returning to Phoenix. I'll have to wander the wastelands in search of work.}
 {339}{}{You know, we should stick together. I could use help on my... mission, and you could have a place at the Villa once everything settles down there.}
 {340}{}{Do you think your kin will accept me? Well, it's worth a try. It must be great to have your own home and family. Let's go, partner. I've got your back.}
+{1340}{}{Do you think your kin will accept me? Well, it's worth a try. It must be great to have your own home and family. Let's go, compañera. I've got your back.}
 {341}{}{Come on, Pancho.}
 {342}{}{You're right. You're completely screwed. I think we should go our separate ways from here.}
 {343}{}{Are you going to leave me like this? After everything we've been through together?}

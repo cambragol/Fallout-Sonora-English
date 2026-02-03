@@ -173,13 +173,13 @@ procedure loot_gener_normal begin
 
    item_gener_to_self(0,PID_BOOTLE_CAPS,random(1,5))
    item_gener_to_self(1,PID_MANY,random(1,2))
-   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,random(1,2))
+   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,1)
    item_gener_to_self(3,PID_AMMO_22_LR,random(1,2)) // в пачке 5 патронов
-   item_gener_to_self(4,PID_AMMO_10_MM,random(1,4))
-   item_gener_to_self(5,PID_AMMO_44_MAGNUM,random(1,2))
-   item_gener_to_self(6,PID_AMMO_5_MM,1) // в пачке 5 патронов
-   item_gener_to_self(7,PID_AMMO_308,random(1,2))
-   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,random(1,2))
+   item_gener_to_self(4,PID_AMMO_10_MM,1)
+   item_gener_to_self(5,PID_AMMO_44_MAGNUM,1)
+   item_gener_to_self(6,PID_AMMO_5_MM,1)
+   item_gener_to_self(7,PID_AMMO_308,1)
+   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,1)
    item_gener_to_self(9,PID_W_KNUCKLES_BRASS,1)
    item_gener_to_self(10,PID_W_CROWBAR,1)
    item_gener_to_self(11,PID_M_NUKA_COLA,1)
@@ -191,14 +191,15 @@ procedure loot_gener_good begin
 
    item_gener_to_self(0,PID_BOOTLE_CAPS,random(5,10))
    item_gener_to_self(1,PID_MANY,random(1,4))
-   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,random(1,4))
+   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,1)
    item_gener_to_self(3,PID_AMMO_22_LR,random(1,3)) // в пачке 5 патронов
-   item_gener_to_self(4,PID_AMMO_10_MM,random(1,7))
-   item_gener_to_self(5,PID_AMMO_44_MAGNUM,random(1,5))
-   item_gener_to_self(6,PID_AMMO_5_MM,1) // в пачке 5 патронов
-   item_gener_to_self(7,PID_AMMO_308,random(1,5))
-   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,random(1,2))
+   item_gener_to_self(4,PID_AMMO_10_MM,1)
+   item_gener_to_self(5,PID_AMMO_44_MAGNUM,1)
+   item_gener_to_self(6,PID_AMMO_5_MM,1)
+   item_gener_to_self(7,PID_AMMO_308,1)
+   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,1)
    item_gener_to_self(9,PID_AMMO_SIGNAL_A,1)
+
    item_gener_to_self(10,PID_W_THROWING_KNIFE,1)
    item_gener_to_self(11,PID_W_KNUCKLES_SPIKED,1)
    item_gener_to_self(12,PID_M_NUKA_COLA,random(1,2))
@@ -214,13 +215,13 @@ procedure loot_gener_super begin
 
    item_gener_to_self(0,PID_BOOTLE_CAPS,random(10,25))
    item_gener_to_self(1,PID_MANY,random(1,7))
-   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,random(2,6))
+   item_gener_to_self(2,PID_AMMO_MICRO_FUSION_CELL,1)
    item_gener_to_self(3,PID_AMMO_22_LR,random(2,5)) // в пачке 5 патронов
-   item_gener_to_self(4,PID_AMMO_10_MM,random(3,9))
-   item_gener_to_self(5,PID_AMMO_44_MAGNUM,random(2,7))
-   item_gener_to_self(6,PID_AMMO_5_MM,1) // в пачке 5 патронов
-   item_gener_to_self(7,PID_AMMO_308,random(2,6))
-   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,random(1,5))
+   item_gener_to_self(4,PID_AMMO_10_MM,1)
+   item_gener_to_self(5,PID_AMMO_44_MAGNUM,1)
+   item_gener_to_self(6,PID_AMMO_5_MM,1)
+   item_gener_to_self(7,PID_AMMO_308,1)
+   item_gener_to_self(8,PID_AMMO_SHOTGUN_SHELLS,1)
    item_gener_to_self(9,PID_AMMO_SIGNAL_A,random(1,2))
 
    item_gener_to_self(10,PID_W_THROWING_KNIFE,1)

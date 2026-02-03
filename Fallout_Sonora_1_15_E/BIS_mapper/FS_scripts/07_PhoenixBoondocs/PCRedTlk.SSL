@@ -404,7 +404,7 @@ procedure NodeArena300 begin
    setBonusReaction(100)
    set_CITY_REP(GVAR_TOWN_REP_PHOENIX_CULT,5)
 
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    Reply(249)
    NAnswer(248,1,NodeArena301)
    end

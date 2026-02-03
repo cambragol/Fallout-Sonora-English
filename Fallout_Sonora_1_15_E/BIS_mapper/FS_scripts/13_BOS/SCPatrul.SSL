@@ -35,21 +35,17 @@ procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
 procedure NodeFstDialog2;
-procedure NodeQst101;
-procedure NodeQst102;
-procedure NodeQst103;
-procedure NodeQst104;
-procedure NodeQst105;
-procedure NodeQst106;
-procedure NodeQst107;
-procedure NodeQst108;
-procedure NodeQst109;
-procedure NodeQst110;
-procedure NodeQst111;
+procedure NodeFstDialog3;
+procedure NodeFstDialog4;
+procedure NodeFstDialog5;
+procedure NodeFstDialog6;
+procedure NodeFstDialog7;
 procedure NodeSndDialog;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
+procedure NodeQst100;
+procedure NodeQst101;
 procedure NodeQst200;
 procedure NodeQst201;
 procedure NodeQst202;
@@ -82,6 +78,13 @@ procedure NodeQst507;
 procedure NodeQst508;
 procedure NodeQst509;
 procedure NodeQst510;
+procedure NodeQst600;
+procedure NodeQst601;
+procedure NodeQst602;
+procedure NodeQst603;
+procedure NodeQst604;
+procedure NodeQst605;
+procedure NodeQst606;
 
 //---------------------
 
@@ -166,6 +169,7 @@ procedure destroy_p_proc begin
    if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) <= qStart) then begin
    setQuest(GVAR_PUERTO_QST_HERMOSILLO,qStop);
    end
+   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP,qStop);
    kill_critter_opt
    kill_critter_BoS_item
 end
@@ -210,7 +214,7 @@ procedure NodeStartDialog begin
    call NodeFstDialog;
    end
    else if (bitDialog(bit_2) == 0) then begin
-   call NodeQst107;
+   call NodeFstDialog5;
    end
    else begin
    call NodeSndDialog;
@@ -222,183 +226,168 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   NAnswer(201,1,NodeQst101)
+   NAnswer(201,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog2 begin
    bitDialogExp(bit_3,0)
    Reply(225)
-   NAnswer(226,1,NodeStartDialog)
-   BAnswer(227,1,NodeStartDialog)
+   NAnswer(226,0,NodeStartDialog)
+   BAnswer(227,0,NodeStartDialog)
 end
 
-procedure NodeQst101 begin
-   Reply(202)
-   NAnswer(203,1,NodeQst103)
-   GAnswer(204,1,NodeQst102)
-   NAnswer(210,5,NodeQst106)
+procedure NodeFstDialog3 begin
+   Reply(208)
+   if (getQuest(GVAR_VILLA_ALLIANCE_PIP) >= qStart) then begin
+   NAnswer(209,0,NodeFstDialog4)
+   end
+   else begin
+   NAnswer(210,0,NodeFstDialog4)
+   end
 end
 
-/*
-{228}{}{Разве эта территория принадлежала США?}
-{229}{}{В 2051 территория Мексики вошла во владение Штатов. С тех пор Мексике запрещено иметь собственную регулярную армию, а ее территория может быть свободно использована для размещения американских войск. Но, как я уже говорил, это просто история.}
-
-procedure NodeQst101b begin
-   bitDialogExp(bit_4,50)
-   Reply(229)
-   NAnswer(203,1,NodeQst103)
-   GAnswer(204,1,NodeQst102)
-   NAnswer(210,5,NodeQst106)
-end
-*/
-
-procedure NodeQst102 begin
-   setBonusReaction(10)
-   call NodeQst103;
-end
-
-procedure NodeQst103 begin
-   Reply(205)
-   NAnswer(206,1,NodeQst105)
-   BAnswer(207,1,NodeQst104)
-end
-
-procedure NodeQst104 begin
-   setBonusReaction(-10)
-   call NodeQst105;
-end
-
-procedure NodeQst105 begin
-   zReply(208)
-   NAnswer(209,1,NodeQst106)
-end
-
-procedure NodeQst106 begin
+procedure NodeFstDialog4 begin
    Reply(211)
-   NAnswer(213,1,NodeQst108)
-   BAnswer(212,1,Node998)
-   NAnswer(214,1,Node999)
+   NAnswer(213,0,NodeFstDialog6)
+   BAnswer(212,0,Node998)
+   NAnswer(214,0,Node999)
 end
 
-procedure NodeQst107 begin
+procedure NodeFstDialog5 begin
    Reply(215)
-   NAnswer(213,1,NodeQst108)
-   BAnswer(212,1,Node998)
-   NAnswer(214,1,Node999)
+   NAnswer(213,0,NodeFstDialog6)
+   BAnswer(212,0,Node998)
+   NAnswer(214,0,Node999)
 end
 
-procedure NodeQst108 begin
+procedure NodeFstDialog6 begin
    Reply(216)
-   NAnswer(217,1,NodeQst109)
+   NAnswer(217,0,NodeFstDialog7)
 end
 
-procedure NodeQst109 begin
-   zReply(218)
-   NAnswer(219,1,NodeQst110)
-end
-
-procedure NodeQst110 begin
-   Reply(220)
-   NAnswer(221,1,NodeQst111)
-end
-
-procedure NodeQst111 begin
+procedure NodeFstDialog7 begin
    bitDialogExp(bit_2,0)
-   mark_on_map(AREA_INFIERNO)
-   setQuest(GVAR_PUERTO_QST_INFERNO,qStart);
-   Reply(222)
-   NAnswer(223,1,Node999)
-   BAnswer(224,1,Node999)
+   zReply(218)
+   NAnswer(219,0,NodeSndDialog)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_BOS) != 0) then begin
-   Reply(232)
+      if (global_var(GVAR_TITUL_BOS_SCRIBE) != 0) then begin
+      Reply(mstr(235)+dude_name+mstr(236))
+      end
+      else if (global_var(GVAR_TITUL_BOS_CAVALER) != 0) then begin
+      Reply(mstr(234)+dude_name+mstr(236))
+      end
+      else if (global_var(GVAR_TITUL_BOS_PALADIN) != 0) then begin
+      Reply(mstr(233)+dude_name+mstr(236))
+      end
+      else if (global_var(GVAR_TITUL_BOS_SCOUT) != 0) then begin
+      Reply(mstr(232)+dude_name+mstr(236))
+      end
+      else if dude_is_female then begin
+      Reply(mstr(1237)+dude_name+mstr(236))
+      end
+      else begin
+      Reply(mstr(237)+dude_name+mstr(236))
+      end
    end
    else begin
-   Reply(230)
+      Reply(230)
    end
 
    //--- Поиск пропавшего отряда
+
+   if (getQuest(GVAR_PUERTO_QST_INFERNO) == qZero) then begin
+      NAnswer(258,0,NodeQst100)
+   end
    if (getQuest(GVAR_PUERTO_QST_INFERNO) == qStart) then begin
-      NAnswer(240,1,NodeQst200)
+      NAnswer(240,0,NodeQst200)
       if ((getQuest(GVAR_INF_QST_PALADIN_A) >= qEnd) or (global_var(GVAR_INF_STATUS_PALADIN)>0)) then begin
-      GAnswer(247,1,NodeQst202)
+      GAnswer(247,0,NodeQst202)
       end
       else if ((getQuest(GVAR_INF_QST_PALADIN_A) <= qStop) or (global_var(GVAR_INF_STATUS_PALADIN)<0)) then begin
-      GAnswer(247,1,NodeQst202)
+      GAnswer(247,0,NodeQst202)
       end
    end
 
    //--- Разведка в Эрмосильо
    if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) == qZero) then begin
       if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_20) != 0) then begin
-      NAnswer(277,1,NodeQst300)
+      NAnswer(277,0,NodeQst300)
       end
       else begin
-      NAnswer(261,1,NodeQst300)
+      NAnswer(261,0,NodeQst300)
       end
    end
 
    if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) == qStart) then begin
       if (town_known(AREA_HERMOSILLO) >= MARK_STATE_VISITED) then begin
-      NAnswer(270,1,NodeQst303)
+      NAnswer(270,0,NodeQst303)
       end
    end
 
    //--- Рейды на бандитские лагеря
    if (getQuest(GVAR_PUERTO_QST_BANDITS_PIP) == qZero) then begin
-      if (global_var(GVAR_TITUL_BOS) != 0) then begin
-         GAnswer(314,1,NodeQst404)
+      if (bitDialog(bit_5) == 0) then begin
+         NAnswer(300,0,NodeQst400)
       end
-      if (getQuest(GVAR_PUERTO_QST_INFERNO) >= qEnd) then begin
-         GAnswer(317,1,NodeQst405)
+      else if (global_var(GVAR_TITUL_BOS) != 0) then begin
+         GAnswer(329,0,NodeQst404)
+      end
+      else if (getQuest(GVAR_PUERTO_QST_INFERNO) >= qEnd) then begin
+         GAnswer(317,0,NodeQst405)
       end
       else if (getQuest(GVAR_PUERTO_QST_HERMOSILLO) >= qEnd) then begin
-         GAnswer(318,1,NodeQst405)
+         GAnswer(318,0,NodeQst405)
       end
       else begin
-         if (bitDialog(bit_5) != 0) then begin
-         GAnswer(329,1,NodeQst402)
-         end
-         NAnswer(300,1,NodeQst400)
+         GAnswer(329,0,NodeQst402)
       end
    end
 
    if (getQuest(GVAR_PUERTO_QST_BANDITS_PIP) == qStart) then begin
       if (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) <= -10) then begin
-         BAnswer(350,1,NodeQst507)
+         BAnswer(350,0,NodeQst507)
       end
       else if (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) <= qStop) then begin
-         BAnswer(354,1,NodeQst508)
+         BAnswer(354,0,NodeQst508)
       end
       else if (getQuest(GVAR_PUERTO_QST_BANDITS_CMP) == qEnd) then begin
-         NAnswer(330,1,NodeQst500)
+         NAnswer(330,0,NodeQst500)
       end
       if (global_var(GVAR_PUERTO_SKLAD_DOPUSK) == 0) then begin
-         NAnswer(360,1,NodeQst510)
+         NAnswer(360,0,NodeQst510)
       end
+   end
+
+   //--- Разведка в Сан-Фелипе
+   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qZero) then begin
+      NAnswer(370,0,NodeQst600)
+   end
+   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
+      NAnswer(373,0,NodeQst601)
    end
 
    //--- Увольнительный на берег
    if (getQuest(GVAR_PUERTO_QST_FAREWELL) == qStart) then begin
-      NAnswer(280,1,NodeAnswer100)
+      NAnswer(280,0,NodeAnswer100)
    end
 
-   NAnswer(231,1,Node999)
+   NAnswer(231,0,Node999)
 end
 
 procedure NodeAnswer100 begin
    Reply(281)
-   NAnswerReaction(282,1,NodeAnswer102,75,282,NodeAnswer101)
+   NAnswerReaction(282,0,NodeAnswer102,75,282,NodeAnswer101)
    /*
    if (getQuest(GVAR_PUERTO_QST_BANDITS_PIP) >= qEnd) then begin
-   NAnswer(282,1,NodeAnswer102)
+   NAnswer(282,0,NodeAnswer102)
    end
    else begin
-   NAnswerReaction(282,1,NodeAnswer102,75,282,NodeAnswer101)
+   NAnswerReaction(282,0,NodeAnswer102,75,282,NodeAnswer101)
    end
    */
 end
@@ -406,30 +395,46 @@ end
 procedure NodeAnswer101 begin
    if (global_var(GVAR_TITUL_BOS)>0) then begin
    Reply(285)
-   NAnswer(286,1,Node999)
+   NAnswer(286,0,Node999)
    end
    else begin
    zReply(283)
-   zNAnswer(284,1,Node999)
+   zNAnswer(284,0,Node999)
    end
 end
 
 procedure NodeAnswer102 begin
    setQuest(GVAR_PUERTO_QST_FAREWELL,qEnd);
    Reply(287)
-   NAnswer(288,1,Node999)
+   NAnswer(288,0,Node999)
+end
+
+//--- КВЕСТЫ
+
+procedure NodeQst100 begin
+   Reply(220)
+   NAnswer(221,0,NodeQst101)
+end
+
+procedure NodeQst101 begin
+   bitDialogExp(bit_2,0)
+   mark_on_map(AREA_INFIERNO)
+   setQuest(GVAR_PUERTO_QST_INFERNO,qStart);
+   Reply(222)
+   NAnswer(223,0,Node999)
+   BAnswer(224,0,Node999)
 end
 
 procedure NodeQst200 begin
    Reply(241)
-   NAnswer(242,1,NodeQst201)
+   NAnswer(242,0,NodeQst201)
 end
 
 procedure NodeQst201 begin
    Reply(243)
-   NAnswer(246,1,NodeSndDialog)
-   NAnswer(244,1,Node999)
-   BAnswer(245,1,Node999)
+   NAnswer(246,0,NodeSndDialog)
+   NAnswer(244,0,Node999)
+   BAnswer(245,0,Node999)
 end
 
 procedure NodeQst202 begin
@@ -440,53 +445,53 @@ procedure NodeQst202 begin
    set_REP(5)
 
    Reply(248)
-   NAnswer(249,1,NodeQst203)
+   NAnswer(249,0,NodeQst203)
 end
 
 procedure NodeQst203 begin
    Reply(250)
-   NAnswer(251,1,Node999)
-   BAnswer(252,1,Node999)
+   NAnswer(251,0,Node999)
+   BAnswer(252,0,Node999)
 end
 
 procedure NodeQst204 begin
    Reply(253)
-   GAnswer(254,1,NodeQst205)
+   GAnswer(254,0,NodeQst205)
 end
 
 procedure NodeQst205 begin
    Reply(255)
-   NAnswer(256,1,NodeQst202)
-   BAnswer(257,1,Node999)
+   NAnswer(256,0,NodeQst202)
+   BAnswer(257,0,Node999)
 end
 
 procedure NodeQst300 begin
    if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_20) != 0) then begin
       Reply(276)
-      NAnswer(270,1,NodeQst303)
+      NAnswer(270,0,NodeQst303)
    end
    else begin
       Reply(262)
-      NAnswer(263,1,NodeQst301)
-      GAnswer(266,1,NodeQst302)
+      NAnswer(263,0,NodeQst301)
+      GAnswer(266,0,NodeQst302)
       if (town_known(AREA_HERMOSILLO) >= MARK_STATE_VISITED) then begin
-      NAnswer(270,1,NodeQst303)
+      NAnswer(270,0,NodeQst303)
       end
-      NAnswer(265,1,Node999)
+      NAnswer(265,0,Node999)
    end
 end
 
 procedure NodeQst301 begin
    Reply(264)
-   GAnswer(267,1,NodeQst302)
-   NAnswer(265,1,Node999)
+   GAnswer(267,0,NodeQst302)
+   NAnswer(265,0,Node999)
 end
 
 procedure NodeQst302 begin
    setQuest(GVAR_PUERTO_QST_HERMOSILLO,qStart);
    Reply(268)
-   NAnswer(263,1,NodeQst301)
-   NAnswer(269,1,Node999)
+   NAnswer(263,0,NodeQst301)
+   NAnswer(269,0,Node999)
 end
 
 procedure NodeQst303 begin
@@ -494,21 +499,21 @@ procedure NodeQst303 begin
    zReply(278)
 
    if (item_amnt(dude_obj,PID_Q_HERMO_INFO_DISK) > 0) then begin
-   NAnswer(289,1,NodeQst304)
+   NAnswer(289,0,NodeQst304)
    end
    if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_20) != 0) then begin
-   //NAnswer(290,1,NodeQst304) - инфа от разведчика
+   //NAnswer(290,0,NodeQst304) - инфа от разведчика
    end
 
-   NAnswer(279,1,Node999)
+   NAnswer(279,0,Node999)
 end
 
 procedure NodeQst304 begin
    PLAY_FADE
    item_remove(dude_obj,PID_Q_HERMO_INFO_DISK,1)
    Reply(271)
-   NAnswer(272,1,NodeQst305)
-   BAnswer(273,1,NodeQst305)
+   NAnswer(272,0,NodeQst305)
+   BAnswer(273,0,NodeQst305)
 end
 
 procedure NodeQst305 begin
@@ -518,91 +523,91 @@ procedure NodeQst305 begin
    set_REP(5)
    item_add(dude_obj,PID_BOOTLE_CAPS,1000)
    Reply(274)
-   NAnswer(275,1,Node999)
+   NAnswer(275,0,Node999)
 end
 
 //--- ПАТРУЛЬ (РЕЙДЫ НА ЛАГЕРЯ)
 
 procedure NodeQst400 begin
    Reply(301)
-   NAnswer(304,1,NodeQst401)
-   NAnswer(303,1,NodeSndDialog)
-   NAnswer(302,1,Node999)
+   NAnswer(304,0,NodeQst401)
+   NAnswer(303,0,NodeSndDialog)
+   NAnswer(302,0,Node999)
 end
 
 procedure NodeQst401 begin
    Reply(305)
-   GAnswer(307,1,NodeQst402)
-   NAnswer(306,1,Node999)
+   GAnswer(307,0,NodeQst402)
+   NAnswer(306,0,Node999)
 end
 
 procedure NodeQst402 begin
    bitDialogExp(bit_5,0)
    Reply(308)
-   GAnswer(310,1,NodeQst403)
-   NAnswer(309,1,Node999)
+   GAnswer(310,0,NodeQst403)
+   NAnswer(309,0,Node999)
 end
 
 procedure NodeQst403 begin
-   if (dude_level>=10) then begin
+   if (dude_level>=12) then begin
    Reply(312)
-   NAnswer(313,1,NodeQst406)
+   NAnswer(313,0,NodeQst406)
    end
    else begin
    Reply(311)
-   NAnswer(309,1,Node999)
+   NAnswer(309,0,Node999)
    end
 end
 
 procedure NodeQst404 begin
    Reply(315)
-   NAnswer(316,1,NodeQst406)
+   NAnswer(316,0,NodeQst406)
 end
 
 procedure NodeQst405 begin
    Reply(319)
-   NAnswer(320,1,NodeQst406)
+   NAnswer(320,0,NodeQst406)
 end
 
 procedure NodeQst406 begin
    setQuest(GVAR_PUERTO_QST_BANDITS_PIP,qStart);
    mark_on_map(AREA_BOS_CAMPS)
    Reply(321)
-   NAnswer(322,1,NodeQst407)
-   BAnswer(323,1,NodeQst407)
+   NAnswer(322,0,NodeQst407)
+   BAnswer(323,0,NodeQst407)
 end
 
 procedure NodeQst407 begin
    Reply(324)
-   NAnswer(325,1,NodeQst408)
+   NAnswer(325,0,NodeQst408)
 end
 
 procedure NodeQst408 begin
    Reply(326)
-   zNAnswer(327,1,Node999)
-   BAnswer(328,1,Node999)
+   zNAnswer(327,0,Node999)
+   BAnswer(328,0,Node999)
 end
 
 procedure NodeQst500 begin
    PLAY_FADE
    if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 0) then begin
    Reply(331)
-   NAnswer(332,1,NodeQst501)
+   NAnswer(332,0,NodeQst501)
    end
    else if (global_var(GVAR_PUERTO_STATUS_BANDITS) == 1) then begin
    Reply(340)
-   NAnswer(341,1,NodeQst504)
+   NAnswer(341,0,NodeQst504)
    end
    else begin
    Reply(346)
-   NAnswer(347,1,NodeQst506)
+   NAnswer(347,0,NodeQst506)
    end
 end
 
 procedure NodeQst501 begin
    Reply(333)
-   NAnswer(334,1,NodeQst502)
-   BAnswer(337,1,NodeQst503)
+   NAnswer(334,0,NodeQst502)
+   BAnswer(337,0,NodeQst503)
 end
 
 procedure NodeQst502 begin
@@ -615,18 +620,18 @@ procedure NodeQst502 begin
    mark_area_known(MARK_TYPE_TOWN, AREA_BOS_CAMPS, MARK_STATE_KNOWN);
 
    Reply(335)
-   NAnswer(336,1,Node999)
+   NAnswer(336,0,Node999)
 end
 
 procedure NodeQst503 begin
    setBonusReaction(-5)
    Reply(338)
-   NAnswer(339,1,NodeQst502)
+   NAnswer(339,0,NodeQst502)
 end
 
 procedure NodeQst504 begin
    Reply(342)
-   NAnswer(343,1,NodeQst505)
+   NAnswer(343,0,NodeQst505)
 end
 
 procedure NodeQst505 begin
@@ -639,7 +644,7 @@ procedure NodeQst505 begin
    mark_area_known(MARK_TYPE_TOWN, AREA_BOS_CAMPS, MARK_STATE_KNOWN);
 
    Reply(344)
-   NAnswer(345,1,Node999)
+   NAnswer(345,0,Node999)
 end
 
 procedure NodeQst506 begin
@@ -652,7 +657,7 @@ procedure NodeQst506 begin
    //mark_area_known(MARK_TYPE_TOWN, AREA_BOS_CAMPS, MARK_STATE_INVISIBLE);
 
    Reply(348)
-   NAnswer(349,1,Node999)
+   NAnswer(349,0,Node999)
 end
 
 procedure NodeQst507 begin
@@ -662,13 +667,13 @@ procedure NodeQst507 begin
    //mark_area_known(MARK_TYPE_TOWN, AREA_BOS_CAMPS, MARK_STATE_INVISIBLE);
 
    Reply(351)
-   NAnswer(352,1,Node999)
-   BAnswer(353,1,Node999)
+   NAnswer(352,0,Node999)
+   BAnswer(353,0,Node999)
 end
 
 procedure NodeQst508 begin
    Reply(355)
-   NAnswer(356,1,NodeQst509)
+   NAnswer(356,0,NodeQst509)
 end
 
 procedure NodeQst509 begin
@@ -679,11 +684,80 @@ procedure NodeQst509 begin
    //mark_area_known(MARK_TYPE_TOWN, AREA_BOS_CAMPS, MARK_STATE_INVISIBLE);
 
    zReply(357)
-   NAnswer(358,1,Node999)
+   NAnswer(358,0,Node999)
 end
 
 procedure NodeQst510 begin
    set_global_var(GVAR_PUERTO_SKLAD_DOPUSK,2);
    Reply(361)
-   NAnswer(362,1,Node999)
+   NAnswer(362,0,Node999)
+end
+
+procedure NodeQst600 begin
+   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP,qStart);
+   Reply(371)
+   NAnswer(372,0,Node999)
+end
+
+procedure NodeQst601 begin
+   Reply(374)
+
+   if (getQuest(GVAR_SANFELIPE_QST_RUN) >= qEnd) then begin
+      NAnswer(389,0,NodeQst606)
+   end
+   else if (global_var(GVAR_SANFELIPE_STATUS_BOSS)<0) then begin
+      NAnswer(387,0,NodeQst605)
+   end
+   else if (gvar_bit(GVAR_SANFELIPE_BITS,bit_4) != 0) then begin
+      NAnswer(384,0,NodeQst604)
+   end
+   else if (town_known(AREA_SAN_FELIPE) >= MARK_STATE_VISITED) then begin
+      NAnswer(380,0,NodeQst603)
+   end
+
+   NAnswer(376,0,NodeQst602)
+   NAnswer(375,0,Node999)
+end
+
+procedure NodeQst602 begin
+   Reply(377)
+   NAnswer(378,0,Node999)
+   NAnswer(379,0,Node999)
+end
+
+procedure NodeQst603 begin
+   Reply(381)
+   NAnswer(382,0,Node999)
+   NAnswer(383,0,Node999)
+end
+
+procedure NodeQst604 begin
+   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP, qEnd);
+   set_global_var(GVAR_SANFELIPE_STATUS_LAMPARA, 1);
+   setQuest(GVAR_SANFELIPE_QST_RUN, qStop);
+   set_REP(4)
+   setReaction(20)
+   exp_add(500);
+   Reply(385)
+   zNAnswer(386,0,Node999)
+end
+
+procedure NodeQst605 begin
+   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP, qEnd);
+   setQuest(GVAR_SANFELIPE_QST_RUN, qStop);
+   set_REP(6)
+   setReaction(25)
+   exp_add(500);
+   Reply(388)
+   zNAnswer(386,0,Node999)
+end
+
+procedure NodeQst606 begin
+   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP, qEnd);
+   setQuest(GVAR_SANFELIPE_QST_RUN, qStop);
+   set_REP(6)
+   setReaction(25)
+   exp_add(500);
+   Reply(390)
+   zNAnswer(386,0,Node999)
 end

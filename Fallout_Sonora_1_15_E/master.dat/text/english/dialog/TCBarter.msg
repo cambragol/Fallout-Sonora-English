@@ -1,6 +1,7 @@
 {100}{}{You see the Quartermaster.}
 {101}{}{You see the Tinsmith in charge of the warehouse. His bald head is equipped with an advanced computing helmet.}
 {102}{}{T-51b Power Armor... Intriguing how YOU managed to master such intricate equipment?}
+{103}{}{WHO broke down the warehouse door?!}
 
 # First dialogue
 {200}{}{(not acknowledging you) Five thousand one hundred eighty-six... no, that calculation is incorrect...}
@@ -118,8 +119,8 @@
 {334}{}{[Metal Armor]}
 {335}{}{[Plasma Pistol]}
 {336}{}{[First Aid Supplies: 3 stimpaks, 3 antidotes, 1 Rad-X]}
-{337}{}{[Stealth Boy and Night Vision Goggles]}
-{338}{}{[Fuel Cell Battery]}
+{337}{}{[Stealth Boy, Motion Sensor, and Night Vision Goggles]}
+{338}{}{[2 Fuel Cell Batteries]}
 {339}{}{[350 caps]}
 {340}{}{Utilize these rewards wisely.}
 {341}{}{I'll put these to good use.}
@@ -145,7 +146,7 @@
 {410}{}{Technology for technology. I'll give you the clock if I get energy weapon specifications in return.}
 {411}{}{Fair enough. I have the required information. This will certainly enhance your skills. Though, many of us disapprove of commoners tampering with advanced technology.}
 {412}{}{This will be handy. See you later, Tinsmith.}
-{413}{}{We have a formidable pneumatic fist used to dispense justice to those who deceive us. I do not see a clock among your belongings, desert nomad.}
+{413}{}{We have a formidable pneumatic fist used to dispense justice to those who deceive us. I do not see a clock among your belongings, desert wandere.}
 {414}{}{How did this happen...}
 {415}{}{Give me time to think. Don't worry, the clock won't get damaged during this time.}
 {416}{}{The Quartermaster has decreased the cost of his goods by 10%.}

@@ -194,6 +194,9 @@ procedure NodeStartDialog begin
    else if ((bitDialog(bit_7) == 0) and (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd)) then begin
    call NodeSndDialog200;
    end
+   else if ((bitDialog(bit_7) == 0) and (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
+   call NodeSndDialog200;
+   end
    else begin
    call NodeSndDialog;
    end
@@ -277,7 +280,7 @@ procedure NodeSndDialog201 begin
 end
 
 procedure NodeSndDialog202 begin
-   Reply(245)
+   zReply(245)
    NAnswer(246,1,Node999)
 end
 

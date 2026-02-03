@@ -18,7 +18,7 @@
 {209}{}{Why the search for the owner?}
 {210}{}{He's my uncle. Got a letter inviting me to come work there. So, here I am. But he's vanished.}
 {211}{}{Just like that, you up and left for a foreign city?}
-{212}{}{Why not? Things went south real quick in Phoenix after that damn explosion.}
+{212}{}{Why not? Things went south real quick in Phoenix after the fall of the Church.}
 {213}{}{Explosion? What's the story?}
 {214}{}{You serious? Whole Route 10's buzzing about it. The Cathedral of Fire went up in flames. Literally.}
 {215}{}{Well well... Any leads on your uncle from the locals?}

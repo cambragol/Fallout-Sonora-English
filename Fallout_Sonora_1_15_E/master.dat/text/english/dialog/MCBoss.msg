@@ -68,7 +68,8 @@
 {264}{}{}
 {265}{}{It doesn't matter how you justify your crimes. You deserve death.}
 {266}{}{I can understand you. I had to endure enslavement in Two-Sun. I can help you.}
-{267}{}{To be honest, I didn't know this side of the story. Now I definitely don't want to help Bustos.}
+{267}{}{To be honest, I didn't know this side of the story. I definitely don't want to help Bustos now.}
+{1267}{}{To be honest, I didn't know this side of the story. I definitely don't want to help Bustos now.}
 
 {270}{}{I want to join your gang.}
 {271}{}{Why? (hisses through mask)}

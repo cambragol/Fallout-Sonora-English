@@ -161,8 +161,8 @@ procedure NodeEndDialog2 begin
    exp_add(250);
 
    item_add(dude_obj,PID_W_GRENADE_FRAG,1)
-   item_add(dude_obj,PID_AMMO_10_MM,20)
-   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,10)
+   item_add(dude_obj,PID_AMMO_10_MM,1)
+   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,1)
    item_add(dude_obj,PID_TOOL_ZIPPER,1)
 
    set_global_var(GVAR_BRAHMIN_STATUS_CHILDRUN,1);

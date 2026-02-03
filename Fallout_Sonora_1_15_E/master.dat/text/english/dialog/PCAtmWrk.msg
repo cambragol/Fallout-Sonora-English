@@ -1,6 +1,7 @@
 {100}{}{You see a power plant ghoul.}
 {101}{}{You see a person with burnt, decaying skin, wearing a worn-out pre-war work uniform.}
 {102}{}{Well, well, here's our main troublemaker. Get lost before you lose your teeth.}
+{1102}{}{Well, well, here she is, our main troublemaker. Get lost before you lose your teeth.}
 
 {110}{}{Shh, that outsider might hear.}
 

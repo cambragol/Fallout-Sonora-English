@@ -6,3 +6,4 @@
 {112}{}{Get lost, smoothskin. Nobody wants you here.}
 {113}{}{What do you need?}
 {114}{}{Relax and make yourself at home.}
+{115}{}{The boss has a lot on his plate. It's hard to find him anywhere now.}

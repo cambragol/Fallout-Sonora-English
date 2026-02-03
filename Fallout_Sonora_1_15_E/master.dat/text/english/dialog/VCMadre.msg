@@ -69,6 +69,10 @@
 {281}{}{Good answer, madre.}
 {282}{}{I could definitely use some luck.}
 {283}{}{By equipping the amulet, you have gained a permanent bonus to luck.}
+{284}{}{Perhaps I can negotiate with the mine to leave us alone?}
+{285}{}{The mine needs labor. They won't rest until they resolve the labor shortage. I doubt a compromise is possible here.}
+{286}{}{And what if it is time for change? Our connection with Garage City will give us a head start.}
+{287}{}{Now you decide which path we should take. But understand: it will be hard for our people to accept the new way of life.}
 
 {290}{}{How were you treated in Flagstaff?}
 {291}{}{The jailers made me work, but they were somewhat lenient because I'm a woman. That's not the case for the men, though. They often faced extreme cruelty. Still, the jailers didn't want to lose their labor force, so they mostly resorted to intimidation instead.}

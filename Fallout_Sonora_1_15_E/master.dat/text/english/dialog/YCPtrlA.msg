@@ -33,7 +33,7 @@
 {227}{}{I'm not suicidal. I'd rather just head back to Sonora...}
 {228}{}{You're not getting through until I give you permission.}
 {229}{}{About that robot. It's destroyed.}
-{230}{}{You must have a really good reason to visit the city. Well, go ahead. Welcome to Dayglow.}
+{230}{}{Well, go on in. I'll give you a piece of advice: go straight to Mayor Gustavo, he's in the big building by the monorail station. And welcome to Dayglow.}
 {231}{}{Thanks for the warm welcome.}
 {232}{}{You should have just let me through from the start. What a waste of time...}
 {233}{}{Greetings, brother. First time in Dayglow?}
@@ -57,6 +57,6 @@
 {249}{}{Well, that's unexpected. Thanks. And uh, ...welcome to Dayglow.}
 {250}{}{You can pass.}
 {251}{}{Goodbye.}
-{252}{}{You can pass. I wouldn't have let you in, but someone at the camp made a fuss over you.}
+{252}{}{You can enter. I wouldn't have let you in, but someone at camp has stepped up to the plate for you. Let me give you a piece of advice: go straight to Mayor Gustavo, he's in the big building by the monorail station.}
 {253}{}{I'll hang around here for a bit. Need any help?}
 

@@ -20,13 +20,14 @@
 {201}{}{I was just passing by and heard the sounds of your... festival? What's going on here?}
 {1201}{}{I was just passing by and heard the sounds of your... festival? What's going on here?}
 {202}{}{What's going on? Well, gringo, we celebrate our saint's day. You are at the Day of Life celebration! Please, enjoy the celebration and make yourself at home. We welcome everyone... who comes with good intentions.}
+{1202}{}{What's going on? Well, gringa, we celebrate our saint's day. You are at the Day of Life celebration! Please, enjoy the celebration and make yourself at home. We welcome everyone... who comes with good intentions.}
 {203}{}{This is the first time in my journey that I've seen such a joyful place. I'll be glad to join your festivities.}
 {1203}{}{This is the first time in my journey that I've seen such a joyful place. I'll be glad to join your festivities.}
 {204}{}{Most friendly people I've come across tried to trick me. I hope you're an exception.}
-{205}{}{Well then. Bienvenido, gringo. If you have any questions, please contact me immediately. My name is Hilario Lopez Andrade. I am the headman of the village and also the chief priest. So! Why is everyone quiet? Let's continue, brothers and sisters!}
+{205}{}{Well then. Bienvenido. If you have any questions, please contact me immediately. My name is Hilario Lopez Andrade. I am the headman of the village and also the chief priest. So! Why is everyone quiet? Let's continue, brothers and sisters!}
 {206}{}{Thanks for your hospitality.}
 {207}{}{Okay, I'll stick around a while.}
-{208}{}{}
+{208}{}{What's going on? Oh, gringos, we celebrate our saints' day. You are at the Day of Life celebration! Please, enjoy the celebration and make yourself at home. We welcome everyone... who comes with good intentions.}
 {209}{}{}
 {210}{}{So, amigo, you probably have a lot of questions. I would also like to find out more about you, but unfortunately I have my hands full at the moment. Someone stole the crown for our ceremony. And we can't find it. You can't have a coronation without a crown, that would go against our traditions.}
 {1210}{}{So, amiga, you probably have a lot of questions. I would also like to find out more about you, but unfortunately I have my hands full at the moment. Someone stole the crown for our ceremony. And we can't find it. You can't have a coronation without a crown, that would go against our traditions.}
@@ -64,9 +65,11 @@
 {237}{}{Well, you'll probably come up with something. Eventually, your "saint" would've died anyway.}
 {238}{}{Ah, maybe you're worried about your power, head boy? Now it'll be more difficult for you to unite the people with fear, and rule them. That's for sure.}
 {239}{}{I see right through you, gringo. If... when you die, the world will be better off. And I won't permit you to leave this church.}
+{1239}{}{I see right through you, gringa. If... when you die, the world will be better off. And I won't permit you to leave this church.}
 {240}{}{Try to stop me, old man.}
 {241}{}{You're making a big mistake...}
 {242}{}{That's enough, gringo. Leave and never come back.}
+{1242}{}{That's enough, gringa. Leave and never come back.}
 {243}{}{You'd be wise not to threaten me, old man. Believe me, it's not in your best interest.}
 {244}{}{My business here is truly finished. Goodbye, headman.}
 {245}{}{After everything you've heard and seen, it's not enough to execute you.}
@@ -77,6 +80,7 @@
 {1249}{}{I'm already on my way. I just, uh, forgot my things. Goodbye.}
 {250}{}{The people of Santa Ana want you gone. Don't you get it? Your actions have turned them against you.}
 {251}{}{For fifteen years, I protected these people. And this is my reward! Now that El Diablo is gone, they blame me for everything. Do you know the price I paid? The torment I endured in those early years? But I did what I was chosen to do -- I saved them. And now you say it was all wrong? To hell with your opinion, gringo!}
+{1251}{}{For fifteen years, I protected these people. And this is my reward! Now that El Diablo is gone, they blame me for everything. Do you know the price I paid? The torment I endured in those early years? But I did what I was chosen to do -- I saved them. And now you say it was all wrong? To hell with your opinion, gringa!}
 {252}{}{Seems like you can't be convinced. It'll be better if you just die!}
 {253}{}{As you wish. This whole business is your affair now. Bye, Headman.}
 {254}{}{You don't belong in Santa Ana anymore. The entire population is against you now. Time for you to leave.}

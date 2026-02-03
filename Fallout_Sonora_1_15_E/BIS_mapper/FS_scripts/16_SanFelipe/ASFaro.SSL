@@ -3,6 +3,7 @@
 
 procedure start;
 procedure map_enter_p_proc;
+procedure map_update_p_proc;
 
 
 
@@ -10,6 +11,9 @@ procedure start begin
 end
 
 procedure map_enter_p_proc begin
+end
+
+procedure map_update_p_proc begin
    if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) > 0) then begin
    obj_set_light_level(self_obj, 100, 1);
    animate_stand_obj(self_obj);

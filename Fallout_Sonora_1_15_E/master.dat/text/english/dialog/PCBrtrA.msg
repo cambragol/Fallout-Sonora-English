@@ -150,6 +150,10 @@
 {375}{}{All the ammo I have.}
 {376}{}{Can you convert the flare gun to a 12-gauge?}
 {377}{}{Easy. But remember, it's not a shotgun. Sure, the round is much more powerful than a flare, but firing it one-handed will be a lot tougher.}
+{378}{}{Can you upgrade this laser pistol?}
+{379}{}{I've worked with this model before. There's a way to boost the laser's output.}
+{380}{}{Fix this broken rifle.}
+{381}{}{Alright. I'll have to replace a couple of parts.}
 
 #Quests
 {400}{}{Did you shoot the monks outside the casino?}
@@ -162,6 +166,6 @@
 {407}{}{That's suspicious. This is the only gun store, right?}
 {408}{}{My shop may be the only one in town, but you can get weapons just about anywhere. The most armed people in the city are probably the Followers of Fire themselves. For a while, they were gathering all the guns to stage a revolution. Besides, I supply them with the best weapons - that's our agreement.}
 {409}{}{Then who could've attacked the monks?}
-{410}{}{You're asking *me*? You're a lousy detective. Talk to the market folk, they saw everything.}
+{410}{}{You're asking me? You're a lousy detective. Talk to the market folk, they saw everything.}
 {411}{}{Alright, I'll talk to them. But remember, no one escapes the Followers unpunished.}
 {412}{}{Thanks, you've been helpful. Take care.}

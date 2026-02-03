@@ -225,10 +225,10 @@ end
 procedure NodeAnswer302 begin
    bitDialogExp(bit_3,100)
    if (random(0,2) == 1) then begin
-   item_add(dude_obj,PID_AMMO_44_MAGNUM,24)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,4)
    end
    else if (random(0,1) == 1) then begin
-   item_add(dude_obj,PID_AMMO_10_MM,24)
+   item_add(dude_obj,PID_AMMO_10_MM,2)
    end
    else begin
    item_add(dude_obj,PID_AMMO_22_LR,10) // в пачке 5 патронов

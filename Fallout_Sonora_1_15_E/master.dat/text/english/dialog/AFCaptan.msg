@@ -118,6 +118,7 @@
 {336}{}{Something must have made him leave his haunts in the ruins. I hope the others don't follow him. But is this really true? I'm not ready to pay 50 caps for just words, sorry. Here's 10 caps and let's call it at that.}
 {337}{}{I can understand. Thanks for the 10 caps.}
 {338}{}{Bastard, you'll pay for your lies!}
+{339}{}{Any idea what's destroying the nets?}
 
 {340}{}{What's new in this village?}
 {341}{}{Not much good news. The Brotherhood of Steel is no longer with us. Something exploded on their ship, and now we are on our own. I don't know how we'll manage without them with all this old equipment.}
@@ -125,8 +126,8 @@
 {343}{}{We're having trouble with the oil rig and the 'floaters'. A big problem. And no one can solve it yet.}
 {344}{}{Things are looking up! The oil rig no longer pollutes the water. I think that in a few weeks the sea waters will begin to bless us with fresh fish again.}
 {345}{}{But things have gotten much better at sea. }
-{346}{}{Ruiz is obsessed with finding a treasure. Which doesn't exist. Hehe. Don't fall for his bait, amigo.}
-{1346}{}{Ruiz is obsessed with finding a treasure. Which doesn't exist. Hehe. Don't fall for his bait, amiga.}
+{346}{}{Ruiz is obsessed with finding treasure. Which doesn't exist. Hehe. Don't fall for his delusions, amigo.}
+{1346}{}{Ruiz is obsessed with finding treasure. Which doesn't exist. Hehe. Don't fall for his delusions, amiga.}
 {347}{}{Ruiz has disappeared somewhere. And I don't want to look for him.}
 {348}{}{It looks like Ruiz has finally found the treasure he's been looking for. Who would have thought that the treasure really existed?}
 {349}{}{Sometimes the sea shows us strange things. One moment a monster emerges from the water, the next the far shore is lit up. But we don't usually venture that far out. Nothing to do there.}

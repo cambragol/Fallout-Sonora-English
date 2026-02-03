@@ -87,21 +87,21 @@
 #Treatment
 {270}{}{I need healing.}
 {271}{}{By the grace of the Holy Fire, what ails you?}
-{272}{}{I've been wounded.}
-{273}{}{I've been crippled.}
-{274}{}{I've been exposed to radiation.}
-{275}{}{I've been poisoned.}
-{276}{}{Nothing too severe, thankfully.}
-{277}{}{Of course, the church will help you, but wouldn't you like to reward it with a small donation? We're talking about }
-{278}{}{ caps.}
+{272}{}{[Heal wounds for }
+{273}{}{[Heal injuries for }
+{274}{}{[Remove all radiation for }
+{275}{}{[Remove all poisons for }
+{276}{}{On second thought, it's nothing serious.}
+{277}{}{In the name of the Holy Fire, what happened?}
+{278}{}{ caps]}
 {279}{}{Here are the caps.}
-{280}{}{I don't have enough caps!}
+{280}{}{I don't have that many caps!}
 {281}{}{Regrettably, without the necessary donation, I cannot extend my assistance.}
 {282}{}{Damn...}
 {283}{}{No need, I can recover on my own.}
 {284}{}{Praise be to the Holy Fire for granting you additional time!}
 {285}{}{Ah, that feels much better.}
-{286}{}{}
+{286}{}{Thank you, but that's not all.}
 {287}{}{Man, in a big bag! Oh oh!}
 {288}{}{Are you referring to my robe? (shakes head) Oh, unfortunate child of Atom, I pity you. I wish I could aid you in reclaiming the Atoms of Consciousness you've lost, but alas, I am powerless in this matter. Depart now, Child of Radiation.}
 {289}{}{Go outside? I like go outside.}

@@ -83,7 +83,7 @@ procedure map_enter_p_proc begin
        end
 
        if (cur_map_index == MAP_PHOENIX_PLAZA) then begin
-       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+       if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
        destroy_object(self_obj);
        end
        end

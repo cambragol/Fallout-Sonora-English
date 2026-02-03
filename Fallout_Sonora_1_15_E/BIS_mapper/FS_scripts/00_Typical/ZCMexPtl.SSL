@@ -93,7 +93,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
 end
 
 procedure damage_p_proc begin

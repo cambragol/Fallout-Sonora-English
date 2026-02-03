@@ -148,7 +148,7 @@ procedure talk_p_proc begin
    floater(self_obj,random(110,112),COLOR_MSG_NORMAL);
    end
    else if (lvar_bit(LVAR_Self_Flags,bit_12) == 0) then begin
-   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,10)
+   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,2)
    floater(self_obj,118,COLOR_MSG_GREEN);
    set_lvar_bit_on(LVAR_Self_Flags, bit_12);
    end

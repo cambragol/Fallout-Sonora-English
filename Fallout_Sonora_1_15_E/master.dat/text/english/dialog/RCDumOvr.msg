@@ -24,7 +24,7 @@
 {224}{}{How long you been at this post, Rufus?}
 {225}{}{Hmm, gotta think on it. 'Bout 30 years, I reckon. No one really counts the years 'round here.}
 {226}{}{Why'd the Rangers set up shop at this dam?}
-{227}{}{Oh, lotsa reasons: it's a fortress against baddies, shields from dust storms, plenty of water, and power for days. You could say it's history.}
+{227}{}{Ain't it obvious? It's an impenetrable fortress, and a source o' boundless energy.}
 {228}{}{I'm the dam's overseer. I keep this place running smooth.}
 {229}{}{So, Rufus, what exactly's your job here?}
 {230}{}{The aqueduct part of the power plant too?}
@@ -63,11 +63,11 @@
 {273}{}{Well, let's check it out... By the saints! Wha... it's actually working!}
 {274}{}{It is. Good as new. But... uh... this isn't charity work, you know?}
 {275}{}{Yeah... Of course. Here, take these micro fusion cells for your trouble. If you ain't got use for 'em, trade 'em in some nearby town for something handy.}
-{276}{}{Yeah. It wasn't that hard to fix.}
-{277}{}{Rangers don't forget their pals. Here, take these micro fusion cells for your help. If you ain't got use for 'em, trade 'em in some nearby town for something handy.}
-{278}{}{[Continue]}
-{279}{}{Thanks. Shame I won't have you around when I retire. If you don't mind, could you keep an eye on this ol' girl for a bit? I worry she needs some extra TLC. Wouldn't want her to breakdown again.}
-{280}{}{Sure thing. I'll check back later... you keep the rest of this hunk of metal up and running.}
+{276}{}{Yeah. It wasn't that hard to fix. My small contribution to the Rangers' great cause.}
+{277}{}{That's right! Rangers never forget their friends.}
+{278}{}{[More]}
+{279}{}{Thanks. That should keep 'er running for some time. Shame I won't have you around when I retire.}
+{280}{}{Okay, I'll check back later... you keep the rest of this hunk of metal up and running.}
 {281}{}{Easy now, old timer. Those wires might just surprise you with a jolt.}
 {282}{}{}
 {283}{}{Where can I get electronic parts?}
@@ -93,6 +93,8 @@
 {322}{}{So, no reward for my troubles?}
 {323}{}{Your efforts came up short, didn't they. Well, move along now, I've got work to do.}
 {324}{}{So that's how it goes...}
+{325}{}{Bad news - that gifted kid from Garage City is dead.}
+
 {330}{}{This is the kid you were after.}
 {331}{}{Well, hello there, son! Got a feeling you'll fit right in with the Rangers. First thing's first, though - you could use a good scrub...}
 {332}{}{Ahem...}

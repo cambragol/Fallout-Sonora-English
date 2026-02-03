@@ -393,6 +393,6 @@ end
 */
 
 procedure NodeDialog007 begin
-   zReply(260)
+   Reply(260)
    NAnswer(261,0,Node999)
 end

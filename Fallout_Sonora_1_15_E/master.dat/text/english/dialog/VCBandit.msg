@@ -59,7 +59,7 @@
 {255}{}{I'm just a mercenary. Get it? No home, no family, no name.}
 {256}{}{Oh, sorry. It must be tough growing up without a family or a home...}
 {257}{}{Are all of you wasteland folks this... uh, wild? Here in our Villa, we're like one big family.}
-{258}{}{I don't know... I don't know what it's like to live in a big pack, like you. I probably couldn't do it. I can't share, or trust anyone but myself... Damn, you'd better shut up before I knock your teeth out.}
+{258}{}{I don't know... I don't know what it's like to live in a big pack, like you. I can't share, or trust anyone but myself... Damn, you'd better shut up before I knock your teeth out.}
 {259}{}{Why are you so pissed off?}
 {260}{}{Oh, it bothers you, does it?}
 {261}{}{You wouldn't understand. I was found in a dumpster in a big city. An ordinary story. Where I'm from, people aren't valued. The population is too large, and there's nothing to do. One person disappears - and no one notices.}
@@ -99,7 +99,7 @@
 {297}{}{And you thought it would be that easy? My padre prepared for the possibility of an attack on the Villa.}
 {298}{}{Looks like we underestimated the cunning of your people. How many more tricks and secrets are hidden in these dungeons, huh?}
 {299}{}{Did you try to get out or call for help?}
-{300}{}{No one answered. Those bastards just left me. I couldn't get out of the basement by myself - the stairs were destroyed, and I couldn't find another exit. But... since you're here, there must be a way out, right?}
+{300}{}{No one answered. Those bastards just left me. I couldn't get out by myself - the stairs are destroyed, and I couldn't find another exit. But... since you're here, there must be a way out, right?}
 {301}{}{Uh, yeah, but first I need ask you something else.}
 {302}{}{Found anything interesting in these cellars?}
 {303}{}{Nothing worth risking my hide for. Although it's strange to see ancient tech in a dump like this. What do you need it for?}
@@ -116,7 +116,7 @@
 {314}{}{Yeah, right. By the way - smashing faces is my specialty too.}
 {315}{}{Not much else to expect from a wasteland raider. Alright, enough about that.}
 
-{320}{}{What do you know about what happened upstairs? Before you got trapped down here.}
+{320}{}{What do you know about what happened upstairs?}
 {321}{}{Not much. I was only involved in the beginning of the raid.}
 {322}{}{Why did you attack us in the first place? Were you after our crops?}
 {323}{}{Damn raiders. Is looting all you're good for, or do you have any use at all?}
@@ -124,7 +124,7 @@
 {1324}{}{Stupid peasant girl, you... (laughs at you, then coughs bitterly) You don't have the slightest idea about the outside world, do you? Your folks were taken to work in the mine. Though I doubt you even know what that is.}
 {325}{}{[Listen]}
 {326}{}{Alright, watch your mouth, or else...}
-{327}{}{They'll put collars on them and force them to work underground. Those who refuse to obey will be harshly punished. Face it, those people won't come back to the Villa. Some might never see the light of day again.}
+{327}{}{They'll put collars on them and force them to work underground. Those who refuse to obey will be harshly punished. Face it, those people'll never get back to the Villa. Some might never see the light of day again.}
 {328}{}{I don't understand how you could go along with something like this.}
 {329}{}{Too bad I wasn't here during the attack. You'd all be fertilizer by now.}
 {330}{}{Open your eyes, peasant. It takes just one rifle for every three of you to bring this place to its knees. What can you do against a whole band of armed mercenaries? (spits) You've lived in your eden for too long and have no idea how cruel the world is outside.}
@@ -132,7 +132,7 @@
 {331}{}{Seems like you don't care much for this place.}
 {332}{}{Don't speak ill of the Villa. This place *is* an eden.}
 {333}{}{You have no idea what it's like to survive. I lived on the streets, fought for food, robbed people, and even killed. Like everyone in the Wastes... Everyone except you.}
-{334}{}{[Continue]}
+{334}{}{[More]}
 {335}{}{You're the only ones who eat and drink as much as you want. You're clean, chubby, and look down on people from the Wastes like we're trash. You disgust me. Your fuckin' Villa is a thorn in my side.}
 {336}{}{Hmph. I have no idea what you've been through. And I don't want to know.}
 {337}{}{That's your excuse for everything? You're the thorn.}

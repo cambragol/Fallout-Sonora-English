@@ -236,18 +236,18 @@ procedure NodeAnswer100 begin
    Reply(206)
    NAnswer(207,1,NodeAnswer101)
    NAnswer(209,1,NodeAnswer102)
-   //NAnswer(215,1,NodeAnswer105)
+   NAnswer(215,1,NodeAnswer105)
 end
 
 procedure NodeAnswer101 begin
    Reply(208)
    NAnswer(209,1,NodeAnswer102)
-   //NAnswer(215,1,NodeAnswer105)
+   NAnswer(215,1,NodeAnswer105)
 end
 
 procedure NodeAnswer102 begin
    Reply(210)
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    NAnswer(211,1,NodeAnswer103)
    end
    NAnswer(225,5,NodeAnswer102b)
@@ -257,7 +257,7 @@ end
 
 procedure NodeAnswer102b begin
    zReply(226)
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    NAnswer(211,1,NodeAnswer103)
    end
    NAnswer(215,1,NodeAnswer105)

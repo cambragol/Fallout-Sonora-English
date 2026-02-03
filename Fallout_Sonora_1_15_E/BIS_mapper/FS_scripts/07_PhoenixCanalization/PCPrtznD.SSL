@@ -78,7 +78,7 @@ procedure map_enter_p_proc begin
              invisParam := 1;
           end
        end
-       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+       if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
           invisParam := 1;
        end
 

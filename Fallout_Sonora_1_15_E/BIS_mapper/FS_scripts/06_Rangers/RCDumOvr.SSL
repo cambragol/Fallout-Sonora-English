@@ -54,7 +54,6 @@ procedure NodeQuestA205;
 procedure NodeQuestA206;
 procedure NodeQuestA207;
 procedure NodeQuestA208;
-procedure NodeQuestB100;
 procedure NodeQuestB101;
 procedure NodeQuestB102;
 procedure NodeQuestB103;
@@ -185,34 +184,36 @@ end
 procedure NodeSndDialog begin
    Reply(210)
 
+   //- расспросы
    if (bitDialog(bit_4) == 0) then begin
    NAnswer(220,1,NodeAnswer100)
-   end
-   else begin
+   end else begin
    NAnswer(229,1,NodeAnswer100)
    end
 
+   //- квест на починку:
    if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) == qStart) then begin
       NAnswer(260,1,NodeQuestA200)
    end
-   if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) == qEnd) then begin
-      if (getQuest(GVAR_RANGERS_QST_EUGENE_DUM) == qZero) then begin
-      NAnswer(300,1,NodeQuestB100)
+
+   //- квест привести мальца:
+   if (getQuest(GVAR_RANGERS_QST_EUGENE_DUM) == qZero) then begin
+      if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) >= qEnd) then begin
+      NAnswer(304,1,NodeQuestB102)
       end
    end
    if (getQuest(GVAR_RANGERS_QST_EUGENE_DUM) == qStart) then begin
-      if (global_var(GVAR_GARAGE_EUGENE_STATUS) == -1) then begin
-      NAnswer(320,1,NodeQuestB200)
-      end
       if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
       GAnswer(330,1,NodeQuestB300)
       end
+      else if (global_var(GVAR_GARAGE_EUGENE_STATUS) == -1) then begin
+      BAnswer(320,1,NodeQuestB200)
+      end
+      else if (global_var(GVAR_GARAGE_EUGENE_STATUS) < 0) then begin
+      BAnswer(320,1,NodeQuestB200)
+      end
    end
-   /*
-   if (ГГ посетил Акведук на 1 или 2 уровен) then begin
-      NAnswer(260,1,NodeAnswer200)
-   end
-   */
+
    NAnswer(211,1,Node999)
 end
 
@@ -227,12 +228,12 @@ procedure NodeAnswer100 begin
    Reply(221)
    end
 
-   if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) == qZero) then begin
-   NAnswer(250,1,NodeQuestA100)
-   end
    NAnswer(222,3,NodeAnswer101)
    NAnswer(224,3,NodeAnswer102)
    NAnswer(226,3,NodeAnswer103)
+   if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) == qZero) then begin
+   NAnswer(250,1,NodeQuestA100)
+   end
    NAnswer(212,1,NodeSndDialog)
 end
 
@@ -310,23 +311,20 @@ end
 
 procedure NodeQuestA205 begin
    setQuest(GVAR_RANGERS_QST_REPAIR_DUM,qEnd);
-   bitDialogExp(bit_3,100)
+   bitDialogExp(bit_3,0)
    Reply(273)
    NAnswer(274,1,NodeQuestA206)
    NAnswer(276,1,NodeQuestA207)
 end
 
 procedure NodeQuestA206 begin
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,24)
-   setBonusReaction(5)
-   set_REP(-2)
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,5)
    Reply(275)
    NAnswer(278,1,NodeQuestA208)
 end
 
 procedure NodeQuestA207 begin
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,12)
-   setBonusReaction(25)
+   setBonusReaction(50)
    set_REP(5)
    Reply(277)
    NAnswer(278,1,NodeQuestA208)
@@ -334,8 +332,7 @@ end
 
 procedure NodeQuestA208 begin
    Reply(279)
-   NAnswer(280,1,Node999)
-   NAnswer(281,1,Node999)
+   NAnswer(302,1,NodeQuestB101)
 end
 
 //--- ВТОРОЙ КВЕСТ
@@ -351,7 +348,7 @@ procedure NodeQuestB101 begin
 end
 
 procedure NodeQuestB102 begin
-   zReply(305)
+   Reply(305)
    NAnswer(306,1,NodeQuestB103)
 end
 
@@ -370,9 +367,8 @@ end
 
 procedure NodeQuestB200 begin
    setQuest(GVAR_RANGERS_QST_EUGENE_DUM,-1);
-   exp_add(100); // игрок провалил задание, поэтому опыта выдаётся так мало
-   setBonusReaction(-25)
-   set_REP(-2)
+   setBonusReaction(-50)
+
    Reply(321)
    NAnswer(322,1,NodeQuestB201)
 end
@@ -386,7 +382,8 @@ procedure NodeQuestB300 begin
    set_global_var(GVAR_GARAGE_EUGENE_STATUS,2);
    setQuest(GVAR_RANGERS_QST_EUGENE_DUM,qEnd);
    exp_add(1000);
-   setBonusReaction(25)
+   setBonusReaction(50)
+
    Reply(331)
    NAnswer(332,1,NodeQuestB301)
 end

@@ -7,16 +7,16 @@
 {1200}{}{(Frank) ... I'm telling you, Jane, he's in trouble! Otherwise, he would have returned by now... Hey, are you eavesdropping, smoothskin?}
 {201}{}{You seem to be worried about something?}
 {202}{}{(Frank) None of your business, human. This is our ghoul business.}
-{203}{}{[Next]}
+{203}{}{[More]}
 {204}{}{(Jane) Oh, forgive Frank, he's on edge right now.}
 {205}{}{Okay... So, what's happened?}
 {206}{}{I'll let it slide. Now tell me, what the hell is going on?}
 {207}{}{(Jane) We've lost our friend, Donovan. He went to San Ysidro and didn't return. No one in San Ysidro has seen him either.}
-{208}{}{[Next]}
+{208}{}{[More]}
 {209}{}{(Frank) Jane, why are you blabbing in front of this smoothskin? We've had enough trouble from smoothskins. I wouldn't be surprised if Donovan was taken by scavengers.}
-{210}{}{[Next]}
+{210}{}{[More]}
 {211}{}{(Jane) Frank, we need help, isn't it obvious?}
-{212}{}{[Next]}
+{212}{}{[More]}
 {213}{}{(Frank) Hmm, listen, smoothskin, don't you have anything else to do? Either help us or get lost. I don't want to deal with humans. Got it? But... uh, we *could* use some help.}
 {214}{}{I'll help you. Whether you want me to or not. Just to show you that not all humans are bad.}
 {215}{}{(Jane) Oh, how wonderful! See, Frank, they're not all bad. Thank you, human. We'll be waiting to hear from you.}
@@ -25,7 +25,7 @@
 {218}{}{(Frank) Hey, hey, hey, don't rush off like that! Just keep in mind that our friend Donovan is somewhere in the ruins on the way to San Ysidro. If you meet him... well, at least remind him of us, okay?}
 {219}{}{Sure, whatever. See you.}
 {220}{}{(Jane) ... Frank, I feel something has happened to him. He would have returned by now... Oh, we're being overheard.}
-{221}{}{[Next]}
+{221}{}{[More]}
 {222}{}{(Frank) Hmm. I don't recognize you. Still, I'm glad to see you. Will you spare us some time?}
 {223}{}{What do you need from me?}
 {224}{}{(Jane) We've lost our friend, Donovan. He went to San Ysidro and didn't return. No one in San Ysidro has seen him either.}

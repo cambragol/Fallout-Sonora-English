@@ -294,7 +294,7 @@ procedure NodeFstDialog108 begin
 end
 
 procedure NodeFstDialog109 begin
-   Reply(227)
+   zReply(227)
    NAnswer(228,1,NodeQst100)
    BAnswer(229,1,NodeQst100)
 end

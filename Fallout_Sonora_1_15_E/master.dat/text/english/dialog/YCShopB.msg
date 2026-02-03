@@ -52,15 +52,15 @@
 {271}{}{Someone, huh? You don't even know their name?}
 {272}{}{Well, they didn't introduce themselves.}
 {273}{}{Got it. Well, there *is* a holodisk. Hold out your Pip-Boy. Let's try to load this disk.}
-{274}{}{[Continue]}
+{274}{}{[More]}
 {275}{}{(You insert the holodisk and start the loading process. It turns out the recording is specifically encrypted for your Pip-Boy.)}
 {276}{}{[Listen to the recording]}
 {277}{}{"Sorry I couldn't meet you. I've got a lot going on. But you'll figure things out without me."}
-{278}{}{[Continue]}
+{278}{}{[More]}
 {279}{}{"Gustavo and Butler can't agree about the future of Dayglow. Honestly, I don't know which one of them is more right. What's important is that people don't get hurt because of their disagreement. Dayglow isn't just ruins. It's full of pre-war stuff, some of which is extremely dangerous. We can't let it fall into the wrong hands."}
-{280}{}{[Continue]}
+{280}{}{[More]}
 {281}{}{"Besides humans and ghouls, there's another force eyeing these resources. The Brotherhood of Steel. They've holed up in an old missile silo. Try to contact them and decide if we should let them take control here. You can find them with a walkie-talkie or a transceiver. Their frequency and the code they use is attached to this recording."}
-{282}{}{[Continue]}
+{282}{}{[More]}
 {283}{}{"One more thing. I've stashed some stuff in Balboa Park, in an old pipe near the monorail substation. I think you could use it more than me. Until next time."}
 {284}{}{[Remove the holodisk]}
 {285}{}{[Listen again]}

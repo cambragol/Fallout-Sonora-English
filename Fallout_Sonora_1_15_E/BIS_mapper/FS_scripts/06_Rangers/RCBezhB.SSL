@@ -49,6 +49,7 @@ procedure map_enter_p_proc begin
        critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
        end
        set_obj_visibility(self_obj, 1);
+       critter_set_flee_state(self_obj, 1);
 
        if (cur_map_index == MAP_RANGERS_PAROM) then begin
           rm_timer_event(self_obj);

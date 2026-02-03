@@ -43,7 +43,7 @@
 {219}{}{Then what are you suggesting?}
 {220}{}{We need to destroy the ENTIRE complex! Fire is the best way to stop the infection from spreading beyond the valley. The dome is the main breeding ground.}
 {221}{}{So, the main thing is to stop the infection here. I'll do it.}
-{222}{}{Very good. Find the gas pipes. It's not easy to set them ablaze, but someone has tried before. Look for his remains in the greenhouses and take the explosives.}
+{222}{}{Very good. Find the gas pipes. It's not easy to get them lit, but someone has tried before. Look for his remains in the greenhouses and take the explosives.}
 {223}{}{Okay. I'll try.}
 {224}{}{Too risky. Goodbye, Wang Chong.}
 {225}{}{You're definitely losing it. There is no place in the wasteland more colorful and alive than this dome. There must be a way to stop the infection without destroying everything.}

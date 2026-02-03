@@ -4,8 +4,8 @@
 # First dialogue
 {200}{}{Are you here on business? Then you need to go to Master Hard. You'll find him in the workshop.}
 {201}{}{Thanks.}
-{202}{}{I'd like to talk to you.}
-{203}{}{Too nice to be true. Name's Abel. I'm one of the Followers of Fire, if that rings a bell. Now stop wasting my time.}
+{202}{}{I'd like to talk to you actually.}
+{203}{}{I'm sure you do. Name's Abel. I'm one of the Followers of Fire, if that rings a bell. Now stop wasting my time.}
 {204}{}{What do you do?}
 {205}{}{I see you're persistent. The church needs the services of Tinsmiths, just like any modern community. I oversee the fulfillment of the church's orders.}
 {206}{}{Tinsmiths are that good?}
@@ -28,6 +28,7 @@
 {222}{}{Okay.}
 
 {230}{}{Actually, I'm a Follower of Fire too.}
+{1230}{}{Actually, I'm a Follower of Fire too.}
 {231}{}{Really? That changes things. Welcome to Two-Sun, brother. Together we'll glorify the Holy Fire.}
 {1231}{}{Really? That changes things. Welcome to Two-Sun, sister. Together we'll glorify the Holy Fire.}
 {232}{}{I see you're more open now. Can I ask a couple of questions?}

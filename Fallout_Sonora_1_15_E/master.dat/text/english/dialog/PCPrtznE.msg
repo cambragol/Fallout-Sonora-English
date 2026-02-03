@@ -2,12 +2,14 @@
 {101}{}{You see a man in a worn cassock, scanning the ruins with intent, searching for someone.}
 {102}{}{You will perish by the Holy Fire's decree.}
 {103}{}{Tremble before the Holy Fire, scavenger.}
+{1103}{}{Tremble before the Holy Fire, scavenger.}
 {104}{}{Praise the Holy Fire.}
 
 #First dialogue
 {200}{}{Halt. By the Holy Fire's command, explain what brings you here.}
 {201}{}{What I do doesn't concern you. Get outta my way, you crazy cultist.}
 {202}{}{Blasphemy and heresy! Beg the Holy Fire for mercy, or face its wrath.}
+{1202}{}{Blasphemy and heresy! Beg the Holy Fire for mercy, or face its wrath.}
 {203}{}{Big talk for someone with a spear. You sure you can back it up?}
 {204}{}{I see you're serious. Fine, I'll be on my way.}
 {205}{}{Just scavenging for some useful stuff.}
@@ -38,14 +40,19 @@
 {234}{}{Uh oh...}
 
 {250}{}{Initiate? What brings you here?}
+{1250}{}{Initiate? What brings you here?}
 {251}{}{I believe we seek the same person. Don't impede my mission, or face Aaron's wrath.}
 {252}{}{Aaron sent you? That changes things. We won't hinder you.}
 {253}{}{Thank you, brothers.}
 {254}{}{Just searching for relics. Until next time, brother.}
 
 {260}{}{Initiate? Hmm, I don't recall seeing you before. What's your purpose here?}
-{261}{}{Fool! Mistaking me for an initiate will be your final error!}
+{1260}{}{Initiate? Hmm, I don't recall seeing you before. What's your purpose here?}
+{261}{}{You're mistaken, fool. I'm no initiate. And that was your final mistake!}
+{1261}{}{You're mistaken, fool. I'm no initiate. And that was your final mistake!}
 {262}{}{Just looking for ancient relics. Until next time, brother.}
-{263}{}{Initiate? No, I'm not sure what-}
+{263}{}{Initiate? I don't know what your talking about...}
+{1263}{}{Initiate? I don't know what your talking about...}
 {264}{}{It's a spy! Seize him, brothers!}
+{1264}{}{It's a spy! Seize her, brothers!}
 {265}{}{Oh crap...}

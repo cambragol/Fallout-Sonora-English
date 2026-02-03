@@ -50,8 +50,6 @@ procedure NodeQst2;
 procedure NodeQst3;
 procedure NodeQst101;
 procedure NodeQst102;
-procedure NodeQst103;
-procedure NodeQst104;
 procedure NodeQst200;
 procedure NodeQst201;
 procedure NodeQst202;
@@ -64,7 +62,6 @@ procedure NodeDopusk;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
-procedure NodeAnswer103;
 procedure NodeAnswer200;
 procedure NodeAnswer201;
 procedure NodeAnswer202;
@@ -184,24 +181,25 @@ procedure NodeFrand begin
    bitDialogExp(bit_4,0)
    if (getReaction < 0) then begin
    Reply(295)
-   NAnswer(296,1,NodeFrand4)
-   BAnswer(297,1,NodeFrand3)
+   NAnswer(296,4,NodeFrand4)
+   BAnswer(297,4,NodeFrand3)
    end
    else begin
-   zReply(290)
-   NAnswer(291,1,NodeFrand4)
-   BAnswer(292,1,NodeFrand2)
+   Reply(290)
+   NAnswer(291,4,NodeFrand4)
+   BAnswer(292,4,NodeFrand2)
    end
+   BAnswer(305,-3,NodeFrand4)
 end
 
 procedure NodeFrand2 begin
    Reply(293)
-   NAnswer(294,1,NodeFrand4)
+   NAnswer(294,4,NodeFrand4)
 end
 
 procedure NodeFrand3 begin
    Reply(298)
-   NAnswer(299,1,NodeFrand4)
+   NAnswer(299,4,NodeFrand4)
 end
 
 procedure NodeFrand4 begin
@@ -217,13 +215,15 @@ procedure NodeFrand5 begin
    set_map_var(MVAR_PNX_CASINO_LUX,1);
    item_add(dude_obj,PID_KEY_PHENIX_CASINO_LUX,1)
    Reply(300)
-   NAnswer(301,1,NodeFrand6)
+   NAnswer(301,4,NodeFrand6)
+   NAnswer(307,-3,NodeFrand6)
 end
 
 procedure NodeFrand6 begin
    Reply(302)
-   NAnswer(303,1,Node999)
-   BAnswer(304,1,Node999)
+   NAnswer(303,4,Node999)
+   BAnswer(304,4,Node999)
+   NAnswer(306,-3,Node999)
 end
 
 //--- ПЕРВЫЙ ДИАЛОГ
@@ -231,19 +231,20 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   BAnswer(201,1,NodeFstDialog2)
-   NAnswer(204,1,NodeFstDialog3)
+   BAnswer(201,4,NodeFstDialog2)
+   NAnswer(204,4,NodeFstDialog3)
+   NAnswer(207,-3,NodeSndDialog)
 end
 
 procedure NodeFstDialog2 begin
    setBonusReaction(-10)
    Reply(202)
-   NAnswer(203,1,NodeSndDialog)
+   NAnswer(203,4,NodeSndDialog)
 end
 
 procedure NodeFstDialog3 begin
    Reply(205)
-   NAnswer(206,1,NodeSndDialog)
+   NAnswer(206,4,NodeSndDialog)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -252,36 +253,36 @@ procedure NodeSndDialog begin
    Reply(210)
 
    //--- Расспросы
-   NAnswer(250,1,NodeAnswer100)
+   NAnswer(250,4,NodeAnswer100)
    if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_2) == 0)) then begin
-   NAnswer(275,1,NodeAnswer201)
+   NAnswer(275,4,NodeAnswer201)
    end
    if ((global_var(GVAR_PHENIX_STATUS_DIEGO) < 0) and (bitDialog(bit_3) == 0)) then begin
-   NAnswer(270,1,NodeAnswer200)
+   NAnswer(270,4,NodeAnswer200)
    end
 
    //--- Нападение на Последователей
    if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
    if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) or (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3)) then begin
-   NAnswer(280,1,NodeAnswer202)
+   NAnswer(280,4,NodeAnswer202)
    end
    end
 
    //--- Квесты
    if (getQuest(GVAR_PHENIX_QST_CASINO_DEBT) == qZero) then begin
       if (global_var(GVAR_PHENIX_STATUS_DIEGO) < 0) then begin
-      NAnswer(320,1,NodeQst3)
+      NAnswer(320,4,NodeQst3)
       end
       else if (map_var(MVAR_PNX_CASINO_PSWD) > 0) then begin
       //!!! Уточнить проверку: ГГ теперь работает на Диего
-      NAnswer(336,1,NodeQst2)
+      NAnswer(336,4,NodeQst2)
       end
       else begin
-      NAnswer(320,1,NodeQst)
+      NAnswer(320,4,NodeQst)
       end
    end
    if (getQuest(GVAR_PHENIX_QST_CASINO_DEBT) == qStart) then begin
-      NAnswer(356,1,NodeQst300)
+      NAnswer(356,4,NodeQst300)
    end
 
    //--- Мигель
@@ -291,96 +292,87 @@ procedure NodeSndDialog begin
 
    //--- Запрет игры (размещать последним в процедуре перед Node999!)
    if (map_var(MVAR_PNX_CASINO_STOP) == 1) then begin
-   NAnswer(220,1,NodeCassa)
+   NAnswer(220,4,NodeCassa)
    end
 
-   NAnswer(211,1,Node999)
+   NAnswer(211,4,Node999)
+   NAnswer(212,-3,Node999)
 end
 
 //--- КВЕСТ И ДОПУСК К ДИЕГО
 
 procedure NodeQst begin
    Reply(321)
-   NAnswer(323,3,NodeQst101)
-   NAnswerRep(330,3,NodeQst103,30,326,NodeQst102)
+   NAnswer(323,4,NodeQst101)
+   NAnswerRep(330,4,NodeQst101,30,326,NodeQst102)
    if (global_var(GVAR_TITUL_ARENA_MASTER) > 0) then begin
-   NAnswer(333,3,NodeQst104)
+   NAnswer(333,4,NodeQst101)
    end
-   NAnswer(322,1,Node999)
+   NAnswer(322,4,Node999)
 end
 
 procedure NodeQst2 begin
-   Reply(337)
-   NAnswer(338,1,NodeQst200)
+   zReply(337)
+   NAnswer(338,4,NodeQst200)
 end
 
 procedure NodeQst3 begin
    Reply(339)
-   NAnswer(338,1,NodeQst200)
+   NAnswer(338,4,NodeQst200)
 end
 
 procedure NodeQst101 begin
    Reply(324)
-   NAnswer(325,1,NodeQst200)
+   NAnswer(325,4,NodeQst200)
 end
 
 procedure NodeQst102 begin
    Reply(327)
-   BAnswer(328,1,Node999)
-   NAnswer(329,1,Node999)
-end
-
-procedure NodeQst103 begin
-   Reply(331)
-   NAnswer(332,1,NodeDopusk)
-end
-
-procedure NodeQst104 begin
-   Reply(334)
-   NAnswer(335,1,NodeDopusk)
+   BAnswer(328,4,Node999)
+   NAnswer(329,4,Node999)
 end
 
 procedure NodeQst200 begin
    setQuest(GVAR_PHENIX_QST_CASINO_DEBT,qStart);
    Reply(350)
-   NAnswer(351,1,NodeQst201)
+   NAnswer(351,4,NodeQst201)
 end
 
 procedure NodeQst201 begin
    Reply(mstr(352)+COAST_DEBT+mstr(364))
-   NAnswer(COAST_DEBT+mstr(353),1,NodeQst202)
+   NAnswer(COAST_DEBT+mstr(353),4,NodeQst202)
 end
 
 procedure NodeQst202 begin
    Reply(354)
-   NAnswer(355,1,Node999)
+   NAnswer(355,4,Node999)
 end
 
 procedure NodeQst300 begin
    Reply(357)
-   NAnswer(359,1,NodeQst301)
-   NAnswer(362,1,NodeQst302)
+   NAnswer(359,4,NodeQst301)
+   NAnswer(362,4,NodeQst302)
    if (global_var(GVAR_PHENIX_STATUS_LOH)<0) then begin
-   BAnswer(365,1,NodeQst303)
+   BAnswer(365,4,NodeQst303)
    end
    if ((getQuest(GVAR_PHENIX_QST_LOH) != qZero) and (getQuest(GVAR_PHENIX_QST_LOH) != qStart)) then begin
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=COAST_DEBT) then begin
-   GAnswer(mstr(368)+COAST_DEBT+mstr(369),1,NodeQst304)
+   GAnswer(mstr(368)+COAST_DEBT+mstr(369),4,NodeQst304)
    end
    end
-   BAnswer(358,1,Node999)
+   BAnswer(358,4,Node999)
 end
 
 procedure NodeQst301 begin
    Reply(360)
-   NAnswer(362,1,NodeQst302)
-   NAnswer(361,1,Node999)
+   NAnswer(362,4,NodeQst302)
+   NAnswer(361,4,Node999)
 end
 
 procedure NodeQst302 begin
    Reply(COAST_DEBT+mstr(363))
-   NAnswer(359,1,NodeQst301)
-   NAnswer(361,1,Node999)
+   NAnswer(359,4,NodeQst301)
+   NAnswer(361,4,Node999)
 end
 
 procedure NodeQst303 begin
@@ -388,7 +380,7 @@ procedure NodeQst303 begin
    set_REP(-7)
    setBonusReaction(-35)
    Reply(366)
-   NAnswer(367,1,Node999)
+   NAnswer(367,4,Node999)
 end
 
 procedure NodeQst304 begin
@@ -398,21 +390,25 @@ procedure NodeQst304 begin
    item_remove(dude_obj,PID_BOOTLE_CAPS,COAST_DEBT)
    item_add(dude_obj,PID_BOOTLE_CAPS,(COAST_DEBT/5))
    exp_add(500);
+
    Reply(370)
+   /*
    if (map_var(MVAR_PNX_CASINO_PSWD)>0) then begin
-   NAnswer(371,1,Node999)
+   NAnswer(371,4,Node999)
    end
    else begin
-   NAnswer(372,1,NodeDopusk)
+   NAnswer(372,4,NodeDopusk)
    end
+   */
+   NAnswer(371,4,Node999)
 end
 
 procedure NodeDopusk begin
    set_map_var(MVAR_PNX_CASINO_PSWD,1);
    box_stop_use := 0;
    Reply(340)
-   BAnswer(341,1,Node999)
-   NAnswer(342,1,Node999)
+   BAnswer(341,4,Node999)
+   NAnswer(342,4,Node999)
 end
 
 //--- РАССПРОСЫ
@@ -420,87 +416,77 @@ end
 procedure NodeAnswer100 begin
    if (global_var(GVAR_PHENIX_STATUS_DIEGO) == 0) then begin
    Reply(251)
-   NAnswer(252,1,NodeAnswer101)
+   NAnswer(252,4,NodeAnswer101)
    end
    else begin
    Reply(259)
    end
-   NAnswer(253,1,NodeSndDialog)
+   NAnswer(253,4,NodeSndDialog)
 end
 
 procedure NodeAnswer101 begin
    zReply(254)
-   NAnswer(255,3,NodeAnswer102)
    if (map_var(MVAR_PNX_CASINO_PSWD) <= 0) then begin
-   NAnswer(257,3,NodeAnswer103)
+   NAnswer(257,4,NodeAnswer102)
    end
-   NAnswer(253,1,NodeSndDialog)
+   NAnswer(253,4,NodeSndDialog)
 end
 
 procedure NodeAnswer102 begin
-   Reply(256)
-   if (map_var(MVAR_PNX_CASINO_PSWD) <= 0) then begin
-   NAnswer(257,3,NodeAnswer103)
-   end
-   NAnswer(253,1,NodeSndDialog)
-end
-
-procedure NodeAnswer103 begin
    Reply(258)
-   NAnswer(255,3,NodeAnswer102)
-   NAnswer(253,1,NodeSndDialog)
+   NAnswer(253,4,NodeSndDialog)
 end
 
 procedure NodeAnswer200 begin
    bitDialogExp(bit_3,20)
    Reply(271)
-   NAnswer(272,1,NodeSndDialog)
-   BAnswer(273,1,NodeSndDialog)
+   NAnswer(272,4,NodeSndDialog)
+   BAnswer(273,4,NodeSndDialog)
 end
 
 procedure NodeAnswer201 begin
    bitDialogExp(bit_2,0)
    Reply(276)
-   NAnswer(277,1,NodeSndDialog)
-   BAnswer(278,1,NodeSndDialog)
+   NAnswer(277,4,NodeSndDialog)
+   BAnswer(278,4,NodeSndDialog)
 end
 
 procedure NodeAnswer202 begin
    Reply(281)
-   BAnswer(283,3,NodeAnswer203)
-   NAnswer(282,1,Node999)
+   BAnswer(283,4,NodeAnswer203)
+   NAnswer(282,4,Node999)
 end
 
 procedure NodeAnswer203 begin
    setBonusReaction(-5)
    Reply(284)
-   BAnswer(285,1,Node999)
-   NAnswer(286,1,Node999)
+   BAnswer(285,4,Node999)
+   NAnswer(286,4,Node999)
 end
 
 //--- ЗАПРЕТ ИГРЫ
 
 procedure NodeCassa begin
    Reply(222)
-   NAnswer(223,1,NodeCassa2)
-   NAnswer(224,1,NodeCassa2)
+   NAnswer(223,4,NodeCassa2)
+   NAnswer(224,4,NodeCassa2)
 end
 
 procedure NodeCassa2 begin
    zReply(225)
-   BAnswer(226,1,NodeCassa3)
-   NAnswer(227,1,NodeCassa3)
+   BAnswer(226,4,NodeCassa3)
+   NAnswer(227,4,NodeCassa3)
 end
 
 procedure NodeCassa3 begin
    Reply(228)
    if (map_var(MVAR_PNX_CASINO_LUX) > 0) then begin
-   BAnswer(229,1,NodeCassa5)
-   NAnswer(230,1,NodeCassa5)
+   BAnswer(229,4,NodeCassa5)
+   NAnswer(230,4,NodeCassa5)
    end
    else begin
-   BAnswer(229,1,NodeCassa4)
-   NAnswer(230,1,NodeCassa4)
+   BAnswer(229,4,NodeCassa4)
+   NAnswer(230,4,NodeCassa4)
    end
 end
 
@@ -508,8 +494,8 @@ procedure NodeCassa4 begin
    set_map_var(MVAR_PNX_CASINO_LUX,1);
    item_add(dude_obj,PID_KEY_PHENIX_CASINO_LUX,1)
    Reply(231)
-   BAnswer(232,1,NodeCassa5)
-   NAnswer(233,1,NodeCassa5)
+   BAnswer(232,4,NodeCassa5)
+   NAnswer(233,4,NodeCassa5)
 end
 
 procedure NodeCassa5 begin
@@ -518,20 +504,31 @@ procedure NodeCassa5 begin
    setBonusReaction(50)
    exp_add(500);
 
+   Reply(237)
+   BAnswer(238,4,Node999)
+   NAnswer(239,4,Node999)
+   /*
    if ((global_var(GVAR_PHENIX_STATUS_DIEGO) == 0) and (map_var(MVAR_PNX_CASINO_PSWD) == 0)) then begin
    call NodeCassa6;
    end
    else begin
    Reply(237)
-   BAnswer(238,1,Node999)
-   NAnswer(239,1,Node999)
+   BAnswer(238,4,Node999)
+   NAnswer(239,4,Node999)
    end
+   */
 end
 
 procedure NodeCassa6 begin
    set_map_var(MVAR_PNX_CASINO_PSWD,1);
    box_stop_use := 0;
    Reply(234)
-   BAnswer(235,1,Node999)
-   NAnswer(236,1,Node999)
+   BAnswer(235,4,Node999)
+   NAnswer(236,4,Node999)
 end
+
+/*
+   Если будет доделана квестовая линия Дона Диего:
+      - в NodeCassa5 разблокировать пересылку на NodeCassa6
+      - в NodeQst304 разблокировать часть кода
+*/

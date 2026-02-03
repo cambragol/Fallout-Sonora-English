@@ -36,6 +36,7 @@
 {233}{}{No, I... failed the mission. I'm sorry, Paladin...}
 {1233}{}{No, I... failed the mission. I'm sorry, Paladin...}
 {234}{}{A Deserter, huh? Never set foot on the base again, unless you want to face a tribunal. Get out of my sight!}
+{1234}{}{A Deserter, huh? Never set foot on the base again, unless you want to face a tribunal. Get out of my sight!}
 {235}{}{Alright, sir...}
 {236}{}{I don't care.}
 
@@ -54,4 +55,6 @@
 {251}{}{I found out where the base is.}
 {252}{}{Good job, recruit. This is why we're here.}
 {253}{}{I recovered the relic. Here it is, Sir Dobbs.}
-{254}{}{Great job, warrior!}
+{254}{}{Great job, brother!}
+{1254}{}{Great job, sister!}
+

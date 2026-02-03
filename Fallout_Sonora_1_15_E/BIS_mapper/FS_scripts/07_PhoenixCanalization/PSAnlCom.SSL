@@ -24,7 +24,7 @@ procedure use_p_proc begin
    if (combat_is_initialized == true) then begin
    g_display_mstr(551);
    end
-   else if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   else if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    display_mstr(104);
    end
    else if (tile_contains_obj_pid(10700,self_elevation,33555556) == false) then begin

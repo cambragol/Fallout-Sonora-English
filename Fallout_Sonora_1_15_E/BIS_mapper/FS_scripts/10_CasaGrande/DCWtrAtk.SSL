@@ -144,14 +144,16 @@ procedure critter_p_proc begin
           move_to_tile(0,TILE_STEP,5)
           if (self_tile == TILE_STEP) then begin
           if (obj_critter_a > 0) then begin
+          if (tile_distance_objs(self_obj,dude_obj)<=10) then begin
           call scena_proc;
+          end
           end
           end
        end
 
        if (map_var(MVAR_CGRANDE_WATER_ATTAK_B) == 2) then begin
           if (obj_critter_a > 0) then begin
-          if (tile_distance_objs(self_obj,dude_obj)<=15) then begin
+          if (tile_distance_objs(self_obj,dude_obj)<=10) then begin
           attack(obj_critter_a);
           end
           end
@@ -248,14 +250,17 @@ procedure NodeDialog begin
    bitDialogExp(bit_1,0)
    wield_obj(obj_carrying_pid_obj(self_obj, SELF_WEAPON_PID));
    Reply(200)
-   NAnswer(201,1,NodeDialog2)
+   NAnswer(201,4,NodeDialog2)
+   NAnswer(215,-3,NodeDialog2)
 end
 
 procedure NodeDialog2 begin
-   zReply(202)
+   Reply(202)
    NAnswerSkill(209,4,NodeDialog5,SKILL_CONVERSANT,50,205,NodeDialog4)
-   BAnswer(204,1,Node998)
-   NAnswer(203,1,NodeDialog3)
+   NAnswerSkill(217,-3,NodeDialog6,SKILL_CONVERSANT,50,216,NodeDialog3)
+   BAnswer(204,4,Node998)
+   NAnswer(203,4,NodeDialog3)
+   NAnswer(218,-3,NodeDialog3)
 end
 
 procedure NodeDialog3 begin
@@ -265,14 +270,14 @@ end
 
 procedure NodeDialog4 begin
    Reply(206)
-   BAnswer(207,1,Node998)
-   NAnswer(208,1,NodeDialog3)
+   BAnswer(207,4,Node998)
+   NAnswer(208,4,NodeDialog3)
 end
 
 procedure NodeDialog5 begin
    Reply(210)
-   GAnswer(212,1,NodeDialog6)
-   BAnswer(211,1,NodeDialog3)
+   GAnswer(212,4,NodeDialog6)
+   BAnswer(211,4,NodeDialog3)
 end
 
 procedure NodeDialog6 begin
@@ -284,5 +289,6 @@ procedure NodeDialog6 begin
    set_REP(3)
 
    Reply(213)
-   NAnswer(214,1,Node999)
+   NAnswer(214,4,Node999)
+   NAnswer(219,-3,Node999)
 end

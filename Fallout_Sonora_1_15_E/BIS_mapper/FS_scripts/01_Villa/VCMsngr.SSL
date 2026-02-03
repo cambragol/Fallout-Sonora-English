@@ -170,7 +170,7 @@ end
 procedure Node003 begin
    if (bitDialog(bit_2) == 0) then begin
    bitDialogExp(bit_2,0)
-   item_add(dude_obj,PID_AMMO_10_MM,random(1,5))
+   item_add(dude_obj,PID_AMMO_10_MM,1)
    Reply(205)
    NAnswer(206,1,Node999)
    end

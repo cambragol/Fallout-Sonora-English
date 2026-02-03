@@ -72,7 +72,7 @@ procedure timed_event_p_proc begin
    // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
    // Таймер за номером 2 зарезервирован под всплывающие реплики
    if (fixed_param == 1) then begin
-       timer_move_random_home(2)
+       timer_move_random_home(1)
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
@@ -144,16 +144,18 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   NAnswer(201,1,NodeAnswer100)
-   NAnswer(202,1,Node999)
+   NAnswer(201,4,NodeAnswer100)
+   NAnswer(202,4,Node999)
+   NAnswer(216,-3,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
    Reply(210)
-   NAnswer(211,1,NodeAnswer100)
-   NAnswer(212,1,Node999)
+   NAnswer(211,4,NodeAnswer100)
+   NAnswer(212,4,Node999)
+   NAnswer(216,-3,Node999)
 end
 
 procedure NodeAnswer100 begin
@@ -164,26 +166,27 @@ procedure NodeAnswer100 begin
    end
 
    if (local_var(LVAR_Flag_Food) == 0) then begin
-   Reply(213)
-   NAnswer(214,1,Node999)
-   BAnswer(215,1,Node999)
+      display_mstr(217);
+      Reply(213)
+      NAnswer(214,4,Node999)
+      BAnswer(215,4,Node999)
    end
    else begin
-   Reply(220)
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(226,1,NodeAnswer103)
-   NAnswer(228,1,NodeAnswer104)
-   NAnswer(221,1,Node999)
+      Reply(220)
+      NAnswer(222,4,NodeAnswer101)
+      NAnswer(224,4,NodeAnswer102)
+      NAnswer(226,4,NodeAnswer103)
+      NAnswer(228,4,NodeAnswer104)
+      NAnswer(221,4,Node999)
    end
 end
 
 procedure NodeAnswer101 begin
    Reply(223)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(226,1,NodeAnswer103)
-   NAnswer(228,1,NodeAnswer104)
-   NAnswer(221,1,Node999)
+   NAnswer(224,4,NodeAnswer102)
+   NAnswer(226,4,NodeAnswer103)
+   NAnswer(228,4,NodeAnswer104)
+   NAnswer(221,4,Node999)
 end
 
 procedure NodeAnswer102 begin
@@ -193,18 +196,18 @@ procedure NodeAnswer102 begin
    else begin
    Reply(225)
    end
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(226,1,NodeAnswer103)
-   NAnswer(228,1,NodeAnswer104)
-   NAnswer(221,1,Node999)
+   NAnswer(222,4,NodeAnswer101)
+   NAnswer(226,4,NodeAnswer103)
+   NAnswer(228,4,NodeAnswer104)
+   NAnswer(221,4,Node999)
 end
 
 procedure NodeAnswer103 begin
    Reply(227)
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(228,1,NodeAnswer104)
-   NAnswer(221,1,Node999)
+   NAnswer(222,4,NodeAnswer101)
+   NAnswer(224,4,NodeAnswer102)
+   NAnswer(228,4,NodeAnswer104)
+   NAnswer(221,4,Node999)
 end
 
 procedure NodeAnswer104 begin
@@ -221,8 +224,8 @@ procedure NodeAnswer104 begin
    else begin
    Reply(229)
    end
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(226,1,NodeAnswer103)
-   NAnswer(221,1,Node999)
+   NAnswer(222,4,NodeAnswer101)
+   NAnswer(224,4,NodeAnswer102)
+   NAnswer(226,4,NodeAnswer103)
+   NAnswer(221,4,Node999)
 end

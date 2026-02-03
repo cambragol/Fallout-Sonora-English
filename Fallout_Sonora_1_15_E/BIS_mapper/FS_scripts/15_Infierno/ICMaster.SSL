@@ -150,7 +150,7 @@ procedure timed_event_p_proc begin
        add_timer_event(self_obj, 30, 6);
    end
    if (fixed_param == 6) then begin
-       floater(self_obj,112,COLOR_MSG_NORMAL);
+       z_floater(self_obj,112,COLOR_MSG_NORMAL);
        add_timer_event(self_obj, 30, 7);
    end
    if (fixed_param == 7) then begin
@@ -174,6 +174,10 @@ procedure timed_event_p_proc begin
        set_global_var(GVAR_TITUL_REBIRTH,999);
        game_ui_enable;
        dialogue_system_enter;
+   end
+
+   if (fixed_param == 12) then begin
+       self_attack_dude;
    end
 end
 
@@ -245,6 +249,7 @@ procedure Node998 begin
    set_map_var(MVAR_INF_DOPUSK,-1);
    set_map_var(MVAR_INF_PWR_ADD,-1);
    setNodeCombat;
+   add_timer_event(self_obj, 1, 12);
 end
 
 procedure Node999 begin
@@ -271,7 +276,7 @@ end
 
 procedure NodeTitul begin
    zReply(360)
-   zNAnswer(361,1,NodeTitul2)
+   zNAnswer(361,0,NodeTitul2)
 end
 
 procedure NodeTitul2 begin
@@ -300,12 +305,12 @@ procedure NodeTitul2 begin
    box_stop_use := 0;
 
    zReply(362)
-   NAnswer(363,1,NodeTitul3)
+   NAnswer(363,0,NodeTitul3)
 end
 
 procedure NodeTitul3 begin
    Reply(364)
-   NAnswer(365,1,Node999)
+   NAnswer(365,0,Node999)
 end
 
 procedure NodeTitul4 begin
@@ -324,8 +329,8 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    zReply(200)
-   NAnswer(mstr(201)+dude_name+mstr(202),1,NodeFstDialog102)
-   BAnswer(203,1,NodeFstDialog101)
+   NAnswer(mstr(201)+dude_name+mstr(202),0,NodeFstDialog102)
+   BAnswer(203,0,NodeFstDialog101)
    BAnswer(242,-3,NodeFstDialog201)
 end
 
@@ -342,9 +347,9 @@ procedure NodeFstDialog102 begin
    else begin
    Reply(204)
    end
-   GAnswer(205,1,NodeFstDialog103)
-   NAnswer(206,1,NodeFstDialog105)
-   BAnswer(208,1,NodeFstDialog104)
+   GAnswer(205,0,NodeFstDialog103)
+   NAnswer(206,0,NodeFstDialog105)
+   zBAnswer(208,0,NodeFstDialog104)
 end
 
 procedure NodeFstDialog103 begin
@@ -357,19 +362,19 @@ procedure NodeFstDialog104 begin
    set_REP(-2)
    setBonusReaction(-10)
    Reply(209)
-   BAnswer(210,1,NodeFstDialog106)
-   NAnswer(213,1,NodeFstDialog107)
+   BAnswer(210,0,NodeFstDialog106)
+   NAnswer(213,0,NodeFstDialog107)
    if (getQuest(GVAR_PUERTO_QST_INFERNO) != qZero) then begin
-   NAnswer(216,1,NodeFstDialog108)
+   NAnswer(216,0,NodeFstDialog108)
    end
 end
 
 procedure NodeFstDialog105 begin
    Reply(207)
-   BAnswer(210,1,NodeFstDialog106)
-   NAnswer(213,1,NodeFstDialog107)
+   BAnswer(210,0,NodeFstDialog106)
+   NAnswer(213,0,NodeFstDialog107)
    if (getQuest(GVAR_PUERTO_QST_INFERNO) != qZero) then begin
-   NAnswer(216,1,NodeFstDialog108)
+   NAnswer(216,0,NodeFstDialog108)
    end
 end
 
@@ -377,24 +382,24 @@ procedure NodeFstDialog106 begin
    set_REP(-2)
    setBonusReaction(-20)
    Reply(211)
-   NAnswer(212,1,NodeFstDialog109)
+   NAnswer(212,0,NodeFstDialog109)
 end
 
 procedure NodeFstDialog107 begin
    Reply(214)
-   NAnswer(215,1,NodeFstDialog109)
+   NAnswer(215,0,NodeFstDialog109)
 end
 
 procedure NodeFstDialog108 begin
    Reply(217)
-   NAnswer(218,1,NodeFstDialog109)
+   NAnswer(218,0,NodeFstDialog109)
 end
 
 procedure NodeFstDialog109 begin
    Reply(219)
-   BAnswer(220,1,NodeFstDialog110)
-   GAnswer(222,1,NodeFstDialog111)
-   NAnswer(221,1,NodeFstDialog112)
+   BAnswer(220,0,NodeFstDialog110)
+   GAnswer(222,0,NodeFstDialog111)
+   NAnswer(221,0,NodeFstDialog112)
 end
 
 procedure NodeFstDialog110 begin
@@ -411,33 +416,33 @@ end
 
 procedure NodeFstDialog112 begin
    Reply(223)
-   NAnswer(224,1,NodeFstDialog113)
+   NAnswer(224,0,NodeFstDialog113)
 end
 
 procedure NodeFstDialog113 begin
    Reply(225)
-   NAnswer(226,1,NodeFstDialog114)
-   GAnswer(228,1,NodeFstDialog115)
-   BAnswer(230,1,NodeFstDialog116)
+   NAnswer(226,0,NodeFstDialog114)
+   GAnswer(228,0,NodeFstDialog115)
+   BAnswer(230,0,NodeFstDialog116)
 end
 
 procedure NodeFstDialog114 begin
    Reply(227)
-   NAnswer(228,1,NodeFstDialog115)
-   BAnswer(230,1,NodeFstDialog116)
+   NAnswer(228,0,NodeFstDialog115)
+   BAnswer(230,0,NodeFstDialog116)
 end
 
 procedure NodeFstDialog115 begin
    Reply(234)
-   NAnswer(235,1,NodeFstDialog117)
+   NAnswer(235,0,NodeFstDialog117)
 end
 
 procedure NodeFstDialog116 begin
    set_REP(-2)
    setBonusReaction(-25)
-   Reply(231)
-   GAnswer(233,1,NodeFstDialog115)
-   NAnswer(232,1,Node998)
+   zReply(231)
+   GAnswer(233,0,NodeFstDialog115)
+   NAnswer(232,0,Node998)
 end
 
 procedure NodeFstDialog117 begin
@@ -445,36 +450,36 @@ procedure NodeFstDialog117 begin
    setQuest(GVAR_INF_QST_APOSTOL_A,qStart);
    end
    Reply(236)
-   NAnswer(237,1,Node999)
-   BAnswer(238,1,NodeFstDialog118)
+   NAnswer(237,0,Node999)
+   BAnswer(238,0,NodeFstDialog118)
 end
 
 procedure NodeFstDialog118 begin
    Reply(239)
-   NAnswer(240,1,Node998)
-   BAnswer(241,1,Node998)
+   NAnswer(240,0,Node998)
+   BAnswer(241,0,Node998)
 end
 
 procedure NodeFstDialog201 begin
    Reply(243)
-   NAnswer(244,1,NodeFstDialog204)
-   BAnswer(245,1,NodeFstDialog202)
+   NAnswer(244,0,NodeFstDialog204)
+   BAnswer(245,0,NodeFstDialog202)
 end
 
 procedure NodeFstDialog202 begin
-   Reply(246)
-   NAnswer(247,1,NodeFstDialog203)
-   NAnswer(244,1,NodeFstDialog204)
+   zReply(246)
+   NAnswer(247,0,NodeFstDialog203)
+   NAnswer(244,0,NodeFstDialog204)
 end
 
 procedure NodeFstDialog203 begin
    Reply(248)
-   NAnswer(249,1,Node998)
+   NAnswer(249,0,Node998)
 end
 
 procedure NodeFstDialog204 begin
    Reply(252)
-   NAnswer(253,1,Node999)
+   NAnswer(253,0,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -515,77 +520,77 @@ procedure NodeSndDialog begin
    end
 
    if (getQuest(GVAR_INF_QST_APOSTOL_B) == qEnd) then begin
-      NAnswer(310,1,NodeQst100)
+      NAnswer(310,0,NodeQst100)
    end
    if (getQuest(GVAR_INF_QST_APOSTOL_B) == (qEnd+1)) then begin
       if (global_var(GVAR_INF_TOTEM_MUTAGEN)>=5) then begin
-      zNAnswer(350,1,NodeQst200)
+      zNAnswer(350,0,NodeQst200)
       end
       else begin
-      NAnswer(366,1,NodeQst204)
+      NAnswer(366,0,NodeQst204)
       end
    end
 
    if (item_amnt(self_obj,PID_Q_PWR_PROC) > 0) then begin
    if (map_var(MVAR_INF_PWR_KNOW) > 0) then begin
-   NAnswer(255,1,NodeAnswr204)
+   NAnswer(255,0,NodeAnswr204)
    end
    end
 
-   NAnswer(251,1,Node999)
+   NAnswer(251,0,Node999)
 end
 
 //--- РАССПРОСЫ
 
 procedure NodeAnswr100 begin
    Reply(261)
-   NAnswer(263,1,NodeAnswr101)
-   zNAnswer(262,1,NodeSndDialog)
+   NAnswer(263,0,NodeAnswr101)
+   zNAnswer(262,0,NodeSndDialog)
 end
 
 procedure NodeAnswr101 begin
    Reply(264)
-   NAnswer(265,1,NodeAnswr102)
-   NAnswer(270,1,NodeAnswr104)
-   NAnswer(280,1,NodeAnswr107)
-   NAnswer(282,1,NodeAnswr108)
+   NAnswer(265,0,NodeAnswr102)
+   NAnswer(270,0,NodeAnswr104)
+   NAnswer(280,0,NodeAnswr107)
+   NAnswer(282,0,NodeAnswr108)
    if (town_known(AREA_PHOENIX) >= MARK_STATE_VISITED) then begin
    if (bitDialog(bit_3) == 0) then begin
-   NAnswer(284,1,NodeAnswr109)
+   NAnswer(284,0,NodeAnswr109)
    end
    end
-   zNAnswer(262,1,NodeSndDialog)
+   zNAnswer(262,0,NodeSndDialog)
 end
 
 procedure NodeAnswr102 begin
    Reply(266)
-   NAnswer(267,1,NodeAnswr103)
+   NAnswer(267,0,NodeAnswr103)
 end
 
 procedure NodeAnswr103 begin
    Reply(268)
    if (bitDialog(bit_2) == 0) then begin
-   NAnswer(274,1,NodeAnswr105)
+   NAnswer(274,0,NodeAnswr105)
    end
-   zNAnswer(269,1,NodeAnswr104)
-   NAnswer(280,1,NodeAnswr107)
-   NAnswer(272,1,NodeSndDialog)
+   zNAnswer(269,0,NodeAnswr104)
+   NAnswer(280,0,NodeAnswr107)
+   NAnswer(272,0,NodeSndDialog)
 end
 
 procedure NodeAnswr104 begin
    Reply(271)
-   NAnswer(273,1,NodeAnswr102)
-   NAnswer(280,1,NodeAnswr107)
-   NAnswer(286,1,NodeAnswr108)
-   NAnswer(272,1,NodeSndDialog)
+   NAnswer(273,0,NodeAnswr102)
+   NAnswer(280,0,NodeAnswr107)
+   NAnswer(286,0,NodeAnswr108)
+   NAnswer(272,0,NodeSndDialog)
 end
 
 procedure NodeAnswr105 begin
    bitDialogExp(bit_2,25)
    Reply(275)
-   GAnswer(278,1,NodeAnswr106b)
-   NAnswer(277,1,NodeAnswr106)
-   BAnswer(276,1,NodeAnswr106a)
+   GAnswer(278,0,NodeAnswr106b)
+   NAnswer(277,0,NodeAnswr106)
+   BAnswer(276,0,NodeAnswr106a)
 end
 
 procedure NodeAnswr106 begin
@@ -606,50 +611,50 @@ end
 
 procedure NodeAnswr107 begin
    Reply(281)
-   NAnswer(265,1,NodeAnswr102)
-   NAnswer(270,1,NodeAnswr104)
-   NAnswer(282,1,NodeAnswr108)
-   NAnswer(272,1,NodeSndDialog)
+   NAnswer(265,0,NodeAnswr102)
+   NAnswer(270,0,NodeAnswr104)
+   NAnswer(282,0,NodeAnswr108)
+   NAnswer(272,0,NodeSndDialog)
 end
 
 procedure NodeAnswr108 begin
    Reply(283)
-   NAnswer(265,1,NodeAnswr102)
-   NAnswer(270,1,NodeAnswr104)
-   NAnswer(280,1,NodeAnswr107)
-   NAnswer(272,1,NodeSndDialog)
+   NAnswer(265,0,NodeAnswr102)
+   NAnswer(270,0,NodeAnswr104)
+   NAnswer(280,0,NodeAnswr107)
+   NAnswer(272,0,NodeSndDialog)
 end
 
 procedure NodeAnswr109 begin
    bitDialogExp(bit_3,25)
    Reply(285)
-   NAnswer(265,1,NodeAnswr102)
-   NAnswer(270,1,NodeAnswr104)
-   NAnswer(280,1,NodeAnswr107)
-   NAnswer(272,1,NodeSndDialog)
+   NAnswer(265,0,NodeAnswr102)
+   NAnswer(270,0,NodeAnswr104)
+   NAnswer(280,0,NodeAnswr107)
+   NAnswer(272,0,NodeSndDialog)
 end
 
 procedure NodeAnswr200 begin
    Reply(291)
    if (getQuest(GVAR_INF_QST_APOSTOL_A) == qStart) then begin
-   NAnswer(292,1,NodeAnswr201)
+   NAnswer(292,0,NodeAnswr201)
    end
-   NAnswer(296,1,NodeSndDialog)
+   NAnswer(296,0,NodeSndDialog)
 end
 
 procedure NodeAnswr201 begin
    Reply(293)
-   NAnswer(296,1,NodeSndDialog)
+   NAnswer(296,0,NodeSndDialog)
 end
 
 procedure NodeAnswr202 begin
    Reply(301)
-   NAnswer(302,1,NodeAnswr203)
+   NAnswer(302,0,NodeAnswr203)
 end
 
 procedure NodeAnswr203 begin
    Reply(303)
-   NAnswer(304,1,NodeSndDialog)
+   NAnswer(304,0,NodeSndDialog)
 end
 
 procedure NodeAnswr204 begin
@@ -668,38 +673,38 @@ procedure NodeAnswr205 begin
    item_add(dude_obj,PID_Q_PWR_PROC,1)
    item_remove(self_obj,PID_Q_PWR_PROC,1)
    Reply(256)
-   NAnswer(257,1,Node999)
-   NAnswer(258,1,NodeSndDialog)
+   NAnswer(257,0,Node999)
+   NAnswer(258,0,NodeSndDialog)
 end
 
 procedure NodeAnswr206 begin
    Reply(287)
    //Я не выживу снаружи без этой брони. - Но ведь раньше тебе это удавалось?
-   NAnswer(288,1,NodeSndDialog)
+   NAnswer(288,0,NodeSndDialog)
 end
 
 procedure NodeAnswr207 begin
    Reply(287)
    NAnswerSkill(373,4,NodeAnswr209,SKILL_CONVERSANT,90,370,NodeAnswr208)
    NAnswerSkill(378,4,NodeAnswr209,SKILL_SCIENCE,80,376,NodeAnswr210)
-   NAnswer(288,1,NodeSndDialog)
+   NAnswer(288,0,NodeSndDialog)
 end
 
 procedure NodeAnswr208 begin
    Reply(371)
-   NAnswer(372,1,NodeSndDialog)
+   NAnswer(372,0,NodeSndDialog)
 end
 
 procedure NodeAnswr209 begin
    item_add(dude_obj,PID_Q_PWR_PROC,1)
    item_remove(self_obj,PID_Q_PWR_PROC,1)
    Reply(374)
-   NAnswer(375,1,Node999)
+   NAnswer(375,0,Node999)
 end
 
 procedure NodeAnswr210 begin
    Reply(377)
-   NAnswer(372,1,NodeSndDialog)
+   NAnswer(372,0,NodeSndDialog)
 end
 
 //--- КВЕСТЫ
@@ -708,52 +713,52 @@ procedure NodeQst100 begin
    setQuest(GVAR_INF_QST_APOSTOL_B,qEnd+1);
    /*
    Reply(311)
-   NAnswer(312,1,NodeQst101)
+   NAnswer(312,0,NodeQst101)
    */
    call NodeQst101;
 end
 
 procedure NodeQst101 begin
    Reply(330)
-   NAnswer(331,1,NodeQst102)
+   NAnswer(331,0,NodeQst102)
 end
 
 procedure NodeQst102 begin
    Reply(332)
-   NAnswer(343,1,NodeQst106)
+   NAnswer(343,0,NodeQst106)
    GAnswer(338,3,NodeQst104)
-   BAnswer(333,1,NodeQst103)
+   BAnswer(333,0,NodeQst103)
 end
 
 procedure NodeQst103 begin
-   Reply(334)
+   zReply(334)
    //GAnswer(336,3,NodeQst104)
-   //NAnswer(337,1,NodeQst106)
-   BAnswer(335,1,Node998)
+   //NAnswer(337,0,NodeQst106)
+   BAnswer(335,0,Node998)
 end
 
 procedure NodeQst104 begin
    Reply(339)
-   GAnswer(341,1,NodeQst105)
-   NAnswer(342,1,NodeQst106)
-   BAnswer(340,1,NodeQst103)
+   GAnswer(341,0,NodeQst105)
+   NAnswer(342,0,NodeQst106)
+   BAnswer(340,0,NodeQst103)
 end
 
 procedure NodeQst105 begin
    add_timer_event(self_obj,5,3);
    Reply(348)
-   NAnswer(349,1,Node999)
+   NAnswer(349,0,Node999)
 end
 
 procedure NodeQst106 begin
    Reply(344)
-   NAnswer(345,1,NodeQst107)
+   NAnswer(345,0,NodeQst107)
 end
 
 procedure NodeQst107 begin
    item_add(dude_obj,PID_Q_DIANA_MUTAGEN,5)
    Reply(346)
-   NAnswer(347,1,Node999)
+   NAnswer(347,0,Node999)
 end
 
 /*
@@ -767,42 +772,42 @@ procedure NodeQst101 begin
             Нет. Ни в коем случае. Я не собираюсь жертвовать своей природой ради всего этого. / В таком случае делай то, что я прошу. Используй мутаген на потрошителях.
             Во мне уже столь рад от местных руин, что я начинаю светится в темноте. Похоже, мне придется принять мутаген. / Очень хорошо. Позволь, я подготовлю церемонию.
 
-   NAnswer(322,1,NodeQst104)
-   NAnswer(315,1,NodeQst103)
-   BAnswer(314,1,NodeQst102)
+   NAnswer(322,0,NodeQst104)
+   NAnswer(315,0,NodeQst103)
+   BAnswer(314,0,NodeQst102)
 end
 
 procedure NodeQst102 begin
    Reply(316)
-   NAnswer(317,1,Node999)
-   BAnswer(318,1,Node999)
+   NAnswer(317,0,Node999)
+   BAnswer(318,0,Node999)
 end
 
 procedure NodeQst103 begin
    Reply(319)
-   NAnswer(320,1,Node999)
-   BAnswer(321,1,Node999)
+   NAnswer(320,0,Node999)
+   BAnswer(321,0,Node999)
 end
 
 */
 
 procedure NodeQst200 begin
    Reply(351)
-   NAnswer(352,1,NodeQst201)
+   NAnswer(352,0,NodeQst201)
    NAnswer(353,4,NodeQst201)
 end
 
 procedure NodeQst201 begin
    Reply(354)
-   NAnswer(355,1,NodeQst202)
+   NAnswer(355,0,NodeQst202)
 end
 
 procedure NodeQst202 begin
    call NodeQst203;
 
    Reply(356)
-   NAnswer(357,1,Node999)
-   BAnswer(358,1,Node999)
+   NAnswer(357,0,Node999)
+   BAnswer(358,0,Node999)
 end
 
 procedure NodeQst203 begin
@@ -819,6 +824,6 @@ end
 
 procedure NodeQst204 begin
    Reply(367)
-   NAnswer(368,1,Node999)
-   NAnswer(369,1,Node999)
+   NAnswer(368,0,Node999)
+   NAnswer(369,0,Node999)
 end

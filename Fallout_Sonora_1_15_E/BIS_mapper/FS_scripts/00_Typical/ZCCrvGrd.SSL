@@ -25,6 +25,7 @@ procedure critter_p_proc;
 procedure use_obj_on_p_proc;
 procedure use_skill_on_p_proc;
 procedure pickup_p_proc;
+procedure push_p_proc;
 procedure combat_p_proc;
 procedure damage_p_proc;
 procedure destroy_p_proc;
@@ -124,6 +125,9 @@ procedure pickup_p_proc begin
    pickupProcCritter
 end
 
+procedure push_p_proc begin
+end
+
 procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
 end
@@ -163,5 +167,15 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   floater(self_obj,random(110,115),COLOR_MSG_NORMAL);
+   variable localIndx;
+
+   localIndx := random(110,115);
+
+   if ((cur_map_index == MAP_SB_CARAVAN_A) or (cur_map_index == MAP_SB_CARAVAN_B) or (cur_map_index == MAP_SB_CARAVAN_C)) then begin
+      if (getQuest(GVAR_BRAHMIN_QST_CARAVANPNX) <= qStop) then begin
+      localIndx := random(120,122);
+      end
+   end
+
+   floater(self_obj,localIndx,COLOR_MSG_NORMAL);
 end

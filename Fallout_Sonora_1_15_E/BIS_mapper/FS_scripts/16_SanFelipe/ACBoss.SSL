@@ -5,7 +5,7 @@
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_FELIPE // привязка к репутации (-1, если не нужно)
 
 #define NUM_TEAM                        TEAM_SANFELIPE_CTZN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
-#define NUM_AI                          AI_MEXIC_GEN      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define NUM_AI                          AI_HERMO_SOLDIER      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
 #define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
 #define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
 #define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
@@ -34,18 +34,57 @@ procedure Node998;
 procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
+procedure NodeFstDialog002;
+procedure NodeFstDialog003;
+procedure NodeFstDialog004;
+procedure NodeFstDialog005;
+procedure NodeFstDialog005b;
+procedure NodeFstDialog006;
+procedure NodeFstDialog007;
 procedure NodeSndDialog;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
 procedure NodeAnswer103;
+procedure NodeAnswer104;
+procedure NodeAnswer105;
+procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
+procedure NodeAnswer200;
+procedure NodeAnswer201;
+procedure NodeAnswer202;
+procedure NodeAnswer203;
+procedure NodeAnswer204;
+procedure NodeBOS101;
+procedure NodeBOS102;
+procedure NodeBOS103;
+procedure NodeBOS104;
+procedure NodeQst100;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst200;
+procedure NodeQst201;
+procedure NodeQst202;
+procedure NodeQst203;
+procedure NodeQst300;
+procedure NodeQst301;
+procedure NodeQst302;
+procedure NodeQst303;
+procedure NodeQst304;
+procedure NodeQst305;
+procedure NodeQst306;
+procedure NodeQstFinish;
+procedure NodeQstFinish2;
 
 //---------------------
 
 //#define LVAR_Flag_A                     (5) // отвечает за ...
 
+variable questsCheck;
+
 //---------------------
 
-
+// extensive changes for Espanol Trait by cambragol
 
 procedure start begin
 end
@@ -53,9 +92,11 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       // added to allow for combat taunts to be either pure spanish, or 'translated' via the Espanol Trait - cambragol
        if DudeTraitHas(TRAIT_espanol) then begin
-          critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_MEXIC_GEN_ENG);
+         critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_HERMO_SOLDIER_ENG);
+       end
+       if (getQuest(GVAR_SANFELIPE_QST_RUN) >= qEnd) then begin
+         set_obj_visibility(self_obj, 1);
        end
    end
 end
@@ -77,6 +118,14 @@ procedure timed_event_p_proc begin
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
    end
+   if (fixed_param == 3) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         KillScorpTail(104) // фраза над жертвой (-1 если не нужна)
+      end
+      else begin
+         KillScorpTail(107) // фраза над жертвой (-1 если не нужна)
+      end
+   end
 end
 
 procedure critter_p_proc begin
@@ -85,6 +134,7 @@ end
 
 procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
+   UsedToCrit_Scorp(103,3) // фраза над жертвой (-1 если не нужна), номер таймера
 end
 
 procedure use_skill_on_p_proc begin
@@ -106,12 +156,50 @@ end
 
 procedure destroy_p_proc begin
    set_global_var(GVAR_SANFELIPE_STATUS_BOSS, -1);
+   set_gvar_bit_off(GVAR_SANFELIPE_BITS, bit_3);
+   set_gvar_bit_off(GVAR_SANFELIPE_BITS, bit_4);
+
+   if (getQuest(GVAR_SANFELIPE_QST_FAROLAMPARA) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_FAROLAMPARA, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_GMAP) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_GMAP, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_WATER) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_WATER, qStop);
+   end
+
    kill_critter_opt
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-   dialog_proc(0,0,NodeStartDialog,-1,-1)
+   ScorpPoisonFlt
+   if (getQuest(GVAR_SANFELIPE_QST_RUN) >= qEnd) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj, 102, COLOR_MSG_NORMAL);
+      end
+      else begin
+         floater(self_obj, 105, COLOR_MSG_NORMAL);
+      end
+   end
+   else if (gvar_bit(GVAR_SANFELIPE_BITS,bit_6) != 0) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj, 103, COLOR_MSG_NORMAL);
+      end
+      else begin
+         floater(self_obj, 106, COLOR_MSG_NORMAL);
+      end
+   end
+   else begin
+      setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
 end
 
 procedure Node998 begin
@@ -122,6 +210,10 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
+   if (getQuest(GVAR_SANFELIPE_QST_GMAP) > qZero) then begin
+   bitDialogExp(bit_1,0) // уловка для удобства теста в маппере
+   end
+
    if (bitDialog(bit_1) == 0) then begin
    call NodeFstDialog;
    end
@@ -130,31 +222,670 @@ procedure NodeStartDialog begin
    end
 end
 
+// Spanish dialogue entry point
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   NAnswer(201,1,Node999)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      GAnswer(202,0,NodeFstDialog002)
+   end
+   else begin
+      NAnswer(201,0,NodeFstDialog003)
+   end
 end
+
+// Spanish
+procedure NodeFstDialog002 begin
+   Reply(203)
+   NAnswer(204,0,NodeFstDialog004)
+end
+
+// English
+procedure NodeFstDialog003 begin
+   Reply(205)
+   NAnswer(206,0,NodeFstDialog004)
+end
+
+// Spanish/English
+procedure NodeFstDialog004 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(207)
+   end
+   else begin
+      Reply(208)
+   end
+   
+   if DudeTraitHas(TRAIT_espanol) then begin
+      NAnswer(209,0,NodeFstDialog005)
+      if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
+         NAnswer(219,0,NodeFstDialog005b)
+      end
+   end
+   else begin
+      NAnswer(609,0,NodeFstDialog005)
+      if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
+         NAnswer(619,0,NodeFstDialog005b)
+      end
+   end
+
+end
+
+// Spanish/English
+procedure NodeFstDialog005 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(210)
+      NAnswer(211,0,NodeFstDialog006)
+   end
+   else begin
+      Reply(212)
+      NAnswer(611,0,NodeFstDialog006)
+   end
+end
+
+// Spanish/English
+procedure NodeFstDialog005b begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(220)
+      NAnswer(222,0,NodeFstDialog006)
+   end
+   else begin
+      Reply(221)
+      NAnswer(622,0,NodeFstDialog006)
+   end
+end
+
+// Spanish/English
+procedure NodeFstDialog006 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(213)
+      NAnswer(214,0,NodeFstDialog007)
+   end
+   else begin
+      Reply(215)
+      NAnswer(614,0,NodeFstDialog007)
+   end
+end
+
+// Spanish/English
+procedure NodeFstDialog007 begin
+   setQuest(GVAR_SANFELIPE_QST_FAROLAMPARA, qStart);
+   setQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST, qStart);
+   setQuest(GVAR_SANFELIPE_QST_GMAP, qStart);
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(216)
+      NAnswer(217,0,Node999)
+   end
+   else begin
+      Reply(218)
+      NAnswer(617,0,Node999)
+   end
+end
+
+#define basarec_x         284
+#define basarec_y         1432
+
+#define felipe_reconned    (wm_get_subtile_state(basarec_x-100, basarec_y-100) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-100, basarec_y-50) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-100, basarec_y) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-100, basarec_y+50) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-100, basarec_y+100) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-50, basarec_y-100) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-50, basarec_y-50) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-50, basarec_y) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-50, basarec_y+50) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x-50, basarec_y+100) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x, basarec_y-100) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x, basarec_y-50) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x, basarec_y+50) > KNOWNTILETYPE) and \
+                           (wm_get_subtile_state(basarec_x, basarec_y+100) > KNOWNTILETYPE)
 
 procedure NodeSndDialog begin
-   Reply(210)
-   NAnswer(210,1,NodeAnswer101)
-   NAnswer(212,4,NodeAnswer102)
-   NAnswer(214,7,NodeAnswer103)
-   NAnswer(211,1,Node999)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      if (get_REP>=15) then begin
+         Reply(250)
+      end
+      else if (get_REP<0) then begin
+         Reply(251)
+      end
+      else begin
+         Reply(252)
+      end
+   end
+   else begin
+      if (get_REP>=15) then begin
+         zReply(254)
+      end
+      else if (get_REP<0) then begin
+         Reply(255)
+      end
+      else begin
+         Reply(256)
+      end
+   end
+
+   //- местные квесты:
+   if (getQuest(GVAR_SANFELIPE_QST_FAROLAMPARA) == qStart) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) > 0) then begin
+            GAnswer(270,0,NodeQst100)
+         end
+         else if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) < 0) then begin
+            BAnswer(278,0,NodeQst102)
+         end
+         NAnswer(274,0,NodeQst101)
+      end
+      else begin
+         if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) > 0) then begin
+            GAnswer(670,0,NodeQst100)
+         end
+         else if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) < 0) then begin
+            BAnswer(678,0,NodeQst102)
+         end
+      end
+   end
+
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST) == qStart) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         if (global_var(GVAR_SANFELIPE_STATUS_MONSTRCOAST) >= SANFELIPE_DEAD_MONSTRCOAST) then begin
+            GAnswer(280,0,NodeQst200)
+         end
+         NAnswer(284,0,NodeQst201)
+      end
+      else begin
+         if (global_var(GVAR_SANFELIPE_STATUS_MONSTRCOAST) >= SANFELIPE_DEAD_MONSTRCOAST) then begin
+            GAnswer(680,0,NodeQst200)
+         end
+      end
+   end
+
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE) == qStart) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         if (getQuest(GVAR_SANFELIPE_DESTROY_CAVE) >= qEnd) then begin
+            GAnswer(424,0,NodeQst203)
+         end
+         else if (global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE) >= SANFELIPE_DEAD_MONSTRCAVE) then begin
+            zGAnswer(425,0,NodeQst203)
+         end
+         NAnswer(420,0,NodeQst202)
+      end
+      else begin
+         if (getQuest(GVAR_SANFELIPE_DESTROY_CAVE) >= qEnd) then begin
+            GAnswer(824,0,NodeQst203)
+         end
+         else if (global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE) >= SANFELIPE_DEAD_MONSTRCAVE) then begin
+            GAnswer(825,0,NodeQst203)
+         end
+      end
+   end
+
+   if (getQuest(GVAR_SANFELIPE_QST_GMAP) == qStart) then begin
+      if (felipe_reconned) then begin
+         if DudeTraitHas(TRAIT_espanol) then begin
+            GAnswer(290,0,NodeQst300)
+            if (getQuest(GVAR_SANFELIPE_QST_RUN) == qStart) then begin
+            BAnswer(298,0,NodeQst306)
+            end
+            NAnswer(294,0,NodeQst301)
+         end
+         else begin
+            GAnswer(590,0,NodeQst300)
+            if (getQuest(GVAR_SANFELIPE_QST_RUN) == qStart) then begin
+            BAnswer(598,0,NodeQst306)
+            end
+         end
+      end
+   end
+   
+   if (getQuest(GVAR_SANFELIPE_QST_WATER) == qStart) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         if (map_var(MVAR_FELIPE_WATER_SVR_AMNT) >= FELIPE_WATER_SVR_AMNT) then begin
+            GAnswer(404,0,NodeQst304)
+         end
+         else begin
+            BAnswer(408,0,NodeQst305)
+         end
+      end
+      else begin
+         if (map_var(MVAR_FELIPE_WATER_SVR_AMNT) >= FELIPE_WATER_SVR_AMNT) then begin
+            GAnswer(804,0,NodeQst304)
+         end
+         else begin
+            BAnswer(808,0,NodeQst305)
+         end
+      end
+   end
+
+   // Should be spanish trait only??
+   if (getQuest(GVAR_SANFELIPE_QST_RUN) == qStart) then begin
+      if (gvar_bit(GVAR_SANFELIPE_BITS,bit_6) == 0) then begin
+         if DudeTraitHas(TRAIT_espanol) then begin
+            NAnswer(330,0,NodeAnswer200)
+         end
+      end
+   end
+
+   //- questions
+   if (gvar_bit(GVAR_SANFELIPE_BITS,bit_3) == 0) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         NAnswer(305,0,NodeAnswer102)
+      end 
+      else begin
+         NAnswer(300,0,NodeAnswer101)
+      end
+   end
+
+   //- Brotherhood of Steel quest
+   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) == qStart) then begin
+      if (gvar_bit(GVAR_SANFELIPE_BITS,bit_4) == 0) then begin
+         if (gvar_bit(GVAR_SANFELIPE_BITS,bit_6) == 0) then begin
+            if DudeTraitHas(TRAIT_espanol) then begin
+               NAnswer(350,0,NodeBOS101)
+            end
+            else begin
+               NAnswer(750,0,NodeBOS101)
+            end
+         end
+      end
+   end
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+      NAnswer(257,0,Node999)
+   end
+   else begin
+      NAnswer(253,0,Node999)
+   end
 end
 
+//--- РАССПРОСЫ
+
+// ends questions path for english only
 procedure NodeAnswer101 begin
-   Reply(211)
-   NAnswer(201,1,Node999)
+   Reply(301)
+   NAnswer(302,0,NodeSndDialog)
 end
 
 procedure NodeAnswer102 begin
-   Reply(213)
-   NAnswer(214,1,Node999)
+   Reply(306)
+   NAnswer(307,0,NodeAnswer103)
+   NAnswer(304,0,NodeSndDialog)
 end
 
 procedure NodeAnswer103 begin
-   Reply(216)
-   NAnswer(214,1,Node999)
+   Reply(308)
+   NAnswer(309,0,NodeAnswer104)
+   NAnswer(304,0,NodeSndDialog)
+end
+
+procedure NodeAnswer104 begin
+   Reply(310)
+   NAnswerRep(315,4,NodeAnswer106,30,314,NodeAnswer105)
+   NAnswerSkill(313,4,NodeAnswer106,SKILL_CONVERSANT,90,312,NodeAnswer105)
+   NAnswer(311,0,NodeSndDialog)
+end
+
+procedure NodeAnswer105 begin
+   Reply(316)
+   NAnswer(317,0,NodeSndDialog)
+end
+
+procedure NodeAnswer106 begin
+   Reply(318)
+   NAnswer(319,0,NodeAnswer107)
+end
+
+procedure NodeAnswer107 begin
+   set_gvar_bit_on(GVAR_SANFELIPE_BITS, bit_3);
+   bitDialogExp(bit_2,200)
+   Reply(320)
+   NAnswer(321,0,NodeAnswer108)
+   BAnswer(326,0,NodeAnswer108)
+end
+
+procedure NodeAnswer108 begin
+   Reply(322)
+   NAnswer(323,0,Node999)
+   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) >= qEnd) then begin
+   NAnswer(324,0,Node999)
+   end
+   BAnswer(325,0,Node999)
+end
+
+procedure NodeAnswer200 begin
+   questsCheck := 0;
+   if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) < 0) then begin
+   questsCheck += 1;
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST) >= qEnd) then begin
+   questsCheck += 1;
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_GMAP) >= qEnd) then begin
+   questsCheck += 1;
+   end
+
+   Reply(331)
+   if (questsCheck>=3) then begin
+   NAnswer(347,0,NodeAnswer204)
+   end
+   else begin
+   NAnswerSkill(347,4,NodeAnswer204,SKILL_CONVERSANT,100,333,NodeAnswer201)
+   end
+   NAnswer(332,0,Node999)
+end
+
+procedure NodeAnswer201 begin
+   Reply(334)
+   /*
+   if (getQuest(GVAR_SANFELIPE_QST_GMAP) >= qEnd) then begin
+   BAnswer(336,0,NodeAnswer202)
+   end
+   */
+   NAnswer(335,0,Node999)
+end
+
+procedure NodeAnswer202 begin
+   if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) > 0) then begin
+   Reply(341)
+   end
+   else begin
+   Reply(337)
+   end
+   if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) < 0) then begin
+   BAnswer(342,0,NodeAnswer203)
+   end
+   NAnswer(338,0,Node999)
+end
+
+procedure NodeAnswer203 begin
+   Reply(343)
+   if (getQuest(GVAR_SANFELIPE_QST_WATER) >= qEnd) then begin
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE) >= qEnd) then begin
+   BAnswer(344,0,NodeAnswer204)
+   end
+   end
+   NAnswer(338,0,Node999)
+end
+
+procedure NodeAnswer204 begin
+   set_gvar_bit_on(GVAR_SANFELIPE_BITS, bit_6);
+   Reply(345)
+   NAnswer(346,0,Node999)
+end
+
+
+//--- БС
+
+procedure NodeBOS101 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(351)
+      NAnswer(352,0,NodeBOS102)
+   end
+   else begin
+      Reply(353)
+      NAnswer(354,0,NodeBOS102)
+   end
+end
+
+procedure NodeBOS102 begin
+   questsCheck := 0;
+   if (getQuest(GVAR_SANFELIPE_QST_FAROLAMPARA) >= qEnd) then begin
+   questsCheck += 1;
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE) >= qEnd) then begin
+   questsCheck += 1;
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_WATER) >= qEnd) then begin
+   questsCheck += 1;
+   end
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(355)
+      if (questsCheck>=3) then begin
+         NAnswer(357,0,NodeBOS103)
+      end
+      NAnswer(356,0,Node999)
+   end
+   else begin
+      Reply(358)
+      if (questsCheck>=3) then begin
+         NAnswer(757,0,NodeBOS103)
+      end
+      NAnswer(756,0,Node999)
+   end
+end
+
+procedure NodeBOS103 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(359)
+      NAnswer(360,0,NodeBOS104)
+      NAnswer(361,0,Node999)
+   end
+   else begin
+      Reply(362)
+      NAnswer(760,0,NodeBOS104)
+      NAnswer(761,0,Node999)
+   end
+end
+
+procedure NodeBOS104 begin
+   setQuest(GVAR_SANFELIPE_QST_RUN, qStop);
+   set_gvar_bit_on(GVAR_SANFELIPE_BITS, bit_4);
+   call Node999;
+end
+
+//--- КВЕСТЫ
+
+procedure NodeQst100 begin
+   setQuest(GVAR_SANFELIPE_QST_FAROLAMPARA, qEnd);
+   set_REP(10)
+   exp_add(350);
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(271)
+      NAnswer(273,0,NodeQstFinish)
+   end
+   else begin
+      Reply(272)
+      NAnswer(673,0,NodeQstFinish)
+   end
+end
+
+// Spanish only
+procedure NodeQst101 begin
+   Reply(275)
+   NAnswer(276,0,NodeSndDialog)
+   NAnswer(277,0,Node999)
+end
+
+procedure NodeQst102 begin
+   setQuest(GVAR_SANFELIPE_QST_FAROLAMPARA, qEnd);
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(269)
+      NAnswer(257,0,Node999)
+   end
+   else begin
+      Reply(279)
+      NAnswer(253,0,Node999)
+   end
+end
+
+procedure NodeQst200 begin
+   setQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST, qEnd);
+   setQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE, qStart);
+   set_REP(5)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(281)
+      NAnswer(283,0,Node999)
+   end
+   else begin
+      Reply(282)
+      NAnswer(683,0,Node999)
+   end
+end
+
+// Spanish only
+procedure NodeQst201 begin
+   if (gvar_bit(GVAR_SANFELIPE_BITS,bit_1) == 0) then begin
+      Reply(285)
+   end
+   else begin
+      Reply(288)
+   end
+   NAnswer(286,0,NodeSndDialog)
+   NAnswer(287,0,Node999)
+end
+
+// Spanish only
+procedure NodeQst202 begin
+   Reply(421)
+   NAnswer(422,0,NodeSndDialog)
+   NAnswer(423,0,Node999)
+end
+
+// Spanish and English
+procedure NodeQst203 begin
+   setQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE, qEnd);
+   set_REP(5)
+   exp_add(500);
+
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(426)
+      NAnswer(428,0,NodeQstFinish)
+   end
+   else begin
+      Reply(427)
+      NAnswer(628,0,NodeQstFinish)
+   end
+end
+
+// Spanish and English
+procedure NodeQst300 begin
+   setQuest(GVAR_SANFELIPE_QST_GMAP, qEnd);
+   setQuest(GVAR_SANFELIPE_QST_WATER, qStart);
+   set_REP(5)
+   exp_add(350);
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(291)
+      NAnswer(293,0,NodeQst302)
+   end
+   else begin
+      Reply(292)
+      NAnswer(628,0,NodeQst302)
+   end
+end
+
+// Spanish only
+procedure NodeQst301 begin
+   Reply(295)
+   NAnswer(296,0,NodeSndDialog)
+   NAnswer(297,0,Node999)
+end
+
+// Spanish and English
+procedure NodeQst302 begin
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(400)
+      NAnswer(402,0,NodeQst303)
+   end
+   else begin
+      Reply(401)
+      NAnswer(802,0,NodeQst303)
+   end
+end
+
+procedure NodeQst303 begin
+   mark_map_entrance_state(MAP_SAN_FELIPE_CITY, 1);
+   gfade_out(ONE_GAME_SECOND);
+   move_to(dude_obj, 27702, 1);
+   anim(dude_obj, ANIMATE_ROTATION, 5);
+   play_sfx("GUSTWIND");
+   gfade_in(ONE_GAME_SECOND);
+   call Node999;
+end
+
+// Spanish and English
+procedure NodeQst304 begin
+   setQuest(GVAR_SANFELIPE_QST_WATER, qEnd);
+   set_REP(5)
+   exp_add(350);
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(405)
+      NAnswer(407,0,NodeQstFinish)
+   end
+   else begin
+      Reply(406)
+      NAnswer(817,0,NodeQstFinish)
+   end
+end
+
+// Spanish and English
+procedure NodeQst305 begin
+   //setQuest(GVAR_SANFELIPE_QST_WATER, qStop);
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(409)
+      NAnswer(412,0,NodeQst303)
+      NAnswer(411,0,NodeQstFinish)
+   end
+   else begin
+      Reply(410)
+      NAnswer(819,0,NodeQst303)
+      NAnswer(818,0,NodeQstFinish)
+   end
+end
+
+// Spanish and English
+procedure NodeQst306 begin
+   setQuest(GVAR_SANFELIPE_QST_GMAP, qEnd);
+   setQuest(GVAR_SANFELIPE_QST_WATER, qStop);
+   if DudeTraitHas(TRAIT_espanol) then begin
+      Reply(269)
+      NAnswer(299,0,NodeQstFinish)
+   end
+   else begin
+      Reply(279)
+      NAnswer(699,0,NodeQstFinish)
+   end
+end
+
+procedure NodeQstFinish begin
+   questsCheck := 0;
+   if (getQuest(GVAR_SANFELIPE_QST_FAROLAMPARA) >= qEnd) then begin
+      if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) > 0) then begin
+      questsCheck += 1;
+      end
+      else if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) < 0) then begin
+      questsCheck -= 1;
+      end
+   end
+
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE) >= qEnd) then begin
+   questsCheck += 1;
+   end
+
+   if (getQuest(GVAR_SANFELIPE_QST_WATER) >= qEnd) then begin
+   questsCheck += 1;
+   end
+   else if (getQuest(GVAR_SANFELIPE_QST_WATER) <= qStop) then begin
+   questsCheck -= 1;
+   end
+
+   if (questsCheck >= 3) then begin
+   call NodeQstFinish2;
+   end
+   else begin
+   call Node999;
+   end
+end
+
+// Spanish and English
+procedure NodeQstFinish2 begin
+   setQuest(GVAR_SANFELIPE_QST_RUN, qStop);
+   set_REP(5)
+   if DudeTraitHas(TRAIT_espanol) then begin
+      zReply(260)
+      NAnswer(261,0,Node999)
+   end
+   else begin
+      zReply(262)
+      NAnswer(661,0,Node999)
+   end
 end

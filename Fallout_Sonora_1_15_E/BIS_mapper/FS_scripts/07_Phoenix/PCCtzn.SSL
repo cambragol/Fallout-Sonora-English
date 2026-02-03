@@ -131,7 +131,7 @@ procedure float_reply begin
    if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
       replyMsg := random(330,339);
    end
-   else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
+   else if ((global_var(GVAR_TITUL_PHENIX_CULT) > 0) and (random(0,2) == 1)) then begin
       replyMsg := random(340,349);
    end
    else if ((global_var(GVAR_TITUL_ARENA_MASTER) > 0) and (random(0,2) == 1)) then begin
@@ -145,6 +145,12 @@ procedure float_reply begin
    else begin
       if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (random(0,1) == 0)) then begin
       replyMsg := random(390,399);
+      end
+      else if ((getQuest(GVAR_PHENIX_PARTY_ATTAKTOAARON) >= qEnd) and (random(0,1) == 0)) then begin
+      replyMsg := random(390,393);
+      end
+      else if ((global_var(GVAR_PHENIX_STATUS_CULT_AARON) < 0) and (random(0,1) == 0)) then begin
+      replyMsg := 400;
       end
       else begin
       replyMsg := random(370,389);
@@ -162,7 +168,7 @@ procedure float_reply begin
    end
 
    if (random(0,100) > 40) then begin
-   replyMsg := 103;
+      replyMsg := 103;
    end
 end
 

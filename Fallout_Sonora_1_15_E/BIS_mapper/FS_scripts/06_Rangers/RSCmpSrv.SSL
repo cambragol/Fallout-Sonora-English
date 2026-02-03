@@ -164,6 +164,9 @@ procedure NodeDialog131 begin
    if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
    Reply(253)
    end
+   else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
+   Reply(265)
+   end
    else begin
    Reply(254)
    NAnswer(255,7,NodeDialog132)

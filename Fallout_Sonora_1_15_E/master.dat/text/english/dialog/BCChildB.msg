@@ -1,7 +1,8 @@
 {101}{}{You see a tribal child with long, black hair.}
 {102}{}{Don't push!}
 {103}{}{Save yourself! This is the evil iron spirit!}
-{104}{}{You are not bad like the other strangers. Thank you.}
+{104}{}{You are not bad man, like the other strangers. Thank you.}
+{1104}{}{You are not bad woman, like the other strangers. Thank you.}
 
 {110}{}{Shh!}
 {111}{}{Quiet! They will hear us...}
@@ -20,7 +21,7 @@
 {202}{}{(one kid lunges forward nervously) "What do you care? You are a stranger!" - (the others grab him with apologies) "Calm down, fool, maybe he can help us? Or do you want to go to the shaman?" - "No, the shaman will punish us." - "That's the same..."}
 {1202}{}{(one kid lunges forward nervously) "What do you care? You are a stranger!" - (the others grab him with apologies) "Calm down, fool, maybe she can help us? Or do you want to go to the shaman?" - "No, the shaman will punish us." - "That's the same..."}
 {203}{}{Tell me what happened.}
-{204}{}{Listen, stranger, you promise not speak of this? We walked in Buried City. It is west of here, in place where dunes cover old pueblo. Then we heard growling in catacombs, so we ran!}
+{204}{}{Listen, stranger, you promise not speak of this? We walked in Buried City. It is west of here, in place where dunes cover old pueblo. Then we heard growling from... ca.. catacombs, so we ran!}
 {205}{}{Normal reaction, guys. You did the right thing.}
 {206}{}{Hmm, you're chickens.}
 {207}{}{But two of us did not return.}
@@ -35,4 +36,4 @@
 
 {220}{}{Thank you. Now we will obey the elders.}
 {221}{}{Correct. You were warned, but you didn't listen. Hopefully this lesson will stick with you for life.}
-{222}{}{You don't have to listen to everything they say. Good luck, guys.}
+{222}{}{You don't have to listen to everything they say. Good luck, kids.}

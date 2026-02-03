@@ -1,6 +1,7 @@
 #include "..\headers\define.h"
 #define NAME                    SCRIPT_VICtzHom
-#define ITEMPID                 PID_AMMO_44_MAGNUM
+#define AMMOPID                 PID_AMMO_SHOTGUN_SHELLS
+#define WPNPID                  PID_W_SHOTGUN_DUBLET
 
 procedure start;
 procedure map_enter_p_proc;
@@ -18,10 +19,10 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        if (map_first_run) then begin
-       item_add(self_obj,ITEMPID,6)
-       item_add(self_obj,PID_W_REVOLVER_OLD,1)
+       item_add(self_obj,AMMOPID,2)
+       item_add(self_obj,WPNPID,1)
        end
-       set_local_var(LVAR_ItemAmnt,item_amnt(self_obj, ITEMPID));
+       set_local_var(LVAR_ItemAmnt,item_amnt(self_obj, AMMOPID));
    end
 end
 
@@ -31,10 +32,10 @@ end
 
 procedure timed_event_p_proc begin
    if (fixed_param == 1) then begin
-       if (item_amnt(self_obj, ITEMPID) < local_var(LVAR_ItemAmnt)) then begin
+       if (item_amnt(self_obj, AMMOPID) < local_var(LVAR_ItemAmnt)) then begin
        set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_2);
        end
-       if (item_amnt(self_obj, PID_W_REVOLVER_OLD) < 1) then begin
+       if (item_amnt(self_obj, WPNPID) < 1) then begin
        set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_2);
        end
    end

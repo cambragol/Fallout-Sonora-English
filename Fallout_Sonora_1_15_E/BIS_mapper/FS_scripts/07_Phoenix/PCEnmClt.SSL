@@ -80,6 +80,9 @@ procedure map_enter_p_proc begin
              if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
              set_map_var(MVAR_PNX_GUNSSHOP_STOP,1);
              end
+             else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
+             set_map_var(MVAR_PNX_GUNSSHOP_STOP,1);
+             end
           end
        end
 

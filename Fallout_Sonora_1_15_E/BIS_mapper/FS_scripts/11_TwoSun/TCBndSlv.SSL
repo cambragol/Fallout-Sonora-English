@@ -109,9 +109,17 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_TsnBank_Enemy, -1);
+   end
    kill_critter_opt
 end
 
 procedure talk_p_proc begin
+   if (map_var(MVAR_TsnBank_Enemy) < 0) then begin
+   self_attack_dude;
+   end
+   else begin
    floater(self_obj,random(110,119),COLOR_MSG_NORMAL);
+   end
 end

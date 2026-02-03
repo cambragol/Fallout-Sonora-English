@@ -1,5 +1,5 @@
 #include "..\headers\define.h"
-//---------------------
+//--------------------- бродяги у собора
 
 #define NAME                            SCRIPT_PCCltLzr
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
@@ -45,7 +45,7 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
        set_local_var(LVAR_Flag_Trip,random(0,5)); // диапазон специально выбран больше, чтобы вероятность обычного бродяги была выше
-       if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+       if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
        rm_timer_event(self_obj);
        set_obj_visibility(self_obj, 1);
        end
@@ -53,23 +53,35 @@ procedure map_enter_p_proc begin
 end
 
 procedure look_at_p_proc begin
-   lookProcMsg
+   //lookProcMsg
+   script_overrides;
+   if self_is_female then begin
+   display_mstr(1100);
+   end
+   else begin
+   display_mstr(100);
+   end
 end
 
 procedure description_p_proc begin
+   variable replyGender;
+   replyGender := 0;
+   if self_is_female then begin
+   replyGender := 1000;
+   end
    //dsrptProcMsg
    script_overrides;
    if (local_var(LVAR_Flag_Trip) == 3) then begin
-   display_mstr(104);
+   display_mstr(104+replyGender);
    end
    else if (local_var(LVAR_Flag_Trip) == 2) then begin
-   display_mstr(103);
+   display_mstr(103+replyGender);
    end
    else if (local_var(LVAR_Flag_Trip) == 1) then begin
-   display_mstr(102);
+   display_mstr(102+replyGender);
    end
    else begin
-   display_mstr(101);
+   display_mstr(101+replyGender);
    end
 end
 

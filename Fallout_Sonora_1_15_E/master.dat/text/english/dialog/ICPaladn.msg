@@ -3,6 +3,7 @@
 {102}{}{Change formation.}
 {103}{}{Thanks, Doc.}
 {104}{}{Traitor! You'll die like a lousy dog!}
+{1104}{}{Traitorous bitch! You'll die like a filthy whore!}
 {105}{}{Bastards! You'll pay for my friends' deaths!}
 {106}{}{M-mutants, damn it! Just a bit more and I'll start shooting. Are you with them?}
 
@@ -18,6 +19,7 @@
 {202}{}{Damn. So the Brotherhood didn't send you? Bad news. What are you doing in this damned place?}
 {203}{}{I'm just scavenging for useful things. Deserted ruins usually have plenty.}
 {204}{}{Ugh. So you're a scavenger? (sigh) Looks like my luck ran out last year.}
+{1204}{}{Ugh. So you're a scavenger? (sigh) Looks like my luck ran out last year.}
 {205}{}{What's going on?}
 {206}{}{I'm looking for someone. But that's personal.}
 {207}{}{Okay... Let's say that's true. Would you help find someone else for me?}
@@ -159,7 +161,7 @@
 {381}{}{Great job. But you'll need to return it to our base.}
 {382}{}{What, give away such cool armor? Isn't that asking a little much?}
 {383}{}{This is Brotherhood of Steel property. Any problem with that, civilian?}
-{384}{}{Yes. Problem. With you. The armor is mine now!}
+{384}{}{Yes. Problem. For you. The armor is mine now!}
 {385}{}{No, no problem. I'll gladly get rid of the extra burden.}
 {386}{}{Of course, I'll gladly get rid of the extra burden.}
 {387}{}{Thanks for your help. You'll make a great fighter. When I get to the base, I'll tell command everything. For now, take the armor to the quartermaster. I need to regain my strength before heading out.}
@@ -262,7 +264,7 @@
 {486}{}{Well, you have a lot of enemies...}
 {487}{}{Okay, sorry for yelling. After the events in Inferno, receiving such a blow to the Brotherhood is too much.}
 {488}{}{I understand. But now you are free from regulations and orders, aren't you?}
-{489}{}{I don't think I can live a rural life in these wild lands. We should move on. Look, I'm still with you, pal.}
+{489}{}{I don't think I can live a rural life in these wild lands. We need to move on. Lead the way, I'm still with you, pal.}
 {490}{}{Let's go.}
 {491}{}{Apparently, someone really didn't like your Brotherhood.}
 {492}{}{Exactly! It could only be sabotage.}
@@ -273,5 +275,6 @@
 {496}{}{I don't even know. I just wanted to see the big explosion.}
 {497}{}{I think I pressed the wrong button. I don't know how this happened.}
 {1497}{}{I think I pressed the wrong button. I don't know how this happened.}
-{498}{}{You crazy redneck! You should have died in the womb!}
-{499}{}{Well, well.}
+{498}{}{You're a brain-dead hick! A waste of flesh!}
+{1498}{}{You're a brain-dead hick bitch! A waste of flesh!}
+{499}{}{Yeah, yeah.}

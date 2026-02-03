@@ -33,7 +33,7 @@ procedure talk_p_proc;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+#define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
 
 variable replyFloat;
 
@@ -49,6 +49,22 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+
+       if (item_amnt(self_obj,PID_TEST) > 0) then begin
+           if (cur_map_index == MAP_TWO_SUN_WORKSHOP) then begin
+              if (item_amnt(self_obj,PID_TEST) == 1) then begin
+              set_local_var(LVAR_Tile_B, tile_num_in_direction(self_tile,0,5)); // нижний в центре зала
+              end
+              if (item_amnt(self_obj,PID_TEST) == 2) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(self_tile,3,5)); // средний в центре зала
+              end
+              if (item_amnt(self_obj,PID_TEST) == 3) then begin
+              set_local_var(LVAR_Tile_B,tile_num_in_direction(self_tile,0,4)); // верхний в центре зала
+              end
+           end
+           item_remove(self_obj,PID_TEST,999)
+       end
+
        if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
        rm_timer_event(self_obj);
        //set_obj_visibility(self_obj, 1);
@@ -76,7 +92,12 @@ procedure timed_event_p_proc begin
    // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
    // Таймер за номером 2 рарезервирован под всплывающие реплики
    if (fixed_param == 1) then begin
+       if (local_var(LVAR_Tile_B) > 0) then begin
+       timer_move_patrol(HomeTile,local_var(LVAR_Tile_B))
+       end
+       else begin
        timer_move_to_home
+       end
    end
    if (fixed_param == 2) then begin
        if (cur_map_index == MAP_TWO_SUN_WORKSHOP) then begin
@@ -162,7 +183,7 @@ procedure replyfloat_proc begin
 
    if (replyFloat == 3) then begin
       replyFloat := random(140,144);
-      if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+      if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
       replyFloat := random(145,149);
       end
    end

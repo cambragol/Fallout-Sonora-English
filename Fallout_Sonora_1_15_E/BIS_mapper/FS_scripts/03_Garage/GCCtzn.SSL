@@ -110,12 +110,12 @@ end
 
 procedure talk_p_proc begin
    if town_rep_is_liked then begin
-      z_floater(self_obj,random(120,126),COLOR_MSG_GREEN);
+   floater(self_obj,random(120,126),COLOR_MSG_GREEN);
    end
    else if town_rep_is_hated then begin
-      floater(self_obj,random(130,139),COLOR_MSG_RED);
+   floater(self_obj,random(130,139),COLOR_MSG_RED);
    end
    else begin
-      floater(self_obj,random(110,116),COLOR_MSG_NORMAL);
+   floater(self_obj,random(110,116),COLOR_MSG_NORMAL);
    end
 end

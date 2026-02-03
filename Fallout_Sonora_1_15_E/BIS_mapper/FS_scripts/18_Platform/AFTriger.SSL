@@ -16,7 +16,13 @@ procedure damage_p_proc begin
       if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
       call expl_proc;
       end
+      else if (weapon_dmg_type(target_obj) == DMG_fire) then begin
+      call expl_proc;
+      end
       else if (weapon_dmg_type(target_obj) == DMG_plasma) then begin
+      call expl_proc;
+      end
+      else if (weapon_dmg_type(target_obj) == DMG_laser) then begin
       call expl_proc;
       end
    end
@@ -27,8 +33,8 @@ procedure expl_proc begin
    display_mstr(100);
    floater(dude_obj, 101, COLOR_MSG_RED);
    setQuest(GVAR_OIL_PLATFORM_STATUS,qStart);
-   end
    call map_update_p_proc;
+   end
 end
 
 procedure map_update_p_proc begin

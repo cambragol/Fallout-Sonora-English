@@ -14,7 +14,7 @@
 {211}{}{Catch you later.}
 {220}{}{What's it like living out here in the wilds?}
 {221}{}{No gripes. Place ain't exactly quiet. Folks come through here daily - Rangers, fishermen, or just drifters. Everybody pays their due to cross over. And it's enough to keep me ticking.}
-{222}{}{[Continue]}
+{222}{}{[More]}
 {223}{}{Sure, wolves and pig rats never let up, but after years here, I've learned to handle 'em. Got snares set up in the woods, so stick to the road to save me from fishing you out of my own traps.}
 {224}{}{Tell me about the ferry.}
 {225}{}{Rangers pitched the idea, I built it. Been holding down the fort here ever since. Anyone needs to cross over, I'm their guy.}

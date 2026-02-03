@@ -5,6 +5,7 @@
 #define NAME                            SCRIPT_RCFlick
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_CARAVAN_FLICK   // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        11  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_CARAVAN_DRIVER     // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -82,7 +83,7 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
        if (cur_map_index == MAP_RANGERS_BASA) then begin
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
        end
        Flick_Visible
    end
@@ -99,7 +100,8 @@ end
 
 procedure setBarterA begin
         //- крышки
-        check_restock_many(260,320)
+        check_restock_item(PID_AMMO_308, 3, 5, 100)
+        check_restock_many(400,600)
 end
 
 procedure setBarterB begin
@@ -168,6 +170,7 @@ procedure talk_p_proc begin
       end
    end
    else if (cur_map_index == MAP_RANGERS_BASA) then begin
+      set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
       dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -366,7 +369,7 @@ procedure NodeAnswer401 begin
 end
 
 procedure NodeAnswer402 begin
-   Reply(266)
+   zReply(266)
    NAnswer(267,1,NodeAnswer403)
    NAnswer(269,1,NodeAnswer404)
 end

@@ -1,5 +1,6 @@
 {103}{}{One less bitch to deal with.}
 {104}{}{Foolish man, this poison has no effect on Jackals!}
+{1104}{}{Foolish bitch, this poison has no effect on Jackals!}
 
 #Counter dialogue
 {200}{}{Seize the outsider! Tear him to shreds! Bring me his head!}
@@ -58,7 +59,8 @@
 {250}{}{The dens are open for you.}
 {251}{}{The dens are open for you. But don't try to deceive us.}
 {252}{}{I think I'll go.}
-{253}{}{The Rangers fed us as promised. And although we do not like plant foods, hunger no longer threatens our stomachs. The whole pack is indebted to you, the messenger of the Holy Jackal.}
+{253}{}{The Rangers fed us as promised. And although we do not like plant foods, hunger no longer threatens our stomachs. The whole pack is indebted to you, the messenger of the Great Jackal.}
+{1253}{}{The Rangers fed us as promised. And although we do not like plant foods, hunger no longer threatens our stomachs. The whole pack is indebted to you, the messenger of the Great Jackal.}
 
 {260}{}{Let's talk about your hunger problems.}
 {261}{}{There's desert all around, with little food and water. Hunger forces us to attack outsiders.}

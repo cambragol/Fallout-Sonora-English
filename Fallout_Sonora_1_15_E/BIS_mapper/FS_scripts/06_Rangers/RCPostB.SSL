@@ -113,7 +113,7 @@ procedure talk_p_proc begin
    if (replyMsg == -1) then begin
       floater(self_obj,random(110,112),COLOR_MSG_NORMAL);
    end
-   
+
    if (replyMsg == 0) then begin
       if (global_var(GVAR_RANGERS_DOPUSK_DUM) >0) then begin
       floater(self_obj,random(115,119),COLOR_MSG_NORMAL);
@@ -134,7 +134,7 @@ procedure talk_p_proc begin
 
    if (replyMsg == 2) then begin
       if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B)) then begin
-      floater(self_obj,random(130,131),COLOR_MSG_RED);
+      z_floater(self_obj,random(130,131),COLOR_MSG_RED);
       end
       else if (armor_pid_dude_var == PID_ARMOR_ROAD) then begin
       floater(self_obj,random(132,133),COLOR_MSG_NORMAL);

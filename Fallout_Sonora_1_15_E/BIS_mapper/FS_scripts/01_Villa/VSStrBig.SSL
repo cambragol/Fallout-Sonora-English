@@ -1,0 +1,33 @@
+#include "..\headers\define.h"
+#define NAME                    SCRIPT_VSStrBig
+
+procedure start;
+procedure map_enter_p_proc;
+procedure use_p_proc;
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) >= qEnd) then begin
+         set_local_var(LVAR_Status, 1);
+         if (self_PID == 33555598) then begin
+         animate_stand_obj(self_obj);
+         end
+      end
+   end
+end
+
+procedure use_p_proc begin
+   if (local_var(LVAR_Status) == 0) then begin
+      script_overrides;
+      reg_anim_begin();
+      reg_anim_clear(self_obj);
+      reg_anim_clear(source_obj);
+      reg_anim_end();
+      display_mstr(110);
+   end
+end

@@ -38,21 +38,21 @@ procedure NodeFstDialog2;
 procedure NodeFstDialog3;
 procedure NodeFstDialog4;
 procedure NodeSndDialog;
+procedure NodePrev999;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
-procedure NodeAnswer103;// added missing dialogue - cambragol
 procedure NodeAnswer200;
 procedure NodeAnswer201;
-procedure NodeAnswer202;
 procedure NodeAnswer300;
 procedure NodeAnswer301;
 procedure NodeAnswer302;
-procedure NodeAnswer303;
 
 //---------------------
 
 //#define LVAR_Flag_A                     (6) // отвечает за ...
+
+import variable box_stop_use;
 
 //---------------------
 
@@ -92,6 +92,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
+   set_using_stop
    set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 
@@ -106,9 +107,14 @@ end
 
 procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
+
    if (itemTypeUseDude == 3) then begin
-   set_lvar_bit_on(LVAR_Dialog_Status, bit_5);
-   display_mstr(102);
+      if (bitDialog(bit_1) == 0) then begin
+      bitDialogExp(bit_1,0)
+      bitDialogExp(bit_5,0)
+      set_REP(2)
+      display_mstr(102);
+      end
    end
 end
 
@@ -126,12 +132,18 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-   fracReaction(GVAR_TITUL_BOS,50) // Поправка к отношению за принадлежность к фракциям
+   setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   fracReaction(GVAR_TITUL_BOS,90) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+
+   if (bitDialog(bit_6) == 0) then begin
    dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+   floater(self_obj, 103, COLOR_MSG_NORMAL);
+   end
 end
 
 procedure Node998 begin
@@ -142,7 +154,7 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
-   if (bitDialog(bit_1) == 0) then begin
+   if ((bitDialog(bit_1) == 0) and (bitDialog(bit_5) == 0)) then begin
    call NodeFstDialog;
    end
    else begin
@@ -156,19 +168,21 @@ procedure NodeFstDialog begin
    zReply(200)
 
    if (bitDialog(bit_5) == 0) then begin
-   NAnswer(213,1,NodeFstDialog4)
+   NAnswer(213,4,NodeFstDialog4)
    end else begin
-   NAnswer(217,1,NodeFstDialog3)
+   NAnswer(217,4,NodeFstDialog3)
    end
 
-   NAnswerSkill(202,1,NodeFstDialog3,SKILL_CONVERSANT,50,202,NodeFstDialog2)
-   NAnswerSkill(203,1,NodeFstDialog3,SKILL_REPAIR,50,203,NodeFstDialog2)
-   NAnswerRep(205,1,NodeFstDialog3,15,205,NodeFstDialog2)
+   NAnswerSkill(202,4,NodeFstDialog3,SKILL_CONVERSANT,50,202,NodeFstDialog2)
+   NAnswerSkill(203,4,NodeFstDialog3,SKILL_REPAIR,50,203,NodeFstDialog2)
+   NAnswerRep(205,4,NodeFstDialog3,15,205,NodeFstDialog2)
 
    if (global_var(GVAR_TITUL_BOS) > 0) then begin
-   NAnswer(204,1,NodeFstDialog3)
+   NAnswer(204,4,NodeFstDialog3)
    end
-   NAnswer(201,1,Node999)
+
+   NAnswer(201,4,Node999)
+   BAnswer(218,-3,Node999)
 end
 
 procedure NodeFstDialog2 begin
@@ -177,7 +191,7 @@ procedure NodeFstDialog2 begin
 end
 
 procedure NodeFstDialog3 begin
-   bitDialogExp(bit_1,100)
+   bitDialogExp(bit_1,0)
    set_REP(2)
    Reply(208)
    NAnswer(209,1,NodeSndDialog)
@@ -193,37 +207,54 @@ end
 
 procedure NodeSndDialog begin
    Reply(210)
-   NAnswer(220,3,NodeAnswer100)
-   NAnswer(240,3,NodeAnswer200)
-   NAnswer(230,3,NodeAnswer300)
-   NAnswer(211,1,Node999)
+
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(220,4,NodeAnswer100)
+   end
+   if (bitDialog(bit_3) == 0) then begin
+   NAnswer(240,4,NodeAnswer200)
+   end
+   if (bitDialog(bit_4) == 0) then begin
+   NAnswer(230,4,NodeAnswer300)
+   end
+
+   NAnswer(211,4,Node999)
+   BAnswer(218,-3,Node999)
+end
+
+procedure NodePrev999 begin
+   if (bitDialog(bit_2) != 0) then begin
+   if (bitDialog(bit_3) != 0) then begin
+   if (bitDialog(bit_4) != 0) then begin
+   bitDialogExp(bit_6,100)
+   end
+   end
+   end
+
+   if (bitDialog(bit_6) != 0) then begin
+      Reply(227)
+      NAnswer(228,1,Node999)
+      BAnswer(229,1,Node999)
+   end
+   else begin
+      call NodeSndDialog;
+   end
 end
 
 procedure NodeAnswer100 begin
    Reply(221)
-   NAnswer(226,1,NodeAnswer101)
-   NAnswer(228,1,NodeAnswer102)
-   NAnswer(222,1,NodeAnswer103) // added missing dialogue - cambragol
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(222,1,NodeAnswer101)
 end
 
 procedure NodeAnswer101 begin
-   Reply(227)
-   NAnswer(228,1,NodeAnswer102)
-   NAnswer(212,1,NodeSndDialog)
+   Reply(223)
+   NAnswer(224,1,NodeAnswer102)
 end
 
 procedure NodeAnswer102 begin
-   bitDialogExp(bit_2,25)
-   Reply(229)
-   NAnswer(226,1,NodeAnswer101)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-// added missing dialogue - cambragol
-procedure NodeAnswer103 begin
-   Reply(223)
-   NAnswer(224,1,NodeSndDialog)
+   bitDialogExp(bit_2,0)
+   Reply(225)
+   NAnswer(226,1,NodePrev999)
 end
 
 procedure NodeAnswer200 begin
@@ -232,21 +263,14 @@ procedure NodeAnswer200 begin
 end
 
 procedure NodeAnswer201 begin
+   bitDialogExp(bit_3,0)
    Reply(243)
-   NAnswer(244,1,NodeAnswer202)
-end
-
-procedure NodeAnswer202 begin
-   bitDialogExp(bit_3,10)
-   Reply(245)
-   NAnswer(246,1,NodeSndDialog)
+   NAnswer(244,1,NodePrev999)
 end
 
 procedure NodeAnswer300 begin
    Reply(231)
    NAnswer(232,1,NodeAnswer301)
-   NAnswer(236,1,NodeAnswer303)
-   NAnswer(212,1,NodeSndDialog)
 end
 
 procedure NodeAnswer301 begin
@@ -255,14 +279,7 @@ procedure NodeAnswer301 begin
 end
 
 procedure NodeAnswer302 begin
-   bitDialogExp(bit_4,25)
+   bitDialogExp(bit_4,0)
    Reply(235)
-   NAnswer(236,1,NodeAnswer303)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-procedure NodeAnswer303 begin
-   Reply(237)
-   NAnswer(232,1,NodeAnswer301)
-   NAnswer(212,1,NodeSndDialog)
+   NAnswer(236,1,NodePrev999)
 end

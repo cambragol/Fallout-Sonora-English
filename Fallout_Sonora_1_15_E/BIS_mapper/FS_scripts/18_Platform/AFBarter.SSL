@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_AFBarter
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_OIL_PLATFORM // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_OIL_PLATFORM_CTZN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_TOUGH       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -87,7 +88,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -96,7 +97,7 @@ procedure setBarterA begin
         check_restock_item(PID_M_BEER, 2, 4, 100)
 
         //- крышки
-        check_restock_many(300,400)
+        check_restock_many(400,550)
 end
 
 procedure setBarterB begin
@@ -162,6 +163,7 @@ procedure talk_p_proc begin
    floater(self_obj, 102, COLOR_MSG_RED);
    end
    else begin
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end

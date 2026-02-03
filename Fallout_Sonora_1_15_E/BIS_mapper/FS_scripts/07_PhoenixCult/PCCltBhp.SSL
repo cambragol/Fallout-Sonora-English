@@ -48,7 +48,6 @@ procedure NodeAnswer101;
 procedure NodeAnswer200;
 procedure NodeAnswer201;
 procedure NodeAnswer202;
-procedure NodeAnswer203;
 procedure NodeAnswer300;
 procedure NodeQst100;
 procedure NodeQst101;
@@ -72,9 +71,13 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       set_obj_visibility(self_obj, 0);
        if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) or (global_var(GVAR_PHENIX_STATUS_MARCOS)>0)) then begin
        rm_timer_event(self_obj);
        kill_critter(self_obj, random(ANIM_fall_back_blood_sf,ANIM_fall_front_blood_sf));
+       end
+       if (global_var(GVAR_PHENIX_STATUS_CULT_AARON)<0) then begin
+       set_obj_visibility(self_obj, 1);
        end
    end
 end
@@ -168,36 +171,41 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,50)
    Reply(200)
-   NAnswer(201,1,NodeFstDialog2)
-   NAnswer(204,1,NodeFstDialog3)
+   NAnswer(201,4,NodeFstDialog2)
+   BAnswer(204,4,NodeFstDialog3)
+   NAnswer(215,-3,NodeFstDialog2)
 end
 
 procedure NodeFstDialog2 begin
    inc_local_var(LVAR_Dude_Sympathy);
    setBonusReaction(10)
    Reply(202)
-   NAnswer(203,1,NodeFstDialog4)
+   NAnswer(203,4,NodeFstDialog4)
+   NAnswer(216,-3,NodeFstDialog4)
 end
 
 procedure NodeFstDialog3 begin
    dec_local_var(LVAR_Dude_Sympathy);
    setBonusReaction(-10)
    Reply(205)
-   NAnswer(203,1,NodeFstDialog4)
+   NAnswer(203,4,NodeFstDialog4)
+   NAnswer(216,-3,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
    Reply(206)
-   GAnswer(207,1,NodeFstDialog5)
-   BAnswer(211,1,NodeFstDialog6)
+   GAnswer(207,4,NodeFstDialog5)
+   BAnswer(211,4,NodeFstDialog6)
+   NAnswer(216,-3,NodeFstDialog5)
 end
 
 procedure NodeFstDialog5 begin
    inc_local_var(LVAR_Dude_Sympathy);
    setBonusReaction(10)
    Reply(208)
-   GAnswer(209,1,NodeFstDialog5a)
-   BAnswer(210,1,NodeFstDialog5b)
+   GAnswer(209,4,NodeFstDialog5a)
+   BAnswer(210,4,NodeFstDialog5b)
+   NAnswer(217,-3,NodeFstDialog5a)
 end
 
 procedure NodeFstDialog5a begin
@@ -228,8 +236,9 @@ procedure NodeFstDialog6 begin
    dec_local_var(LVAR_Dude_Sympathy);
    setBonusReaction(-10)
    Reply(212)
-   GAnswer(213,1,NodeFstDialog5a)
-   BAnswer(214,1,NodeFstDialog5b)
+   GAnswer(213,4,NodeFstDialog5a)
+   BAnswer(214,4,NodeFstDialog5b)
+   NAnswer(217,-3,NodeFstDialog5a)
 end
 
 //--- СТОП-ДИАЛОГ
@@ -242,8 +251,9 @@ procedure NodeStopDialog begin
    else begin
    zReply(221)
    end
-   NAnswer(222,1,NodeSndDialog)
-   NAnswer(223,1,Node999)
+   NAnswer(222,4,NodeSndDialog)
+   NAnswer(223,4,Node999)
+   NAnswer(254,-3,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -262,141 +272,122 @@ procedure NodeSndDialog begin
    end
 
    if (local_var(LVAR_Dude_Is_Cult)>0) then begin
-   NAnswer(261,3,NodeAnswer100)
-   NAnswer(271,3,NodeAnswer201)
-   NAnswer(285,3,NodeAnswer300)
-   end else begin
-   NAnswer(260,3,NodeAnswer100)
-   NAnswer(270,3,NodeAnswer200)
-   NAnswer(285,3,NodeAnswer300)
+   NAnswer(261,4,NodeAnswer100)
+   NAnswer(271,4,NodeAnswer201)
+   NAnswer(285,4,NodeAnswer300)
+   end
+   else begin
+   NAnswer(260,4,NodeAnswer100)
+   NAnswer(270,4,NodeAnswer200)
+   NAnswer(285,4,NodeAnswer300)
    end
 
    if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
    if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 0) then begin
-   NAnswer(300,1,NodeQst100)
+   NAnswer(300,4,NodeQst100)
    end else begin
-   NAnswer(301,1,NodeQst100)
+   NAnswer(301,4,NodeQst100)
    end
    end
 
    if (getQuest(GVAR_RANGERS_QST_PHOENIX) == qStart) then begin
-   NAnswer(291,3,NodeAnswer203)
+   NAnswer(291,4,NodeAnswer202)
    end
 
-   NAnswer(253,1,Node999)
+   NAnswer(253,4,Node999)
+   NAnswer(254,-3,Node999)
 end
 
 //--- РАССПРОСЫ
 
 procedure NodeAnswer100 begin
    Reply(262)
-   NAnswer(263,6,NodeAnswer101)
-   if (local_var(LVAR_Dude_Is_Cult)>0) then begin
-   NAnswer(271,3,NodeAnswer200)
-   end else begin
-   NAnswer(265,3,NodeAnswer200)
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(263,7,NodeAnswer101)
    end
-   NAnswer(264,1,Node999)
+   NAnswer(267,4,NodeSndDialog)
 end
 
 procedure NodeAnswer101 begin
    bitDialogExp(bit_2,20)
    Reply(266)
-   if (local_var(LVAR_Dude_Is_Cult)>0) then begin
-   NAnswer(271,3,NodeAnswer200)
-   end else begin
-   NAnswer(265,3,NodeAnswer200)
-   end
-   NAnswer(264,1,Node999)
+   NAnswer(267,4,NodeSndDialog)
 end
 
 procedure NodeAnswer200 begin
    Reply(272)
-   NAnswer(276,3,NodeAnswer202)
-   NAnswer(273,3,NodeAnswer100)
-   BAnswer(274,1,Node999)
-   NAnswer(275,1,Node999)
+   NAnswer(267,4,NodeSndDialog)
 end
 
 procedure NodeAnswer201 begin
    Reply(280)
-   NAnswer(284,3,NodeAnswer300)
-   NAnswer(282,3,NodeAnswer100)
-   NAnswer(281,1,Node999)
+   NAnswer(281,4,NodeSndDialog)
 end
 
 procedure NodeAnswer202 begin
-   bitDialogExp(bit_3,10)
-   Reply(277)
-   NAnswer(283,3,NodeAnswer300)
-   NAnswer(273,3,NodeAnswer100)
-   BAnswer(278,1,Node999)
-   NAnswer(279,1,Node999)
-end
-
-procedure NodeAnswer203 begin
    Reply(292)
-   NAnswer(293,1,Node999)
+   NAnswer(293,4,Node999)
 end
 
 procedure NodeAnswer300 begin
    bitDialogExp(bit_4,10)
    Reply(286)
    if (local_var(LVAR_Dude_Is_Cult)>0) then begin
-   NAnswer(268,3,NodeAnswer200)
+   NAnswer(268,4,NodeAnswer200)
    end else begin
-   NAnswer(269,3,NodeAnswer200)
+   NAnswer(269,4,NodeAnswer200)
    end
-   NAnswer(290,3,NodeAnswer100)
-   BAnswer(289,1,Node999)
-   NAnswer(288,1,Node999)
+   NAnswer(290,4,NodeAnswer100)
+   BAnswer(289,4,Node999)
+   NAnswer(288,4,Node999)
 end
 
 //--- КВЕСТ
 
 procedure NodeQst100 begin
-   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 0) then begin
-   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,1);
-   end
    Reply(302)
-   NAnswer(303,1,NodeQst101)
+   NAnswer(303,4,NodeQst101)
 end
 
 procedure NodeQst101 begin
+   if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 0) then begin
+   display_mstr(102);
+   set_global_var(GVAR_PHENIX_QST_CULT_A_BIT,1);
+   end
    Reply(304)
-   NAnswer(310,1,NodeQst110)
-   NAnswer(312,1,NodeQst111)
-   NAnswer(314,1,NodeQst112)
+   NAnswer(310,4,NodeQst110)
+   NAnswer(312,4,NodeQst111)
+   NAnswer(314,4,NodeQst112)
 end
 
 procedure NodeQst110 begin
    Reply(311)
-   NAnswer(312,1,NodeQst111)
-   NAnswer(314,1,NodeQst112)
+   NAnswer(312,4,NodeQst111)
+   NAnswer(314,4,NodeQst112)
    NAnswer(316,4,NodeQst113)
-   NAnswer(305,1,Node999)
+   NAnswer(305,4,Node999)
 end
 
 procedure NodeQst111 begin
    Reply(313)
-   NAnswer(310,1,NodeQst110)
-   NAnswer(314,1,NodeQst112)
+   NAnswer(310,4,NodeQst110)
+   NAnswer(314,4,NodeQst112)
    NAnswer(316,4,NodeQst113)
-   NAnswer(305,1,Node999)
+   NAnswer(305,4,Node999)
 end
 
 procedure NodeQst112 begin
    Reply(315)
-   NAnswer(310,1,NodeQst110)
-   NAnswer(312,1,NodeQst111)
+   NAnswer(310,4,NodeQst110)
+   NAnswer(312,4,NodeQst111)
    NAnswer(316,4,NodeQst113)
-   NAnswer(305,1,Node999)
+   NAnswer(305,4,Node999)
 end
 
 procedure NodeQst113 begin
    Reply(317)
-   NAnswer(310,1,NodeQst110)
-   NAnswer(312,1,NodeQst111)
-   NAnswer(314,1,NodeQst112)
-   NAnswer(305,1,Node999)
+   NAnswer(310,4,NodeQst110)
+   NAnswer(312,4,NodeQst111)
+   NAnswer(314,4,NodeQst112)
+   NAnswer(305,4,Node999)
 end

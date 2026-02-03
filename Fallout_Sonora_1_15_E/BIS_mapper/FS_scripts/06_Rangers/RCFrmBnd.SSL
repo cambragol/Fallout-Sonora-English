@@ -122,7 +122,7 @@ procedure weapon_wield_proc begin
    variable weaponObj;
    weaponObj := create_object_sid(PID_W_REVOLVER_OLD,0,0,-1);
    add_mult_objs_to_inven(self_obj,weaponObj,1);
-   item_add(self_obj,PID_AMMO_44_MAGNUM,6)
+   item_add(self_obj,PID_AMMO_44_MAGNUM,1)
 
    inven_unwield(self_obj);
 
@@ -286,7 +286,7 @@ end
 procedure NodeFstDialog107 begin
    Reply(216)
    NAnswer(218,1,NodeFstDialog108)
-   NAnswer(217,1,NodeFstDialog107b)
+   zNAnswer(217,1,NodeFstDialog107b)
 end
 
 procedure NodeFstDialog107b begin
@@ -401,7 +401,7 @@ end
 
 procedure NodeAnswer400 begin
    Reply(347)
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
       NAnswer(341,1,NodeAnswer401)
    end
    else begin

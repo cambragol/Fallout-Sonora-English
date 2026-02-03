@@ -79,10 +79,12 @@ procedure timed_event_p_proc begin
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
    end
+   if (fixed_param == 3) then begin
+       self_attack_dude;
+   end
 end
 
 procedure critter_p_proc begin
-   //invisToDude(10,0) // Скрывание нпс от ГГ до некоторой дистанции, в скобках бонус к дальности и реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 
@@ -131,6 +133,7 @@ end
 
 procedure Node998 begin
    setNodeCombat;
+   add_timer_event(self_obj, 2, 3);
 end
 
 procedure Node999 begin

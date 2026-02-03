@@ -87,7 +87,7 @@
 {289}{}{The caps are what matter. No thanks needed.}
 {290}{}{What's the story with the vault suits?}
 {291}{}{Well, it's an old legend. They say several vaults were built around Phoenix before the Great War. Some people survived the War there and then came out to rebuild the city. However, the stories aren't really clear.}
-{292}{}{[Continue]}
+{292}{}{[More]}
 {293}{}{Also, my parents had a vault suit. It's a special memory for me. Unfortunately, that suit has long since decayed.}
 {294}{}{Interesting story.}
 {295}{}{I have a vault suit for you.}
@@ -111,5 +111,5 @@
 {312}{}{Alright... people in masks ran out of the alleys and started shooting at the monks. Then they just disappeared. They didn't touch anyone else. That's all I know.}
 {313}{}{Hmm, interesting story. Thanks.}
 {314}{}{I'll believe you. For now.}
-{315}{}{The situation is becoming clearer.}
-{316}{}{Things are coming into focus. Time to talk to Aaron about this.}
+{315}{}{(2/3) First testimonies regarding the attacks obtained.}
+{316}{}{(3/3) Final testimonies obtained. Time to speak with Aaron.}

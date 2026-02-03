@@ -41,12 +41,12 @@ procedure repair_proc begin
                    create_object_sid(PID_HEX_BLOCKING, self_tile, self_elevation, -1);
 
                    item_add(objContainer,PID_TOOL_PARTS_MECHANICAL,1)
-                   item_add(objContainer,PID_ARMOR_VAULT,1)
-                   if DudePerkHas(PERK_marauder) then begin
-                   item_add(objContainer,PID_AMMO_5_MM,10+dude_luck) // в пачке 5 патронов
-                   end
+                   item_add(objContainer,PID_TOOL_CAR_GAZ,1)
                    item_add(objContainer,PID_W_MINIGUN,1)
-                   item_add(objContainer,PID_AMMO_MICRO_FUSION_CELL,15+dude_luck)
+                   if DudePerkHas(PERK_marauder) then begin
+                   item_add(objContainer,PID_AMMO_5_MM,2) // в пачке 5 патронов
+                   end
+                   item_add(objContainer,PID_ARMOR_VAULT,1)
                    item_add(objContainer,PID_M_STIMPAK,1)
                    item_add(objContainer,PID_KEY_VAULT27,1)
    objContainer := 0;

@@ -583,7 +583,7 @@ end
 procedure NodeQst105 begin
    setQuest(GVAR_PHENIX_QST_BNDCS_A,qEnd);
    setBonusReaction(-25)
-   exp_add(200);
+   exp_add(250);
    Reply(396)
    NAnswer(397,1,Node999)
 end
@@ -596,7 +596,7 @@ end
 procedure NodeQst107 begin
    setQuest(GVAR_PHENIX_QST_BNDCS_A,qEnd);
    setBonusReaction(25)
-   exp_add(200);
+   exp_add(250);
    Reply(401)
    NAnswer(402,1,Node999)
 end

@@ -1,5 +1,5 @@
 {100}{}{You see a colonist.}
-{101}{}{You see a citizen of Flagstaff.}
+{101}{}{You see a citizen of the colony.}
 {102}{}{You'd better not bother me.}
 {103}{}{You psycho! Why did you kill my servant?! Who's going to pay me back for that?!}
 {1103}{}{You psycho bitch! Why did you kill my servant?! Who's going to pay me back for that?!}

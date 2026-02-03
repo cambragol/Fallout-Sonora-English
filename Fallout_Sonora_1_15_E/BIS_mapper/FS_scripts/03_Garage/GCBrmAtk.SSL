@@ -207,30 +207,30 @@ procedure NodeStartDialog begin
    Reply(200)
    end
    if (global_var(GVAR_GARAGE_STATUS_BRAHMIN) == 1) then begin
-      NAnswer(255,1,NodeAnswer201)
+      NAnswer(255,0,NodeAnswer201)
       /*
       if (tile_distance(self_tile,map_var(MVAR_GARAGE_BRAM_HEX)) > 10) then begin
-      NAnswer(259,1,Node999)
+      NAnswer(259,0,Node999)
       end
       else begin
-      NAnswer(255,1,NodeAnswer201)
+      NAnswer(255,0,NodeAnswer201)
       end
       */
    end
    // added this to have better responses for buying the brahmin - cambragol
    if (global_var(GVAR_GARAGE_STATUS_BRAHMIN) >= 2) then begin
-      NAnswer(260,1,NodeAnswer201)
+      NAnswer(260,0,NodeAnswer201)
    end
    if (global_var(GVAR_GARAGE_STATUS_BRAHMIN) < 0) then begin
-   NAnswer(256,1,NodeAnswer201)
+   NAnswer(256,0,NodeAnswer201)
    end
    // added by cambragol
    if (global_var(GVAR_GARAGE_STATUS_PASTUH) >= 0) and (local_var(FLAG_NEGO) < 1) then begin
-   NAnswer(250,1,NodeAnswer200)
+   NAnswer(250,0,NodeAnswer200)
    //set_local_var(FLAG_NEGO,1);
    end
    if (global_var(GVAR_GARAGE_STATUS_BRAHMIN) >= 0) then begin
-   NAnswer(201,1,NodeAnswer100)
+   NAnswer(201,0,NodeAnswer100)
    end
 end
 
@@ -242,33 +242,33 @@ end
 
 procedure NodeAnswer100 begin
    Reply(202)
-   NAnswer(205,1,NodeAnswer101)
+   NAnswer(205,0,NodeAnswer101)
    if (global_var(GVAR_GARAGE_STATUS_PASTUH) >= 0) and (local_var(FLAG_NEGO) < 1) then begin
-   NAnswer(204,1,NodeAnswer200)
+   NAnswer(204,0,NodeAnswer200)
    //set_local_var(FLAG_NEGO,1);
    end
-   NAnswer(203,1,NodeAttak)
+   NAnswer(203,0,NodeAttak)
 end
 
 procedure NodeAnswer101 begin
    zReply(206)
-   BAnswer(208,1,NodeAnswer102)
+   BAnswer(208,0,NodeAnswer102)
    if (global_var(GVAR_GARAGE_STATUS_PASTUH) >= 0) and (local_var(FLAG_NEGO) < 1) then begin
-   NAnswer(204,1,NodeAnswer200)
+   NAnswer(204,0,NodeAnswer200)
    //set_local_var(FLAG_NEGO,1);
    end
-   NAnswer(207,1,NodeAttak)
+   NAnswer(207,0,NodeAttak)
    if (global_var(GVAR_GARAGE_STATUS_BRAHMIN) >= 0) then begin
-   NAnswer(221,1,Node999)
+   NAnswer(221,0,Node999)
    end
 end
 
 procedure NodeAnswer102 begin
    Reply(209)
-   NAnswerStat(210,1,NodeAnswer104,STAT_st,7,210,NodeAnswer103)
-   NAnswerSkill(222,1,NodeAnswer106,SKILL_CONVERSANT,50,215,NodeAnswer105)
+   NAnswerStat(210,0,NodeAnswer104,STAT_st,7,210,NodeAnswer103)
+   NAnswerSkill(222,0,NodeAnswer106,SKILL_CONVERSANT,50,215,NodeAnswer105)
    if (global_var(GVAR_GARAGE_STATUS_PASTUH) >= 0) and (local_var(FLAG_NEGO) < 1) then begin
-   NAnswer(211,1,NodeAnswer200)
+   NAnswer(211,0,NodeAnswer200)
    //set_local_var(FLAG_NEGO,1);
    end
 end
@@ -282,8 +282,8 @@ procedure NodeAnswer104 begin
    setQuest(GVAR_GARAGE_QST_BRAHMINATTAK, qEnd);
    set_local_var(LVAR_Flag_Attak,0);
    Reply(212)
-   zBAnswer(213,1,Node998)
-   NAnswer(214,1,Node999)
+   zBAnswer(213,0,Node998)
+   NAnswer(214,0,Node999)
 end
 
 procedure NodeAnswer105 begin
@@ -293,10 +293,10 @@ procedure NodeAnswer105 begin
    else begin
    Reply(216)
    if (global_var(GVAR_GARAGE_STATUS_PASTUH) >= 0) and (local_var(FLAG_NEGO) < 1) then begin
-   NAnswer(218,1,NodeAnswer200)
+   NAnswer(218,0,NodeAnswer200)
    //set_local_var(FLAG_NEGO,1);
    end
-   NAnswer(217,1,NodeAttak)
+   NAnswer(217,0,NodeAttak)
    end
 end
 
@@ -306,15 +306,15 @@ procedure NodeAnswer106 begin
    set_local_var(LVAR_Flag_Attak,0);
    set_SLAVA(10)
    Reply(219)
-   NAnswer(220,1,Node999)
+   NAnswer(220,0,Node999)
 end
 
 procedure NodeAnswer200 begin
    Reply(251)
-   NAnswer(254,1,NodeAnswer100)
-   NAnswer(253,1,NodeAttak)
+   NAnswer(254,0,NodeAnswer100)
+   NAnswer(253,0,NodeAttak)
    if (local_var(FLAG_NEGO <= 0)) then begin
-   NAnswer(252,1,Node997)
+   NAnswer(252,0,Node997)
    end
 end
 
@@ -323,5 +323,5 @@ procedure NodeAnswer201 begin
    setQuest(GVAR_GARAGE_QST_BRAHMINATTAK, qEnd);
    set_local_var(LVAR_Flag_Attak,0);
    Reply(257)
-   NAnswer(258,1,Node999)
+   NAnswer(258,0,Node999)
 end

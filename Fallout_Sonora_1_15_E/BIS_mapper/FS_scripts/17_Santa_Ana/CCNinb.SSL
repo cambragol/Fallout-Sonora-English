@@ -285,7 +285,7 @@ procedure NodeFstDialog103 begin
 end
 
 procedure NodeFstDialog104 begin
-   Reply(213)
+   zReply(213)
    NAnswer(207,1,NodeFstDialog105)
 end
 
@@ -301,7 +301,7 @@ procedure NodeFstDialog106 begin
 end
 
 procedure NodeFstDialog201 begin
-   Reply(220)
+   zReply(220)
    NAnswer(221,1,NodeFstDialog202)
 end
 
@@ -316,7 +316,7 @@ procedure NodeFstDialog203 begin
 end
 
 procedure NodeFstDialog204 begin
-   Reply(226)
+   zReply(226)
    NAnswer(227,1,NodeFstDialog205)
 end
 

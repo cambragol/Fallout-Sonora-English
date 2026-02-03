@@ -35,18 +35,20 @@ procedure Node998;
 procedure Node999;
 procedure NodeStartDialog;
 
-procedure NodeStopDialog;
-procedure NodeStopDialog1;
-procedure NodeStopDialog2;
-procedure NodeStopDialog3;
-procedure NodeStopDialog4;
-procedure NodeStopDialog5;
-procedure NodeStopDialog6;
-procedure NodeStopDialog7;
-procedure NodeStopDialog8;
-procedure NodeStopDialog9;
-procedure NodeStopDialog10;
-procedure NodeStopDialog11;
+procedure NodeStopDialog000;
+procedure NodeStopDialog001;
+procedure NodeStopDialog002;
+procedure NodeStopDialog003;
+procedure NodeStopDialog004;
+procedure NodeStopDialog004b;
+procedure NodeStopDialog005;
+procedure NodeStopDialog006;
+procedure NodeStopDialog007;
+procedure NodeStopDialog008;
+procedure NodeStopDialog009;
+procedure NodeStopDialog009b;
+procedure NodeStopDialog010;
+procedure NodeStopDialog011;
 
 procedure NodeFstDialog100;
 procedure NodeFstDialog101;
@@ -65,13 +67,12 @@ procedure NodeFstDialog300;
 procedure NodeFstDialog301;
 procedure NodeFstDialog302;
 procedure NodeFstDialog303;
+procedure NodeFstDialog303b;
 procedure NodeFstDialog304;
 procedure NodeFstDialog305;
 procedure NodeFstDialog306;
 
 procedure NodeSndDialog;
-procedure NodeAnswer;
-procedure NodeSndDialog100;
 procedure NodeSndDialog101;
 procedure NodePartyAdd;
 procedure NodePartyAdd2;
@@ -79,15 +80,14 @@ procedure NodePartyNon;
 procedure NodePartyNon2;
 procedure NodeParty2;
 procedure NodeParty3;
+procedure NodeAnswer;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
-procedure NodeAnswer103;
 procedure NodeAnswer200;
 procedure NodeAnswer201;
 procedure NodeAnswer202;
 procedure NodeAnswer203;
-procedure NodeAnswer204;
 procedure NodeAnswer300;
 procedure NodeAnswer301;
 procedure NodeAnswer400;
@@ -96,7 +96,6 @@ procedure NodeAnswer500;
 procedure NodeAnswer501;
 procedure NodeAnswer502;
 procedure NodeAnswer503;
-procedure NodeAnswer504;
 
 //---------------------
 
@@ -150,11 +149,9 @@ procedure timed_event_p_proc begin
    end
    if (fixed_param == 4) then begin
       if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
-         bitDialogExp(bit_13,0) // added to mark that arthur has seen Casa Nueva - cambragol
       floater(self_obj, 110, COLOR_MSG_NORMAL);
       end
       else if (cur_map_index == MAP_CASA_NUEVA_GIDROPONIC) then begin
-         bitDialogExp(bit_13,0) // added to mark that arthur has seen Casa Nueva - cambragol
       floater(self_obj, 111, COLOR_MSG_NORMAL);
       end
       else if (cur_map_index == MAP_RANGERS_BASA) then begin
@@ -181,15 +178,13 @@ end
 procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
    if (self_TEAM == TEAM_PLAYER) then begin
-      if (cur_map_index == MAP_PHOENIX_BNDCS) then begin
-         if (map_var(MVAR_PNX_RING_START) == 1) then begin
-            call NodePartyNon2;
-         end
+      if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+      call NodePartyNon2;
       end
    end
    if (getQuest(GVAR_VAULT27_QST_MERC) >= qEnd) then begin
       if (partyPidSelf!=0) then begin
-         partyRunToDude // Персонаж следует за ГГ
+      partyRunToDude // Персонаж следует за ГГ
       end
    end
 end
@@ -249,22 +244,22 @@ end
 procedure NodeStartDialog begin
    if (cur_map_index != MAP_VAULT_27_INTERIER) then begin
       if (getQuest(GVAR_VAULT27_QST_MERC) < qEnd) then begin
-      setQuest(GVAR_VAULT27_QST_MERC, qEnd); // уловка для удобства тестирования
+      setQuest(GVAR_VAULT27_QST_MERC, qEnd); // уловка для удобства тестирования в маппере
       end
    end
 
    if (getQuest(GVAR_VAULT27_GO_MERC) > qEnd) then begin
-      call NodeStopDialog11;
+      call NodeStopDialog011;
    end
    else if (getQuest(GVAR_VAULT27_GO_MERC) == qStart) then begin
       if (local_var(LVAR_Timer_Invis) == 0) then begin
-      call NodeStopDialog;
+      call NodeStopDialog000;
       end
       else if (local_var(LVAR_Timer_Invis) < game_time) then begin
-      call NodeStopDialog4;
+      call NodeStopDialog004;
       end
       else begin
-      call NodeStopDialog1;
+      call NodeStopDialog001;
       end
    end
    else if (getQuest(GVAR_VAULT27_QST_MERC) < qEnd) then begin
@@ -283,38 +278,60 @@ procedure NodeStartDialog begin
    end
 end
 
-//----- СТОП-ДИАЛОГ
+//----- СТОП-ДИАЛОГ - ожидание в Фениксе
 
-procedure NodeStopDialog begin
-   Reply(463)
-   NAnswer(464,1,NodeStopDialog2)
+procedure NodeStopDialog000 begin
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+      call NodeStopDialog004b;
+      Reply(469)
+      NAnswer(464,4,NodeStopDialog005)
+      NAnswer(489,-3,NodeStopDialog005)
+   end
+   else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
+      call NodeStopDialog004b;
+      Reply(469)
+      NAnswer(464,4,NodeStopDialog005)
+      NAnswer(489,-3,NodeStopDialog005)
+   end
+   else begin
+      Reply(463)
+      NAnswer(464,4,NodeStopDialog002)
+      NAnswer(489,-3,NodeStopDialog002)
+   end
 end
 
-procedure NodeStopDialog1 begin
-   Reply(467)
-   NAnswer(468,1,Node999)
+procedure NodeStopDialog001 begin
+   zReply(467)
+   NAnswer(468,4,Node999)
+   NAnswer(490,-3,Node999)
 end
 
-procedure NodeStopDialog2 begin
+procedure NodeStopDialog002 begin
    Reply(465)
-   NAnswer(466,1,NodeStopDialog3)
+   NAnswer(466,4,NodeStopDialog003)
+   NAnswer(490,-3,NodeStopDialog003)
 end
 
-procedure NodeStopDialog3 begin
-   //set_obj_visibility(self_obj, 1);
-   set_local_var(LVAR_Timer_Invis, game_time + (ONE_GAME_DAY * 2));
+procedure NodeStopDialog003 begin
+   set_local_var(LVAR_Timer_Invis, game_time + ONE_GAME_DAY);
    call NodePartyNon2;
+   //set_obj_visibility(self_obj, 1);
    call Node999;
 end
 
-procedure NodeStopDialog4 begin
-   set_local_var(LVAR_Timer_Invis, 0);
-   setQuest(GVAR_VAULT27_GO_MERC, qEnd);
+procedure NodeStopDialog004 begin
+   call NodeStopDialog004b;
    zReply(470)
-   NAnswer(471,1,NodeStopDialog5)
+   NAnswer(471,4,NodeStopDialog005)
+   NAnswer(489,-3,NodeStopDialog005)
 end
 
-procedure NodeStopDialog5 begin
+procedure NodeStopDialog004b begin
+   set_local_var(LVAR_Timer_Invis, 0);
+   setQuest(GVAR_VAULT27_GO_MERC, qEnd);
+end
+
+procedure NodeStopDialog005 begin
    if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
    Reply(472)
    end
@@ -324,88 +341,103 @@ procedure NodeStopDialog5 begin
    else begin
    Reply(487)
    end
-   NAnswer(473,1,NodeStopDialog6)
+   NAnswer(473,4,NodeStopDialog006)
+   NAnswer(491,-3,NodeStopDialog006)
 end
 
-procedure NodeStopDialog6 begin
-   if (bitDialog(bit_13) == 0) then begin // added to mark that arthur has seen Casa Nueva - cambragol
-      Reply(474)
+procedure NodeStopDialog006 begin
+   Reply(474)
+   if (town_known(AREA_CASA_NUEVA) == MARK_STATE_VISITED) then begin
+   NAnswer(488,4,NodeStopDialog007)
    end
    else begin
-      Reply(488)
+   NAnswer(475,4,NodeStopDialog007)
    end
-   NAnswer(475,1,NodeStopDialog7)
+   NAnswer(492,-3,NodeStopDialog007)
 end
 
-procedure NodeStopDialog7 begin
+procedure NodeStopDialog007 begin
    item_add(dude_obj,PID_M_RADAWAY,1)
    item_add(dude_obj,PID_M_STIMPAK,3)
    Reply(476)
-   NAnswer(477,1,Node999)
+   NAnswer(477,4,Node999)
+   NAnswer(492,-3,Node999)
 end
 
-procedure NodeStopDialog8 begin
+procedure NodeStopDialog008 begin
    Reply(481)
-   NAnswer(482,1,NodeStopDialog9)
+   NAnswer(482,4,NodeStopDialog009)
+   NAnswer(497,-3,NodeStopDialog009)
 end
 
-procedure NodeStopDialog9 begin
+procedure NodeStopDialog009 begin
    Reply(483)
-   NAnswer(484,1,NodeStopDialog10)
+   NAnswer(484,0,NodeStopDialog009b)
 end
 
-procedure NodeStopDialog10 begin
+procedure NodeStopDialog009b begin
+   goBarter(0);
+   call NodeStopDialog010;
+end
+
+procedure NodeStopDialog010 begin
    setQuest(GVAR_VAULT27_GO_MERC, qEnd+1);
    set_SLAVA(25)
-   exp_add(750);
+   exp_add(1000);
    call NodePartyNon2;
    Reply(485)
-   NAnswer(486,1,Node999)
+   NAnswer(486,4,Node999)
+   NAnswer(490,-3,Node999)
 end
 
-procedure NodeStopDialog11 begin
+procedure NodeStopDialog011 begin
    zReply(470)
-   NAnswer(486,1,Node999)
+   NAnswer(486,4,Node999)
+   NAnswer(490,-3,Node999)
 end
 
-//----- ПЕРВЫЙ ДИАЛОГ
+//----- ПЕРВАЯ ВСТРЕЧА - нижний этаж
 
 procedure NodeFstDialog100 begin
    if (getQuest(GVAR_VAULT27_QST_MERC) == qZero) then begin
    Reply(200)
-   zNAnswer(201,1,NodeFstDialog101)
+   zNAnswer(201,4,NodeFstDialog101)
+   NAnswer(499,-3,NodeFstDialog101)
    end
    else begin
    Reply(204)
-   NAnswer(205,1,NodeFstDialog102)
+   NAnswer(205,4,NodeFstDialog102)
+   NAnswer(499,-3,NodeFstDialog101)
    end
 end
 
 procedure NodeFstDialog101 begin
    Reply(202)
-   NAnswer(203,1,NodeFstDialog105)
+   NAnswer(203,4,NodeFstDialog105)
+   NAnswer(489,-3,NodeFstDialog105)
 end
 
 procedure NodeFstDialog102 begin
    Reply(206)
-   NAnswer(207,1,NodeFstDialog103)
-   NAnswer(210,1,NodeFstDialog104)
+   NAnswer(207,4,NodeFstDialog103)
+   NAnswer(210,4,NodeFstDialog104)
 end
 
 procedure NodeFstDialog103 begin
    Reply(208)
-   NAnswer(209,1,NodeFstDialog105)
+   NAnswer(209,4,NodeFstDialog105)
 end
 
 procedure NodeFstDialog104 begin
    Reply(211)
-   NAnswer(209,1,NodeFstDialog105)
+   NAnswer(209,4,NodeFstDialog105)
 end
 
 procedure NodeFstDialog105 begin
    Reply(212)
-   NAnswer(213,1,NodeFstDialog106)
-   BAnswer(214,1,NodeFstDialog106)
+   NAnswer(213,4,NodeFstDialog106)
+   BAnswer(214,4,NodeFstDialog106)
+   NAnswer(493,-3,NodeFstDialog106)
 end
 
 procedure NodeFstDialog106 begin
@@ -419,33 +451,39 @@ procedure NodeFstDialog106 begin
    call Node999;
 end
 
+//----- ПЕРВАЯ ВСТРЕЧА - на посту смотрителя
+
 procedure NodeFstDialog200 begin
    Reply(220)
-   NAnswer(221,1,NodeFstDialog201)
-   BAnswer(222,1,NodeFstDialog201)
+   NAnswer(221,4,NodeFstDialog201)
+   BAnswer(222,4,NodeFstDialog201)
+   NAnswer(489,-3,NodeFstDialog202)
 end
 
 procedure NodeFstDialog201 begin
    Reply(223)
-   NAnswer(224,1,NodeFstDialog202)
-   BAnswer(225,1,NodeFstDialog202)
+   NAnswer(224,4,NodeFstDialog202)
+   BAnswer(225,4,NodeFstDialog202)
 end
 
 procedure NodeFstDialog202 begin
    Reply(226)
-   NAnswer(227,1,NodeFstDialog203)
-   BAnswer(228,1,NodeFstDialog203)
+   NAnswer(227,4,NodeFstDialog203)
+   BAnswer(228,4,NodeFstDialog203)
+   NAnswer(500,-3,NodeFstDialog203)
 end
 
 procedure NodeFstDialog203 begin
    Reply(229)
-   NAnswer(230,1,NodeFstDialog204)
-   BAnswer(231,1,NodeFstDialog204)
+   NAnswer(230,4,NodeFstDialog204)
+   BAnswer(231,4,NodeFstDialog204)
+   NAnswer(501,-3,NodeFstDialog204)
 end
 
 procedure NodeFstDialog204 begin
    Reply(232)
-   NAnswer(233,1,NodeFstDialog205)
+   NAnswer(233,4,NodeFstDialog205)
+   NAnswer(492,-3,NodeFstDialog205)
 end
 
 procedure NodeFstDialog205 begin
@@ -456,6 +494,8 @@ procedure NodeFstDialog205 begin
    call NodePartyAdd2;
    call Node999;
 end
+
+//----- ПЕРВАЯ ВСТРЕЧА - побег из убежища
 
 procedure NodeFstDialog300 begin
    if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
@@ -476,40 +516,51 @@ procedure NodeFstDialog301 begin
    set_SLAVA(35)
    setBonusReaction(50)
 
-   zReply(270)
-   NAnswer(271,1,NodeFstDialog302)
-   BAnswer(272,1,NodeFstDialog302)
+   Reply(270)
+   NAnswer(271,0,NodeFstDialog302)
 end
 
 procedure NodeFstDialog302 begin
    Reply(273)
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
-   zNAnswer(279,1,NodeFstDialog303)
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (global_var(GVAR_PHENIX_STATUS_CULT_AARON)<0) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
+   zNAnswer(279,4,NodeFstDialog303b)
    end
-   GAnswer(274,1,NodeFstDialog303)
-   BAnswer(280,1,NodeFstDialog304)
+   GAnswer(274,4,NodeFstDialog303)
+   NAnswer(280,4,NodeFstDialog304)
+   NAnswer(492,-3,NodeFstDialog303)
 end
 
 procedure NodeFstDialog303 begin
    Reply(275)
-   NAnswer(278,1,NodeAnswer)
-   NAnswer(276,1,Node999)
-   BAnswer(277,1,Node999)
+   NAnswer(284,4,NodeAnswer)
+   NAnswer(282,4,Node999)
+   BAnswer(283,4,Node999)
+   NAnswer(493,-3,Node999)
+end
+
+procedure NodeFstDialog303b begin
+   Reply(272)
+   NAnswer(284,4,NodeAnswer)
+   NAnswer(282,4,Node999)
+   BAnswer(283,4,Node999)
+   NAnswer(493,-3,Node999)
 end
 
 procedure NodeFstDialog304 begin
    Reply(281)
-   NAnswer(284,1,NodeAnswer)
-   NAnswer(282,1,Node999)
-   BAnswer(283,1,Node999)
+   NAnswer(284,4,NodeAnswer)
+   NAnswer(282,4,Node999)
+   BAnswer(283,4,Node999)
+   NAnswer(493,-3,Node999)
 end
 
 procedure NodeFstDialog305 begin
    Reply(250)
    if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
-   NAnswer(260,1,NodeFstDialog306)
+   NAnswer(260,4,NodeFstDialog306)
    end
-   NAnswer(251,1,Node999)
+   NAnswer(251,4,Node999)
+   NAnswer(493,-3,Node999)
 end
 
 procedure NodeFstDialog306 begin
@@ -539,8 +590,8 @@ procedure NodeFstDialog306 begin
       bitDialogExp(bit_7,20)
       Reply(266)
    end
-   NAnswer(267,1,NodeStartDialog)
-   NAnswer(251,1,Node999)
+   NAnswer(267,4,NodeStartDialog)
+   NAnswer(251,4,Node999)
 end
 
 //----- ДИАЛОГ ПОСЛЕ ПОБЕГА
@@ -550,59 +601,51 @@ procedure NodeSndDialog begin
 
    if (getQuest(GVAR_VAULT27_GO_MERC) == qEnd) then begin
    if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
-      if (bitDialog(bit_13) == 0) then begin // added to mark that arthur has seen Casa Nueva - cambragol
-         GAnswer(480,1,NodeStopDialog8)
-      end
-      else begin
-         GAnswer(489,1,NodeStopDialog8)
-      end
+   GAnswer(480,4,NodeStopDialog008)
+   GAnswer(502,-3,NodeStopDialog008)
    end
    end
 
    //- Расспросы
-   NAnswer(320,1,NodeAnswer)
+   NAnswer(320,4,NodeAnswer)
    if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
-   NAnswer(260,1,NodeFstDialog306)
+   NAnswer(260,4,NodeFstDialog306)
    end
    if (town_known(AREA_PHOENIX) == MARK_STATE_UNKNOWN) then begin
-   NAnswer(334,1,NodeSndDialog101)
-   end
-   if (get_poison(dude_obj) >= 20) then begin
-   NAnswer(310,1,NodeSndDialog100)
+   NAnswer(334,4,NodeSndDialog101)
    end
 
    //- Управление
    if weapon_invn_self then begin
-   NAnswer(459,1,NodeParty2)
+   NAnswer(459,4,NodeParty2)
+   NAnswer(495,-3,NodeParty2)
    end
    if (inven_armor(self_obj) > 0) then begin
-   NAnswer(456,1,NodeParty3)
+   NAnswer(456,4,NodeParty3)
+   NAnswer(496,-3,NodeParty3)
    end
 
    if (cur_map_index == MAP_VAULT_27_INTERIER) then begin
    //на этой карте его нельзя отсоединить
-   NAnswer(309,1,Node999)
+   NAnswer(309,4,Node999)
    end
    else if (self_TEAM == TEAM_PLAYER) then begin
-   NAnswer(453,1,NodePartyNon)
-   NAnswer(309,1,Node999)
+   NAnswer(453,4,NodePartyNon)
+   NAnswer(494,-3,NodePartyNon)
+   NAnswer(309,4,Node999)
    end
    else begin
-   NAnswer(450,1,NodePartyAdd)
-   NAnswer(462,1,Node999)
+   NAnswer(450,4,NodePartyAdd)
+   NAnswer(493,-3,NodePartyAdd)
+   NAnswer(462,4,Node999)
    end
-end
-
-procedure NodeSndDialog100 begin
-   poison(dude_obj,-(get_poison(dude_obj)));
-   Reply(311)
-   NAnswer(312,1,NodeSndDialog)
+   NAnswer(490,-3,Node999)
 end
 
 procedure NodeSndDialog101 begin
    mark_on_map(AREA_PHOENIX)
    Reply(335)
-   NAnswer(336,1,NodeSndDialog)
+   NAnswer(336,4,NodeSndDialog)
 end
 
 //--- ПАРТИЯ
@@ -610,7 +653,8 @@ end
 procedure NodePartyAdd begin
    if (party_member_count(0) > 1) then begin
    Reply(451)
-   NAnswer(452,1,Node999)
+   NAnswer(452,4,Node999)
+   NAnswer(497,-3,Node999)
    end
    else begin
    call NodePartyAdd2;
@@ -628,11 +672,13 @@ end
 procedure NodePartyNon begin
    call NodePartyNon2;
    Reply(454)
-   NAnswer(455,1,Node999)
+   NAnswer(455,4,Node999)
+   NAnswer(498,-3,Node999)
 end
 
 procedure NodePartyNon2 begin
    set_local_var(LVAR_Home_Tile, self_tile);
+   set_local_var(LVAR_Home_Rotat,self_cur_rot);
    set_local_var(LVAR_Flags,0);
    off_enemy_dude;
    if (cur_map_index == MAP_CASA_NUEVA_CITY) then begin
@@ -643,6 +689,10 @@ procedure NodePartyNon2 begin
    set_local_var(LVAR_Home_Tile,24699);
    set_local_var(LVAR_Home_Rotat,3);
    end
+   if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+   set_local_var(LVAR_Home_Tile, 18304);
+   set_local_var(LVAR_Home_Rotat,2);
+   end
    rm_timer_event(self_obj);
    party_remove(self_obj);
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
@@ -651,157 +701,132 @@ end
 procedure NodeParty2 begin
    inven_unwield(self_obj);
    Reply(460)
-   NAnswer(461,1,NodeSndDialog)
+   NAnswer(461,4,NodeSndDialog)
+   NAnswer(492,-3,NodeSndDialog)
 end
 
 procedure NodeParty3 begin
    item_remove_armor(self_obj)
    Reply(457)
-   NAnswer(458,1,NodeSndDialog)
+   NAnswer(458,4,NodeSndDialog)
+   NAnswer(492,-3,NodeSndDialog)
 end
 
 //--- РАССПРОСЫ
 
 procedure NodeAnswer begin
    Reply(random(321,322))
-   NAnswer(350,1,NodeAnswer100)
-   NAnswer(360,1,NodeAnswer200)
-   NAnswer(370,1,NodeAnswer300)
-   NAnswer(380,1,NodeAnswer400)
-   if (getQuest(GVAR_VAULT27_GO_MERC) < qEnd) then begin
-   NAnswer(390,1,NodeAnswer500)
+   if (bitDialog(bit_13) == 0) then begin
+   NAnswer(350,4,NodeAnswer100)
    end
-   NAnswer(323,1,NodeStartDialog)
+   NAnswer(360,4,NodeAnswer200)
+   NAnswer(370,4,NodeAnswer300)
+   if (bitDialog(bit_8) == 0) then begin
+   NAnswer(380,4,NodeAnswer400)
+   end
+   if (getQuest(GVAR_VAULT27_GO_MERC) < qEnd) then begin
+   NAnswer(390,4,NodeAnswer500)
+   end
+   NAnswer(323,4,NodeStartDialog)
 end
 
 procedure NodeAnswer100 begin
+   bitDialogExp(bit_13,0)
    Reply(351)
-   NAnswer(352,1,NodeAnswer101)
-   NAnswer(354,1,NodeAnswer102)
-   NAnswer(356,1,NodeAnswer103)
-   NAnswer(333,1,NodeAnswer)
+   NAnswer(352,4,NodeAnswer101)
 end
 
 procedure NodeAnswer101 begin
    Reply(353)
-   NAnswer(354,1,NodeAnswer102)
-   NAnswer(356,1,NodeAnswer103)
-   NAnswer(333,1,NodeAnswer)
+   NAnswer(354,4,NodeAnswer102)
 end
 
 procedure NodeAnswer102 begin
    Reply(355)
-   NAnswer(352,1,NodeAnswer101)
-   NAnswer(333,1,NodeAnswer)
-end
-
-procedure NodeAnswer103 begin
-   Reply(357)
-   NAnswer(352,1,NodeAnswer101)
-   NAnswer(333,1,NodeAnswer)
+   NAnswer(333,4,NodeAnswer)
 end
 
 procedure NodeAnswer200 begin
    Reply(361)
-   NAnswer(362,1,NodeAnswer201)
-   NAnswer(364,1,NodeAnswer202)
-   NAnswer(333,1,NodeAnswer)
+   NAnswer(362,4,NodeAnswer201)
 end
 
 procedure NodeAnswer201 begin
    Reply(363)
    if (global_var(GVAR_VAULT27_KILL_KNOW) > 0) then begin
-   zNAnswer(366,3,NodeAnswer203)
+   if (bitDialog(bit_11) == 0) then begin
+   NAnswer(366,4,NodeAnswer203)
    end
-   NAnswer(368,7,NodeAnswer204)
-   NAnswer(364,1,NodeAnswer202)
-   NAnswer(333,1,NodeAnswer)
+   end
+   NAnswer(364,4,NodeAnswer202)
+   NAnswer(365,4,NodeAnswer202)
 end
 
 procedure NodeAnswer202 begin
-   Reply(365)
-   NAnswer(362,1,NodeAnswer201)
-   NAnswer(333,1,NodeAnswer)
+   Reply(369)
+   NAnswer(368,4,NodeAnswer)
 end
 
 procedure NodeAnswer203 begin
+   bitDialogExp(bit_11,20)
    Reply(367)
-   NAnswer(368,7,NodeAnswer204)
-   NAnswer(362,1,NodeAnswer201)
-   NAnswer(333,1,NodeAnswer)
-end
-
-procedure NodeAnswer204 begin
-   bitDialogExp(bit_11,50)
-   Reply(369)
-   if (global_var(GVAR_VAULT27_KILL_KNOW) > 0) then begin
-   zNAnswer(366,3,NodeAnswer203)
-   end
-   NAnswer(362,1,NodeAnswer201)
-   NAnswer(333,1,NodeAnswer)
+   NAnswer(364,4,NodeAnswer202)
+   NAnswer(365,4,NodeAnswer202)
 end
 
 procedure NodeAnswer300 begin
    Reply(371)
    if (global_var(GVAR_TITUL_REBIRTH) > 0) then begin
-   zNAnswer(372,3,NodeAnswer301)
+   NAnswer(372,4,NodeAnswer301)
    end
-   NAnswer(333,1,NodeAnswer)
+   NAnswer(333,4,NodeAnswer)
 end
 
 procedure NodeAnswer301 begin
    bitDialogExp(bit_9,20)
    Reply(373)
-   NAnswer(333,1,NodeAnswer)
+   NAnswer(333,4,NodeAnswer)
 end
 
 procedure NodeAnswer400 begin
    Reply(381)
-   if (bitDialog(bit_8) == 0) then begin
-   NAnswer(382,1,NodeAnswer401)
-   end
-   else begin
-   NAnswer(333,1,NodeAnswer)
-   end
+   NAnswer(382,4,NodeAnswer401)
 end
 
 procedure NodeAnswer401 begin
    bitDialogExp(bit_8,0)
    item_add(dude_obj,PID_KEY_VAULT27,1)
    Reply(383)
-   NAnswer(386,1,NodeAnswer)
-   BAnswer(384,1,NodeAnswer)
+   if (global_var(GVAR_HOLODISK_02) != 0) then begin
+   NAnswer(387,4,NodeAnswer)
+   end
+   else begin
+   NAnswer(386,4,NodeAnswer)
+   BAnswer(384,4,NodeAnswer)
+   end
 end
 
 procedure NodeAnswer500 begin
    Reply(391)
-   NAnswer(393,1,NodeAnswer501)
-   NAnswer(392,1,NodeAnswer)
+   NAnswer(393,4,NodeAnswer501)
 end
 
 procedure NodeAnswer501 begin
    bitDialogExp(bit_10,25)
    Reply(394)
    NAnswerSkill(398,3,NodeAnswer503,SKILL_SCIENCE,60,395,NodeAnswer502)
-   NAnswer(392,1,NodeAnswer)
+   NAnswer(392,4,NodeAnswer)
 end
 
 procedure NodeAnswer502 begin
    Reply(396)
-   NAnswer(393,1,NodeAnswer501)
-   NAnswer(397,1,NodeAnswer)
+   NAnswer(397,4,NodeAnswer)
 end
 
 procedure NodeAnswer503 begin
-   Reply(399)
-   NAnswer(400,3,NodeAnswer504)
-   NAnswer(402,1,NodeAnswer)
-end
-
-procedure NodeAnswer504 begin
    bitDialogExp(bit_12,50)
    setBonusReaction(25)
    Reply(401)
-   NAnswer(404,1,NodeAnswer)
-   NAnswer(403,1,Node999)
+   NAnswer(402,4,NodeAnswer)
+   NAnswer(403,4,Node999)
 end

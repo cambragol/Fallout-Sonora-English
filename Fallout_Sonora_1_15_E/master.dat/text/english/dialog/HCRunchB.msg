@@ -12,7 +12,8 @@
 
 {110}{}{Eh... wha... Dear, check... *yawn* the... door.}
 {111}{}{Uh... qué... honey, check... *yawn* la puerta...}
-{112}{}{Get out, you damn yankee!}
+{112}{}{Get out, you damn gringo!}
+{1112}{}{Get out, you damn gringa!}
 {113}{}{Vete, dirty... gringo!}
 {114}{}{I'm too busy. Habla con mi... husband.}
 {115}{}{I'm too busy to talk. Speak with... mi... husband.}

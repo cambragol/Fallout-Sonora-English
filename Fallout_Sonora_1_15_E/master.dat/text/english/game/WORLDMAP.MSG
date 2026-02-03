@@ -92,10 +92,11 @@
 {301}{}{Garrison}
 {302}{}{Fort}
 #
-# San Felipe (Old Lighthouse)
+# San Felipe
 {310}{}{Lighthouse Settlement}
 {311}{}{Fondeport}
-{312}{}{Cerro Picacho del Diablo}
+{312}{}{Grotto}
+{313}{}{Cerro Picacho el Diablo}
 #
 # Inferno
 {320}{}{Traffic Jam}
@@ -128,8 +129,7 @@
 {366}{}{Ruins of National City}
 {367}{}{Heart of San Diego}
 {368}{}{Piers}
-{369}{}{Vault 24}
-{370}{}{US Navy Base}
+{369}{}{US Navy Base}
 #
 # ! Empty slot
 #{370}{}{Desert}
@@ -226,8 +226,9 @@
 # Special Encounter - Padre
 {580}{}{Sonoran Wasteland}
 #
-# Special Encounter - Baron of Arizona
+# DLC - Gathering Point in Dayglow
 {590}{}{Sonoran Wasteland}
+{591}{}{Vault 24}
 #
 # Special Encounter - Snowfall
 {600}{}{Sonoran Wasteland}
@@ -397,6 +398,7 @@
 {3205}{}{A caravan.}
 {3206}{}{A group of colonizers.}
 {3207}{}{A pack of stray dogs.}
+{3208}{}{Trayvon's gang.}
 
 # Encounter Table 5 -- RNGR_D
 {3250}{}{A Red Rider.}
@@ -482,6 +484,7 @@
 {3417}{}{A Mobile Fortress.}
 {3418}{}{Legend City.}
 {3419}{}{A Mexican running from a centipede.}
+{3420}{}{Desperados.}
 
 # Encounter Table 9 -- MEXI_M
 {3450}{}{Red Rider.}
@@ -624,6 +627,7 @@
 {3962}{}{Night movie showing.}
 {3963}{}{A flying Padre.}
 {3964}{}{Legend City.}
+{3965}{}{Lost Super Mutants.}
 
 # Encounter Table 20 -- OCEAN_O
 {4000}{}{Radioactive fog!}

@@ -19,6 +19,8 @@
 {211}{}{Nothing, for now.}
 {212}{}{Enough small talk. Let's get down to business.}
 {213}{}{I'm still curious about your story.}
+{214}{}{To trade.}
+
 {220}{}{I'd like to hear your story.}
 {221}{}{You're really interested in my life story?}
 {222}{}{What's your role around here?}
@@ -43,11 +45,11 @@
 #Ranger
 {250}{}{Looks like I need to register with you. I'm a new recruit.}
 {251}{}{Heard about your initiation, Ranger. Impressive how quickly you earned it.}
-{252}{}{[Next]}
+{252}{}{[More]}
 {253}{}{Alright, if you need anything, just speak up. I'll set you up with a bunk, but be careful with your gear. Here's your leather armor and a canteen for your travels. Now, what weapon do you prefer?}
 {254}{}{[Hunting rifle with ammo]}
 {255}{}{[Signal pistol with flares]}
-{256}{}{[Throwing knives, 5 blades]}
+{256}{}{[Throwing knives, 10]}
 {257}{}{Sign here. Keep in mind, this is all you get.}
 {258}{}{Thanks, I'll take good care of this gear.}
 {259}{}{Just like I thought. Hand it over.}

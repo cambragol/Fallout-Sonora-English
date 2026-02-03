@@ -42,7 +42,6 @@ procedure NodeSndDialog;
 procedure NodeSndDialog100;
 procedure NodeSndDialog101;
 procedure NodeSndDialog102;
-procedure NodeSndDialog103;
 procedure NodeSndDialog200;
 procedure NodeSndDialog201;
 procedure NodeSndDialog202;
@@ -95,6 +94,9 @@ procedure timed_event_p_proc begin
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
    end
+   if (fixed_param == 3) then begin
+       self_attack_dude;
+   end
 end
 
 procedure critter_p_proc begin
@@ -127,16 +129,25 @@ end
 
 procedure destroy_p_proc begin
    set_gvar_bit_on(GVAR_TWOSUN_QST_BAND_STATUS, bit_2);
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_TsnBank_Enemy, -1);
+   end
    kill_critter_opt
 end
 
 procedure talk_p_proc begin
    set_gvar_bit_on(GVAR_TWOSUN_QST_BAND_STATUS, bit_2);
+   if (map_var(MVAR_TsnBank_Enemy) < 0) then begin
+   self_attack_dude;
+   end
+   else begin
    dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
 end
 
 procedure Node998 begin
    setNodeCombat;
+   add_timer_event(self_obj, 1, 3);
 end
 
 procedure Node999 begin
@@ -161,7 +172,7 @@ procedure NodeFstDialog begin
 end
 
 procedure NodeFstDialog2 begin
-   zReply(203)
+   Reply(203)
    NAnswer(205,1,NodeFstDialog4)
    BAnswer(209,1,NodeFstDialog5)
 end
@@ -175,7 +186,7 @@ end
 procedure NodeFstDialog4 begin
    Reply(206)
    NAnswer(207,1,Node999)
-   zBAnswer(208,1,Node998)
+   BAnswer(208,1,Node998)
 end
 
 procedure NodeFstDialog5 begin
@@ -188,6 +199,7 @@ end
 procedure NodeSndDialog begin
    Reply(210)
    NAnswer(220,1,NodeSndDialog100)
+   NAnswer(226,1,NodeSndDialog102)
    if (map_var(MVAR_TsnBank_TrapVsbl) == 0) then begin
    NAnswer(230,1,NodeSndDialog200)
    end
@@ -197,27 +209,28 @@ end
 procedure NodeSndDialog100 begin
    Reply(221)
    NAnswer(222,1,NodeSndDialog101)
-   NAnswer(224,5,NodeSndDialog102)
+   NAnswer(226,1,NodeSndDialog102)
+   if (map_var(MVAR_TsnBank_TrapVsbl) == 0) then begin
+   NAnswer(230,1,NodeSndDialog200)
+   end
    NAnswer(212,1,Node999)
 end
 
 procedure NodeSndDialog101 begin
    Reply(223)
-   NAnswer(224,5,NodeSndDialog102)
+   NAnswer(226,1,NodeSndDialog102)
+   if (map_var(MVAR_TsnBank_TrapVsbl) == 0) then begin
+   NAnswer(230,1,NodeSndDialog200)
+   end
    NAnswer(212,1,Node999)
 end
 
 procedure NodeSndDialog102 begin
-   bitDialogExp(bit_2,50)
-   Reply(225)
-   NAnswer(226,1,NodeSndDialog103)
-   NAnswer(222,1,NodeSndDialog101)
-   NAnswer(212,1,Node999)
-end
-
-procedure NodeSndDialog103 begin
    Reply(227)
-   NAnswer(222,1,NodeSndDialog101)
+   NAnswer(220,1,NodeSndDialog100)
+   if (map_var(MVAR_TsnBank_TrapVsbl) == 0) then begin
+   NAnswer(230,1,NodeSndDialog200)
+   end
    NAnswer(212,1,Node999)
 end
 
@@ -225,6 +238,7 @@ procedure NodeSndDialog200 begin
    Reply(231)
    NAnswerSkill(233,1,NodeSndDialog201,SKILL_CONVERSANT,50,233,NodeSndDialog202)
    NAnswer(220,1,NodeSndDialog100)
+   NAnswer(226,1,NodeSndDialog102)
    NAnswer(232,1,Node999)
 end
 

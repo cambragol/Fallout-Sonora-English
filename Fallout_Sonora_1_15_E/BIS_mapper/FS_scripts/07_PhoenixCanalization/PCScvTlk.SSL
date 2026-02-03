@@ -126,7 +126,7 @@ procedure talk_p_proc begin
    end
    else begin
    display_mstr(110);
-   floater(self_obj,random(111,113),COLOR_MSG_NORMAL);
+   floater(self_obj,random(111,113),COLOR_MSG_GREEN);
    end
 end
 

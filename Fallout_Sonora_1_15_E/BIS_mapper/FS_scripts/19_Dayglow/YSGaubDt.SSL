@@ -26,7 +26,7 @@ end
 procedure repair_proc begin
    if ((local_var(LVAR_Flags) == 0) and (self_tile == 13677)) then begin
       play_sfx("JUNK");
-      //display_mstr(100);
+      display_mstr(116);
       create_object_sid(PID_Q_DAYGLOW_GAUBI_DETALS, tile_num_in_direction(self_tile,2,1), dude_elevation, -1);
       set_local_var(LVAR_Flags,1);
    end

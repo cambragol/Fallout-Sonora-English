@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_RCIntndt
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_RANGERS // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_RANGERS          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_RANGER             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -48,15 +49,6 @@ procedure NodeBarter103;
 procedure NodeBarter104;
 procedure NodeBarter105;
 procedure NodeBarter106;
-procedure NodeAnswer100;
-procedure NodeAnswer101;
-procedure NodeAnswer102;
-procedure NodeAnswer103;
-procedure NodeAnswer104;
-procedure NodeAnswer104b;
-procedure NodeAnswer105;
-procedure NodeAnswer106;
-procedure NodeAnswer107;
 procedure NodeAnswer200;
 procedure NodeAnswer201;
 procedure NodeAnswer202;
@@ -104,33 +96,33 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       if (map_first_run == true) then begin
+       item_add(self_obj,PID_TOOL_RADIO,1)
+       end
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
 procedure setBarterA begin
-        // До раскрытия товара не торгует
+        check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
+        check_restock_item(PID_TOOL_FLARE, 3, 6, 100)
+        check_restock_item(PID_W_COMBAT_KNIFE, 1, 3, 100)
+        check_restock_item(PID_W_KNIFE, 2, 4, 100)
+        check_restock_item(PID_W_THROWING_KNIFE, 5, 10, 100)
+
+           check_restock_item(PID_AMMO_22_LR, 5, 10, 100)
+        check_restock_item(PID_W_SMG_22, 1, 1, 100)
+           check_restock_item(PID_AMMO_SIGNAL_B, 5, 10, 100)
+           check_restock_item(PID_AMMO_SIGNAL_A, 10, 20, 100)
+        check_restock_item(PID_W_SIGNAL_PISTOL, 1, 1, 100)
+           check_restock_item(PID_AMMO_44_MAGNUM, 2, 4, 100)
+        check_restock_item(PID_W_REVOLVER_OLD, 1, 1, 100)
+           check_restock_item(PID_AMMO_308, 2, 2, 100)
+        check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
+        //Персонаж не использует крышки от бутылок!
 end
 
 procedure setBarterB begin
-        check_restock_item(PID_TOOL_FLARE, 2, 6, 100)
-        check_restock_item(PID_W_KNIFE, 2, 4, 100)
-        check_restock_item(PID_W_THROWING_KNIFE, 1, 4, 100)
-        check_restock_item(PID_W_COMBAT_KNIFE, 1, 3, 100)
-        check_restock_item(PID_W_SMG_22, 1, 1, 100)
-           check_restock_item(PID_AMMO_22_LR, 5, 10, 100)
-        check_restock_item(PID_W_SIGNAL_PISTOL, 1, 1, 100)
-           check_restock_item(PID_AMMO_SIGNAL_A, 10, 20, 100)
-           check_restock_item(PID_AMMO_SIGNAL_B, 5, 10, 100)
-        check_restock_item(PID_W_REVOLVER_OLD, 1, 1, 100)
-           check_restock_item(PID_AMMO_44_MAGNUM, 10, 20, 100)
-        check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
-           check_restock_item(PID_AMMO_308, 10, 12, 100)
-        //Персонаж не использует крышки от бутылок!
-
-        if (get_BarterDopusk == 0) then begin
-        item_add(self_obj,PID_TOOL_RADIO,1)
-        end
    set_BarterDopusk;
 end
 
@@ -195,6 +187,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
 
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
 end
 
@@ -243,13 +236,17 @@ procedure NodeStopDialog2 begin
    NAnswer(209,1,NodeStartDialog)
 end
 
+procedure NodeBarter begin
+   goBarterMod;
+   call NodeSndDialog;
+end
+
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
    Reply(210)
 
-   //- Расспросы
-   NAnswer(220,1,NodeAnswer100)
+   NAnswer(214,1,NodeBarter)
 
    if (getQuest(GVAR_RANGERS_QST_PUERTO) >= qStart) then begin
       if (bitDialog(bit_6) == 0) then begin
@@ -343,73 +340,6 @@ procedure NodeBarter106 begin
    NAnswer(292,1,Node999)
 end
 
-//--- РАССПРОСЫ О СЕБЕ
-
-procedure NodeAnswer100 begin
-   Reply(221)
-   NAnswer(222,1,NodeAnswer101)
-   NAnswer(234,1,NodeAnswer105)
-   NAnswer(238,1,NodeAnswer107)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-procedure NodeAnswer101 begin
-   Reply(223)
-   NAnswer(224,1,NodeAnswer102)
-   NAnswer(213,1,NodeAnswer100)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-procedure NodeAnswer102 begin
-   Reply(225)
-   NAnswer(226,1,NodeAnswer103)
-   if (get_BarterDopusk == 0) then begin
-      if (global_var(GVAR_TITUL_ARIZONA_RANGER) <= 0) then begin
-      NAnswerSkill(228,1,NodeAnswer104,SKILL_BARTER,80,228,NodeAnswer104b)
-      end
-   end
-   NAnswer(213,1,NodeAnswer100)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-procedure NodeAnswer103 begin
-   Reply(227)
-   NAnswer(213,1,NodeAnswer100)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-procedure NodeAnswer104 begin
-   call setBarterB;
-   Reply(229)
-   NAnswer(230,1,NodeSndDialog)
-end
-
-procedure NodeAnswer104b begin
-   Reply(231)
-   NAnswer(232,1,NodeSndDialog)
-end
-
-procedure NodeAnswer105 begin
-   Reply(235)
-   NAnswer(236,4,NodeAnswer106)
-   NAnswer(213,1,NodeAnswer100)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-procedure NodeAnswer106 begin
-   bitDialogExp(bit_3,50)
-   Reply(237)
-   NAnswer(213,1,NodeAnswer100)
-   NAnswer(212,1,NodeSndDialog)
-end
-
-procedure NodeAnswer107 begin
-   bitDialogExp(bit_4,20)
-   Reply(239)
-   NAnswer(213,1,NodeAnswer100)
-   NAnswer(212,1,NodeSndDialog)
-end
-
 //--- НАГРАДА ЗА ТИТУЛ РЕЙНДЖЕРА
 
 procedure NodeAnswer200 begin
@@ -419,11 +349,9 @@ end
 
 procedure NodeAnswer201 begin
    bitDialogExp(bit_5,0)
-   if (get_BarterDopusk == 0) then begin
-   call setBarterB;
-   end
    item_add(dude_obj,PID_M_WATER_FLASK,1)
    item_add(dude_obj,PID_ARMOR_LEATHER_RANGER,1)
+
    Reply(253)
    NAnswer(254,1,NodeAnswer202)
    NAnswer(255,1,NodeAnswer203)
@@ -431,7 +359,7 @@ procedure NodeAnswer201 begin
 end
 
 procedure NodeAnswer202 begin
-   item_add(dude_obj,PID_AMMO_308,12)
+   item_add(dude_obj,PID_AMMO_308,2)
    item_add(dude_obj,PID_W_RIFLE_HUNTING,1)
    call NodeAnswer210;
 end
@@ -443,7 +371,7 @@ procedure NodeAnswer203 begin
 end
 
 procedure NodeAnswer204 begin
-   item_add(dude_obj,PID_W_THROWING_KNIFE,5)
+   item_add(dude_obj,PID_W_THROWING_KNIFE,10)
    call NodeAnswer210;
 end
 
@@ -470,12 +398,12 @@ procedure NodeAnswer301 begin
 end
 
 procedure NodeAnswer302 begin
-   item_add(dude_obj,PID_AMMO_44_MAGNUM,35)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,6)
    call NodeAnswer305;
 end
 
 procedure NodeAnswer303 begin
-   item_add(dude_obj,PID_AMMO_308,20)
+   item_add(dude_obj,PID_AMMO_308,4)
    call NodeAnswer305;
 end
 
@@ -547,7 +475,7 @@ procedure NodeQst201 begin
    setQuest(GVAR_RANGERS_QST_INTENDANT,qEnd);
    set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_7);
    item_remove(dude_obj,PID_Q_PISTOL_LOST,1)
-   item_add(dude_obj,PID_AMMO_10_MM,16)
+   item_add(dude_obj,PID_AMMO_10_MM,1)
    setBonusReaction(25)
    set_SLAVA(-10)
    exp_add(350);
@@ -594,13 +522,13 @@ procedure NodeRelict3 begin
 end
 
 procedure NodeRelict4 begin
-   item_add(dude_obj,PID_AMMO_308,35)
+   item_add(dude_obj,PID_AMMO_308,7)
    Reply(357)
    NAnswer(358,1,Node999)
 end
 
 procedure NodeRelict5 begin
-   item_add(dude_obj,PID_AMMO_44_MAGNUM,50)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,8)
    Reply(360)
    NAnswer(361,1,Node999)
 end

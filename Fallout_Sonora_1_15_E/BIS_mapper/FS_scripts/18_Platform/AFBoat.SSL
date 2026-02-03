@@ -5,13 +5,32 @@
 
 procedure start;
 procedure map_enter_p_proc;
+procedure visible_boat;
+procedure invis_boat;
+procedure block_gener;
+procedure block_delete;
+procedure timed_event_p_proc;
 procedure use_p_proc;
 procedure use_skill_on_p_proc;
 procedure use_obj_on_p_proc;
 procedure repair_proc;
-procedure swim_proc;
+
+procedure talk_p_proc;
+procedure Node999;
+procedure NodeDialog;
+procedure NodeDialogSet;
+procedure NodeDialogSet202;
+procedure NodeDialogSet203;
+procedure NodeDialogSet204;
+procedure NodeDialogSet205;
+procedure NodeDialogSet206;
+procedure teleport_to_map;
 
 #define LVAR_Repair_Energy              (2) // заряд аккумулятора
+
+variable mapIndx;
+variable mapTime;
+variable tileObjBlock;
 
 
 
@@ -19,73 +38,139 @@ procedure start begin
 end
 
 procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+      if (cur_map_index != MAP_OIL_CITY) then begin
+      set_local_var(LVAR_Status, 1);
+      set_local_var(LVAR_Repair_Energy, 100);
+      end
+
+      //!!! генерация или удаление блокеров
+
+      //- Появление и исчезновение лодки на разных картах:
+      if (map_first_run == true) then begin
+      if ((cur_map_index != MAP_OIL_CITY) and (cur_map_index != MAP_OIL_PLATFORM)) then begin
+      set_obj_visibility(self_obj, 1);
+      end
+      end
+
+       //- Размещение ГГ рядом с лодкой после заплыва:
+      if (gvar_bit(GVAR_ENCOUNTERS_FLAGS_BIT,bit_5) != 0) then begin
+      add_timer_event(self_obj, 1, 1);
+      end
+   end
+end
+
+#define tileNext(rot)   tileObjBlock := tile_num_in_direction(tileObjBlock, rot, 1); \
+                        call block_gener; \
+
+procedure visible_boat begin
+   set_obj_visibility(self_obj, 0);
+
+   tileObjBlock := self_tile;
+   tileNext(1)
+   tileNext(1)
+   tileNext(3)
+   tileNext(2)
+   tileNext(3)
+   tileNext(4)
+   tileNext(4)
+   tileNext(5)
+   tileNext(4)
+   tileNext(4)
+   tileNext(5)
+   tileNext(4)
+   tileNext(5)
+   tileNext(0)
+   tileNext(0)
+   tileNext(1)
+   tileNext(1)
+   tileNext(2)
+   tileNext(1)
+end
+
+#define tileDel(rot)    tileObjBlock := tile_num_in_direction(tileObjBlock, rot, 1); \
+                        call block_delete; \
+
+procedure invis_boat begin
+   set_obj_visibility(self_obj, 1);
+
+   tileObjBlock := self_tile;
+   tileDel(1)
+   tileDel(1)
+   tileDel(3)
+   tileDel(2)
+   tileDel(3)
+   tileDel(4)
+   tileDel(4)
+   tileDel(5)
+   tileDel(4)
+   tileDel(4)
+   tileDel(5)
+   tileDel(4)
+   tileDel(5)
+   tileDel(0)
+   tileDel(0)
+   tileDel(1)
+   tileDel(1)
+   tileDel(2)
+   tileDel(1)
+end
+
+procedure block_gener begin
+   if (tile_contains_obj_pid(tileObjBlock,self_elevation,PID_HEX_BLOCKING) == false) then begin
+   create_object_sid(PID_HEX_BLOCKING, tileObjBlock, self_elevation, -1);
+   end
+end
+
+procedure block_delete begin
+   if (tile_contains_obj_pid(tileObjBlock,self_elevation,PID_HEX_BLOCKING) == true) then begin
+   destroy_object(tile_contains_pid_obj(tileObjBlock, self_elevation, PID_HEX_BLOCKING));
+   end
+end
+
+procedure timed_event_p_proc begin
+   if (fixed_param == 1) then begin
+       call visible_boat;
+       move_to(dude_obj, tile_num_in_direction(self_tile,0,2), self_elevation);
+       anim(dude_obj, ANIMATE_ROTATION, 0);
+       tile_set_center(self_tile);
+       set_gvar_bit_off(GVAR_ENCOUNTERS_FLAGS_BIT, bit_5);
+       gfade_in(ONE_GAME_SECOND);
+   end
 end
 
 procedure use_p_proc begin
    script_overrides;
-   if (cur_map_index == MAP_OIL_PLATFORM) then begin
-   display_mstr(118);
-   end
-   else if (getQuest(GVAR_OIL_PLATFORM_STATUS) >= qEnd) then begin
-   display_mstr(116);
-   end
-   else if (local_var(LVAR_Status) == 0) then begin
-   display_mstr(110);
+   //Примечание: здесь нет поправки на индекс карты, так как lvar задаются разом для всех карт в map_enter_p_proc.
+   if (local_var(LVAR_Status) == 0) then begin
+      display_mstr(110);
    end
    else if (local_var(LVAR_Repair_Energy) <= 0) then begin
-   display_mstr(111);
+      display_mstr(111);
    end
    else begin
-   display_mstr(112);
+      call talk_p_proc;
    end
 end
 
 procedure use_skill_on_p_proc begin
    RepairVarCheck
-   //RepairSkillRepair
+
    if (action_being_used == SKILL_REPAIR) then begin
       script_overrides;
-      if (cur_map_index == MAP_OIL_PLATFORM) then begin
-      display_mstr(118);
-      end
-      else begin
       RepairSkillRepairOptn(573)
-      end
    end
    if (action_being_used == SKILL_SCIENCE) then begin
       script_overrides;
-      if (cur_map_index == MAP_OIL_PLATFORM) then begin
-      call swim_proc;
-      end
-      else if (getQuest(GVAR_OIL_PLATFORM_STATUS) >= qStart) then begin
-      display_mstr(116);
-      end
-      else if (getQuest(GVAR_OIL_PLATFORM_QST_A) == qZero) then begin
-      display_mstr(116);
-      end
-      else if (local_var(LVAR_Status) == 0) then begin
-      display_mstr(110);
-      end
-      else if (local_var(LVAR_Repair_Energy) <= 0) then begin
-      display_mstr(111);
-      end
-      else if (who_carry_amount(dude_obj) > 200) then begin
-      display_mstr(117);
-      end
-      else begin
-      call swim_proc;
-      end
+      call use_p_proc;
    end
 end
 
 procedure use_obj_on_p_proc begin
-   stopUseCarGaz
    RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20)
-   if (objUsedPid == PID_TOOL_CAR_GAZ) then begin
-      if (cur_map_index == MAP_OIL_PLATFORM) then begin
-      display_mstr(119);
-      end
-      else if (local_var(LVAR_Repair_Energy) >0) then begin
+   else if (objUsedPid == PID_TOOL_CAR_GAZ) then begin
+      script_overrides;
+      if (local_var(LVAR_Repair_Energy)>0) then begin
       display_mstr(115);
       end
       else begin
@@ -105,24 +190,110 @@ procedure repair_proc begin
    RepairProcRepair(113,200,"FIXSTILL")
 end
 
-procedure swim_proc begin
-   if (cur_map_index == MAP_OIL_CITY) then begin
-      set_map_var(MVAR_OIL_PLATFORM_BOAT_REPAIR, 2);
-      set_local_var(LVAR_Repair_Energy, 0);
-      //set_map_start((dude_tile % 200), (dude_tile / 200), 0, dude_cur_rot);
-      set_map_var(MVAR_OIL_PLATFORM_NEWHEX, dude_tile);
-      dude_teleport_map(1,1,MAP_OIL_PLATFORM,1);
+procedure talk_p_proc begin
+   if (getQuest(GVAR_OIL_PLATFORM_QST_A) == qZero) then begin
+      display_mstr(116);
    end
+   else begin
+      dialog_proc_obj(NodeDialog)
+   end
+end
+
+procedure Node999 begin
+end
+
+procedure NodeDialog begin
+   mapIndx := 0;
+   mapTime := 0;
+   Reply(200)
+
+   call NodeDialogSet;
+
+   NAnswer(201,0,Node999)
+end
+
+procedure NodeDialogSet begin
+   if (cur_map_index != MAP_OIL_PLATFORM) then begin
+   if (getQuest(GVAR_OIL_PLATFORM_STATUS) == qZero) then begin
+   if (getQuest(GVAR_OIL_PLATFORM_QST_A) == qStart) then begin
+      NAnswer(202,0,NodeDialogSet202)
+   end
+   end
+   end
+
+   if (cur_map_index == MAP_OIL_PLATFORM) then begin
+      NAnswer(206,0,NodeDialogSet206)
+   end
+   else if (cur_map_index != MAP_OIL_CITY) then begin
+   if (town_known(AREA_OIL_PLATFORM) == MARK_STATE_VISITED) then begin
+      NAnswer(205,0,NodeDialogSet205)
+   end
+   end
+
+   if (cur_map_index != MAP_PUERTO_DOCS) then begin
+   if (town_known(AREA_PUERTO_STEEL) == MARK_STATE_VISITED) then begin
+   if (getQuest(GVAR_PUERTO_BOS_DESTROY) <= qZero) then begin
+      NAnswer(203,0,NodeDialogSet203)
+   end
+   end
+   end
+
+   if (cur_map_index != MAP_SAN_FELIPE_CITY) then begin
+   if (town_known(AREA_SAN_FELIPE) == MARK_STATE_VISITED) then begin
+      NAnswer(204,0,NodeDialogSet204)
+   end
+   end
+end
+
+procedure NodeDialogSet202 begin
+   mapIndx := MAP_OIL_PLATFORM;
+   mapTime := 1;
+   call teleport_to_map;
+end
+
+procedure NodeDialogSet203 begin
+   mapIndx := MAP_PUERTO_DOCS;
+   mapTime := 3;
+   call teleport_to_map;
+end
+
+procedure NodeDialogSet204 begin
+   mapIndx := MAP_SAN_FELIPE_CITY;
+   mapTime := 3;
+   call teleport_to_map;
+end
+
+procedure NodeDialogSet205 begin
+   mapIndx := MAP_OIL_CITY;
+   mapTime := 3;
+   call teleport_to_map;
+end
+
+procedure NodeDialogSet206 begin
+   mapIndx := MAP_OIL_CITY;
+   mapTime := 1;
+   call teleport_to_map;
+end
+
+procedure teleport_to_map begin
    if (cur_map_index == MAP_OIL_PLATFORM) then begin
       if (getQuest(GVAR_OIL_PLATFORM_STATUS) >= qStart) then begin
-      item_remove(dude_obj,PID_KEY_OILPLATFORM,1)
-      play_sfx("WAVES");
-      play_sfx("GUSTWIND");
-      play_sfx("HOWITZER");
-      play_sfx("FLAMETHR");
-      exp_add(1500);
-      setQuest(GVAR_OIL_PLATFORM_STATUS,qEnd);
+         item_remove(dude_obj,PID_KEY_OILPLATFORM,1)
+         play_sfx("WAVES");
+         play_sfx("GUSTWIND");
+         play_sfx("HOWITZER");
+         play_sfx("FLAMETHR");
+         exp_add(1500);
+         setQuest(GVAR_OIL_PLATFORM_STATUS,qEnd);
       end
-      dude_teleport_map(1,1,MAP_OIL_CITY,1);
+   end
+   if (cur_map_index == MAP_OIL_CITY) then begin
+      set_map_var(MVAR_OIL_PLATFORM_BOAT_REPAIR, 2);
+   end
+
+   if (mapIndx > 0) then begin
+      set_gvar_bit_on(GVAR_ENCOUNTERS_FLAGS_BIT, bit_5);
+      call invis_boat;
+      dude_teleport_map(1,0,mapIndx,mapTime);
    end
 end

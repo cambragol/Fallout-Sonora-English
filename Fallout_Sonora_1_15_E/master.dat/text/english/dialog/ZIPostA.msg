@@ -1,0 +1,1 @@
+{110}{}{The storage locker is securely locked. You'll have to speak to the clerk.}

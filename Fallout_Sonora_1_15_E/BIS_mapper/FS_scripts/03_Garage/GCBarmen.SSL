@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_GCBarmen
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_GARAGE  // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        11  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения от 1 до 10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_GARAGE_CITIZEN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -114,20 +115,20 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
 procedure setBarterA begin
-        check_restock_item(PID_M_STIMPAK, 1, 1, 100)
+        check_restock_item(PID_M_STIMPAK, 1, 3, 100)
         if (map_first_run) then begin
         check_restock_item(PID_M_STIMPAK, 3, 3, 100)
         end
-        check_restock_item(PID_M_IGUANA, 1, 2, 100)
+        check_restock_item(PID_M_IGUANA, 3, 5, 100)
         check_restock_item(PID_M_BOOZE, 3, 5, 100)
         if (getQuest(GVAR_GARAGE_QST_BAR) > qEnd) then begin
         check_restock_item(PID_M_TEQUILA, 1, 2, 100)
-        check_restock_item(PID_M_BEER, 1, 2, 100)
+        check_restock_item(PID_M_BEER, 2, 3, 100)
         end
 
         //- крышки
@@ -204,6 +205,7 @@ procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(103,102,NodeStartDialog,-1,-1)
 end
 
@@ -414,11 +416,13 @@ procedure NodeAnswer100 begin
       if (bitDialog(bit_6) == 0) then begin
       NAnswer(261,1,NodeAnswer104)
       end
+      /*
       if (bitDialog(bit_7) == 0) then begin
          if (global_var(GVAR_VILLA_MARAUDERS_RUN) >= 11) then begin
          NAnswer(270,1,NodeAnswer106)
          end
       end
+      */
       if (map_var(MVAR_GARAGE_BAR_PUT) == 0) then begin
       NAnswer(mstr(280)+dude_name+mstr(281),1,NodeAnswer109)
       end
@@ -706,13 +710,13 @@ procedure NodeBrahmin104 begin
       GAnswer(461,1,NodeBrahmin106)
    end
    else if (global_var(GVAR_GARAGE_STATUS_JUNKMAN) >= 2) then begin
-      Reply(417)
-      NAnswer(418,1,NodeBrahmin106)
-      GAnswer(419,1,NodeBrahmin106)
+   Reply(417)
+   NAnswer(418,1,NodeBrahmin106)
+   GAnswer(419,1,NodeBrahmin106)
    end
    else begin
-      zReply(422)
-      NAnswer(423,1,NodeBrahmin107)
+   zReply(422)
+   NAnswer(423,1,NodeBrahmin107)
    end
 end
 

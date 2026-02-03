@@ -94,7 +94,7 @@ end
 
 procedure critter_p_proc begin
    if (global_var(GVAR_TITUL_ARIZONA_RANGER) <= 0) then begin
-   set_using_stop // �������� ������� � ������� (�������, ���� �� �����)
+   set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
    end
    set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end

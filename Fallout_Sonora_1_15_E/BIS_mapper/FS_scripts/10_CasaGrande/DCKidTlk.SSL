@@ -289,24 +289,19 @@ end
 
 //--- ГРАНАТА
 
+#define granadeMove(pid)       if (item_amnt(self_obj,pid) > 0) then begin \
+                               item_remove(self_obj,pid,1) \
+                               item_add(dude_obj,pid,1) \
+                               display_msg(mstr(106)+proto_data(pid, it_name)+mstr(107)); \
+                               end \
+
 procedure NodeGranadDelete begin
    set_local_var(LVAR_GRANADA_STATUS,1);
    inven_unwield(self_obj);
-   if (item_amnt(self_obj,PID_W_GRENADE_FRAG) > 0) then begin
-       item_remove(self_obj,PID_W_GRENADE_FRAG,1)
-       item_add(dude_obj,PID_W_GRENADE_FRAG,1)
-   //drop_obj(obj_carrying_pid_obj(self_obj, PID_W_GRENADE_FRAG));
-   end
-   if (item_amnt(self_obj,PID_W_GRENADE_PLASMA) > 0) then begin
-       item_remove(self_obj,PID_W_GRENADE_PLASMA,1)
-       item_add(dude_obj,PID_W_GRENADE_PLASMA,1)
-   //drop_obj(obj_carrying_pid_obj(self_obj, PID_W_GRENADE_PLASMA));
-   end
-   if (item_amnt(self_obj,PID_W_GRENADE_NUKE) > 0) then begin
-       item_remove(self_obj,PID_W_GRENADE_NUKE,1)
-       item_add(dude_obj,PID_W_GRENADE_NUKE,1)
-   //drop_obj(obj_carrying_pid_obj(self_obj, PID_W_GRENADE_NUKE));
-   end
+
+        granadeMove(PID_W_GRENADE_NUKE)
+   else granadeMove(PID_W_GRENADE_PLASMA)
+   else granadeMove(PID_W_GRENADE_FRAG)
 end
 
 procedure NodeGranad begin
@@ -314,7 +309,7 @@ procedure NodeGranad begin
    NAnswer(220,3,NodeGranad102)
    end
    NAnswer(230,1,NodeGranad100)
-   NAnswerSkill(250,3,NodeGranad203,SKILL_CONVERSANT,50,240,NodeGranad200)
+   NAnswerSkill(250,3,NodeGranad203,SKILL_CONVERSANT,40,240,NodeGranad200)
    NAnswerSkill(271,3,NodeGranad400,SKILL_GAMBLING,40,275,NodeGranad401)
    NAnswerSlava(260,3,NodeGranad300,-100,264,NodeGranad301)
 end

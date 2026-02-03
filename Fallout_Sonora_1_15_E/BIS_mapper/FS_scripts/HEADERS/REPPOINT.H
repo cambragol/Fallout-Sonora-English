@@ -102,13 +102,13 @@
                                                    inc_global_var(GVAR_REPUTATION_MUTAKILLER_CK); \
                                                 end                                             \
                                                 if (dude_level>=3) then begin                   \
-                                                   if (global_var(GVAR_REPUTATION_KILLER_CK)>=20) then begin \
+                                                   if (global_var(GVAR_REPUTATION_KILLER_CK)>=global_var(GVAR_REPUTATION_KILLER_LIMIT)) then begin \
                                                    set_global_var(GVAR_REPUTATION_KILLER,1);    \
                                                    end                                          \
-                                                   if (global_var(GVAR_REPUTATION_HUNTER_CK)>=50) then begin \
+                                                   if (global_var(GVAR_REPUTATION_HUNTER_CK)>=global_var(GVAR_REPUTATION_HUNTER_LIMIT)) then begin \
                                                    set_global_var(GVAR_REPUTATION_HUNTER,1);    \
                                                    end                                          \
-                                                   if (global_var(GVAR_REPUTATION_MUTAKILLER_CK)>=15) then begin \
+                                                   if (global_var(GVAR_REPUTATION_MUTAKILLER_CK)>=global_var(GVAR_REPUTATION_MUTAKILLER_LIMIT)) then begin \
                                                    set_global_var(GVAR_REPUTATION_MUTAKILLER,1); \
                                                    end                                          \
                                                 end                                             \

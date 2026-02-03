@@ -115,6 +115,12 @@
 {282}{}{For sure.}
 {283}{}{A thief? Here? Damn.}
 
+{284}{}{My people in the Villa are afraid they'll be sent back to the mines again.}
+{285}{}{Stupid peasants! All we need is for the mine to WORK.}
+{286}{}{So if I solve your 'labor' problem, you'll leave the Villa alone? What exactly needs to be done?}
+{287}{}{Stupid peasants! All we need is for the mine to WORK. And now it's working better than ever.}
+{288}{}{So you no longer need people from the Villa? That's good news. I'll report this to the council of elders.}
+
 {290}{}{How's the mine holding up?}
 {291}{}{Another question?}
 {292}{}{Got it.}

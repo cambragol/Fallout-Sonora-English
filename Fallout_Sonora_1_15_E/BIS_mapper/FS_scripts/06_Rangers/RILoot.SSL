@@ -54,7 +54,7 @@ procedure map_enter_p_proc begin
             item_add(self_obj,PID_AMMO_SIGNAL_A,4)
             item_add(self_obj,PID_AMMO_308,random(4,6))
             if (random(0,1) == 0) then begin
-            item_add(self_obj,PID_AMMO_44_MAGNUM,random(6,10))
+            item_add(self_obj,PID_AMMO_44_MAGNUM,random(1,2))
             end
             else begin
             item_add(self_obj,PID_AMMO_10_MM,random(6,10))

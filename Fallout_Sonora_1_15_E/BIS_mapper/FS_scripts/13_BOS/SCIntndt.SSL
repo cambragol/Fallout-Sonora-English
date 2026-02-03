@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_SCIntndt
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_PUERTO // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        10  // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_BROTHERS_STEEL   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_BOS_CAVALER        // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -21,7 +22,6 @@ procedure start;
 procedure map_enter_p_proc;
 procedure setBarterA;
 procedure setBarterB;
-procedure setBarterC;
 procedure look_at_p_proc;
 procedure description_p_proc;
 procedure timed_event_p_proc;
@@ -108,83 +108,70 @@ procedure map_enter_p_proc begin
        incBarterMod(50);
        check_restock_item(PID_TOOL_RADIO, 1, 1, 100) // 1 шт на всю игру!
        end
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
 procedure setBarterA begin
    //Зеленый уровень товара - для простых гражданских
+        check_restock_item(PID_ARMOR_COMBAT, 1, 1, 100)
+        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 2, 3, 100)
         check_restock_item(PID_TOOL_FLARE, 4, 8, 100)
         check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
-        check_restock_item(PID_M_STIMPAK, 2, 4, 100)
+        check_restock_item(PID_M_STIMPAK, 3, 5, 100)
 
-        check_restock_item(PID_W_GRENADE_FRAG, 4, 8, 100)
-        check_restock_item(PID_W_THROWING_KNIFE, 3, 6, 100)
+        check_restock_item(PID_W_GRENADE_PLASMA, 5, 8, 100)
+        check_restock_item(PID_W_GRENADE_FRAG, 8, 12, 100)
+        check_restock_item(PID_W_THROWING_KNIFE, 7, 10, 100)
         check_restock_item(PID_W_COMBAT_KNIFE, 2, 3, 100)
+        check_restock_item(PID_W_POWER_FIST, 1, 1, 100)
+        check_restock_item(PID_W_SPEAR_SHOCKER, 1, 1, 100)
+        check_restock_item(PID_W_SUPER_SLEDGE, 1, 1, 100)
 
-        check_restock_item(PID_W_SIGNAL_PISTOL, 1, 1, 100)
            check_restock_item(PID_AMMO_SIGNAL_A, 10, 20, 100)
+        check_restock_item(PID_W_SIGNAL_PISTOL, 1, 1, 100)
+           check_restock_item(PID_AMMO_10_MM, 3, 6, 100)
+        check_restock_item(PID_W_SMG_UZI, 1, 1, 100)
+        //check_restock_item(PID_W_SMG_10, 1, 1, 100)
         check_restock_item(PID_W_PISTOL_10, 1, 1, 100)
-        check_restock_item(PID_W_SMG_10, 1, 1, 100)
-           check_restock_item(PID_AMMO_10_MM, 40, 60, 100)
+           check_restock_item(PID_AMMO_44_MAGNUM, 5, 8, 100)
         check_restock_item(PID_W_REVOLVER_POLICE, 1, 1, 100)
-           check_restock_item(PID_AMMO_44_MAGNUM, 20, 40, 100)
+           check_restock_item(PID_AMMO_50_AE, 5, 7, 100)
         check_restock_item(PID_W_PISTOL_50, 1, 1, 100)
-           check_restock_item(PID_AMMO_50_AE, 8, 16, 100)
+           check_restock_item(PID_AMMO_SHOTGUN_SHELLS, 6, 6, 100)
         check_restock_item(PID_W_SHOTGUN_COMBAT, 1, 1, 100)
-           check_restock_item(PID_AMMO_SHOTGUN_SHELLS, 20, 30, 100)
+           check_restock_item(PID_AMMO_5_MM, 6, 8, 100) // в пачке 25 патронов
         check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
-           check_restock_item(PID_AMMO_5_MM, 30, 40, 100) // в пачке 5 патронов
-        check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
+           check_restock_item(PID_AMMO_308, 5, 10, 100)
+        //check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
         check_restock_item(PID_W_RIFLE_COMBAT, 1, 1, 100)
-           check_restock_item(PID_AMMO_308, 12, 24, 100)
+           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
         check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
-           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 20, 30, 100)
 
         //- крышки
         check_restock_many(2500,3500)
 end
 
 procedure setBarterB begin
-   //Синий уровень товара - для приближенных и торговцев
-        check_restock_item(PID_ARMOR_COMBAT, 1, 1, 100)
-        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 2, 3, 100)
-
-        check_restock_item(PID_W_GRENADE_PLASMA, 3, 6, 100)
+   //Синий уровень товара -  для членов БС и торговцев
+        check_restock_item(PID_ARMOR_COMBAT_BOS, 1, 1, 100)
+        check_restock_item(PID_TOOL_STEALTH_BOY, 1, 1, 100)
         check_restock_item(PID_W_GRENADE_PULSE, 2, 4, 100)
-        check_restock_item(PID_W_POWER_FIST, 1, 1, 100)
-        check_restock_item(PID_W_SPEAR_SHOCKER, 1, 1, 100)
-        check_restock_item(PID_W_SUPER_SLEDGE, 1, 1, 100)
-
-        check_restock_item(PID_W_SMG_UZI, 1, 1, 100)
-        check_restock_item(PID_W_REVOLVER_COMBAT, 1, 1, 100)
-        check_restock_item(PID_W_SHOTGUN_ASSAULT, 1, 1, 100)
-           check_restock_item(PID_AMMO_SHOTGUN_SHELLS_BULLET, 10, 20, 100)
-        check_restock_item(PID_W_LIGHT_AUTOGUN, 1, 1, 100)
-        check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
            check_restock_item(PID_AMMO_40_MM, 16, 20, 100)
+        check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
+        check_restock_item(PID_W_SHOTGUN_ASSAULT, 1, 1, 100)
+        check_restock_item(PID_W_LIGHT_AUTOGUN, 1, 1, 100)
         check_restock_item(PID_W_RIFLE_SNIPER, 1, 1, 100)
         check_restock_item(PID_W_LASER_RIFLE, 1, 1, 100)
         check_restock_item(PID_W_PLASMA_PISTOL, 1, 1, 100)
-
-   set_BarterDopusk;
-   if (get_BarterDopusk_B != 0) then begin
-   call setBarterC;
-   end
-end
-
-procedure setBarterC begin
-   //Красный уровень товара - только для членов БС
-        check_restock_item(PID_ARMOR_COMBAT_BOS, 1, 1, 100)
-        check_restock_item(PID_TOOL_STEALTH_BOY, 1, 1, 100)
+        check_restock_item(PID_W_REVOLVER_COMBAT, 1, 1, 100)
         check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
-        check_restock_item(PID_AMMO_10_MM_NSP, 24, 36, 100)
         check_restock_item(PID_W_MINIGUN, 1, 1, 100)
-           check_restock_item(PID_AMMO_5_MM, 20, 40, 100) // в пачке 5 патронов
         check_restock_item(PID_W_PLASMA_RIFLE, 1, 1, 100)
+        check_restock_item(PID_AMMO_10_MM_NSP, 3, 4, 100)
 	     //! гатлинг-лазер?
 
-   set_BarterDopusk_B;
+   set_BarterDopusk;
 end
 
 procedure look_at_p_proc begin
@@ -249,9 +236,6 @@ procedure destroy_p_proc begin
    if (getQuest(GVAR_PUERTO_POWER_ARMOR) == qStart) then begin
    setQuest(GVAR_PUERTO_POWER_ARMOR,qEnd);
    end
-   if (get_BarterDopusk_B == 0) then begin
-   call setBarterB;
-   end
    kill_critter_opt
    kill_critter_box
    kill_critter_BoS_item
@@ -271,6 +255,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_BOS_TRAITOR,-90) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
 
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -332,15 +317,15 @@ procedure NodeSndDialog begin
 
    //--- Раскрытие товара
    if (global_var(GVAR_TITUL_BOS) > 0) then begin
-   if (get_BarterDopusk_B == 0) then begin
-   NAnswer(300,1,NodeBarter300)
-   end
+      if (get_BarterDopusk_B == 0) then begin
+      NAnswer(300,1,NodeBarter300)
+      end
    end
 
    if (get_BarterDopusk == 0) then begin
       NAnswer(250,1,NodeBarter200)
    end
-   else if (get_BarterDopusk != 0) then begin
+   else begin
       if (bitDialog(bit_2) == 0) then begin
       if (item_amnt(dude_obj,PID_W_LAUNCHER) > 0) then begin
       NAnswer(290,1,NodeBarter208)
@@ -506,7 +491,7 @@ procedure NodeBarter201 begin
    end
    NAnswerSkill(262,3,NodeBarter204,SKILL_BARTER,100,259,NodeBarter203)
    NAnswerRep(268,3,NodeBarter206,15,255,NodeBarter202)
-   //? Заплатить 500 крышек, доказывая свою платежеспособность
+   //? Заплатить 1000 крышек, доказывая свою платежеспособность
 
    NAnswer(258,1,NodeSndDialog)
 end
@@ -595,7 +580,7 @@ end
 procedure NodeBarter302 begin
    call NodeBarter306;
    item_add(dude_obj,PID_W_LASER_PISTOL,1)
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,50)
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,5)
    item_add(dude_obj,PID_TOOL_LOCKPICKS_EL,1)
    item_add(dude_obj,PID_TOOL_GEIGER_COUNTER,1)
    Reply(306)
@@ -605,7 +590,7 @@ end
 procedure NodeBarter303 begin
    call NodeBarter306;
    item_add(dude_obj,PID_W_LIGHT_AUTOGUN,1)
-   item_add(dude_obj,PID_AMMO_5_MM,20)
+   item_add(dude_obj,PID_AMMO_5_MM,4)
    item_add(dude_obj,PID_ARMOR_COMBAT_BOS,1)
    Reply(308)
    NAnswer(313,1,Node999)
@@ -631,11 +616,11 @@ procedure NodeBarter305 begin
 end
 
 procedure NodeBarter306 begin
+   set_BarterDopusk_B;
    decBarterMod(30);
    if (get_BarterDopusk == 0) then begin
    call setBarterB;
    end
-   call setBarterC;
 end
 
 procedure NodeBarter400 begin

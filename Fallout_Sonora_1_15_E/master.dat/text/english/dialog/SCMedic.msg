@@ -50,11 +50,12 @@
 {250}{}{Can you patch me up, Doc?}
 {251}{}{I can't treat civilians without special orders. We barely have enough for ourselves. Try the Followers of the Apocalypse in Casa Nueva. They'll patch you up with a smile.}
 {252}{}{Thanks for the tip. I'll try not to die on the way there.}
-{253}{}{Figures. Ordinary folks mean nothing to you. Later, butcher.}
+{253}{}{There's something else we need to discuss.}
 {254}{}{Heal me, Doc.}
 {255}{}{You're fine. Now grab your rifle and get back to the fight.}
-{256}{}{Will do, Doc!}
-{257}{}{Real funny, Doc.}
+{256}{}{You got it, Doc!}
+{257}{}{I told you, I won't treat you for free.}
+{258}{}{[Leave]}
 
 {260}{}{What's with all the screaming, Doc? Torturing someone?}
 {261}{}{Nah, just one of our soldiers losing it. Severe mental case.}
@@ -81,3 +82,9 @@
 {281}{}{No doubt. Stick to what you know well.}
 {282}{}{Thanks. And thanks for your help with my patient. I want to share something with you. Here's a doctor's bag and a couple of stims. I'm sure you'll find a good use for them.}
 {283}{}{Thanks, Doc. Take care.}
+
+{290}{}{[Heal wounds for }
+{291}{}{ caps]}
+{292}{}{[Heal injuries for }
+{293}{}{[Remove all radiation for }
+{294}{}{[Remove all poisons for }

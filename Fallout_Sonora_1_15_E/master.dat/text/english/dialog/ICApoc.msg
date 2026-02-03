@@ -222,10 +222,11 @@
 
 ### The Consignment
 
-{500}{}{Where are we heading, captain?}  
-{501}{}{Just follow me.}  
-{502}{}{Where do you want to go?}  
-{503}{}{To the city of Casa Nueva.}  
+{500}{}{Where are we heading, captain?}
+{1500}{}{Where are we heading, captain?}
+{501}{}{Just follow me.}
+{502}{}{Where do you want to go?}
+{503}{}{To the city of Casa Nueva.}
 {504}{}{Why?}  
 {505}{}{My brothers and sisters have an outpost there. I have to help them at the local school.}  
 {506}{}{Can you show this place on the map?}  
@@ -240,10 +241,12 @@
 {512}{}{It can't be helped. Return my things and go wherever you want.}  
 {513}{}{You're right. We better stick together.}  
 {514}{}{Stop dawdling. It's time for us to go.}  
-{515}{}{As you say, captain.}  
+{515}{}{As you say, my captain.}  
+{1515}{}{As you say, captain.}  
 {516}{}{Let's go.}  
 {517}{}{I need to leave you for a while. Stay here for now.}  
 {518}{}{You're not going to leave me, are you, my love? Okay, have it your way.}  
+{1518}{}{You're not going to leave me, are you? Okay, have it your way.}  
 {519}{}{Just wait here.}  
 {520}{}{Sorry, I now realize that I need you. Will you come with me?}  
 {521}{}{About weapons. It's better to hide them.}  

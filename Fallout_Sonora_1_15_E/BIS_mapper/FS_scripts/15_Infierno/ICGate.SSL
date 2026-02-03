@@ -186,7 +186,7 @@ end
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
-   Reply(200)
+   zReply(200)
    NAnswer(201,1,NodeFstDialog2)
    BAnswer(202,1,NodeFstDialog1)
    GAnswer(209,1,NodeFstDialog1b)

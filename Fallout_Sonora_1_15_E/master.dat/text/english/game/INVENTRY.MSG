@@ -39,7 +39,7 @@
 {34}{}{Let's be serious here.}
 {35}{}{We almost have a deal...}
 
-{36}{}{Turn that gadget off first. Then we’ll get down to business.}
+{36}{}{Turn that gadget off first. Then we'll get down to business.}
 {37}{}{I don't deal in gadgets like that. Take it off the table.}
 
 {50}{}{You can't find anything to take from that.}

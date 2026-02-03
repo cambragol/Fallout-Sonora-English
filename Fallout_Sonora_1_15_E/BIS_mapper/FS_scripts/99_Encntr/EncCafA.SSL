@@ -76,9 +76,9 @@ end
 procedure map_update_p_proc begin
    if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_12) == 0) then begin
       if (dude_elevation == 1) then begin
-      // shouldn't this be the floater for consistence? - cambragol
-      //floater(dude_obj,103,COLOR_MSG_RED);
-      display_mstr(103);
+      // This should be a floater for consistency with other comments fromt he PC - cambragol
+      floater(dude_obj,103,COLOR_MSG_RED);
+      //display_mstr(103);
       set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_12);
       move_to(self_obj,10904,0);
       end

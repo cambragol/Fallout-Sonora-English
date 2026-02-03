@@ -1,0 +1,315 @@
+#include "..\headers\define.h"
+//---------------------
+
+#define NAME                            SCRIPT_ACAnti
+#define TOWN_REP_VAR                    GVAR_TOWN_REP_SAN_FELIPE // привязка к репутации (-1, если не нужно)
+
+#define NUM_TEAM                        TEAM_SANFELIPE_CTZN   // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_AI                          AI_HERMO_SOLDIER      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
+#define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
+#define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
+
+#define FLAG_STEAL                      60 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
+
+//---------------------
+
+procedure start;
+procedure map_enter_p_proc;
+procedure look_at_p_proc;
+procedure description_p_proc;
+procedure timed_event_p_proc;
+procedure critter_p_proc;
+procedure use_obj_on_p_proc;
+procedure use_skill_on_p_proc;
+procedure pickup_p_proc;
+procedure push_p_proc;
+procedure combat_p_proc;
+procedure damage_p_proc;
+procedure destroy_p_proc;
+procedure talk_p_proc;
+
+procedure Node998;
+procedure Node999;
+procedure NodeStartDialog;
+procedure NodeFstDialog;
+procedure NodeFstDialog002;
+procedure NodeFstDialog003;
+procedure NodeFstDialog004;
+procedure NodeSndDialog;
+procedure NodeQst101;
+procedure NodeQst102;
+procedure NodeQst103;
+procedure NodeQst103b;
+procedure NodeQst104;
+procedure NodeQst105;
+procedure NodeQst106;
+
+//---------------------
+
+//#define LVAR_Flag_A                     (6) // отвечает за ...
+
+//---------------------
+
+
+
+procedure start begin
+end
+
+procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+       set_start_home
+       if DudeTraitHas(TRAIT_espanol) then begin
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_HERMO_SOLDIER_ENG);
+       end
+       if (getQuest(GVAR_SANFELIPE_QST_RUN) >= qEnd) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+   end
+end
+
+procedure look_at_p_proc begin
+   lookProcMsg
+end
+
+procedure description_p_proc begin
+   dsrptProcMsg
+end
+
+procedure timed_event_p_proc begin
+   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
+   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   if (fixed_param == 1) then begin
+       timer_move_to_home
+   end
+   if (fixed_param == 2) then begin
+       //timer_float_reply(120,121)
+   end
+end
+
+procedure critter_p_proc begin
+   set_critter_options(1,0) // условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+end
+
+procedure use_skill_on_p_proc begin
+   skillUseSteal
+   skillUseFAid
+end
+
+procedure pickup_p_proc begin
+   pickupProcCritter
+end
+
+procedure push_p_proc begin
+   push_options(HomeTile,5,-1) // толкать (точка отсчета, макс расстояние, фраза над нпс при толкании), удалить если не надо
+end
+
+procedure use_obj_on_p_proc begin
+   UsedItemToCrit_Proc
+end
+
+procedure combat_p_proc begin
+   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+end
+
+procedure damage_p_proc begin
+   set_damage_dude
+end
+
+procedure destroy_p_proc begin
+   set_gvar_bit_off(GVAR_SANFELIPE_BITS, bit_6);
+   if (getQuest(GVAR_SANFELIPE_QST_RUN) == qStart) then begin
+   setQuest(GVAR_SANFELIPE_QST_RUN, qStop);
+   end
+   kill_critter_opt
+end
+
+procedure talk_p_proc begin
+   if (getQuest(GVAR_SANFELIPE_QST_RUN) >= qEnd) then begin
+      floater(self_obj, 105, COLOR_MSG_GREEN);
+   end
+   else if (getQuest(GVAR_SANFELIPE_QST_RUN) <= qStop) then begin
+      if DudeTraitHas(TRAIT_espanol) then begin
+         if (bitDialog(bit_1) != 0) then begin
+         floater(self_obj, 103, COLOR_MSG_GREEN);
+         end
+         else begin
+         floater(self_obj, 104, COLOR_MSG_GREEN);
+         end
+      end
+      else begin
+         floater(self_obj, 102, COLOR_MSG_NORMAL);
+      end
+   end
+   else if DudeTraitHas(TRAIT_espanol) then begin
+      setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else begin
+      floater(self_obj, 102, COLOR_MSG_NORMAL);
+   end
+end
+
+procedure Node998 begin
+   set_enemy_dude;
+end
+
+procedure Node999 begin
+end
+
+procedure NodeStartDialog begin
+   if (getQuest(GVAR_SANFELIPE_QST_RUN) > qZero) then begin
+   bitDialogExp(bit_1,0) // уловка для удобства теста в маппере
+   end
+
+   if (bitDialog(bit_1) == 0) then begin
+   call NodeFstDialog;
+   end
+   else begin
+   call NodeSndDialog;
+   end
+end
+
+//--- ПЕРВЫЙ ДИАЛОГ
+
+procedure NodeFstDialog begin
+   bitDialogExp(bit_1,0)
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   Reply(208)
+   end
+   else begin
+   Reply(200)
+   end
+   NAnswer(201,0,NodeFstDialog002)
+end
+
+procedure NodeFstDialog002 begin
+   zReply(202)
+   NAnswer(203,0,NodeFstDialog003)
+end
+
+procedure NodeFstDialog003 begin
+   Reply(204)
+   NAnswer(205,0,NodeFstDialog004)
+end
+
+procedure NodeFstDialog004 begin
+   setQuest(GVAR_SANFELIPE_QST_RUN, qStart);
+   Reply(206)
+   NAnswer(207,0,Node999)
+end
+
+//--- ПОВТОРНЫЙ ДИАЛОГ
+
+procedure NodeSndDialog begin
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   Reply(221)
+   end
+   else begin
+   Reply(210)
+   end
+
+   if (getQuest(GVAR_SANFELIPE_QST_RUN) == qStart) then begin
+      if (global_var(GVAR_SANFELIPE_STATUS_BOSS) < 0) then begin
+      NAnswer(213,0,NodeQst101)
+      end
+      else if (gvar_bit(GVAR_SANFELIPE_BITS,bit_6) != 0) then begin
+      NAnswer(217,0,NodeQst101)
+      end
+      else begin
+      NAnswer(230,0,NodeQst103)
+      end
+   end
+
+   NAnswer(211,0,Node999)
+end
+
+procedure NodeQst101 begin
+   Reply(214)
+   if (gvar_bit(GVAR_SANFELIPE_BITS,bit_5) != 0) then begin
+   NAnswer(216,0,NodeQst102)
+   end
+   NAnswer(215,0,Node999)
+end
+
+procedure NodeQst102 begin
+   setQuest(GVAR_SANFELIPE_QST_RUN, qEnd);
+   if (getQuest(GVAR_PUERTO_QST_SANFELIPE_PIP) >= qEnd) then begin
+   setQuest(GVAR_PUERTO_QST_SANFELIPE_PIP, qStop);
+   end
+   set_gvar_bit_off(GVAR_SANFELIPE_BITS, bit_4);
+
+   //- обнуление квестов Сесарио
+   if (getQuest(GVAR_SANFELIPE_QST_FAROLAMPARA) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_FAROLAMPARA, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_GMAP) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_GMAP, qStop);
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_WATER) == qStart) then begin
+      setQuest(GVAR_SANFELIPE_QST_WATER, qStop);
+   end
+
+   //mark_map_entrance_state(MAP_SAN_FELIPE_CITY, 0);
+   exp_add(1000);
+   set_REP(30)
+
+   if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
+   zReply(219)
+   end
+   else begin
+   zReply(218)
+   end
+   NAnswer(220,0,Node999)
+end
+
+procedure NodeQst103 begin
+   Reply(231)
+   call NodeQst103b;
+   NAnswer(232,0,Node999)
+   NAnswer(233,0,Node999)
+end
+
+procedure NodeQst103b begin
+   if (getQuest(GVAR_SANFELIPE_QST_FAROLAMPARA) >= qStart) then begin
+   NAnswer(234,0,NodeQst104)
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCOAST) >= qStart) then begin
+   NAnswer(236,0,NodeQst105)
+   end
+   else if (getQuest(GVAR_SANFELIPE_QST_MONSTRSCAVE) >= qStart) then begin
+   NAnswer(237,0,NodeQst105)
+   end
+   if (getQuest(GVAR_SANFELIPE_QST_GMAP) >= qStart) then begin
+   NAnswer(239,0,NodeQst106)
+   end
+end
+
+procedure NodeQst104 begin
+   Reply(235)
+   call NodeQst103b;
+   NAnswer(232,0,Node999)
+   NAnswer(233,0,Node999)
+end
+
+procedure NodeQst105 begin
+   Reply(238)
+   call NodeQst103b;
+   NAnswer(232,0,Node999)
+   NAnswer(233,0,Node999)
+end
+
+procedure NodeQst106 begin
+   Reply(240)
+   call NodeQst103b;
+   NAnswer(232,0,Node999)
+   NAnswer(233,0,Node999)
+end

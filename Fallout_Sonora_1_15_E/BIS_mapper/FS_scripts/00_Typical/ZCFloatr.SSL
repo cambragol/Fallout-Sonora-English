@@ -26,8 +26,11 @@ procedure pickup_p_proc;
 procedure combat_p_proc;
 procedure damage_p_proc;
 procedure destroy_p_proc;
+procedure sanfelipe_finish_msg;
 
 //---------------------
+
+variable tileNumRun;
 
 
 
@@ -37,6 +40,21 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       if (map_first_run == true) then begin
+          if (cur_map_index == MAP_SAN_FELIPE_COAST) then begin
+          inc_map_var(MVAR_FELIPE_MONSTR_COAST_AMNT);
+          end
+          if (cur_map_index == MAP_SAN_FELIPE_CAVE) then begin
+          inc_map_var(MVAR_FELIPE_MONSTR_CAVE_AMNT);
+          end
+       end
+
+       if (cur_map_index == MAP_SAN_FELIPE_CITY) then begin
+          set_obj_visibility(self_obj, 1);
+          if (getQuest(GVAR_SANFELIPE_QST_RUN) >= qEnd) then begin
+          set_obj_visibility(self_obj, 0);
+          end
+       end
    end
 end
 
@@ -53,6 +71,30 @@ end
 
 procedure critter_p_proc begin
    set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+
+   //--- покидают карту после розжига костров
+   if (cur_map_index == MAP_SAN_FELIPE_COAST) then begin
+      if (map_var(MVAR_FELIPE_MONSTR_COAST_FIRE) >= 3) then begin
+      if (combat_is_initialized == false) then begin
+
+          if (tile_distance(self_tile,14932) < tile_distance(self_tile,20891)) then begin
+          tileNumRun := 14932; // запад
+          end else begin
+          tileNumRun := 20891; // восток
+          end
+
+          if (tile_distance(self_tile,tileNumRun) < 2) then begin
+          set_obj_visibility(self_obj, 1);
+          inc_global_var(GVAR_SANFELIPE_STATUS_MONSTRCOAST);
+          display_mstr(111);
+          destroy_object(self_obj);
+          end
+          else begin
+          move_to_tile(1,tileNumRun,0)
+          end
+      end
+      end
+   end
 end
 
 procedure use_skill_on_p_proc begin
@@ -78,11 +120,27 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
-   if (cur_map_index == MAP_SAN_FELIPE_CAVE) then begin
-      inc_global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE);
-   end
    if (cur_map_index == MAP_SAN_FELIPE_COAST) then begin
       inc_global_var(GVAR_SANFELIPE_STATUS_MONSTRCOAST);
+      if (global_var(GVAR_SANFELIPE_STATUS_MONSTRCOAST)>=map_var(MVAR_FELIPE_MONSTR_COAST_AMNT)) then begin
+      call sanfelipe_finish_msg;
+      end
+   end
+   if (cur_map_index == MAP_SAN_FELIPE_CAVE) then begin
+      inc_global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE);
+      if (global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE)>=map_var(MVAR_FELIPE_MONSTR_CAVE_AMNT)) then begin
+      call sanfelipe_finish_msg;
+      end
    end
    kill_critter_opt
+end
+
+procedure sanfelipe_finish_msg begin
+   play_sfx("ICSXXXX1");
+   if (dude_iq>=4) then begin
+   floater(dude_obj, 110, COLOR_MSG_GREEN);
+   end
+   else begin
+   display_mstr(110);
+   end
 end

@@ -94,7 +94,7 @@
 {270}{}{[Mock]}
 {271}{}{How did you end up in Dayglow?}
 {272}{}{Came here with squad. Walked desert long time. Brotherhood chased us, killed Gomer's friends, drove us out into wasteland. We had no choice, had to leave.}
-{273}{}{[Continue]}
+{273}{}{[More]}
 {274}{}{On way, met ghouls. They told us 'bout Dayglow. They were running too, from the humans. Humans hate everyone.}
 {275}{}{Why aren't you with your squad?}
 {276}{}{There was big hunger. Gomer so hungry... he ate all food. Shameful! They threw Gomer out after that. Haven't seen them since.}

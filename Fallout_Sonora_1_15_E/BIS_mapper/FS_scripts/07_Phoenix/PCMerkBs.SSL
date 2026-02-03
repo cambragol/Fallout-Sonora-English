@@ -300,6 +300,7 @@ end
 
 procedure NodeStopDialog100 begin
    bitDialogExp(bit_3,0)
+   setBonusReaction(50)
    zReply(220)
    NAnswer(221,1,NodeStopDialog101)
 end
@@ -359,7 +360,7 @@ procedure NodeStopDialog400 begin
    setBonusReaction(-40)
    Reply(250)
    NAnswer(251,1,NodeStopDialog401)
-   BAnswer(252,1,NodeStopDialog401)
+   zBAnswer(252,1,NodeStopDialog401)
 end
 
 procedure NodeStopDialog401 begin
@@ -387,7 +388,7 @@ end
 procedure NodeStopDialog500 begin
    bitDialogExp(bit_7,0)
    set_local_var(LVAR_DudeIsSlave_Know,1);
-   Reply(260)
+   zReply(260)
    NAnswer(265,1,NodeStopDialog502)
    BAnswer(261,1,NodeStopDialog501)
 end
@@ -399,7 +400,7 @@ procedure NodeStopDialog501 begin
 end
 
 procedure NodeStopDialog502 begin
-   Reply(266)
+   zReply(266)
    NAnswer(267,1,NodeStopDialog503)
    BAnswer(268,1,Node998)
 end
@@ -412,7 +413,7 @@ end
 procedure NodeStopDialog600 begin
    bitDialogExp(bit_8,0)
    bitDialogExp(bit_9,0)
-   Reply(270)
+   zReply(270)
    NAnswer(271,1,NodeStopDialog601)
    BAnswer(275,1,NodeStopDialog602)
 end
@@ -497,7 +498,7 @@ end
 
 procedure NodeFstDialog202 begin
    setBonusReaction(-5)
-   Reply(216)
+   zReply(216)
    NAnswer(217,1,NodeStartDialog)
    BAnswer(218,1,NodeStartDialog)
 end
@@ -632,7 +633,7 @@ procedure NodeDudeSlave5 begin
    game_time_advance(ONE_GAME_HOUR);
    zReply(320)
    NAnswer(321,1,Node999)
-   BAnswer(322,1,Node999)
+   zBAnswer(322,1,Node999)
 end
 
 //--- РАССПРОСЫ
@@ -1138,19 +1139,19 @@ procedure NodeWanted353 begin
 end
 
 procedure NodeWanted354 begin
-   item_add(dude_obj,PID_AMMO_10_MM,24)
+   item_add(dude_obj,PID_AMMO_10_MM,2)
    call NodeWanted360;
 end
 procedure NodeWanted355 begin
-   item_add(dude_obj,PID_AMMO_44_MAGNUM,18)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,3)
    call NodeWanted360;
 end
 procedure NodeWanted356 begin
-   item_add(dude_obj,PID_AMMO_308,10)
+   item_add(dude_obj,PID_AMMO_308,2)
    call NodeWanted360;
 end
 procedure NodeWanted357 begin
-   item_add(dude_obj,PID_AMMO_5_MM,7) // в пачке 5 патронов
+   item_add(dude_obj,PID_AMMO_5_MM,1)
    call NodeWanted360;
 end
 procedure NodeWanted358 begin
@@ -1158,7 +1159,7 @@ procedure NodeWanted358 begin
    call NodeWanted360;
 end
 procedure NodeWanted359 begin
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,25)
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,2)
    call NodeWanted360;
 end
 
@@ -1228,6 +1229,7 @@ end
 procedure NodeCardinal105 begin
    item_remove(dude_obj,PID_BOOTLE_CAPS,100)
    item_add(self_obj,PID_BOOTLE_CAPS,100)
+   set_REP(-5)
    call NodeCardinal109;
    set_global_var(GVAR_PHENIX_STATUS_CARD_PRISON,2);
    Reply(344)

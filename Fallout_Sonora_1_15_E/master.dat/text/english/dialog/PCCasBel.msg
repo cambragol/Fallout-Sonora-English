@@ -77,7 +77,7 @@
 {321}{}{Here's 300 caps. }
 {322}{}{Hang on a bit. I'll need to get my caps.}
 {323}{}{Thank you. (looks around and hides the caps) Let's start with the general rules...}
-{324}{}{[Continue]}
+{324}{}{[More]}
 {325}{}{...And never do a split on fives, then the sum will be ten.}
 {326}{}{Holy shit, this isn't easy. Now I know exactly what NOT to do.}
 {327}{}{That's all I know. Ultimately, that five percent luck will decide your fate in the game. Okay, I'm gonna split before the boss suspects anything.}

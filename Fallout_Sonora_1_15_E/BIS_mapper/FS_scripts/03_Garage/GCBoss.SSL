@@ -328,66 +328,66 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,100)
    Reply(200)
-   NAnswer(201,1,NodeFstDialog10)
+   NAnswer(201,0,NodeFstDialog10)
 end
 
 procedure NodeFstDialog10 begin
    Reply(202)
-   NAnswer(203,1,NodeFstDialog11)
-   BAnswer(223,1,NodeFstDialog11)
+   NAnswer(203,0,NodeFstDialog11)
+   BAnswer(223,0,NodeFstDialog11)
 end
 
 procedure NodeFstDialog11 begin
    Reply(204)
-   NAnswer(205,1,NodeFstDialog12)
-   GAnswer(207,1,NodeFstDialog13)
-   zBAnswer(209,1,NodeFstDialog14)
+   NAnswer(205,0,NodeFstDialog12)
+   GAnswer(207,0,NodeFstDialog13)
+   zBAnswer(209,0,NodeFstDialog14)
 end
 
 procedure NodeFstDialog12 begin
    zReply(206)
-   NAnswer(211,1,NodeFstDialog20)
+   NAnswer(211,0,NodeFstDialog20)
 end
 
 procedure NodeFstDialog13 begin
    setBonusReaction(10)
    zReply(208)
-   NAnswer(211,1,NodeFstDialog20)
+   NAnswer(211,0,NodeFstDialog20)
 end
 
 procedure NodeFstDialog14 begin
    setBonusReaction(-10)
    zReply(210)
-   NAnswer(211,1,NodeFstDialog20)
+   NAnswer(211,0,NodeFstDialog20)
 end
 
 procedure NodeFstDialog20 begin
    Reply(212)
-   NAnswer(213,1,NodeFstDialog21)
+   NAnswer(213,0,NodeFstDialog21)
 end
 
 procedure NodeFstDialog21 begin
    Reply(214)
-   NAnswer(221,1,NodeFstDialog21b)
-   BAnswer(215,1,NodeFstDialog22)
-   NAnswer(216,1,NodeFstDialog22)
+   NAnswer(221,0,NodeFstDialog21b)
+   BAnswer(215,0,NodeFstDialog22)
+   NAnswer(216,0,NodeFstDialog22)
 end
 
 procedure NodeFstDialog21b begin
    bitDialogExp(bit_3,50)
    Reply(222)
-   BAnswer(215,1,NodeFstDialog22)
-   NAnswer(216,1,NodeFstDialog22)
+   BAnswer(215,0,NodeFstDialog22)
+   NAnswer(216,0,NodeFstDialog22)
 end
 
 procedure NodeFstDialog22 begin
    Reply(217)
-   NAnswer(218,1,NodeFstDialog23)
+   NAnswer(218,0,NodeFstDialog23)
 end
 
 procedure NodeFstDialog23 begin
    Reply(219)
-   NAnswer(220,1,NodeFstDialog24)
+   NAnswer(220,0,NodeFstDialog24)
 end
 
 procedure NodeFstDialog24 begin
@@ -416,47 +416,47 @@ end
 procedure NodeFstDialog30 begin
    bitDialogExp(bit_2,0)
    Reply(230)
-   NAnswer(231,1,NodeFstDialog31)
+   NAnswer(231,0,NodeFstDialog31)
 end
 
 procedure NodeFstDialog31 begin
    setQuest(GVAR_GARAGE_QST_BOSS,qStart);
    set_local_var(LVAR_Dialog_Timer, ONE_GAME_DAY + game_time);
    Reply(232)
-   GAnswer(233,1,NodeFstDialog32)
-   BAnswer(234,1,NodeFstDialog33)
-   NAnswer(239,1,NodeFstDialog34)
+   GAnswer(233,0,NodeFstDialog32)
+   BAnswer(234,0,NodeFstDialog33)
+   NAnswer(239,0,NodeFstDialog34)
 end
 
 procedure NodeFstDialog32 begin
    Reply(235)
-   NAnswer(236,1,Node999)
+   NAnswer(236,0,Node999)
 end
 
 procedure NodeFstDialog33 begin
    Reply(237)
-   NAnswer(236,1,Node999)
+   NAnswer(236,0,Node999)
 end
 
 procedure NodeFstDialog34 begin
    Reply(240)
-   GAnswer(233,1,NodeFstDialog32)
-   BAnswer(234,1,NodeFstDialog33)
+   GAnswer(233,0,NodeFstDialog32)
+   BAnswer(234,0,NodeFstDialog33)
 end
 
 procedure NodeFstDialog40 begin
    zReply(241)
    if (getQuest(GVAR_GARAGE_QST_BOSS) == qEnd) then begin
-   NAnswer(247,1,NodeFstDialog42)
+   NAnswer(247,0,NodeFstDialog42)
    end
-   NAnswer(243,1,NodeFstDialog41)
-   NAnswer(242,1,Node999)
+   NAnswer(243,0,NodeFstDialog41)
+   NAnswer(242,0,Node999)
 end
 
 procedure NodeFstDialog41 begin
    zReply(244)
-   NAnswer(245,1,Node999)
-   NAnswer(246,1,Node999)
+   NAnswer(245,0,Node999)
+   NAnswer(246,0,Node999)
 end
 
 procedure NodeFstDialog42 begin
@@ -468,7 +468,7 @@ procedure NodeFstDialog42 begin
    setBonusReaction(-20)
    set_REP(-1)
    zReply(248)
-   NAnswer(249,1,NodeFstDialog43)
+   NAnswer(249,0,NodeFstDialog43)
    end
    else begin
    call NodeFstDialog43;
@@ -477,9 +477,9 @@ end
 
 procedure NodeFstDialog43 begin
    Reply(250)
-   NAnswer(251,1,NodeAnswer200)
-   zNAnswer(252,1,NodeQstB)
-   NAnswer(262,1,Node999)
+   NAnswer(251,0,NodeAnswer200)
+   zNAnswer(252,0,NodeQstB)
+   NAnswer(262,0,Node999)
 end
 
 /*
@@ -505,73 +505,73 @@ end
 procedure NodeStopDialog10 begin
    bitDialogExp(bit_4,0)
    Reply(190)
-   NAnswer(191,1,NodeStopDialog11)
-   BAnswer(194,1,NodeStopDialog12)
+   NAnswer(191,0,NodeStopDialog11)
+   BAnswer(194,0,NodeStopDialog12)
 end
 
 procedure NodeStopDialog11 begin
    Reply(192)
    NAnswer(196,3,NodeStopDialog13)
-   NAnswer(193,1,NodeStartDialog)
+   NAnswer(193,0,NodeStartDialog)
 end
 
 procedure NodeStopDialog12 begin
    Reply(195)
    NAnswer(196,3,NodeStopDialog13)
-   NAnswer(193,1,NodeStartDialog)
+   NAnswer(193,0,NodeStartDialog)
 end
 
 procedure NodeStopDialog13 begin
    bitDialogExp(bit_5,20)
    Reply(197)
-   NAnswer(198,1,NodeStartDialog)
+   NAnswer(198,0,NodeStartDialog)
 end
 
 procedure NodeStopDialog20 begin
    bitDialogExp(bit_10,0)
    setBonusReaction(-20)
    Reply(180)
-   GAnswer(181,1,NodeStopDialog21)
-   zNAnswer(186,1,NodeStopDialog21)
-   BAnswer(187,1,NodeStopDialog21)
+   GAnswer(181,0,NodeStopDialog21)
+   zNAnswer(186,0,NodeStopDialog21)
+   BAnswer(187,0,NodeStopDialog21)
 end
 
 procedure NodeStopDialog21 begin
    Reply(182)
-   NAnswer(183,1,NodeStopDialog22)
+   NAnswer(183,0,NodeStopDialog22)
 end
 
 procedure NodeStopDialog22 begin
    Reply(184)
-   NAnswer(185,1,NodeStartDialog)
+   NAnswer(185,0,NodeStartDialog)
 end
 
 procedure NodeStopDialog30 begin
    bitDialogExp(bit_13,0)
    Reply(170)
-   GAnswer(171,1,NodeStopDialog31)
-   zNAnswer(177,1,NodeStopDialog33)
+   GAnswer(171,0,NodeStopDialog31)
+   zNAnswer(177,0,NodeStopDialog33)
 end
 
 procedure NodeStopDialog31 begin
    setBonusReaction(20)
    Reply(172)
    if (map_var(MVAR_GARAGE_BARTER) == 0) then begin
-   NAnswer(174,1,NodeStopDialog32)
+   NAnswer(174,0,NodeStopDialog32)
    end
-   NAnswer(173,1,NodeStartDialog)
+   NAnswer(173,0,NodeStartDialog)
 end
 
 procedure NodeStopDialog32 begin
    set_map_var(MVAR_GARAGE_BARTER,1);
    Reply(175)
-   NAnswer(176,1,NodeStartDialog)
+   NAnswer(176,0,NodeStartDialog)
 end
 
 procedure NodeStopDialog33 begin
    setBonusReaction(-10)
    Reply(178)
-   NAnswer(179,1,NodeStartDialog)
+   NAnswer(179,0,NodeStartDialog)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -582,45 +582,45 @@ procedure NodeSndDialog begin
    if (getQuest(GVAR_GARAGE_QST_BOSS_TRADE) != qZero) then begin
       if (getQuest(GVAR_GARAGE_STANOK_DESTROY) == qStart) then begin
       if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_29) == 0) then begin
-      NAnswer(280,1,NodeAnswer400)
+      NAnswer(280,0,NodeAnswer400)
       end
       end
    end
 
    if (getQuest(GVAR_GARAGE_QST_BOSS) > qEnd) then begin
       if (getQuest(GVAR_GARAGE_QST_FABRICA) == qZero) then begin
-         zNAnswer(320,1,NodeQstB)
+         zNAnswer(320,0,NodeQstB)
       end
       if (getQuest(GVAR_GARAGE_QST_FABRICA) == qStart) then begin
          if (item_amnt(dude_obj,PID_Q_GARAGE_DETALS) > 0) then begin
-         GAnswer(330,1,NodeQstB200)
+         GAnswer(330,0,NodeQstB200)
          end
       end
    end
 
    if (getQuest(GVAR_GARAGE_QST_BOSS_TRADE) == 3) then begin
-   GAnswer(360,1,NodeQstC200)
+   GAnswer(360,0,NodeQstC200)
    end
 
    if (getQuest(GVAR_GARAGE_QST_FABRICA) > qZero) then begin
       if (global_var(GVAR_GARAGE_STATUS_LUCAS) == -1) then begin
          if (bitDialog(bit_12) == 0) then begin
-         NAnswer(390,1,NodeLucas)
+         NAnswer(390,0,NodeLucas)
          end
       end
    end
 
    if (bitDialog(bit_6) == 0) then begin
-   NAnswer(270,1,NodeAnswer100)
+   NAnswer(270,0,NodeAnswer100)
    end else begin
-   NAnswer(272,1,NodeAnswer100)
+   NAnswer(272,0,NodeAnswer100)
    end
 
    if (getQuest(GVAR_GARAGE_QST_BOSS) > qEnd) then begin
-   NAnswer(251,1,NodeAnswer200)
+   NAnswer(251,0,NodeAnswer200)
    end
 
-   NAnswer(301,1,Node999)
+   NAnswer(301,0,Node999)
 end
 
 //--- ВОПРОСЫ
@@ -630,48 +630,48 @@ procedure NodeLucas begin
    setBonusReaction(20)
    item_add(dude_obj,PID_BOOTLE_CAPS,100)
    Reply(391)
-   NAnswer(394,1,NodeLucas2)
-   NAnswer(392,1,NodeSndDialog)
-   zBAnswer(393,1,NodeSndDialog)
+   NAnswer(394,0,NodeLucas2)
+   NAnswer(392,0,NodeSndDialog)
+   zBAnswer(393,0,NodeSndDialog)
 end
 
 procedure NodeLucas2 begin
    Reply(395)
-   NAnswer(396,1,NodeLucas3)
-   NAnswer(397,1,NodeLucas3)
+   NAnswer(396,0,NodeLucas3)
+   NAnswer(397,0,NodeLucas3)
 end
 
 procedure NodeLucas3 begin
    Reply(398)
-   NAnswer(399,1,NodeSndDialog)
+   NAnswer(399,0,NodeSndDialog)
 end
 
 procedure NodeQstB begin
    setQuest(GVAR_GARAGE_QST_FABRICA,qStart);
    Reply(310)
-   NAnswer(311,1,NodeQstB102)
+   NAnswer(311,0,NodeQstB102)
 end
 
 procedure NodeQstB102 begin
    Reply(312)
-   NAnswer(313,1,NodeQstB103)
-   NAnswer(318,1,NodeQstB104)
-   NAnswer(317,1,Node999)
-   NAnswer(316,1,Node999)
+   NAnswer(313,0,NodeQstB103)
+   NAnswer(318,0,NodeQstB104)
+   NAnswer(317,0,Node999)
+   NAnswer(316,0,Node999)
 end
 
 procedure NodeQstB103 begin
    Reply(314)
-   NAnswer(318,1,NodeQstB104)
-   NAnswer(315,1,Node999)
-   NAnswer(316,1,Node999)
+   NAnswer(318,0,NodeQstB104)
+   NAnswer(315,0,Node999)
+   NAnswer(316,0,Node999)
 end
 
 procedure NodeQstB104 begin
    Reply(319)
-   NAnswer(313,1,NodeQstB103)
-   NAnswer(315,1,Node999)
-   NAnswer(316,1,Node999)
+   NAnswer(313,0,NodeQstB103)
+   NAnswer(315,0,Node999)
+   NAnswer(316,0,Node999)
 end
 
 procedure NodeQstB200 begin
@@ -681,50 +681,50 @@ procedure NodeQstB200 begin
    setBonusReaction(40)
    exp_add(500);
    Reply(331)
-   NAnswer(332,1,NodeQstB201)
-   NAnswer(344,1,NodeQstB202)
+   NAnswer(332,0,NodeQstB201)
+   NAnswer(344,0,NodeQstB202)
 end
 
 procedure NodeQstB201 begin
    Reply(333)
-   NAnswer(334,1,NodeQstB202)
+   NAnswer(334,0,NodeQstB202)
 end
 
 procedure NodeQstB202 begin
    Reply(335)
-   NAnswer(336,1,NodeQstB203)
-   NAnswer(341,1,NodeQstB205)
+   NAnswer(336,0,NodeQstB203)
+   NAnswer(341,0,NodeQstB205)
 end
 
 procedure NodeQstB203 begin
    Reply(337)
-   NAnswer(341,1,NodeQstB205)
-   zBAnswer(338,1,NodeQstB204)
+   NAnswer(341,0,NodeQstB205)
+   zBAnswer(338,0,NodeQstB204)
 end
 
 procedure NodeQstB204 begin
    setQuest(GVAR_GARAGE_QST_BOSS_TRADE,-1);
    setBonusReaction(-50)
    Reply(339)
-   BAnswer(340,1,Node999)
+   BAnswer(340,0,Node999)
 end
 
 procedure NodeQstB205 begin
    setQuest(GVAR_GARAGE_QST_BOSS_TRADE,1);
    Reply(342)
-   NAnswer(343,1,Node999)
+   NAnswer(343,0,Node999)
 end
 
 procedure NodeQstC begin
    zReply(351)
-   zNAnswer(352,1,NodeQstC2)
-   NAnswer(353,1,Node999)
-   BAnswer(356,1,Node999)
+   zNAnswer(352,0,NodeQstC2)
+   NAnswer(353,0,Node999)
+   zBAnswer(356,0,Node999)
 end
 
 procedure NodeQstC2 begin
    Reply(354)
-   NAnswer(355,1,NodeQstC3)
+   NAnswer(355,0,NodeQstC3)
 end
 
 procedure NodeQstC3 begin
@@ -737,31 +737,31 @@ end
 
 procedure NodeQstC200 begin
    Reply(361)
-   NAnswer(362,1,NodeQstC203)
-   NAnswer(372,1,NodeQstC207)
-   BAnswer(373,1,NodeQstC207)
+   NAnswer(362,0,NodeQstC203)
+   NAnswer(372,0,NodeQstC207)
+   BAnswer(373,0,NodeQstC207)
 end
 
 procedure NodeQstC203 begin
    Reply(363)
-   NAnswer(364,1,NodeQstC204)
+   NAnswer(364,0,NodeQstC204)
 end
 
 procedure NodeQstC204 begin
    bitDialogExp(bit_11,50)
    Reply(365)
-   NAnswer(366,1,NodeQstC205)
-   NAnswer(369,1,NodeQstC206)
+   NAnswer(366,0,NodeQstC205)
+   NAnswer(369,0,NodeQstC206)
 end
 
 procedure NodeQstC205 begin
    Reply(367)
-   NAnswer(368,1,NodeQstC207)
+   NAnswer(368,0,NodeQstC207)
 end
 
 procedure NodeQstC206 begin
    Reply(370)
-   NAnswer(371,1,NodeQstC207)
+   NAnswer(371,0,NodeQstC207)
 end
 
 procedure NodeQstC207 begin
@@ -777,10 +777,10 @@ procedure NodeQstC207 begin
 
    Reply(380)
    if (getQuest(GVAR_MAIN_QUEST_VILLA) < qEnd) then begin
-   NAnswer(382,1,NodeQstC208)
+   NAnswer(382,0,NodeQstC208)
    end
    else begin
-   NAnswer(381,1,Node999)
+   NAnswer(381,0,Node999)
    end
 end
 
@@ -794,22 +794,22 @@ procedure NodeQstC208 begin
 
    Reply(383)
    BAnswer(386,3,NodeQstC209)
-   NAnswer(384,1,Node999)
-   NAnswer(385,1,Node999)
+   NAnswer(384,0,Node999)
+   NAnswer(385,0,Node999)
 end
 
 procedure NodeQstC209 begin
    Reply(214)
-   NAnswer(221,1,NodeQstC210)
-   NAnswer(384,1,Node999)
-   NAnswer(385,1,Node999)
+   NAnswer(221,0,NodeQstC210)
+   NAnswer(384,0,Node999)
+   NAnswer(385,0,Node999)
 end
 
 procedure NodeQstC210 begin
    bitDialogExp(bit_3,50)
    Reply(222)
-   zBAnswer(387,1,Node999)
-   NAnswer(388,1,Node999)
+   zBAnswer(387,0,Node999)
+   NAnswer(388,0,Node999)
 end
 
 //--- ВОПРОСЫ
@@ -822,79 +822,79 @@ procedure NodeAnswer100 begin
    Reply(273)
    end
 
-   NAnswer(274,1,NodeAnswer101)
-   NAnswer(278,1,NodeAnswer103)
-   NAnswer(261,1,NodeSndDialog)
+   NAnswer(274,0,NodeAnswer101)
+   NAnswer(278,0,NodeAnswer103)
+   NAnswer(261,0,NodeSndDialog)
 end
 
 procedure NodeAnswer101 begin
    Reply(275)
-   NAnswer(276,1,NodeAnswer102)
-   NAnswer(278,1,NodeAnswer103)
-   NAnswer(261,1,NodeSndDialog)
+   NAnswer(276,0,NodeAnswer102)
+   NAnswer(278,0,NodeAnswer103)
+   NAnswer(261,0,NodeSndDialog)
 end
 
 procedure NodeAnswer102 begin
    Reply(277)
-   NAnswer(278,1,NodeAnswer103)
-   NAnswer(261,1,NodeSndDialog)
+   NAnswer(278,0,NodeAnswer103)
+   NAnswer(261,0,NodeSndDialog)
 end
 
 procedure NodeAnswer103 begin
    Reply(279)
-   NAnswer(274,1,NodeAnswer101)
-   NAnswer(261,1,NodeSndDialog)
+   NAnswer(274,0,NodeAnswer101)
+   NAnswer(261,0,NodeSndDialog)
 end
 
 procedure NodeAnswer200 begin
    Reply(253)
-   NAnswer(254,1,NodeAnswer201)
-   NAnswer(256,1,NodeAnswer202)
-   NAnswer(258,1,NodeAnswer203)
-   NAnswer(260,1,NodeSndDialog)
+   NAnswer(254,0,NodeAnswer201)
+   NAnswer(256,0,NodeAnswer202)
+   NAnswer(258,0,NodeAnswer203)
+   NAnswer(260,0,NodeSndDialog)
 end
 
 procedure NodeAnswer201 begin
    Reply(255)
-   NAnswer(256,1,NodeAnswer202)
-   NAnswer(258,1,NodeAnswer203)
-   NAnswer(260,1,NodeSndDialog)
+   NAnswer(256,0,NodeAnswer202)
+   NAnswer(258,0,NodeAnswer203)
+   NAnswer(260,0,NodeSndDialog)
 end
 
 procedure NodeAnswer202 begin
    Reply(257)
-   NAnswer(254,1,NodeAnswer201)
-   NAnswer(258,1,NodeAnswer203)
-   NAnswer(260,1,NodeSndDialog)
+   NAnswer(254,0,NodeAnswer201)
+   NAnswer(258,0,NodeAnswer203)
+   NAnswer(260,0,NodeSndDialog)
 end
 
 procedure NodeAnswer203 begin
    Reply(259)
-   NAnswer(254,1,NodeAnswer201)
-   NAnswer(256,1,NodeAnswer202)
-   NAnswer(260,1,NodeSndDialog)
+   NAnswer(254,0,NodeAnswer201)
+   NAnswer(256,0,NodeAnswer202)
+   NAnswer(260,0,NodeSndDialog)
 end
 
 //--- СОЮЗ С ВИЛЛОЙ
 
 procedure NodeAnswer400 begin
    Reply(281)
-   BAnswer(282,1,NodeAnswer401)
+   BAnswer(282,0,NodeAnswer401)
 end
 
 procedure NodeAnswer401 begin
    Reply(283)
    NAnswer(285,3,NodeAnswer402)
-   NAnswer(284,1,Node999)
+   NAnswer(284,0,Node999)
 end
 
 procedure NodeAnswer402 begin
    Reply(286)
-   NAnswer(287,1,NodeAnswer403)
+   NAnswer(287,0,NodeAnswer403)
 end
 
 procedure NodeAnswer403 begin
    set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_29);
    Reply(288)
-   NAnswer(289,1,Node999)
+   NAnswer(289,0,Node999)
 end

@@ -141,7 +141,7 @@ end
 procedure NodeFstDialog101 begin
    bitDialogExp(bit_2,0)
    item_add(dude_obj,PID_M_BRAHMIN_POTROH,1)
-   Reply(226)
+   zReply(226)
    NAnswer(227,1,Node999)
 end
 

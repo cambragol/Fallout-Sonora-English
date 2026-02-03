@@ -1,5 +1,6 @@
 {100}{}{You see an adept.}
 {101}{}{You see one of the Followers of Fire. He's shouting something manically to draw attention.}
+{102}{}{(1/3) First testimony regarding the attacks obtained.}
 
 #Floating Lines
 {110}{}{Tremble before the Holy Fire!}
@@ -19,10 +20,10 @@
 {200}{}{Come closer, child of Radiation and Desolation. All must see that justice prevails. None shall escape the wrath of the heavens!}
 {201}{}{Umm, what are you going on about?}
 {202}{}{For years, we, the servants of the Holy Fire, kept ourselves hidden from the common folk. Their hearts and minds couldn't comprehend the simplest truths. We were shunned, beaten, even killed! But we waited... waited for the right time.}
-{203}{}{[Continue]}
-{204}{}{Hey, crazy guy in the rags, why all the shouting?}
+{203}{}{[More]}
+{204}{}{I hear you just fine. What are you yelling for?}
 {205}{}{There it is! Intolerance! Blasphemy! We, the servants of the Holy Fire, stayed hidden from ordinary people for years, because they couldn't grasp the simple truths. We were driven away, beaten, and killed! But we waited patiently... for the right time.}
-{206}{}{The time when the Lord would tire of human foolishness and grant us peace. These people, whose bodies have become vessels for the Nuclear Devil, are proof. For many years, they plotted their wicked deeds against the church. They robbed and killed our monks who spread the bright truths to the world. Ungrateful! They will burn in the Nuclear Fire of Hell!}
+{206}{}{The time when the Lord would tire of human foolishness and grant us deliverance. These people, whose bodies have become vessels for the Nuclear Devil, are proof. For many years, they plotted their wicked deeds against the church. They robbed and killed our monks who spread the bright truths to the world. Ungrateful! They will burn in the Nuclear Fire of Hell!}
 {207}{}{Terrible. Those people definitely had it coming.}
 {208}{}{May the Holy Fire be with you! Go in peace, and spread the word to the common folk about the persecution of our peaceful church.}
 {209}{}{Of course. After hearing all this, I can't stand by and let such injustice continue.}
@@ -31,13 +32,17 @@
 {212}{}{Skeptic! Have we not done enough for this city? Look at how Phoenix has thrived under the wisdom of Lord Aaron. Go and reflect on that... and fear the Holy Fire! Fear the Fire!}
 {213}{}{Sorry, I'm new around here. I'll make sure to check out your church, though.}
 {214}{}{After what I've seen, I'm not sure I can take your words at face value. I'll figure out my own opinion of your church.}
+{215}{}{Huh?}
+{216}{}{[More]}
+{217}{}{Mm-hmm!}
 
 {220}{}{Greetings, brother. I'm glad to see you've come around since our last meeting. You were a skeptic back then, looking at me with disdain. Now, I extend my hand and say crede firmiter et pecca fortiter.}
 {1220}{}{Greetings, sister. I'm glad to see you've come around since our last meeting. You were a skeptic back then, looking at me with disdain. Now, I extend my hand and say crede firmiter et pecca fortiter.}
 {221}{}{Greetings, brother. I'm glad to see you've joined the cause. It's a great honor and responsibility. Crede firmiter et pecca fortiter.}
 {1221}{}{Greetings, sister. I'm glad to see you've joined the cause. It's a great honor and responsibility. Crede firmiter et pecca fortiter.}
 {222}{}{Now, if you don't mind, I'd like to talk with you.}
-{223}{}{Crede firmi... What? I'm not up to speed on the sacred texts yet. See you around.}
+{223}{}{Crede firmi-what? I'm not up to speed on the sacred texts yet. See you around.}
+{224}{}{}
 
 #Repeat Dialogue
 {250}{}{I see the words of the Holy Fire still trouble you? What do you want to know this time?}
@@ -45,6 +50,7 @@
 {252}{}{Greetings, brother. Everything alright? Are the common folk giving you any trouble?}
 {1252}{}{Greetings, sister. Everything alright? Are the common folk giving you any trouble?}
 {253}{}{I think I'll be going now.}
+{254}{}{[Leave]}
 
 {260}{}{Who are you?}
 {261}{}{Tell me more about yourself, brother.}
@@ -53,7 +59,7 @@
 {264}{}{Well, that was enlightening. See you around.}
 {265}{}{What is this 'church' you represent, Gabriel?}
 {266}{}{That's right. After joining the service, we change our names, putting a cross over our past lives.}
-{267}{}{}
+{267}{}{I've got one more question.}
 {268}{}{By the way, could you help me understand our faith better?}
 {269}{}{After what I've heard, I'd like to know more about your faith.}
 {270}{}{Tell me about the religion you represent.}
@@ -67,7 +73,7 @@
 {278}{}{You sure talk a good game, old man. I'll check it out myself to see if you're lying or not.}
 {279}{}{Well then, I should explore the city a bit and see. Goodbye.}
 {280}{}{Sorry to be blunt, but such questions shouldn't be discussed on the street. And don't clutter your mind with skepticism; that's how the Nuclear Devil infiltrates the souls of young monks. Fear the Holy Fire, acolyte, fear the Fire!}
-{281}{}{Looks like I'll need to speak with the clergy at the cathedral. See you.}
+{281}{}{Uh... alright.}
 {282}{}{And what do you do exactly?}
 {283}{}{Why were those guys punished?}
 {284}{}{Those guys behind you didn't fear it. Why were they executed?}
@@ -85,12 +91,12 @@
 {300}{}{I'm investigating the attacks on the monks at Aaron's request. What can you tell me about them?}
 {301}{}{Tell me again about the attacks on the Followers.}
 {302}{}{We Followers were often the targets of robberies and ridicule. When Aaron rose to power - may his name be praised - the gangs steered clear of us. But lately, the attacks have started up again.}
-{303}{}{[Continue]}
+{303}{}{[More]}
 {304}{}{The shooting during the execution, the murder in the slums, and the attack in front of the casino are the most daring crimes against our brothers recently.}
 {305}{}{Thanks, that's enough.}
 
 {310}{}{Tell me about the shooting during the execution.}
-{311}{}{They shot from the top of those ruins while we were carrying out the execution. There were several shooters, they fired crosswise and clearly aimed at me. Perhaps the supporters of the criminals tried to save their accomplices, but by the will of the Eye of the Phoenix, they failed.}
+{311}{}{There were several shooters, they fired crosswise and clearly aimed at me. Perhaps the supporters of the criminals tried to save their accomplices, but by the will of the Eye of the Phoenix, they failed.}
 {312}{}{What about the attack in front of the casino?}
 {313}{}{Savage criminals cut down our brothers near the casino, like mole rats on a ranch. It's hard to say what really happened, as people are saying different things.}
 {314}{}{What do you know about the incident in the slums?}

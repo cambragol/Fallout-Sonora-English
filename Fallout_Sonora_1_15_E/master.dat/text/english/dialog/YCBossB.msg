@@ -79,7 +79,7 @@
 #Story Quests
 {300}{}{Gustavo asked me to give you this disk.}
 {301}{}{Hand it over. Let's see what this old stiff is up to... Hmm. This is some real progress! Now Dayglow has power and radio communication. Just like in the good old days. What could be better?}
-{302}{}{[Continue]}
+{302}{}{[More]}
 {303}{}{Ah yes, Gustavo's at it again, demanding we cut ties with the smoothskins. The old geezer just doesn't get it. See, Gustavo wants to shut the city off from outsiders, but I think that's foolish. We need the goods and supplies from the Hub, and they need Dayglow's tech. Tell me you're not planning to indulge his nonsense, are you?}
 {304}{}{No, I'm not.}
 {305}{}{I don't care, as long as I get paid.}

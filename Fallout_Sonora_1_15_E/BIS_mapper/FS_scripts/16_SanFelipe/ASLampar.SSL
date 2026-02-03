@@ -8,6 +8,8 @@ procedure map_enter_p_proc;
 procedure use_p_proc;
 procedure use_skill_on_p_proc;
 procedure use_obj_on_p_proc;
+procedure damage_p_proc;
+procedure expl_proc;
 procedure repair_proc;
 
 
@@ -16,6 +18,12 @@ procedure start begin
 end
 
 procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   if (global_var(GVAR_SANFELIPE_STATUS_LAMPARA) > 0) then begin
+   set_local_var(LVAR_Status, 1);
+   set_obj_visibility(self_obj, 0);
+   end
+   end
 end
 
 procedure use_p_proc begin
@@ -31,6 +39,22 @@ end
 procedure use_obj_on_p_proc begin
    stopUseCarGaz
    RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20)
+   RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20)
+end
+
+procedure damage_p_proc begin
+   if (target_obj != 0) then begin
+      if (weapon_dmg_type(target_obj) == DMG_explosion) then begin
+      call expl_proc;
+      end
+   end
+end
+
+procedure expl_proc begin
+   set_global_var(GVAR_SANFELIPE_STATUS_LAMPARA, -1);
+   obj_set_light_level(self_obj, 0, 0);
+   display_mstr(113);
+   set_obj_visibility(self_obj, 1);
 end
 
 procedure repair_proc begin
@@ -38,5 +62,6 @@ procedure repair_proc begin
    gfade_out(ONE_GAME_SECOND);
     game_time_advance(ONE_GAME_HOUR);
    gfade_in(ONE_GAME_SECOND);
-   RepairProcRepair(112,350,"FIXSTILL")
+   obj_set_light_level(self_obj, 100, 1);
+   RepairProcRepair(112,0,"FIXSTILL")
 end

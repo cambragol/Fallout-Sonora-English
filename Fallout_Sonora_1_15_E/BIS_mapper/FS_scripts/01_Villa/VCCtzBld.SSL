@@ -45,6 +45,8 @@ procedure NodeAnswer103;
 
 //---------------------
 
+#define LVAR_Timer                     (6) // время до смерти
+
 variable medicMetod;                       // метод лечения (передается в процедуру medic_proc)
 
 //---------------------
@@ -59,6 +61,7 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
        set_injure_start(1,0,0,0,0) // травмировать (отметить нужное цифрой 1): a - левая рука, b - правая рука, c - левая нога, d - правая нога, e - слепота
+
        if (get_Medic_Quest == 0) then begin
           reg_anim_clear(self_obj);
           reg_anim_begin();
@@ -66,34 +69,48 @@ procedure map_enter_p_proc begin
           reg_anim_end();
           critter_injure(self_obj, DAM_KNOCKED_DOWN);
           if (global_var(GVAR_GAME_END) != 0) then begin
-          rm_timer_event(self_obj);
-          call destroy_p_proc;
-          kill_critter(self_obj, ANIM_fall_back_blood_sf);
+             rm_timer_event(self_obj);
+             call destroy_p_proc;
+             kill_critter(self_obj, ANIM_fall_back_blood_sf);
           end
+       end
+
+       if (getQuest(GVAR_VILLA_MEDIC_HELP) < qEnd) then begin
+       if (local_var(LVAR_Timer) != 0) then begin
+       if (local_var(LVAR_Timer) < game_time) then begin
+          rm_timer_event(self_obj);
+          set_obj_visibility(self_obj, 1);
+       end
+       end
        end
    end
 end
 
 procedure map_update_p_proc begin
+   variable genderMsg;
    if (getQuest(GVAR_VILLA_MEDIC_HELP) < qEnd) then begin
       if (map_var(MVAR_Plaza_MedicMetod) == 3) then begin
       critter_uninjure_full(self_obj);
       medicMetod := 3;
       end
+      genderMsg := 105+medicMetod;
       if dude_is_female then begin
-         set_injure_update(100,(1105+medicMetod))
-      end else begin
-         set_injure_update(100,(105+medicMetod))
+      genderMsg += 1000;
       end
+      set_injure_update(150,genderMsg)
    end
 end
 
 procedure description_p_proc begin
    script_overrides;
    if (getQuest(GVAR_VILLA_MEDIC_HELP) < qEnd) then begin
-   display_mstr(101);
-   end else begin
-   display_mstr(102);
+      if (local_var(LVAR_Timer) == 0) then begin
+      set_local_var(LVAR_Timer, game_time + (3*ONE_GAME_MONTH));
+      end
+      display_mstr(101);
+   end
+   else begin
+      display_mstr(102);
    end
 end
 
@@ -202,38 +219,45 @@ end
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
-   Reply(200)
+   zReply(200)
    if (map_var(MVAR_Plaza_MedicMetod) == 3) then begin
-   NAnswer(202,1,NodeFstDialog13)
+   NAnswer(202,4,NodeFstDialog13)
+   NAnswer(218,-3,NodeFstDialog13)
    end
    else if (map_var(MVAR_Plaza_MedicMetod) == 2) then begin
-   NAnswer(202,1,NodeFstDialog12)
+   NAnswer(202,4,NodeFstDialog12)
+   NAnswer(218,-3,NodeFstDialog12)
    end
    else begin
-   NAnswer(207,1,NodeFstDialog11)
+   NAnswer(207,4,NodeFstDialog11)
+   NAnswer(218,-3,NodeFstDialog11)
    end
 end
 
 procedure NodeFstDialog11 begin
    Reply(208)
-   NAnswer(209,1,Node999)
-   NAnswer(217,1,Node999)
+   NAnswer(209,4,Node999)
+   NAnswer(217,4,Node999)
+   NAnswer(219,-3,Node999)
 end
 
 procedure NodeFstDialog12 begin
    Reply(203)
-   NAnswer(204,1,Node999)
+   NAnswer(204,4,Node999)
+   NAnswer(219,-3,Node999)
 end
 
 procedure NodeFstDialog13 begin
    Reply(205)
-   NAnswer(206,1,Node999)
+   NAnswer(206,4,Node999)
+   NAnswer(219,-3,Node999)
 end
 
 procedure NodeSndDialog begin
-   Reply(200)
-   NAnswer(210,1,NodeAnswer101)
-   NAnswer(201,1,Node999)
+   zReply(200)
+   NAnswer(210,4,NodeAnswer101)
+   NAnswer(201,4,Node999)
+   NAnswer(219,-3,Node999)
 end
 
 procedure NodeAnswer101 begin
@@ -242,17 +266,15 @@ procedure NodeAnswer101 begin
    NAnswer(212,4,NodeAnswer102)
    end
    NAnswer(215,7,NodeAnswer103)
-   NAnswer(201,1,Node999)
+   NAnswer(201,4,Node999)
 end
 
 procedure NodeAnswer102 begin
    bitDialogExp(bit_2,0)
-   item_add(dude_obj,PID_AMMO_SHOTGUN_SHELLS,4)
-   item_add(dude_obj,PID_AMMO_308,4)
-   item_add(dude_obj,PID_AMMO_10_MM,6)
+   item_add(dude_obj,PID_AMMO_10_MM,1)
    Reply(213)
    NAnswer(215,7,NodeAnswer103)
-   NAnswer(214,1,Node999)
+   NAnswer(214,4,Node999)
 end
 
 procedure NodeAnswer103 begin
@@ -261,5 +283,5 @@ procedure NodeAnswer103 begin
    if (bitDialog(bit_2) == 0) then begin
    NAnswer(212,4,NodeAnswer102)
    end
-   NAnswer(214,1,Node999)
+   NAnswer(214,4,Node999)
 end

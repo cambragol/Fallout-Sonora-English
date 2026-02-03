@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_PCBrtrD
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        13                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_PHOENIX_CITIZEN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -71,7 +72,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -87,7 +88,7 @@ procedure setBarterA begin
         check_restock_item(PID_M_SOUP_RAT, 5, 8, 100)
 
         //- крышки
-        check_restock_many(180,220)
+        check_restock_many(200,300)
 end
 
 procedure setBarterB begin
@@ -153,6 +154,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-10) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
 
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -164,9 +166,11 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
-   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_20) == 0)) then begin
+   if (bitDialog(bit_20) == 0) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    incBarterMod(20);
    bitDialogExp(bit_20,0)
+   end
    end
 
    if (bitDialog(bit_1) == 0) then begin
@@ -212,7 +216,7 @@ procedure NodeSndDialog begin
 
    //--- Нападение на Последователей
    if (getQuest(GVAR_PHENIX_QST_CULT_A) == qStart) then begin
-   if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) or (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3)) then begin
+      if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 1) or (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 3)) then begin
       NAnswer(300,1,NodeQstCult)
       end
    end

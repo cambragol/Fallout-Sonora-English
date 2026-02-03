@@ -247,6 +247,14 @@ procedure NodeFstDialog begin
    BAnswer(217,1,NodeFstDialog102)
    end
 
+   if (getQuest(GVAR_BRAHMIN_QST_RNGRGOHOME) == qStart) then begin
+   if (getQuest(GVAR_BRAHMIN_QST_RANGER) < qEnd) then begin
+      if (global_var(GVAR_BRAHMIN_STATUS_RANGER) == 0) then begin
+      BAnswer(260,3,NodeQst200)
+      end
+   end
+   end
+
    NAnswer(211,1,Node999)
 end
 
@@ -349,7 +357,7 @@ procedure NodeSndDialog begin
    Reply(302)
    end
    else if ((getQuest(GVAR_BRAHMIN_ATTAK) >= qEnd) and (global_var(GVAR_BRAHMIN_STATUS_RANGER) >= 0)) then begin
-   zReply(303)
+   Reply(303)
    end
    else begin
    Reply(300)
@@ -393,7 +401,7 @@ procedure NodeSndDialog begin
       NAnswer(340,1,NodeQst300)
       end
       else if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) > 1) then begin
-      //! Чатто стал новым лидером. - Это очень плохо. Первым делом он наладит союз с Фениксом. Поэтому остаётся только одно - его придется убить.
+      //! Чатто стал новым лидером. - Это очень плохо. Первым делом он наладит союз с Фениксом. Его необходимо немедленно устранить!
       end
    end
    end
@@ -467,6 +475,7 @@ procedure NodeQst203 begin
    Reply(269)
    NAnswer(271,1,Node999)
    BAnswer(270,1,Node999)
+   BAnswer(276,1,Node998)
 end
 
 procedure NodeQst300 begin

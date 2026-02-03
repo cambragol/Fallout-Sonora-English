@@ -2417,8 +2417,8 @@
 {124701}{}{There are human bones on this bed. The skull is nowhere to be seen.}
 {124800}{}{Bed}
 {124801}{}{On this bed lies the skeleton of a long-dead man. Looks like he was an old man.}
-{124900}{}{Dead Bodies}
-{124901}{}{The bodies of the expedition members. Wrapped in rags to stink less.}
+{124900}{}{Dead Body}
+{124901}{}{The body of one the expedition members. Wrapped in rags to reduce the stench.}
 {125000}{}{Library Terminal}
 {125001}{}{This terminal gives access to the electronic library.}
 {125100}{}{High-Tech Object}
@@ -3934,11 +3934,11 @@
 {205000}{}{Cactus}
 {205001}{}{Just an ordinary cactus.}
 {205100}{}{Old Lighthouse}
-{205101}{}{This ancient structure is called a lighthouse. Rumor has it that it once shone a light for sailors, but that's not certain.}
+{205101}{}{This ancient structure is called a lighthouse.}
 {205200}{}{Old Lighthouse}
-{205201}{}{This ancient structure is called a lighthouse. Rumor has it that it once shone a light for sailors, but that's not certain.}
+{205201}{}{This ancient structure is called a lighthouse.}
 {205300}{}{Old Lighthouse}
-{205301}{}{This ancient structure is called a lighthouse. Rumor has it that it once shone a light for sailors, but that's not certain.}
+{205301}{}{This ancient structure is called a lighthouse.}
 {205400}{}{Spirit of St. Joseph}
 {205401}{}{Personal two-seater plane of Father Fred Stadtmaller.}
 {205500}{}{Spirit of St. Joseph}

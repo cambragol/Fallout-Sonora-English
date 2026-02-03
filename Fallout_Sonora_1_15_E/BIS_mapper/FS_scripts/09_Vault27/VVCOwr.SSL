@@ -63,7 +63,7 @@ procedure critter_p_proc begin
    if ((obj_is_visible_flag(self_obj) == false) and (global_var(GVAR_VAULT27_STATUS_MERC) == 0)) then begin
    end
    else begin
-      invisToDude(0,-1) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога; не забыть set_obj_visibility(self_obj, 1) в map_enter_p_proc.
+      invisToDude(10,-1) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога; не забыть set_obj_visibility(self_obj, 1) в map_enter_p_proc.
       set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
    end
 end

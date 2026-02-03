@@ -35,7 +35,7 @@
 {220}{}{We manage the land and mostly grow corn. But recently, we were raided by slavers from Flagstaff...}
 {221}{}{Ah, that's it. I have already been informed about the labor shortage in the uranium mine. Well, the situation was inevitable. It's damn unfair, son.}
 {1221}{}{Ah, that's it. I have already been informed about the labor shortage in the uranium mine. Well, the situation was inevitable. It's damn unfair, lady.}
-{222}{}{That's right, General. Terribly unfair.}
+{222}{}{That's right, General. Terribly unfair. But weren't you involved?}
 {223}{}{I was sent by Hard from Two-Sun. Here is his recommendation.}
 {224}{}{Hard must have had a damn good reason for vouching for you. I've heard things are shifting in Two-Sun - enough to make even the locals nervous. But that doesn't answer my question: who the hell are you, and how exactly did you earn the trust of the Tinsmiths?}  
 {1224}{}{Hard must have had a damn good reason for vouching for you. I've heard things are shifting in Two-Sun - enough to make even the locals nervous. But that doesn't answer my question: who the hell are you, and how exactly did you earn the trust of the Tinsmiths?}
@@ -44,9 +44,9 @@
 {227}{}{Actually, they promised freedom and protection for my home village.}
 {228}{}{I'm here because you're responsible for the troubles in my village. Because of your thirst for energy, Flagstaff is raiding and enslaving villages like ours.}
 {229}{}{I demand freedom and independence for my home village.}
-{230}{}{So, you dream of freedom for your little village, huh? A place where raiders don't hound your people, and the corn sprouts without a drop of blood or sweat watering it?}  
+{230}{}{Besides, after all your adventures, don't you want to change your primitive little village? Free it from out-dated traditions? Gain protection from bandits? Get the tech to cultivate your farms without endless blood and sweat?}
 {231}{}{Is this possible, General?}
-{232}{}{Of course, General.}
+{232}{}{Of course. That goes without saying.}
 {233}{}{The Brotherhood of Steel knows what justice really means. We're the only ones still holding onto the wisdom of the Old World - while the rest of you stumble through the ruins, playing at survival.}  
 {234}{}{I think I can see that.}
 {235}{}{Justice? Really?}
@@ -54,7 +54,7 @@
 {237}{}{But we know almost nothing about your Brotherhood.}
 {238}{}{That's quite the pitch, General. What kind of Brotherhood are you, anyway?}  
 {239}{}{The Brotherhood of Steel is an ancient order. We're the inheritors of everything that mattered before the bombs fell - knowledge, power, technology. While the wasteland was still chewing on its own leg, we were gathering strength and waiting for the right moment to expand outward, and effect change. That moment is now. The scribes will fill you in on the finer points, if you can keep up.}  
-{240}{}{.......}
+{240}{}{}
 {241}{}{I was just wandering by and wondered if you have any jobs?}
 {242}{}{I don't waste my time with mercenaries. That's what the hiring post outside the gate is for. Now, unless you've got business that concerns me directly, I suggest you leave this fortress immediately.}  
 {243}{}{Sorry, General...}
@@ -65,16 +65,16 @@
 {248}{}{[Nod]}
 {249}{}{Picture it - water pumps humming, generators powering your homes, and tools that do half the work for you. Medicine to heal your sick and weapons to keep raiders at bay. That's the kind of future the Brotherhood can offer your village. All you have to do is take it.}  
 {250}{}{Come on. You'll simply occupy us and force us to work for the good of the Brotherhood. Not our own benefit. That isn't freedom.}
-{251}{}{I've had enough of this nonsense. Your village *will* provide food and resources - whether it's by agreement or by force is entirely up to you. I offered you the easy way, but it seems you've chosen to complicate things. Now, put down your weapons and raise your hands before I change my mind.}  
+{251}{}{Looks like I'm wasting my time with you. You HAD a chance to take the easy way out.. Your village *will* provide food and resources - whether it's by agreement or by force. I offered you the easy way, but it seems you've chosen the hard. Now, put down your weapons and raise your hands.}  
 {252}{}{Maybe you should raise your hands...}
-{253}{}{The hell with you. You won't enslave free people.}
+{253}{}{The hell with you. You won't enslave *my* people!}
 {254}{}{Sounds... amazing. I'm sure I could convince my kin of the advantages of joining with you.}
 {255}{}{Smart call, mi querido amigo. But even with your community's consent, there's still one thorn in my side - the Rangers. They fancy themselves noble guardians, but in truth, they're little more than a self-important blockade standing in the way of our progress north. We've been scouting their positions around Phoenix, and once we're ready, we'll deal with those bastards properly.}  
 {1255}{}{Smart call, mi querida amiga. But even with your community's consent, there's still one thorn in my side - the Rangers. They fancy themselves noble guardians, but in truth, they're little more than a self-important blockade standing in the way of our progress north. We've been scouting their positions around Phoenix, and once we're ready, we'll deal with those bastards properly.}  
 {256}{}{Then they need to be eliminated. Their lands nearly surround Villa.}
 {257}{}{Ah, a man after my own heart. Yes, the Rangers have holed up in an old dam - thinking it's an impenetrable fortress. But they've overlooked one simple truth: it only takes one crack to bring down an entire dam. Go scout the area. When the time's right, we'll take it out.}  
 {258}{}{It will be done, General!}
-{259}{}{As you say, General Dixon.}
+{259}{}{}
 
 {260}{}{So, we meet at last, you damn bastard. I knew you'd crawl in here sooner or later. Arizona's been itching for your head.}  
 {1260}{}{So we meet, you dirty little bitch. I knew you'd crawl in here sooner or later. Arizona's been itching for your head.}  
@@ -86,13 +86,13 @@
 {264}{}{So what do you think about my 'stunts', General?}
 {265}{}{I don't care what you think you know or have heard. I'm here to finish you and your entire 'brotherhood'.}
 {266}{}{You ignorant peasant. Do you have the faintest idea how much work went into creating the Church of the Holy Fire in Phoenix? All that thankless effort, aimed at pulling the city - and the region - back from the brink. And now the whole operation's gone up in nuclear flames, thanks to a few stubborn, dirty peasants. It's a damned tragedy for Arizona and a disaster for its future.}  
-{267}{}{Continue.}
+{267}{}{Go on.}
 {268}{}{Do you know how much diplomatic work went into forging our alliance with the Tinsmiths? We performed miracles to secure those trade routes. Now, thanks to your meddling, Two-Sun will wither like a plant with no water.}  
-{269}{}{Continue.}
+{269}{}{Go on.}
 {270}{}{Flagstaff's mine wasn't just some hole in the ground - it was the linchpin for restarting civilization. Uranium ore means power, and power is the foundation for all progress in Arizona. Without it, everything grinds to a halt. Do you even grasp the scale of what you've sabotaged?}  
-{271}{}{Continue.}
+{271}{}{Go on.}
 {272}{}{.....}
-{273}{}{Continue.}
+{273}{}{Go on.}
 {274}{}{Now tell me - what exactly are you trying to accomplish, you meddling son of a bitch?}  
 {1274}{}{Now tell me - what exactly are you trying to accomplish, you interfering little whore?}  
 {275}{}{Because of all your plans, your projects, your meddling, my family, my kin, face a difficult, and uncertain future. I am seeking freedom for my Villa.}
@@ -102,12 +102,13 @@
 {279}{}{If housewives had ordered politics before the War, the world wouldn't have been able to survive a day!}
 {280}{}{Nonsense. Housewives don't want the world to burn. But thanks to your meddling, Dixon, all of Arizona is going up in flames.}  
 {281}{}{You may be right about that, General.}
-{282}{}{Well, for all your annoying antics, one has to give you some credit. I never expected that one hayseed would be able to pull off such a complex task. But you know, I'm ready to forgive you for *your* meddling.}
+{282}{}{Well, for all your annoying antics, one has to give you some credit. I never expected that one reckless peasant would be able to pull off such a complex task. But you know, I'm ready to forgive you for *your* meddling.}
+{1282}{}{Well, for all your annoying antics, one has to give you some credit. I never expected that one reckless peasant would be able to pull off such a complex task. But you know, I'm ready to forgive you for *your* meddling.}
 {283}{}{Really?}
 {284}{}{Oh, how "noble" of you.}
 {285}{}{Your rebellious little village can earn forgiveness - and protection - under the Brotherhood's banner. But there's a catch. To secure that future, our competition - the Rangers - need to be removed from the equation. My scouts tell me they've holed up in an old hydroelectric dam. Scout the area and find a way to make that dam disappear.}  
 {286}{}{The hell with this. The Rangers will protect us, and you'll go to hell.}
-{287}{}{Too bad. So, in accordance with the laws of the Old World, you'll face the death penalty for your crimes against us. Prepare to accept your fate, you piece of shit...}
+{287}{}{Too bad. So, because of your crimes against humanity, you face the death penalty. Prepare to accept your judgement, you piece of shit...}
 {288}{}{Go to hell.}
 {289}{}{But I've committed no crimes...}
 {1289}{}{But I've committed no crimes...}
@@ -115,7 +116,7 @@
 {291}{}{As Supreme Paladin, I *will* keep my word. Take action.}
 {292}{}{Alright. Goodbye.}
 {293}{}{It's strange to hear you saying it's unfair, when you're the one behind it all.}
-{294}{}{What the hell are you going on about? We're just buying nuclear batteries - ones the Tinsmiths of Two-Sun make. Sure, they get their uranium from Flagstaff, but that's their problem, not ours. I've heard their leadership got greedy, but what can we do about it? We need those batteries, and the whole region depends on them.}  
+{294}{}{What the hell are you going on about? We're just buying nuclear batteries - ones the Tinsmiths of Two-Sun make. Sure, they get their uranium from Flagstaff, but that's their problem, not ours. I've heard their leadership got greedy, but what can we do about it? After all, we... no, all of California and all of Arizona NEED those batteries!}  
 {295}{}{Right. But *you* keep them all in business. Isn't that the fact of the matter?}
 {296}{}{Listen, son, we're not slave traders. The Brotherhood is an ancient and noble order. Our purpose is to maintain order in the wasteland - because right now, California's a damned mess. There's a war with an army of super mutants out there. If we fail to stop it, that menace will march right to your doorstep. Is that what you want?}  
 {1296}{}{Listen, lady, we're not slave traders. The Brotherhood is an ancient and noble order. Our purpose is to maintain order in the wasteland - because right now, California's a damned mess. There's a war with an army of super mutants out there. If we fail to stop it, that menace will march right to your doorstep. Is that what you want?}  

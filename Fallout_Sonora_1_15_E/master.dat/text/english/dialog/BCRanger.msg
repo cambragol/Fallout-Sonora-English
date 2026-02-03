@@ -79,6 +79,7 @@
 {273}{}{Sometimes it's better to retreat and gather strength. Isn't this one of those times?}
 {274}{}{Parker Dam's been flooded and destroyed. The Rangers can't support the fight in San Brahmin anymore.}
 {275}{}{It's over. The High Chief has abandoned the Rangers.}
+{276}{}{Let's see if you can even take care of yourself, idiot!}
 
 #After receiving the quest
 {300}{}{Report. Any intel on the enemy is valuable.}

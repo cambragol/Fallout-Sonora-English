@@ -36,7 +36,7 @@
 {235}{}{I'm tired of your attitude. Time to knock that smile off your face!}
 {236}{}{My name is Larry. I'm here... doing different things. For example, I protect the city when necessary. Not for free, of course.}
 {237}{}{So you're not one of the scavengers?}
-{238}{}{No, dumbass. I'm part of an elite group of fighters who don't like shady characters showing up in their city.}
+{238}{}{No, dumbass. I'm part of the badass crew who doesn't like shady characters showing up in their city.}
 {239}{}{And it looks like I'm on your list.}
 {240}{}{So what are you gonna do? Come on, show me what you can do, sucker!}
 {241}{}{No, I don't scavenge anymore. As long as Mr. Kogan pays caps, I don't need to.}

@@ -10,7 +10,7 @@
 #define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_NEITRAL, REP_KILL_BAD, REP_KILL_CHILD, REP_KILL_CRITICAL)
 #define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
 
-#define FLAG_STEAL                      75 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
 #define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
 #define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
 
@@ -49,7 +49,6 @@ procedure NodeAnswer200;
 procedure NodeAnswer201;
 procedure NodeAnswer202;
 procedure NodeAnswer300; // added by cambragol
-
 
 //---------------------
 

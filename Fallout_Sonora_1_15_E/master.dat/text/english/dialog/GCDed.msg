@@ -124,7 +124,7 @@
 {324}{}{Isn't there anything else to eat here?}
 {325}{}{Where would it come from? There are deserts and mountains all around. Food used to be brought by traders from the south. But lately, there have been fewer and fewer caravans, and the food is getting worse. We have to catch lizards, at least it's something.}
 {326}{}{What about coyotes and scorpions?}
-{327}{}{They are more dangerous to deal with. A coyote can bite your leg off. Scorpions are venomous, and taste disgusting.}
+{327}{}{They're more dangerous to deal with. A coyote can bite your leg off. Scorpions are venomous, and taste disgusting.}
 {328}{}{Haven't you tried growing crops?}
 {329}{}{Where, here? Apart from dry grass and mold, nothing grows here in the old ruins. There's a hydroponic farm nearby, but it only feeds a few people.}
 {330}{}{How do you catch them?}

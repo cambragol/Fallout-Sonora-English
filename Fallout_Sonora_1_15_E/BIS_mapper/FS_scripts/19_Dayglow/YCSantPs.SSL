@@ -5,6 +5,7 @@
 #define NAME                            SCRIPT_YCSantPs
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_DAYGLOW
 #define BOX_TILE                        11  // номер тайла с личным товарным ящиком (-1, если не надо; не использовать значения <10; не может совпадать с чужими ящиками на одной локации)
+#define BARTER_TIME                     (ONE_GAME_DAY*3)
 
 #define NUM_TEAM                        TEAM_CARAVAN          // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_GHOUL_GENERIC      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -77,7 +78,7 @@ procedure map_enter_p_proc begin
        critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_DAYGLOW_GHOUL);
        end
        end
-       set_BarterBoxProc(ONE_GAME_DAY*3)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
        if (map_var(MVAR_DIEGOPIRS_DESANTI) < 0) then begin
        set_obj_visibility(self_obj, 1);
        end
@@ -88,8 +89,8 @@ procedure setBarterA begin
         check_restock_item(PID_M_PSYCHO, 1, 1, 100)
         check_restock_item(PID_M_MENTATS, 1, 1, 100)
         check_restock_item(PID_M_BUFFOUT, 1, 1, 100)
-        check_restock_item(PID_M_ASH, 2, 2, 100)
-        check_restock_item(PID_M_MEX_BEER, 3, 3, 100)
+        check_restock_item(PID_M_ASH, 3, 3, 100)
+        check_restock_item(PID_M_MEX_BEER, 5, 5, 100)
 
         //- крышки
         check_restock_many(400,500)
@@ -185,6 +186,7 @@ procedure talk_p_proc begin
    else begin
    setReaction(-1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
    fracReaction(GVAR_TITUL_REBIRTH,20) // поправка к отношению за принадлежность к фракции
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end

@@ -27,7 +27,19 @@
 {222}{}{Thank you, Lozen. Your words inspire me to move forward.}
 {223}{}{You come back. I see destiny still calls you. Shall I look at your future again?}
 {1223}{}{You come back. I see destiny still calls you. Shall I look at your future again?}
-{224}{}{No, no thanks.}
+{224}{}{No thanks. I'll pass.}
+{225}{}{Nah.}
+{226}{}{Strange. The spirits say nothing about your future. Maybe everything that mattered has already happened.}
+{227}{}{Ah!}
+
+{230}{}{Huh?}
+{231}{}{Mm?}
+{232}{}{[Give 100 caps]}
+{233}{}{[More]}
+{234}{}{Ha!}
+{235}{}{Shoo.}
+{236}{}{}
+
 
 {240}{}{I have nothing more to tell you.}
 {241}{}{Alright. Goodbye.}
@@ -39,7 +51,7 @@
 {247}{}{What makes this sacred animal special?}
 {248}{}{A brahmin of great strength. Genaro keeps it in separate pen, safe from harm, until Day of Sun. Its death or sickness would be disaster for us.}
 {249}{}{Don't you feel pity for this sacred beast?}
-{250}{}{No! Brahmin sacrifice for us. Genaro picks one and cares for it all year, year of clean, well-fed happiness, only to die and give tribe redemption. Noble end for noble creature.}
+{250}{}{Our future is already here. And it cannot be changed.}
 {251}{}{What future do you see for your tribe?}
 {252}{}{We stand on edge of chasm, covered in mist. Future is unclear.}
 {253}{}{Intriguing.}

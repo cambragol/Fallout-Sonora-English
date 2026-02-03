@@ -66,7 +66,7 @@
 {292}{}{[Listen]}
 {293}{}{[Ignore]}
 {294}{}{...Anyone! Help! I'm in some old motel southwest of Phoenix. They blocked all the exits, I can't escape. Please help...}
-{295}{}{[Continue]}
+{295}{}{[More]}
 {296}{}{All the others have already died from traps. I'm the only one left... Someone's coming... What do you want? Go away! Oh God! Don't touch me, freak! No! Stop! Aaaah!}
 {297}{}{An old motel to the southwest? Oh, this will be a tough hike...}
 
@@ -120,7 +120,7 @@
 {374}{}{(Through heavy "white noise", an old tune can be heard)}
 {375}{}{[Listen to the music until the end]}
 {376}{}{... Hey, traveler! Tired from the road? The desert wore you out? Then head to The Hub!}
-{377}{}{[Next]}
+{377}{}{[More]}
 {378}{}{Here you'll find everything you need for rest: bars, hotels, a huge market... and, of course, the unforgettable "Maltese Falcon" cafe! There you can relax and forget about deathclaws and road raiders.}
 {379}{}{Want to refresh yourself? We've got stocks of Nuka-Cola! And for those who prefer something hot, we'll always pour a mug of legendary Hub rum.}
 {380}{}{Hey, what about slot machines? Oh yes, baby, there are very few left in modern California. Don't miss this chance!}

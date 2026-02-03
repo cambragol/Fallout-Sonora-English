@@ -12,6 +12,7 @@
 #define SCRIPT_YTVltWtr        (823)
 #define SCRIPT_YTExp           (824)
 #define SCRIPT_YSEnd           (825)
+#define SCRIPT_YTInfo          (990)
 
 #define SCRIPT_YCBossA         (826) // лидер южного лагеря
 #define SCRIPT_YCBossB         (827) // лидер северного лагеря
@@ -294,7 +295,9 @@
 ************************ MAPS.H ********************************
 ***************************************************************/
 
-#define MAP_DAYGLOW_START           (131) // руины Тихуаны
+#define MAP_DAYGLOW_START_POINT     (MAP_reserv_104)
+
+#define MAP_DAYGLOW_TIJUANA         (131) // руины Тихуаны
 #define MAP_DAYGLOW_CAMP_SAN_ISIDRO (132) // южный лагерь (Сан-Исидро)
 #define MAP_DAYGLOW_BONITA_DUM      (133) // восточный лагерь (дамба)
 #define MAP_DAYGLOW_CAMP_OLD_TOWN   (134) // северный лагерь (Старый Город)
@@ -306,7 +309,6 @@
 #define MAP_DAYGLOW_VAULT           (140)
 #define MAP_DAYGLOW_CORONADO        (141) // база ВМС США
 
-
 /***************************************************************
 ************************ ITEMPID.H *****************************
 ***************************************************************/
@@ -315,6 +317,7 @@
 #define PID_W_SPEAR_ELECTRO                 (119)
 #define PID_W_SPEAR_ELECTRO_UPGD            (483)
 #define PID_W_TASER                         (484)
+#define PID_W_KNIFE_MEAT                    (493)
 
 //Key
 #define PID_KEY_BONITADUM_A                 (457)
@@ -344,11 +347,11 @@
 #define PID_Q_DAYGLOW_ROCKET                (488)
 #define PID_Q_DAYGLOW_GAUBI_DETALS          (489)
 
-#define PID_Q_DAYGLOW_CARAVAN_1             (469) // Water Chip
-#define PID_Q_DAYGLOW_CARAVAN_2             (470) // Printed Circuit Board
-#define PID_Q_DAYGLOW_CARAVAN_3             (471) // Diagnostic Board
-#define PID_Q_DAYGLOW_CARAVAN_4             (472) // Fuel Controller
-#define PID_Q_DAYGLOW_CARAVAN_5             (473) // Vertibird Blueprints
+#define PID_Q_DAYGLOW_CARAVAN_1             (469) // Водяной чип
+#define PID_Q_DAYGLOW_CARAVAN_2             (470) // Печатная плата
+#define PID_Q_DAYGLOW_CARAVAN_3             (471) // Диагностическая плата
+#define PID_Q_DAYGLOW_CARAVAN_4             (472) // Топливный контроллер
+#define PID_Q_DAYGLOW_CARAVAN_5             (473) // Чертежи винтокрыла
 
 
 /***************************************************************
@@ -442,7 +445,7 @@
 
 //------------------------------- Военная база
 
-#define MVAR_DIEGOCORONADO_GAUBI         (1) // гаубица: 0 не работает, 1 починена, 2 заряжена, 3 выстерлила
+#define MVAR_DIEGOCORONADO_GAUBI         (1) // гаубица: 0 не работает, 1 починена, 2 заряжена, 3 выстрелила
 #define MVAR_DIEGOCORONADO_ELECTRO       (2) // активность электротригера
 
 

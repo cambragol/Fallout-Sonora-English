@@ -417,7 +417,7 @@ procedure NodeRoomGo2 begin
       Такая система выглядит более заманчивой, но менее удобной в геймплее и чрезмерно усложненной в реализации.
    */
 
-   critter_heal(dude_obj,dude_max_hits/4);
+   critter_heal(dude_obj,dude_max_hits/2);
       if (get_poison(dude_obj) > 0) then begin
       poison(dude_obj,-(get_poison(dude_obj)));
       end

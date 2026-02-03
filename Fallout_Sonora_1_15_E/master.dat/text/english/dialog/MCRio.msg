@@ -1,6 +1,7 @@
 {100}{}{You see Rio.}
 {101}{}{You see one of the Blue Shields.}
 {102}{}{Well, well, looks like we've got a mole rat here.}
+{1102}{}{Well, well, looks like we've got a mole rat bitch here.}
 {103}{}{Nice armor, but it's missing the most important thing - speed.}
 {104}{}{Rel: }
 {105}{}{+20}
@@ -14,6 +15,7 @@
 {203}{}{Okay.}
 {204}{}{}
 {205}{}{(grinning on one side) Look who we have here. Ben's new favorite.}
+{1205}{}{(grinning on one side) Look who we have here. Ben's new slut.}
 {206}{}{Jealous, huh? Afraid you'll have to move over?}
 {207}{}{Listen up, bitch, NO ONE will take my place next to Ben. We've been through thick and thin, he trusts me. And you? Nobody here knows you mother fucker.}
 {208}{}{Relax, Rio, I'm not looking to take your spot.}
@@ -32,6 +34,7 @@
 {223}{}{Let's meet, huh? MEET ME, bitch? Do I look like a prostitute to you? You'll meet corpses in the wasteland, we're a gang. They don't like soft-bodied brats here. Got it?}
 {224}{}{Your manners are crap, bro.}
 {225}{}{Yeah, that's right, bro. I see you're starting to learn. Maybe we can work together someday.}
+{1225}{}{Yeah, that's right, bitch. I see you're starting to learn. Maybe we can work together someday.}
 {226}{}{Great, first contact made.}
 {227}{}{Not a good start.}
 {228}{}{Shove your manners up your ass and dance a jig on the hot pavement, bitch.}
@@ -101,13 +104,13 @@
 {315}{}{Okay, let's start the fun...}
 {316}{}{Can you teach me how to fight with knives?}
 
-{320}{}{About that motorcycle.}
+{320}{}{About the motorcycle.}
 {321}{}{For Ben, it's not just a toy; it's part of his life. I make sure he's got everything he needs - fixing the bike, finding dope, getting women - whatever Ben wants.}
 {322}{}{Cool. Good to know.}
 {323}{}{Wow, you got it to run?}
 {324}{}{Of course. Who do you think I am? If Ben says to keep an eye on his bike, then the bike is taken care of.}
 {325}{}{Is it for sale?}
-{326}{}{You're delusional. Ben values his wheels more than anyone in the gang. He won't give it up for anything.}
+{326}{}{You're delusional. Ben values his wheels more than any of his gang. He won't give it up for anything.}
 {327}{}{Ben lent me his motorcycle. Give me the keys.}
 {328}{}{What the fuck is this, bitch? I take care of Ben's motorcycle like it's my own dick. And now you come and want to take it? What kind of crap are you feeding him to make him so generous?}
 {329}{}{Sorry, I don't want to fight. Of course, keep the keys. It's okay, bro.}

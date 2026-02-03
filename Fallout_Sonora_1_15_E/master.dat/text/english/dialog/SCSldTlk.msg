@@ -17,6 +17,7 @@
 {208}{}{Alright then.}
 {209}{}{Now I know who's to blame for the mess on this ship.}
 {210}{}{Ah, our new star. Just a fresh face from the desert who thinks they're the Brotherhood's next big thing. Not bad, but don't think you'll be getting a free ride here.}
+{1210}{}{Ah, our new star. Just a pretty face from the desert who thinks they're the Brotherhood's next big thing. Not bad, but don't think you'll be getting a free ride here.}
 {211}{}{I get it. I'll do whatever it takes to prove my worth to the Brotherhood.}
 {212}{}{Good. Just remember - Brotherhood loyalty isn't something you break. Plenty have tried, and none of them got away with it.}
 {213}{}{I don't care what you or others think. I earned my place. If anyone doesn't like it, they can go to hell.}
@@ -26,6 +27,7 @@
 {220}{}{Alright, wastelander. You're not just here for a free meal, are you? Or maybe looking for some veteran advice? Out with it - what do you need?}
 {1220}{}{Alright, wastelander. You're not just here for a free meal, are you? Or maybe looking for some veteran advice? Out with it - what do you need?}
 {221}{}{Hey, soldier. Looking to fill the empty hours with food, or chat with a veteran about the service?}
+{1221}{}{Hey, sweetie. Looking to fill the empty hours with food, or chat with a veteran about whatever?}
 {222}{}{Neither. Just getting ready to head out.}
 {223}{}{Alright. But if you're looking for a bit of guidance, I'll be around.}
 {224}{}{Goodbye, Knight Graham.}
@@ -45,6 +47,7 @@
 {253}{}{Alright, I'm in. Let's play.}
 {254}{}{No, I want an MRE.}
 {255}{}{For a drifter, that's a tall order. But alright, put down 50 caps, and we'll play.}
+{1255}{}{For a drifter, that's a tall order. But alright, put down 50 caps, and we'll play.}
 {256}{}{}
 {257}{}{Think I'm here to play games on duty? Keep in mind where you are.}
 {258}{}{Yeah, sorry Knight Graham.}

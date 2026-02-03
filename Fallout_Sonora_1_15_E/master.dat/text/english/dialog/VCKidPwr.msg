@@ -4,7 +4,9 @@
 
 {200}{}{(the girl stares at your iron armor in stunned silence, torn between awe and terror)}
 {201}{}{Greetings, child. From now on, the Big Iron Man will be your protector. The bad people won't dare come back.}
-{202}{}{(her eyes widen in admiration, then she runs off to spread the tale of the Big Iron Defender)}
+{1201}{}{Greetings, child. From now on, the Big Iron Man will be your protector. The bad people won't dare come back.}
+{202}{}{(her eyes widen in admiration, then she runs off to spread the tale of the Big Iron Man)}
+{1202}{}{(her eyes widen in admiration, then she runs off to spread the tale of the Big Iron Man)}
 {203}{}{You don't have to be afraid anymore, child. You're under my protection.}
 {204}{}{Yes, run and tell everyone, spread the tale.}
 {205}{}{[Ignore and move on]}

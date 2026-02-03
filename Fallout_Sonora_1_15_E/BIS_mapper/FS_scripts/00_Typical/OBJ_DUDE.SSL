@@ -115,16 +115,6 @@ procedure map_update_p_proc begin
        end
        end
    end
-
-   //--- начисление опыта за бой
-   if (combat_is_initialized == false) then begin
-   if (is_loading_game == false) then begin
-      if (global_var(GVAR_EXPOINT_COMBAT_CHECK)>0) then begin
-      exp_add(global_var(GVAR_EXPOINT_COMBAT_CHECK));
-      set_global_var(GVAR_EXPOINT_COMBAT_CHECK,0);
-      end
-   end
-   end
 end
 
 procedure map_exit_p_proc begin
@@ -231,7 +221,7 @@ procedure critter_p_proc begin
            mark_on_map(AREA_INFIERNO)
            mark_on_map(AREA_HERMOSILLO)
            mark_on_map(AREA_SANTA_ANA)
-           //mark_on_map(AREA_SAN_FELIPE)
+           mark_on_map(AREA_SAN_FELIPE)
            mark_on_map(AREA_OIL_PLATFORM)
            if (getQuest(GVAR_PUERTO_BOS_DESTROY) < qEnd) then begin
            mark_on_map(AREA_PUERTO_STEEL)
@@ -619,6 +609,12 @@ procedure is_dropping_p_proc begin
           set_map_var(MVAR_NUEVA_MEAT_TILE,dude_tile);
           end
        end
+       if (cur_map_index == MAP_reserv_138) then begin // MAP_DAYGLOW_CITYHEART
+          if (global_var(GVAR_DAYGLOW_STATUS_EL_TEMOR_ROJO) == 0) then begin
+          display_mstr(144);
+          set_map_var(1,dude_tile); // MVAR_DIEGOHEART_MEAT_HEX
+          end
+       end
    end
 end
 
@@ -683,22 +679,6 @@ procedure use_obj_on_p_proc begin
    else if (objUsedPid == PID_SANDALS) then begin
        script_overrides;
        display_mstr(158);
-       /*
-       if (item_amnt(dude_obj,objUsedPid) > 0) then begin
-          if (global_var(GVAR_BOOTS_DAMAGE) > 80) then begin
-          display_mstr(132);
-          end
-          else begin
-          inc_global_var_amt(GVAR_BOOTS_DAMAGE,20);
-          play_sfx("ARMRLTH");
-          display_mstr(143);
-          item_remove(dude_obj, objUsedPid, 1)
-          end
-       end
-       else begin
-          display_mstr(119);
-       end
-       */
    end
    else if (objUsedPid == PID_MEX_TORPEDOS) then begin
        script_overrides;

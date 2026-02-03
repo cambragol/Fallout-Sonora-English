@@ -49,8 +49,8 @@
 {239}{}{Villa's concerns are not trivial. They're my peoples' concerns. You're just using pretty words to hide the evil you would spread. You won't fool me.}
 
 #First dialogue if GG became a member of the BS
-{240}{}{Ah, a pleasure to meet you, brother. Reports of your service have reached my desk, and while the General Staff speaks highly of your potential, my personal agents remain unconvinced. I prefer to deal in realities, not optimistic forecasts.}  
-{1240}{}{Ah, a pleasure to meet you, sister. Reports of your service have reached my desk, and while the General Staff speaks highly of your potential, my personal agents remain unconvinced. I prefer to deal in realities, not optimistic forecasts.}  
+{240}{}{Ah, a pleasure to meet you, brother. Reports of your service have reached my desk, and while the Elders speak highly of your potential, my personal agents remain unconvinced. I prefer to deal in realities, not optimistic forecasts.}  
+{1240}{}{Ah, a pleasure to meet you, sister. Reports of your service have reached my desk, and while the Elders speak highly of your potential, my personal agents remain unconvinced. I prefer to deal in realities, not optimistic forecasts.}  
 {241}{}{Brother, you've made quite an impression. Brotherhood agents speak highly of your deeds. It seems you might indeed live up to your promise.}  
 {1241}{}{Sister, you've made quite an impression. Brotherhood agents speak highly of your deeds. It seems you might indeed live up to your promise.}  
 {242}{}{You're a member of the Brotherhood of Steel, aren't you?}
@@ -102,6 +102,7 @@
 {303}{}{I don't see the necessity.}  
 {304}{}{Members of the Brotherhood of Steel should trust each other.}
 {305}{}{As a member of the Church of the Holy Fire, I swear to my good intentions.}
+{1305}{}{As a member of the Church of the Holy Fire, I swear to my good intentions.}
 {306}{}{It's difficult to complete my mission without basic support.}
 {307}{}{Okay, I'll make do.}
 {308}{}{Fine. Here's an access card. It grants mid-level clearance, which should be sufficient.}
@@ -145,6 +146,7 @@
 {354}{}{What's the catch?}
 {355}{}{Aaron and Crook have a long-standing friendship. It's imperative that Aaron remains unaware of who ordered this. Unfortunately, Crook seldom leaves the casino, complicating the task.}  
 {356}{}{How can I remain unnoticed then?}
+{1356}{}{How can I remain unnoticed then?}
 {357}{}{That's your concern. I'll reward you with 500 caps for eliminating him.}  
 {358}{}{Okay. I'll handle it and report back.}
 {359}{}{Too risky. I'll focus on the holodisk.}

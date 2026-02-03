@@ -26,8 +26,6 @@ procedure NodeDialog260;
 procedure NodeDialog261;
 procedure NodeDialog262;
 procedure NodeDialog263;
-procedure NodeDialog264;
-procedure NodeDialog265;
 procedure NodeDialog270;
 procedure NodeDialog271;
 procedure NodeDialog272;
@@ -170,8 +168,6 @@ procedure NodeDialog3 begin
    NAnswer(261,0,NodeDialog261)
    NAnswer(262,0,NodeDialog262)
    NAnswer(263,0,NodeDialog263)
-   NAnswer(264,0,NodeDialog264)
-   NAnswer(265,0,NodeDialog265)
    NAnswer(202,0,NodeDialog)
 end
 
@@ -204,7 +200,7 @@ procedure NodeDialog253 begin
 end
 
 procedure NodeDialog254 begin
-   itemCraftOptions(PID_OIL,0,0,0,0,PID_AMMO_TANK,5)
+   itemCraftOptions(PID_OIL,0,0,0,0,PID_AMMO_TANK,4)
 end
 
 procedure NodeDialog255 begin
@@ -212,7 +208,6 @@ procedure NodeDialog255 begin
 end
 
 procedure NodeDialog256 begin
-   ItemPidBamnt := 25;
    itemCraftOptions(PID_TOOL_PARTS_ELECTRONIC,PID_AMMO_MICRO_FUSION_CELL,0,0,0,PID_W_GRENADE_PULSE,1)
 end
 
@@ -235,14 +230,6 @@ end
 procedure NodeDialog263 begin
    ItemPidAamnt := 2;
    itemCraftOptions(PID_AMMO_SIGNAL_B,0,0,0,0,PID_AMMO_SIGNAL_C,1)
-end
-
-procedure NodeDialog264 begin
-   itemCraftOptions(PID_AMMO_SHOTGUN_SHELLS,0,0,0,0,PID_AMMO_SHOTGUN_SHELLS_BULLET,1)
-end
-
-procedure NodeDialog265 begin
-   itemCraftOptions(PID_AMMO_SHOTGUN_SHELLS_BULLET,0,0,0,0,PID_AMMO_SHOTGUN_SHELLS,1)
 end
 
 //--- УНИКАЛЬНОЕ

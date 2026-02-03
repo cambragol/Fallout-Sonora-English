@@ -1,11 +1,11 @@
 #include "..\headers\define.h"
 #include "..\headers\updatmap.h"
-#define NAME                    SCRIPT_ZIPostB
+#define NAME                    SCRIPT_ZIPostA // SCRIPT_ZIPostB
 
 procedure start;
 procedure map_enter_p_proc;
-procedure map_update_p_proc;
-procedure box_inven_to;
+procedure use_p_proc;
+procedure use_skill_on_p_proc;
 
 /*
    Это ящик для отправки посылок в другие города.
@@ -18,8 +18,62 @@ procedure start begin
 end
 
 procedure map_enter_p_proc begin
+   if (is_loading_game == false) then begin
+   if (map_first_run == true) then begin
+   //obj_lock(self_obj);
+   item_add(self_obj,PID_TEST,1)
+   end
+   end
 end
 
+procedure use_p_proc begin
+   if (item_amnt(self_obj,PID_TEST) > 0) then begin
+       if (cur_map_index == MAP_FLAGSTAFF_CITY) then begin
+          if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_10) != 0) then begin
+          obj_unlock(self_obj);
+          item_remove(self_obj,PID_TEST,999)
+          end
+       end
+       if (cur_map_index == MAP_PHOENIX_CENTER) then begin
+          if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_11) != 0) then begin
+          obj_unlock(self_obj);
+          item_remove(self_obj,PID_TEST,999)
+          end
+       end
+       if (cur_map_index == MAP_TWO_SUN_CITY) then begin
+          if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT,bit_12) != 0) then begin
+          obj_unlock(self_obj);
+          item_remove(self_obj,PID_TEST,999)
+          end
+       end
+   end
+
+   if (item_amnt(self_obj,PID_TEST) > 0) then begin
+       script_overrides;
+
+       reg_anim_begin();
+       reg_anim_clear(self_obj);
+       reg_anim_clear(source_obj);
+       reg_anim_end();
+
+       display_mstr(110);
+   end
+end
+
+procedure use_skill_on_p_proc begin
+   if (action_being_used == SKILL_LOCKPICK) then begin
+      script_overrides;
+      display_mstr(110);
+   end
+   if (action_being_used == SKILL_STEAL) then begin
+      if (item_amnt(self_obj,PID_TEST) > 0) then begin
+      script_overrides;
+      display_mstr(110);
+      end
+   end
+end
+
+/*
 procedure map_update_p_proc begin
    call box_inven_to;
 end
@@ -48,3 +102,4 @@ procedure box_inven_to begin
       //display_msg("Express box "+boxPID+" GO!");
    end
 end
+*/

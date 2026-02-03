@@ -6,4 +6,5 @@
 
 {111}{}{Uh-uh-uh...}
 {112}{}{I won't fall for your tricks! Get out, you damned cultist!}
-{113}{}{My head! I hear so many thoughts... Your thoughts... they are terrible!}
+{1112}{}{I won't fall for your tricks! Get out, you damned cultist!}
+{113}{}{My head! I hear so many thoughts... Your thoughts... they're terrible!}

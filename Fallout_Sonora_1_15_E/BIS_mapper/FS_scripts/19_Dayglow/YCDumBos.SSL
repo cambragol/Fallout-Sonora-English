@@ -345,6 +345,6 @@ procedure NodeSndDialog200 begin
    set_local_var(LVAR_Home_Rotat, 5);
    move_to(self_obj, HomeTile, 2);
 
-   zReply(232)
+   Reply(232)
    NAnswer(233,1,Node999)
 end

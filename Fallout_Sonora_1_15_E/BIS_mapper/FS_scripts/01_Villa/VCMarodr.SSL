@@ -238,7 +238,7 @@ end
 
 procedure NodeDialog005 begin
    Reply(210)
-   NAnswerSkill(211,4,NodeDialog006,SKILL_CONVERSANT,50,219,NodeDialog007)
+   NAnswerSkill(211,4,NodeDialog006,SKILL_CONVERSANT,35,219,NodeDialog007)
    NAnswer(203,1,NodeDialog002)
    NAnswer(205,1,NodeDialog003)
    NAnswer(207,1,NodeDialog004)

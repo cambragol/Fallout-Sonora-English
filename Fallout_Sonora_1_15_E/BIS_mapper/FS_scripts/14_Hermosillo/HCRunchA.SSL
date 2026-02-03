@@ -186,7 +186,9 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
-   setQuest(GVAR_CGRANDE_QST_SALUT,qZero);
+   if (getQuest(GVAR_CGRANDE_QST_SALUT) < qEnd) then begin
+   setQuest(GVAR_CGRANDE_QST_SALUT,qStop);
+   end
    if (source_obj == dude_obj) then begin
    set_map_var(MVAR_HERMO_Runcho_Enemy,2);
    end
@@ -208,8 +210,8 @@ procedure talk_p_proc begin
       floater(self_obj,103,COLOR_MSG_RED);
       end
       else begin
-      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-      dialog_proc(1,102,NodeStartDialog,-1,-1)
+      setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
       end
    end
 end

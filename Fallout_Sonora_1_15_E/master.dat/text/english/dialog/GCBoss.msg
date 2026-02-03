@@ -198,6 +198,7 @@
 {354}{}{Be careful. Nobody knows about this deal, but anything can happen. I'm gonna talk to the caravan, your task is to make sure that everything goes as it should. The client should leave satisfied.}
 {355}{}{Got it.}
 {356}{}{Uh... I just gotta take a leak. You know how it is, before a big job... I'll be right back.}
+{1356}{}{Uh... I just gotta... freshen up. You know how it is, before a big job... I'll be right back.}
 
 {360}{}{The deal was a success, wasn't it?}
 {361}{}{That was a great deal. You can't even imagine how great. We didn't just earn caps. We gave the city a chance to survive.}

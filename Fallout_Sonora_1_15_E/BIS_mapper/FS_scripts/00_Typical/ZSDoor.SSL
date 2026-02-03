@@ -14,6 +14,7 @@ procedure damage_p_proc;
 procedure locked_proc;
 procedure trap_expl;
 procedure trap_proc;
+procedure trap_proc_twosun_barter;
 
 #define LVAR_Open                       (0) // Сломан ли замок
 #define LVAR_Locked_Level               (1) // Уровень сложности замка
@@ -224,7 +225,7 @@ procedure set_level_lock begin
           else if (cur_map_index == MAP_TWO_SUN_WORKSHOP) then begin
              set_local_var(LVAR_Locked_Level,90);
              if (self_tile == 19118) then begin
-             set_local_var(LVAR_Trap_Type,TRAP_ELECTR);
+             set_local_var(LVAR_Trap_Type,TRAP_ALARMS);
              end
           end
 
@@ -512,6 +513,7 @@ procedure damage_p_proc begin
          end
          else begin
          set_local_var(LVAR_Open,1);
+         call trap_proc_twosun_barter;
          display_mstr(166);
          obj_unlock(self_obj);
          destroy_object(self_obj);
@@ -524,12 +526,12 @@ procedure damage_p_proc begin
       else if (weapon_dmg_type(target_obj) == DMG_normal_dam) then begin
 
          /*
-         Note: I spent a long time trying to figure out what to do with forcefully breaking down doors.
-         In the end, I decided it would be easier to abandon this option entirely and limit it to blasting.
+         Замечание: Я долго пытался понять, как быть с силовым выламыванием дверей.
+         В итоге решил, что проще вообще отказаться от этой опции, ограничившись подрывом.
 
-         In Fallout 2, breaking down doors was done simply by hitting the door.
-         A wooden door required just one hit, while a metal door needed two.
-         Here’s the original code:
+         В Fallout 2 выламывание производилось простым актом удара по двери.
+         В случае деревянной двери хватало одного удара, в случае металлической - двух.
+         Вот оригинальный код:
 
                if (DOOR_STATUS == STATE_WOOD) then begin
                   destroy_object(self_obj);
@@ -541,21 +543,26 @@ procedure damage_p_proc begin
                   end
                end
 
-         There are many flaws in this system: Strength and other player character parameters are not considered, the presence and quality of the weapon used are ignored, there’s no check for the type of damage (a door can be destroyed even by EMP), different doors should have varying levels of sturdiness, the option is available to any player with any build, and so on.
+         Но в этой системе есть множество просчетов: не учитывается Сила и другие параметры ГГ,
+         не читывается наличие и качество использованного оружия, нет проверки на тип урона (дверь уничтожается даже от ЭМИ),
+         разные двери должны быть разной степени крепости, опция доступна любому игроку с любой прокачкой и т.д.
 
-         However, some doors were completely excluded from this option, typically the doors most critical for progression. For example, the door to the hostage in Vault 15’s squatter camp. In other words, the option is useful where it’s least needed and, conversely, doors can be broken down where it makes no sense (like the doors in Modoc, for instance).
+         Однако же часть дверей была лишена этой опции вовсе, и это как правило те двери, которые больше всего важны для ликвидации.
+         Например, дверь к заложнице у скваттеров убежища 15. То есть опция полезна там, где от нее мало пользы, и наоборот -
+         можно выбивать двери, которые выбивать нет смысла (двери Модока, например).
 
-         Creating a *fully-fledged* door-breaking mechanic involves nuances 
-         (player character build, weapon quality, and door quality), which the Fallout 2 engine cannot support at the *script level*. 
-         For example, while it’s possible to check the type of damage, there’s no way to verify if a firearm was used or if the blow was delivered barehanded. 
-         Nor can the damage size be checked, as this option only works for critters and not for the environment.
+         Создание *полноценной* механики выламывания подразумевает такие тонкости
+         (прокачка ГГ, качество оружия, качество двери), которые движок Fallout 2 не позволяет сделать на уровне *скриптовой* механики.
+         Например, можно сделать проверку типа урона, но нельзя проверить, применялось ли огнестрельное оружие или удар нанесен голыми руками.
+         Нельзя сделать проверку размера урона, так как эта опция работает лишь у криттеров и не работает у окружения.
+         Понадобится также симулировать степень защиты двери и ее технического состояния (аналог ОЗ),
+         причем найти способ проиндексировать эти параметры для разных дверей в разных местах - а как это сделать?
 
-         Additionally, simulating door durability and its technical condition (akin to HP) would be necessary, along with finding a way to index these parameters for different doors in different locations—how would that even be done?
+         Самое же важное - это ролеплей. Ведь выламывание двери подразумевает отыгрыш роли качка-вышибалы и для других ролей не подходит.
+         Но если дверь можно тупо выбить автоматной очередью, то какой уж тут ролеплей? Эта опция доступна всем, а значит девальвирует навык взлома.
+         Придется найти способ ограничить игрока с другой ролевой моделью. Но механика этого не позволяет, как я написал выше.
 
-         The most important issue, however, is roleplay. Breaking down a door implies playing the role of a brute force character, which doesn’t fit other roles. But if a door can simply be blasted open with an automatic weapon, where’s the roleplay in that? This option is available to everyone, which devalues the lockpicking skill. A way to restrict players with different roleplay models would need to be found, but, as mentioned earlier, the mechanics don’t allow for this.
-
-         Addendum: Still, the option could be implemented as a bonus from a specific perk (e.g., Bonus HtH Damage) or trait (e.g., Heavy Handed).
-
+         Дополнение: Впрочем, опцию можно реализовать как бонус от какого-либо перка (Бонус рукопашного урона) или трейта (Тяжелая рука).
          */
 
          /*
@@ -664,10 +671,10 @@ procedure trap_expl begin
       end
 
          //--- Локальная ситуация на карте:
+         call trap_proc_twosun_barter;
          if (cur_map_index == MAP_PHOENIX_VAULT) then begin
-         set_map_var(MVAR_PnxVlt_Alarm,1);
+            set_map_var(MVAR_PnxVlt_Alarm,1);
          end
-
          if ((cur_map_index == MAP_PUERTO_BASA) and (self_tile == 19656)) then begin
             if (map_var(MVAR_PUERTO_ALARM_BOS) == 0) then begin
             set_map_var(MVAR_PUERTO_ALARM_BOS,1); // дверь в коморку позади генерала
@@ -697,7 +704,6 @@ procedure trap_proc begin
 
    if (local_var(LVAR_Trap_Type) == TRAP_CALIBR) then begin
       display_mstr(156);
-      create_object_sid(PID_AMMO_SHOTGUN_SHELLS, dude_tile, dude_elevation, -1);
    end
 
    if (local_var(LVAR_Trap_Type) == TRAP_GRANAD) then begin
@@ -707,7 +713,6 @@ procedure trap_proc begin
 
    if (local_var(LVAR_Trap_Type) == TRAP_ELECTR) then begin
       display_mstr(158);
-      create_object_sid(PID_AMMO_MICRO_FUSION_CELL, dude_tile, dude_elevation, -1);
    end
 
    if (local_var(LVAR_Trap_Type) == TRAP_ALARMS) then begin
@@ -716,4 +721,12 @@ procedure trap_proc begin
 
    dude_floater_OK;
    set_local_var(LVAR_Trap_Type,TRAP_NON);
+end
+
+procedure trap_proc_twosun_barter begin
+   if (cur_map_index == MAP_TWO_SUN_WORKSHOP) then begin
+      if (self_tile == 19118) then begin
+      set_map_var(MVAR_TWOSUN_Alarma,17517); //set_map_var(MVAR_TWOSUN_Alarma,self_tile);
+      end
+   end
 end

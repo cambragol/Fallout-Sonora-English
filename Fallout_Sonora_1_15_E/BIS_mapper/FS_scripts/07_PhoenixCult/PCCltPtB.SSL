@@ -111,8 +111,12 @@ end
 
 procedure destroy_p_proc begin
    set_global_var(GVAR_PHENIX_STATUS_MARCOS, -2);
+   if (getQuest(GVAR_PHENIX_PARTY_QST_B) < qEnd) then begin
    setQuest(GVAR_PHENIX_PARTY_QST_B,qStop);
+   end
+   if (getQuest(GVAR_PHENIX_PARTY_QST_B) < qEnd) then begin
    setQuest(GVAR_PHENIX_PARTY_ATTAKTOAARON,qStop);
+   end
    kill_critter_opt
 end
 
@@ -147,15 +151,15 @@ end
 procedure NodeFstDialog begin
    Reply(200)
    if (global_var(GVAR_PHENIX_MATIAS_NONATTAK) > 0) then begin
-   NAnswer(202,1,NodeFstDialog2)
+   NAnswer(202,0,NodeFstDialog2)
    end
    else if ((global_var(GVAR_PHENIX_QST_CULT_A_BIT) >= 20) or (global_var(GVAR_PHENIX_MATIAS_NONATTAK) > 0)) then begin
-   NAnswer(209,1,NodeFstDialog2)
+   NAnswer(209,0,NodeFstDialog2)
    end
    else begin
-   NAnswer(205,1,NodeFstDialog3)
+   NAnswer(205,0,NodeFstDialog3)
    end
-   NAnswer(201,1,Node999)
+   NAnswer(201,0,Node999)
 end
 
 procedure NodeFstDialog2 begin
@@ -163,31 +167,33 @@ procedure NodeFstDialog2 begin
    set_local_var(LVAR_Home_Tile, 11702);
    set_local_var(LVAR_Home_Rotat, 5);
    Reply(203)
-   NAnswer(204,1,Node999)
+   NAnswer(204,0,Node999)
 end
 
 procedure NodeFstDialog3 begin
    Reply(206)
-   NAnswer(208,1,NodeFstDialog2)
-   NAnswer(207,1,Node999)
+   NAnswer(208,0,NodeFstDialog2)
+   NAnswer(207,0,Node999)
 end
 
 procedure NodeSndDialog begin
    Reply(210)
    if ((global_var(GVAR_PHENIX_STATUS_CULT_AARON)<0) and (global_var(GVAR_PHENIX_STATUS_CULT_OVRSR)<0)) then begin
-   NAnswer(212,1,NodeSndDialog2)
+   NAnswer(212,0,NodeSndDialog2)
    end
-   NAnswer(211,1,Node999)
+   NAnswer(211,0,Node999)
 end
 
 procedure NodeSndDialog2 begin
    setQuest(GVAR_PHENIX_PARTY_ATTAKTOAARON, qEnd);
    setQuest(GVAR_PHENIX_PARTY_QST_B, qEnd);
+   set_global_var(GVAR_TITUL_PHENIX_CULT, 0);
    exp_add(1000);
    set_REP(10)
+   item_remove(dude_obj,PID_NUKE_BOMB_DETONATOR,1)
 
    //!!! просьба достать взрыватели (а если они уже установлены?)
 
-   Reply(213)
-   NAnswer(214,1,Node999)
+   zReply(213)
+   NAnswer(214,0,Node999)
 end

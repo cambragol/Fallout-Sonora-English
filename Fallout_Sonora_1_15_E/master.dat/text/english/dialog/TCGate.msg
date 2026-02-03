@@ -38,6 +38,7 @@
 {223}{}{I'm here to trade.}
 {224}{}{Goods are required. Master Hard is always interested in profitable trade.}
 {225}{}{Great, I'm up for a good deal.}
+{1225}{}{Great, I'm up for a good deal.}
 
 {226}{}{I'm looking for technological knowledge.}
 {227}{}{For a century, the Tinsmiths have been tied to a single power source. Who are you to seek knowledge from us? Still, times have changed. Perhaps Master Hard will talk to you.}
@@ -57,8 +58,9 @@
 {236}{}{We recognize the supremacy of the Brotherhood. Your technology remains unparalleled.}
 {237}{}{That's true.}
 
-{238}{}{See this robe? I am a Follower of Fire. We have always had good relations with you Tinsmiths.}
-{239}{}{Since your citadel's fall, your presence here is a calculated risk. Depart now, and do not disrupt our order.}
+{238}{}{See this robe? I am a Follower of Fire. We've always had good relations with you Tinsmiths.}
+{1238}{}{See this robe? I am a Follower of Fire. We've always had good relations with you Tinsmiths.}
+{239}{}{Since your citadel's fall, your presence here is calculated as a risk. Depart now, and do not disrupt our order.}
 {240}{}{Damn...}
 
 {241}{}{I'm heading from the Cathedral of Fire to Steel Port. I was told I could find lodging here for the night.}

@@ -7,7 +7,6 @@
 # First Meeting
 {200}{}{Gustavo Obanel Vallejo at your service. I'm the mayor of San Ysidro. Now, to hell with the niceties. I want to know why you disrupted our peace and quiet.}
 {1200}{}{Gustavo Obanel Vallejo at your service. I'm the mayor of San Ysidro. Now, to hell with the niceties. I want to know why you disrupted our peace and quiet.}
-# Gustavo Obanel Vallejo at your service. I'm the mayor of San Ysidro. Now, to hell with pleasantries. I want to know the reason why you're disturbing our posthumous peace. We don't tolerate smoothskins here. Our family has suffered enough from you. Therefore, explain clearly and without lying - why should we tolerate your presence?
 {201}{}{I'm not here to disturb your peace and quiet. I'm here for profit. Heard there's good money to be made here.}
 {202}{}{An honest answer. I'm starting to like you already. You might be someone I can deal with.}
 {203}{}{Depends on the deal, friend.}

@@ -39,13 +39,13 @@
 
 # First meeting
 {250}{}{As you've all seen, hard times are upon us.}
-{251}{}{[Continue]}
+{251}{}{[More]}
 {252}{}{Beyond the valley, there's a world we never imagined. Outsiders have caught wind of our plantations. Sooner or later, thieves and traders alike will come to take a slice of what we've got.}
-{253}{}{[Continue]}
+{253}{}{[More]}
 {254}{}{We must prepare for their arrival. Remember how easily those raiders stormed our village and took everyone captive? Even Señor Andres couldn't fend them off in the town hall. (The hall fills with murmurs of anger.)}
-{255}{}{[Continue]}
+{255}{}{[More]}
 {256}{}{Quiet now. We're all on edge, but not all is lost. We've returned from our ordeal, our homes still stand, and soon the plantations will bear fruit again. We still have some time.}
-{257}{}{[Continue]}
+{257}{}{[More]}
 {258}{}{(A voice from the crowd: "Old man, what can we do? The first raiders that come by will squeeze us dry like a ripe mutfruit.") I know, I know... quiet down! It's not as bad as it seems. }
 {259}{}{, come up here. Step closer, sit right here...}
 {260}{}{[Step forward]}
@@ -81,6 +81,7 @@
 {1282}{}{Of course. I've been preparing for this my whole life.}
 {283}{}{Is this some kind of joke? Hey, padre, what's going on?}
 {284}{}{I'm also sorry to share some sad news. Señor Andres, your savior's father, died during his imprisonment. (a gasp ripples through the crowd) According to our community's rules, his rightful heir will take his place. }
+{1284}{}{I'm also sorry to share some sad news. Señor Andres, your savior's father, died during his imprisonment. (a gasp ripples through the crowd) According to our community's rules, his rightful heir will take his place. }
 {285}{}{, you're now our leader.}
 {286}{}{Of course. I've been preparing for this my whole life.}
 {1286}{}{Of course. I've been preparing for this my whole life.}
@@ -159,9 +160,9 @@
 {364}{}{ went after Chris and brought him back. Chris was a traitor and deserved to be punished, but if not for }
 {1364}{}{ went after Chris and brought him back. Chris was a traitor and deserved to be punished, but if not for }
 {365}{}{, he would've slipped away for good. Who knows what he'd spill to outsiders?}
-{366}{}{[Continue]}
+{366}{}{[More]}
 {367}{}{That's right. A leader can't afford to be weak. Traitors gotta be punished.}
-{368}{}{[Continue]}
+{368}{}{[More]}
 
 {370}{}{(A new voice pipes up) Hey! What about that scary iron thing }
 {371}{}{ always stomps around in, frightening the kids? We don't need that kind of relic here!}
@@ -199,7 +200,7 @@
 
 {410}{}{(your madre rises) While I was working in the garrison, I overheard the mercenaries talking. They said the demand for slaves will only increase. There's no guarantee they won't come for us again.}
 {411}{}{(a peasant rises) While I was working in the Flagstaff mine, I overheard the mercenaries talking. They said the demand for slaves will only increase. There's no guarantee they won't come for us again.}
-{412}{}{[Next]}
+{412}{}{[More]}
 {413}{}{(a peasant rises) }
 {414}{}{(Sancho rises) }
 {415}{}{You're right. We escaped the slave pen, but as long as the mine is operational, we won't be safe. I think we should destroy it.}
@@ -217,7 +218,7 @@
 {427}{}{(Hugo rises) }
 
 {430}{}{Traders brought rumors that scavengers in Garage City are fixing up an old factory, planning to produce machines. Imagine what that means for our Villa!}
-{431}{}{[Next]}
+{431}{}{[More]}
 {432}{}{Jose, tell them. (Jose rises) Yes, of course... }
 {433}{}{We'll become a waypoint on caravan routes. Crowds of workers will pour in. Along with them will come raiders, weapons, and alcohol. We won't be able to resist such changes; we'll simply be swept away.}
 {434}{}{You suggest we stop the restoration of the factory?}

@@ -1,6 +1,6 @@
 {100}{}{You see a ghoul mechanic.}
 {101}{}{You see a ghoul in a tattered work uniform. One of his eyes is replaced by some sort of built-in lens.}
-{102}{}{Sorry, we only serve ghouls and ghoul friends here.}
+{102}{}{This is a shop... and a workshop. But... uh, I only serve ghouls and their friends. Talk to Gustavo first.}
 {103}{}{I'm not going to serve an ass like you. Get lost.}
 {104}{}{That won't work on me. But it looks cool.}
 

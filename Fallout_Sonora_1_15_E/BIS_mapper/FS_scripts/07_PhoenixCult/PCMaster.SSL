@@ -1040,7 +1040,7 @@ procedure NodeAnswer101a begin
 end
 
 procedure NodeAnswer101b begin
-   Reply(336)
+   zReply(336)
    BAnswer(337,1,Node998)
    NAnswer(338,1,Node998)
 end
@@ -1050,7 +1050,7 @@ procedure NodeAnswer200 begin
    NAnswer(342,1,NodeAnswer201)
    NAnswer(343,1,NodeAnswer300)
    NAnswer(341,1,NodeVilla)
-   NAnswer(344,1,NodeSndDialog2)
+   zNAnswer(344,1,NodeSndDialog2)
 end
 
 procedure NodeAnswer200b begin

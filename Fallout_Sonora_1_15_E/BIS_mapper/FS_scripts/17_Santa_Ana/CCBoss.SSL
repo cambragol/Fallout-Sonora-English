@@ -314,13 +314,18 @@ procedure NodeFstDialog begin
    setQuest(GVAR_SANTAANA_QST_DIALOG, qStart);
    bitDialogExp(bit_1,0)
    Reply(200)
-   zNAnswer(201,1,NodeFstDialog101)
+   zNAnswer(201,0,NodeFstDialog101)
 end
 
 procedure NodeFstDialog101 begin
-   Reply(202)
-   zGAnswer(203,1,NodeFstDialog102)
-   BAnswer(204,1,NodeFstDialog103)
+   if (party_size>0) then begin
+   Reply(208)
+   end
+   else begin
+   zReply(202)
+   end
+   zGAnswer(203,0,NodeFstDialog102)
+   BAnswer(204,0,NodeFstDialog103)
 end
 
 procedure NodeFstDialog102 begin
@@ -337,8 +342,8 @@ end
 
 procedure NodeFstDialog104 begin
    Reply(205)
-   NAnswer(206,1,Node999)
-   NAnswer(207,1,Node999)
+   NAnswer(206,0,Node999)
+   NAnswer(207,0,Node999)
 end
 
 //--- ВТОРОЙ ДИАЛОГ ВО ВРЕМЯ ЦЕРЕМОНИИ
@@ -355,12 +360,12 @@ procedure NodeFstDialog200 begin
    end
    if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
    if (item_amnt(dude_obj,PID_Q_SANTAANA_CORONA)>0) then begin
-   NAnswer(213,1,NodeFstDialog201)
+   NAnswer(213,0,NodeFstDialog201)
    end
    end
-   NAnswer(227,1,NodeFstDialog208)
-   GAnswer(212,1,Node999)
-   NAnswer(211,1,Node999)
+   NAnswer(227,0,NodeFstDialog208)
+   GAnswer(212,0,Node999)
+   NAnswer(211,0,Node999)
 end
 
 procedure NodeFstDialog201 begin
@@ -370,16 +375,16 @@ procedure NodeFstDialog201 begin
    set_REP(3)
    exp_add(200);
    Reply(214)
-   GAnswer(215,1,NodeFstDialog202)
-   NAnswer(219,1,NodeFstDialog205)
+   GAnswer(215,0,NodeFstDialog202)
+   NAnswer(219,0,NodeFstDialog205)
 end
 
 procedure NodeFstDialog202 begin
    set_REP(1)
    set_SLAVA(1)
    Reply(216)
-   NAnswer(217,1,NodeFstDialog204)
-   BAnswer(218,1,NodeFstDialog203)
+   NAnswer(217,0,NodeFstDialog204)
+   BAnswer(218,0,NodeFstDialog203)
 end
 
 procedure NodeFstDialog203 begin
@@ -389,13 +394,13 @@ end
 
 procedure NodeFstDialog204 begin
    Reply(223)
-   NAnswer(224,1,NodeFstDialog206)
+   NAnswer(224,0,NodeFstDialog206)
 end
 
 procedure NodeFstDialog205 begin
    Reply(220)
-   NAnswer(221,1,NodeFstDialog204)
-   BAnswer(222,1,NodeFstDialog203)
+   NAnswer(221,0,NodeFstDialog204)
+   BAnswer(222,0,NodeFstDialog203)
 end
 
 procedure NodeFstDialog206 begin
@@ -407,19 +412,19 @@ end
 
 procedure NodeFstDialog207 begin
    Reply(225)
-   NAnswer(226,1,Node999)
+   NAnswer(226,0,Node999)
 end
 
 procedure NodeFstDialog208 begin
    Reply(228)
-   NAnswer(229,1,NodeFstDialog200)
+   NAnswer(229,0,NodeFstDialog200)
 end
 
 //--- ТРЕТИЙ ДИАЛОГ ПОСЛЕ ЦЕРЕМОНИИ
 
 procedure NodeSndDialog begin
    Reply(225)
-   NAnswer(226,1,Node999)
+   NAnswer(226,0,Node999)
 end
 
 procedure NodeEndDialog100 begin
@@ -437,36 +442,36 @@ procedure NodeEndDialog100 begin
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_SANTA_ANA_CRCH);
 
    zReply(230)
-   BAnswer(231,1,NodeEndDialog101)
+   BAnswer(231,0,NodeEndDialog101)
 end
 
 procedure NodeEndDialog101 begin
    zReply(232)
-   zNAnswer(233,1,NodeEndDialog102)
+   zNAnswer(233,0,NodeEndDialog102)
 end
 
 procedure NodeEndDialog102 begin
    Reply(234)
-   NAnswer(235,1,NodeEndDialog103)
+   NAnswer(235,0,NodeEndDialog103)
 end
 
 procedure NodeEndDialog103 begin
    Reply(236)
-   NAnswer(237,1,NodeEndDialog104)
-   BAnswer(238,1,NodeEndDialog104)
+   NAnswer(237,0,NodeEndDialog104)
+   BAnswer(238,0,NodeEndDialog104)
 end
 
 procedure NodeEndDialog104 begin
    if (get_SLAVA < 0) then begin
-   Reply(239)
-   NAnswer(240,1,Node998)
-   NAnswer(241,1,Node998)
+   zReply(239)
+   NAnswer(240,0,Node998)
+   NAnswer(241,0,Node998)
    end
    else begin
-   Reply(242)
-   //BAnswer(245,1,Node998)
-   NAnswer(243,1,Node999)
-   NAnswer(244,1,Node999)
+   zReply(242)
+   //BAnswer(245,0,Node998)
+   NAnswer(243,0,Node999)
+   NAnswer(244,0,Node999)
    end
 end
 
@@ -477,13 +482,13 @@ procedure NodeEndDialog200 begin
    NAnswerSkill(254,3,NodeEndDialog202,SKILL_CONVERSANT,75,250,NodeEndDialog201)
    end
    end
-   zNAnswer(249,1,Node999)
+   zNAnswer(249,0,Node999)
 end
 
 procedure NodeEndDialog201 begin
-   Reply(251)
-   BAnswer(252,1,Node998)
-   NAnswer(253,1,Node999)
+   zReply(251)
+   BAnswer(252,0,Node998)
+   NAnswer(253,0,Node999)
 end
 
 procedure NodeEndDialog202 begin
@@ -491,6 +496,6 @@ procedure NodeEndDialog202 begin
    set_SLAVA(5)
    set_REP(1)
    Reply(255)
-   BAnswer(257,1,Node998)
-   NAnswer(256,1,Node999)
+   BAnswer(257,0,Node998)
+   NAnswer(256,0,Node999)
 end

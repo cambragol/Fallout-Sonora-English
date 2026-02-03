@@ -4,7 +4,7 @@
 
 {200}{}{You come to the right place, kid. Name's Albert De Santi. This here's my joint - La Pensione Hotel and Spa.}
 {1200}{}{You come to the right place, sweetheart. Name's Albert De Santi. This here's my joint - La Pensione Hotel and Spa.}
-{201}{}{[Continue]}
+{201}{}{[More]}
 {202}{}{Here, you can forget about all the rough stuff out there. We got massages, old-school flicks, clean baths, rad-tanning, fancy rat dishes - anything you got a taste for, just let me know.}
 {203}{}{Seriously? You opened a spa in the middle of these burned-out ruins? Who would come here?}
 {204}{}{Take it easy, kid. A place like this? It's actually the safest spot... Well, 'cept for those lunatics across the street. They're puttin' up with other ghouls for now, but that ain't gonna last forever.}

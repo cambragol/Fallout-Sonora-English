@@ -66,27 +66,24 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
        set_obj_visibility(self_obj, 0);
+       obj_set_light_level(self_obj, 100, 8);
 
        if (getQuest(GVAR_DAYGLOW_VISITED) == qZero) then begin
        end
        else begin
-         if ((cur_map_index == MAP_DAYGLOW_START) and (map_first_run == true)) then begin
-         end
-         else begin
-            set_obj_visibility(self_obj, 1);
-            destroy_object(self_obj);
-         end
+          if ((cur_map_index == MAP_DAYGLOW_TIJUANA) and (map_first_run == true)) then begin
+          end
+          else begin
+              set_obj_visibility(self_obj, 1);
+              destroy_object(self_obj);
+          end
        end
 
        if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20) == 0) then begin
           set_obj_visibility(self_obj, 1);
        end
-
-       if (self_visible == false) then begin
-       obj_set_light_level(self_obj, 0, 0);
-       end
-       else begin
-       obj_set_light_level(self_obj, 100, 8);
+       if (getQuest(GVAR_GAME_DLC_1) != qStart) then begin
+          set_obj_visibility(self_obj, 1);
        end
 
        party_remove(self_obj);
@@ -113,7 +110,7 @@ procedure timed_event_p_proc begin
    if (fixed_param == 3) then begin
        party_add(self_obj);
        setQuest(GVAR_DAYGLOW_VISITED, qStart);
-       dude_teleport_map(1,1,MAP_DAYGLOW_START,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YSEnd
+       dude_teleport_map(1,1,MAP_DAYGLOW_TIJUANA,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YSEnd
    end
 end
 
@@ -135,7 +132,7 @@ procedure pickup_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,5,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
 end
 
 procedure damage_p_proc begin
@@ -144,19 +141,17 @@ end
 
 procedure destroy_p_proc begin
    kill_critter_opt
-   if (cur_map_index == MAP_DAYGLOW_START) then begin
+   if (cur_map_index == MAP_DAYGLOW_TIJUANA) then begin
       set_map_var(MVAR_DIEGOSTART_FAIL, 1);
    end
    else begin
-      if ((cur_map_index != MAP_OIL_CITY) and (cur_map_index != MAP_INFIERNO_ROAD)) then begin
       setQuest(GVAR_DAYGLOW_VISITED, qStop);
-      end
    end
 end
 
 procedure talk_p_proc begin
    set_gvar_bit_on(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20);
-   if (cur_map_index == MAP_DAYGLOW_START) then begin
+   if (cur_map_index == MAP_DAYGLOW_TIJUANA) then begin
        floater(self_obj, 102, COLOR_MSG_NORMAL);
    end
    else begin

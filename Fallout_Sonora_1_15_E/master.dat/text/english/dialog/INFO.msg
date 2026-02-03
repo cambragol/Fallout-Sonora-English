@@ -381,7 +381,7 @@
 {1536}{}{The Cry of Silence}
 {1537}{}{Outdoor Cinema}
 {1538}{}{Padre}
-{1539}{}{Baron of Arizona}
+{1539}{}{Rally Point}
 {1540}{}{Snowfall}
 {1541}{}{The Lost Vault}
 {1542}{}{Mobile Fortress}

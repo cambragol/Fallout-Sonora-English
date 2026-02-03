@@ -64,6 +64,9 @@ procedure activ_proc begin
    if (global_var(GVAR_GAME_END) != 0) then begin
       floater(dude_obj,115,COLOR_MSG_RED);
    end
+   else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
+      floater(dude_obj,116,COLOR_MSG_RED);
+   end
    else if (global_var(GVAR_PHENIX_CULT_DESTROY_TIMER) == 0) then begin
        display_mstr(122);
        if (global_var(GVAR_CAR_MAP_INDEX) == MAP_PHOENIX_PLAZA) then begin

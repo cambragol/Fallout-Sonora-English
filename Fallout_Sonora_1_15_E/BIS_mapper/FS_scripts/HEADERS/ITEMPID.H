@@ -24,23 +24,23 @@ SONORA Active Items
 ***************        SONORA Ammo     ***************************
 ******************************************************************/
 
-#define PID_AMMO_ENERGY_CELL                (1) // not used in gameplay
-#define PID_AMMO_MICRO_FUSION_CELL          (2)
-#define PID_AMMO_22_LR                      (3) // в пачке 5 патронов!
-#define PID_AMMO_9_MM                       (4)
-#define PID_AMMO_10_MM                      (5)
-#define PID_AMMO_10_MM_NSP                  (6)
-#define PID_AMMO_44_MAGNUM                  (7)
-#define PID_AMMO_50_AE                      (8)
-#define PID_AMMO_5_MM                       (9) // в пачке 5 патронов!
-#define PID_AMMO_308                        (10)
-#define PID_AMMO_SHOTGUN_SHELLS             (11)
-#define PID_AMMO_SHOTGUN_SHELLS_BULLET      (12)
+#define PID_AMMO_ENERGY_CELL                (1) // не используется в геймплее
+#define PID_AMMO_MICRO_FUSION_CELL          (2) // в пачке 10 патронов
+#define PID_AMMO_22_LR                      (3) // в пачке 5 патронов
+#define PID_AMMO_9_MM                       (4) // не используется в геймплее
+#define PID_AMMO_10_MM                      (5) // в пачке 12 патронов
+#define PID_AMMO_10_MM_NSP                  (6) // в пачке 12 патронов
+#define PID_AMMO_44_MAGNUM                  (7) // в пачке 6 патронов
+#define PID_AMMO_50_AE                      (8) // в пачке 6 патронов
+#define PID_AMMO_5_MM                       (9) // в пачке 25 патронов
+#define PID_AMMO_308                        (10) // в пачке 5 патронов
+#define PID_AMMO_SHOTGUN_SHELLS             (11) // в пачке 6 патронов
+#define PID_AMMO_SHOTGUN_SHELLS_BULLET      (12) // в пачке 6 патронов
 #define PID_AMMO_40_MM                      (13)
 #define PID_AMMO_SIGNAL_A                   (14)
 #define PID_AMMO_SIGNAL_B                   (15)
 #define PID_AMMO_SIGNAL_C                   (16)
-#define PID_AMMO_TANK                       (185)
+#define PID_AMMO_TANK                       (185) // в пачке 5 шт
 
 /*****************************************************************
 ***************        SONORA Weapon     *************************
@@ -101,6 +101,7 @@ SONORA Active Items
 #define PID_W_PISTOL_ZIP                    (175)
 
 //Огнестрельное тяжелое
+#define PID_W_RIFLE_ZIPGUN                  (496)
 #define PID_W_RIFLE_HUNTING                 (157)
 #define PID_W_RIFLE_HUNTING_UNERTL          (176)
 #define PID_W_RIFLE_COMBAT                  (158)
@@ -110,6 +111,7 @@ SONORA Active Items
 #define PID_W_LIGHT_AUTOGUN                 (162)
 #define PID_W_MINIGUN                       (163)
 #define PID_W_SHOTGUN_DUBLET                (164)
+#define PID_W_SHOTGUN_DUBLET_REPAIR         (495)
 #define PID_W_SHOTGUN_COMBAT                (165)
 #define PID_W_SHOTGUN_ASSAULT               (166)
 #define PID_W_LAUNCHER                      (167)
@@ -308,6 +310,7 @@ SONORA Active Items
 #define PID_Q_ARMYTAG_PESCADOR              (445)
 #define PID_Q_GOLD_MAP                      (447)
 #define PID_Q_HERMO_INFO_DISK               (475)
+#define PID_Q_NUEVA_FAMILY_CULON            (492)
 
 #define PID_HEAD_ROAD                       (396)
 #define PID_HEAD_A                          (397)
@@ -421,15 +424,6 @@ SONORA Active Items
                                                g_display_mstr(489);             \
                                                end                              \
                                             end                                 \
-
-/*
-#define destroyUseShovel                    inc_global_var(GVAR_SHOVEL_STATUS);  \
-                                            if (global_var(GVAR_SHOVEL_STATUS)>=(dude_strength+4)) then begin \
-                                            item_remove(dude_obj, objUsedPid, 1) \
-                                            g_display_mstr(492);                 \
-                                            set_global_var(GVAR_SHOVEL_STATUS,0); \
-                                            end                                  \
-*/
 
 #define destroyUseShovel                    if (random(0,100) <= (10-dude_strength)) then begin \
                                             item_remove(dude_obj, objUsedPid, 1) \

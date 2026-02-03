@@ -19,16 +19,16 @@
 {217}{}{Where did he get the right to this motel?}
 {218}{}{Only Aaron controls the lands around Phoenix. Challenge that if you dare.}
 {219}{}{That's not true.}
-{220}{}{How dare you desecrate the name of a holy man? Keep your filthy tongue shut before I lose my temper. Away!}
+{220}{}{How dare you desecrate the name of a holy man? Keep your filthy mouth shut before I lose my temper. Away!}
 {221}{}{Okay, okay...}
 {222}{}{Hey, take it easy...}
 {223}{}{He's doing a great job.}
 {224}{}{Praise be the name of Aaron! The man who brings life to the desert.}
 {225}{}{Aaron has been killed. Did you know that?}
 {226}{}{Aaron and his cathedral are destroyed. Did you know that?}
-{227}{}{How dare you speak such lies? Aaron is alive, and his cathedral stands. Shut your vile mouth before I lose my temper.}
-{228}{}{They always get offended by the truth.}
-{229}{}{Hey, take it easy...}
+{227}{}{How dare you speak such lies? Aaron is alive, and his cathedral stands. Shut your filthy mouth before I lose my temper.}
+{228}{}{The truth hurts.}
+{229}{}{Truth hurts. Don't worry, you'll get over it.}
 
 {230}{}{Did you know mutants used to live here?}
 {231}{}{What happened, happened. We need to start anew, not dwell on the past.}
@@ -44,3 +44,6 @@
 {241}{}{Everything will be different now. Aaron gave a second chance to us and to the motel. We'll turn this desert into a promised land.}
 {242}{}{Amen.}
 {243}{}{Good luck.}
+
+{250}{}{Aaron and his cathedral have been brought down. You do know that, right?}
+{251}{}{How dare you speak such lies?! Of course Aaron leads, and his church is thriving! Watch your filthy mouth before I lose my temper.}

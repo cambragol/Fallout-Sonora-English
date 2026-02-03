@@ -35,14 +35,15 @@
 {224}{}{I don't understand his train of thought. I will soon have nothing to feed my squad, and he's sending another mouth to feed.}
 {225}{}{I have a special task. Aaron has grown tired of waiting for results.}
 {226}{}{I think he just wants a quick solution to the problem.}
-{227}{}{Hmm. I'm already curious about how you gained Aaron's trust. Considering that, perhaps I should listen to your advice. Keep in mind, though, that I'm still the Commander here.}
+{227}{}{Hmm. I'm already curious about how you gained Aaron's trust. Considering that, maybe I should listen to your advice. Keep in mind, though, that I'm still the Commander here.}
+{1227}{}{Hmm. I'm already curious about how you gained Aaron's trust. Considering that, maybe I should listen to your advice. Keep in mind, though, that I'm still the Commander here.}
 {228}{}{No problem.}
 {229}{}{I don't care about your command.}
 
 {230}{}{I represent the Rangers. We've heard talk that someone is trying to break the herder tribe.}
 {231}{}{We are just peaceful colonizers. They came to empty land to establish a settlement here. Are we doing something bad?}
 {232}{}{You are trying to drive the tribe away.}
-{233}{}{I'll tell you what. Listen carefully, ranger henchman. These lands do not belong to you. And they don't belong to savages either. Aaron of Phoenix owns this entire valley. Get back to your people. And don't you dare get in our way.}
+{233}{}{I'll tell you what. Listen carefully, ranger henchman. These lands do not belong to you. And they don't belong to the savages either. Aaron of Phoenix owns this entire valley. Get back to your people. And stay out of our way.}
 {234}{}{You've said enough. I don't need more.}
 {235}{}{I'm not leaving until I get answers to my questions. What's going on here?}
 

@@ -154,7 +154,7 @@ end
 //--- ЗНАКОМСТВО
 
 procedure NodeFstDialog begin
-   Reply(200)
+   zReply(200)
    NAnswer(201,1,NodeFstDialog2)
 end
 
@@ -178,7 +178,7 @@ end
 
 procedure NodeFstDialog5 begin
    setBonusReaction(40)
-   Reply(208)
+   zReply(208)
    zNAnswer(209,1,Node999)
 end
 
@@ -195,10 +195,10 @@ procedure NodeSndDialog begin
    Reply(220)
    end
    else if (getReaction>0) then begin
-   Reply(221)
+   zReply(221)
    end
    else begin
-   Reply(222)
+   zReply(222)
    end
 
    if (getQuest(GVAR_SANTAANA_QST_FIESTA) == qStart) then begin
@@ -236,7 +236,7 @@ procedure NodeAnswer104 begin
 end
 
 procedure NodeAnswer105 begin
-   Reply(238)
+   zReply(238)
    NAnswer(239,1,NodeAnswer106)
 end
 

@@ -222,6 +222,12 @@ procedure critter_p_proc begin
       end
    end
    end
+   else begin
+      if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+      Flee_From_Dude
+      end
+   end
+
    set_critter_options(3,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 

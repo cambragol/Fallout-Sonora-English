@@ -4,6 +4,7 @@
 #define NAME                            SCRIPT_PCBrtrB
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_PHOENIX // привязка к репутации (-1, если не нужно)
 #define BOX_TILE                        11                    // номер тайла с личным товарным ящиком (0 или меньше, если не надо; не может совпадать с чужими ящиками на одной локации!)
+#define BARTER_TIME                     (ONE_GAME_WEEK)
 
 #define NUM_TEAM                        TEAM_PHOENIX_CITIZEN  // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_PERSON_NORMAL      // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
@@ -74,7 +75,6 @@ procedure NodeAnswer213;
 procedure NodeAnswer214;
 procedure NodeAnswer300;
 procedure NodeAnswer301;
-procedure NodeAnswer302;
 
 //---------------------
 
@@ -96,7 +96,7 @@ procedure map_enter_p_proc begin
        check_restock_item(PID_MOTO_LUMP, 1, 1, 100) // 1 шт на всю игру
        check_restock_item(PID_BOOK_OLD, 2, 2, 100) // 2 шт за всю игру
        end
-       set_BarterBoxProc(ONE_GAME_WEEK)
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -107,15 +107,10 @@ procedure setBarterA begin
         check_restock_item(PID_TOOL_ZIPPER, 1, 2, 100)
         check_restock_item(PID_TABACO, 1, 4, 100)
         check_restock_item(PID_W_CROWBAR, 1, 1, 100)
-        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 20, 40, 100)
+        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 2, 5, 100)
 
         //- крышки
-        if ((global_var(GVAR_GAME_END) != 0) and (getQuest(GVAR_PHENIX_CULT_DESTROY) < qEnd)) then begin
-        check_restock_many(500,800) // увеличение крышек в пять раз (бонус после финала игры)
-        end
-        else begin
-        check_restock_many(400,500)
-        end
+        check_restock_many(800,1000)
 end
 
 procedure setBarterB begin
@@ -180,6 +175,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-10) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
 
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -191,15 +187,20 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
-   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_20) == 0)) then begin
+   if (bitDialog(bit_20) == 0) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    incBarterMod(20);
    bitDialogExp(bit_20,0)
+   end
    end
 
    if (bitDialog(bit_1) == 0) then begin
    call NodeFstDialog;
    end
    else if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_3) == 0)) then begin
+   call NodeFstDialog3;
+   end
+   else if ((getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) and (bitDialog(bit_3) == 0)) then begin
    call NodeFstDialog3;
    end
    else begin
@@ -411,8 +412,6 @@ procedure NodeAnswer200b begin
               NAnswer(271,1,NodeAnswer207) end
       if (item_amnt(dude_obj,PID_RELICT_FOTO) > 0) then begin
               NAnswer(273,1,NodeAnswer208) end
-      //if (item_amnt(dude_obj,PID_RELICT_DAYGLOW) > 0) then begin
-      //        NAnswer(275,1,NodeAnswer209) end
       if (item_amnt(dude_obj,PID_RELICT_FLAG) > 0) then begin
               NAnswer(277,1,NodeAnswer210) end
       if (item_amnt(dude_obj,PID_RELICT_GAMEDISK) > 0) then begin
@@ -502,11 +501,5 @@ end
 
 procedure NodeAnswer301 begin
    Reply(243)
-   NAnswer(244,3,NodeAnswer302)
-   NAnswer(246,1,NodeSndDialog)
-end
-
-procedure NodeAnswer302 begin
-   Reply(245)
    NAnswer(246,1,NodeSndDialog)
 end

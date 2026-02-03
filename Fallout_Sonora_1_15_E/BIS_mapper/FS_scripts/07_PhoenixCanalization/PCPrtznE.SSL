@@ -135,7 +135,7 @@ procedure talk_p_proc begin
       floater(self_obj,104,COLOR_MSG_NORMAL);
       end
       else begin
-      floater(self_obj,103,COLOR_MSG_NORMAL);
+      z_floater(self_obj,103,COLOR_MSG_NORMAL);
       end
    end
    else if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) == 1) then begin
@@ -171,79 +171,79 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    if (global_var(GVAR_TITUL_PHENIX_CULT)>0) then begin
-   Reply(250)
-   GAnswer(251,1,NodeFstDialog10)
-   NAnswer(254,1,Node999)
+   zReply(250)
+   GAnswer(251,0,NodeFstDialog10)
+   NAnswer(254,0,Node999)
    end
    else if ((armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) or (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A)) then begin
-   Reply(260)
+   zReply(260)
    GAnswer(251,3,NodeFstDialog10)
-   BAnswer(261,1,Node998)
-   NAnswer(262,1,Node999)
+   BAnswer(261,0,Node998)
+   NAnswer(262,0,Node999)
    end
    else begin
    Reply(200)
    NAnswer(220,3,NodeFstDialog5)
-   NAnswer(205,1,NodeFstDialog3)
-   BAnswer(201,1,NodeFstDialog2)
+   NAnswer(205,0,NodeFstDialog3)
+   BAnswer(201,0,NodeFstDialog2)
    end
 end
 
 procedure NodeFstDialog2 begin
-   Reply(202)
-   BAnswer(203,1,Node998)
-   NAnswer(204,1,Node999)
+   zReply(202)
+   BAnswer(203,0,Node998)
+   NAnswer(204,0,Node999)
 end
 
 procedure NodeFstDialog3 begin
    zReply(206)
-   NAnswer(207,1,NodeFstDialog4)
+   NAnswer(207,0,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
    Reply(208)
-   BAnswer(209,1,Node998)
-   NAnswer(210,1,Node999)
+   BAnswer(209,0,Node998)
+   NAnswer(210,0,Node999)
 end
 
 procedure NodeFstDialog5 begin
    Reply(221)
-   NAnswerSkill(228,1,NodeFstDialog8,SKILL_CONVERSANT,60,229,NodeFstDialog7)
-   NAnswerSlava(222,1,NodeFstDialog6,1,222,NodeFstDialog7)
+   NAnswerSkill(228,0,NodeFstDialog8,SKILL_CONVERSANT,60,229,NodeFstDialog7)
+   NAnswerSlava(222,0,NodeFstDialog6,0,222,NodeFstDialog7)
 end
 
 procedure NodeFstDialog6 begin
    zReply(223)
-   BAnswer(225,1,Node998)
-   NAnswer(224,1,Node999)
+   BAnswer(225,0,Node998)
+   NAnswer(224,0,Node999)
 end
 
 procedure NodeFstDialog7 begin
    Reply(226)
-   BAnswer(227,1,Node998)
+   BAnswer(227,0,Node998)
 end
 
 procedure NodeFstDialog8 begin
    Reply(230)
-   NAnswer(231,1,NodeFstDialog9)
+   NAnswer(231,0,NodeFstDialog9)
 end
 
 procedure NodeFstDialog9 begin
    inc_map_var(MVAR_PNX_RUINS_SPY);
    Reply(232)
-   NAnswer(233,1,Node999)
+   NAnswer(233,0,Node999)
 end
 
 procedure NodeFstDialog10 begin
    inc_map_var(MVAR_PNX_RUINS_SPY);
    Reply(252)
-   NAnswer(253,1,Node999)
+   NAnswer(253,0,Node999)
 end
 
 /*
 procedure NodeFstDialog11 begin
-   Reply(264)
-   BAnswer(265,1,Node998)
+   zReply(264)
+   BAnswer(265,0,Node998)
 end
 */
 
@@ -281,45 +281,45 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   NAnswer(201,1,NodeFstDialog2)
-   BAnswer(204,1,NodeFstDialog3)
-   NAnswer(207,1,NodeFstDialog4)
+   NAnswer(201,0,NodeFstDialog2)
+   BAnswer(204,0,NodeFstDialog3)
+   NAnswer(207,0,NodeFstDialog4)
 end
 
 procedure NodeFstDialog2 begin
    Reply(202)
-   NAnswer(203,1,NodeFstDialog5)
+   NAnswer(203,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog3 begin
    Reply(205)
-   NAnswer(206,1,NodeFstDialog5)
+   NAnswer(206,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog4 begin
    Reply(208)
-   NAnswer(209,1,NodeFstDialog5)
+   NAnswer(209,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog5 begin
    Reply(210)
-   NAnswer(211,1,NodeFstDialog6)
+   NAnswer(211,0,NodeFstDialog6)
 end
 
 procedure NodeFstDialog6 begin
    Reply(212)
-   NAnswer(213,1,NodeFstDialog7)
-   BAnswer(216,1,NodeFstDialog8)
+   NAnswer(213,0,NodeFstDialog7)
+   BAnswer(216,0,NodeFstDialog8)
 end
 
 procedure NodeFstDialog7 begin
    Reply(214)
-   NAnswer(215,1,Node999)
+   NAnswer(215,0,Node999)
 end
 
 procedure NodeFstDialog8 begin
    Reply(217)
-   NAnswer(218,1,Node999)
+   NAnswer(218,0,Node999)
 end
 
 */
@@ -329,6 +329,6 @@ end
 /*
 procedure NodeSndDialog begin
    Reply(211)
-   NAnswer(212,1,Node999)
+   NAnswer(212,0,Node999)
 end
 */

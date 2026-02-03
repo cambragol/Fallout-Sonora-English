@@ -195,7 +195,7 @@ procedure talk_p_proc begin
       end
    end
    else if ((map_var(MVAR_PNX_CULT_SPY_SHRIFT) >= 2) and (getQuest(GVAR_PHENIX_PARTY_QST_B) < qStart)) then begin
-      floater(self_obj,102,COLOR_MSG_NORMAL); // надо ли???
+      z_floater(self_obj,102,COLOR_MSG_NORMAL); // надо ли???
    end
    else begin
       dialog_proc(0,0,NodeStartDialog,-1,-1)
@@ -413,7 +413,7 @@ procedure NodeAnswer308 begin
 end
 
 procedure NodeAnswer309 begin
-   Reply(271)
+   zReply(271)
    NAnswer(264,1,NodeAnswer306)
    NAnswer(266,1,NodeAnswer307)
    NAnswer(272,1,NodeAnswer310)
@@ -475,7 +475,7 @@ procedure NodeAnswer308 begin
 end
 
 procedure NodeAnswer309 begin
-   Reply(271)
+   zReply(271)
    NAnswer(264,1,NodeAnswer306)
    NAnswer(266,1,NodeAnswer307)
    NAnswer(272,1,NodeAnswer310)
@@ -529,7 +529,7 @@ procedure NodeQst103 begin
 end
 
 procedure NodeQst104 begin
-   Reply(319)
+   zReply(319)
    BAnswer(320,1,Node999)
 end
 
@@ -559,7 +559,7 @@ procedure NodeQst200 begin
    set_map_var(MVAR_PNX_CULT_SPY_SHRIFT,2);
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PHOENIX_COLLECTOR);
    setBonusReaction(5)
-   Reply(330)
+   zReply(330)
    NAnswer(331,1,NodeQst201)
 end
 
@@ -620,7 +620,7 @@ procedure NodeQst209 begin
 end
 
 procedure NodeQst210 begin
-   Reply(355)
+   zReply(355)
 
    if (getQuest(GVAR_PHENIX_PARTY_QST_B) == qStart) then begin
    if (global_var(GVAR_PHENIX_MATIAS_NONATTAK) == 0) then begin

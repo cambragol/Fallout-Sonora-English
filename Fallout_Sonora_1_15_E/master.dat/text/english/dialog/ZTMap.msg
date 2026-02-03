@@ -128,7 +128,7 @@
 {223}{}{}
 {224}{}{}
 {225}{}{}
-{226}{}{}
+{226}{}{A small settlement looms through the fog on a litter-strewn shore.}
 {227}{}{}
 {228}{}{}
 {229}{}{}

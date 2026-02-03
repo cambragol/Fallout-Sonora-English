@@ -42,7 +42,6 @@ procedure NodeAnswer;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
 procedure NodeAnswer103;
-procedure NodeAnswer104;
 procedure NodeQst;
 procedure NodeQst1;
 procedure NodeQst2;
@@ -178,13 +177,15 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(dude_name+mstr(200))
-   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(201,4,NodeFstDialog2)
+   NAnswer(250,-3,NodeFstDialog2)
 end
 
 procedure NodeFstDialog2 begin
    Reply(202)
-   NAnswer(203,1,NodeAnswer)
-   NAnswer(204,1,Node999)
+   NAnswer(203,4,NodeAnswer)
+   NAnswer(204,4,Node999)
+   NAnswer(251,-3,NodeQst)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -197,78 +198,80 @@ procedure NodeSndDialog begin
    Reply(211)
    end
 
-   NAnswer(213,1,NodeAnswer)
+   zNAnswer(213,4,NodeAnswer)
    if (bitDialog(bit_2) != 0) then begin
-   NAnswer(228,1,NodeQst)
+   NAnswer(228,4,NodeQst)
+   NAnswer(251,-3,NodeQst)
    end
    if (local_var(LVAR_Check_UsingFood) >= limit_UsingFood) then begin
-   GAnswer(236,1,NodeQst4)
+   GAnswer(236,4,NodeQst4)
+   GAnswer(255,-3,NodeQst4)
    end
 
-   NAnswer(212,1,Node999)
+   NAnswer(212,4,Node999)
+   NAnswer(256,-3,Node999)
 end
 
 procedure NodeSndDialog2 begin
    display_mstr(244);
    if (dude_elevation == 0) then begin
    Reply(242)
-   NAnswer(243,1,Node999)
+   NAnswer(243,4,Node999)
    end
    else begin
    Reply(240)
-   NAnswer(241,1,Node999)
+   NAnswer(241,4,Node999)
    end
+   NAnswer(257,-3,Node999)
 end
 
 procedure NodeSndDialog3 begin
    zReply(245)
-   NAnswer(246,1,Node999)
-   NAnswer(247,1,Node999)
+   NAnswer(246,4,Node999)
+   NAnswer(247,4,Node999)
+   NAnswer(257,-3,Node999)
 end
 
 procedure NodeAnswer begin
    Reply(214)
-
-   NAnswer(220,1,NodeAnswer101)
-   NAnswer(222,1,NodeAnswer102)
-   NAnswer(224,4,NodeAnswer103)
-   NAnswer(228,1,NodeQst)
-
-   NAnswer(212,1,Node999)
+   NAnswer(220,4,NodeAnswer101)
+   NAnswer(222,4,NodeAnswer102)
+   NAnswer(224,5,NodeAnswer103)
+   NAnswer(228,4,NodeQst)
+   NAnswer(212,4,Node999)
+   NAnswer(257,-3,Node999)
 end
 
 procedure NodeAnswer101 begin
    Reply(221)
-   NAnswer(215,1,NodeAnswer)
+   NAnswer(215,4,NodeAnswer)
 end
 
 procedure NodeAnswer102 begin
    Reply(223)
-   NAnswer(215,1,NodeAnswer)
+   NAnswer(215,4,NodeAnswer)
 end
 
 procedure NodeAnswer103 begin
-   Reply(225)
-   NAnswer(226,1,NodeAnswer104)
-end
-
-procedure NodeAnswer104 begin
    bitDialogExp(bit_3,50)
-   Reply(227)
-   NAnswer(215,1,NodeAnswer)
+   Reply(225)
+   NAnswer(215,4,NodeAnswer)
 end
 
 procedure NodeQst begin
    bitDialogExp(bit_2,0)
    Reply(229)
-   NAnswer(230,1,NodeQst1)
+   NAnswer(230,4,NodeQst1)
+   NAnswer(252,-3,NodeQst1)
 end
 
 procedure NodeQst1 begin
    zReply(231)
-   NAnswer(232,1,NodeQst2)
-   NAnswer(233,1,NodeQst3)
-   zNAnswer(234,1,NodeAnswer)
+   NAnswer(253,-3,NodeQst2)
+   BAnswer(254,-3,NodeQst3)
+   NAnswer(232,4,NodeQst2)
+   BAnswer(233,4,NodeQst3)
+   zNAnswer(234,4,NodeAnswer)
 end
 
 procedure NodeQst2 begin
@@ -287,5 +290,6 @@ procedure NodeQst4 begin
    display_mstr(244);
    rm_timer_event(self_obj);
    Reply(237)
-   NAnswer(238,1,Node999)
+   NAnswer(238,4,Node999)
+   NAnswer(258,-3,Node999)
 end

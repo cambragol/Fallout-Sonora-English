@@ -79,7 +79,7 @@ end
 
 procedure critter_p_proc begin
    if ((game_time_hour < 0600) and (map_var(MVAR_OIL_PLATFORM_GHOUL_INVIS) == 0)) then begin
-   invisToDude(7,101) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
+   invisToDude(10,101) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
    end
    attakToDude := 2;
    if (map_var(MVAR_OIL_PLATFORM_GHOUL_INVIS) > 0) then begin
@@ -162,31 +162,31 @@ end
 
 procedure NodeDialog begin
    Reply(200)
-   NAnswer(202,1,NodeDialog2)
-   BAnswer(201,1,Node998)
+   NAnswer(202,0,NodeDialog2)
+   BAnswer(201,0,Node998)
 end
 
 procedure NodeDialog2 begin
    Reply(203)
-   NAnswer(205,1,NodeDialog3)
-   BAnswer(204,1,Node998)
+   NAnswer(205,0,NodeDialog3)
+   BAnswer(204,0,Node998)
 end
 
 procedure NodeDialog3 begin
    Reply(206)
-   NAnswer(207,1,NodeDialog4)
-   BAnswer(210,1,Node998)
+   NAnswer(207,0,NodeDialog4)
+   BAnswer(210,0,Node998)
 end
 
 procedure NodeDialog4 begin
    Reply(208)
-   NAnswer(209,1,NodeDialog5)
-   BAnswer(211,1,Node998)
+   NAnswer(209,0,NodeDialog5)
+   BAnswer(211,0,Node998)
 end
 
 procedure NodeDialog5 begin
    Reply(212)
-   NAnswer(213,1,NodeDialog6)
+   NAnswer(213,0,NodeDialog6)
 end
 
 procedure NodeDialog6 begin

@@ -24,6 +24,7 @@
 {167}{}{I'll think about it.}
 {168}{}{I have some questions.}
 {169}{}{Hey, I see you! Come out into the light, you little rat. Are you spying for Kogan?}
+{1169}{}{Hey, I see you! Come out into the light, you little skank. Are you spying for Kogan?}
 {170}{}{So, did you manage to get the contracts?}
 {171}{}{Not yet.}
 {172}{}{Who said I was even going to get them?}

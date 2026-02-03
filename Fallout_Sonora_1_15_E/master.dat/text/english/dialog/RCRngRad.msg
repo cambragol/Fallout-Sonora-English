@@ -71,15 +71,15 @@
 {292}{}{What was I supposed to do again?}
 {293}{}{So it's too much for your brain to handle, huh? Hunt down the source of the echo in our broadcasts. Head out into the desert, south or east, and use the walkie-talkie to track the signal. Pinpoint where it's coming from.}
 {294}{}{Alright, let's get this done...}
-{295}{}{[Continue]}
+{295}{}{[More]}
 {296}{}{Good job! But hold on... You hear that?}
 {297}{}{An echo? Something's repeating our signal?}
 {298}{}{Sounds like it... Signal's faint, coming from the south... maybe east... We didn't catch this before. Could be a glitch in the new gear, but... Listen, we gotta know for sure what it is. Can't ignore this noise.}
-{299}{}{[Continue]}
+{299}{}{[More]}
 {300}{}{Head south or east toward the signal's source and find out what's causing the echo. You'll have to head way out into the desert. Take this walkie-talkie to track it down.}
 {301}{}{I guess this job isn't over yet...}
 
 {302}{}{Well, this is unexpected! Thought we were the only ones with tech for broadcasts this powerful. Report to Commander Helford ASAP.}
-{303}{}{[Continue]}
+{303}{}{[More]}
 {304}{}{You got somethin' there... Tell Commander Helford how the operation went down.}
 {305}{}{Aye-aye!}

@@ -87,6 +87,7 @@
 {285}{}{Thugs don't last long. I won't add to their numbers. All I can do is lose myself in tequila. I drink, I don't hurt anyone, and everyone's happy.}
 {286}{}{It's a sad tale, Mike. Now I get why you won't teach me.}
 {287}{}{Come back when you're a saint radiating peace and kindness. Then I might teach you everything I know.}
+{1287}{}{Come back when you're an angel radiating peace and kindness. Then I might teach you everything I know.}
 {288}{}{Alright. I'll prove you can trust me.}
 {289}{}{I doubt I can change this city for the better. Goodbye, Mike.}
 {290}{}{Still against training me?}
@@ -130,6 +131,7 @@
 {331}{}{I'll be here, Mike.}
 
 {332}{}{(disdainful) I knew you couldn't be trusted. You swore you'd use your skills for good. Now I don't believe a word you say. Get lost.}
+{1332}{}{(disdainful) I knew you couldn't be trusted. You swore you'd use your skills for good. Now I don't believe a word you say. Get lost.}
 {333}{}{Uh...}
 {334}{}{Get out of my sight. You're a disgrace.}
 {335}{}{Fine, forget it.}

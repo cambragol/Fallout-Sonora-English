@@ -18,3 +18,4 @@
 {214}{}{Do you really think so? Yeah, sure, you weren't here either... But that doesn't make it easier. I abandoned them. Now I have to live with that.}
 {215}{}{Go on.}
 {216}{}{It was the worst for those hiding in the town hall - it was a bloodbath in there.}
+{217}{}{Duh... uumm...}

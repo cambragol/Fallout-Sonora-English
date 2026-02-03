@@ -512,7 +512,7 @@ procedure NodeAnswer512 begin
 end
 
 procedure NodeAnswer513 begin
-   item_add(dude_obj,PID_AMMO_44_MAGNUM,30)
+   item_add(dude_obj,PID_AMMO_44_MAGNUM,6)
    item_add(dude_obj,PID_W_REVOLVER_POLICE,1)
    Reply(364)
    NAnswer(365,1,Node999)

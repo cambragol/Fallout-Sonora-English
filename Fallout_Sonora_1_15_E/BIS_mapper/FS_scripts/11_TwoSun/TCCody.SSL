@@ -41,8 +41,8 @@ procedure NodeFstDialog5;
 procedure NodeSndDialog;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
-procedure NodeAnswer102;
 procedure NodeQuest100;
+procedure NodeQuest100b;
 procedure NodeQuest101;
 procedure NodeQuest200;
 procedure NodeQuest201;
@@ -84,7 +84,7 @@ procedure timed_event_p_proc begin
    // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
    // Таймер за номером 2 рарезервирован под всплывающие реплики
    if (fixed_param == 1) then begin
-       timer_move_to_home
+       timer_move_random_home(2)
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(110,111)
@@ -173,14 +173,14 @@ end
 
 procedure NodeFstDialog4 begin
    Reply(208)
-   NAnswer(211,1,Node999)
-   BAnswer(212,1,Node999)
+   NAnswer(211,1,NodeSndDialog)
+   BAnswer(212,1,NodeSndDialog)
 end
 
 procedure NodeFstDialog5 begin
    Reply(210)
-   NAnswer(211,1,Node999)
-   BAnswer(212,1,Node999)
+   NAnswer(211,1,NodeSndDialog)
+   BAnswer(212,1,NodeSndDialog)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -188,13 +188,6 @@ end
 procedure NodeSndDialog begin
    Reply(250)
 
-   NAnswer(220,1,NodeAnswer100)
-   NAnswer(223,1,NodeAnswer101)
-   NAnswer(226,1,NodeAnswer102)
-
-   if (getQuest(GVAR_TWOSUN_QST_FAMILY_PIP) == qZero) then begin
-      NAnswer(252,1,NodeQuest100)
-   end
    if (getQuest(GVAR_TWOSUN_QST_FAMILY_PIP) == qStart) then begin
       if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_5) != 0) then begin
       NAnswer(260,1,NodeQuest200)
@@ -202,6 +195,12 @@ procedure NodeSndDialog begin
       if (gvar_bit(GVAR_TWOSUN_QST_FAMILY_STATUS, bit_3) != 0) then begin
       NAnswer(276,1,NodeQuest101)
       end
+   end
+
+   NAnswer(220,1,NodeAnswer100)
+   NAnswer(223,1,NodeAnswer101)
+   if (getQuest(GVAR_TWOSUN_QST_FAMILY_PIP) == qZero) then begin
+   NAnswer(252,1,NodeQuest100)
    end
 
    NAnswer(251,1,Node999)
@@ -217,16 +216,15 @@ procedure NodeAnswer101 begin
    NAnswer(225,1,NodeSndDialog)
 end
 
-procedure NodeAnswer102 begin
-   Reply(227)
-   NAnswer(228,1,NodeSndDialog)
-end
-
 procedure NodeQuest100 begin
-   setQuest(GVAR_TWOSUN_QST_FAMILY_PIP,qStart);
    Reply(253)
    NAnswer(254,1,Node999)
-   BAnswer(255,1,Node999)
+   BAnswer(255,1,NodeQuest100b)
+end
+
+procedure NodeQuest100b begin
+   setQuest(GVAR_TWOSUN_QST_FAMILY_PIP,qStart);
+   call Node999;
 end
 
 procedure NodeQuest101 begin
@@ -235,7 +233,7 @@ procedure NodeQuest101 begin
 end
 
 procedure NodeQuest200 begin
-   zReply(261)
+   Reply(261)
    zNAnswer(262,1,NodeQuest201)
 end
 

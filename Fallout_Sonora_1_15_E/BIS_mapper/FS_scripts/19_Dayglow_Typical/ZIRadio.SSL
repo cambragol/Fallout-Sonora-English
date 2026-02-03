@@ -192,7 +192,7 @@ procedure NodeDialog begin
    //- жестянщики ТуСан
    AnswerZonaBit(216,NodeTwoSun,1072,972,128,bit_6)
    //- Братство Стали
-   if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_CORONADO))  then begin
+   if ((cur_map_index >= MAP_DAYGLOW_TIJUANA) and (cur_map_index <= MAP_DAYGLOW_CORONADO))  then begin
       if (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_7) != 0) then begin
       NAnswer(217,1,NodeBoS100)
       end
@@ -208,7 +208,7 @@ procedure NodeDialog begin
 
    //- аварийная частота убежища 24
    if ((getQuest(GVAR_VAULT24_VISITED) >= qStart) or (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_13)) != 0) then begin
-   if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_CITYHEART)) then begin
+   if ((cur_map_index >= MAP_DAYGLOW_TIJUANA) and (cur_map_index <= MAP_DAYGLOW_CITYHEART)) then begin
    NAnswer(306,1,NodeVault24)
    end
    end
@@ -605,7 +605,7 @@ procedure NodeBoS101 begin
    if (global_var(GVAR_DAYGLOW_RADIO) > 0) then begin
 
    if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_15) == 0) then begin
-      if ((cur_map_index >= MAP_DAYGLOW_START) and (cur_map_index <= MAP_DAYGLOW_PIRS))  then begin
+      if ((cur_map_index >= MAP_DAYGLOW_TIJUANA) and (cur_map_index <= MAP_DAYGLOW_PIRS))  then begin
       if ((cur_map_index == MAP_DAYGLOW_NATIONALCITY) and (dude_elevation == 1)) then begin
       end
       else begin

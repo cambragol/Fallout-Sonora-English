@@ -53,7 +53,7 @@
 {241}{}{Continue in this manner and you will end up in a labor camp, like many before you.}
 {242}{}{So this is how problems are solved in the church? I thought this was a place of peace and brotherhood.}
 {243}{}{So it is. Until atomic vermin like you come in and start causing trouble. The world has become so wild that even a peaceful church must take up arms. You wasteland savages have much to learn.}
-{244}{}{[Continue]}
+{244}{}{[More]}
 {245}{}{I ask you one last time - what do you want?}
 {246}{}{I just want to talk with you.}
 {247}{}{After our brief conversation, I see no reason to continue. Leave.}
@@ -154,6 +154,7 @@
 {334}{}{No-no, I'll find my way without escorts.}
 {335}{}{You are so kind.}
 {336}{}{This is an assassin! In the name of the Fire, stop him!}
+{1336}{}{This is an assassin! In the name of the Fire, stop her!}
 {337}{}{Relax, I'm in charge here now.}
 {338}{}{They won't help you.}
 {339}{}{Blessings on your way out.}
@@ -163,13 +164,14 @@
 {342}{}{So what's the essence of your faith?}
 {343}{}{You are the leader of this church, right?}
 {344}{}{I've heard enough today. Thanks for the conversation.}
+{1344}{}{I've heard enough today. Thanks for the conversation.}
 {345}{}{I repeat - I don't have time for this.}
 {346}{}{Okay, I'll talk to others.}
 {347}{}{You're just trying to get rid of me.}
 
 {350}{}{You already know everything you need to.}
 {351}{}{I respect your interest in our teachings. But not everyone is capable of understanding them.}
-{352}{}{[Next]}
+{352}{}{[More]}
 {353}{}{Our church calls for the acceptance of the Holy Fire as an act of healing, as a chance to start life anew. A... 'Rebirth'. For without a rebirth, people still engage in meaningless struggles with each other.}
 {354}{}{What exactly is this Holy Fire?}
 {355}{}{Now I understand, you can stop.}
@@ -384,9 +386,9 @@
 {607}{}{How can I help, Lord Aaron?}
 {608}{}{They call themselves the 'Liberation Party', and I know where their headquarters is located.}
 {609}{}{You may have encountered our preachers outside of Phoenix. The church is growing and opening its chapels where people are ready to listen to us. But the village of San Brahmin has become a stumbling block for our faith.}
-{610}{}{[Next]}
+{610}{}{[More]}
 {611}{}{The local residents, initially friendly, have for some reason become hostile to the church. Our attempts to reason with them have only worsened the situation. We do not know exactly what is happening. Currently, George Crook's detachment is stationed near the village. Find him and offer your help. We need to restore our trade agreements with this village.}
-{612}{}{[Next]}
+{612}{}{[More]}
 {613}{}{Here are 350 caps for the road and to buy everything you need. Go. May the Holy Fire bless you.}
 {614}{}{I will find out what is happening in San Brahmin. San Brahmin will believe in the power of the Holy Fire once again.}
 {615}{}{I will do my best.}

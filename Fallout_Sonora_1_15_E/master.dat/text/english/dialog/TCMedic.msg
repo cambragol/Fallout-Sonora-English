@@ -35,23 +35,26 @@
 {222}{}{That's not good.}
 {223}{}{You have caps? Then point out where the issue is.}
 {224}{}{Nothing.}
-{225}{}{Just heal my wounds, Doc.}
-{226}{}{}
-{227}{}{The cost of treatment will be }
-{228}{}{ caps.}
-{229}{}{Okay Doc, here are the caps.}
-{230}{}{You know, Doc, I'll tough it out.}
-{231}{}{It can wait. I have questions.}
+{225}{}{Basic services will be free for you. What is the issue?}
+{226}{}{[Heal wounds for }
+{227}{}{ caps]}
+{228}{}{[Heal injuries for }
+{229}{}{[Remove all radiation for }
+{230}{}{[Remove all poisons for }
+{231}{}{That's not all, Doc.}
 {232}{}{You're okay.}
 {233}{}{Thanks, Doc.}
 {234}{}{Next time I'll find another clinic. Bye.}
 {235}{}{ caps.}
+{236}{}{Just heal everything you can.}
 
 {250}{}{Can you give me one of those implants of yours?}
 {251}{}{(frowning) Master Hard has authorized your medical treatment. However, expending our most advanced implants on a wasteland primitive is inefficient and illogical.}
+{1251}{}{(frowning) Master Hard has authorized your medical treatment. However, expending our most advanced implants on a wasteland primitive is inefficient and illogical.}
 {252}{}{Are they really that important to you?}
 {253}{}{Not every Tinsmith is authorized to install new implants. It demands a valid justification and the body's compatibility. Some must wait for years to qualify.}
 {254}{}{Master Hard considers me worthy. I think he won't mind one operation.}
+{1254}{}{Master Hard considers me worthy. I think he won't mind one operation.}
 {255}{}{Maybe so. Select the type of implant. Its cost is }
 {256}{}{Not now. I need to prepare for such an operation.}
 {257}{}{Unfortunately, this implant is contraindicated for your biological system.}
@@ -64,9 +67,10 @@
 {264}{}{[Intelligence +1]}
 {265}{}{[Agility +1]}
 {266}{}{[Luck +1]}
-{267}{}{Great. }
+{267}{}{Good. }
 {268}{}{ caps, and we can begin. After the operation, you will require two days to adapt.}
 {269}{}{Here are the caps. Get started, doc.}
+{270}{}{I get it. Then I'll try to get Hard's permission.}
 
 # Questions
 {300}{}{Why is it so dirty in here?}

@@ -1,10 +1,11 @@
 {100}{}{You see the elder Nana.}
 {101}{}{You see a priestess in traditional attire.}
 {102}{}{Leave. We are not afraid of you and your iron toys.}
+{103}{}{May the Divine Brahmin of Peace protect us!}
 
 # First meeting
 {200}{}{Stop. We no longer allow outsiders into camp.}
-{201}{}{Stop, outsider. We warned you to leave our land. Why do you continue to trouble us?}
+{201}{}{Stop, outsider. We warned your squad to leave our land. Why do you continue to trouble us?}
 {202}{}{I don't understand what you're talking about. I'm pursuing a convoy with slaves taken from my home, Villa. It might have passed through here.}
 {203}{}{So you are from Villa? I have heard of your village! We have never been enemies. But we have never been friends either.}
 {204}{}{I actually knew nothing about you.}

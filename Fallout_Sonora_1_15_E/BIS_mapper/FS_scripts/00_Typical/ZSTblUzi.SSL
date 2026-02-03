@@ -21,16 +21,20 @@ end
 procedure use_p_proc begin
    script_overrides;
    if (local_var(LVAR_Status) > 0) then begin
+      set_obj_visibility(self_obj, 1);
       if (cur_map_index == MAP_HERMO_CASA) then begin
+      create_object_sid(33555382, self_tile, self_elevation, -1);
       item_add(dude_obj,PID_W_SMG_UZI,1)
       display_msg(proto_data(PID_W_SMG_UZI, it_name)+mstr(113));
+      end
+      else if (cur_map_index == MAP_SAN_FELIPE_CITY) then begin
+      item_add(dude_obj,PID_W_FLAMER,1)
+      display_msg(proto_data(PID_W_FLAMER, it_name)+mstr(113));
       end
       else begin
       item_add(dude_obj,PID_W_SMG_10,1)
       display_msg(proto_data(PID_W_SMG_10, it_name)+mstr(113));
       end
-      set_obj_visibility(self_obj, 1);
-      create_object_sid(33555382, self_tile, self_elevation, -1);
       destroy_object(self_obj);
    end
    else begin

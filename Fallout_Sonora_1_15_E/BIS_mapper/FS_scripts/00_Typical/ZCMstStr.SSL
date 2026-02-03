@@ -77,17 +77,17 @@ procedure weapon_wield_proc begin
    end
    else if (dude_level >= 15) then begin
        weaponAmmo := PID_AMMO_5_MM;
-       weaponLimit := 10; // в пачке 5 патронов
+       weaponLimit := 2; // в пачке 25 патронов
        weaponPID := PID_W_RIFLE_ASSAULT;
    end
    else if (dude_level >= 10) then begin
        weaponAmmo := PID_AMMO_308;
-       weaponLimit := 20;
+       weaponLimit := 5;
        weaponPID := PID_W_RIFLE_SNIPER;
    end
    else begin
        weaponAmmo := PID_AMMO_44_MAGNUM;
-       weaponLimit := 25;
+       weaponLimit := 5;
        weaponPID := PID_W_REVOLVER_POLICE;
    end
 
@@ -108,10 +108,12 @@ procedure weapon_wield_proc begin
 
    //--- Вооружение
 
+   if (weaponObj >0) then begin
    reg_anim_clear(self_obj);
       reg_anim_begin();
       wield_obj(weaponObj);
       reg_anim_end();
+   end
 end
 
 procedure critter_p_proc begin

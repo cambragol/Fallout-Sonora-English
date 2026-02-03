@@ -4,6 +4,7 @@
 procedure start;
 procedure use_p_proc;
 procedure use_skill_on_p_proc;
+procedure doorOpen;
 
 
 
@@ -12,12 +13,33 @@ end
 
 procedure use_p_proc begin
    script_overrides;
-   display_mstr(110);
+   if (getQuest(GVAR_VAULT27_GENERATOR) < qEnd) then begin
+      display_mstr(110);
+   end
+   else begin
+      call doorOpen;
+   end
 end
 
 procedure use_skill_on_p_proc begin
-   if (action_being_used == SKILL_SCIENCE) then begin
+   if ((action_being_used == SKILL_SCIENCE) or (action_being_used == SKILL_REPAIR)) then begin
    script_overrides;
-   display_mstr(110);
+   call use_p_proc;
+   end
+end
+
+procedure doorOpen begin
+   variable DoorObj;
+   DoorObj := tile_contains_pid_obj(tile_num_in_direction(tile_num_in_direction(self_tile,0,4),5,2), self_elevation, 33554927);
+
+   if (DoorObj>0) then begin
+      if (obj_is_locked(DoorObj) != 0) then begin
+      obj_unlock(DoorObj);
+      obj_open(DoorObj);
+      end
+      else begin
+      obj_close(DoorObj);
+      obj_lock(DoorObj);
+      end
    end
 end

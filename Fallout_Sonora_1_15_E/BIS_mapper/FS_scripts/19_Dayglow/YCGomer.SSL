@@ -139,7 +139,7 @@ procedure timed_event_p_proc begin
        if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin
           floater(self_obj,152,COLOR_MSG_NORMAL);
        end
-       if (cur_map_index == MAP_DAYGLOW_START) then begin
+       if (cur_map_index == MAP_DAYGLOW_TIJUANA) then begin
           floater(self_obj,153,COLOR_MSG_NORMAL);
        end
        if (cur_map_index == MAP_DAYGLOW_PIRS) then begin
@@ -317,10 +317,8 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
-   if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
-      if (map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 1) then begin 
-         call NodeCapDialog;
-      end
+   if ((map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 1) and (cur_map_index == MAP_DAYGLOW_PATRUL)) then begin
+      call NodeCapDialog;
    end
    else if ((global_var(GVAR_DAYGLOW_STATUS_GOMER_CAP) >= 2) and (global_var(GVAR_DAYGLOW_QST_GOMER) < 10)) then begin
       call NodeCapDialog5;
@@ -506,7 +504,7 @@ procedure NodeSndDialog begin
    end
 
    //- Расспросы
-   if (cur_map_index == MAP_DAYGLOW_START) then begin
+   if (cur_map_index == MAP_DAYGLOW_TIJUANA) then begin
       if (bitDialog(bit_2) == 0) then begin
       NAnswer(250,0,NodeAnswer100)
       end

@@ -289,7 +289,7 @@ procedure NodeGruming1 begin
 end
 
 procedure NodeGruming2 begin
-   Reply(247)
+   zReply(247)
    NAnswer(248,1,NodeSndDialog)
 end
 

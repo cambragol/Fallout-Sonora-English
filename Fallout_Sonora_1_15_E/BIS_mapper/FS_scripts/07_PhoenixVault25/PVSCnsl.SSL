@@ -54,10 +54,11 @@ procedure use_obj_on_p_proc begin
    stopUseCarGaz
    else CompUsedLockpic
    else CompUsedKey(PID_KEY_VAULT25_RED,0)
-   else if (objUsedPid == PID_KEY_VAULT25_YLW) then begin
+   else CompUsedKey(PID_KEY_VAULT25_YLW,0)
+   /*else if (objUsedPid == PID_KEY_VAULT25_YLW) then begin
    script_overrides;
    display_mstr(103);
-   end
+   end*/
 end
 
 procedure sience_proc begin

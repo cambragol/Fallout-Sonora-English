@@ -4,6 +4,7 @@
 {200}{}{Hello. I'm Tom. I live in this shack. So what brought you here?}
 {201}{}{I'm new here. Just looking to meet people.}
 {202}{}{Oh, real likely. You're trying to find your "uranium vein", ain't ya? Forget it. This city isn't what it once was on posters. If you wanna earn money, you'll have to work like hell.}
+{1202}{}{Oh, real likely. You're trying to find your "uranium vein", ain't ya? Forget it. This city isn't what it once was on posters. If you wanna earn money, you'll have to work like hell.}
 {203}{}{I'm not here to make money. I'm looking for my relatives.}
 {204}{}{Well then, good luck. You'll need it.}
 {205}{}{Can I ask you a couple of questions?}

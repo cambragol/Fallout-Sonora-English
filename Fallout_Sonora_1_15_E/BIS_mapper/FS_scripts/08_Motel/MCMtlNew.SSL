@@ -35,7 +35,6 @@ procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
 procedure NodeFstDialog101;
-procedure NodeFstDialog200;
 procedure NodeFstDialog201;
 procedure NodeFstDialog202;
 procedure NodeFstDialog203;
@@ -152,16 +151,7 @@ procedure NodeFstDialog begin
 end
 
 procedure NodeFstDialog101 begin
-   /*
-   Reply(202)
-   NAnswer(203,1,NodeFstDialog200)
-   */
    Reply(205)
-   NAnswer(211,1,NodeFstDialog201)
-end
-
-procedure NodeFstDialog200 begin
-   Reply(210)
    NAnswer(211,1,NodeFstDialog201)
 end
 
@@ -186,6 +176,9 @@ procedure NodeFstDialog204 begin
    if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
    BAnswer(226,1,NodeFstDialog207)
    end
+   else if (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd) then begin
+   BAnswer(250,1,NodeFstDialog207)
+   end
    if (global_var(GVAR_PHENIX_STATUS_CULT_AARON)<0) then begin
    BAnswer(225,1,NodeFstDialog207)
    end
@@ -206,7 +199,12 @@ procedure NodeFstDialog206 begin
 end
 
 procedure NodeFstDialog207 begin
+   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
    Reply(227)
+   end
+   else begin
+   Reply(251)
+   end
    NAnswer(228,1,Node999)
    NAnswer(229,1,Node999)
 end

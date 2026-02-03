@@ -46,6 +46,7 @@
 {238}{}{This dose will last the entire ceremony. Thank you, friend. What would I do without you?}
 {1238}{}{This dose will be enough for the entire ceremony. Thank you, friend. What would I do without you?}
 {239}{}{Just a favor for a favor. Remember who your real amigo is here.}
+{1239}{}{Just a favor for a favor. Remember who your real amiga is here.}
 {240}{}{All charges against you have been dropped. You're free.}
 {241}{}{Is this true? So now I can go to the city and live like a normal person?}
 {242}{}{Goodbye, Chuck.}

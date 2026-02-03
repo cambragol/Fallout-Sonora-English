@@ -537,7 +537,7 @@ procedure NodeFinalDialog101 begin
 end
 
 procedure NodeFinalDialog102 begin
-   itemBonusSet(PID_AMMO_MICRO_FUSION_CELL,30)
+   itemBonusSet(PID_AMMO_MICRO_FUSION_CELL,3)
 end
 
 procedure NodeFinalDialog103 begin

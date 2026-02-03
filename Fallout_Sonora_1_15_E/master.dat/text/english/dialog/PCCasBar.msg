@@ -31,6 +31,7 @@
 {211}{}{I'll hold off for now.}
 
 {212}{}{Well, if it isn't the new arena champion! Now this is a treat. Look, I know it's not exactly policy, but I'd like to buy you a beer - on the house. Gotta say, you're one hell of a cool guy. (muttering to himself) Now I can tell everyone...}
+{1212}{}{Well, if it isn't the new arena champion! Now this is a treat. Look, I know it's not exactly policy, but I'd like to buy you a beer - on the house. Gotta say, you're one hell of a cool gal. (muttering to himself) Now I can tell everyone...}
 {213}{}{Thanks, man. That's very kind of you.}
 {214}{}{This swill is urine. But I like your attitude.}
 

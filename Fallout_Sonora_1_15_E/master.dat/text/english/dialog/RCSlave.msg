@@ -1,5 +1,6 @@
 {100}{}{You see a handyman.}
 {101}{}{You see an average wastelander.}
+{102}{}{Hey, be careful! You almost ran me over!}
 
 #First dialogue
 {200}{}{(a young man in ragged attire stands before you, looking up wearily, clearly discontent) What do you want?}

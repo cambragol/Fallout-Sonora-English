@@ -48,15 +48,11 @@ procedure NodeSndDialog;
 procedure NodeEnd100;
 procedure NodeEnd101;
 procedure NodeEnd102;
-procedure NodeEnd102b;
 procedure NodeEnd103;
 procedure NodeEnd104;
 procedure NodeEnd200;
-procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
-procedure NodeAnswer103;
-procedure NodeAnswer104;
 
 //---------------------
 
@@ -135,6 +131,9 @@ end
 
 procedure destroy_p_proc begin
    set_gvar_bit_on(GVAR_TWOSUN_QST_BAND_STATUS, bit_3);
+   if (source_obj == dude_obj) then begin
+   set_map_var(MVAR_TsnBank_Enemy, -1);
+   end
    kill_critter_opt
 end
 
@@ -142,6 +141,9 @@ procedure talk_p_proc begin
    if (gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_4) == 0) then begin
       set_gvar_bit_on(GVAR_TWOSUN_QST_BAND_STATUS, bit_2);
       dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
+   else if (map_var(MVAR_TsnBank_Enemy) < 0) then begin
+      self_attack_dude;
    end
    else begin
       floater(self_obj,102,COLOR_MSG_NORMAL);
@@ -188,7 +190,7 @@ procedure NodeFstDialog101 begin
 end
 
 procedure NodeFstDialog102 begin
-   Reply(206)
+   zReply(206)
    NAnswer(207,1,Node998)
 end
 
@@ -204,7 +206,7 @@ end
 
 procedure NodeFstDialog301 begin
    Reply(223)
-   NAnswer(224,1,NodeFstDialog302)
+   zNAnswer(224,1,NodeFstDialog302)
    NAnswer(225,1,Node998)
 end
 
@@ -236,21 +238,21 @@ end
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
-   Reply(250)
-   NAnswer(260,1,NodeAnswer100)
-   //zNAnswer(270,1,NodeAnswer200)
+   zReply(250)
 
    if (gvar_bit(GVAR_TWOSUN_QST_BAND_STATUS, bit_4) == 0) then begin
-      if (global_var(GVAR_TWOSUN_STATUS_ZAX) == 1) then begin
+      if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
       NAnswer(280,1,NodeEnd100)
       end
       else if (global_var(GVAR_TWOSUN_STATUS_BOSS) < 0) then begin
       NAnswer(283,1,NodeEnd101)
       end
       else begin
-      NAnswerSkill(297,1,NodeEnd102,SKILL_CONVERSANT,90,286,NodeEnd102b)
+      NAnswerSkill(297,1,NodeEnd102,SKILL_CONVERSANT,80,286,NodeEnd103)
       end
    end
+
+   NAnswer(266,1,NodeAnswer101)
    NAnswer(251,1,Node999)
 end
 
@@ -266,19 +268,13 @@ end
 
 procedure NodeEnd102 begin
    Reply(287)
-   NAnswer(291,1,NodeEnd103)
-   NAnswer(288,1,Node999)
-end
-
-procedure NodeEnd102b begin
-   Reply(287)
+   NAnswer(291,1,NodeEnd104)
    NAnswer(288,1,Node999)
 end
 
 procedure NodeEnd103 begin
-   Reply(292)
-   NAnswer(293,1,NodeEnd104)
-   NAnswer(294,1,Node999)
+   Reply(287)
+   NAnswer(288,1,Node999)
 end
 
 procedure NodeEnd104 begin
@@ -288,46 +284,16 @@ end
 
 procedure NodeEnd200 begin
    set_gvar_bit_on(GVAR_TWOSUN_QST_BAND_STATUS, bit_4);
-   Reply(289)
-   NAnswer(290,1,Node999)
-end
-
-procedure NodeAnswer100 begin
-   Reply(261)
-   NAnswer(262,1,NodeAnswer101)
-   NAnswer(264,1,NodeAnswer102)
-   NAnswer(266,1,NodeAnswer103)
-   NAnswer(268,1,NodeAnswer104)
+   display_mstr(289);
+   call Node999;
 end
 
 procedure NodeAnswer101 begin
-   Reply(263)
-   NAnswer(264,1,NodeAnswer102)
-   NAnswer(266,1,NodeAnswer103)
-   NAnswer(268,1,NodeAnswer104)
-   NAnswer(252,1,Node999)
+   Reply(267)
+   NAnswer(268,1,NodeAnswer102)
 end
 
 procedure NodeAnswer102 begin
-   Reply(265)
-   NAnswer(262,1,NodeAnswer101)
-   NAnswer(266,1,NodeAnswer103)
-   NAnswer(268,1,NodeAnswer104)
-   NAnswer(252,1,Node999)
-end
-
-procedure NodeAnswer103 begin
-   Reply(267)
-   NAnswer(262,1,NodeAnswer101)
-   NAnswer(264,1,NodeAnswer102)
-   NAnswer(268,1,NodeAnswer104)
-   NAnswer(252,1,Node999)
-end
-
-procedure NodeAnswer104 begin
    Reply(269)
-   NAnswer(262,1,NodeAnswer101)
-   NAnswer(264,1,NodeAnswer102)
-   NAnswer(266,1,NodeAnswer103)
-   NAnswer(252,1,Node999)
+   NAnswer(252,1,NodeSndDialog)
 end

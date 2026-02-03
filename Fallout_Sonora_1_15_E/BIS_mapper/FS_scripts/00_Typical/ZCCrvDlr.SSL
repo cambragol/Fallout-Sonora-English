@@ -61,11 +61,11 @@ procedure generLoot begin
    variable itemGenerNum;
    itemGenerNum := 0;
 
-   item_add(self_obj,PID_BOOTLE_CAPS,random(20,50))
+   item_add(self_obj,PID_BOOTLE_CAPS,random(100,300))
 
    if (bitDialog(bit_2) == 0) then begin
 
-      if (random(0,100) >= 50) then begin
+      if (random(0,100) < 90) then begin
          itemGenerNum := random(0,4);
 
          if (itemGenerNum == 0) then begin
@@ -85,7 +85,7 @@ procedure generLoot begin
          end
       end
 
-      if (random(0,100) >= 50) then begin
+      if (random(0,100) < 90) then begin
          itemGenerNum := random(0,9);
 
          if (itemGenerNum == 0) then begin
@@ -120,36 +120,36 @@ procedure generLoot begin
          end
       end
 
-      if (random(0,100) >= 25) then begin
+      if (random(0,100) < 90) then begin
          itemGenerNum := random(0,7);
 
          if (itemGenerNum == 0) then begin
-         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,random(8,16))
+         item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,1)
          end
          if (itemGenerNum == 1) then begin
          item_add(self_obj,PID_AMMO_22_LR,random(4,6))
          end
          if (itemGenerNum == 2) then begin
-         item_add(self_obj,PID_AMMO_10_MM,random(9,15))
+         item_add(self_obj,PID_AMMO_10_MM,random(1,2))
          end
          if (itemGenerNum == 3) then begin
-         item_add(self_obj,PID_AMMO_44_MAGNUM,random(6,12))
+         item_add(self_obj,PID_AMMO_44_MAGNUM,random(1,2))
          end
          if (itemGenerNum == 4) then begin
-         item_add(self_obj,PID_AMMO_50_AE,6)
+         item_add(self_obj,PID_AMMO_50_AE,1)
          end
          if (itemGenerNum == 5) then begin
-         item_add(self_obj,PID_AMMO_5_MM,random(4,6))
+         item_add(self_obj,PID_AMMO_5_MM,1)
          end
          if (itemGenerNum == 6) then begin
-         item_add(self_obj,PID_AMMO_308,random(5,10))
+         item_add(self_obj,PID_AMMO_308,random(1,2))
          end
          if (itemGenerNum == 7) then begin
-         item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,random(5,10))
+         item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,1)
          end
       end
 
-      if (random(0,100) >= 10) then begin
+      if (random(0,100) < 90) then begin
          itemGenerNum := random(0,7);
 
          if (itemGenerNum == 0) then begin

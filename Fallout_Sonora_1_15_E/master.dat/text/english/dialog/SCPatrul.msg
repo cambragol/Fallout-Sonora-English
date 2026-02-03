@@ -11,20 +11,19 @@
 {205}{}{I am Paladin Latham, Chief of Patrol. Any more questions?}
 {206}{}{No, uh... sir.}
 {207}{}{Oh, I have plenty of questions, but you probably won't answer them.}
-{208}{}{Alright then, amigo, what brings you to us?}
-{1208}{}{Alright then, amiga, what brings you to us?}
-{209}{}{I'm from a village up north. Slave traders attacked us, and I'm trying to save my kin who were captured...}
-{210}{}{You're exactly what I've been looking for. Most of my village has been captured by slavers, and I'm trying to free them...}
+{208}{}{Not exactly. We are the Brotherhood of Steel, an ancient miltary order. So we do keep military discipline.}
+{209}{}{You might be what I've been looking for. I'm from a village up north. We've had a lot of trouble recently and are looking for... protectors.}  
+{210}{}{You might be what I've been looking for. Most of my village has been captured by slavers, and I'm trying to free them...}
 {211}{}{I'm sorry, but I can't bother the general about some village. We don't have time for that.}
 {212}{}{No, you misunderstood. *You're* the slave traders. I'm here to free my kin and wipe you out!}
-{213}{}{What's going on? What's all the commotion?}
+{213}{}{What's going on? What's all the fuss?}
 {214}{}{I see you won't help me. Can I go, Paladin?}
 {215}{}{You again? I told you, we can't deal with your village right now. We have bigger issues.}
 {216}{}{Enemies from the south, mutants in the west, chaos in the east. We lost a squad up north and can't even send a rescue mission.}
 {217}{}{What if I helped you find this squad? Would you let me see the general then?}
 {218}{}{Help us? A peasant helping the Brotherhood? Haha, did you hear that, guys? Alright, let's see what you've got.}
 {1218}{}{Help us? A peasant woman helping the Brotherhood? Haha, did you hear that, guys? Alright, let's see what you've got.}
-{219}{}{What's the deal with the squad?}
+{219}{}{[More]}
 {220}{}{To the north-west are ruins we call Inferno. A convoy, led by our squad, was passing through the vicinity, but we suddenly lost contact. No idea what happened to them.}
 {221}{}{I see. Anything else?}
 {222}{}{No. You'll have to go there and find out what happened. Be careful though, scribes say there are high radiation levels around Inferno.}
@@ -34,9 +33,15 @@
 {226}{}{Hey, I'm standing right here.}
 {227}{}{Oh, not anytime soon, my smoothskinned friend...}
 
-{230}{}{What do you need?}
+{230}{}{So, what do you need?}
 {231}{}{Nothing. Goodbye.}
-{232}{}{What do you want, brother?}
+{232}{}{What do you need, Scout }
+{233}{}{What do you need, Paladin }
+{234}{}{What do you need, Knight }
+{235}{}{What do you need, Scribe }
+{236}{}{?}
+{237}{}{What do you need, Novice }
+{1237}{}{What do you need, Novice }
 
 {240}{}{I need to know more about Inferno.}
 {241}{}{Not much to say. The scribes claim it's a dead zone, all thanks to a nuke blast. They warn about the radiation, too.}
@@ -56,6 +61,7 @@
 {255}{}{Sounds like Inferno, where our convoy disappeared. Did you find someone in this armor? A body?}
 {256}{}{Let me tell you what I know...}
 {257}{}{I don't have to tell you anything. This is mine and I'm keeping it.}
+{258}{}{Tell me more about the lost squad.}
 
 {260}{}{Anything else I can do for the Brotherhood?}
 {261}{}{You mentioned an enemy army?}
@@ -158,3 +164,29 @@
 {360}{}{I need gear for the raid.}
 {361}{}{Your gear is your own responsibility. All I can do is grant you access to the quartermaster's supplies. Talk to him, maybe you can trade for something better.}
 {362}{}{Thanks for that.}
+
+#San Felipe
+{370}{}{I travel a lot. I could help you by scouting the surrounding lands.}
+{371}{}{That could be useful. When we first arrived, we swept the coastline and found no settlements. Lately, though, we've picked up rumors that someone may have set up across the bay. Head out and scout the coast. Find out if those rumors hold water. If there's anyone there, they fall under Brotherhood jurisdiction.}
+{372}{}{Yes, sir!}
+{373}{}{I'm here about scouting the coast.}
+{374}{}{Well? What did you find? Anyone out there?}
+{375}{}{No, sir. Nothing so far.}
+{376}{}{And if there *were* people over there, what would you do with them?}
+{377}{}{We'd give them a choice: fall in line, or move on. These lands belong to us now, and we can't tolerate strangers setting up camp on our doorstep. Simple as that.}
+{378}{}{I see.}
+{379}{}{You're absolutely right.}
+{380}{}{There really is a settlement on the far shore. A small group of Mexicans landed there. Fleeing trouble with their... government.}
+{381}{}{So, rebels then. Make it clear the rules are different here - they either submit to the Brotherhood willingly, or we make the decision for them.}
+{382}{}{They seem peaceful enough. I'll try to negotiate with them.}
+{383}{}{They're barely armed. I could just wipe them out myself. I'll report back when it's done.}
+{384}{}{Some Mexicans have settled on the far shore. They're willing to submit to you if you help them survive.}
+{385}{}{Hmm. That works. They could supply us with fish, and keep watch over that stretch of coast. A useful arrangement. Well done.}
+{386}{}{Glad to serve!}
+{1386}{}{Glad to serve!}
+{387}{}{There was a group of Mexican rebels. They refused to submit, so I killed their captain. After that, the rest packed up and sailed off. Who knows where.}
+{1387}{}{There was a group of Mexican rebels. They refused to submit, so I killed their captain. After that, the rest packed up and sailed off. Who knows where.}
+{388}{}{The right call. The last thing we need is rebels setting up nearby. You never know what ideas they're harboring. Well done.}
+{389}{}{There was a group of Mexican rebels. But they've already cleared out and left the area.}
+{390}{}{Good riddance. The last thing we need is rebels of any stripe nearby. Who knows what they're plotting? Well done.}
+

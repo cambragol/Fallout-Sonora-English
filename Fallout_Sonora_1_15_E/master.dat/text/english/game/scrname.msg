@@ -741,7 +741,7 @@
 {841}{}{Marcos}
 {842}{}{Faber Mercenary}
 {843}{}{Paul}
-{844}{}{Hector}
+{844}{}{Cesareo}
 {845}{}{San Felipe Resident}
 {846}{}{Yang}
 {847}{}{Gloria}
@@ -986,14 +986,16 @@
 {1086}{}{Alarm}
 {1087}{}{Passageway}
 {1088}{}{Super Mutant}
-{1089}{}{}
-{1090}{}{}
-{1091}{}{}
-{1092}{}{}
-{1093}{}{}
-{1094}{}{}
-{1095}{}{}
-{1096}{}{}
-{1097}{}{}
-{1098}{}{}
-{1099}{}{}
+{1089}{}{Message}
+{1090}{}{Message}
+{1091}{}{Hector}
+{1092}{}{Brotherhood of Steel Banner}
+{1093}{}{Schooner}
+{1094}{}{Water Pump}
+{1095}{}{Lower California Savage}
+{1096}{}{San Felipe Scout}
+{1097}{}{Totem}
+{1098}{}{Super Mutant}
+{1099}{}{Desperado}
+{1100}{}{Ladder}
+

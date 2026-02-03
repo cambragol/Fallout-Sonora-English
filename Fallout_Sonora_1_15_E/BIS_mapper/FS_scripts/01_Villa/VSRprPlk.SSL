@@ -1,7 +1,7 @@
 #include "..\headers\define.h"
 #include "..\headers\REPAIR.h"
 #define NAME                            SCRIPT_VSRprPlk
-#define SKILL_LIMIT                     10
+#define SKILL_LIMIT                     0
 
 procedure start;
 procedure map_enter_p_proc;
@@ -35,10 +35,15 @@ end
 
 procedure repair_proc begin
    gfade_out(ONE_GAME_SECOND);
-    set_obj_visibility(self_obj, 1);
-    objContainer := create_object_sid(233, self_tile, self_elevation, -1);
-    item_add(objContainer,PID_TABACO,1)
-    item_add(objContainer,PID_AMMO_10_MM,1)
+      set_obj_visibility(self_obj, 1);
+      objContainer := create_object_sid(233, self_tile, self_elevation, -1);
+      if (cur_map_index == MAP_VILLA_PLAZA) then begin
+      item_add(objContainer,PID_KERAMIC,1)
+      end
+      else begin
+      item_add(objContainer,PID_TABACO,1)
+      item_add(objContainer,PID_AMMO_22_LR,1)
+      end
    gfade_in(ONE_GAME_SECOND);
 
    RepairProcRepair(112,25,"FIXSTILL")

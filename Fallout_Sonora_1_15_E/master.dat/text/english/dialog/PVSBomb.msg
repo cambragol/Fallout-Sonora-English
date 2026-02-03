@@ -4,6 +4,7 @@
 {113}{}{The bomb is primed to explode. Use the trap skill to activate it.}
 {114}{}{This is the biggest bomb you've ever seen.}
 {115}{}{That's not necessary. History has already unfolded as intended.}
+{116}{}{That's not necessary. The Church has already been overthrown.}
 
 {120}{}{You see a low-yield nuclear warhead. Although unfinished, it can still be detonated.}
 {121}{}{This bomb has no fuses, so it's safe for now.}

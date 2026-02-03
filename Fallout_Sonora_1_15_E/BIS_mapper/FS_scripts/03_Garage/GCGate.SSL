@@ -51,10 +51,11 @@ procedure NodeFstDialog44;
 procedure NodeFstDialog45;
 procedure NodeFstDialog46;
 procedure NodeSndDialog;
-procedure NodeVilla;
-procedure NodeVilla2;
-procedure NodeVilla3;
-procedure NodeVilla4;
+procedure NodeVilla001;
+procedure NodeVilla002;
+procedure NodeVilla003;
+procedure NodeVilla004;
+procedure NodeVilla005;
 procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
@@ -76,27 +77,28 @@ procedure NodeJackals103;
 procedure NodeJackals104;
 procedure NodeJackals200;
 procedure NodeJackals201;
-procedure NodeWeapon;
-procedure NodeWeapon2;
-procedure NodeWeapon2b;
-procedure NodeWeapon3;
-procedure NodeWeapon3b;
-procedure NodeWeapon4;
-procedure NodeWeapon4b;
-procedure NodeWeapon5;
-procedure NodeWeapon6;
-procedure NodeWeapon7;
-procedure NodeWeapon8;
-procedure NodeWeapon9;
-procedure NodeWeapon10;
-procedure NodeWeapon11;
+procedure NodeWeapon000;
+procedure NodeWeapon002;
+procedure NodeWeapon002b;
+procedure NodeWeapon003;
+procedure NodeWeapon003b;
+procedure NodeWeapon004;
+procedure NodeWeapon004b;
+procedure NodeWeapon005;
+procedure NodeWeapon006;
+procedure NodeWeapon007;
+procedure NodeWeapon008;
+procedure NodeWeapon009;
+procedure NodeWeapon010;
+procedure NodeWeapon011;
+procedure NodeWeapon012;
+procedure NodeWeapon013;
 procedure NodeBrahmin100;
 procedure NodeBrahmin101;
 procedure NodeBrahmin102;
 procedure NodeBrahmin200;
 procedure NodeBrahmin201;
 procedure NodeQuestDitch100;
-
 
 //---------------------
 
@@ -124,9 +126,17 @@ procedure map_enter_p_proc begin
        end
 
        if (local_var(LVAR_Weapon_Rpr) == 1) then begin
-       if (random(0,100) >= 90) then begin
-       bodyPid := PID_COYOTE;
-       bodyScr := -1;
+          if (item_amnt(self_obj,PID_W_SHOTGUN_DUBLET)>0) then begin
+          if weapon_invn_self then begin
+          end
+          else begin
+          wield_obj_critter(self_obj, obj_carrying_pid_obj(self_obj, PID_W_SHOTGUN_DUBLET));
+          end
+          end
+
+          if (random(0,100) >= 90) then begin
+          bodyPid := PID_COYOTE;
+          bodyScr := -1;
                   if (random(0,1) == 1) then begin
                   bodyPid := PID_SCORPION_SMALL;
                   end
@@ -135,17 +145,17 @@ procedure map_enter_p_proc begin
                   //bodyScr := SCRIPT_ZCBandit;
                   end
 
-       bodyNew := create_object_sid(bodyPid, tile_num_in_direction(self_tile,2,3), 0, bodyScr);
+          bodyNew := create_object_sid(bodyPid, tile_num_in_direction(self_tile,2,3), 0, bodyScr);
                   anim(bodyNew, ANIMATE_ROTATION, 5);
                   kill_critter(bodyNew, ANIM_fall_back_blood_sf);
-       bodyNew := create_object_sid(bodyPid, tile_num_in_direction(self_tile,1,3), 0, bodyScr);
+          bodyNew := create_object_sid(bodyPid, tile_num_in_direction(self_tile,1,3), 0, bodyScr);
                   anim(bodyNew, ANIMATE_ROTATION, 4);
                   kill_critter(bodyNew, ANIM_fall_back_blood_sf);
-       bodyNew := create_object_sid(bodyPid, tile_num_in_direction(self_tile,3,4), 0, bodyScr);
+          bodyNew := create_object_sid(bodyPid, tile_num_in_direction(self_tile,3,4), 0, bodyScr);
                   anim(bodyNew, ANIMATE_ROTATION, 0);
                   kill_critter(bodyNew, ANIM_fall_back_blood_sf);
-       inc_local_var(LVAR_Weapon_Rpr);
-       end
+          inc_local_var(LVAR_Weapon_Rpr);
+          end
        end
    end
 end
@@ -178,6 +188,9 @@ procedure timed_event_p_proc begin
    end
    if (fixed_param == 5) then begin
        floater(self_obj,104,COLOR_MSG_NORMAL);
+   end
+   if (fixed_param == 6) then begin
+       wield_obj_critter(self_obj, obj_carrying_pid_obj(self_obj, PID_W_SHOTGUN_DUBLET));
    end
 end
 
@@ -220,6 +233,7 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
+   setQuest(GVAR_GARAGE_QST_JAKALSINFO,qStop);
    kill_critter_opt
 end
 
@@ -443,11 +457,14 @@ procedure NodeSndDialog begin
    end
 
    if (bitDialog(bit_4) == 0) then begin
-      if (global_var(GVAR_JACKALS_RANGER_CONTRAKT) >0) then begin
+      if (global_var(GVAR_JACKALS_RANGER_CONTRAKT) > 0) then begin
       NAnswer(272,4,NodeJackals201)
       end
       else if (getQuest(GVAR_JACKALS_MERC_ATAK) == qEnd) then begin
       NAnswer(272,4,NodeJackals200)
+      end
+      else if (getQuest(GVAR_GARAGE_QST_JAKALSINFO) == qStart) then begin
+      NAnswer(279,4,NodeJackals101)
       end
       else if (getQuest(GVAR_JACKALS_MERC_ATAK) == qZero) then begin
       NAnswer(260,4,NodeJackals100)
@@ -456,15 +473,18 @@ procedure NodeSndDialog begin
 
    if (local_var(LVAR_Weapon_Rpr) == 0) then begin
       if (bitDialog(bit_11) == 0) then begin
-      NAnswer(350,4,NodeWeapon)
+      NAnswer(350,4,NodeWeapon000)
       end
       else begin
-      NAnswer(350,4,NodeWeapon6)
+      NAnswer(350,4,NodeWeapon006)
       end
    end
 
-   if (getQuest(GVAR_MAIN_QUEST_VILLA) < qEnd) then begin
-      NAnswer(330,4,NodeVilla)
+   if (getQuest(GVAR_MAIN_QUEST_VILLA) == qStart) then begin
+      NAnswer(330,4,NodeVilla001)
+   end
+   if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) == qStart) then begin
+      NAnswer(343,4,NodeVilla005)
    end
 
    NAnswer(259,4,Node999)
@@ -473,13 +493,13 @@ end
 
 //--- РАССПРОСЫ
 
-procedure NodeVilla begin
+procedure NodeVilla001 begin
    Reply(331)
-   NAnswerSkill(332,0,NodeVilla2,SKILL_CONVERSANT,65,332,NodeVilla3)
+   NAnswerSkill(332,0,NodeVilla002,SKILL_CONVERSANT,65,332,NodeVilla003)
    NAnswer(333,0,Node999)
 end
 
-procedure NodeVilla2 begin
+procedure NodeVilla002 begin
    setQuest(GVAR_MAIN_QUEST_VILLA,qEnd);
    if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) < qEnd) then begin
    setQuest(GVAR_MAIN_QUEST_FLAGSTAFF,qStart);
@@ -488,20 +508,26 @@ procedure NodeVilla2 begin
    mark_on_map(AREA_FLAGSTAFF)
 
    Reply(334)
-   NAnswer(335,0,NodeVilla4)
+   NAnswer(335,0,NodeVilla004)
    BAnswer(336,0,Node999)
 end
 
-procedure NodeVilla3 begin
+procedure NodeVilla003 begin
    Reply(337)
    BAnswer(338,0,Node999)
    NAnswer(339,0,Node999)
 end
 
-procedure NodeVilla4 begin
+procedure NodeVilla004 begin
    Reply(340)
    NAnswer(341,0,Node999)
    NAnswer(342,0,Node999)
+end
+
+procedure NodeVilla005 begin
+   mark_on_map(AREA_FLAGSTAFF)
+   Reply(344)
+   NAnswer(342,4,Node999)
 end
 
 procedure NodeAnswer100 begin
@@ -620,6 +646,9 @@ procedure NodeJackals101 begin
 end
 
 procedure NodeJackals102 begin
+   if (getQuest(GVAR_GARAGE_QST_JAKALSINFO) == qZero) then begin
+   setQuest(GVAR_GARAGE_QST_JAKALSINFO,qStart);
+   end
    Reply(266)
    NAnswer(267,0,NodeSndDialog)
 end
@@ -632,10 +661,12 @@ end
 
 procedure NodeJackals104 begin
    setQuest(GVAR_JACKALS_MERC_ATAK,qStart);
+   setQuest(GVAR_GARAGE_QST_JAKALSINFO,qEnd);
    call Node999;
 end
 
 procedure NodeJackals200 begin
+   setQuest(GVAR_GARAGE_QST_JAKALSINFO,qEnd);
    bitDialogExp(bit_4,50)
    set_REP(7)
    display_mstr(275);
@@ -644,6 +675,7 @@ procedure NodeJackals200 begin
 end
 
 procedure NodeJackals201 begin
+   setQuest(GVAR_GARAGE_QST_JAKALSINFO,qEnd);
    bitDialogExp(bit_4,0)
    Reply(276)
    NAnswer(277,0,Node999)
@@ -651,100 +683,103 @@ end
 
 //--- ОРУЖИЕ
 
-procedure NodeWeapon begin
+procedure NodeWeapon000 begin
    Reply(351)
-   NAnswerSkill(354,3,NodeWeapon2,SKILL_CONVERSANT,60,354,NodeWeapon2b)
-   NAnswerStat(357,3,NodeWeapon3,STAT_pe,8,357,NodeWeapon3b)
-   NAnswerSkill(360,3,NodeWeapon4,SKILL_BIG_GUNS,40,360,NodeWeapon4b)
+   NAnswerSkill(354,3,NodeWeapon002,SKILL_CONVERSANT,60,354,NodeWeapon002b)
+   NAnswerStat(357,3,NodeWeapon003,STAT_pe,8,357,NodeWeapon003b)
+   NAnswerSkill(360,3,NodeWeapon004,SKILL_BIG_GUNS,40,360,NodeWeapon004b)
    NAnswer(352,0,NodeSndDialog)
    NAnswer(353,0,Node999)
 end
 
-procedure NodeWeapon2 begin
+procedure NodeWeapon002 begin
    Reply(355)
-   NAnswer(356,0,NodeWeapon5)
+   NAnswer(356,0,NodeWeapon005)
    NAnswer(352,0,NodeSndDialog)
    NAnswer(353,0,Node999)
 end
 
-procedure NodeWeapon2b begin
+procedure NodeWeapon002b begin
    Reply(355)
    NAnswer(352,0,NodeSndDialog)
    NAnswer(353,0,Node999)
 end
 
-procedure NodeWeapon3 begin
+procedure NodeWeapon003 begin
    Reply(358)
-   NAnswer(359,0,NodeWeapon5)
+   NAnswer(359,0,NodeWeapon005)
    NAnswer(352,0,NodeSndDialog)
    NAnswer(353,0,Node999)
 end
 
-procedure NodeWeapon3b begin
+procedure NodeWeapon003b begin
    Reply(358)
    // line below commented out to give correct result for successful Perception check - cambragol
-   //NAnswer(359,0,NodeWeapon5)
+   //NAnswer(359,0,NodeWeapon005)
    NAnswer(352,0,NodeSndDialog)
    NAnswer(353,0,Node999)
 end
 
-procedure NodeWeapon4 begin
+procedure NodeWeapon004 begin
    Reply(361)
-   NAnswer(362,0,NodeWeapon5)
+   NAnswer(362,0,NodeWeapon005)
    NAnswer(352,0,NodeSndDialog)
    NAnswer(353,0,Node999)
 end
 
-procedure NodeWeapon4b begin
+procedure NodeWeapon004b begin
    Reply(361)
    NAnswer(352,0,NodeSndDialog)
    NAnswer(353,0,Node999)
 end
 
-procedure NodeWeapon5 begin
+procedure NodeWeapon005 begin
    bitDialogExp(bit_11,50)
    zReply(363)
 
-   NAnswer(364,0,NodeWeapon7)
-   NAnswer(366,0,NodeWeapon8)
-   NAnswer(368,0,NodeWeapon9)
+   NAnswer(364,0,NodeWeapon007)
+   NAnswer(366,0,NodeWeapon008)
+   NAnswer(368,0,NodeWeapon009)
    NAnswer(373,0,Node999)
 end
 
-procedure NodeWeapon6 begin
+procedure NodeWeapon006 begin
    Reply(371)
 
-   NAnswer(364,0,NodeWeapon7)
-   NAnswer(366,0,NodeWeapon8)
-   NAnswer(368,0,NodeWeapon9)
+   NAnswer(364,0,NodeWeapon007)
+   NAnswer(366,0,NodeWeapon008)
+   NAnswer(368,0,NodeWeapon009)
    //372 - Я хочу выкупить это ружье.
    NAnswer(373,0,Node999)
 end
 
-procedure NodeWeapon7 begin
+procedure NodeWeapon007 begin
    Reply(365)
 
-   NAnswer(366,0,NodeWeapon8)
-   NAnswer(368,0,NodeWeapon9)
+   NAnswer(366,0,NodeWeapon008)
+   NAnswer(368,0,NodeWeapon009)
    NAnswer(374,0,Node999)
 end
 
-procedure NodeWeapon8 begin
+procedure NodeWeapon008 begin
    Reply(367)
 
-   NAnswer(364,0,NodeWeapon7)
-   NAnswer(368,0,NodeWeapon9)
+   NAnswer(364,0,NodeWeapon007)
+   NAnswer(368,0,NodeWeapon009)
    NAnswer(375,0,Node999)
 end
 
-procedure NodeWeapon9 begin
+procedure NodeWeapon009 begin
    Reply(369)
-   NAnswerSkill(376,0,NodeWeapon10,SKILL_REPAIR,40,379,NodeWeapon11)
+   NAnswerSkill(376,0,NodeWeapon010,SKILL_REPAIR,40,379,NodeWeapon011)
+   if (item_amnt(dude_obj,PID_W_SHOTGUN_DUBLET)>0) then begin
+   NAnswer(384,0,NodeWeapon012)
+   end
    NAnswer(370,0,Node999)
    BAnswer(383,0,Node999)
 end
 
-procedure NodeWeapon10 begin
+procedure NodeWeapon010 begin
    set_local_var(LVAR_Weapon_Rpr,1);
    PLAY_FADE
    exp_add(100);
@@ -752,15 +787,27 @@ procedure NodeWeapon10 begin
    set_SLAVA(2)
    setBonusReaction(20)
    item_add(dude_obj,PID_BOOTLE_CAPS,25)
+   item_remove(self_obj,PID_W_SHOTGUN_DUBLET_REPAIR,1)
+   item_add(self_obj,PID_W_SHOTGUN_DUBLET,1)
 
    Reply(377)
-   NAnswer(378,0,Node999)
+   NAnswer(378,0,NodeWeapon013)
 end
 
-procedure NodeWeapon11 begin
+procedure NodeWeapon011 begin
    Reply(380)
    NAnswer(381,0,Node999)
    BAnswer(382,0,Node999)
+end
+
+procedure NodeWeapon012 begin
+   item_remove(dude_obj,PID_W_SHOTGUN_DUBLET,1)
+   call NodeWeapon010;
+end
+
+procedure NodeWeapon013 begin
+   add_timer_event(self_obj, 5, 6);
+   call Node999;
 end
 
 //--- БРАМИН

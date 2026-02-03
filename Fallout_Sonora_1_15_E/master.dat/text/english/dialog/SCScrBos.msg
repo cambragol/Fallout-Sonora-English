@@ -36,6 +36,10 @@
 {213}{}{May I ask you a few questions?}
 {214}{}{Hmm. I may be able to answer a few.}
 {215}{}{That's all my questions.}
+{216}{}{Nope!}
+{217}{}{Aha.}
+{218}{}{Weeell...}
+{219}{}{Smack.}
 
 # Questions
 {220}{}{I met a prisoner on the way here.}
@@ -126,7 +130,7 @@
 
 # Belief in mistakes
 {310}{}{So you're just regular invaders.}
-{311}{}{I'm not sure why I should even entertain such talk. Keep going, and I'll have the paladins escort you off the ship.}
+{311}{}{I'm not sure why I should even entertain such talk. Keep it up, and I'll have the paladins escort you off the ship.}
 {312}{}{Sorry. I got a little carried away...}
 {1312}{}{Sorry. I got a little carried away...}
 {313}{}{Does it really bother you? Throwing me off the ship won't change that.}
@@ -139,36 +143,36 @@
 {320}{}{Still harping on this? You'd best watch your tongue, or the paladins will deal with you.}
 {321}{}{Sorry. I don't want any trouble. Goodbye.}
 {322}{}{So no counter-argument, scribe? Got it.}
-{323}{}{General Dixon is wrong. His policies promote and support slavery. You understand this very well.}
-{324}{}{Perhaps. But what do YOU mean when you say he's wrong?}
-{325}{}{Dixon is playing a ruthless game. Through his local 'vassals', he imposes tyranny, seizes resources, plunders technology, and practices slavery.}
-{326}{}{I don't know what more I can say. Perhaps we should just end this conversation here.}
+{323}{}{General Dixon is wrong. The cost of his policies is too high - they promote and support slavery. Don't you understand this?}
+{324}{}{Really? Haven't our operatives in Phoenix established peace and order in the city? Didn't our intervention give Arizona cap currency? Didn't Two-Sun's production and Flagstaff's mine create a growing network of commerce?}
+{325}{}{Dixon is playing a ruthless game. Through his 'operatives', he imposes tyranny, seizes resources, plunders technology, and practices slavery.}
+{326}{}{I... I don't know what more I can say. Perhaps we should just end this conversation here.}
 {327}{}{I partly agree. However, these are all necessary measures. The locals have lost their connection with the Old World, to what they once were. They've become wild, and lost the threads of culture that once linked them, and us. Without our intervention, these threads will never be bound together again, they'll never return to the fold of civilization.}
 {328}{}{I don't know what to believe. Let me think on this.}
 {329}{}{I've visited many settlements. Your influence on these lands is not as wonderful as you present it.}
 {1329}{}{I've visited many settlements. Your influence on these lands is not as great as you make it out to be.}
-{330}{}{Really? Haven't our operatives in Phoenix established peace and order in the city? Didn't our intervention give Arizona cap currency? Didn't Two-Sun's production and Flagstaff's mine create a growing network of commerce?}
-{331}{}{Oh, you have done these things. But these things compose your expansion, an expansion that takes people's freedom, destroys their traditions, and subjects them to slavery.}
-{332}{}{Really, you can't argue with that. You speak the truth.}
+{330}{}{The Brotherhood of Steel is making a grave mistake. Don't you see?}
+{331}{}{Yes. That is a serious concern. Is there anything else?}
+{332}{}{Those sound like excesses at the local level. Is there anything else?}
 {333}{}{Hmm. Give me examples from the places you have visited.}
-{334}{}{Well, let's skip this for now. I don't want to delve too deeply into this argument at the moment.}
+{334}{}{Well, uh, I can't think of anything specific right now... let's come back to this later.}
 {335}{}{'Lord' Aaron, now unchallenged in Phoenix, is building a so-called 'empire' and crushing dissent. Doesn't really sound like freedom, does it?}
 {336}{}{A whole war broke out in San Brahmin. Phoenix versus the peaceful herder tribes of the desert. Is this your wonderful influence?}
 {337}{}{Two-Sun's Tinsmiths are quite brutal. They pay for slaves to be sent to their deaths in search of technology which they then hoard.}
 {338}{}{Casa Grande. Visit the local cemetery to see how your wonderful influence has condemned the population to bloody water wars.}
 {339}{}{Casa Nueva is like a pen for a herd of brahmin. Without you, these people are weak and would never survive.}
-{340}{}{Well... I doubt our path too. But I haven't find a solution that satisfies everyone.}
-{341}{}{Really?}
-{342}{}{This outpost has done little good for Arizona. We have no right to invade, strip the locals of their resources, and force them into labor. It goes against the very principles of the Brotherhood.}
+{340}{}{Your words have cast... doubt on our path. Perhaps we are committing a grave error - though our intentions are noble.}
+{341}{}{So you finally see it?}
+{342}{}{It seems we've done little good for Arizona. We have no right to invade, strip the locals of their resources, and force them into labor. It goes against the very principles of the Brotherhood.}
 {343}{}{Well, there you go.}
-{344}{}{And this isn't so much the fault of the order or the elders, but the result of Dixon's ambitions. But he can't be stopped, and a new general is unlikely to change course.}
-{345}{}{It's good you see that. But maybe we've delved too deep. Let's end it here.}
+{344}{}{Yet this isn't so much the fault of the order or the Elders, but rather the result of Dixon's ambitions. Replacing him won't solve this - we're too far commited now.}
+{345}{}{It's good you finally see the trught. There's not much more to be said. Let's end it here.}
 {346}{}{We must stop this evil. Help me.}
-{347}{}{I'm sorry. But I can't help you.}
+{347}{}{No - no. I'm sorry. But I can't help you.}
 {348}{}{Goodbye, Scribe Maura.}
 {349}{}{We must stop this evil. Help me. Your mistakes led to my home, my people, falling victim to slavers.}
-{350}{}{I'm so sorry all this happened. Take this key. It detonates nuclear torpedoes in the lower hold of the ship. Set the timer before the explosion and run as fast as you can into the desert. The Brotherhood has no place in the lands of Sonora.}
+{350}{}{I... I'm so sorry all this happened. Here - take this key. It will detonate the nuclear torpedoes in the lower hold of the ship. Set the timer before the explosion and run as fast as you can into the desert. The Brotherhood... has no place in the lands of Sonora.}
 {351}{}{Thank you, Scribe Maura.}
-{352}{}{Go ahead, my friend.}
-{1352}{}{Go ahead, my dear.}
+{352}{}{Go now, my brave friend.}
+{1352}{}{Go now. History will judge us both.}
 

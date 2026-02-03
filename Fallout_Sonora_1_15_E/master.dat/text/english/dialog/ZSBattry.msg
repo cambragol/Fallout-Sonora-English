@@ -7,7 +7,7 @@
 {116}{}{The electronic decoder won't work on mechanical locks.}
 {117}{}{You've opened a container with goods. Time to see what's left inside.}
 {118}{}{Now that the machine is open, this makes no sense.}
-{119}{}{You received a micro fusion cell.}
+{119}{}{You received a (}
 {120}{}{The machine is out of stock.}
-{121}{}{}
+{121}{}{).}
 {122}{}{You are unable to bypass the Vending machine's defense mechanism.}

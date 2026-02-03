@@ -280,7 +280,7 @@ procedure NodeStopDialog102 begin
 end
 
 procedure NodeStopDialog103 begin
-   Reply(329)
+   zReply(329)
    NAnswer(330,1,Node998)
    NAnswer(331,1,Node998)
 end
@@ -616,7 +616,7 @@ procedure NodeSndDialog begin
 
    if (getQuest(GVAR_PHENIX_QST_CARDINALS) == qEnd) then begin
       if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qZero) then begin
-         if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+         if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
          NAnswer(270,1,NodeAnswer200)
          end
          else begin

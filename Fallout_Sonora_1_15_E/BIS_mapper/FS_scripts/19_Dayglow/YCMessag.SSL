@@ -87,7 +87,7 @@ procedure NodeDialog100 begin
 end
 
 procedure NodeDialog101 begin
-   Reply(203)
+   zReply(203)
    NAnswer(204,0,NodeDialog102)
 end
 
@@ -102,7 +102,7 @@ procedure NodeDialog103 begin
 end
 
 procedure NodeDialog104 begin
-   mark_on_map(AREA_INFIERNO)
+   mark_on_map(AREA_DAYGLOW_START_POINT)
    Reply(209)
    NAnswer(210,0,NodeDialog101)
    NAnswer(211,0,Node999)

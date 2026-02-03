@@ -15,6 +15,8 @@ procedure NodeDialog;
 procedure NodeDialog2;
 procedure NodeDialog3;
 
+variable itemRemoveCheck;
+
 
 
 procedure start begin
@@ -23,64 +25,77 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_obj_visibility(self_obj, 0);
-
-       if (cur_map_index == MAP_INFIERNO_ROAD) then begin
-          if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20) == 0) then begin
-          set_obj_visibility(self_obj, 1);
-          end
+       if (gvar_bit(GVAR_DAYGLOW_STATUS_CARAVAN, bit_20) == 0) then begin
+       set_obj_visibility(self_obj, 1);
+       end
+       if (getQuest(GVAR_GAME_DLC_1) != qStart) then begin
+       set_obj_visibility(self_obj, 1);
        end
    end
 end
 
 procedure description_p_proc begin
    script_overrides;
-   if (map_var(MVAR_DIEGOSTART_FAIL) == 0) then begin
-   display_mstr(100);
+   if ((map_var(MVAR_DIEGOSTART_FAIL) != 0) and (cur_map_index == MAP_DAYGLOW_TIJUANA)) then begin
+   display_mstr(101);
    end
    else begin
-   display_mstr(101);
+   display_mstr(100);
    end
 end
 
+#define removeQstItems(pid)         if (item_amnt(dude_obj,pid)>0) then begin \
+                                    item_remove(dude_obj,pid,1) \
+                                    itemRemoveCheck += 1; \
+                                    end \
+
 procedure timed_event_p_proc begin
    if (fixed_param == 1) then begin
-       if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+       if (cur_map_index == MAP_DAYGLOW_START_POINT) then begin
        setQuest(GVAR_DAYGLOW_VISITED, qStart);
-       dude_teleport_map(1,1,MAP_DAYGLOW_START,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YCStart
+       dude_teleport_map(1,1,MAP_DAYGLOW_TIJUANA,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YCStart
        end
        else begin
-       set_global_var(GVAR_GAME_DLC_1,2);
+       setQuest(GVAR_GAME_DLC_1, qEnd);
        setQuest(GVAR_DAYGLOW_VISITED, qEnd);
-       item_remove(dude_obj,PID_RELICT_DAYGLOW,1)
 
-       item_remove(dude_obj,PID_Q_DAYGLOW_GUITAR,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_GHOULBODY,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_BORDERBADGE_A,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_BORDERBADGE_B,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_DUM_PLAN,1)
+       itemRemoveCheck := 0;
+       removeQstItems(PID_RELICT_DAYGLOW)
 
-       item_remove(dude_obj,PID_Q_DAYGLOW_HOLO_GUSTAVO,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_A,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_TRAIL_DETALS_B,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_PATRUL_CODES,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_HOLOMODUL,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_BOOK_SANDIEGO,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_BIOGEL,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_CHIP,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_CODE_CORONADO,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_CODE_HANDY,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_FILM,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_FOODPROCESSOR,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_ROCKET,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_GAUBI_DETALS,1)
+       removeQstItems(PID_Q_DAYGLOW_GUITAR)
+       removeQstItems(PID_Q_DAYGLOW_GHOULBODY)
+       removeQstItems(PID_Q_DAYGLOW_BORDERBADGE_A)
+       removeQstItems(PID_Q_DAYGLOW_BORDERBADGE_B)
+       removeQstItems(PID_Q_DAYGLOW_DUM_PLAN)
 
-       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_1,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_2,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_3,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_4,1)
-       item_remove(dude_obj,PID_Q_DAYGLOW_CARAVAN_5,1)
+       removeQstItems(PID_Q_DAYGLOW_HOLO_GUSTAVO)
+       removeQstItems(PID_Q_DAYGLOW_TRAIL_DETALS_A)
+       removeQstItems(PID_Q_DAYGLOW_TRAIL_DETALS_B)
+       removeQstItems(PID_Q_DAYGLOW_PATRUL_CODES)
+       removeQstItems(PID_Q_DAYGLOW_HOLOMODUL)
+       removeQstItems(PID_Q_DAYGLOW_BOOK_SANDIEGO)
+       removeQstItems(PID_Q_DAYGLOW_BIOGEL)
+       removeQstItems(PID_Q_DAYGLOW_CHIP)
+       removeQstItems(PID_Q_DAYGLOW_CODE_CORONADO)
+       removeQstItems(PID_Q_DAYGLOW_CODE_HANDY)
+       removeQstItems(PID_Q_DAYGLOW_FILM)
+       removeQstItems(PID_Q_DAYGLOW_FOODPROCESSOR)
+       removeQstItems(PID_Q_DAYGLOW_ROCKET)
+       removeQstItems(PID_Q_DAYGLOW_GAUBI_DETALS)
 
-       dude_teleport_map(1,1,MAP_INFIERNO_ROAD,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YCStart
+       removeQstItems(PID_Q_DAYGLOW_CARAVAN_1)
+       removeQstItems(PID_Q_DAYGLOW_CARAVAN_2)
+       removeQstItems(PID_Q_DAYGLOW_CARAVAN_3)
+       removeQstItems(PID_Q_DAYGLOW_CARAVAN_4)
+       removeQstItems(PID_Q_DAYGLOW_CARAVAN_5)
+
+       if (itemRemoveCheck>0) then begin
+       display_msg(mstr(102)+itemRemoveCheck+mstr(103));
+       end
+       itemRemoveCheck := 0;
+
+       mark_area_known(MARK_TYPE_TOWN, AREA_DAYGLOW, MARK_STATE_INVISIBLE);
+       dude_teleport_map(1,1,MAP_DAYGLOW_START_POINT,(2*24)+random(1,23)); // время пути синхронизировать с SCRIPT_YCStart
        end
    end
 end
@@ -107,7 +122,7 @@ procedure Node999 begin
 end
 
 procedure NodeDialog begin
-   if (cur_map_index == MAP_INFIERNO_ROAD) then begin
+   if (cur_map_index == MAP_DAYGLOW_START_POINT) then begin
       Reply(110)
       NAnswer(118,1,NodeDialog2)
       NAnswer(119,1,Node999)

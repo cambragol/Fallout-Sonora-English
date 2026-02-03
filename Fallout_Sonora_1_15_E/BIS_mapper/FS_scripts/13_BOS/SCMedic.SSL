@@ -35,7 +35,6 @@ procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
 procedure NodeFstDialog2;
-procedure NodeFstDialog3;
 procedure NodeSndDialog;
 procedure NodeAnswer;
 procedure NodeAnswer100;
@@ -49,8 +48,15 @@ procedure NodeAnswer107;
 procedure NodeAnswer200;
 procedure NodeAnswer201;
 procedure NodeAnswer202;
-procedure NodeAnswer300;
-procedure NodeAnswer301;
+procedure NodeFAIDcost;
+procedure NodeFAID101;
+procedure NodeFAID102;
+procedure NodeFAID103;
+procedure NodeFAID104;
+procedure NodeFAID105;
+procedure NodeFAID106;
+procedure NodeFAIDnon;
+procedure NodeFAIDEnd;
 procedure NodeBell100;
 procedure NodeBell101;
 procedure NodeBell102;
@@ -64,6 +70,8 @@ procedure NodeBell204;
 //---------------------
 
 //#define LVAR_Flag_A                     (8) // отвечает за ...
+
+variable MedicMany;
 
 import variable box_stop_use;
 import variable obj_critter_a; // указатель на доктора
@@ -182,7 +190,7 @@ procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    if (global_var(GVAR_TITUL_BOS) > 0) then begin
    Reply(205)
-   GAnswer(206,1,NodeFstDialog3)
+   GAnswer(206,1,NodeFstDialog2)
    end
    else begin
    Reply(200)
@@ -193,13 +201,6 @@ end
 procedure NodeFstDialog2 begin
    Reply(202)
    NAnswer(203,1,NodeSndDialog)
-   NAnswer(204,1,Node999)
-end
-
-procedure NodeFstDialog3 begin
-   Reply(207)
-   NAnswer(208,1,NodeSndDialog)
-   NAnswer(209,1,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -213,22 +214,11 @@ procedure NodeSndDialog begin
       end
       end
 
-      if (dude_cur_hits<dude_max_hits) then begin
-      NAnswer(254,1,NodeAnswer301)
-      end
-      else if dude_is_crippled then begin
-      NAnswer(254,1,NodeAnswer301)
-      end
-      else if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
-      NAnswer(254,1,NodeAnswer301)
-      end
-      else if (get_poison(dude_obj) >0) then begin
-      NAnswer(254,1,NodeAnswer301)
-      end
+      NAnswer(254,1,NodeFAID106)
    end
    else begin
       Reply(210)
-      NAnswer(250,1,NodeAnswer300)
+      NAnswer(250,1,NodeFAID101)
    end
 
    if (getQuest(GVAR_PUERTO_QST_FAREWELL) == qStart) then begin
@@ -339,21 +329,91 @@ procedure NodeAnswer202 begin
    NAnswer(246,1,NodeSndDialog)
 end
 
-procedure NodeAnswer300 begin
-   Reply(251)
-   NAnswer(252,1,Node999)
-   BAnswer(253,1,Node999)
+#define AnswerCost(msg,node)      call NodeFAIDcost; \
+                                  if ((item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) or (MedicMany == 0)) then begin \
+                                  NAnswer(mstr(msg)+MedicMany+mstr(291),0,node) \
+                                  end else begin \
+                                  NAnswer(mstr(msg)+MedicMany+mstr(291),0,NodeFAIDnon) \
+                                  end \
+
+procedure NodeFAIDcost begin
+   MedicMany += MedicMany*2; // общая надбавка по сравнению с остальными медиками (здесь она должна быть самой дорогой в игре)
+
+   if (global_var(GVAR_TITUL_BOS) > 0) then begin
+   MedicMany := 0;
+   end
+
+   if (MedicMany<0) then begin
+   MedicMany := 0;
+   end
 end
 
-procedure NodeAnswer301 begin
-   PLAY_FADE
+procedure NodeFAID101 begin
+   MedicMany := 0;
+   Reply(251)
+
+   if (dude_cur_hits<dude_max_hits) then begin
+      MedicMany := (dude_max_hits-dude_cur_hits)*3;
+      AnswerCost(290,NodeFAID102)
+   end
+   if dude_is_crippled then begin
+      MedicMany := 25;
+      AnswerCost(292,NodeFAID103)
+   end
+   if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
+      MedicMany := get_critter_stat(dude_obj,STAT_current_rad)*3;
+      AnswerCost(293,NodeFAID104)
+   end
+   if (get_poison(dude_obj)>0) then begin
+      MedicMany := get_poison(dude_obj)*3;
+      AnswerCost(294,NodeFAID105)
+   end
+
+   NAnswer(252,1,Node999)
+end
+
+procedure NodeFAID102 begin
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID103 begin
+   critter_uninjure_full(dude_obj);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID104 begin
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID105 begin
+   poison(dude_obj,-(get_poison(dude_obj)));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID106 begin
+   MedicMany := 0;
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   critter_uninjure_full(dude_obj);
    radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
    poison(dude_obj,-(get_poison(dude_obj)));
-   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
-   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAIDnon begin
+   Reply(257)
+   NAnswer(258,0,Node999)
+end
+
+procedure NodeFAIDEnd begin
+   if (MedicMany>0) then begin
+   item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
+   end
+   PLAY_FADE
    Reply(255)
+   NAnswer(253,1,NodeSndDialog)
    NAnswer(256,1,Node999)
-   BAnswer(257,1,Node999)
 end
 
 //--- ОФИЦЕР БЕЛЛ

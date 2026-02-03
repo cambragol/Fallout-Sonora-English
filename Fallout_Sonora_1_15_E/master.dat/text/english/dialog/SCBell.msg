@@ -58,6 +58,6 @@
 {235}{}{Now I remember everything. That beast appeared right in front of me during a night watch at the concrete plant. It stared into my eyes! I was a step away from death. But I was lucky, it attacked my partner instead... I guess I was so terrified that I buried that night deep in my subconscious.}
 {236}{}{Anyone in your place would have been scared.}
 {237}{}{That beast wouldn't have scared me.}
-{238}{}{But now I'm free! Thank you, you deserve the title of Paladin far more than I do. Here, let me share some ammo with you. It's the least I can do.}
+{238}{}{But now I'm free! Thank you - you deserve the title of Paladin far more than I do. Here, I'd like to share some ammo with you. It's the least I can do.}
 {239}{}{Take care, soldier.}
 {240}{}{Yeah, you won't need those bullets. Goodbye.}

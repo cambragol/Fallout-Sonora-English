@@ -32,3 +32,9 @@
 {152}{}{Normies, they're total assholes. Ain't that the truth?}
 {153}{}{Getting shunned by the normies too? We know that feeling all too well.}
 {154}{}{We'd take you, but we're wandering aimlessly ourselves.}
+
+{1150}{}{Sorry, my rotten amiga, but you can't come with us.}
+{1151}{}{I never thought I'd meet someone as ugly as me here.}
+{1152}{}{Normies, they're total assholes. Ain't that the truth?}
+{1153}{}{Getting shunned by the normies too? We know that feeling all too well.}
+{1154}{}{We'd take you with us, but we don't even know where we're going.}

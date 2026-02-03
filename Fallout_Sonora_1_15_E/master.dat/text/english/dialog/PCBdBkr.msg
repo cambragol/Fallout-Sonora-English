@@ -34,6 +34,7 @@
 {234}{}{Not so fast, buddy. I think I'll take all those caps back.}
 
 {240}{}{You're an idiot if you think you can mess with the champ. Wanna test that theory?}
+{1240}{}{You're an idiot if you think you can mess with the champ. Wanna test that theory?}
 {241}{}{You're a fool if you think you can go against a Follower. My brothers won't let this slide.}
 {242}{}{Ever heard of the Highwaymen? I'm one of 'em. Don't cross us.}
 {243}{}{(grins like a cornered dog) Damn, I didn't know... Sorry, here's the key... Is everything okay now? I'll, uh, go.}

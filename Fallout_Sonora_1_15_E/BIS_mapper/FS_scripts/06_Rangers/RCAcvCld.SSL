@@ -14,6 +14,8 @@
 #define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
 #define FLAG_FOOD                       0  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
 
+#define ammoPID                         PID_AMMO_SHOTGUN_SHELLS
+
 //---------------------
 
 procedure start;
@@ -41,6 +43,7 @@ procedure NodeFstDialog5;
 procedure NodeFstDialog6;
 procedure NodeFstDialog7;
 procedure NodeSndDialog;
+procedure NodeBarter;
 
 //---------------------
 
@@ -145,55 +148,68 @@ end
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
-   item_add(self_obj,PID_AMMO_SHOTGUN_SHELLS,random(9,12))
+   item_add(self_obj,ammoPID,random(1,2))
    Reply(200)
-   NAnswer(201,1,NodeFstDialog2)
-   BAnswer(202,1,NodeFstDialog2)
+   NAnswer(201,0,NodeFstDialog2)
+   BAnswer(202,0,NodeFstDialog2)
 end
 
 procedure NodeFstDialog2 begin
    Reply(203)
-   NAnswer(204,1,NodeFstDialog3)
-   BAnswer(205,1,NodeFstDialog3)
+   NAnswer(204,0,NodeFstDialog3)
+   BAnswer(205,0,NodeFstDialog3)
 end
 
 procedure NodeFstDialog3 begin
    Reply(206)
-   GAnswer(207,1,NodeFstDialog4)
-   NAnswer(208,1,NodeFstDialog4)
+   GAnswer(207,0,NodeFstDialog4)
+   NAnswer(208,0,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
+   if (global_var(GVAR_STATUS_RANGERS_GART)<0) then begin
+   Reply(217)
+   end
+   else begin
    Reply(209)
-   NAnswer(210,1,NodeFstDialog5)
+   end
+   NAnswer(210,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog5 begin
    Reply(211)
-   NAnswer(212,1,NodeFstDialog6)
+   NAnswer(212,0,NodeFstDialog6)
 end
 
 procedure NodeFstDialog6 begin
    Reply(213)
+   NAnswer(218,4,NodeBarter)
    if (bitDialog(bit_2) == 0) then begin
-   NAnswer(216,3,NodeFstDialog7)
+   NAnswer(216,4,NodeFstDialog7)
    end
-   NAnswer(214,1,Node999)
+   NAnswer(214,0,Node999)
 end
 
 procedure NodeFstDialog7 begin
    Reply(231)
-   NAnswer(232,1,NodeFstDialog6)
-   NAnswer(221,1,Node999)
+   NAnswer(232,0,NodeFstDialog6)
+   NAnswer(221,0,Node999)
+end
+
+procedure NodeBarter begin
+   gdialog_mod_barter(0);
+   call NodeSndDialog;
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
    Reply(220)
-   NAnswer(232,1,NodeFstDialog6)
-   if (bitDialog(bit_2) == 0) then begin
-   NAnswer(230,3,NodeFstDialog7)
+   if (item_amnt(self_obj,ammoPID)>0) then begin
+   NAnswer(232,0,NodeFstDialog6)
    end
-   NAnswer(221,1,Node999)
+   if (bitDialog(bit_2) == 0) then begin
+   NAnswer(230,4,NodeFstDialog7)
+   end
+   NAnswer(221,0,Node999)
 end

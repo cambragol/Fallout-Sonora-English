@@ -153,7 +153,7 @@ end
 
 procedure NodeFstDialog101 begin
    item_add(dude_obj,PID_M_STIMPAK,3)
-   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,10)
+   item_add(dude_obj,PID_AMMO_MICRO_FUSION_CELL,1)
    item_add(dude_obj,PID_W_LASER_PISTOL,1)
 
    Reply(202)

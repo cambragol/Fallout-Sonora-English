@@ -34,7 +34,6 @@ procedure Node998;
 procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
-procedure NodeFstDialog100;
 procedure NodeFstDialog101;
 procedure NodeFstDialog102;
 procedure NodeFstDialog103;
@@ -48,7 +47,6 @@ procedure NodeAnswer100;
 procedure NodeAnswer101;
 procedure NodeAnswer102;
 procedure NodeAnswer103;
-procedure NodeAnswer104;
 
 //---------------------
 
@@ -143,33 +141,35 @@ end
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
-   Reply(200)
-   NAnswer(201,1,NodeFstDialog100)
-end
-
-procedure NodeFstDialog100 begin
-   Reply(202)
-   NAnswer(203,1,NodeFstDialog101)
+   zReply(200)
+   NAnswer(201,4,NodeFstDialog101)
+   NAnswer(230,-3,NodeFstDialog101)
 end
 
 procedure NodeFstDialog101 begin
-   Reply(204)
-   NAnswer(206,1,NodeFstDialog102)
-   NAnswer(205,1,Node999)
+   Reply(202)
+   NAnswer(206,4,NodeFstDialog102)
+   NAnswer(205,4,Node999)
+   NAnswer(206,-3,NodeFstDialog102)
+   NAnswer(203,-3,Node999)
 end
 
 procedure NodeFstDialog102 begin
    Reply(207)
-   NAnswer(209,1,NodeFstDialog103)
-   NAnswer(208,1,Node999)
+   NAnswer(209,4,NodeFstDialog103)
+   NAnswer(231,-3,NodeFstDialog103)
+   NAnswer(208,4,Node999)
+   NAnswer(203,-3,Node999)
 end
 
 procedure NodeFstDialog103 begin
    Reply(210)
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=100) then begin
-   NAnswer(211,1,NodeFstDialog104)
+   NAnswer(211,4,NodeFstDialog104)
+   NAnswer(232,-3,NodeFstDialog104)
    end
-   NAnswer(212,1,Node999)
+   NAnswer(212,4,Node999)
+   NAnswer(203,-3,Node999)
 end
 
 procedure NodeFstDialog104 begin
@@ -180,74 +180,85 @@ procedure NodeFstDialog104 begin
    ? По предложению некоторых игроков здесь можно сделать повышение и понижение Удачи по рендому аналогично хабологу в НКР в F2.
    */
    Reply(213)
-   NAnswer(214,1,NodeFstDialog105)
+   NAnswer(214,4,NodeFstDialog105)
+   NAnswer(233,-3,NodeFstDialog105)
 end
 
 procedure NodeFstDialog105 begin
+   if ((getQuest(GVAR_GAME_END) != qZero) or (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) or (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) or (getQuest(GVAR_MAIN_QUEST_SYNOD_VILLA) >= qEnd)) then begin
+   Reply(226)
+   zBAnswer(221,4,Node999)
+   NAnswer(227,-3,Node999)
+   end
+   else begin
    Reply(215)
-   NAnswer(216,1,NodeFstDialog106)
+   NAnswer(216,4,NodeFstDialog106)
+   NAnswer(233,-3,NodeFstDialog106)
+   end
 end
 
 procedure NodeFstDialog106 begin
    Reply(217)
-   NAnswer(218,1,NodeFstDialog107)
-   BAnswer(219,1,NodeFstDialog107)
+   NAnswer(218,4,NodeFstDialog107)
+   BAnswer(219,4,NodeFstDialog107)
+   NAnswer(231,-3,NodeFstDialog107)
 end
 
 procedure NodeFstDialog107 begin
    Reply(220)
-   zBAnswer(221,1,Node999)
-   NAnswer(222,1,Node999)
+   zBAnswer(221,4,Node999)
+   NAnswer(222,4,Node999)
+   NAnswer(234,-3,Node999)
 end
 
 procedure NodeFstDialog108 begin
    zReply(223)
-   NAnswer(209,1,NodeFstDialog103)
-   NAnswer(224,1,Node999)
+   NAnswer(209,4,NodeFstDialog103)
+   NAnswer(224,4,Node999)
+   NAnswer(231,4,NodeFstDialog103)
+   NAnswer(203,-3,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
    Reply(240)
-   NAnswer(242,3,NodeFstDialog107)
-   NAnswer(243,3,NodeAnswer100)
-   NAnswer(241,1,Node999)
+   NAnswer(242,4,NodeFstDialog107)
+   NAnswer(243,4,NodeAnswer100)
+   NAnswer(241,4,Node999)
+   NAnswer(235,-3,Node999)
 end
 
 procedure NodeAnswer100 begin
    Reply(244)
-   NAnswer(245,3,NodeAnswer101)
-   NAnswer(247,5,NodeAnswer102)
-   NAnswer(251,3,NodeAnswer104)
-   NAnswer(241,1,Node999)
+   NAnswer(245,4,NodeAnswer101)
+   NAnswer(247,4,NodeAnswer102)
+   NAnswer(251,4,NodeAnswer103)
+   NAnswer(241,4,Node999)
 end
 
 procedure NodeAnswer101 begin
    Reply(246)
-   NAnswer(247,5,NodeAnswer102)
-   NAnswer(251,3,NodeAnswer104)
-   NAnswer(241,1,Node999)
+   NAnswer(247,4,NodeAnswer102)
+   NAnswer(251,4,NodeAnswer103)
+   NAnswer(241,4,Node999)
 end
 
 procedure NodeAnswer102 begin
    Reply(248)
-   NAnswer(249,5,NodeAnswer103)
-   NAnswer(245,3,NodeAnswer101)
-   NAnswer(251,3,NodeAnswer104)
-   NAnswer(241,1,Node999)
+   NAnswer(245,4,NodeAnswer101)
+   NAnswer(251,4,NodeAnswer103)
+   NAnswer(241,4,Node999)
 end
 
 procedure NodeAnswer103 begin
+   if (getQuest(GVAR_BRAHMIN_QST_GERONIMO) >= qEnd) then begin
    Reply(250)
-   NAnswer(245,3,NodeAnswer101)
-   NAnswer(251,3,NodeAnswer104)
-   NAnswer(241,1,Node999)
-end
-
-procedure NodeAnswer104 begin
+   end
+   else begin
    Reply(252)
-   NAnswer(245,3,NodeAnswer101)
-   NAnswer(247,5,NodeAnswer102)
-   NAnswer(241,1,Node999)
+   end
+   NAnswer(245,4,NodeAnswer101)
+   NAnswer(247,4,NodeAnswer102)
+   NAnswer(241,4,Node999)
 end

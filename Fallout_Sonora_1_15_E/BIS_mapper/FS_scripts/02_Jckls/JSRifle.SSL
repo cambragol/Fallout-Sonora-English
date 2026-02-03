@@ -1,7 +1,7 @@
 #include "..\headers\define.h"
 #include "..\headers\REPAIR.h"
 #define NAME                            SCRIPT_JSRifle
-#define SKILL_LIMIT                     40
+#define SKILL_LIMIT                     0
 
 procedure start;
 procedure map_enter_p_proc;

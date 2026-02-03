@@ -32,7 +32,7 @@
 {226}{}{You eat that pre-war garbage. I want fresh food.}
 {227}{}{Pre-war? Then that's not what I'm looking for.}
 {228}{}{...Well, okay. (He pulls out a few old boxes from the fridge)}
-{229}{}{[Continue]}
+{229}{}{[More]}
 {230}{}{Your list of "special clients" must include the Followers of Fire.}
 {231}{}{I think a generous tip might sway you. Here's 10 caps.}
 {232}{}{(Grinning with crooked teeth) Thanks, mister.}
@@ -78,5 +78,5 @@
 {313}{}{It was pretty bad. The monks were walking down the street, then these guys in balaclavas jumped out from the corners, like rats from the sewer. Surrounded them and started shooting. Never heard so many gunshots at once. And then they disappeared, like they were never there. It all happened very quickly.}
 {314}{}{Got it. But in the future, don't give me a hard time. Or next time I'll give you a hard time.}
 {315}{}{The situation is becoming clearer.}
-{316}{}{Things are coming into focus. Time to talk to Aaron about this.}
-{317}{}{Thanks, you've been very helpful.}
+{316}{}{(2/3) First testimonies regarding the attacks obtained.}
+{317}{}{(3/3) Final testimonies obtained. Time to speak with Aaron.}

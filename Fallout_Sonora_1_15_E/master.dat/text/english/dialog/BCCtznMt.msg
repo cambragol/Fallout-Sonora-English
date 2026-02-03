@@ -13,4 +13,5 @@
 {224}{}{Smells amazing! Can I try it?}
 {225}{}{What a smell. Is this even edible?}
 {226}{}{Our hero should not feel sorry for anything. Here, take plate.}
+{1226}{}{Our heroine should not feel sorry for anything. Here, take plate.}
 {227}{}{Thanks.}

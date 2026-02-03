@@ -21,6 +21,7 @@
 
 {210}{}{Have you seen Chris? It'd be better if he returned and faced the Council.}
 {211}{}{Haven't seen him yet.}
+{1211}{}{Haven't seen him yet.}
 {212}{}{Where do you think he might be hiding?}
 {213}{}{I don't think he'd flee into the wasteland - he doesn't have the guts, and there's nowhere to run. We checked the cellars, but he wasn't there. Someone must be hiding him, but who? Friends, neighbors, even his little brother won't confess.}
 {214}{}{Well, he's gotta be somewhere.}

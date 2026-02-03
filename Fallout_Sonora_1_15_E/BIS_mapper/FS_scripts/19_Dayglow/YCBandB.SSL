@@ -84,7 +84,7 @@ procedure timed_event_p_proc begin
        //timer_float_reply(120,121)
    end
    if (fixed_param == 3) then begin
-       if (cur_map_index == MAP_DAYGLOW_START) then begin
+       if (cur_map_index == MAP_DAYGLOW_TIJUANA) then begin
           floater(self_obj,110,COLOR_MSG_NORMAL);
        end
        if (cur_map_index == MAP_DAYGLOW_CITYHEART) then begin

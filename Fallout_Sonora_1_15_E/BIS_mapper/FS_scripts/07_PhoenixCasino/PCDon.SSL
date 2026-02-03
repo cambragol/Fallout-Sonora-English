@@ -249,7 +249,7 @@ procedure NodeSndDialog begin
    //--- Нападение на Последователей
    call NodeQstCult101;
 
-   if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
+   if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) or (getQuest(GVAR_PHENIX_PARTY_QST_B) >= qEnd)) then begin
    NAnswerReaction(260,3,NodeAnswer101,35,260,NodeAnswer100)
    end
 
@@ -281,7 +281,7 @@ procedure NodeQstCult100 begin
    call NodeQstCult102;
    end
    else begin
-   Reply(301)
+   zReply(301)
    BAnswer(302,1,Node999)
    NAnswer(303,1,Node999)
    end

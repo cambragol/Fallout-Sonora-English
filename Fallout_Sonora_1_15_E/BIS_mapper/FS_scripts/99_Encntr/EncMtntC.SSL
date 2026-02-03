@@ -35,25 +35,22 @@ procedure Node998;
 procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
+procedure NodeFstDialog002;
+procedure NodeFstDialog003;
+procedure NodeFstDialog004;
+procedure NodeFstDialog005;
+procedure NodeFstDialog005b;
+procedure NodeFstDialog006;
+procedure NodeFstDialog007;
 procedure NodeSndDialog;
-procedure NodeSndDialog2;
-procedure NodeSndDialog3;
-procedure NodeSndDialog4;
-procedure NodeAnswer100;
 procedure NodeAnswer101;
-procedure NodeAnswer101b;
 procedure NodeAnswer102;
 procedure NodeAnswer103;
-procedure NodeAnswer104;
-procedure NodeAnswer105;
-procedure NodeAnswer105b;
-procedure NodeAnswer105c;
-procedure NodeAnswer106;
-procedure NodeAnswer107;
-procedure NodeAnswer108;
-procedure NodeAnswer109;
 procedure NodeAnswer200;
 procedure NodeAnswer201;
+procedure NodeEndDialog;
+procedure NodeEndDialog2;
+procedure NodeEndDialog3;
 
 //---------------------
 
@@ -92,6 +89,9 @@ procedure timed_event_p_proc begin
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(110,119)
+   end
+   if (fixed_param == 3) then begin
+       self_attack_dude;
    end
 end
 
@@ -141,6 +141,7 @@ end
 procedure Node998 begin
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
    set_local_var(LVAR_Party_Status,0);
+   add_timer_event(self_obj, 1, 3);
    set_enemy_dude;
 end
 
@@ -149,7 +150,7 @@ end
 
 procedure NodeStartDialog begin
    if (local_var(LVAR_Party_Status) != 0) then begin
-   call NodeSndDialog2;
+   call NodeEndDialog;
    end
    else if (bitDialog(bit_1) == 0) then begin
    call NodeFstDialog;
@@ -162,55 +163,167 @@ end
 //--- ПЕРВЫЙ ДИАЛОГ
 
 procedure NodeFstDialog begin
-   bitDialogExp(bit_1,0)
    Reply(200)
-   NAnswer(201,1,NodeAnswer100)
-   NAnswer(202,1,Node999)
+   NAnswer(201,4,NodeFstDialog002)
+   NAnswer(202,4,Node999)
+   NAnswer(203,-3,NodeFstDialog002)
+end
+
+procedure NodeFstDialog002 begin
+   bitDialogExp(bit_1,0)
+   Reply(220)
+   NAnswer(221,4,NodeFstDialog003)
+   BAnswer(222,4,NodeFstDialog003)
+   NAnswer(223,-3,NodeFstDialog003)
+end
+
+procedure NodeFstDialog003 begin
+   Reply(224)
+   if ((getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) or town_rep_is_vilified) then begin
+   zBAnswer(240,4,Node998)
+   BAnswer(241,-3,Node998)
+   end
+   if (town_known(AREA_PUERTO_DESTROY) >= MARK_STATE_KNOWN) then begin
+   GAnswer(239,4,NodeFstDialog005)
+   end
+   else if (town_known(AREA_PUERTO_STEEL) >= MARK_STATE_KNOWN) then begin
+   GAnswer(230,4,NodeFstDialog005)
+   end
+   if (global_var(GVAR_TITUL_BOS)>0) then begin
+   zGAnswer(243,4,NodeFstDialog005b)
+   end
+   NAnswer(225,4,NodeFstDialog004)
+   NAnswer(226,-3,NodeFstDialog004)
+end
+
+procedure NodeFstDialog004 begin
+   Reply(227)
+   NAnswer(228,4,NodeFstDialog006)
+   NAnswer(229,-3,NodeFstDialog006)
+end
+
+procedure NodeFstDialog005 begin
+   Reply(231)
+   NAnswer(228,4,NodeFstDialog006)
+   NAnswer(229,-3,NodeFstDialog006)
+end
+
+procedure NodeFstDialog005b begin
+   bitDialogExp(bit_2,0)
+   Reply(244)
+   NAnswer(228,4,NodeFstDialog006)
+   NAnswer(229,-3,NodeFstDialog006)
+end
+
+procedure NodeFstDialog006 begin
+   Reply(232)
+   NAnswer(233,4,NodeFstDialog007)
+   NAnswer(234,-3,NodeFstDialog007)
+end
+
+procedure NodeFstDialog007 begin
+   Reply(235)
+
+   if (map_var(MVAR_ENC_SMUTANT_REACTOR)>0) then begin
+   GAnswer(304,4,NodeAnswer200)
+   GAnswer(303,-3,NodeAnswer200)
+   end
+   else if (map_var(MVAR_ENC_SMUTANT_DEAD)>=8) then begin
+   GAnswer(314,4,NodeAnswer201)
+   GAnswer(311,-3,NodeAnswer201)
+   end
+
+   NAnswer(238,4,NodeSndDialog)
+   NAnswer(236,4,Node999)
+   NAnswer(237,-3,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
 
 procedure NodeSndDialog begin
-   Reply(random(210,214))
-
-   NAnswer(220,1,NodeAnswer100)
-   NAnswer(230,1,NodeAnswer102)
    if (bitDialog(bit_2) != 0) then begin
-   NAnswer(234,1,NodeAnswer104)
-   end
-   NAnswer(240,1,NodeAnswer106)
-   NAnswer(242,1,NodeAnswer107)
-   if (bitDialog(bit_3) != 0) then begin
-   if (map_var(MVAR_ENC_SMUTANT_REACTOR)>0) then begin
-   GAnswer(250,1,NodeAnswer200)
-   end
-   if (map_var(MVAR_ENC_SMUTANT_DEAD)>=8) then begin
-   GAnswer(259,1,NodeAnswer201)
-   end
-   end
-
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeSndDialog2 begin
-   Reply(253)
-   if ((cur_map_index != MAP_SPECIAL_ARMY) or (self_elevation == 0)) then begin
-   GAnswer(255,1,NodeSndDialog3)
+   zReply(215)
    end
    else begin
-   NAnswer(254,1,Node999)
+   Reply(random(210,214))
    end
-end
 
-procedure NodeSndDialog3 begin
-   Reply(256)
-   NAnswer(257,1,NodeSndDialog4)
+   NAnswer(250,4,NodeAnswer101)
+   NAnswer(260,4,NodeAnswer103)
+
+   if (map_var(MVAR_ENC_SMUTANT_REACTOR)>0) then begin
+   GAnswer(300,4,NodeAnswer200)
+   GAnswer(303,-3,NodeAnswer200)
+   end
+   else if (map_var(MVAR_ENC_SMUTANT_DEAD)>=8) then begin
+   GAnswer(310,4,NodeAnswer201)
+   GAnswer(311,-3,NodeAnswer201)
+   end
+
    if ((getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) or town_rep_is_vilified) then begin
-   zBAnswer(258,1,Node998)
+   zBAnswer(242,4,Node998)
+   BAnswer(241,-3,Node998)
    end
+   NAnswer(219,4,Node999)
+   NAnswer(218,-3,Node999)
 end
 
-procedure NodeSndDialog4 begin
+//---
+
+procedure NodeAnswer101 begin
+   Reply(251)
+   NAnswer(252,4,NodeAnswer102)
+   NAnswer(253,-3,NodeAnswer102)
+end
+
+procedure NodeAnswer102 begin
+   Reply(254)
+   NAnswer(255,4,NodeSndDialog)
+   NAnswer(256,-3,NodeSndDialog)
+end
+
+procedure NodeAnswer103 begin
+   Reply(261)
+   NAnswer(255,4,NodeSndDialog)
+   NAnswer(256,-3,NodeSndDialog)
+end
+
+//---
+
+procedure NodeAnswer200 begin
+   inc_local_var(LVAR_Party_Status);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   rm_timer_event(self_obj);
+   Reply(301)
+   NAnswer(302,4,Node999)
+end
+
+procedure NodeAnswer201 begin
+   inc_local_var(LVAR_Party_Status);
+   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
+   rm_timer_event(self_obj);
+   Reply(312)
+   NAnswer(313,4,Node999)
+end
+
+//---
+
+procedure NodeEndDialog begin
+   Reply(320)
+   if ((cur_map_index != MAP_SPECIAL_ARMY) or (self_elevation == 0)) then begin
+   GAnswer(322,4,NodeEndDialog2)
+   end
+   NAnswer(321,4,Node999)
+   NAnswer(323,-3,Node999)
+end
+
+procedure NodeEndDialog2 begin
+   Reply(324)
+   NAnswer(325,4,NodeEndDialog3)
+   NAnswer(326,-3,NodeEndDialog3)
+end
+
+procedure NodeEndDialog3 begin
    set_local_var(LVAR_Party_Status,-1);
    set_global_var(GVAR_PUERTO_STATUS_PAUL, 1);
    critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
@@ -218,149 +331,6 @@ procedure NodeSndDialog4 begin
    set_REP(5)
    set_SLAVA(5)
    set_obj_visibility(self_obj, 1);
+
    call Node999;
-end
-
-procedure NodeAnswer100 begin
-   Reply(221)
-   NAnswer(222,1,NodeAnswer101)
-   BAnswer(223,1,NodeAnswer101)
-end
-
-procedure NodeAnswer101 begin
-   Reply(224)
-   if (bitDialog(bit_2) == 0) then begin
-   NAnswer(225,1,NodeAnswer101b)
-   end
-
-   NAnswer(230,1,NodeAnswer102)
-   if (bitDialog(bit_2) != 0) then begin
-   NAnswer(234,1,NodeAnswer104)
-   end
-   NAnswer(240,1,NodeAnswer106)
-   NAnswer(242,1,NodeAnswer107)
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeAnswer101b begin
-   bitDialogExp(bit_2,0)
-   Reply(226)
-   NAnswer(230,1,NodeAnswer102)
-   if (bitDialog(bit_2) != 0) then begin
-   NAnswer(234,1,NodeAnswer104)
-   end
-   NAnswer(240,1,NodeAnswer106)
-   NAnswer(242,1,NodeAnswer107)
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeAnswer102 begin
-   Reply(231)
-   NAnswer(232,1,NodeAnswer103)
-end
-
-procedure NodeAnswer103 begin
-   Reply(233)
-   NAnswer(220,1,NodeAnswer100)
-   if (bitDialog(bit_2) != 0) then begin
-   NAnswer(234,1,NodeAnswer104)
-   end
-   NAnswer(240,1,NodeAnswer106)
-   NAnswer(242,1,NodeAnswer107)
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeAnswer104 begin
-   Reply(235)
-   NAnswer(236,1,NodeAnswer105)
-end
-
-procedure NodeAnswer105 begin
-   Reply(237)
-   if ((getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) and town_rep_is_vilified) then begin
-   BAnswer(238,1,NodeAnswer105b)
-   end
-   else if (global_var(GVAR_TITUL_BOS)>0) then begin
-   zGAnswer(227,1,NodeAnswer105c)
-   end
-   NAnswer(220,1,NodeAnswer100)
-   NAnswer(230,1,NodeAnswer102)
-   NAnswer(240,1,NodeAnswer106)
-   NAnswer(242,1,NodeAnswer107)
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeAnswer105b begin
-   Reply(239)
-   NAnswer(220,1,NodeAnswer100)
-   NAnswer(230,1,NodeAnswer102)
-   NAnswer(240,1,NodeAnswer106)
-   NAnswer(242,1,NodeAnswer107)
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeAnswer105c begin
-   Reply(228)
-   NAnswer(220,1,NodeAnswer100)
-   NAnswer(230,1,NodeAnswer102)
-   NAnswer(240,1,NodeAnswer106)
-   NAnswer(242,1,NodeAnswer107)
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeAnswer106 begin
-   Reply(241)
-   NAnswer(220,1,NodeAnswer100)
-   NAnswer(230,1,NodeAnswer102)
-   if (bitDialog(bit_2) != 0) then begin
-   NAnswer(234,1,NodeAnswer104)
-   end
-   NAnswer(242,1,NodeAnswer107)
-   NAnswer(219,1,Node999)
-end
-
-procedure NodeAnswer107 begin
-   Reply(243)
-   NAnswer(244,1,NodeAnswer108)
-end
-
-procedure NodeAnswer108 begin
-   Reply(245)
-   NAnswer(246,1,NodeAnswer109)
-end
-
-procedure NodeAnswer109 begin
-   bitDialogExp(bit_3,0)
-   Reply(247)
-   if (map_var(MVAR_ENC_SMUTANT_REACTOR)>0) then begin
-   GAnswer(250,1,NodeAnswer200)
-   end
-   if (map_var(MVAR_ENC_SMUTANT_DEAD)>=8) then begin
-   GAnswer(259,1,NodeAnswer201)
-   end
-
-   NAnswer(220,1,NodeAnswer100)
-   NAnswer(230,1,NodeAnswer102)
-   if (bitDialog(bit_2) != 0) then begin
-   NAnswer(234,1,NodeAnswer104)
-   end
-   NAnswer(240,1,NodeAnswer106)
-
-   NAnswer(248,1,Node999)
-end
-
-procedure NodeAnswer200 begin
-   inc_local_var(LVAR_Party_Status);
-   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
-   rm_timer_event(self_obj);
-   Reply(251)
-   NAnswer(252,1,Node999)
-end
-
-procedure NodeAnswer201 begin
-   inc_local_var(LVAR_Party_Status);
-   critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
-   rm_timer_event(self_obj);
-   Reply(260)
-   NAnswer(261,1,Node999)
 end

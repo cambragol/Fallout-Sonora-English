@@ -15,5 +15,5 @@
 {129}{}{These dens lack the pain-racked groans of outsiders.}
 
 #Response
-{200}{}{Get out! There's no place for an outsider in these storerooms!}
-{201}{}{Okay.}
+{200}{}{Get out! Outsider's aren't allowed in these storerooms!}
+{201}{}{Okay. Whatever you say.}

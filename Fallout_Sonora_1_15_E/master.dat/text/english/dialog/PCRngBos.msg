@@ -121,12 +121,15 @@
 {325}{}{Give me a little more time to get prepped.}
 {326}{}{Big Mario's waiting for you. And it's not just him - glory's on the line if you can take him down. So, }
 {327}{}{? You ready for the final showdown?}
-{328}{}{Big Mario Albright's going down today. Let's go, Angelo. Walk me in like the champ I'm about to be.}
+{328}{}{Big Mario Albright's going down today. Let's go, Angelo. Walk me in like the champ I'm about to become.}
+{1328}{}{Big Mario Albright's going down today. Let's go, Angelo. Walk me in like the champ I'm about to become.}
 {329}{}{Mario's gonna have to wait. I'll be back soon.}
 
 # First fight
 {330}{}{Pretty good for a newbie. Even though you got beat up a bit. Still, the potential is there. Don't stop now.}
+{1330}{}{Pretty good for a chick. Even though you got beat up a bit. Still, the potential is there. Don't stop now.}
 {331}{}{Pretty good for a newbie. You've got potential worth developing.}
+{1331}{}{Pretty good for a chick. You've got potential worth developing.}
 {332}{}{Really? That's encouraging.}
 {333}{}{I'm not here to show off. I'm here for the caps.}
 {334}{}{Here's your fee, 100 caps. Fair win. If you want another fight, come back and we'll arrange it.}
@@ -163,6 +166,7 @@
 {361}{}{! The crowd went wild; we haven't seen excitement like that in ages. We pulled in massive bets because everyone thought Big Mario was unbeatable. But you proved them wrong! Well done. Here's your 800 caps. But... now we've got a bit of a problem.}
 {362}{}{What's the issue?}
 {363}{}{Well, you're basically a champion now. Unbeatable, you know? We don't have anyone left to pit against you. And if people keep betting on you and winning, we won't see any profits. Most of our earnings come from lost bets, you get me?}
+{1363}{}{Well, you're basically a champion now. Unbeatable, you know? We don't have anyone left to pit against you. And if people keep betting on you and winning, we won't see any profits. Most of our earnings come from lost bets, you get me?}
 {364}{}{So, you're saying I'm done fighting?}
 {365}{}{What the hell! You're kicking me out of the ring?}
 {366}{}{Exactly. Sorry, amigo, but every fighter's got their golden moment. It's been good doing business with you, but now it's time to part ways.}

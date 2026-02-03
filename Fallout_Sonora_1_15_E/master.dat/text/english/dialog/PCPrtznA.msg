@@ -9,7 +9,7 @@
 {201}{}{Party? Yeah, I just stumbled on this place by accident. What are you doing here? What is this place?}
 {202}{}{You found this hideout and dodged all our traps by pure luck? Doubtful. But you're here now - we're fighting the Followers of Fire and their leader, Aaron. What do you think of that?}
 {203}{}{I'm here to take down your entire criminal gang.}
-{204}{}{Very good. Capture the spy!}
+{204}{}{Thanks for your honesty. Get this spy!}
 {205}{}{Just try...}
 {206}{}{Hey, they misunderstood me...}
 
@@ -21,15 +21,15 @@
 {215}{}{Uh no. Don't get me involved in anything!}
 {216}{}{That's disappointing. First impressions are usually correct.}
 {217}{}{I won't tell anyone about you guys. I promise.}
-{218}{}{I guess you're not that good at reading people, because now I'm gonna kill you.}
-{219}{}{I'm afraid that answer doesn't work for me. Take this spy down!}
+{218}{}{You're more perceptive than you look. I suppose you won't let me go without a fight now?}
+{219}{}{I'm afraid that's impossible. Get this spy!}
 {220}{}{Oh shi...}
 {221}{}{That was a mistake...}
 {222}{}{Can I just leave and we'll forget this happened?}
-{223}{}{You expect to walk out of here unscathed, do you? Maybe you will. Maybe you won't.}
+{223}{}{You're putting me in a tough spot. Fine. I'm counting on your honesty. I guess we'll see what happens.}
 {224}{}{Um, I think I'll just go now. Bye.}
 {225}{}{I want to join your group.}
-{226}{}{Very good. But we can't take risks by trusting just anyone. Tell me about yourself. Who are you and how do you know about the Liberation Party?}
+{226}{}{Very well. However, we can't trust just anyone. Tell me about yourself. Who are you and how do you know about the Liberation Party?}
 {227}{}{I'm looking for my family. They were enslaved and brought to this city. I need help finding them.}
 {228}{}{Actually, I'm looking for some shady, dangerous types to eliminate. And it looks like I found them.}
 {1228}{}{Actually, I'm looking for some shady, dangerous types to eliminate. And it looks like I found them.}
@@ -69,12 +69,12 @@
 {275}{}{Yeah, uh, got it.}
 {276}{}{I was born several years after Aaron came to power in the city. The person I was before died.}
 {277}{}{Sounds pretty personal to me. Did you lose someone close?}
-{278}{}{And you're smarter than you look. When Aaron seized power, he eradicated anyone who could oppose him. Blood ran through the streets of the entire city.}
-{279}{}{[More]}
-{280}{}{Many lost their loved ones to his Inquisition. But like I said, the past doesn't matter.}
+{278}{}{You're smarter than you look. When Aaron seized power, he eradicated anyone who could oppose him. Blood ran through the streets of the entire city. We all lost someone.}
+{279}{}{}
+{280}{}{}
 {281}{}{Why did people go along with this? With his Inquisition?}
 {282}{}{At the time, Phoenix was in the grip of a famine. Getting rid of extra mouths and keeping the weak in line served a lot of interests. The church, with its sermons and guidance, swayed the masses and tightened Aaron's grip on power.}
-{283}{}{Sounds like it was a real tragedy for the city. Let's talk about today.}
+{283}{}{Sounds like it was a real tragedy for the city. Let's get back to 'now'.}
 
 # Quests
 {300}{}{What do you need me to do?}

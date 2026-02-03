@@ -50,7 +50,7 @@
 {250}{}{Admit it - did you kill Johnny?}
 {251}{}{What the hell are you talking about?!}
 {252}{}{He was strangled with your rope. How do you explain this?}
-{253}{}{Ha! I sold this rope to several fishermen. And why on earth would I kill anyone? What are you, an idiot?}
+{253}{}{Hold it! I sold this kind of rope to a few different fishermen. And why on earth would I kill anyone?}
 {254}{}{Who did you sell it to?}
 {255}{}{I even have it in my notes, look... Only Tin-Tan has bought rope lately. Hey, he's kind of like Johnny's uncle, isn't he? No wonder he had my rope.}
 {256}{}{Okay. I'll talk to this guy.}

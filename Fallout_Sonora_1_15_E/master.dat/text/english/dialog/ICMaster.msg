@@ -4,6 +4,7 @@
 {110}{}{In the name of the Master...}
 {111}{}{In the name of His Holy Spirit...}
 {112}{}{Accept the sinful soul of your slave...}
+{1112}{}{Accept the sinful soul of your slave...}
 {113}{}{Servant of God, kneel down and repent of your sins before the face of the Master.}
 {114}{}{Drink from the sacred cup of Holy Virus.}
 {115}{}{May the Holy Spirit be with you.}
@@ -19,6 +20,7 @@
 {206}{}{Whatever you say.}
 {207}{}{Very good. It's unexpected to see a normal person here. Tell me what brought you here.}
 {208}{}{Be polite at gunpoint with a six-barreled minigun? You're not very nice for a 'priest'.}
+{1208}{}{Be polite at gunpoint with a six-barreled minigun? You're not very nice for a 'priest'.}
 {209}{}{If you put yourself in our position, you'd think differently. Now tell me what brought you to these ruins? And don't lie - I will feel any lie.}
 {210}{}{Just looking for useful things in the ruins. There must be plenty of pre-war treasures left here.}
 {211}{}{Your desire for profit has led you straight to hell. As one would expect.}
@@ -42,6 +44,7 @@
 {229}{}{We share a name? Strange twists of fate... But it doesn't matter. }
 {230}{}{Whatever. I think I'll be leaving now.}
 {231}{}{There's no way out for you here. Garrett, explain this to our guest...}
+{1231}{}{There's no way out for you here. Garrett, explain this to our guest...}
 {232}{}{I'm still leaving here. Don't try to stop me.}
 {233}{}{Wait! What if I help you? Will you let me go then?}
 {234}{}{You want to make a deal with the devil? Fine.}
@@ -58,6 +61,7 @@
 {244}{}{Oh, friends! Friends!}
 {245}{}{You're lying. You are bad. I don't have any friends.}
 {246}{}{Well, I understand. You're lonely, like all of us. But now we are your friends. I give you my word, you'll be fine with us.}
+{1246}{}{Well, I understand. You're lonely, like all of us. But now we are your friends. I give you my word, you'll be fine with us.}
 {247}{}{No! Do not believe! Deception!}
 {248}{}{This body will be too much trouble. Garrett, end his suffering...}
 {249}{}{Yeah!}
@@ -142,6 +146,7 @@
 {332}{}{The lives of my people depend on this medicine. Prove that it is indeed safe.}
 {333}{}{We did everything you wanted. If you don't keep your word, you can go to hell.}
 {334}{}{That's very rude. Garrett, show our guest that he is no longer welcome here...}
+{1334}{}{That's very rude. Garrett, show our guest that she is no longer welcome here...}
 {335}{}{Die!}
 {336}{}{No, wait! I can take the mutagen to prove its effectiveness. Is that okay with you?}
 {337}{}{Wait. What if I install mutagen sprayers in the ruins? Will that satisfy you?}

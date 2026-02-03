@@ -132,25 +132,34 @@ end
 
 procedure loot_gener begin
    variable lootID;
-   lootID := random(0,7);
+   lootID := random(1,8);
+   if (random(0,100) < 50) then begin
+   lootID := 0;
+   end
 
-   if (lootID == 0) then begin
+   if (lootID == 1) then begin
        item_add(self_obj,PID_BOOTLE_CAPS,random(1,5))
    end
-   if (lootID == 1) then begin
+   if (lootID == 2) then begin
        item_add(self_obj,PID_MANY,1)
    end
-   if (lootID == 2) then begin
-       item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,random(4,6))
-   end
    if (lootID == 3) then begin
-       item_add(self_obj,PID_AMMO_10_MM,random(2,5))
+       item_add(self_obj,PID_AMMO_MICRO_FUSION_CELL,1)
    end
    if (lootID == 4) then begin
-       item_add(self_obj,PID_M_SLUGS,random(1,2))
+       item_add(self_obj,PID_HYPO,1)
    end
    if (lootID == 5) then begin
+       item_add(self_obj,PID_M_SLUGS,random(1,2))
+   end
+   if (lootID == 6) then begin
        item_add(self_obj,PID_M_ROACH,random(1,2))
+   end
+   if (lootID == 7) then begin
+       item_add(self_obj,PID_M_NUKA_COLA_RAD,1)
+   end
+   if (lootID == 8) then begin
+       item_add(self_obj,PID_TOOL_FLARE,1)
    end
 end
 
@@ -226,7 +235,6 @@ procedure critter_p_proc begin
    attakToDude := 0;
    end
 
-   //invisToDude(0,0) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
    set_critter_options(attakToDude,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 end
 
@@ -249,7 +257,7 @@ end
 
 procedure combat_p_proc begin
    if (self_PID == PID_GHOUL_GLOW) then begin
-   effectAttak(0,3,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,5,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
    end
    else begin
    effectAttak(0,0,1,1,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %

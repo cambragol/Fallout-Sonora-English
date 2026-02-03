@@ -169,7 +169,7 @@ procedure NodeFstDialog4 begin
    NAnswerSkill(211,4,NodeFstDialog6,SKILL_CONVERSANT,80,211,NodeFstDialog5)
 
    if (global_var(GVAR_TITUL_PHENIX_CULT) >0) then begin
-   NAnswer(217,3,NodeFstDialog6)
+   zNAnswer(217,3,NodeFstDialog6)
    end
    if (global_var(GVAR_TITUL_BOS) >0) then begin
    NAnswer(218,3,NodeFstDialog6)

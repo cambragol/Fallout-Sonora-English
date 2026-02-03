@@ -5,9 +5,11 @@
 {103}{}{Traitor! You've been possessed by Diablo!}
 {1103}{}{Traitor bitch! You've been possessed by Diablo!}
 {104}{}{Now Hugo will never return to the Villa.}
-{105}{}{Hugo returns to Villa.}
-{106}{}{Of course, friend, as you wish.}
+{105}{}{Hugo returns to the Villa. For saving him, you receive }
+{106}{}{Sure, whatever you wish.}
 {107}{}{See you at the Villa, amigo.}
+{1107}{}{See you at the Villa, amiga.}
+{108}{}{ experience points.}
 
 #First dialogue
 {200}{}{? Holy heavens, it's you! We'd almost lost hope.}

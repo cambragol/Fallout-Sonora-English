@@ -44,7 +44,7 @@ procedure map_enter_p_proc begin
        set_obj_visibility(self_obj, 0);
 
        if (cur_map_index == MAP_CASA_GRANDE_WATER) then begin
-       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_CASAGRANDE_CITYHALL);
+       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_CASAGRANDE_WATERSTAN);
        end
        if (cur_map_index == MAP_BOS_CAMP_A) then begin
        critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_BANDITS);
@@ -132,11 +132,11 @@ procedure critter_p_proc begin
       if (map_var(MVAR_GARAGE_TRILER_FIRE) >= 3) then begin
       if (combat_is_initialized == false) then begin
 
-          if (tile_distance(HomeTile,15536) > tile_distance(HomeTile,19874)) then begin
+          if (tile_distance(self_tile,16533) > tile_distance(self_tile,19874)) then begin
           tileNumRun := 19874;
           end
           else begin
-          tileNumRun := 15536;
+          tileNumRun := 16533;
           end
 
           if (self_tile == tileNumRun) then begin

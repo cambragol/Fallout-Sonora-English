@@ -2,6 +2,7 @@
 {105}{}{Bastards! Gonna smash you for what you did to my friends!}
 
 {200}{}{Huh? Another normie? And you come right to me? Ha! You stupid or what?}
+{1200}{}{Huh? Another normie? And she come right to me? Ha! You stupid or what?}
 {201}{}{What is this place? And who are you?}
 {202}{}{Are you wearing a fat, green, troll costume?}
 {203}{}{Lower your weapons and follow me. Levi will speak to you.}

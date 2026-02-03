@@ -49,6 +49,7 @@ procedure NodeAnswer110;
 procedure NodeAnswer110a; // added to complete dialogue from .msg file - cambragol
 procedure NodeAnswer111;
 procedure NodeAnswer112;
+procedure NodeAnswer113;
 procedure NodeAnswer200;
 procedure NodeAnswer200a; // added to make clinic node work better - cambragol
 procedure NodeAnswer201;
@@ -59,12 +60,14 @@ procedure NodeAnswer300a; // added to make town life node work better - cambrago
 procedure NodeAnswer301;
 procedure NodeAnswer302;
 procedure NodeAnswer303;
+procedure NodeFAIDcost;
 procedure NodeFAID;
-procedure NodeFAID1;
-procedure NodeFAID2;
-procedure NodeFAID3;
+procedure NodeFAID102;
+procedure NodeFAID103;
+procedure NodeFAID104;
+procedure NodeFAID105;
+procedure NodeFAIDnon;
 procedure NodeFAIDEnd;
-procedure NodeFAIDHeal;
 procedure NodeFAID200;
 procedure NodeFAID201;
 procedure NodeFAID202;
@@ -311,7 +314,7 @@ procedure NodeSndDialog begin
    NAnswer(430,3,NodeAnswer200)
    NAnswer(440,3,NodeAnswer300)
 
-   //--- Карлос в ТуСане
+   //--- Про убежище 24
    if (bitDialog(bit_6) == 0) then begin
       if ((getQuest(GVAR_VAULT24_VISITED) >= qEnd) or (global_var(GVAR_HOLODISK_10) != 0)) then begin
       NAnswer(451,1,NodeAnswer110)
@@ -417,6 +420,9 @@ procedure NodeAnswer111 begin
    if (global_var(GVAR_HOLODISK_10) != 0) then begin
    GAnswer(458,1,NodeAnswer112)
    end
+   if (getQuest(GVAR_VAULT24_VISITED) >= qEnd) then begin
+   zNAnswer(455,3,NodeAnswer113)
+   end
    NAnswer(400,3,NodeAnswer100)
    NAnswer(461,1,NodeSndDialog)
 end
@@ -428,6 +434,15 @@ procedure NodeAnswer112 begin
    Reply(459)
    NAnswer(400,3,NodeAnswer100)
    NAnswer(460,1,NodeSndDialog)
+end
+
+procedure NodeAnswer113 begin
+   Reply(456)
+   if (global_var(GVAR_HOLODISK_10) != 0) then begin
+   GAnswer(458,1,NodeAnswer112)
+   end
+   NAnswer(400,3,NodeAnswer100)
+   NAnswer(457,1,NodeSndDialog)
 end
 
 
@@ -496,89 +511,93 @@ end
 
 //--- ЛЕЧЕНИЕ
 
-procedure NodeFAID begin
-   MedicMany := 0;
-   call NodeFAID1;
+#define AnswerCost(msg,node)      call NodeFAIDcost; \
+                                  if ((item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) or (MedicMany == 0)) then begin \
+                                  NAnswer(mstr(msg)+MedicMany+mstr(224),0,node) \
+                                  end else begin \
+                                  NAnswer(mstr(msg)+MedicMany+mstr(224),0,NodeFAIDnon) \
+                                  end \
 
-   if (MedicMany<=2) then begin
-   call NodeFAID2;
-   end
-   else begin
-   call NodeFAID3;
-   end
-end
-
-procedure NodeFAID1 begin
-   MedicMany := 0;
-
-   if (dude_cur_hits<dude_max_hits) then begin
-   MedicMany += (dude_max_hits-dude_cur_hits);
-   end
-   if dude_is_crippled then begin
-   MedicMany += 25;
-   end
-   if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
-   MedicMany += get_critter_stat(dude_obj,STAT_current_rad);
-   end
-   if (get_poison(dude_obj) >0) then begin
-   MedicMany += get_poison(dude_obj);
-   end
-
+procedure NodeFAIDcost begin
    if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
-   MedicMany += (MedicMany*2);
-   end
-   if (getQuest(GVAR_NUEVA_QST_APOC_HOME) >= qEnd) then begin
-   MedicMany -= (MedicMany/4);
+   MedicMany += MedicMany;
    end
 
-   if (town_rep_is_idolized or (get_SLAVA>=500) or (global_var(GVAR_TITUL_BOS) > 0)) then begin
+   if (town_rep_is_idolized or (get_SLAVA>=500) or (global_var(GVAR_TITUL_BOS)>0)) then begin
    MedicMany -= (MedicMany/2);
-   end
-   else if town_rep_is_liked then begin
-   MedicMany -= (MedicMany/4);
-   end
-   else if (get_SLAVA>=250) then begin
-   MedicMany -= (MedicMany/4);
    end
 
    if (town_rep_is_vilified or (get_SLAVA<=-500)) then begin
    MedicMany += (MedicMany/2);
    end
-   else if town_rep_is_hated then begin
-   MedicMany += (MedicMany/4);
-   end
-   else if (get_SLAVA<=-250) then begin
-   MedicMany += (MedicMany/4);
+
+   if (MedicMany<0) then begin
+   MedicMany := 0;
    end
 end
 
-procedure NodeFAID2 begin
+procedure NodeFAID begin
+   MedicMany := 0;
    Reply(221)
+
+   if (dude_cur_hits<dude_max_hits) then begin
+      MedicMany := (dude_max_hits-dude_cur_hits)*3;
+      AnswerCost(223,NodeFAID102)
+   end
+   if dude_is_crippled then begin
+      MedicMany := 25;
+      AnswerCost(225,NodeFAID103)
+   end
+   if (get_critter_stat(dude_obj,STAT_current_rad)>0) then begin
+      MedicMany := get_critter_stat(dude_obj,STAT_current_rad)*3;
+      AnswerCost(226,NodeFAID104)
+   end
+   if (get_poison(dude_obj)>0) then begin
+      MedicMany := get_poison(dude_obj)*3;
+      AnswerCost(227,NodeFAID105)
+   end
+
+   if (MedicMany==0) then begin
+   NAnswer(246,1,Node999)
+   end
+   else begin
    NAnswer(222,1,Node999)
+   end
 end
 
-procedure NodeFAID3 begin
-   Reply(mstr(223)+MedicMany+mstr(224))
-   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
-   NAnswer(225,1,NodeFAIDEnd)
-   end
-   NAnswer(226,1,Node999)
+procedure NodeFAID102 begin
+   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID103 begin
+   critter_uninjure_full(dude_obj);
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID104 begin
+   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAID105 begin
+   poison(dude_obj,-(get_poison(dude_obj)));
+   call NodeFAIDEnd;
+end
+
+procedure NodeFAIDnon begin
+   Reply(228)
+   NAnswer(229,0,Node999)
 end
 
 procedure NodeFAIDEnd begin
-   if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
-   call NodeFAIDHeal;
+   if (MedicMany>0) then begin
    item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
-   PLAY_FADE
    end
-   call Node999;
-end
-
-procedure NodeFAIDHeal begin
-   critter_heal(dude_obj,dude_max_hits-dude_cur_hits);
-   critter_uninjure(dude_obj, (DAM_BLIND bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT));
-   radiation_dec(dude_obj,get_critter_stat(dude_obj,STAT_current_rad));
-   poison(dude_obj,-(get_poison(dude_obj)));
+   PLAY_FADE
+   Reply(247)
+   NAnswer(249,1,NodeSndDialog)
+   NAnswer(248,1,Node999)
 end
 
 procedure NodeFAID200 begin
@@ -587,10 +606,8 @@ procedure NodeFAID200 begin
 end
 
 procedure NodeFAID201 begin
-   MedicMany := 350;
-   if (getQuest(GVAR_PUERTO_BOS_DESTROY) >= qEnd) then begin
-   MedicMany += (MedicMany*2);
-   end
+   MedicMany := 500;
+   call NodeFAIDcost;
 
    Reply(234)
    NAnswer(mstr(237)+MedicMany+mstr(238),1,NodeFAID202)
@@ -611,7 +628,7 @@ procedure NodeFAID203 begin
    call NodeFAID204;
    end
    else begin
-   call NodeFAID202;
+   call NodeFAID201;
    end
 end
 
@@ -623,7 +640,6 @@ end
 
 procedure NodeFAID205 begin
    PLAY_FADE
-   call NodeFAIDHeal;
    critter_add_trait(dude_obj,TRAIT_PERK,PERK_flower_child,1);
    game_time_advance(ONE_GAME_DAY*14);
    set_global_var(GVAR_ADDICT_NUKA_COLA,0);
@@ -647,6 +663,7 @@ end
 
 procedure NodeFAID302 begin
    MedicMany := 1000;
+   call NodeFAIDcost;
 
    Reply(mstr(255)+MedicMany+mstr(256))
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
@@ -667,7 +684,6 @@ end
 procedure NodeFAID304 begin
    item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
    PLAY_FADE
-   call NodeFAIDHeal;
    critter_add_trait(dude_obj,TRAIT_PERK,PERK_autodoc_hp_bonus1,1);
    game_time_advance(ONE_GAME_DAY*10);
    display_mstr(261);
@@ -682,6 +698,7 @@ end
 
 procedure NodeFAID306 begin
    MedicMany := 1500;
+   call NodeFAIDcost;
    Reply(mstr(266)+MedicMany+mstr(267))
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
    NAnswer(269,1,NodeFAID307)
@@ -701,7 +718,6 @@ end
 procedure NodeFAID308 begin
    item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
    PLAY_FADE
-   call NodeFAIDHeal;
    critter_add_trait(dude_obj,TRAIT_PERK,PERK_autodoc_hp_bonus2,1);
    game_time_advance(ONE_GAME_DAY*14);
    display_mstr(261);

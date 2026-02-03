@@ -11,7 +11,8 @@
 {202}{}{All kinds of pleasures. Pop this pill, and you'll get a high no casino can match. Trust me, I've tried it myself.}  
 {203}{}{So, you're selling drugs, huh?}  
 {204}{}{I doubt you've got anything worth my time.}  
-{205}{}{Sure, sure, whatever you say, pal. But trust me, you're turning down the last bit of joy left in this rotten world.}  
+{205}{}{Sure, sure, whatever you say, pal. But trust me, you're turning down the last bit of pleasure left in this rotten world.}  
+{1205}{}{Sure, sure, whatever you say, babe. But trust me, you're turning down the last bit of pleasure left in this rotten world.}  
 {206}{}{Pleasure, huh? Now you're speaking my language.}  
 {207}{}{What exactly are you pushing?}  
 {208}{}{I don't know what you mean. I've got clean stimpaks, antidotes - nothing illegal here. The real question is how you use them. But hey, that's (winks) your business, not mine.}  

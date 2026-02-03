@@ -170,7 +170,7 @@ procedure talk_p_proc begin
       floater(self_obj,102,COLOR_MSG_RED);
    end
    else begin
-      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
       fracReaction(GVAR_TITUL_ARIZONA_RANGER,25) // Поправка к отношению за принадлежность к фракциям
       dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
@@ -197,34 +197,34 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    Reply(200)
-   BAnswer(201,1,NodeFstDialog2)
+   BAnswer(201,0,NodeFstDialog2)
    if (global_var(GVAR_TITUL_ARIZONA_RANGER) > 0) then begin
-   zNAnswer(204,1,NodeFstDialog3)
+   zNAnswer(204,0,NodeFstDialog3)
    end
-   NAnswer(207,1,NodeFstDialog4)
+   NAnswer(207,0,NodeFstDialog4)
 end
 
 procedure NodeFstDialog2 begin
    setBonusReaction(-20)
    Reply(202)
-   NAnswer(203,1,NodeFstDialog5)
+   NAnswer(203,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog3 begin
    setBonusReaction(10)
    Reply(205)
-   NAnswer(206,1,NodeFstDialog5)
+   NAnswer(206,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog4 begin
    Reply(208)
-   NAnswer(209,1,NodeFstDialog5)
+   NAnswer(209,0,NodeFstDialog5)
 end
 
 procedure NodeFstDialog5 begin
    Reply(210)
-   NAnswer(211,1,NodeSndDialog)
-   NAnswer(212,1,Node999)
+   NAnswer(211,0,NodeSndDialog)
+   NAnswer(212,0,Node999)
 end
 
 //--- ПОВТОРНЫЙ ДИАЛОГ
@@ -234,11 +234,11 @@ procedure NodeSndDialog begin
 
    if (getQuest(GVAR_RANGERS_QST_MOR) == qStart) then begin
       if (global_var(GVAR_RANGERS_QST_MOR_STATUS) < 2) then begin
-      NAnswer(230,1,NodeSndDialog2)
+      NAnswer(230,0,NodeSndDialog2)
       end
    end
 
-   NAnswer(250,1,NodeAnswer100)
+   NAnswer(250,0,NodeAnswer100)
    /*
    Тяжело было на службе?
       В каких боях ты участвовал?
@@ -247,11 +247,11 @@ procedure NodeSndDialog begin
    if (local_var(LVAR_Stop_Dialog) == 0) then begin
       if (getQuest(GVAR_RANGERS_QST_MISSING) == qStart) then begin
       if (bitDialog(bit_3) == 0) then begin
-      NAnswer(300,1,NodeQst100)
+      NAnswer(300,0,NodeQst100)
       end
       end
       if (global_var(GVAR_RANGERS_AQUEDUCT_BODIES) != 0) then begin
-      BAnswer(310,1,NodeQst200)
+      BAnswer(310,0,NodeQst200)
       end
    end
    if (local_var(LVAR_Move_Acv) == 0) then begin
@@ -263,21 +263,21 @@ procedure NodeSndDialog begin
    end
    if (local_var(LVAR_Stop_Dialog) == 2) then begin
       if (map_var(MVAR_RNGRS_StatAcv) < 0) then begin
-      zNAnswer(330,1,NodeQst300)
+      zNAnswer(330,0,NodeQst300)
       end
    end
 
-   NAnswer(229,1,Node999)
+   NAnswer(229,0,Node999)
 end
 
 procedure NodeSndDialog2 begin
    Reply(231)
-   NAnswer(232,1,NodeSndDialog3)
+   NAnswer(232,0,NodeSndDialog3)
 end
 
 procedure NodeSndDialog3 begin
    Reply(233)
-   NAnswer(234,1,Node999)
+   NAnswer(234,0,Node999)
 end
 
 //--- РАССПРОСЫ
@@ -288,7 +288,7 @@ procedure NodeAnswer100 begin
    NAnswer(255,3,NodeAnswer102)
    NAnswer(257,3,NodeAnswer103)
    NAnswer(259,5,NodeAnswer104)
-   NAnswer(252,1,NodeSndDialog)
+   NAnswer(252,0,NodeSndDialog)
 end
 
 procedure NodeAnswer101 begin
@@ -296,7 +296,7 @@ procedure NodeAnswer101 begin
    NAnswer(255,3,NodeAnswer102)
    NAnswer(257,3,NodeAnswer103)
    NAnswer(259,5,NodeAnswer104)
-   NAnswer(252,1,NodeSndDialog)
+   NAnswer(252,0,NodeSndDialog)
 end
 
 procedure NodeAnswer102 begin
@@ -304,7 +304,7 @@ procedure NodeAnswer102 begin
    NAnswer(253,3,NodeAnswer101)
    NAnswer(257,3,NodeAnswer103)
    NAnswer(259,5,NodeAnswer104)
-   NAnswer(252,1,NodeSndDialog)
+   NAnswer(252,0,NodeSndDialog)
 end
 
 procedure NodeAnswer103 begin
@@ -312,7 +312,7 @@ procedure NodeAnswer103 begin
    NAnswer(253,3,NodeAnswer101)
    NAnswer(255,3,NodeAnswer102)
    NAnswer(259,5,NodeAnswer104)
-   NAnswer(252,1,NodeSndDialog)
+   NAnswer(252,0,NodeSndDialog)
 end
 
 procedure NodeAnswer104 begin
@@ -321,12 +321,12 @@ procedure NodeAnswer104 begin
    NAnswer(253,3,NodeAnswer101)
    NAnswer(255,3,NodeAnswer102)
    NAnswer(257,3,NodeAnswer103)
-   NAnswer(252,1,NodeSndDialog)
+   NAnswer(252,0,NodeSndDialog)
 end
 
 procedure NodeAnswer300 begin
    Reply(334)
-   NAnswer(335,1,NodeAnswer301)
+   NAnswer(335,0,NodeAnswer301)
 end
 
 procedure NodeAnswer301 begin
@@ -341,13 +341,13 @@ end
 procedure NodeQst100 begin
    bitDialogExp(bit_3,0)
    Reply(301)
-   NAnswer(302,1,NodeQst101)
-   BAnswer(303,1,NodeQst102)
+   NAnswer(302,0,NodeQst101)
+   BAnswer(303,0,NodeQst102)
 end
 
 procedure NodeQst101 begin
    Reply(304)
-   NAnswer(305,1,NodeQst103)
+   NAnswer(305,0,NodeQst103)
 end
 
 procedure NodeQst102 begin
@@ -357,18 +357,18 @@ end
 
 procedure NodeQst103 begin
    Reply(306)
-   NAnswer(307,1,Node999)
-   BAnswer(308,1,Node999)
+   NAnswer(307,0,Node999)
+   BAnswer(308,0,Node999)
 end
 
 procedure NodeQst200 begin
    set_local_var(LVAR_Stop_Dialog,1);
    Reply(311)
    if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_15) == 0) then begin
-   NAnswer(313,1,NodeQst201)
+   NAnswer(313,0,NodeQst201)
    end
    else begin
-   NAnswer(312,1,NodeQst201)
+   NAnswer(312,0,NodeQst201)
    end
 end
 
@@ -379,28 +379,28 @@ procedure NodeQst201 begin
    else begin
    Reply(314)
    end
-   NAnswer(317,1,NodeQst202)
-   NAnswer(316,1,Node999)
-   BAnswer(315,1,Node998)
+   NAnswer(317,0,NodeQst202)
+   NAnswer(316,0,Node999)
+   BAnswer(315,0,Node998)
 end
 
 procedure NodeQst202 begin
    Reply(318)
-   NAnswer(321,1,NodeQst203)
-   NAnswer(319,1,NodeQst204)
-   BAnswer(320,1,Node998)
+   NAnswer(321,0,NodeQst203)
+   NAnswer(319,0,NodeQst204)
+   BAnswer(320,0,Node998)
 end
 
 procedure NodeQst203 begin
    Reply(322)
-   NAnswer(319,1,NodeQst204)
-   BAnswer(320,1,Node998)
+   NAnswer(319,0,NodeQst204)
+   BAnswer(320,0,Node998)
 end
 
 procedure NodeQst204 begin
    set_local_var(LVAR_Stop_Dialog,2);
    Reply(323)
-   NAnswer(324,1,Node999)
+   NAnswer(324,0,Node999)
 end
 
 procedure NodeQst300 begin
@@ -410,8 +410,8 @@ procedure NodeQst300 begin
    exp_add(350);
    setBonusReaction(50)
    set_REP(3)
-   item_add(dude_obj,PID_AMMO_308,12)
+   item_add(dude_obj,PID_AMMO_308,2)
 
    Reply(331)
-   NAnswer(332,1,Node999)
+   NAnswer(332,0,Node999)
 end

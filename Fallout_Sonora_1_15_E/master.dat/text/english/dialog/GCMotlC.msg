@@ -27,6 +27,7 @@
 {218}{}{Look, we paid for the room and can do whatever we want. Got it?}
 {219}{}{If you don't stop, you'll have trouble with the whole city.}
 {220}{}{We know who you are, you lousy dirt digger. Nobody invited you to our city. You can't intimidate us.}
+{1220}{}{We know who you are, you lousy dirt diggin' hag. Nobody invited you to our city. You can't intimidate us.}
 {221}{}{Okay. But you'll remember me.}
 {222}{}{Know your place, punk. If you don't back off, you'll find out what I'm gonna do.}
 {223}{}{Alright... We don't need trouble. We'll leave as if we were never here...}

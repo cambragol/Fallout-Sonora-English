@@ -58,29 +58,43 @@ procedure repair_proc begin
    variable elctrTile; // точка размещения крысобога
 
    //--- Определение урона от навыка ремонта
-   elctrAmnt := random(10,20); // у крыса 68 ОЗ
+   elctrAmnt := random(20,30); // у крыса 68 ОЗ
 
    //--- Определение местоположения крысиного короля
    elctrTile := 0;
 
-   tileRatGod(18508)
-   tileRatGod(tile_num_in_direction(18508, 0, 1))
-   tileRatGod(tile_num_in_direction(18508, 1, 1))
-   tileRatGod(tile_num_in_direction(18508, 2, 1))
-   tileRatGod(tile_num_in_direction(18508, 3, 1))
-   tileRatGod(tile_num_in_direction(18508, 4, 1))
-   tileRatGod(tile_num_in_direction(18508, 5, 1))
    tileRatGod(18907)
-   tileRatGod(18908)
-   tileRatGod(18909)
+   tileRatGod(tile_num_in_direction(18907, 0, 1))
+   tileRatGod(tile_num_in_direction(18907, 1, 1))
+   tileRatGod(tile_num_in_direction(18907, 2, 1))
+   tileRatGod(tile_num_in_direction(18907, 3, 1))
+   tileRatGod(tile_num_in_direction(18907, 4, 1))
+   tileRatGod(tile_num_in_direction(18907, 5, 1))
+
+   tileRatGod(18710)
+   tileRatGod(tile_num_in_direction(18710, 0, 1))
+   tileRatGod(tile_num_in_direction(18710, 1, 1))
+   tileRatGod(tile_num_in_direction(18710, 2, 1))
+   tileRatGod(tile_num_in_direction(18710, 3, 1))
+   tileRatGod(tile_num_in_direction(18710, 4, 1))
+   tileRatGod(tile_num_in_direction(18710, 5, 1))
+
+   tileRatGod(18308)
+   tileRatGod(tile_num_in_direction(18308, 0, 1))
+   tileRatGod(tile_num_in_direction(18308, 1, 1))
+   tileRatGod(tile_num_in_direction(18308, 2, 1))
+   tileRatGod(tile_num_in_direction(18308, 3, 1))
+
+   tileRatGod(19109)
 
    //--- Нанесение урона
    play_sfx("ZAPPER2");
-   //display_mstr(112);
    if (elctrTile>0) then begin
       if (get_critter_stat(RatGodObj,STAT_current_hp)>0) then begin
-      set_map_var(MVAR_FLAGMINE_RAT_EXP, 1);
       critter_dmg(RatGodObj, elctrAmnt, DMG_electrical);
       end
+   end
+   else begin
+      display_mstr(113);
    end
 end
