@@ -1,484 +1,484 @@
-BLANK.FRM ; used as vertex pointer for MSET000.FRM jumping cursor in F1 demo, see also line 267
-MSEF000.FRM ; red hex mouse pointer with empty space inside
-EGG.FRM ; translucent "egg" effect around protagonist
-MSEF001.FRM ; green hex mouse pointer (used in editor)
-actionh.FRM ; *** NOT USED ***
-actionm.FRM ; *** NOT USED ***
-BIGREDUP.FRM ; FACE big red button, not pressed
-BIGREDDN.FRM ; FACE big red button, pressed
-LILREDUP.FRM ; small red button, not pressed
-LILREDDN.FRM ; small red button, pressed
-MAPDN.FRM ; FACE mini-map call button, held down
-MAPHV.FRM ; *** NOT USED *** (rudiment of the F1 demo version)
-MAPMK.FRM ; *** NOT USED *** (rudiment of the F1 demo version)
-MAPUP.FRM ; FACE mini-map call button, not held down
-ENDTDN.FRM ; *** NOT USED ***
-ENDTUP.FRM ; *** NOT USED ***
-IFACE.FRM ; FACE main interface panel at the bottom of the screen
-OPTIDN.FRM ; FACE options menu call button, held down
-OPTIUP.FRM ; FACE options menu call button, not held down
-TMAPDN.FRM ; *** NOT USED ***
-TMAPHV.FRM ; *** NOT USED ***
-TMAPUP.FRM ; *** NOT USED ***
-WMAPDN.FRM ; *** NOT USED ***
-WMAPHV.FRM ; *** NOT USED ***
-WMAPUP.FRM ; *** NOT USED ***
-LATTKBDN.FRM ; *** NOT USED ***
-LATTKBDS.FRM ; *** NOT USED ***
-LATTKBUP.FRM ; *** NOT USED ***
-LATTKSDN.FRM ; *** NOT USED ***
-LATTKSDS.FRM ; *** NOT USED ***
-LATTKSUP.FRM ; *** NOT USED ***
-SATTKBDN.FRM ; FACE panel of the active hand, pressed
-SATTKBUP.FRM ; FACE panel of the active hand, not pressed
-SATTKSUP.FRM ; *** NOT USED ***
-UATTKBDN.FRM ; *** NOT USED ***
-UATTKBUP.FRM ; *** NOT USED ***
-UATTKSDN.FRM ; *** NOT USED ***
-UATTKSUP.FRM ; *** NOT USED ***
-KARMAFDR.FRM ; see KARMAFDR in line 179 (despite duplication, cannot be deleted)
-TBLCRD.FRM ; *** NOT USED *** (in F1 it was Tim Kane's exploding head)
-TX_W_B.FRM ; TEXT burst
-TX_S_A.FRM ; TEXT kick
-TX_P_A.FRM ; TEXT punch
-TX_W_A.FRM ; TEXT single shot
-TX_W_F.FRM ; TEXT swing
-TX_W_E.FRM ; TEXT stab
-INVBUTDN.FRM ; FACE button to call the inventory window, pressed
-INVBUTUP.FRM ; FACE button to call the inventory window, not pressed
-INVBOX.FRM ; INV protagonist's inventory window
-INVUPOUT.FRM ; INV button to scroll up the inventory, not pressed
-INVUPIN.FRM ; INV button to scroll up the inventory, pressed
-INVDNOUT.FRM ; INV button to scroll down the inventory, not pressed
-INVDNIN.FRM ; INV button to scroll down the inventory, pressed
-INVUPDS.FRM ; INV button to scroll up the inventory, not active
-INVDNDS.FRM ; INV button to scroll down the inventory, not active
-autohi.FRM ; *** NOT USED ***
-CHADN.FRM ; FACE button to call up the stats window, held down
-CHAUP.FRM ; FACE button to call up the stats window, not held down
-PIPDN.FRM ; FACE button to call up the PipBoy, held down
-PIPUP.FRM ; FACE button to call up the PipBoy, not held down
-TINREDDN.FRM ; tiny red button, held down
-TINREDUP.FRM ; tiny red button, not held down
-towndim.FRM ; *** NOT USED ***
-townhi.FRM ; *** NOT USED ***
-worlddim.FRM ; *** NOT USED ***
-worldhi.FRM ; *** NOT USED ***
-LATURBDN.FRM ; *** NOT USED ***
-LATURBDS.FRM ; *** NOT USED ***
-LATURBUP.FRM ; *** NOT USED ***
-LATURSDN.FRM ; *** NOT USED ***
-LATURSDS.FRM ; *** NOT USED ***
-LATURSUP.FRM ; *** NOT USED ***
-SATURBDN.FRM ; FACE panel of the active hand during injury, clamped
-SATURBUP.FRM ; FACE panel of the active hand during injury, not clamped
-SATURSUP.FRM ; *** NOT USED *** FACE small panel of the active hand during injury (rudiment F1), not clamped
-UATURBDN.FRM ; *** NOT USED ***
-UATURBUP.FRM ; *** NOT USED ***
-UATURSDN.FRM ; *** NOT USED ***
-UATURSUP.FRM ; *** NOT USED ***
-SATURSDN.FRM ; *** NOT USED *** FACE small panel of the active hand when injured (rudiment F1), clamped
-ACTIONT.FRM ; *** NOT USED ***
-ACTIONI.FRM ; *** NOT USED ***
-NUMBERS.FRM ; FACE numbers for the health and armor counter
-HLGRN.FRM ; FACE green OD light
-HLYEL.FRM ; FACE yellow OD light
-HLRED.FRM ; FACE OD light red
-PERKWIN.FRM ; new ability selection window
-DI_BGDN1.FRM ; dialog repeat window, large scroll down button, not pressed
-DI_BGDN2.FRM ; dialog repeat window, large scroll down button, pressed
-DI_BGUP1.FRM ; dialog repeat window, large scroll up button, not pressed
-DI_BGUP2.FRM ; dialog repeat window, large scroll up button, pressed
-DI_DONE1.FRM ; dialog repeat window, large NEXT button, not pressed
-DI_DONE2.FRM ; dialog repeat window, large NEXT button, pressed
-DI_DOWN1.FRM ; barter window, scroll down button, not pressed
-DI_DOWN2.FRM ; barter window, scroll down button, pressed
-DI_RDBT1.FRM ; dialog window, red button, not pressed
-DI_RDBT2.FRM ; dialog window, red button, pressed
-DI_REST1.FRM ; dialog repeat window call button, not pressed
-DI_REST2.FRM ; dialog repeat window call button, pressed
-DI_TALK.FRM ; dialog window with answer selection, F1 rudiment (although this window is not observed in the game, the file itself is important for the system)
-DI_UP1.FRM ; barter window - scroll up button, not pressed
-DI_UP2.FRM ; barter window - scroll up button, pressed
-REVIEW.FRM ; dialog repeat window
-DI_FON.FRM ; dialogue window - background image
-ENDANIM.FRM ; FACE combat panel with opening and closing animation
-ENDTURNU.FRM ; FACE combat panel, end turn button, not pressed
-ENDTURND.FRM ; FACE combat panel, end turn button, pressed
-ENDCMBTU.FRM ; FACE combat panel, end battle button, not pressed
-ENDCMBTD.FRM ; FACE combat panel, end battle button, pressed
-ENDLTGRN.FRM ; FACE combat panel, green lights around panel
-ENDLTRED.FRM ; FACE combat panel, red lights around panel
-BARTER.FRM ; barter window - main background
-ABOUT.FRM ; *** NOT USED *** (dialogue window with answer selection from F1)
-USE.FRM ; INV window for using inventory through a backpack
-LOOT.FRM ; INV window for exchanging inventory between the main character and the container in F1 (although this window is not visible in the game, the file itself is important for the system)
-HILIGHT1.FRM ; dialogue window, highlighting from above
-HILIGHT2.FRM ; dialogue window, highlighting from below
-TX_W_G.FRM ; TEXT throw
-CALLED.FRM ; aiming window
-SKLDXON.FRM ; skill selection window, button, pressed
-SKLDXOFF.FRM ; skill selection window, button, not pressed
-SKLDXBOX.FRM ; skill selection window, main background
-SLU.FRM ; left arrow button, not pressed
-SLD.FRM ; left arrow button, pressed
-SRU.FRM ; right arrow button, not pressed
-SRD.FRM ; right arrow key, held down
-WARNBOX.FRM ; FACE panel with warning text
-PIP1.FRM ; PipBoy - main background
-PIP2.FRM ; *** NOT USED *** (PipBoy message with date from F1)
-MONTHS.FRM ; PipBoy - list of months
-NOTENUMS.FRM ; PipBoy - list of numbers for note
-ALARMIN.FRM ; PipBoy - alarm button, held down
-ALARMOUT.FRM ; PipBoy - alarm button, not held down
-PIPX.FRM ; PipBoy - 2000 model logo
-MSEF002.FRM ; hexagonal mouse pointer, red filled inside
-worldmap.FRM ; *** NOT USED *** (in F1 it was an image of the entire world map)
-WMAPBOX.FRM ; world map - main interface background
-wmaplabs.FRM ; *** NOT USED *** (list of locations on the world map in F1)
-WMAPLOC.FRM ; world map, cursor in the form of a small cross
-WMAPTARG.FRM ; world map, movement cursor 1
-MAINMENU.FRM ; background of the main menu of the game
-EBUT_IN.FRM ; elevator panel - large elevator button, pressed
-EBUT_OUT.FRM ; elevator panel - large elevator button, not pressed
-EL_BOS.FRM ; elevator panel
-EL_MAST1.FRM ; elevator panel
-EL_MAST2.FRM ; elevator panel
-EL_MIL1.FRM ; elevator panel
-EL_MIL2.FRM ; elevator panel
-EL_VAULT.FRM ; elevator panel in the shelter
-GAJ000.FRM ; elevator panel, instrument panel with arrow
-EL_BOS2.FRM ; elevator panel
-EL_MIL3.FRM ; elevator panel
-EL_MIL4.FRM ; elevator panel
-WMAPTRG2.FRM ; world map - movement cursor 2 for animation
-wmapfgt0.FRM ; world map - lightning cursor 1
-wmapfgt1.FRM ; world map - lightning cursor 2
-TWNVILLA.FRM ; Villa location loading window
-TWNFLAG.FRM ; Flagstaff location loading window
-TWNGARAG.FRM ; Garage City location loading window
-TWNBRAHM.FRM ; San Brahmin location loading window
-TWNTWSUN.FRM ; Two Sun location loading window
-TWNBOS.FRM ; Puerto location loading window
-TWNRANGR.FRM ; Rangers location loading window
-TWNPNX.FRM ; Phoenix location loading window
-TWNGRAND.FRM ; Casa Grande location loading window
-TWNINFRN.FRM ; Inferno location loading window
-TWNNUEVA.FRM ; Casa Nueva location loading window
-TWNZERO.FRM ; universal location loading window
-HOTSPOT1.FRM ; world map, inverted triangle marker 1
-EDTRCRTE.FRM ; character editor, main background
-BIGNUM.FRM ; character editor, large stat numbers
-AUTOMAP.FRM ; minimap window - main background
-AUTOUP.FRM ; minimap window - detail button, not pressed
-AUTODWN.FRM ; minimap window - detail button, pressed
-PICKCHAR.FRM ; character editor - character selection window background
-AGEMASK.FRM ; character editor - age button mask
-AGEOFF.FRM ; character editor - age selection button, not pressed
-EDTREDT.FRM ; character editor - character stats window background during gameplay
-KARMAFDR.FRM ; character editor - karma section button
-KILLSFDR.FRM ; character editor - killed section button
-PERKSFDR.FRM ; character editor - ability section button
-DNARWOFF.FRM ; character editor - scroll down button, not pressed
-DNARWON.FRM ; character editor - scroll down button, pressed
-NAMEMSK.FRM ; character editor - name button mask
-NAMEON.FRM ; character editor - name input button, not pressed
-NAMEOFF.FRM ; character editor - name input button, pressed
-FLDRMASK.FRM ; character editor - section button mask
-SEXMASK.FRM ; character editor - gender select button mask
-SEXOFF.FRM ; character editor - gender select button, not pressed
-SEXON.FRM ; character editor - gender select button, pressed
-SLIDER.FRM ; character editor - skill change slider
-SNEGOFF.FRM ; character editor - skill change slider minus button, not pressed
-SNEGON.FRM ; character editor - minus button of skill change slider, held down
-SPLSOFF.FRM ; character editor - plus button of skill change slider, not held down
-SPLSON.FRM ; character editor - plus button of skill change slider, held down
-STNEGOFF.FRM ; character editor - minus button, not held down
-STNEGON.FRM ; character editor - minus button, held down
-STPLSOFF.FRM ; character editor - plus button, not held down
-STPLSON.FRM ; character editor - plus button, held down
-UPARWOFF.FRM ; character editor - scroll up button, not held down
-UPARWON.FRM ; character editor - scroll up button, held down
-COMBAT.FRM ; character selection window - character portrait 1 (fighter)
-STEALTH.FRM ; character selection window - character portrait 2 (spy)
-DIPLOMAT.FRM ; character selection window - character portrait 3 (diplomat)
-AGEON.FRM ; character editor - age selection button, held down
-AGEBOX.FRM ; character editor - age input buttons
-ATTRIBOX.FRM ; character editor - (probably not used, remnant of F1 demo version)
-ATTRIBWN.FRM ; character editor - (probably not used, remnant of F1 demo version)
-CHARWIN.FRM ; unknown
-DONEBOX.FRM ; unknown
-FEMOFF.FRM ; character editor - female gender selection button, not held down
-FEMON.FRM ; character editor - female gender selection button, held down
-MALEOFF.FRM ; character editor - male gender selection button, not held down
-MALEON.FRM ; character editor - male gender selection button, held down
-NAMEBOX.FRM ; character editor - window for entering age
-TGSKLOFF.FRM ; character editor - button, not pressed
-TGSKLON.FRM ; character editor - button, pressed
-LGDIALOG.FRM ; medium-sized message box
-MEDIALOG.FRM ; small-sized message box
-BARARRWS.FRM ; character editor - buttons for scrolling up and down
-OPBASE.FRM ; options - main background
-OPBTNOFF.FRM ; options - option button, not pressed
-OPBTNON.FRM ; options - option button, pressed
-HOTSPOT2.FRM ; world map, inverted triangle marker 2
-LOADBOX.FRM ; options - download window for selecting a file
-SAVEBOX.FRM ; options - download window for saving a file
-PIPBOMB.FRM ; PipBoy - a bomb
-upsell00.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell01.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell02.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell03.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell04.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell05.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell06.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell07.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell08.FRM ; *** NOT USED *** (removed F1 demo poster)
-upsell09.FRM ; *** NOT USED *** (removed F1 demo poster)
-LSGAME.FRM ; options - load and save window background
-LSGBOX.FRM ; options - save file name input field
-LSCOVER.FRM ; options - missing save slot image
-PREFSCRN.FRM ; options - settings screen background
-PRFSLDOF.FRM ; options - select button, not activated
-PRFBKNBS.FRM ; options - large 4 position switch
-PRFLKNBS.FRM ; options - small 2 position switch
-PRFXIN.FRM ; options - crosshair button, active
-PRFXOUT.FRM ; options - crosshair button, inactive
-PREFCVR.FRM ; options - unknown
-PRFSLDON.FRM ; options - select button, active
-PREFTRCK.FRM ; *** NOT USED *** (looks like it)
-MSEF003.FRM ; hex mouse pointer red empty inside
-ACTARROW.FRM ; left arrow cursor
-ACRSHAIR.FRM ; crosshair cursor red 1
-ACT_AA.FRM ; action bar - abandon button, inactive
-ACT_AB.FRM ; action bar - abandon button, active
-ACT_DA.FRM ; action bar - drop item button, inactive
-ACT_DB.FRM ; action bar - item drop button, active
-ACT_EA.FRM ; action bar - backpack call button, inactive
-ACT_EB.FRM ; action bar - backpack call button, active
-ACT_FA.FRM ; action bar - examine button, inactive
-ACT_FB.FRM ; action bar - examine button, active
-ACT_GA.FRM ; action bar - rotate button, inactive
-ACT_GB.FRM ; action bar - rotate button, active
-ACT_HA.FRM ; action bar - dialog button, inactive
-ACT_HB.FRM ; action bar - dialog button, active
-ACT_IA.FRM ; action bar - activation button, active
-ACT_IB.FRM ; action bar - activation button, active
-BLANK.FRM ; Mouse cursor - none ( 1 x 1 transparent)
-STDARROW.FRM ; mouse cursor arrow - standard arrow
-SUPARROW.FRM ; arrow mouse cursor - small up arrow
-SDNARROW.FRM ; arrow mouse cursor - small down arrow
-SCRNWEST.FRM ; arrow mouse cursor - scroll northwest
-SCRNORTH.FRM ; arrow mouse cursor - scroll north
-SCRNEAST.FRM ; arrow mouse cursor - scroll northeast
-SCREAST.FRM ; arrow mouse cursor - scroll east
-SCRSEAST.FRM ; arrow mouse cursor - scroll southeast
-SCRSOUTH.FRM ; arrow mouse cursor - scroll south
-SCRSWEST.FRM ; arrow mouse cursor - scroll southwest
-SCRWEST.FRM ; arrow mouse cursor - scroll west
-WAITA.FRM ; planet wait cursor
-CRSSHAIR.FRM ; red 2 crosshair cursor
-PLUS.FRM ; plus mouse cursor (used in editor)
-DESTROY.FRM ; clear cursor (used in editor)
-ACT_PICK.FRM ; action bar - interaction button
-ACT_MENU.FRM ; action bar - full panel menu
-ACTTOHIT.FRM ; red crosshair cursor 3
-ACTARROM.FRM ; right arrow cursor
-HAND.FRM ; INV cursor pointer in inventory window
-TX_UNRMD.FRM ; TEXT unarmed (apparently not used - Fallout 1 relic)
-TX_W_D.FRM ; TEXT aimed shot marker
-TX_PNTA.FRM ; TEXT digits for item slot
-TX_PNTB.FRM ; TEXT OD inscription
-TX_W_C.FRM ; TEXT reload
-TX_USET.FRM ; TEXT use (when slot is not pressed)
-CROSSUSE.FRM ; crosshair cursor yellow
-TX_USEON.FRM ; TEXT use (when slot is pressed)
-WAITB.FRM ; wait cursor with clock running
-FALLTEXT.FRM ; Fallout sticker in demo
-HELPSCRN.FRM ; options - help file window, Windows version
-HELPMAC.FRM ; options - help file window, Mac version
-MENUUP.FRM ; options - red button in main menu, not pressed
-MENUDOWN.FRM ; options - red button in main menu, pressed
-ACT_CA.FRM ; action bar - reload button, active
-ACT_CB.FRM ; action bar - reload button, inactive
-ACT_BA.FRM ; action bar - skill button, active
-ACT_BB.FRM ; action bar - skill button, inactive
-MOVEMULT.FRM ; INV interface for moving multiple items
-TIMER.FRM ; INV timer for dynamite menu
-ALLBON.FRM ; INV interface for moving multiple items - button pressed
-ALLBOFF.FRM ; INV interface for moving multiple items - button not pressed
-DEATH.FRM ; protagonist's death slide
-WAITC.FRM ; wait cursor with stopped clock
-SEQ2AD.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ2B.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ3A.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ3C.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ5A.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ5B.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ5D.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ6A.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ6B.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ8ABC.FRM ; *** NOT USED *** (F1 ending slide)
-SHABAD3.FRM ; *** NOT USED ***
-SHAGOD2.FRM ; *** NOT USED ***
-SEQ4ABC.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ4DE.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ7A.FRM ; *** NOT USED *** (F1 ending slide)
-SEQ7C.FRM ; *** NOT USED *** (F1 ending slide)
-DP.FRM ; *** NOT USED *** (F1 desert ending slide)
-SCREX.FRM ; arrow cursor - invalid scroll east
-SCRNEX.FRM ; arrow cursor - invalid scroll northeast
-SCRNWX.FRM ; arrow cursor - invalid scroll northwest
-SCRNX.FRM ; arrow cursor - invalid scroll north
-SCRSEX.FRM ; arrow cursor - invalid scroll southeast
-SCRSWX.FRM ; arrow cursor - invalid scroll southwest
-SCRSX.FRM ; arrow cursor - invalid scroll south
-SCRWX.FRM ; arrow cursor - invalid scroll west
-WRLDSPR0.FRM ; world map - location marker small
-WRLDSPR1.FRM ; world map - location marker medium
-WRLDSPR2.FRM ; world map - location marker large
-WRLDMP00.FRM ; world map - Tile 0
-WRLDMP01.FRM ; world map - Tile 1
-WRLDMP02.FRM ; world map - Tile 2
-WRLDMP03.FRM ; world map - Tile 3
-WRLDMP04.FRM ; World Map - Tile 4
-WRLDMP05.FRM ; World Map - Tile 5
-WRLDMP06.FRM ; World Map - Tile 6
-WRLDMP07.FRM ; World Map - Tile 7
-WRLDMP08.FRM ; World Map - Tile 8
-WRLDMP09.FRM ; World Map - Tile 9
-WRLDMP10.FRM ; World Map - Tile 10
-WRLDMP11.FRM ; World Map - Tile 11
-WRLDMP12.FRM ; World Map - Tile 12
-WRLDMP13.FRM ; World Map - Tile 13
-WRLDMP14.FRM ; World Map - Tile 14
-WRLDMP15.FRM ; World Map - Tile 15
-WRLDMP16.FRM ; world map - Tile 16
-WRLDMP17.FRM ; world map - Tile 17
-WRLDMP18.FRM ; world map - Tile 18
-WRLDMP19.FRM ; world map - Tile 19
-WMINFCE0.FRM ; world map - Background Top
-WMINFCE1.FRM ; world map - Background Left
-WMINFCE2.FRM ; world map - Background Right
-WMINFCE3.FRM ; world map - Background Bottom
-WMSCREEN.FRM ; world map - frame for transport icon
-WMTABS.FRM ; world map - empty list of cities
-WMDIAL.FRM ; world map - day and night dashboard
-WMGLOBE.FRM ; world map - map information plate
-WMTBEDGE.FRM ; world map - frame for list of cities
-WM_00.FRM ; world map - location marker 0
-WM_01.FRM ; world map - location marker 1
-WM_02.FRM ; world map - location marker 2
-WM_03.FRM ; world map - location marker 3
-WM_04.FRM ; world map - location marker 4
-WM_05.FRM ; world map - location marker 5
-WM_06.FRM ; world map - location marker 6
-WM_07.FRM ; world map - location marker 7
-WM_08.FRM ; world map - location marker 8
-WM_09.FRM ; world map - location marker 9
-WM_10.FRM ; world map - location marker 10
-WM_11.FRM ; world map - location marker 11
-WM_12.FRM ; world map - location marker 12
-WM_13.FRM ; world map - location marker 13
-WM_14.FRM ; world map - location marker 14
-WM_15.FRM ; world map - location marker 15
-WM_16.FRM ; world map - location marker 16
-WM_17.FRM ; world map - location marker 17
-WM_18.FRM ; world map - location marker 18
-WM_19.FRM ; world map - location marker 19
-EL_BASE1.FRM ; elevator panel - Sierra base in F2
-DI_TALKP.FRM ; party member window - dialog window
-CONTROL.FRM ; party member window - control window
-CUSTOM.FRM ; party member window - customization window
-P_AGGDN.FRM ; party member window - command (aggressive down)
-P_AGGOFF.FRM ; party member window - command (aggressive disabled)
-P_AGGUP.FRM ; party member window - command (aggressive up)
-P_BERDN.FRM ; party member window - command (berserk down)
-P_BEROFF.FRM ; party member window - command (berserk disabled)
-P_BERUP.FRM ; party member window - command (berserk up)
-P_COWDN.FRM ; party member window - command (coward down)
-P_COWOFF.FRM ; party member window - command (coward disabled)
-P_COWUP.FRM ; party member window - command (coward up)
-P_CUSDN.FRM ; party member window - command (custom down)
-P_CUSOFF.FRM ; party member window - command (custom disabled)
-P_CUSUP.FRM ; party member window - command (custom up)
-P_DEFDN.FRM ; party member window - command (defensive down)
-P_DEFOFF.FRM ; party member window - command (defensive disabled)
-P_DEFUP.FRM ; party member window - command (defensive up)
-P_ATCKDN.FRM ; party member window - custom command
-P_ATCKUP.FRM ; party member window - custom command
-P_BRSTDN.FRM ; party member window - custom command
-P_BRSTUP.FRM ; party member window - custom command
-P_CHEMDN.FRM ; party member window - custom command
-P_CHEMUP.FRM ; party member window - custom command
-P_DISTDN.FRM ; party member window - custom command
-P_DISTUP.FRM ; party member window - custom command
-P_RUNDN.FRM ; party member window - custom command
-P_RUNUP.FRM ; party member window - custom command
-P_WEAPDN.FRM ; party member window - custom command
-P_WEAPUP.FRM ; party member window - custom command
-CUSSEL.FRM ; party member window - custom command
-TRADE.FRM ; party member window - trade with party member window
-TX_P_E.FRM ; (CHOPUCH) TEXT jab or quick punch
-TX_S_G.FRM ; (DBLOSSK) TEXT punching kick or lethal kick
-TX_P_F.FRM ; (DRAGPUCH) TEXT palm strike or dragon hand strike
-TX_P_G.FRM ; (FORCPUCH) TEXT thrust punch or power punch
-TX_P_C.FRM ; TEXT powerful punch
-TX_S_E.FRM ; TEXT crushing kick
-TX_S_F.FRM ; (JUMPK) TEXT side kick or jumping kick
-TX_P_D.FRM ; (LIGNPUCH) TEXT knockdown punch or lightning punch
-TX_S_D.FRM ; (ROUNDK) TEXT powerful kick or roundhouse kick
-TX_S_B.FRM ; TEXT strong kick
-TX_S_C.FRM ; TEXT precise kick
-TX_P_B.FRM ; TEXT strong punch
-WMCARMVE.FRM ; world map - image of transport
-ACT_JA.FRM ; action bar - push, active
-ACT_JB.FRM ; action bar - push, inactive
-INVMAUP.FRM ; INV take all button, not pressed
-INVMADN.FRM ; INV take all button, pressed
-WMRNDEN2.FRM ; world map - new encounter cursor light
-WMRNDEN3.FRM ; world map - new encounter cursor dark
-TWNHERMO.FRM ; Hermosillo location loading window
-WRLDMP20.FRM ; world map - Tile 20
-WRLDMP21.FRM ; world map - Tile 21
-WRLDMP22.FRM ; world map - Tile 22
-WRLDMP23.FRM ; world map - Tile 23
-TWNROAD.FRM ; Highway Raiders location loading window
-TWNVAULT.FRM ; loading window for Vault 27
-END_A1.FRM ; ending - intro slide
-END_A2.FRM ; ending - intro slide
-END_VA1.FRM ; ending - Villa
-END_VA2.FRM ; ending - Villa
-END_VA3.FRM ; ending - Villa
-END_VA4.FRM ; ending - Villa
-END_VB1.FRM ; ending - male protagonist
-END_VB2.FRM ; ending - female protagonist
-END_RNG1.FRM ; ending - Rangers
-END_RNG2.FRM ; ending - Rangers
-END_RNG8.FRM ; ending - Ranger General
-END_PRT1.FRM ; ending - Puerto
-END_PNX1.FRM ; ending - Phoenix
-END_PNX2.FRM ; ending - Phoenix
-END_PNX3.FRM ; ending - Phoenix
-END_TS1.FRM ; ending - TuSan
-END_TS2.FRM ; ending - TuSan
-END_FL1.FRM ; ending - Flagstaff
-END_GR1.FRM ; ending - Garage
-END_GR3.FRM ; ending - Garage
-END_JC1.FRM ; ending - Jackals
-END_VLT.FRM ; ending - Vault27
-END_CG1.FRM ; ending - Casa Grande
-END_RDR1.FRM ; ending - Raiders
-END_CN1.FRM ; ending - Casa Nueva Greenhouses
-END_CN2.FRM ; ending - Casa Nueva Greenhouses
-END_CN3.FRM ; ending - Casa Nueva Greenhouses
-END_CN4.FRM ; ending - Casa Nueva Greenhouses
-END_MEX.FRM ; ending - Hermosillo
-END_SB1.FRM ; ending - SanBrahmin
-END_JC2.FRM ; ending - Jackals
-TWNFELIP.FRM ; loading screen for San Felipe location
-END_PRT3.FRM ; ending - Puerto
-END_SB2.FRM ; ending - SanBrahmin
-END_FL3.FRM ; ending - Flagstaff
-TWNDAYGL.FRM ; loading screen for Dayglow location
-END_RNG9.FRM ; ending - ranger general
+BLANK.FRM      ; использовалс€ как указатель вершины дл€ прыгающего курсора MSET000.FRM в демо-версии F1, см также строку 267
+MSEF000.FRM    ; шестигранный указатель мыши красный пустой внутри
+EGG.FRM        ; эффект полупрозрачного "€йца" вокруг протагониста
+MSEF001.FRM    ; шестигранный указатель мыши зеленый (используетс€ в редакторе)
+actionh.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+actionm.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+BIGREDUP.FRM   ; FACE больша€ красна€ кнопка, не зажата
+BIGREDDN.FRM   ; FACE больша€ красна€ кнопка, зажата
+LILREDUP.FRM   ; маленька€ красна€ кнопка, не зажата
+LILREDDN.FRM   ; маленька€ красна€ кнопка, зажата
+MAPDN.FRM      ; FACE кнопка вызова мини-карты, зажата
+MAPHV.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (рудимент демо-версии F1)
+MAPMK.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (рудимент демо-версии F1)
+MAPUP.FRM      ; FACE кнопка вызова мини-карты, не зажата
+ENDTDN.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+ENDTUP.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+IFACE.FRM      ; FACE главна€ панель интерфейса внизу экрана
+OPTIDN.FRM     ; FACE кнопка вызова меню опций, зажата
+OPTIUP.FRM     ; FACE кнопка вызова меню опций, не зажата
+TMAPDN.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+TMAPHV.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+TMAPUP.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+WMAPDN.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+WMAPHV.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+WMAPUP.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATTKBDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATTKBDS.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATTKBUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATTKSDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATTKSDS.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATTKSUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+SATTKBDN.FRM   ; FACE панель активной руки, зажата
+SATTKBUP.FRM   ; FACE панель активной руки, не зажата
+SATTKSUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+UATTKBDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+UATTKBUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+UATTKSDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+UATTKSUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+KARMAFDR.FRM   ; см KARMAFDR в строке 179 (не смотр€ на дубл€ж, удал€ть нельз€)
+TBLCRD.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (в F1 это была взрывающа€с€ голова “има  ейна)
+TX_W_B.FRM     ; TEXT очередь
+TX_S_A.FRM     ; TEXT удар ногой
+TX_P_A.FRM     ; TEXT удар рукой
+TX_W_A.FRM     ; TEXT одиночный выстрел
+TX_W_F.FRM     ; TEXT свинг
+TX_W_E.FRM     ; TEXT колоть
+INVBUTDN.FRM   ; FACE кнопка вызова окна инвентар€, зажата
+INVBUTUP.FRM   ; FACE кнопка вызова окна инвентар€, не зажата
+INVBOX.FRM     ; INV окно инвентар€ протагониста
+INVUPOUT.FRM   ; INV кнопка пролистывани€ инвентар€ вверх, не зажата
+INVUPIN.FRM    ; INV кнопка пролистывани€ инвентар€ вверх, зажата
+INVDNOUT.FRM   ; INV кнопка пролистывани€ инвентар€ вниз, не зажата
+INVDNIN.FRM    ; INV кнопка пролистывани€ инвентар€ вниз, зажата
+INVUPDS.FRM    ; INV кнопка пролистывани€ инвентар€ вверх, не активна
+INVDNDS.FRM    ; INV кнопка пролистывани€ инвентар€ вниз, не активна
+autohi.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+CHADN.FRM      ; FACE кнопка вызова окна характеристик, зажата
+CHAUP.FRM      ; FACE кнопка вызова окна характеристик, не зажата
+PIPDN.FRM      ; FACE кнопка вызова ѕипЅо€, зажата
+PIPUP.FRM      ; FACE кнопка вызова ѕипЅо€, не зажата
+TINREDDN.FRM   ; крошечна€ красна€ кнопка, зажата
+TINREDUP.FRM   ; крошечна€ красна€ кнопка, не зажата
+towndim.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+townhi.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+worlddim.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+worldhi.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATURBDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATURBDS.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATURBUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATURSDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATURSDS.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+LATURSUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+SATURBDN.FRM   ; FACE панель активной руки при травме, зажата
+SATURBUP.FRM   ; FACE панель активной руки при травме, не зажата
+SATURSUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** FACE мала€ панель активной руки при травме (рудимент F1), не зажата
+UATURBDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+UATURBUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+UATURSDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+UATURSUP.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+SATURSDN.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** FACE мала€ панель активной руки при травме (рудимент F1), зажата
+ACTIONT.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+ACTIONI.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+NUMBERS.FRM    ; FACE цифры дл€ счетчика здоровь€ и брони
+HLGRN.FRM      ; FACE лампочка ќƒ зелена€
+HLYEL.FRM      ; FACE лампочка ќƒ желта€
+HLRED.FRM      ; FACE лампочка ќƒ красна€
+PERKWIN.FRM    ; окно выбора новой способности
+DI_BGDN1.FRM   ; окно повтора диалога, больша€ кнопка пролистывани€ вниз, не зажата
+DI_BGDN2.FRM   ; окно повтора диалога, больша€ кнопка пролистывани€ вниз, зажата
+DI_BGUP1.FRM   ; окно повтора диалога, больша€ кнопка пролистывани€ вверх, не зажата
+DI_BGUP2.FRM   ; окно повтора диалога, больша€ кнопка пролистывани€ вверх, зажата
+DI_DONE1.FRM   ; окно повтора диалога, больша€ кнопка ƒјЋ≈≈, не зажата
+DI_DONE2.FRM   ; окно повтора диалога, больша€ кнопка ƒјЋ≈≈, зажата
+DI_DOWN1.FRM   ; окно бартера, кнопка пролистывани€ вниз, не зажата
+DI_DOWN2.FRM   ; окно бартера, кнопка пролистывани€ вниз, зажата
+DI_RDBT1.FRM   ; окно диалога, красна€ кнопка, не зажата
+DI_RDBT2.FRM   ; окно диалога, красна€ кнопка, зажата
+DI_REST1.FRM   ; кнопка вызова окна с повтором диалога, не зажата
+DI_REST2.FRM   ; кнопка вызова окна с повтором диалога, зажата
+DI_TALK.FRM    ; окно диалога с выбором ответов, рудимент F1 (хот€ это окно не наблюдаетс€ в игре, сам файл важен дл€ системы)
+DI_UP1.FRM     ; окно бартера - кнопка пролистывани€ вверх, не зажата
+DI_UP2.FRM     ; окно бартера - кнопка пролистывани€ вверх, зажата
+REVIEW.FRM     ; окно повтора диалога
+DI_FON.FRM     ; окно диалога - фоновое изображение
+ENDANIM.FRM    ; FACE панель ведени€ бо€ с анимацией открыти€ и закрыти€
+ENDTURNU.FRM   ; FACE панель ведени€ бо€, кнопка конец хода, не зажата
+ENDTURND.FRM   ; FACE панель ведени€ бо€, кнопка конец хода, зажата
+ENDCMBTU.FRM   ; FACE панель ведени€ бо€, кнопка конец бо€, не зажата
+ENDCMBTD.FRM   ; FACE панель ведени€ бо€, кнопка конец бо€, зажата
+ENDLTGRN.FRM   ; FACE панель ведени€ бо€, зеленые огни вокруг панели
+ENDLTRED.FRM   ; FACE панель ведени€ бо€, красные огни вокруг панели
+BARTER.FRM     ; окно бартера - основной фон
+ABOUT.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (окно диалога с выбором ответов из F1)
+USE.FRM        ; INV окно использовани€ инвентар€ через рюкзак
+LOOT.FRM       ; INV окно обмена инвентарем между √√ и контейнером в F1 (хот€ это окно не наблюдаетс€ в игре, сам файл важен дл€ системы)
+HILIGHT1.FRM   ; окно диалога, подсветка сверху
+HILIGHT2.FRM   ; окно диалога, подсветка снизу
+TX_W_G.FRM     ; TEXT метать
+CALLED.FRM     ; окно прицеливани€
+SKLDXON.FRM    ; окно выбора навыка, кнопка, зажата
+SKLDXOFF.FRM   ; окно выбора навыка, кнопка, не зажата
+SKLDXBOX.FRM   ; окно выбора навыка, основной фон
+SLU.FRM        ; кнопка со стрелкой влево, не зажата
+SLD.FRM        ; кнопка со стрелкой влево, зажата
+SRU.FRM        ; кнопка со стрелкой вправо, не зажата
+SRD.FRM        ; кнопка со стрелкой вправо, зажата
+WARNBOX.FRM    ; FACE панель с текстом предупреждени€
+PIP1.FRM       ; PipBoy - основной фон
+PIP2.FRM       ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (PipBoy сообщение с датой из F1)
+MONTHS.FRM     ; PipBoy - список мес€цев
+NOTENUMS.FRM   ; PipBoy - список цифр дл€ записки
+ALARMIN.FRM    ; PipBoy - кнопка будильника, зажата
+ALARMOUT.FRM   ; PipBoy - кнопка будильника, не зажата
+PIPX.FRM       ; PipBoy - логотип модели 2000
+MSEF002.FRM    ; шестигранный указатель мыши красный заполненный внутри
+worldmap.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (в F1 это было изображение всей карты мира)
+WMAPBOX.FRM    ; карта мира - основной фон интерфейса
+wmaplabs.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (список локаций на карте мира в F1)
+WMAPLOC.FRM    ; карта мира, курсор в виде маленького креста
+WMAPTARG.FRM   ; карта мира, курсор передвижени€ 1
+MAINMENU.FRM   ; фон главного меню игры
+EBUT_IN.FRM    ; панель лифта - больша€ кнопка лифта, зажата
+EBUT_OUT.FRM   ; панель лифта - больша€ кнопка лифта, не зажата
+EL_BOS.FRM     ; панель лифта
+EL_MAST1.FRM   ; панель лифта
+EL_MAST2.FRM   ; панель лифта
+EL_MIL1.FRM    ; панель лифта
+EL_MIL2.FRM    ; панель лифта
+EL_VAULT.FRM   ; панель лифта в убежище
+GAJ000.FRM     ; панель лифта, приборна€ панель со стрелкой
+EL_BOS2.FRM    ; панель лифта
+EL_MIL3.FRM    ; панель лифта
+EL_MIL4.FRM    ; панель лифта
+WMAPTRG2.FRM   ; карта мира - курсор передвижени€ 2 дл€ анимации
+wmapfgt0.FRM   ; карта мира - курсор молнией 1
+wmapfgt1.FRM   ; карта мира - курсор молнией 2
+TWNVILLA.FRM   ; окно загрузки локации Villa
+TWNFLAG.FRM    ; окно загрузки локации Flagstaff
+TWNGARAG.FRM   ; окно загрузки локации Garage City
+TWNBRAHM.FRM   ; окно загрузки локации San Brahmin
+TWNTWSUN.FRM   ; окно загрузки локации Two Sun
+TWNBOS.FRM     ; окно загрузки локации Puerto
+TWNRANGR.FRM   ; окно загрузки локации Rangers
+TWNPNX.FRM     ; окно загрузки локации Phoenix
+TWNGRAND.FRM   ; окно загрузки локации Casa Grande
+TWNINFRN.FRM   ; окно загрузки локации Inferno
+TWNNUEVA.FRM   ; окно загрузки локации Casa Nueva
+TWNZERO.FRM    ; окно загрузки локации универсальное
+HOTSPOT1.FRM   ; карта мира, маркер перевернутым треугольником 1
+EDTRCRTE.FRM   ; редактор персонажа, основной фон
+BIGNUM.FRM     ; редактор персонажа, большие цифры характеристик
+AUTOMAP.FRM    ; окно миникарты - основной фон
+AUTOUP.FRM     ; окно миникарты - кнопка детализации, не зажата
+AUTODWN.FRM    ; окно миникарты - кнопка детализации, зажата
+PICKCHAR.FRM   ; редактор персонажа - фон окна выбора персонажа
+AGEMASK.FRM    ; редактор персонажа - маска дл€ кнопки возраста
+AGEOFF.FRM     ; редактор персонажа - кнопка выбора возраста, не зажата
+EDTREDT.FRM    ; редактор персонажа - фон окна с характеристиками персонажа во врем€ игры
+KARMAFDR.FRM   ; редактор персонажа - кнопка раздела кармы
+KILLSFDR.FRM   ; редактор персонажа - кнопка раздела убито
+PERKSFDR.FRM   ; редактор персонажа - кнопка раздела способностей
+DNARWOFF.FRM   ; редактор персонажа - кнопка пролистывани€ вниз, не зажата
+DNARWON.FRM    ; редактор персонажа - кнопка пролистывани€ вниз, зажата
+NAMEMSK.FRM    ; редактор персонажа - маска дл€ кнопки имени
+NAMEON.FRM     ; редактор персонажа - кнопка дл€ ввода имени, не зажата
+NAMEOFF.FRM    ; редактор персонажа - кнопка дл€ ввода имени, зажата
+FLDRMASK.FRM   ; редактор персонажа - маска дл€ кнопок разделов
+SEXMASK.FRM    ; редактор персонажа - маска дл€ кнопки выбора пола
+SEXOFF.FRM     ; редактор персонажа - кнопка выбора пола, не зажата
+SEXON.FRM      ; редактор персонажа - кнопка выбора пола, зажата
+SLIDER.FRM     ; редактор персонажа - ползунок изменени€ навыка
+SNEGOFF.FRM    ; редактор персонажа - кнопка минус ползунка изменени€ навыка, не зажата
+SNEGON.FRM     ; редактор персонажа - кнопка минус ползунка изменени€ навыка, зажата
+SPLSOFF.FRM    ; редактор персонажа - кнопка плюс ползунка изменени€ навыка, не зажата
+SPLSON.FRM     ; редактор персонажа - кнопка плюс ползунка изменени€ навыка, зажата
+STNEGOFF.FRM   ; редактор персонажа - кнопка минус, не зажата
+STNEGON.FRM    ; редактор персонажа - кнопка минус, зажата
+STPLSOFF.FRM   ; редактор персонажа - кнопка плюс, не зажата
+STPLSON.FRM    ; редактор персонажа - кнопка плюс, зажата
+UPARWOFF.FRM   ; редактор персонажа - кнопка пролистывани€ вверх, не зажата
+UPARWON.FRM    ; редактор персонажа - кнопка пролистывани€ вверх, зажата
+COMBAT.FRM     ; окно выбора персонажа - портрет персонажа 1 (боец)
+STEALTH.FRM    ; окно выбора персонажа - портрет персонажа 2 (шпион)
+DIPLOMAT.FRM   ; окно выбора персонажа - портрет персонажа 3 (дипломат)
+AGEON.FRM      ; редактор персонажа - кнопка выбора возраста, зажата
+AGEBOX.FRM     ; редактор персонажа - кнопки ввода возраста
+ATTRIBOX.FRM   ; редактор персонажа - (веро€тно, не используетс€, рудимент демо-версии F1)
+ATTRIBWN.FRM   ; редактор персонажа - (веро€тно, не используетс€, рудимент демо-версии F1)
+CHARWIN.FRM    ; неизвестно
+DONEBOX.FRM    ; неизвестно
+FEMOFF.FRM     ; редактор персонажа - кнопка выбора пола женска€, не зажата
+FEMON.FRM      ; редактор персонажа - кнопка выбора пола женска€, зажата
+MALEOFF.FRM    ; редактор персонажа - кнопка выбора пола мужска€, не зажата
+MALEON.FRM     ; редактор персонажа - кнопка выбора пола мужска€, зажата
+NAMEBOX.FRM    ; редактор персонажа - окно дл€ ввода возраста
+TGSKLOFF.FRM   ; редактор персонажа - кнопка, не зажата
+TGSKLON.FRM    ; редактор персонажа - кнопка, зажата
+LGDIALOG.FRM   ; окно сообщени€ среднего размера
+MEDIALOG.FRM   ; окно сообщени€ малого размера
+BARARRWS.FRM   ; редактор персонажа - кнопки пролистывани€ вверх вниз
+OPBASE.FRM     ; опции - основной фон
+OPBTNOFF.FRM   ; опции - кнопка выбора опции, не зажата
+OPBTNON.FRM    ; опции - кнопка выбора опции, зажата
+HOTSPOT2.FRM   ; карта мира, маркер перевернутым треугольником 2
+LOADBOX.FRM    ; опции - окно загрузки дл€ выбора файла
+SAVEBOX.FRM    ; опции - окно загрузки дл€ сохранени€ файла
+PIPBOMB.FRM    ; PipBoy - бомбочка
+upsell00.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell01.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell02.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell03.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell04.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell05.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell06.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell07.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell08.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+upsell09.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (удаленный постер демоверсии F1)
+LSGAME.FRM     ; опции - фон окна загрузки и сохранени€
+LSGBOX.FRM     ; опции - поле дл€ ввода названи€ файла сохранени€
+LSCOVER.FRM    ; опции - изображение в слоте отсутствующего сохранени€
+PREFSCRN.FRM   ; опции - основной фон экрана настроек
+PRFSLDOF.FRM   ; опции - кнопка выбора, не активирована
+PRFBKNBS.FRM   ; опции - большой переключатель 4 позиции
+PRFLKNBS.FRM   ; опции - малый переключатель 2 позиции
+PRFXIN.FRM     ; опции - кнопка с перекрестием, активна
+PRFXOUT.FRM    ; опции - кнопка с перекрестием, не активна
+PREFCVR.FRM    ; опции - неизвестно
+PRFSLDON.FRM   ; опции - кнопка выбора, активирована
+PREFTRCK.FRM   ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (похоже на то)
+MSEF003.FRM    ; шестигранный указатель мыши красный пустой внутри
+ACTARROW.FRM   ; курсор стрелкой влево
+ACRSHAIR.FRM   ; курсор прицела красный 1
+ACT_AA.FRM     ; панель действий - кнопка отказа, не активна
+ACT_AB.FRM     ; панель действий - кнопка отказа, активна
+ACT_DA.FRM     ; панель действий - кнопка сброса предмета, не активна
+ACT_DB.FRM     ; панель действий - кнопка сброса предмета, активна
+ACT_EA.FRM     ; панель действий - кнопка вызова рюкзака, не активна
+ACT_EB.FRM     ; панель действий - кнопка вызова рюкзака, активна
+ACT_FA.FRM     ; панель действий - кнопка осмотра, не активна
+ACT_FB.FRM     ; панель действий - кнопка осмотра, активна
+ACT_GA.FRM     ; панель действий - кнопка поворота, не активна
+ACT_GB.FRM     ; панель действий - кнопка поворота, активна
+ACT_HA.FRM     ; панель действий - кнопка диалога, не активна
+ACT_HB.FRM     ; панель действий - кнопка диалога, активна
+ACT_IA.FRM     ; панель действий - кнопка активации, активна
+ACT_IB.FRM     ; панель действий - кнопка активации, активна
+BLANK.FRM      ; Mouse cursor - none ( 1 x 1 transparent)
+STDARROW.FRM   ; курсор мыши стрелкой - standard arrow
+SUPARROW.FRM   ; курсор мыши стрелкой - small up arrow
+SDNARROW.FRM   ; курсор мыши стрелкой - small down arrow
+SCRNWEST.FRM   ; курсор мыши стрелкой - scroll northwest
+SCRNORTH.FRM   ; курсор мыши стрелкой - scroll north
+SCRNEAST.FRM   ; курсор мыши стрелкой - scroll northeast
+SCREAST.FRM    ; курсор мыши стрелкой - scroll east
+SCRSEAST.FRM   ; курсор мыши стрелкой - scroll southeast
+SCRSOUTH.FRM   ; курсор мыши стрелкой - scroll south
+SCRSWEST.FRM   ; курсор мыши стрелкой - scroll southwest
+SCRWEST.FRM    ; курсор мыши стрелкой - scroll west
+WAITA.FRM      ; курсор ожидани€ планета
+CRSSHAIR.FRM   ; курсор прицела красный 2
+PLUS.FRM       ; курсор мыши плюсом (используетс€ в редакторе)
+DESTROY.FRM    ; курсор очистки (используетс€ в редакторе)
+ACT_PICK.FRM   ; панель действий - кнопка взаимодействи€
+ACT_MENU.FRM   ; панель действий - полное меню панели
+ACTTOHIT.FRM   ; курсор прицела красный 3
+ACTARROM.FRM   ; курсор стрелкой вправо
+HAND.FRM       ; INV курсор указатель в окне инвентар€
+TX_UNRMD.FRM   ; TEXT безоружный (похоже, что не используетс€ - рудимент Fallout 1)
+TX_W_D.FRM     ; TEXT маркер прицельного выстрела
+TX_PNTA.FRM    ; TEXT цифры дл€ слота с предметом
+TX_PNTB.FRM    ; TEXT надпись ќƒ
+TX_W_C.FRM     ; TEXT перезар€дка
+TX_USET.FRM    ; TEXT использовать (когда слот не зажат)
+CROSSUSE.FRM   ; курсор прицела желтый
+TX_USEON.FRM   ; TEXT использовать (когда слот зажат)
+WAITB.FRM      ; курсор ожидани€ с идущими часами
+FALLTEXT.FRM   ; наклейка с надписью Fallout в демоверсии
+HELPSCRN.FRM   ; опции - окно файла помощи, верси€ Windows
+HELPMAC.FRM    ; опции - окно файла помощи, верси€ Mac
+MENUUP.FRM     ; опции - красна€ кнопка в главном меню, не зажата
+MENUDOWN.FRM   ; опции - красна€ кнопка в главном меню, зажата
+ACT_CA.FRM     ; панель действий - кнопка перезар€дки, активна
+ACT_CB.FRM     ; панель действий - кнопка перезар€дки, не активна
+ACT_BA.FRM     ; панель действий - кнопка навыков, активна
+ACT_BB.FRM     ; панель действий - кнопка навыков, не активна
+MOVEMULT.FRM   ; INV интерфейс перемещени€ множества предметов
+TIMER.FRM      ; INV таймер дл€ меню динамита
+ALLBON.FRM     ; INV интерфейс перемещени€ множества предметов - кнопка зажата
+ALLBOFF.FRM    ; INV интерфейс перемещени€ множества предметов - кнопка не зажата
+DEATH.FRM      ; слайд смерти √√
+WAITC.FRM      ; курсор ожидани€ с остановившимис€ часами
+SEQ2AD.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ2B.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ3A.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ3C.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ5A.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ5B.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ5D.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ6A.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ6B.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ8ABC.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SHABAD3.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+SHAGOD2.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я ***
+SEQ4ABC.FRM    ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ4DE.FRM     ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ7A.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+SEQ7C.FRM      ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки F1)
+DP.FRM         ; *** Ќ≈ »—ѕќЋ№«”≈“—я *** (слайд концовки с пустыней F1)
+SCREX.FRM      ; курсор стрелкой - invalid scroll east
+SCRNEX.FRM     ; курсор стрелкой - invalid scroll northeast
+SCRNWX.FRM     ; курсор стрелкой - invalid scroll northwest
+SCRNX.FRM      ; курсор стрелкой - invalid scroll north
+SCRSEX.FRM     ; курсор стрелкой - invalid scroll southeast
+SCRSWX.FRM     ; курсор стрелкой - invalid scroll southwest
+SCRSX.FRM      ; курсор стрелкой - invalid scroll south
+SCRWX.FRM      ; курсор стрелкой - invalid scroll west
+WRLDSPR0.FRM   ; карта мира - маркер локации малый
+WRLDSPR1.FRM   ; карта мира - маркер локации средний
+WRLDSPR2.FRM   ; карта мира - маркер локации большой
+WRLDMP00.FRM   ; карта мира - Tile 0
+WRLDMP01.FRM   ; карта мира - Tile 1
+WRLDMP02.FRM   ; карта мира - Tile 2
+WRLDMP03.FRM   ; карта мира - Tile 3
+WRLDMP04.FRM   ; карта мира - Tile 4
+WRLDMP05.FRM   ; карта мира - Tile 5
+WRLDMP06.FRM   ; карта мира - Tile 6
+WRLDMP07.FRM   ; карта мира - Tile 7
+WRLDMP08.FRM   ; карта мира - Tile 8
+WRLDMP09.FRM   ; карта мира - Tile 9
+WRLDMP10.FRM   ; карта мира - Tile 10
+WRLDMP11.FRM   ; карта мира - Tile 11
+WRLDMP12.FRM   ; карта мира - Tile 12
+WRLDMP13.FRM   ; карта мира - Tile 13
+WRLDMP14.FRM   ; карта мира - Tile 14
+WRLDMP15.FRM   ; карта мира - Tile 15
+WRLDMP16.FRM   ; карта мира - Tile 16
+WRLDMP17.FRM   ; карта мира - Tile 17
+WRLDMP18.FRM   ; карта мира - Tile 18
+WRLDMP19.FRM   ; карта мира - Tile 19
+WMINFCE0.FRM   ; карта мира - Background Top
+WMINFCE1.FRM   ; карта мира - Background Left
+WMINFCE2.FRM   ; карта мира - Background Right
+WMINFCE3.FRM   ; карта мира - Background Bottom
+WMSCREEN.FRM   ; карта мира - рамочка дл€ иконки транспорта
+WMTABS.FRM     ; карта мира - пустой список городов
+WMDIAL.FRM     ; карта мира - приборна€ панель смены дн€ и ночи
+WMGLOBE.FRM    ; карта мира - табличка с информацией о карте
+WMTBEDGE.FRM   ; карта мира - рамочка дл€ списка городов
+WM_00.FRM      ; карта мира - маркер локации 0
+WM_01.FRM      ; карта мира - маркер локации 1
+WM_02.FRM      ; карта мира - маркер локации 2
+WM_03.FRM      ; карта мира - маркер локации 3
+WM_04.FRM      ; карта мира - маркер локации 4
+WM_05.FRM      ; карта мира - маркер локации 5
+WM_06.FRM      ; карта мира - маркер локации 6
+WM_07.FRM      ; карта мира - маркер локации 7
+WM_08.FRM      ; карта мира - маркер локации 8
+WM_09.FRM      ; карта мира - маркер локации 9
+WM_10.FRM      ; карта мира - маркер локации 10
+WM_11.FRM      ; карта мира - маркер локации 11
+WM_12.FRM      ; карта мира - маркер локации 12
+WM_13.FRM      ; карта мира - маркер локации 13
+WM_14.FRM      ; карта мира - маркер локации 14
+WM_15.FRM      ; карта мира - маркер локации 15
+WM_16.FRM      ; карта мира - маркер локации 16
+WM_17.FRM      ; карта мира - маркер локации 17
+WM_18.FRM      ; карта мира - маркер локации 18
+WM_19.FRM      ; карта мира - маркер локации 19
+EL_BASE1.FRM   ; панель лифта - база —ьерра в F2
+DI_TALKP.FRM   ; окно партийца - окно диалога
+CONTROL.FRM    ; окно партийца - окно контрол€
+CUSTOM.FRM     ; окно партийца - окно кастомизации
+P_AGGDN.FRM    ; окно партийца - команда (aggressive down)
+P_AGGOFF.FRM   ; окно партийца - команда (aggressive disabled)
+P_AGGUP.FRM    ; окно партийца - команда (aggressive up)
+P_BERDN.FRM    ; окно партийца - команда (berserk down)
+P_BEROFF.FRM   ; окно партийца - команда (berserk disabled)
+P_BERUP.FRM    ; окно партийца - команда (berserk up)
+P_COWDN.FRM    ; окно партийца - команда (coward down)
+P_COWOFF.FRM   ; окно партийца - команда (coward disabled)
+P_COWUP.FRM    ; окно партийца - команда (coward up)
+P_CUSDN.FRM    ; окно партийца - команда (custom down)
+P_CUSOFF.FRM   ; окно партийца - команда (custom disabled)
+P_CUSUP.FRM    ; окно партийца - команда (custom up)
+P_DEFDN.FRM    ; окно партийца - команда (defensive down)
+P_DEFOFF.FRM   ; окно партийца - команда (defensive disabled)
+P_DEFUP.FRM    ; окно партийца - команда (defensive up)
+P_ATCKDN.FRM   ; окно партийца - команда custom
+P_ATCKUP.FRM   ; окно партийца - команда custom
+P_BRSTDN.FRM   ; окно партийца - команда custom
+P_BRSTUP.FRM   ; окно партийца - команда custom
+P_CHEMDN.FRM   ; окно партийца - команда custom
+P_CHEMUP.FRM   ; окно партийца - команда custom
+P_DISTDN.FRM   ; окно партийца - команда custom
+P_DISTUP.FRM   ; окно партийца - команда custom
+P_RUNDN.FRM    ; окно партийца - команда custom
+P_RUNUP.FRM    ; окно партийца - команда custom
+P_WEAPDN.FRM   ; окно партийца - команда custom
+P_WEAPUP.FRM   ; окно партийца - команда custom
+CUSSEL.FRM     ; окно партийца - команда custom
+TRADE.FRM      ; окно партийца - окно обмена с партийцем
+TX_P_E.FRM     ; (CHOPUCH) TEXT джеб или быстрый удар рукой
+TX_S_G.FRM     ; (DBLOSSK) TEXT пробивной удар ногой или смертельный удар ногой
+TX_P_F.FRM     ; (DRAGPUCH) TEXT удар ладонью или удар руки дракона
+TX_P_G.FRM     ; (FORCPUCH) TEXT протыкающий удар рукой или силовой удар рукой
+TX_P_C.FRM     ; TEXT мощный удар рукой
+TX_S_E.FRM     ; TEXT дроб€щий удар ногой
+TX_S_F.FRM     ; (JUMPK) TEXT боковой удар ногой или удар в прыжке
+TX_P_D.FRM     ; (LIGNPUCH) TEXT сбивающий удар рукой или молниеносный удар рукой
+TX_S_D.FRM     ; (ROUNDK) TEXT мощный удар ногой или круговой удар ногой
+TX_S_B.FRM     ; TEXT сильный удар ногой
+TX_S_C.FRM     ; TEXT точный удар ногой
+TX_P_B.FRM     ; TEXT сильный удар рукой
+WMCARMVE.FRM   ; карта мира - изображение транспорта
+ACT_JA.FRM     ; панель действий - отталкивание, активна
+ACT_JB.FRM     ; панель действий - отталкивание, не активна
+INVMAUP.FRM    ; INV кнопка вз€ть все, не зажата
+INVMADN.FRM    ; INV кнопка вз€ть все, зажата
+WMRNDEN2.FRM   ; карта мира - курсор новой встречи светлый
+WMRNDEN3.FRM   ; карта мира - курсор новой встречи темный
+TWNHERMO.FRM   ; окно загрузки локации Hermosillo
+WRLDMP20.FRM   ; карта мира - Tile 20
+WRLDMP21.FRM   ; карта мира - Tile 21
+WRLDMP22.FRM   ; карта мира - Tile 22
+WRLDMP23.FRM   ; карта мира - Tile 23
+TWNROAD.FRM    ; окно загрузки локации –ейдеры-магистралы
+TWNVAULT.FRM   ; окно загрузки локации ”бежище 27
+END_A1.FRM     ; концовка - вступительный слайд
+END_A2.FRM     ; концовка - вступительный слайд
+END_VA1.FRM    ; концовка - ¬илла
+END_VA2.FRM    ; концовка - ¬илла
+END_VA3.FRM    ; концовка - ¬илла
+END_VA4.FRM    ; концовка - ¬илла
+END_VB1.FRM    ; концовка - √√ (муж)
+END_VB2.FRM    ; концовка - √√ (жен)
+END_RNG1.FRM   ; концовка - –ейнджеры
+END_RNG2.FRM   ; концовка - –ейнджеры
+END_RNG8.FRM   ; концовка - генерал рейнджеров
+END_PRT1.FRM   ; концовка - ѕуэрто
+END_PNX1.FRM   ; концовка - ‘еникс
+END_PNX2.FRM   ; концовка - ‘еникс
+END_PNX3.FRM   ; концовка - ‘еникс
+END_TS1.FRM    ; концовка - “у—ан
+END_TS2.FRM    ; концовка - “у—ан
+END_FL1.FRM    ; концовка - ‘лагстафф
+END_GR1.FRM    ; концовка - √араж
+END_GR3.FRM    ; концовка - √араж
+END_JC1.FRM    ; концовка - Ўакалы
+END_VLT.FRM    ; концовка - ”бежище27
+END_CG1.FRM    ; концовка -  аса-√ранде
+END_RDR1.FRM   ; концовка - –ейдеры
+END_CN1.FRM    ; концовка - теплицы  аса-Ќуэвa
+END_CN2.FRM    ; концовка - теплицы  аса-Ќуэвa
+END_CN3.FRM    ; концовка - теплицы  аса-Ќуэвa
+END_CN4.FRM    ; концовка - теплицы  аса-Ќуэвa
+END_MEX.FRM    ; концовка - Ёрмосильо
+END_SB1.FRM    ; концовка - —анЅрамин
+END_JC2.FRM    ; концовка - Ўакалы
+TWNFELIP.FRM   ; окно загрузки локации San Felipe
+END_PRT3.FRM   ; концовка - ѕуэрто
+END_SB2.FRM    ; концовка - —анЅрамин
+END_FL3.FRM    ; концовка - ‘лагстафф
+TWNDAYGL.FRM   ; окно загрузки локации —и€ние ƒн€
+END_RNG9.FRM   ; концовка - генерал рейнджеров

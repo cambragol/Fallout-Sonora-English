@@ -28,8 +28,9 @@
 ; random_start_point_0=elev:0, tile_num:17692
 ; random_start_point_1=elev:0, tile_num:22105
 ; random_start_point_2=elev:0, tile_num:20510
-; -- (DOES NOT WORK!) Entry points to the map. Relevant for random encounters.
+; -- Entry points to the map. Relevant for random encounters.
 ; If there are none, entry occurs at the point specified in the map file.
+; (ONLY WORKS with position=wedge!)
 ;
 ;================================================================================
 
@@ -43,6 +44,14 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:21112
+random_start_point_1=elev:0, tile_num:17901
+random_start_point_2=elev:0, tile_num:12904
+random_start_point_3=elev:0, tile_num:19489
+random_start_point_4=elev:0, tile_num:21698
+random_start_point_5=elev:0, tile_num:22333
+random_start_point_6=elev:0, tile_num:15868
+random_start_point_7=elev:0, tile_num:25501
 
 [Map 001]
 lookup_name=Desert Encounter 2 ; littered wasteland
@@ -53,6 +62,14 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19289
+random_start_point_1=elev:0, tile_num:21900
+random_start_point_2=elev:0, tile_num:18705
+random_start_point_3=elev:0, tile_num:22924
+random_start_point_4=elev:0, tile_num:12703
+random_start_point_5=elev:0, tile_num:16474
+random_start_point_6=elev:0, tile_num:26301
+random_start_point_7=elev:0, tile_num:21735
 
 [Map 002]
 lookup_name=Desert Encounter 3 ; cactus field
@@ -63,6 +80,15 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:22109
+random_start_point_1=elev:0, tile_num:21696
+random_start_point_2=elev:0, tile_num:18906
+random_start_point_3=elev:0, tile_num:14097
+random_start_point_4=elev:0, tile_num:18290
+random_start_point_5=elev:0, tile_num:25508
+random_start_point_6=elev:0, tile_num:17073
+random_start_point_7=elev:0, tile_num:23327
+random_start_point_8=elev:0, tile_num:16314
 
 [Map 003]
 lookup_name=Desert Encounter 4 ; abandoned camp in the desert
@@ -73,6 +99,9 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:21895
+random_start_point_1=elev:0, tile_num:21313
+random_start_point_2=elev:0, tile_num:18101
 
 [Map 004]
 lookup_name=Road Encounter 1 ; federal highway West-East
@@ -83,6 +112,11 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:20112
+random_start_point_1=elev:0, tile_num:20076
+random_start_point_2=elev:0, tile_num:19286
+random_start_point_3=elev:0, tile_num:20130
+random_start_point_4=elev:0, tile_num:22498
 
 [Map 005]
 lookup_name=Road Encounter 2 ; federal highway North-South
@@ -93,6 +127,10 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:22499
+random_start_point_1=elev:0, tile_num:17899
+random_start_point_2=elev:0, tile_num:13899
+random_start_point_3=elev:0, tile_num:26699
 
 [Map 006]
 lookup_name=Road Encounter 3 ; rural route West-East
@@ -103,6 +141,11 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:20112
+random_start_point_1=elev:0, tile_num:20076
+random_start_point_2=elev:0, tile_num:19286
+random_start_point_3=elev:0, tile_num:20130
+random_start_point_4=elev:0, tile_num:22498
 
 [Map 007]
 lookup_name=Road Encounter 4 ; rural route North-South
@@ -113,6 +156,10 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:22499
+random_start_point_1=elev:0, tile_num:17899
+random_start_point_2=elev:0, tile_num:13899
+random_start_point_3=elev:0, tile_num:26699
 
 [Map 008]
 lookup_name=City Encounter 1 ; Ruins of city 1 (ruins of a residential area)
@@ -123,6 +170,13 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:24921
+random_start_point_1=elev:0, tile_num:20514
+random_start_point_2=elev:0, tile_num:17121
+random_start_point_3=elev:0, tile_num:15087
+random_start_point_4=elev:0, tile_num:20274
+random_start_point_5=elev:0, tile_num:24088
+random_start_point_6=elev:0, tile_num:19488
 
 [Map 009]
 lookup_name=City Encounter 2 ; City Ruins 2 (Business District Ruins)
@@ -133,6 +187,13 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:13498
+random_start_point_1=elev:0, tile_num:19887
+random_start_point_2=elev:0, tile_num:17899
+random_start_point_3=elev:0, tile_num:26297
+random_start_point_4=elev:0, tile_num:20112
+random_start_point_5=elev:0, tile_num:22499
+random_start_point_6=elev:0, tile_num:22940
 
 [Map 010]
 lookup_name=City Encounter 3 ; City Ruins 3 (old house ruins)
@@ -143,6 +204,13 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:17500
+random_start_point_1=elev:0, tile_num:15669
+random_start_point_2=elev:0, tile_num:20311
+random_start_point_3=elev:0, tile_num:19525
+random_start_point_4=elev:0, tile_num:19488
+random_start_point_5=elev:0, tile_num:26901
+random_start_point_6=elev:0, tile_num:22501
 
 [Map 011]
 lookup_name=City Encounter 4 ; Ruins of the city 4 (camp among the ruins)
@@ -153,6 +221,12 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:24116
+random_start_point_1=elev:0, tile_num:15868
+random_start_point_2=elev:0, tile_num:19115
+random_start_point_3=elev:0, tile_num:22889
+random_start_point_4=elev:0, tile_num:14714
+random_start_point_5=elev:0, tile_num:19495
 
 [Map 012]
 lookup_name=Mountain Encounter 1 ; Mountain Encounter (desert, no cave)
@@ -163,6 +237,11 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19490
+random_start_point_1=elev:0, tile_num:19306
+random_start_point_2=elev:0, tile_num:19680
+random_start_point_3=elev:0, tile_num:21708
+random_start_point_4=elev:0, tile_num:21288
 
 [Map 013]
 lookup_name=Mountain Encounter 2 ; Mountain Encounter (vegetation, no cave)
@@ -173,6 +252,9 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19909
+random_start_point_1=elev:0, tile_num:19487
+random_start_point_2=elev:0, tile_num:21089
 
 [Map 014]
 lookup_name=Mountain Encounter 3 ; Mountain Gorge (Abandoned Mountain Camp)
@@ -183,6 +265,10 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19509
+random_start_point_1=elev:0, tile_num:22108
+random_start_point_2=elev:0, tile_num:19493
+random_start_point_3=elev:0, tile_num:21486
 
 [Map 015]
 lookup_name=Mountain Encounter 4 ; Mountain gorge (with a small cave)
@@ -193,6 +279,9 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19910
+random_start_point_1=elev:0, tile_num:19288
+random_start_point_2=elev:0, tile_num:22096
 
 [Map 016]
 lookup_name=Mountain Encounter 5 ; Mountain Gorge (with a cave ring)
@@ -203,6 +292,9 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19910
+random_start_point_1=elev:0, tile_num:19288
+random_start_point_2=elev:0, tile_num:22096
 
 [Map 017]
 lookup_name=Mountain Encounter 6 ; Mountain gorge (with a zigzag cave)
@@ -213,6 +305,9 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19910
+random_start_point_1=elev:0, tile_num:19288
+random_start_point_2=elev:0, tile_num:22096
 
 [Map 018]
 lookup_name=Coast Encounter 1 ; Dirty beach
@@ -223,6 +318,11 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:22699
+random_start_point_1=elev:0, tile_num:26100
+random_start_point_2=elev:0, tile_num:19288
+random_start_point_3=elev:0, tile_num:13499
+random_start_point_4=elev:0, tile_num:17902
 
 [Map 019]
 lookup_name=Coast Encounter 2 ; rocky shore
@@ -233,6 +333,12 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:15663
+random_start_point_1=elev:0, tile_num:22305
+random_start_point_2=elev:0, tile_num:17898
+random_start_point_3=elev:0, tile_num:24293
+random_start_point_4=elev:0, tile_num:19287
+random_start_point_5=elev:0, tile_num:14705
 
 [Map 020]
 lookup_name=Coast Encounter 3 ; Hut on the shore
@@ -243,6 +349,11 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:22499
+random_start_point_1=elev:0, tile_num:14700
+random_start_point_2=elev:0, tile_num:18102
+random_start_point_3=elev:0, tile_num:15686
+random_start_point_4=elev:0, tile_num:26499
 
 ;---------------- Villa:
 
@@ -1039,7 +1150,7 @@ automap=no
 [Map 104]
 lookup_name=Special Baron Encounter
 map_name=rndBaron
-music=f1_dsrt
+music=fs_diego
 ambient_sfx=blank:100
 saved=Yes
 dead_bodies_age=No
@@ -1412,6 +1523,11 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:19490
+random_start_point_1=elev:0, tile_num:19306
+random_start_point_2=elev:0, tile_num:19680
+random_start_point_3=elev:0, tile_num:21708
+random_start_point_4=elev:0, tile_num:21288
 
 [Map 143]
 lookup_name=Mountain Encounter 8 ; Burnt Forest
@@ -1422,6 +1538,13 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:21093
+random_start_point_1=elev:0, tile_num:21678
+random_start_point_2=elev:0, tile_num:21114
+random_start_point_3=elev:0, tile_num:17277
+random_start_point_4=elev:0, tile_num:18308
+random_start_point_5=elev:0, tile_num:21537
+random_start_point_6=elev:0, tile_num:17496
 
 [Map 144]
 lookup_name=Desert Encounter 9 ; infected wasteland
@@ -1432,6 +1555,15 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:21511
+random_start_point_1=elev:0, tile_num:18100
+random_start_point_2=elev:0, tile_num:14707
+random_start_point_3=elev:0, tile_num:22499
+random_start_point_4=elev:0, tile_num:25495
+random_start_point_5=elev:0, tile_num:16671
+random_start_point_6=elev:0, tile_num:19689
+random_start_point_7=elev:0, tile_num:23531
+random_start_point_8=elev:0, tile_num:19323
 
 [Map 145]
 lookup_name=Coast Encounter 4 ; Tent camp on the shore
@@ -1442,6 +1574,9 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:22099
+random_start_point_1=elev:0, tile_num:17902
+random_start_point_2=elev:0, tile_num:16478
 
 [Map 146]
 lookup_name=Road Encounter 5 ; Rest by the road
@@ -1452,6 +1587,11 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:22499
+random_start_point_1=elev:0, tile_num:17899
+random_start_point_2=elev:0, tile_num:13899
+random_start_point_3=elev:0, tile_num:26699
+random_start_point_4=elev:0, tile_num:20084
 
 [Map 147]
 lookup_name=Mountain Encounter 7 ; Cabin in the woods
@@ -1462,6 +1602,15 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:27110
+random_start_point_1=elev:0, tile_num:22508
+random_start_point_2=elev:0, tile_num:15474
+random_start_point_3=elev:0, tile_num:20892
+random_start_point_4=elev:0, tile_num:16301
+random_start_point_5=elev:0, tile_num:18905
+random_start_point_6=elev:0, tile_num:23728
+random_start_point_7=elev:0, tile_num:22081
+random_start_point_8=elev:0, tile_num:21137
 
 [Map 148]
 lookup_name=City Encounter 9 ; City Ruins 9 (Damage Zone)
@@ -1472,6 +1621,15 @@ saved=No
 dead_bodies_age=No
 can_rest_here=No,No,No
 automap=no
+random_start_point_0=elev:0, tile_num:15264
+random_start_point_1=elev:0, tile_num:20111
+random_start_point_2=elev:0, tile_num:16518
+random_start_point_3=elev:0, tile_num:19489
+random_start_point_4=elev:0, tile_num:23718
+random_start_point_5=elev:0, tile_num:22697
+random_start_point_6=elev:0, tile_num:19931
+random_start_point_7=elev:0, tile_num:14882
+random_start_point_8=elev:0, tile_num:19675
 
 [Map 149]
 lookup_name=In Game Movie

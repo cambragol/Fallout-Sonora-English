@@ -179,16 +179,17 @@ entrance_0=On,115,340,Hermosillo1,-1,-1,0
 entrance_1=Off,290,310,Hermosillo2,-1,-1,0
 entrance_2=Off,390,230,Hermosillo3,-1,-1,0
 
-[Area 11]                ; San Felipe
+[Area 11]                ; San-Felipe
 area_name=SanFelipe
-world_pos=284,1332
-start_state=Off
+world_pos=284,1432
+start_state=On
 size=Medium
 townmap_art_idx=478
 townmap_label_art_idx=379
-entrance_0=On,360,170,SanFelipeLight,-1,-1,0
-entrance_1=Off,325,300,SanFelipeCoast,-1,-1,0
-entrance_2=Off,135,300,SanFelipeCave,-1,-1,0
+entrance_0=On,117,242,SanFelipeLight,-1,-1,0
+entrance_1=Off,195,205,SanFelipeCoast,-1,-1,0
+entrance_2=Off,350,190,SanFelipeCave,-1,-1,0
+entrance_3=Off,110,340,SanFelipeLight,1,27702,5
 
 [Area 12]                ; Inferno
 area_name=Inferno
@@ -239,6 +240,7 @@ entrance_0=On,-1,-1,MotelMap,-1,-1,0
 area_name=SanDiego
 world_pos=22,922
 start_state=Off
+lock_state=On
 size=Large
 townmap_art_idx=482
 townmap_label_art_idx=384
@@ -251,8 +253,7 @@ entrance_5=Off,120,250,DiegoChulaVista,-1,-1,0
 entrance_6=Off,120,200,DiegoHospital,-1,-1,0
 entrance_7=Off,350,150,DiegoCityHeart,-1,-1,0
 entrance_8=Off,120,150,DiegoPirs,-1,-1,0
-entrance_9=Off,350,50,DiegoVault,-1,-1,0
-entrance_10=Off,120,50,DiegoCoronado,-1,-1,0
+entrance_9=Off,120,50,DiegoCoronado,-1,-1,0
 
 [Area 17]                ; !!! Free slot (Abbey in F2)
 area_name=City17
@@ -500,15 +501,15 @@ townmap_art_idx=-1
 townmap_label_art_idx=-1
 entrance_0=On,-1,-1,Special Padre Encounter,-1,-1,0
 
-[Area 39]                ; Special Encounter - Baron of Arizona (in F2 - Caerbennog Cave)
-area_name=Special39
-world_pos=100,100
+[Area 39]                ; Rally point in Dayglow (in F2 - Cairbennog Cave)
+area_name=DayglowStart
+world_pos=340,885
 start_state=Off
-lock_state=On
 size=Small
 townmap_art_idx=-1
 townmap_label_art_idx=-1
 entrance_0=On,-1,-1,Special Baron Encounter,-1,-1,0
+entrance_1=Off,-1,-1,DiegoVault,-1,-1,0
 
 [Area 40]                ; Special Encounter - Snowfall (in F2 - Guardian of Eternity)
 area_name=Special40

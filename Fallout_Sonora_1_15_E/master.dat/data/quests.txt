@@ -29,7 +29,7 @@
 # GVAR_MAIN_QUEST_VILLA
 1500, 100, 79, 1, 2
 
-# Free your fellow tribesmen in Flagpool
+# Free your fellow tribesmen in Flagstaff
 # GVAR_MAIN_QUEST_FLAGSTAFF
 1500, 101, 84, 1, 2
 
@@ -65,7 +65,7 @@
 # GVAR_VILLA_QST_CHRIS
 1500, 111, 185, 1, 2
 
-# The Council has decided to blow up the Flagpool mines
+# The Council has decided to blow up the Flagstaff mines
 # GVAR_FLAGSTAFF_MINES_DESTROY
 1500, 112, 121, 1, 2
 
@@ -78,7 +78,7 @@
 1500, 114, 190, 1, 2
 
 #-----------------------------------------------------------
-# Flagpool
+# Flagstaff
 #-----------------------------------------------------------
 
 # Infiltrate the slave pen and find Villa's people there
@@ -173,7 +173,7 @@
 # GVAR_GARAGE_QST_BARMEN_RNGR
 1502, 307, 457, 1, 2
 
-# Organize the delivery of alcohol from Flagpool
+# Organize the delivery of alcohol from Flagstaff
 # GVAR_GARAGE_QST_BAR
 1502, 308, 430, 1, 3
 
@@ -184,6 +184,10 @@
 # Find and return the welding machine
 # GVAR_GARAGE_QST_APPARAT
 1502, 310, 386, 1, 2
+
+# The gatekeeper asks to find the jackals' lair
+# GVAR_GARAGE_QST_JAKALSINFO
+1502, 311, 572, 1, 2
 
 #-----------------------------------------------------------
 # San Brahmin
@@ -251,7 +255,7 @@
 
 # Cody is having personality conflicts; look for his family in Casa Grande
 # GVAR_TWOSUN_QST_FAMILY_PIP
-#1504, 507, 168, 1, 2
+1504, 507, 168, 1, 2
 
 # Get a power cell for the peasant
 # GVAR_TWOSUN_QST_POMPA
@@ -493,9 +497,13 @@
 # GVAR_CGRANDE_QST_ROADSTOP
 1509, 1005, 283, 1, 2
 
-# The Mayor pays 500 caps for Red Skull's head
+# The mayor is offering 500 caps for the head of the Blue Shield leader
 # GVAR_CGRANDE_QST_ROADBOSS_KILL
 1509, 1006, 286, 1, 2
+
+# Say hello to Dominguez's ranch in Hermosillo
+# GVAR_CGRANDE_QST_SALUT
+1509, 1007, 289, 1, 2
 
 #-----------------------------------------------------------
 # Hermosillo
@@ -513,9 +521,37 @@
 # San Felipe (Old Lighthouse)
 #---------------------------------------------------------
 
-# Find and save Gloria
+# Restore the old lighthouse
+# GVAR_SANFELIPE_QST_FAROLAMPARA
+1511, 1200, 479, 1, 2
+
+# Investigate rumors of monsters in the ship graveyard
+# GVAR_SANFELIPE_QST_MONSTRSCOAST
+1511, 1201, 573, 1, 2
+
+# Find and destroy the giant leech lair
+# GVAR_SANFELIPE_STATUS_CTZNCAVE
+1511, 1202, 574, 1, 2
+
+# Find and rescue Gloria
 # GVAR_SANFELIPE_STATUS_CTZNCAVE
 1511, 1203, 474, 1, 2
+
+# Scout around San Felipe
+# GVAR_SANFELIPE_QST_GMAP
+1511, 1204, 575, 1, 2
+
+# Find a source of clean fresh water
+# GVAR_SANFELIPE_QST_WATER
+1511, 1205, 577, 1, 2
+
+# Survive the savage siege
+# GVAR_SANFELIPE_QST_INDIAN_ATTAK
+1511, 1206, 578, 1, 2
+
+# Drive the inhabitants out of San Felipe
+# GVAR_SANFELIPE_QST_RUN
+1511, 1207, 579, 1, 2
 
 #-----------------------------------------------------------
 # Inferno
@@ -561,7 +597,7 @@
 # Dayglow / San Diego
 #-----------------------------------------------------------
 
-# Find the city of the dead
+# Find the city of the ghouls
 # GVAR_DAYGLOW_VISITED
 1516, 1700, 508, 1, 2
 
@@ -573,31 +609,31 @@
 # GVAR_DAYGLOW_QST_ROBOT
 1516, 1702, 519, 1, 2
 
-# Neutralize the maddened Gonzo
+# Neutralize the crazed Gonzo
 # GVAR_DAYGLOW_A_GHOST
 1516, 1703, 524, 1, 2
 
-# Restore city power (San Isidro Main Quest 1)
+# Restore the city's power supply (San Isidro Main Quest 1)
 # GVAR_DAYGLOW_MAIN_A
 1516, 1704, 525, 1, 2
 
-# Restore city radio broadcasts (San Isidro Main Quest 2)
+# Restore city radio broadcasts (San Ysidro Main Quest 2)
 # GVAR_DAYGLOW_MAIN_B
 1516, 1705, 526, 1, 2
 
-# Take the holotape to Old Town (San Isidro Main Quest 3)
+# Deliver the holotape to Old Town (San Ysidro Main Quest 3)
 # GVAR_DAYGLOW_RADIO
 1516, 1706, 530, 2, 3
 
-# Meet the caravan from the Hub (Old Cities)
+# Meet the caravan from the Hub (Old Town Main Quest)
 # GVAR_DAYGLOW_MAIN_C
 1516, 1707, 527, 1, 2
 
-# Treasure of Coronado Island (Dayglow Main Quest)
+# The Treasures of Coronado Island (Dayglow Main Quest)
 # GVAR_DAYGLOW_MAIN_D
 1516, 1708, 528, 1, 100
 
-# Restore the monorail service
+# Restore monorail service
 # GVAR_DAYGLOW_STATUS_MONORAIL
 1516, 1709, 532, 1, 2
 
@@ -609,11 +645,11 @@
 # GVAR_DAYGLOW_QST_DONOVAN
 1516, 1711, 553, 1, 4
 
-# Drive black miners out of the Factory
+# Drive black prospectors from the Factory
 # GVAR_DAYGLOW_QST_MORODERS
 1516, 1712, 554, 1, 2
 
-# Granny Judy is looking for her husband Rooper
+# Granny Judy is looking for her husband, Rooper.
 # GVAR_DAYGLOW_QST_LIVE
 1516, 1713, 558, 1, 2
 
@@ -621,11 +657,11 @@
 # GVAR_DAYGLOW_QST_SUPERMUT
 1516, 1714, 565, 1, 2
 
-# Truckers contract to find relics
+# Truckers' Relic Search Contract
 # GVAR_DAYGLOW_QST_CARAVAN
 1516, 1716, 541, 1, 2
 
-# Contract to deliver strong alcohol
+# Strong Liquor Delivery Contract
 # GVAR_DAYGLOW_CONTRACT_VISKI
 1516, 1717, 550, 1, 2
 
