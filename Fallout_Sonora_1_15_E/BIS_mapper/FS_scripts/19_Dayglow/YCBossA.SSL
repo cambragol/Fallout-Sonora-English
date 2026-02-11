@@ -352,16 +352,16 @@ procedure NodeSndDialog begin
 
    if DudePerkHas(PERK_ghouling_fiziology) then begin
       if (getReaction>35) then begin
-      Reply(255)
+      zReply(255)
       end
       else if (getReaction>0) then begin
-      Reply(254)
+      zReply(254)
       end
       else if (getReaction<=-50) then begin
       Reply(257)
       end
       else begin
-      Reply(256)
+      zReply(256)
       end
    end
    else begin
@@ -559,7 +559,7 @@ procedure NodeQst102 begin
    call NodeQst104;
    end
    else begin
-   Reply(266)
+   zReply(266)
    GAnswer(267,0,NodeQst104)
    zBAnswer(268,0,NodeQst103)
    end

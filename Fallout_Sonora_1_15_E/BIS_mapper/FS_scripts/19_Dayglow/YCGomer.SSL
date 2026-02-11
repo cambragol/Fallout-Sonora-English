@@ -317,8 +317,10 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
-   if ((map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 1) and (cur_map_index == MAP_DAYGLOW_PATRUL)) then begin
-      call NodeCapDialog;
+   if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
+      if (map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 1) then begin 
+         call NodeCapDialog;
+      end
    end
    else if ((global_var(GVAR_DAYGLOW_STATUS_GOMER_CAP) >= 2) and (global_var(GVAR_DAYGLOW_QST_GOMER) < 10)) then begin
       call NodeCapDialog5;
