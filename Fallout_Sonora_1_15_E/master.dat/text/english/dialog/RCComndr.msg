@@ -58,6 +58,7 @@
 {253}{}{For you, it's just a story. And for me, honestly, too. But you have no idea what a furious radscorpion female can do. Something has to be done about this.}
 {254}{}{[More]}
 {255}{}{Maybe you can talk some sense into her. No offense, but you look more like a local than a Ranger. You might earn her trust easier.}
+{1255}{}{Maybe you can talk some sense into her. No offense, but you look more like a local than a Ranger. You might earn her trust easier.}
 {256}{}{What needs to be done?}
 {257}{}{Just explain to her that she's no longer welcome in these lands. It'll be better for everyone if she takes her kid and leaves.}
 {258}{}{Alright, I'll try.}

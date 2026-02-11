@@ -36,8 +36,7 @@ end
 
 procedure use_obj_on_p_proc begin
    stopUseCarGaz
-   //RepairUsedJunk(PID_GENERATOR_ENERGY,140) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
-
+   //RepairUsedJunk(PID_GENERATOR_ENERGY,140) // (pid,limit,bonus) - parts, limit on number of uses, bonus to skill (usually 20)
    else if (objUsedPid == PID_GENERATOR_ENERGY) then begin
       script_overrides;
       if (local_var(LVAR_Status) == 0) then begin
