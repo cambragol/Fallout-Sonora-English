@@ -95,7 +95,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
@@ -192,7 +192,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,35) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_PHENIX_STATUS_CARDINAL,50) // Поправка к отношению за принадлежность к фракциям
 
-   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -246,7 +246,7 @@ end
 
 procedure NodeEnemy2 begin
    bitDialogExp(bit_3,0)
-   Reply(220)
+   zReply(220)
    BAnswer(221,1,NodeEnemy4)
    NAnswer(222,1,Node999)
 end

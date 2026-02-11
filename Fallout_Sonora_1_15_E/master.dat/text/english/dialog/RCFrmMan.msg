@@ -74,6 +74,7 @@
 {294}{}{Here, take as much as you need. I'm happy to share with a Ranger.}
 {295}{}{Thanks...}
 {296}{}{I'm not a bandit. Quite the opposite - I, uh, was attacked by them.}
+{1296}{}{I'm not a bandit. Quite the opposite - I, uh, was attacked by them.}
 {297}{}{That sounds rough. Here, have another sip. But I can't offer much more than that. You might want to seek more help from the Rangers.}
 {298}{}{Come on, be generous. Let a guest have a few more sips.}
 {1298}{}{Come on, be generous. Let a guest have a few more sips.}
