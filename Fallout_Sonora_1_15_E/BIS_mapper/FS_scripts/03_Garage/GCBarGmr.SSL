@@ -112,17 +112,17 @@ end
 
 procedure talk_p_proc begin
    if ((map_var(MVAR_GARAGE_BAR_PUT) == 0) and (bitDialog(bit_2) == 0)) then begin
-   z_floater(self_obj,102,COLOR_MSG_NORMAL);
+      z_floater(self_obj,102,COLOR_MSG_NORMAL);
    end
    else if (bitDialog(bit_3) != 0) then begin
-   floater(self_obj,104,COLOR_MSG_NORMAL);
+      floater(self_obj,104,COLOR_MSG_NORMAL);
    end
    else if (item_amnt(self_obj,PID_M_STIMPAK)<=0) then begin
-   z_floater(self_obj,103,COLOR_MSG_NORMAL);
+      z_floater(self_obj,103,COLOR_MSG_NORMAL);
    end
    else begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-   dialog_proc(0,0,NodeStartDialog,-1,-1)
+      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
 end
 

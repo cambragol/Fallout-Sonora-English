@@ -357,7 +357,7 @@ procedure NodeSndDialog begin
    Reply(302)
    end
    else if ((getQuest(GVAR_BRAHMIN_ATTAK) >= qEnd) and (global_var(GVAR_BRAHMIN_STATUS_RANGER) >= 0)) then begin
-   Reply(303)
+   zReply(303)
    end
    else begin
    Reply(300)

@@ -134,7 +134,7 @@ procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
    // - added to match fcbarmen - cambragol
    if (objUsedPid == PID_M_BRAHMIN_POTROH) then begin
-      if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
+   if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
       script_overrides;
       if ((global_var(GVAR_STATUS_FLAGSTAFF_ADMIN) != 0) or (global_var(GVAR_FLAGSTAFF_TIMER_DINNER)<game_time)) then begin
          floater(self_obj, 105, COLOR_MSG_RED);
@@ -447,12 +447,12 @@ procedure NodeQuest100 begin
    Reply(261)
    // made these mutually exclusive, because it makes more sense - cambragol
    if (global_var(GVAR_FLAGSTAFF_ROBOT_STATUS) == 1) then begin
-      NAnswer(264,1,NodeQuest102)
+      NAnswer(264,0,NodeQuest102)
    end
    else begin
       NAnswer(262,2,NodeQuest101)
    end
-   NAnswer(257,1,NodeSndDialog)
+   NAnswer(257,0,NodeSndDialog)
 end
 
 procedure NodeQuest101 begin

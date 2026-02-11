@@ -250,6 +250,11 @@ procedure NodeSndDialog begin
       NAnswer(267,1,NodeBox100)
    end
 
+   //- Вопросы
+   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
+   NAnswer(280,3,NodeQst200)
+   end
+   else begin
    // added below to make the PC recognize the Sonora express at other locations - cambragol
    if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_7) != 0) then begin
    NAnswer(334,1,NodeAnswer101)
@@ -258,7 +263,9 @@ procedure NodeSndDialog begin
    NAnswer(300,1,NodeAnswer100)
    set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_7);
    end
-      
+   end
+
+   //NAnswer(300,1,NodeAnswer100)
    NAnswer(320,1,NodeAnswer200)
    if ((bitDialog(bit_2) != 0) and (bitDialog(bit_10) == 0)) then begin
       if ((getQuest(GVAR_MAIN_QUEST_PHENIX) == qStart) and (town_known(AREA_PHOENIX) < MARK_STATE_VISITED)) then begin
@@ -267,9 +274,6 @@ procedure NodeSndDialog begin
    end
 
    //- Квесты
-   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
-   NAnswer(280,3,NodeQst200)
-   end
    if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qZero) then begin
    NAnswer(270,3,NodeQst100)
    end

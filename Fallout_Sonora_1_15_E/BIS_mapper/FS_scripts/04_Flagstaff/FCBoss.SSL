@@ -323,8 +323,8 @@ procedure NodeFstDialog205 begin
    if (getQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON) < qStart) then begin
    setQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON,qStart);
    end
-   if (getQuest(GVAR_FLAGSTAFF_MERPSWDR) == qZero) then begin
-   setQuest(GVAR_FLAGSTAFF_MERPSWDR,qStart);
+   if (getQuest(GVAR_FLAGSTAFF_RAT_KING_QST) == qZero) then begin
+   setQuest(GVAR_FLAGSTAFF_RAT_KING_QST,qStart);
    end
    Reply(337)
    BAnswer(338,0,NodeFstDialog206)
@@ -347,7 +347,7 @@ procedure NodeSndDialog begin
    GAnswer(251,3,NodeFreedom103)
    end
    if (global_var(GVAR_FLAGSTAFF_RAT_KING_LIFE) != 0) then begin
-   setQuest(GVAR_FLAGSTAFF_MERPSWDR,qEnd);
+   setQuest(GVAR_FLAGSTAFF_RAT_KING_QST,qEnd);
    // added to fix dumb PC quest line - cambragol
    NAnswer(343,-3,NodeFreedom103)
    end

@@ -347,11 +347,11 @@
 #define PID_Q_DAYGLOW_ROCKET                (488)
 #define PID_Q_DAYGLOW_GAUBI_DETALS          (489)
 
-#define PID_Q_DAYGLOW_CARAVAN_1             (469) // Водяной чип
-#define PID_Q_DAYGLOW_CARAVAN_2             (470) // Печатная плата
-#define PID_Q_DAYGLOW_CARAVAN_3             (471) // Диагностическая плата
-#define PID_Q_DAYGLOW_CARAVAN_4             (472) // Топливный контроллер
-#define PID_Q_DAYGLOW_CARAVAN_5             (473) // Чертежи винтокрыла
+#define PID_Q_DAYGLOW_CARAVAN_1             (469) // Water Chip
+#define PID_Q_DAYGLOW_CARAVAN_2             (470) // Printed Circuit Board
+#define PID_Q_DAYGLOW_CARAVAN_3             (471) // Diagnostic Board
+#define PID_Q_DAYGLOW_CARAVAN_4             (472) // Fuel Controller
+#define PID_Q_DAYGLOW_CARAVAN_5             (473) // Vertibird Blueprints
 
 
 /***************************************************************

@@ -326,7 +326,8 @@ end
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
-   if (dude_iq <= 3) then begin
+   // changed this to 1, as 3 seemed high compared to other 'idiot' barriers -cambragol
+   if (dude_iq <= 1) then begin
    zReply(200)
    NAnswer(287,1,NodeFstDialog1)
    end

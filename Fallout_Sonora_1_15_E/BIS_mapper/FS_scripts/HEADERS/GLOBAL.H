@@ -679,18 +679,18 @@
 #define GVAR_RAIDER_STATUS_HAK               (446) // статус новичка Чака: <0 - мертв, 0 - не определен, 1 - сняты обвинения
 #define GVAR_RAIDER_STATUS_ENCHELP           (447) // статус магистральщика на спецвстрече на карте мира: <0 - мертв, 0 - не определен, 1 - защищен от охотников за головами
 
-//--- Ту-Сан:
-#define GVAR_TWOSUN_STATUS_CTZN              (383) // число умерших жителей города (в основном типовых нпс)
-#define GVAR_TWOSUN_STATUS_DUDE              (161) // как ГГ оказался в ТуСане: 0 - прибыл самостоятельно, 1 - прибыл принудительно через диалог с Аароном, 2 - прибыл принудительно через Дядюшку Мигеля
-#define GVAR_TWOSUN_STATUS_ZAX               (162) // статус ZAX: -2 - уничтожен, -1 - отключен, 0 - без изменений, 1 - его функции активированы и расширены
-#define GVAR_TWOSUN_STATUS_BOSS              (163) // статус лидера жестянщиков: -1 - мертв, 0 - жив, 1 - ГГ получил от босса рекомендацию для Братства Стали.
-#define GVAR_TWOSUN_STATUS_KARLOS            (227) // статус Карлоса: -1 - мертв, 0 - жив, 1 - переехал в КНуэвa, 2 - переехал на Виллу, 3 - отправился в путешествие
-#define GVAR_TWOSUN_QST_ZONA                 (164) // квест на проникновение в контрольный центр Запретной Зоны ТуСана: 0 - не взят, 1 - взят, 2 - завершен
-#define GVAR_TWOSUN_QST_KARLOS               (165) // квест спасти Карлоса: 0 - не взят, 1 - взят, 2 - завершен любым способом
-#define GVAR_TWOSUN_QST_PADRE                (166) // квест найти и поговорить с падре: 0 - не взят, 1 - взят, 2 - завершен
-#define GVAR_TWOSUN_QST_POMPA                (167) // квест приобрести у жестянщиков детали для гидропонической фермы: 0 - не взят, 1 - взят, 2 - завершен
-#define GVAR_TWOSUN_QST_FAMILY_PIP           (168) // квест Коди и его семьи: 0 - не взят, 1 - взят, 2 - завершен любым способом
-#define GVAR_TWOSUN_QST_FAMILY_STATUS        (169) // битовые маски для квеста жестянщика и его семьи:
+//--- Tu-San:
+#define GVAR_TWOSUN_STATUS_CTZN              (383) // number of deceased city residents (mostly generic NPCs)
+#define GVAR_TWOSUN_STATUS_DUDE              (161) // how the PC ended up in TuSan: 0 - arrived independently, 1 - forcibly arrived through dialogue with Aaron, 2 - forcibly arrived through Uncle Miguel
+#define GVAR_TWOSUN_STATUS_ZAX               (162) // status of ZAX: -2 - destroyed, -1 - deactivated, 0 - unchanged, 1 - its functions activated and expanded
+#define GVAR_TWOSUN_STATUS_BOSS              (163) // status of the leader of the Tinmen: -1 - dead, 0 - alive, 1 - PC received a recommendation from the boss for the Brotherhood of Steel.
+#define GVAR_TWOSUN_STATUS_KARLOS            (227) // status of Karlos: -1 - dead, 0 - alive, 1 - moved to C-Nueva, 2 - moved to the Villa, 3 - went on a journey
+#define GVAR_TWOSUN_QST_ZONA                 (164) // quest to infiltrate the Control Center of the Forbidden Zone in TuSan: 0 - not taken, 1 - taken, 2 - completed
+#define GVAR_TWOSUN_QST_KARLOS               (165) // quest to save Karlos: 0 - not taken, 1 - taken, 2 - completed by any means
+#define GVAR_TWOSUN_QST_PADRE                (166) // quest to find and talk to the padre: 0 - not taken, 1 - taken, 2 - completed
+#define GVAR_TWOSUN_QST_POMPA                (167) // quest to acquire parts for the hydroponic farm from the Tinmen: 0 - not taken, 1 - taken, 2 - completed
+#define GVAR_TWOSUN_QST_FAMILY_PIP           (168) // quest for Cody and his family: 0 - not taken, 1 - taken, 2 - completed by any means
+#define GVAR_TWOSUN_QST_FAMILY_STATUS        (169) // bitmasks for the Tinman's quest and his family:
                                                     /*
                                                     - bit_1 Коди погиб
                                                     - bit_2 Семья жестянщика погибла
@@ -722,20 +722,20 @@
 #define GVAR_TWOSUN_QST_LOVE_PIP             (269) // квест жестянщика-любовника: 0 - не взят, 1 - взят, 2 - завершен любым способом
 
 //--- Каса-Нуэвa:
-#define GVAR_NUEVA_STATUS_APOC               (256) // статус лидера Последователей Апокалипсиса: -1 - мертв, 0 - жив
-#define GVAR_NUEVA_STATUS_MER                (366) // статус мэра Каса-Нуэвa: -999 - мертв самоубийством во фриплее, -1 - мертв насильственно, 0 - жив
-#define GVAR_NUEVA_STATUS_EL_GIGANTO         (359) // статус Эль Гиганто: -1 - мертв, 0 - жив
-#define GVAR_NUEVA_QST_APOC_HOME             (340) // квест Последователя в Инферно по сопровождению в КНуэвa: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
-#define GVAR_NUEVA_USING_INSECTICIDES        (363) // при !=0 ГГ использовал инсектицид на пугало на плантациях
-#define GVAR_NUEVA_KNOW_SPORE                (364) // при !=0 ГГ разузнал о спороносах на плантации
-#define GVAR_NUEVA_QST_PLANT_DEAD            (365) // квест жителя на поиск пропавшего: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
-#define GVAR_NUEVA_QST_PLANT_INSECT          (366) // квест по очистке плантаций: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
-#define GVAR_NUEVA_QST_EL_GIGANTO            (367) // квест по ликвидации Эль Гиганто: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
-#define GVAR_NUEVA_STATUS_LABA               (368) // статус лаборатории: != 0 - лаборатория уничтожена (сожжена)
-#define GVAR_NUEVA_STATUS_PINKI              (369) // статус свинокрыса Пинки: < 0 - мертв (при <-1 убит руками ГГ), 1 - излечен, >=2 - приобщился к ГГ для перемещения на плантацию
-#define GVAR_NUEVA_QST_PINKI                 (370) // квест больного Пинки: <0 - провален, 0 - не взят, 1 - взят, 2 - завершен ликвидацией Пинки, 3 - завершен спасением Пинки
-#define GVAR_NUEVA_QST_BOOKS_PUERTO          (371) // квест школы по доставке электронных книг из Пуэрто: <0 - провален, 0 - не взят, 1 - взят, 2 - успешно завершен
-#define GVAR_NUEVA_STATUS_CLIMAT             (374) // подключение электроэнергии в теплицах: 0 -  не подключено, 1 - подключено
+#define GVAR_NUEVA_STATUS_APOC               (256) // status of the leader of the Followers of the Apocalypse: -1 - dead, 0 - alive
+#define GVAR_NUEVA_STATUS_MER                (366) // status of the mayor of Casa-Nueva: -999 - suicide in free play, -1 - violently dead, 0 - alive
+#define GVAR_NUEVA_STATUS_EL_GIGANTO         (359) // status of El Giganto: -1 - dead, 0 - alive
+#define GVAR_NUEVA_QST_APOC_HOME             (340) // Follower's quest in Inferno for escort to C-Nueva: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
+#define GVAR_NUEVA_USING_INSECTICIDES        (363) // if !=0, PC used insecticide on the scarecrow at the plantations
+#define GVAR_NUEVA_KNOW_SPORE                (364) // if !=0, PC learned about the Sporebearers on the plantation
+#define GVAR_NUEVA_QST_PLANT_DEAD            (365) // resident's quest to find the missing person: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
+#define GVAR_NUEVA_QST_PLANT_INSECT          (366) // quest to clear the plantations: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
+#define GVAR_NUEVA_QST_EL_GIGANTO            (367) // quest to eliminate El Giganto: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
+#define GVAR_NUEVA_STATUS_LABA               (368) // status of the laboratory: != 0 - laboratory destroyed (burned down)
+#define GVAR_NUEVA_STATUS_PINKI              (369) // status of the pig-rat Pinki: < 0 - dead (if <-1 killed by PC), 1 - cured, >=2 - joined the PC for relocation to the plantation
+#define GVAR_NUEVA_QST_PINKI                 (370) // quest of the sick Pinki: <0 - failed, 0 - not taken, 1 - taken, 2 - completed by eliminating Pinki, 3 - completed by saving Pinki
+#define GVAR_NUEVA_QST_BOOKS_PUERTO          (371) // school quest to deliver e-books from Puerto: <0 - failed, 0 - not taken, 1 - taken, 2 - successfully completed
+#define GVAR_NUEVA_STATUS_CLIMAT             (374) // electricity connection in the greenhouses: 0 - not connected, 1 - connected
 
 //--- Пуэрто-Пеньяско:
 #define GVAR_PUERTO_BOS_DESTROY_TIMER        (252) // таймер до взрыва торпед

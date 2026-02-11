@@ -65,7 +65,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       //set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       //set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
@@ -210,7 +210,7 @@ procedure talk_p_proc begin
    //fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    //fracReaction(GVAR_TITUL_VILLA_TRADITION,20) // Поправка к отношению за принадлежность к фракциям
    //fracReaction(GVAR_TITUL_VILLA_DISTROY,-20) // Поправка к отношению за принадлежность к фракциям
-   //set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   //set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    /*
    dialog_proc или dialog_proc_barter - диалог:
