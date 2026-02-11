@@ -185,16 +185,14 @@ procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 
    if (self_TEAM == TEAM_PLAYER) then begin
-      if (cur_map_index == MAP_PHOENIX_BNDCS) then begin
-         if (map_var(MVAR_PNX_RING_START) == 1) then begin
-            call NodePartyDel2;
-         end
+      if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
+      call NodePartyDel2;
       end
    end
 
    if (global_var(GVAR_VILLA_STATUS_RAIDER_PARTY) >= 100) then begin
       if (partyPidSelf!=0) then begin
-         partyRunToDude // Персонаж следует за ГГ
+      partyRunToDude // Персонаж следует за ГГ
       end
    end
 end
@@ -236,7 +234,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(-1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
 end
 

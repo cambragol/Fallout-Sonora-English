@@ -282,7 +282,7 @@ procedure NodeDialogStop5 begin
    NAnswer(254,1,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    Reply(210)
@@ -404,7 +404,7 @@ procedure NodeRoadEnd2 begin
    call Node999;
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(220)

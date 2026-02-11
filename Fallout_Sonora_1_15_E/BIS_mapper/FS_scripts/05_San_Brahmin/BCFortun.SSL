@@ -137,7 +137,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -177,7 +177,7 @@ procedure NodeFstDialog104 begin
    item_remove(dude_obj,PID_BOOTLE_CAPS,100)
    PLAY_FADE
    /*
-   ? По предложению некоторых игроков здесь можно сделать повышение и понижение Удачи по рендому аналогично хабологу в НКР в F2.
+   Some players have suggested that Luck could be randomly increased or decreased here, similar to the Hubologist in NCR in F2.
    */
    Reply(213)
    NAnswer(214,4,NodeFstDialog105)
@@ -219,7 +219,7 @@ procedure NodeFstDialog108 begin
    NAnswer(203,-3,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(240)

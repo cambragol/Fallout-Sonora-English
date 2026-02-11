@@ -152,7 +152,7 @@ procedure talk_p_proc begin
    //GVAR: 0 - скрывается на плантациях, 1 - погиб, 2 - следует за ГГ, 3 - находится на площади
 
    if (global_var(GVAR_VILLA_STATUS_EDEN) == 0) then begin
-      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
       fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
       dialog_proc(0,104,NodeStartDialog,-1,-1)
    end

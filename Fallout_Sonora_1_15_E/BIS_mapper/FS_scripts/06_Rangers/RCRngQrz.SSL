@@ -156,7 +156,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -221,7 +221,7 @@ procedure NodeFstDialog8 begin
    call Node999;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if ((local_var(LVAR_Party_Status)>0) and (map_var(MVAR_Quartz_GhoulDead)>=6)) then begin

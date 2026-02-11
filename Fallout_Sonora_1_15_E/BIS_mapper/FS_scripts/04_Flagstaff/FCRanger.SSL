@@ -194,7 +194,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -229,7 +229,7 @@ end
 procedure NodeFstDialog103 begin
    bitDialogExp(bit_2,50)
    zReply(211)
-   NAnswer(220,4,NodeFstDialog105)
+   zNAnswer(220,4,NodeFstDialog105)
    NAnswer(218,-3,NodeFstDialog105)
    BAnswer(260,4,NodeFstDialog150)
    NAnswer(280,4,NodeFstDialog170)
@@ -360,7 +360,7 @@ procedure NodeFstDialogEnd begin
    NAnswer(256,-3,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(300)
@@ -396,7 +396,7 @@ procedure NodeSndDialog begin
    NAnswer(302,-3,Node999)
 end
 
-//--- ВОПРОСЫ О СЕБE
+//--- QUESTIONS ABOUT YOURSELF
 
 procedure NodeAnswer100 begin
    bitDialogExp(bit_6,0)
@@ -461,7 +461,7 @@ procedure NodeAnswer107 begin
    GAnswer(349,4,NodeSndDialog)
 end
 
-//--- ВОПРОСЫ О РЕЙНДЖЕРАХ
+//--- QUESTIONS ABOUT RANGERS
 
 procedure NodeAnswer200 begin
    Reply(371)
@@ -511,7 +511,7 @@ procedure NodeAnswer211 begin
    NAnswer(394,4,NodeSndDialog)
 end
 
-//--- ВОПРОСЫ О СВОЕЙ МИССИИ
+//--- QUESTIONS ABOUT YOUR MISSION
 
 procedure NodeAnswer300 begin
    Reply(401)

@@ -323,7 +323,7 @@ procedure NodeStartDialogNormal begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,100)
@@ -500,7 +500,7 @@ end
 
 */
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog10 begin
    bitDialogExp(bit_4,0)
@@ -574,7 +574,7 @@ procedure NodeStopDialog33 begin
    NAnswer(179,0,NodeStartDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(300)
@@ -623,7 +623,7 @@ procedure NodeSndDialog begin
    NAnswer(301,0,Node999)
 end
 
-//--- ВОПРОСЫ
+//--- QUESTIONS
 
 procedure NodeLucas begin
    bitDialogExp(bit_12,100)
@@ -812,7 +812,7 @@ procedure NodeQstC210 begin
    NAnswer(388,0,Node999)
 end
 
-//--- ВОПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    if (bitDialog(bit_6) == 0) then begin
@@ -875,7 +875,7 @@ procedure NodeAnswer203 begin
    NAnswer(260,0,NodeSndDialog)
 end
 
-//--- СОЮЗ С ВИЛЛОЙ
+//--- UNION WITH VILLA
 
 procedure NodeAnswer400 begin
    Reply(281)

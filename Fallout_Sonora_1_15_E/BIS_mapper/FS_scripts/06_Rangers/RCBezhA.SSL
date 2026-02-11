@@ -225,7 +225,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ (карта рейнджеров перед дамбой)
+//--- FIRST DIALOGUE (Ranger map before the dam)
 
 procedure NodeFstDialog begin
    if (getQuest(GVAR_RANGERS_DUMB_DESTROY) >= qEnd) then begin
@@ -368,7 +368,7 @@ procedure NodeGoParom begin
    call Node999;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ (карта переправы)
+//--- REPEAT DIALOGUE (crossing map)
 
 procedure NodeSndDialog begin
    Reply(300)

@@ -201,7 +201,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
@@ -287,7 +287,7 @@ procedure NodeFstDialog111 begin
    NAnswer(225,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
 
@@ -346,7 +346,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
    if (bitDialog(bit_3) == 0) then begin
       NAnswer(300,0,NodeAnswer100)
    end
@@ -467,7 +467,7 @@ procedure NodeQst202 begin
    NAnswer(267,0,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    bitDialogExp(bit_3,0)

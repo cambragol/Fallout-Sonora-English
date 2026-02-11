@@ -275,7 +275,7 @@ procedure NodeStopDialog2 begin
    NAnswer(219,0,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,20)
@@ -400,7 +400,7 @@ procedure NodeFstDialog46 begin
    NAnswer(235,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if ((armor_pid_dude_var == PID_ARMOR_POWER_A) and (random(0,100)<=25)) then begin
@@ -491,7 +491,7 @@ procedure NodeSndDialog begin
    NAnswer(348,-3,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeVilla001 begin
    Reply(331)

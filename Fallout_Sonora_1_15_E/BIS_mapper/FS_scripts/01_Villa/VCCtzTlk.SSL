@@ -159,7 +159,7 @@ procedure NodeDialogEden begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -181,7 +181,7 @@ procedure NodeFstDialog3 begin
    call NodeSndDialog;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (getReaction >= -5) then begin

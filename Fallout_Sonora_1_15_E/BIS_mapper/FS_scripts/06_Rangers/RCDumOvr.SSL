@@ -160,7 +160,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -179,24 +179,24 @@ procedure NodeFstDialog3 begin
    NAnswer(206,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
 
-   //- расспросы
+   //- questions
    if (bitDialog(bit_4) == 0) then begin
    NAnswer(220,1,NodeAnswer100)
    end else begin
    NAnswer(229,1,NodeAnswer100)
    end
 
-   //- квест на починку:
+   //- repair quest:
    if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) == qStart) then begin
       NAnswer(260,1,NodeQuestA200)
    end
 
-   //- квест привести мальца:
+   //- quest to bring the boy:
    if (getQuest(GVAR_RANGERS_QST_EUGENE_DUM) == qZero) then begin
       if (getQuest(GVAR_RANGERS_QST_REPAIR_DUM) >= qEnd) then begin
       NAnswer(304,1,NodeQuestB102)
@@ -217,7 +217,7 @@ procedure NodeSndDialog begin
    NAnswer(211,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    if (bitDialog(bit_4) != 0) then begin
@@ -348,7 +348,7 @@ procedure NodeQuestB101 begin
 end
 
 procedure NodeQuestB102 begin
-   Reply(305)
+   zReply(305)
    NAnswer(306,1,NodeQuestB103)
 end
 

@@ -68,8 +68,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -112,17 +112,17 @@ end
 
 procedure talk_p_proc begin
    if ((map_var(MVAR_GARAGE_BAR_PUT) == 0) and (bitDialog(bit_2) == 0)) then begin
-      z_floater(self_obj,102,COLOR_MSG_NORMAL);
+   z_floater(self_obj,102,COLOR_MSG_NORMAL);
    end
    else if (bitDialog(bit_3) != 0) then begin
-      floater(self_obj,104,COLOR_MSG_NORMAL);
+   floater(self_obj,104,COLOR_MSG_NORMAL);
    end
    else if (item_amnt(self_obj,PID_M_STIMPAK)<=0) then begin
-      z_floater(self_obj,103,COLOR_MSG_NORMAL);
+   z_floater(self_obj,103,COLOR_MSG_NORMAL);
    end
    else begin
-      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-      dialog_proc(0,0,NodeStartDialog,-1,-1)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
 end
 
@@ -141,7 +141,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    //bitDialogExp(bit_1,0)
@@ -208,7 +208,7 @@ procedure NodeFstDialog7 begin
    BAnswer(221,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

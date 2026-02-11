@@ -199,7 +199,7 @@ procedure talk_p_proc begin
    else begin
    setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,104,NodeStartDialog,-1,-1)
    end
 end
@@ -226,7 +226,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,100)
@@ -237,9 +237,8 @@ procedure NodeFstDialog begin
    else begin
       zReply(200)
    end
-   NAnswer(201,4,NodeFstDialog001)
-   BAnswer(216,4,NodeFstDialog001)
-   NAnswer(218,-3,NodeFstDialog001)
+   NAnswer(201,1,NodeFstDialog001)
+   NAnswer(216,1,NodeFstDialog001)
 end
 
 procedure NodeFstDialog001 begin
@@ -351,7 +350,7 @@ procedure NodeFstDialog011 begin
    call Node999;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (getReaction >=0) then begin
@@ -448,7 +447,7 @@ procedure NodeGame3 begin
    call Node999;
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(254)
@@ -595,7 +594,7 @@ procedure NodeAnswer205 begin
    call Node999;
 end
 
-//--- ЗАДАНИЯ
+//--- TASKS
 
 procedure NodeQuest begin
    setQuest(GVAR_VILLA_MARAUDERS,qStart);

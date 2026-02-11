@@ -134,7 +134,7 @@ procedure NodeStartDialog begin
    call NodeDialog;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeDialog begin
    Reply(210)

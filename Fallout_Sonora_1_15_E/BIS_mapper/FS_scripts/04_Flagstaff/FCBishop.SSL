@@ -322,7 +322,7 @@ procedure NodeDialogCult7 begin
    NAnswer(427,1,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -373,7 +373,7 @@ procedure NodeFstDialog4 begin
    NAnswer(204,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if cultKnown then begin
@@ -491,7 +491,7 @@ procedure NodeFAIDEnd begin
    NAnswer(285,0,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    if cultKnown then begin

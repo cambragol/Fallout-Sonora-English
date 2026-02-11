@@ -155,7 +155,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    Reply(200)
@@ -184,7 +184,7 @@ procedure NodeFstDialog4 begin
    NAnswer(212,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 /*
 Что за слухи про рейнджеров? / Говорят, они истребляют целые поселения, неугодные им. Когда у тебя есть оружие и навыки, невольно захочется подчинять себе, а не договариваться.

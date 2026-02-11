@@ -249,7 +249,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -309,7 +309,7 @@ procedure NodeStopDialog221 begin
    NAnswer(295,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
@@ -376,7 +376,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Вопросы
+   //--- QUESTIONS
 
    if ((getQuest(GVAR_RANGERS_QST_SPY) > qZero) and (global_var(GVAR_RANGERS_STATUS_SPY) == 0)) then begin
    NAnswer(270,0,NodeSndDialog2)
@@ -413,7 +413,7 @@ procedure NodeAcv2 begin
    BAnswer(395,0,Node999)
 end
 
-//--- РЯДОВЫЕ ВОПРОСЫ
+//--- COMMON QUESTIONS
 
 procedure NodeAnswer begin
    Reply(214)
@@ -668,7 +668,7 @@ procedure NodeMainQst begin
    BAnswer(352,0,NodeSndDialog)
 end
 
-//--- КВАРЦ
+//--- QUARTZ
 
 procedure NodeQuartz begin
    Reply(371)
@@ -697,7 +697,7 @@ procedure NodeQuartz3 begin
    NAnswer(380,0,Node999)
 end
 
-//--- РАДИОСТАНЦИЯ
+//--- RADIO STATION
 
 procedure NodeRadio1 begin
    Reply(358)

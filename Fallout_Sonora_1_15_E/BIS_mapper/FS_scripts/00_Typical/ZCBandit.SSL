@@ -56,7 +56,7 @@ procedure map_enter_p_proc begin
        brahminCaravanEnemyCount
        end
 
-       if ((cur_map_index == MAP_BOS_CAMP_A) or (cur_map_index == MAP_BOS_CAMP_B) or (cur_map_index == MAP_BOS_CAMP_C)) then begin
+      if ((cur_map_index == MAP_BOS_CAMP_A) or (cur_map_index == MAP_BOS_CAMP_B) or (cur_map_index == MAP_BOS_CAMP_C)) then begin
          // modified to make use of espanol trait - cambragol
          if DudeTraitHas(TRAIT_espanol) then begin
             critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_HERMO_SOLDIER_ENG);
@@ -64,7 +64,7 @@ procedure map_enter_p_proc begin
          else begin
             critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_HERMO_SOLDIER);
          end
-       end
+      end
 
        if (item_amnt(self_obj,PID_TEST) > 0) then begin
            if (cur_map_index == MAP_BOS_CAMP_A) then begin
@@ -121,8 +121,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if ((cur_map_index == MAP_BOS_CAMP_C) and (map_var(MVAR_PUERTO_CAMP_RADIO)>0) and (tile_distance(self_tile,map_var(MVAR_PUERTO_CAMP_RADIO)) <= 17)) then begin
           timer_move_random_tile(map_var(MVAR_PUERTO_CAMP_RADIO),3)

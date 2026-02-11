@@ -217,7 +217,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog begin
    Reply(250)
@@ -226,7 +226,7 @@ procedure NodeStopDialog begin
    BAnswer(252,1,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -350,20 +350,20 @@ procedure NodeFstDialog111 begin
    NAnswer(241,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_ARIZONA_RANGER)>0) then begin
-   Reply(302)
+      Reply(302)
    end
    else if ((getQuest(GVAR_BRAHMIN_ATTAK) >= qEnd) and (global_var(GVAR_BRAHMIN_STATUS_RANGER) >= 0)) then begin
-   zReply(303)
+      zReply(303)
    end
    else begin
-   Reply(300)
+      Reply(300)
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
    if (global_var(GVAR_TITUL_ARIZONA_RANGER) == 0) then begin
       NAnswer(310,3,NodeAnswer100)
    end
@@ -401,8 +401,7 @@ procedure NodeSndDialog begin
       NAnswer(340,1,NodeQst300)
       end
       else if (global_var(GVAR_BRAHMIN_STATUS_CHATTO) > 1) then begin
-      //! Чатто стал новым лидером. - Это очень плохо. Первым делом он наладит союз с Фениксом. Его необходимо немедленно устранить!
-      end
+      //! Chatto has become the new leader. - This is very bad. The first thing he will do is forge an alliance with Phoenix. He must be eliminated immediately!      end
    end
    end
 
@@ -410,7 +409,7 @@ procedure NodeSndDialog begin
    NAnswer(301,1,Node999)
 end
 
-//--- ЗАДАНИЯ
+//--- TASKS
 
 procedure NodeQst100 begin
    Reply(331)
@@ -577,7 +576,7 @@ procedure NodeChites4 begin
    NAnswer(211,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(311)

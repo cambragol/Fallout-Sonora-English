@@ -279,7 +279,7 @@ procedure NodeFstDialogEnd begin
    NAnswer(227,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (getQuest(GVAR_JACKALS_UNION_CITY) >= qEnd) then begin
@@ -309,7 +309,7 @@ procedure NodeSndDialog begin
    NAnswer(252,1,Node999)
 end
 
-//--- ВОПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(301)

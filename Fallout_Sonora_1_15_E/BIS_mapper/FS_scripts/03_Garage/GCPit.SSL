@@ -168,7 +168,8 @@ procedure setBarterA begin
         end
 
         if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_5) != 0) then begin
-        check_restock_item(PID_TOOL_CAR_GAZ, 2, 2, 100) // ЯБ для байка появляются только после его приобретения, иначе это может переполнить предметом игру и к тому же нарушит подготовку восприятия игрока к находке байка (подействует как спойлер)
+        check_restock_item(PID_TOOL_CAR_GAZ, 2, 2, 100) // BUs for a bike appear only after purchasing it, otherwise it may overwhelm the game with the item and also disrupt the preparation of the player’s perception for finding the bike (acts as a spoiler) 
+end
         end
 end
 
@@ -245,7 +246,7 @@ end
 procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-10) // Поправка к отношению за принадлежность к фракциям
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -266,7 +267,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -321,7 +322,7 @@ procedure NodeFstDialog5 begin
    call NodeSndDialog;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (replyNumber > 0) then begin
@@ -370,7 +371,7 @@ procedure NodeBarter begin
    call NodeSndDialog;
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    replyNumber := 220;

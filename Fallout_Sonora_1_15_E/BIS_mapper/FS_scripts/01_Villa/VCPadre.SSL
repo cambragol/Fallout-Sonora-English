@@ -185,7 +185,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,500)
@@ -321,7 +321,7 @@ procedure NodeQuest5 begin
    NAnswer(265,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeKey begin
    set_map_var(MVAR_Plaza_SaifPswrd,1);

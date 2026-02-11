@@ -187,7 +187,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -226,7 +226,7 @@ procedure NodeSndDialog begin
    NAnswer(279,1,NodeAnswer304)
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
    NAnswer(250,1,NodeQuest)
    NAnswer(220,1,NodeAnswer)
    if (getQuest(GVAR_VILLA_QST_CHRIS) == qStart) then begin

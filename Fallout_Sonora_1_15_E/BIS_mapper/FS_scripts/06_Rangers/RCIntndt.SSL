@@ -187,7 +187,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
 
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
 end
 
@@ -210,7 +210,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -241,7 +241,7 @@ procedure NodeBarter begin
    call NodeSndDialog;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
@@ -286,7 +286,7 @@ procedure NodeSndDialog begin
    NAnswer(211,1,Node999)
 end
 
-//--- РАССПРОСЫ О СЕБЕ
+//--- QUESTIONS ABOUT MYSELF
 
 procedure NodeBarter100 begin
    bitDialogExp(bit_6,0)
@@ -340,7 +340,7 @@ procedure NodeBarter106 begin
    NAnswer(292,1,Node999)
 end
 
-//--- НАГРАДА ЗА ТИТУЛ РЕЙНДЖЕРА
+//--- RANGER TITLE REWARD
 
 procedure NodeAnswer200 begin
    Reply(251)
@@ -381,7 +381,7 @@ procedure NodeAnswer210 begin
    BAnswer(259,1,Node999)
 end
 
-//--- НАГРАДА ЗА КВЕСТЫ СМОТРИТЕЛЯ
+//--- WATCHMAN'S QUEST REWARD
 
 procedure NodeAnswer300 begin
    Reply(271)

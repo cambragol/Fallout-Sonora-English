@@ -99,13 +99,13 @@ procedure map_update_p_proc begin
 end
 
 procedure setBarterA begin
-        //- крышки
+        //- caps
         check_restock_item(PID_AMMO_308, 3, 5, 100)
         check_restock_many(400,600)
 end
 
 procedure setBarterB begin
-   //! пока пусто
+   //! empty for now
    set_BarterDopusk;
 end
 
@@ -118,8 +118,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -170,7 +170,7 @@ procedure talk_p_proc begin
       end
    end
    else if (cur_map_index == MAP_RANGERS_BASA) then begin
-      set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+      set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
       dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -246,7 +246,7 @@ procedure NodeQstSndDialog4 begin
    NAnswer(315,1,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -278,7 +278,7 @@ procedure NodeStopDialog3 begin
    NAnswer(276,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

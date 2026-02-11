@@ -210,11 +210,11 @@ procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 
    if (partyPidSelf!=0) then begin
-      if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
-         if (local_var(LVAR_Stop_Run) == 0) then begin
-            partyRunToDude
-         end
-      end
+   if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
+       if (local_var(LVAR_Stop_Run) == 0) then begin
+       partyRunToDude
+       end
+   end
    end
 end
 
@@ -307,7 +307,7 @@ procedure NodeStopDialog2 begin
    NAnswer(194,1,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -333,7 +333,7 @@ procedure NodeFstDialog4 begin
    NAnswer(209,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(215)

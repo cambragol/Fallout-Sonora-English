@@ -134,7 +134,7 @@ procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
    // - added to match fcbarmen - cambragol
    if (objUsedPid == PID_M_BRAHMIN_POTROH) then begin
-   if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
+      if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) == qStart) then begin
       script_overrides;
       if ((global_var(GVAR_STATUS_FLAGSTAFF_ADMIN) != 0) or (global_var(GVAR_FLAGSTAFF_TIMER_DINNER)<game_time)) then begin
          floater(self_obj, 105, COLOR_MSG_RED);
@@ -187,7 +187,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -293,12 +293,12 @@ procedure NodeFstDialog4 begin
    NAnswer(244,0,Node999)
 end
 
-//----- ПОВТОРНЫЙ ДИАЛОГ
+//----- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
 
-   //--- Сюжетные квесты:
+   //--- Story quests:
    if (getQuest(GVAR_FLAGSTAFF_SLAVES_MINE) == qStart) then begin
       NAnswer(233,0,NodeAnswer101)
    end
@@ -306,7 +306,7 @@ procedure NodeSndDialog begin
       NAnswer(284,0,NodeAnswer103)
    end
 
-   //--- Основные квесты шахты:
+   //--- Main quests of the mine:
    if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
       NAnswer(236,0,NodeStopDialog3)
    end
@@ -324,7 +324,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Расспросы:
+   //--- Questions:
    if (bitDialog(bit_2) == 0) then begin
       NAnswer(212,0,NodeSelf)
    end
@@ -447,12 +447,12 @@ procedure NodeQuest100 begin
    Reply(261)
    // made these mutually exclusive, because it makes more sense - cambragol
    if (global_var(GVAR_FLAGSTAFF_ROBOT_STATUS) == 1) then begin
-      NAnswer(264,0,NodeQuest102)
+      NAnswer(264,1,NodeQuest102)
    end
    else begin
       NAnswer(262,2,NodeQuest101)
    end
-   NAnswer(257,0,NodeSndDialog)
+   NAnswer(257,1,NodeSndDialog)
 end
 
 procedure NodeQuest101 begin

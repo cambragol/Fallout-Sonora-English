@@ -170,7 +170,7 @@ procedure talk_p_proc begin
       floater(self_obj,102,COLOR_MSG_RED);
    end
    else begin
-      setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
       fracReaction(GVAR_TITUL_ARIZONA_RANGER,25) // Поправка к отношению за принадлежность к фракциям
       dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
@@ -192,7 +192,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -227,7 +227,7 @@ procedure NodeFstDialog5 begin
    NAnswer(212,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(random(220,224))
@@ -280,7 +280,7 @@ procedure NodeSndDialog3 begin
    NAnswer(234,0,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(251)

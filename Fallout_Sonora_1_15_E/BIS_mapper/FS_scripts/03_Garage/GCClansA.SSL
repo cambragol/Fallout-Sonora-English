@@ -61,8 +61,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if ((getQuest(GVAR_GARAGE_QST_BOSS) == qStart) and (obj_critter_a > 0)) then begin
           if (tile_distance_objs(self_obj,obj_critter_a) > 5) then begin

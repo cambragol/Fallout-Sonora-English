@@ -189,7 +189,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog begin
    bitDialogExp(bit_2,0)
@@ -292,7 +292,7 @@ procedure NodeArmorDialog6 begin
    NAnswer(176,1,NodeSndDialog)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -300,7 +300,7 @@ procedure NodeFstDialog begin
    NAnswer(201,1,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

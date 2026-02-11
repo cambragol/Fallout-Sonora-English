@@ -238,7 +238,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ (до лечения)
+//--- FIRST DIALOGUE (до лечения)
 
 procedure NodeFstDialog100 begin
    bitDialogExp(bit_1,0)
@@ -334,7 +334,7 @@ procedure NodeFstDialog300 begin
    end
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ (после лечения)
+//--- REPEAT DIALOGUE (после лечения)
 
 procedure NodeSndDialog begin
    Reply(300)

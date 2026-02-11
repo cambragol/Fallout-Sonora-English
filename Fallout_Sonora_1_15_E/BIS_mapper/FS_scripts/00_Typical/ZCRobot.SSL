@@ -107,7 +107,8 @@ procedure critter_p_proc begin
       if ((global_var(GVAR_OIL_PLATFORM_DUDE_DOPUSK)>0) or (self_TEAM == TEAM_PLAYER)) then begin
       attakParam := 0;
       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,TEAM_PLAYER);
-      end else begin
+      end
+      else begin
       critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_TEAM_NUM,NUM_TEAM);
       end
    end
