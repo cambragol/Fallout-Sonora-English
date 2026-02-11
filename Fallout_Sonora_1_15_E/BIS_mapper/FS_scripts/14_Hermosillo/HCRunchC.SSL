@@ -1,5 +1,5 @@
 #include "..\headers\define.h"
-//--------------------- дети на ранчо
+//---------------------
 
 #define NAME                            SCRIPT_HCRunchC
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_HERMOSILLO  // привязка к репутации (-1, если не нужно)
@@ -105,7 +105,12 @@ procedure use_obj_on_p_proc begin
       set_REP(1)
       exp_add(75);
       display_mstr(104);
-      floater(self_obj,105,COLOR_MSG_GREEN);
+      if DudeTraitHas(TRAIT_espanol) then begin
+         floater(self_obj,106,COLOR_MSG_GREEN);
+      end
+      else begin
+         floater(self_obj,105,COLOR_MSG_GREEN);
+      end
       item_remove(dude_obj, objUsedPid, 1)
       set_local_var(LVAR_SANDAL_STATUS,1);
       end
@@ -128,13 +133,26 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   if (game_time_hour < 0600) then begin
-   floater(self_obj,102,COLOR_MSG_RED);
-   end
-   else if town_rep_is_liked then begin
-   z_floater(self_obj,random(110,120),COLOR_MSG_NORMAL);
+   if DudeTraitHas(TRAIT_espanol) then begin
+      if (game_time_hour < 0600) then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+      end
+      else if town_rep_is_liked then begin
+      z_floater(self_obj,random(210,220),COLOR_MSG_NORMAL);
+      end
+      else begin
+      z_floater(self_obj,random(210,220),COLOR_MSG_RED);
+      end
    end
    else begin
-   z_floater(self_obj,random(110,120),COLOR_MSG_RED);
+      if (game_time_hour < 0600) then begin
+      floater(self_obj,102,COLOR_MSG_RED);
+      end
+      else if town_rep_is_liked then begin
+      z_floater(self_obj,random(110,120),COLOR_MSG_NORMAL);
+      end
+      else begin
+      z_floater(self_obj,random(110,120),COLOR_MSG_RED);
+      end
    end
 end

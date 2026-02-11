@@ -208,12 +208,12 @@ procedure NodeFstDialog2 begin
 end
 
 procedure NodeFstDialog3 begin
-   Reply(204)
+   zReply(204)
    NAnswer(205,1,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
-   Reply(206)
+   zReply(206)
    NAnswer(207,1,Node999)
    NAnswer(208,1,Node999)
 end

@@ -163,17 +163,19 @@ procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 
    if (self_TEAM == TEAM_PLAYER) then begin
-      if ((map_var(MVAR_PNX_RING_START) == 1) and (cur_map_index == MAP_PHOENIX_BNDCS)) then begin
-      call NodePartyNon2;
-      end
+      if (cur_map_index == MAP_PHOENIX_BNDCS) then begin
+         if (map_var(MVAR_PNX_RING_START) == 1) then begin
+            call NodePartyNon2;
+         end
+       end
    end
 
    if (partyPidSelf!=0) then begin
-   if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
-       if (local_var(LVAR_Stop_Run) == 0) then begin
-       partyRunToDude
-       end
-   end
+      if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
+         if (local_var(LVAR_Stop_Run) == 0) then begin
+            partyRunToDude
+         end
+      end
    end
 end
 
@@ -213,8 +215,9 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(-1) // Attitude to the main character (1 - positive character, -1 negative, 0 neutral)
 
+   // is this correct? - cambragol
    if (local_var(LVAR_Puerto_Visit) == 2) then begin
    set_local_var(LVAR_Puerto_Visit,3);
    end
@@ -357,7 +360,7 @@ end
 procedure NodeSndDialog begin
    Reply(220)
    /*
-   После изгнания из БС - более развернутый и честный рассказ о том, кто он такой и почему ввязался в опасные шпионские игры.
+   After being expelled from the BS - a more detailed and honest story about who he is and why he got involved in dangerous spy games.
    */
 
    if (getQuest(GVAR_HERMO_QST_PARTY) == qZero) then begin

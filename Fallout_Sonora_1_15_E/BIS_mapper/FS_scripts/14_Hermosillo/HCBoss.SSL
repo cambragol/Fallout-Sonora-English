@@ -136,7 +136,7 @@ procedure NodeStartDialog begin
    else begin
    call NodeSndDialog;
    end
-   //!!! При успешном диалоге установить - set_global_var(GVAR_HERMO_DUDE_ALARM,1);
+   //!!! If the dialogue is successful, install - set_global_var(GVAR_HERMO_DUDE_ALARM,1);
 end
 
 //--- ПЕРВЫЙ ДИАЛОГ

@@ -405,7 +405,7 @@ procedure NodeQstDialog202 begin
    item_remove(self_obj,PID_W_PISTOL_22,1)
    item_add(dude_obj,PID_W_PISTOL_22,1)
 
-   Reply(266)
+   zReply(266)
    //NAnswer(268,1,NodeQstDialog203)
    NAnswer(267,1,Node999)
 end

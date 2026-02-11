@@ -366,7 +366,6 @@ procedure NodeSndDialog3 begin
       NAnswer(241,1,NodePartyAdd)
       NAnswer(242,1,Node999)
    end
-
 end
 
 procedure NodePartyAdd begin
