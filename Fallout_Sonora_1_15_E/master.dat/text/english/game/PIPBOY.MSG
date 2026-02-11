@@ -135,67 +135,67 @@
 # GVAR_HOLODISK_01
 #----------------------------------------------
 
-{2000}{}{ These records I leave for my descendants as a}  
-{2001}{}{ warning. Keep them secret from the other inhabitants}  
-{2002}{}{ and pass them from father to son, as my father did to}  
-{2003}{}{ me.}  
-{2004}{}{}  
-{2005}{}{ Our people's history begins in Vault 27. This massive}  
-{2006}{}{ underground bunker was built before the Great War,}  
-{2007}{}{ and is located near Phoenix, Arizona.}  
-{2008}{}{**END-PAR**}  
-{2009}{}{ To you, my descendants, such a place might seem}  
-{2010}{}{ unwelcoming and strange. You are used to the sunlight}  
-{2011}{}{ and the golden sands of Sonora; you cannot}  
-{2012}{}{ understand the gloomy rooms of the Vault with its low}  
-{2013}{}{ ceilings and cold steel walls. But those very walls and}  
-{2014}{}{ technology saved our lives and our ancestors' lives,}  
-{2015}{}{ when nuclear bombs fell on the earth.}  
-{2016}{}{**END-PAR**}  
-{2017}{}{ For a long time, we didn't dare to go to the surface.}  
-{2018}{}{ The world above was uninhabitable due to mutants,}  
-{2019}{}{ ruins, and high radiation. But the longer the}  
-{2020}{}{ scientists and citizens argued about it, the fewer}  
-{2021}{}{ resources remained in the Vault for survival. Society}  
-{2022}{}{ was fracturing, riots broke out one after another,}  
-{2023}{}{ and some residents left for the wasteland on their}  
-{2024}{}{ own. A decision had to be made quickly. The only thing}  
-{2025}{}{ that could ensure our survival was the Garden of Eden}  
-{2026}{}{ Creation Kit. A great pre-war technology capable of}  
-{2027}{}{ breathing life into the desert. Scientists agreed that}  
-{2028}{}{ using it near the Vault would be a reckless waste of}  
-{2029}{}{ this valuable technology. The positive effect would be}  
-{2030}{}{ nullified by the environment. And we couldn't explore}  
-{2031}{}{ distant lands.}  
-{2032}{}{**END-PAR**}  
-{2033}{}{ When the situation became desperate, I gathered the}  
-{2034}{}{ best people I could trust even a little. We stole the}  
-{2035}{}{ G.E.C.K. and left the Vault, leaving most of the}  
-{2036}{}{ population to fend for themselves. The journey was}  
-{2037}{}{ tough. Many died from radiation, mutants, and}  
-{2038}{}{ occasional raiders. Some betrayed us and were}  
-{2039}{}{ executed. At the end of the journey, only a few}  
-{2040}{}{ families remained. When hope was lost, we stumbled}  
-{2041}{}{ upon this unremarkable place. The G.E.C.K. detector}  
-{2042}{}{ deemed it suitable for creating a garden city. But}  
-{2043}{}{ even with this technology, it took years before we}  
-{2044}{}{ managed to establish the Villa.}  
-{2045}{}{**END-PAR**}  
-{2046}{}{ Now you know the price of our prosperity. And}  
-{2047}{}{ although I do not regret what happened, doubts}  
-{2048}{}{ remain deep in my soul. Did we do the right thing? How}  
-{2049}{}{ many people did we betray? How many did we doom to}  
-{2050}{}{ suffering after our departure? No one can answer}  
-{2051}{}{ these questions now. So the only right decision is to}  
-{2052}{}{ forget the past and live for the future.}  
-{2053}{}{**END-PAR**}  
-{2054}{}{ Our future is our land and our children. Protect them.}  
-{2055}{}{ Preserve our way. Avoid ancient technologies. Drive}  
-{2056}{}{ away outsiders before they can cause harm. If one}  
-{2057}{}{ generation breaks the covenant, the community will}  
-{2058}{}{ fall.}  
-{2059}{}{**END-PAR**}  
-{2060}{}{ Just as Vault 27 once fell.}  
+{2000}{}{ These records I leave for my descendants as a}
+{2001}{}{ warning. Keep them secret from the other inhabitants}
+{2002}{}{ and pass them from father to son, as my father did to}
+{2003}{}{ me.}
+{2004}{}{}
+{2005}{}{ Our people's history begins in Vault 27. This massive}
+{2006}{}{ underground bunker was built before the Great War,}
+{2007}{}{ and is located near Phoenix, Arizona.}
+{2008}{}{**END-PAR**}
+{2009}{}{ To you, my descendants, such a place might seem}
+{2010}{}{ unwelcoming and strange. You are used to the sunlight}
+{2011}{}{ and the golden sands of Sonora; you cannot}
+{2012}{}{ understand the gloomy rooms of the Vault with its low}
+{2013}{}{ ceilings and cold steel walls. But those very walls and}
+{2014}{}{ technology saved our lives and our ancestors' lives,}
+{2015}{}{ when nuclear bombs fell on the earth.}
+{2016}{}{**END-PAR**}
+{2017}{}{ For a long time, we didn't dare to go to the surface.}
+{2018}{}{ The world above was uninhabitable due to mutants,}
+{2019}{}{ ruins, and high radiation. But the longer the}
+{2020}{}{ scientists and citizens argued about it, the fewer}
+{2021}{}{ resources remained in the Vault for survival. Society}
+{2022}{}{ was fracturing, riots broke out one after another,}
+{2023}{}{ and some residents left for the wasteland on their}
+{2024}{}{ own. A decision had to be made quickly. The only thing}
+{2025}{}{ that could ensure our survival was the Garden of Eden}
+{2026}{}{ Creation Kit. A great pre-war technology capable of}
+{2027}{}{ breathing life into the desert. Scientists agreed that}
+{2028}{}{ using it near the Vault would be a reckless waste of}
+{2029}{}{ this valuable technology. The positive effect would be}
+{2030}{}{ nullified by the environment. And we couldn't explore}
+{2031}{}{ distant lands.}
+{2032}{}{**END-PAR**}
+{2033}{}{ When the situation became desperate, I gathered the}
+{2034}{}{ best people I could trust even a little. We stole the}
+{2035}{}{ G.E.C.K. and left the Vault, leaving most of the}
+{2036}{}{ population to fend for themselves. The journey was}
+{2037}{}{ tough. Many died from radiation, mutants, and}
+{2038}{}{ occasional raiders. Some betrayed us and were}
+{2039}{}{ executed. At the end of the journey, only a few}
+{2040}{}{ families remained. When hope was lost, we stumbled}
+{2041}{}{ upon this unremarkable place. The G.E.C.K. detector}
+{2042}{}{ deemed it suitable for creating a garden city. But}
+{2043}{}{ even with this technology, it took years before we}
+{2044}{}{ managed to establish the Villa.}
+{2045}{}{**END-PAR**}
+{2046}{}{ Now you know the price of our prosperity. And}
+{2047}{}{ although I do not regret what happened, doubts}
+{2048}{}{ remain deep in my soul. Did we do the right thing? How}
+{2049}{}{ many people did we betray? How many did we doom to}
+{2050}{}{ suffering after our departure? No one can answer}
+{2051}{}{ these questions now. So the only right decision is to}
+{2052}{}{ forget the past and live for the future.}
+{2053}{}{**END-PAR**}
+{2054}{}{ Our future is our land and our children. Protect them.}
+{2055}{}{ Preserve our way. Avoid ancient technologies. Drive}
+{2056}{}{ away outsiders before they can cause harm. If one}
+{2057}{}{ generation breaks the covenant, the community will}
+{2058}{}{ fall.}
+{2059}{}{**END-PAR**}
+{2060}{}{ Just as Vault 27 once fell.}
 {2061}{}{**END-DISK**}
 
 
@@ -407,39 +407,39 @@
 # Mission in Quartz
 # GVAR_HOLODISK_04
 #----------------------------------------------
-{5000}{}{ Your mission is to carry the ideas of the Holy Fire to}  
-{5001}{}{ the lands of barbarians and heretics. Be ready for}  
-{5002}{}{ misunderstanding and persecution by stupid savages,}  
-{5003}{}{ for detachment from earthly goods and self-sacrifice.}  
-{5004}{}{ Do not hesitate. This is your holy burden.}  
-{5005}{}{**END-PAR**}  
-{5006}{}{ Your mission has two goals.}  
-{5007}{}{**END-PAR**}  
-{5008}{}{ The first is to create a colony on the ruins of}  
-{5009}{}{ Quartzsite that is sympathetic to our faith. Such a}  
-{5010}{}{ colony will become a regional center for the spread of}  
-{5011}{}{ ideas of the Holy Fire, one of the pillars of our future.}  
-{5012}{}{ But beware of heretical rangers, their base is 50 miles}  
-{5013}{}{ north. For cover, pretend to be ordinary refugees}  
-{5014}{}{ from Phoenix, as if looking for a new home.}  
-{5015}{}{**END-PAR**}  
-{5016}{}{ The second is to collect the sacred nuclear resources}  
-{5017}{}{ of this city and prepare them for dispatch to Phoenix.}  
-{5018}{}{ According to our data, there is one of the Tombs of}  
-{5019}{}{ Atom in Quartzsite - the Petro-Chico gas station.}  
-{5020}{}{ Find it and open it with all due respect. If it is}  
-{5021}{}{ impossible to send the resources keep them under the}  
-{5022}{}{ cover of the colony until new orders are received from}  
-{5023}{}{ the Council.}  
-{5024}{}{**END-PAR**}  
-{5025}{}{ Maintain the strictest secrecy of the mission, in case}  
-{5026}{}{ of danger, destroy this holodisk.}  
-{5027}{}{**END-PAR**}  
-{5028}{}{ May the Holy Fire be with you.}  
-{5029}{}{**END-PAR**}  
-{5030}{}{ Amen.}  
-{5031}{}{**END-PAR**}  
-{5032}{}{**END-DISK**}  
+{5000}{}{ Your mission is to carry the ideas of the Holy Fire to}
+{5001}{}{ the lands of barbarians and heretics. Be ready for}
+{5002}{}{ misunderstanding and persecution by stupid savages,}
+{5003}{}{ for detachment from earthly goods and self-sacrifice.}
+{5004}{}{ Do not hesitate. This is your holy burden.}
+{5005}{}{**END-PAR**}
+{5006}{}{ Your mission has two goals.}
+{5007}{}{**END-PAR**}
+{5008}{}{ The first is to create a colony on the ruins of}
+{5009}{}{ Quartzsite that is sympathetic to our faith. Such a}
+{5010}{}{ colony will become a regional center for the spread of}
+{5011}{}{ ideas of the Holy Fire, one of the pillars of our future.}
+{5012}{}{ But beware of heretical rangers, their base is 50 miles}
+{5013}{}{ north. For cover, pretend to be ordinary refugees}
+{5014}{}{ from Phoenix, as if looking for a new home.}
+{5015}{}{**END-PAR**}
+{5016}{}{ The second is to collect the sacred nuclear resources}
+{5017}{}{ of this city and prepare them for dispatch to Phoenix.}
+{5018}{}{ According to our data, there is one of the Tombs of}
+{5019}{}{ Atom in Quartzsite - the Petro-Chico gas station.}
+{5020}{}{ Find it and open it with all due respect. If it is}
+{5021}{}{ impossible to send the resources keep them under the}
+{5022}{}{ cover of the colony until new orders are received from}
+{5023}{}{ the Council.}
+{5024}{}{**END-PAR**}
+{5025}{}{ Maintain the strictest secrecy of the mission, in case}
+{5026}{}{ of danger, destroy this holodisk.}
+{5027}{}{**END-PAR**}
+{5028}{}{ May the Holy Fire be with you.}
+{5029}{}{**END-PAR**}
+{5030}{}{ Amen.}
+{5031}{}{**END-PAR**}
+{5032}{}{**END-DISK**}
 
 
 #----------------------------------------------

@@ -5,6 +5,7 @@
 #FALLOUT SONORA
 #Fuentes de inspiración y referencias
 
+
 Ciencia Ficción de 1950-60:
 
 @Harvey (1950)
@@ -36,6 +37,7 @@ Ciencia Ficción de 1950-60:
 @- temporada 3, episodio 3
 @- temporada 3, episodio 17
 
+
 Dramas, thrillers, películas de guerra 40s-60s:
 
 @The Man with the Scar (1932)
@@ -60,6 +62,7 @@ Dramas, thrillers, películas de guerra 40s-60s:
 @Ten Seconds to Hell (1959)
 @Psycho (1960)
 @The Misfits (1961)
+
 
 Post-apocalíptico, amenaza nuclear:
 
@@ -87,6 +90,7 @@ Post-apocalíptico, amenaza nuclear:
 @- Warning Red (1956)
 @- Nuclear War (1959)
 
+
 Westerns de la Guerra Civil Americana:
 
 @The Mark of Zorro (1940)
@@ -103,6 +107,7 @@ Westerns de la Guerra Civil Americana:
 @Fort Bowie (1958)
 @High Plains Drifter (1973)
 
+
 México:
 
 @Vámonos con Pancho Villa (1935)
@@ -114,13 +119,14 @@ México:
 @Simbad el mareado (1950)
 @El Ceniciento (1951)
 @El revoltoso (1951)
-@Que ha dado esa mujer (1951)
+@Que te ha dado esa mujer (1951)
 @Viva Zapata! (1952)
 @Ride, Vaquero! (1953)
 @The Littlest Outlaw (1955)
 @El jinete sin cabeza (1957)
 @Touch of Evil (1958)
 @La cabeza viviente (1963)
+
 
 Otras:
 
@@ -135,5 +141,7 @@ Otras:
 @The Island (2005)
 @Cry of Silence (TV series "The Outer Limits", 1964)
 @Star Trek (TV series 1966-1969)
+
+
 
 Y mucho, mucho más...

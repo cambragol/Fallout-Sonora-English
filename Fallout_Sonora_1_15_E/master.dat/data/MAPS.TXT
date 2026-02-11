@@ -573,7 +573,6 @@ map_name=RRadio
 music=fs_rngr
 ambient_sfx=gntlwin1:50, gntlwind:50
 saved=Yes
-can_rest_here=No,No,No
 automap=yes
 
 [Map 045]

@@ -4,6 +4,7 @@
 @ mod hecho en 2020-2021
 
 
+
 #- PROYECTO CREADO POR -
 
 
@@ -12,68 +13,53 @@ Alexander "BLACK DESIGNER" Poshelyuzhin
 @modelado 3D, sprites del entorno,
 @texto del juego, localizaciones, vídeos del juego
 
-
 Alexander "Red888guns" Berezin
 @modelado 3D, sprites del entorno,
 @inventario, criaturas nuevas y cabezas parlantes,
 @vídeo de la explosión de la nave en la versión 1.10
 
-
 Osman "Wolfram" Adzhiusmanov
 @Creación del vídeo de la introducción
-
 
 Grigory Sokolov
 @Creación del vídeo de la explosión en Puerto antes de la 1.10,
 @Consultor de vídeos
 
-
 Denis "MASTER" Voloshin
 @control de calidad, testeo, discusión acerca de escenarios
-
 
 Dmitry Kuznetsov
 @testeo en la versión 0.29
 
-
-"Foxx"
-@instalador, adaptación de HRP y sfall
-
-
 Lexx
 @información adicional para NMLTHR.
-
 
 Enrique Barredo
 @Consultor y traductor al español de Nevada Band
 @(es decir, del proyecto original, algo distinto de la traducción que estás leyendo)
 
-
 David Ageev
 @edición de textos del juego (Ciudad Garaje, Rangers,
 @San Brahmán, objetos típicos, encuentros)
 
-
 Ilya Nizovskikh
 @edición de textos del juego (Flagstaff, Tusán, Casa Nueva)
-
 
 Alexander "Vault_boy" Chernenko
 @edición de textos del juego
 @(Chacales, Fénix, Motel Viejo, Infierno, Pip-Boy)
 
-
 Tainted Acolyte
 @edición de textos del juego (Casa Grande, Escudos Azules)
 
-
 Elena Skryvaeva
-@edición de textos del juego (errores de género y puntuación)
+@edición de textos del juego (variaciones de género y puntuación)
 
+Roman Kozlov
+@edición de textos del juego (variaciones de género y errores tipográficos)
 
 Dmitry "Jimmy J." Chepusov
 @voz rusa para la introducción y finales originales
-
 
 Alexey "NOBODYS NAIL MACHINE" Trofimov
 @compositor
@@ -83,13 +69,7 @@ Alexey "NOBODYS NAIL MACHINE" Trofimov
 @está presente la canción "La Cucaracha"
 @interpretada por Louis Armstrong
 
-#- CONTRIBUCIONES A LA EXPANSION SIYANIE DNYA -
 
-Alexander Berezin (gráficos)
-Alexey Trofimov (música)
-Akop Abraamyan (testeo)
-Tainted Acolyte (edición de textos)
-Alexander Poshelyuzhin (otras contribuciones)
 
 #- AGRADECIMIENTOS ESPECIALES A -
 
@@ -122,6 +102,7 @@ AVI to MVE converter por ABel
 @y otros
 
 
+
 #- TODOS LOS DERECHOS RESERVADOS POR LEY.
 
 @La copia, duplicación y reproducción
@@ -129,5 +110,5 @@ AVI to MVE converter por ABel
 @sin permiso expreso de los titulares de los derechos de autor
 @es una violación de la ley de derechos de autor.
 
-Los derechos de la marca @Fallout pertenecen a
+@Los derechos de la marca Fallout pertenecen a
 Bethesda Softworks LLC
