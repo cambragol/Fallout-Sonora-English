@@ -263,7 +263,7 @@ procedure NodeFstDialog7 begin
 end
 
 procedure NodeFstDialog8 begin
-   Reply(237)
+   zReply(237)
    NAnswer(238,1,Node999)
    BAnswer(239,1,NodeEnemy)
 end

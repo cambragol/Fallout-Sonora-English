@@ -68,7 +68,7 @@ procedure map_enter_p_proc begin
        rm_timer_event(self_obj);
        set_obj_visibility(self_obj, 1);
        end
-       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
@@ -138,7 +138,7 @@ end
 
 procedure talk_p_proc begin
    setReaction(1)
-   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 

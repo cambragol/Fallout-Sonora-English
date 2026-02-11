@@ -235,7 +235,7 @@ procedure NodeFinalDialog begin
    set_SLAVA(50)
    setBonusReaction(80)
 
-   Reply(280)
+   zReply(280)
    zGAnswer(281,1,NodeFinalDialog2)
    NAnswer(284,1,NodeFinalDialog3)
 end
@@ -497,7 +497,7 @@ procedure NodeAnswer304 begin
       end
    end
    else begin
-      Reply(346)
+      zReply(346)
    end
    NAnswer(342,1,NodeAnswer305)
 end

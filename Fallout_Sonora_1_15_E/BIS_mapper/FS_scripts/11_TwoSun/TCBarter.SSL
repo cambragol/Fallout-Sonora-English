@@ -113,7 +113,7 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_map_var(MVAR_TWOSUN_Alarma,0);
        set_start_home
-       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
@@ -135,7 +135,7 @@ procedure setBarterA begin
         check_restock_item(PID_W_KNUCKLES_PNEUMATIC, 1, 2, 100)
         check_restock_item(PID_W_SPEAR_PNEUMATIC, 1, 2, 100)
         check_restock_item(PID_W_SLEDGEHAMMER, 1, 1, 100)
-           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
+        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
         check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
 
         //- крышки
@@ -237,7 +237,7 @@ procedure talk_p_proc begin
    floater(self_obj, 103, COLOR_MSG_RED);
    end
    else begin
-   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
    end
 end
@@ -533,10 +533,10 @@ procedure NodeRepairEnd begin
    play_sfx("FIXSTILL");
    PLAY_FADE
 
-   //- Байк
+   //- Bike
    /*
-   Смена внешнего вида байка, если он находится на той же карте
-   Хотя на байке в ангар не заедешь, нужно учесть такую возможность на будущее.
+   Changing the bike's appearance if it is on the same map
+   Although you can't enter the hangar on a bike, you should consider this possibility for the future.
    */
    if (upNumber == 11) then begin
    set_global_var(GVAR_CAR_SPEED_UPGD,1);
@@ -557,10 +557,10 @@ end
 
 procedure NodeCoastCorrect begin
    /*
-   Комментарий:
-      пришлось исхитриться такой сложной формулой,
-      потому что движок некорректно воспринимает умножение на отрицательное число
-      (получались огромные числа)
+   Comment:
+      I had to contrive such a complex formula,
+      because the engine does not correctly perceive multiplication by a negative number
+      (it resulted in huge numbers)
    */
    /*
    if (local_var(LVAR_Barter_Mod) > 0) then begin
@@ -581,21 +581,21 @@ end
 //--- ТОРГОВЛЯ
 
 /*
-{280}{}{Я могу расчитывать на товар "для достойных"?}
-{281}{}{Я могу расчитывать на товар "для своих"?}
-{282}{}{После демонтажа Мастера Харда мне ничего не остается, как торговать со всеми подряд. Вот весь мой товар.}
-{283}{}{Разумное решение.}
-{284}{}{Разве Мастер Хард добавил тебя в список торговых партнеров?}
-{285}{}{Мастер Хард дал мне допуск к основным видам товаров.}
-{286}{}{[Торговля 75] Со мной выгодно вести бизнес.}
-{287}{}{Возможно. Но одних твоих слов не достаточно.}
-{288}{}{Жаль, что ты не видишь своей выгоды.}
-{289}{}{Окей, этого достаточно. Взгляни на эти прекрасные предметы технологий и назови свою цену.}
-{290}{}{Вот так бы сразу.}
-{291}{}{Только по решению Мастера Харда.}
-{292}{}{[Торговля 100] Мне можно доверять.}
-{293}{}{Мастер Хард мне доверяет. Сделай запрос его системе.}
-{294}{}{Теперь, когда Мастер Хард не у дел, тебе нет смысла удерживать товар.}
+{280}{}{Can I count on goods "for the worthy"?}
+{281}{}{Can I count on goods "for our own"?}
+{282}{}{After dismantling Master Hard, I have no choice but to trade with everyone. Here are all my goods.}
+{283}{}{A reasonable decision.}
+{284}{}{Did Master Hard add you to the list of trade partners?}
+{285}{}{Master Hard gave me access to basic types of goods.}
+{286}{}{[Trade 75] It is profitable to do business with me.}
+{287}{}{Perhaps. But your words alone are not enough.}
+{288}{}{It is a pity that you do not see your own benefit.}
+{289}{}{Okay, that is enough. Take a look at these beautiful pieces of technology and name your price.}
+{290}{}{I wish I could do it that way.}
+{291}{}{Only at Master Hard's discretion.}
+{292}{}{[Trade 100] I can be trusted.}
+{293}{}{Master Hard trusts me. Query his system.}
+{294}{}{Now that Master Hard is out of business, there's no point in you holding on to the goods.}
 */
 
 procedure NodeBarter begin
