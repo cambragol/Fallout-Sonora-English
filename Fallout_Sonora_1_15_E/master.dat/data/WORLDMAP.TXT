@@ -414,7 +414,7 @@ type_00=Ratio:100%, pid:16777254, Item:137(wielded), Item:(0-2)70, Script:638 ; 
 position=wedge, spacing:2
 
 [Encounter: ISLD_Supermut]
-type_00=pid:16777332, Item:131(wilded), Script:998 ; super mutant typical
+type_00=pid:16777332, Item:131(wielded), Script:998 ; super mutant typical
 type_01=pid:16777332, Item:162(wielded), Item:(1-2)9, Script:998 ; Super Mutant Standard
 type_02=ratio:10%, pid:16777332, Item:184(wielded), Item:(1-3)185, Script:998; Super Mutant Standard
 position=wedge, spacing:2
@@ -505,7 +505,10 @@ position=surrounding, spacing:5, distance:15
 type_00=pid:16777222, Item:(5)46, Script:627 ; encounter with a wrecked car
 position=surrounding, spacing:5, distance:10
 
-; ...
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;  Random encounter tables  ;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;-------------
 ;
@@ -899,9 +902,9 @@ maps=Coast Encounter 1
 enc_00=Chance:100%,Enc: TRG_RADACTIV
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;; End of Newly added Encounter Tables ;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;  End of Newly added Encounter Tables  ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 [Tile Data]
 ; World Map Horizontal Size:

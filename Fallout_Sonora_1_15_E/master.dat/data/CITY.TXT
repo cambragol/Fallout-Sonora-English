@@ -54,7 +54,7 @@ entrance_3=Off,365,240,FlagstaffGard,-1,-1,0
 entrance_4=Off,-1,-1,FlagstaffCave,-1,-1,0
 entrance_5=Off,175,153,FlagstaffFarm,-1,-1,0
 
-[Area 02]                ; Гараж-Cити
+[Area 02]                ; Garage City
 area_name=Hardware
 world_pos=472,222
 start_state=On
@@ -179,7 +179,7 @@ entrance_0=On,115,340,Hermosillo1,-1,-1,0
 entrance_1=Off,290,310,Hermosillo2,-1,-1,0
 entrance_2=Off,390,230,Hermosillo3,-1,-1,0
 
-[Area 11]                ; San-Felipe
+[Area 11]                ; San Felipe
 area_name=SanFelipe
 world_pos=284,1432
 start_state=On
@@ -501,7 +501,7 @@ townmap_art_idx=-1
 townmap_label_art_idx=-1
 entrance_0=On,-1,-1,Special Padre Encounter,-1,-1,0
 
-[Area 39]                ; Rally point in Dayglow (in F2 - Cairbennog Cave)
+[Area 39]                ; Rally point in Dayglow (in F2 - Caerbannog Cave)
 area_name=DayglowStart
 world_pos=340,885
 start_state=Off
@@ -580,7 +580,7 @@ townmap_art_idx=-1
 townmap_label_art_idx=-1
 entrance_0=On,-1,-1,RangersQuartz,-1,-1,0
 
-[Area 47]		 ; Locations that have nowhere else to go
+[Area 47]                ; Locations that have nowhere else to go
 area_name=Shadow Worlds
 world_pos=100,100
 start_state=Off

@@ -381,7 +381,7 @@
 # GVAR_PHENIX_MIGEL_KNOWN
 # 1507, 801, 230, 1, 2
 
-# Clear the Phoenix area of ​​the Los Panchos gang
+# Clear the Phoenix area of the Los Panchos gang
 # GVAR_PHENIX_QST_MERC_A
 #1507, 802, 244, 1, 2
 

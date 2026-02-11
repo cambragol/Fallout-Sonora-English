@@ -33,29 +33,33 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - Flagstaff: Added explanatory lines to the Mine Administrator and Faber regarding Willa's mission to destroy the mine.
 - Flagstaff: Partially rewritten the dialogue with the girl in the bar to make it feel complete.
 - Flagstaff: Partially rewritten and reorganized the dialogue with Ranger Keruk to make it clearer and less garbled.
-- Flagstaff: You can now hand over the Ranger to Faber without killing him. - Flagstaff: Hugo and Sancho now automatically disappear from the map when the player leaves the mine without a final dialogue with them.
-- Flagstaff: The museum sign has been redesigned to be more in line with Art Deco.
+- Flagstaff: You can now hand over the Ranger to Faber without killing him.
+- Flagstaff: Hugo and Sancho now automatically disappear from the map when the player leaves the mine without a final dialogue with them.
+- Flagstaff: The museum sign has been redesigned to be more in line with art decoration.
 - Flagstaff: The melee weapon the warden in the bar now has is based on the player's level (before the first conversation).
 - Rangers: You can now sleep at the radio station.
 - Rangers: The base price of the ferry handle has been increased from 10 to 20.
 - Rangers: Minor dialogue adjustments to Rufus.
 - Rangers, Quartermaster: Now trades from the first conversation + removed questions about himself + added leather armor to the inventory.
-- *Quartzsite: The chest with the holodisk in the village elder's hut has been moved to a more prominent location. - *San Brahmin: Ranger Oscar now uses a more powerful Pro file for the veteran ranger.
+- *Quartzsite: The chest with the holodisk in the village elder's hut has been moved to a more prominent location.
+- *San Brahmin: Ranger Oscar now uses a more powerful pro file for the veteran ranger.
 - San Brahmin: Geronimo's dialogue has been slightly adjusted and lines have been added for late-game scenarios.
 - San Brahmin: Increased damage dealt by cave-ins in the Buried City + added another such cave-in + adjusted the interaction phrases for cave-ins + added red stripes to cave-ins for greater visibility.
 - *San Brahmin: Dry sewer has been added as a bonus for the "Scavenger's Sense" perk.
 - Phoenix: The weapons dealer can now upgrade the laser pistol.
 - Phoenix: Larry's persuasion requirements have been increased.
-- *Phoenix: The medic from the safehouse has been moved to the first floor of the cathedral. - *Phoenix, Nuclear Power Plant: Rat soup has been moved to a more visible location. + A console for opening the sewer door from the inside has been added to the basement. + Lighting fixtures have been added to the basement. + The transition between the sewers and the Nuclear Power Plant basement has been adjusted. + The sewer dweller in the Nuclear Power Plant quest has been moved closer to the transition to the Nuclear Power Plant basement.
+- *Phoenix: The medic from the safehouse has been moved to the first floor of the cathedral.
+- *Phoenix, Nuclear Power Plant: Rat soup has been moved to a more visible location. + A console for opening the sewer door from the inside has been added to the basement. + Lighting fixtures have been added to the basement. + The transition between the sewers and the Nuclear Power Plant basement has been adjusted. + The sewer dweller in the Nuclear Power Plant quest has been moved closer to the transition to the Nuclear Power Plant basement.
 - Phoenix: All companions forcibly disconnected during the battle now occupy designated spectator seats to make them easier to find after the battle.
 - Phoenix: The casino administrator's dialogue referring to Don Diego for special work has been blocked.
 - Vault 25: The console for the test subject force fields can now be opened with a yellow access card in addition to a red one.
 - Vault 25: Laser traps in the hallway now automatically deactivate after a peaceful dialogue with the vault overseer until they are reactivated.
 - *Vault 25: Columns have been added to the hallway near the overseer's station.
 - *Vault 25: One fusion core has been removed from the crate in the nuclear warehouse (from 3 to 2).
-- *Motel: A more powerful Pro file has been used for the mutant brothers.
+- *Motel: A more powerful pro file has been used for the mutant brothers.
 - *Motel: The +9 reaction bonus and +2 AP bonus for the mutant mothers have been removed, but 15 HP have been added.
-- Vault 27: Microfusion batteries now spawn one fusion core at the overseer's station. - *Vault 27, Arthur Carrington: Arthur reacts to the destruction of the cathedral immediately upon returning to Phoenix + now leaves the party in Phoenix for 24 hours (previously 24 hours) + improved dialogue in many places + partially recalculated character skills and stats at all levels.
+- Vault 27: Microfusion batteries now spawn one fusion core at the overseer's station.
+- *Vault 27, Arthur Carrington: Arthur reacts to the destruction of the cathedral immediately upon returning to Phoenix + now leaves the party in Phoenix for 24 hours (previously 24 hours) + improved dialogue in many places + partially recalculated character skills and stats at all levels.
 - *Vault 27: Ghost armor and reaction times have been slightly increased + the Overseer's ghost's armor and HP have been increased.
 - Casa Grande: Many dialogues in the location have been improved and partially rewritten, especially at the water station.
 - *Casa Grande, Find the Tinsmith quest: additional quest prompts have been added for the mayor, his daughter, and Old Man Gallegas + an info trigger has been added to the moonshiner's hut.
@@ -71,24 +75,27 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - **Casa Nueva: The marriage pendant for the missing person quest has been implemented + dialogue with the quest giver has been improved.
 - Puerto: Improvements to various location texts (Maura, Dixon, Latham, the janitor, Dixon's computer entries).
 - Puerto: Convincing Maura of the Order's mistakes now requires three arguments instead of one.
-- *Puerto: In the quartermaster's 3-tier trade system, the second tier (merchant goods) and the third tier (for Order members) have been combined into one. - *Platform, boat: completely rewritten and reorganized script + rewritten game text (AFBoat.msg) + you can now travel by boat between known locations on the coast + weight limit removed + energy is no longer consumed with each swim (but the first refueling with a core block is still required).
+- *Puerto: In the quartermaster's 3-tier trade system, the second tier (merchant goods) and the third tier (for Order members) have been combined into one.
+- *Platform, boat: completely rewritten and reorganized script + rewritten game text (AFBoat.msg) + you can now travel by boat between known locations on the coast + weight limit removed + energy is no longer consumed with each swim (but the first refueling with a core block is still required).
 - *Hermosillo: Pancho's partner's skills and stats have been partially recalculated at all development levels.
 - **The San Felipe location has been completed and added to the game. The quest in Puerto Peñasco leading to this location has been completed accordingly.
 - All three Sonora Express offices (Flagstaff, Phoenix, Two Sun) now offer the option to purchase storage slots for your belongings. These slots have a maximum capacity of 999.
-- A pushing option has been added to standard caravan guards on the world map (including the San Brahmin caravan escort quest). - World Map: Reduced the frequency of random encounters.
+- A pushing option has been added to standard caravan guards on the world map (including the San Brahmin caravan escort quest).
+- World Map: Reduced the frequency of random encounters.
 - World Map: Implemented random NPC placements on random encounter maps.
 - World Map: Added a new random encounter, "Townspeople Sharing Bottle Caps" (occurs near Phoenix, only once per game).
 - World Map: Added a new random encounter, "Lost Super Mutants" (occurs rarely on the Peninsula).
 - World Map: Added a new random encounter with Desperados bandits (occurs occasionally in the southern desert near Hermosillo).
 - World Map: Restructured and partially rewritten Paul's dialogue on the mobile platform.
 - World Map, encounter "Bandits Torturing a Scribe": The encounter has been technically restructured to work more correctly + NPC loot has been adjusted.
-- *World Map, encounter "Legend City": A destroyed version of the slot machines has been depicted. - *World Map, Slave Convoy encounter: top border of the map lowered + monk is now armed with a laser pistol + main cargo sprite reduced in size.
+- *World Map, encounter "Legend City": A destroyed version of the slot machines has been depicted.
+- *World Map, Slave Convoy encounter: top border of the map lowered + monk is now armed with a laser pistol + main cargo sprite reduced in size.
 
 - **Dayglow: The rally point for going to Dayglow has been moved from Inferno to a separate marker on the world map.
-- **Dayglow: The ZTInfo info trigger script has been split into two separate files – one for the main game (ZTInfo) and one for Daylight Shining (YTInfo). The ZTInfo script has been removed from the DLC resources. Several other files have been removed after a minor archive optimization.
+- **Dayglow: The ZTInfo info trigger script has been split into two separate files - one for the main game (ZTInfo) and one for Daylight Shining (YTInfo). The ZTInfo script has been removed from the DLC resources. Several other files have been removed after a minor archive optimization.
 - Dayglow: The San Diego flag in the main menu has been redesigned.
 - Dayglow: The minimum character level for starting the DLC has been raised from 7 to 10.
-- *Dayglow: A new weapon has been added – a hatchet knife.
+- *Dayglow: A new weapon has been added - a hatchet knife.
 - Dayglow: A bug in the variables for Old Judy's quest has been fixed.
 - Dayglow: Information about the removal of irrelevant quest items upon leaving Dayglow will now be logged (previously this happened without notification).
 - Dayglow: Resting at the Old Town Hotel restores more health.
@@ -98,7 +105,8 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - *Dayglow: The gate from the Old Town to the north (to the road junction) can no longer be opened until the corresponding quest is received.
 - *Dayglow: Minor adjustments to howitzer voice lines and scripts have been made to improve player comprehension.
 - *Dayglow: Missing markers have been added to the transition grids and monorail elevators.
-- *Dayglow: Some black prospectors have had their .pro files replaced with more powerful ones, and their weapons have been replaced. - Dayglow: Donovan's body weight has been reduced from 25 to 20.
+- *Dayglow: Some black prospectors have had their .pro files replaced with more powerful ones, and their weapons have been replaced.
+- Dayglow: Donovan's body weight has been reduced from 25 to 20.
 
 - *Partially revised weapon and ammo distribution across locations (primarily in the first third of the game) for better balance and more even weapon build progression.
 - *Turnover volumes at many merchants have been adjusted.
@@ -112,12 +120,14 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - Rad Ants now irradiate when they attack.
 - *Centipedes' HP and AC have been increased.
 - **The "Death Machine" title now requires 250 deaths (up from 20), the "Great Hunter" title requires 1000 deaths (up from 50), and the "Monster Slayer" title requires 50 deaths (up from 15).
-- The NMLABB sprite now has a new SMG animation. - Added companion reactions to grave digging.
-- **The original mechanic for accruing experience for killing NPCs has been restored (i.e., experience is pre-recorded in the .pro file, rather than calculated by script). Experience values ​​are calculated using a formula based on HP, damage resistance, and the enemy's threat coefficient.
+- The NMLABB sprite now has a new SMG animation.
+- Added companion reactions to grave digging.
+- **The original mechanic for accruing experience for killing NPCs has been restored (i.e., experience is pre-recorded in the .pro file, rather than calculated by script). Experience values are calculated using a formula based on HP, damage resistance, and the enemy's threat coefficient.
 - Increased the regeneration amount for ghouls (from 1/5 to 1/10 of maximum health).
 - The "Negotiations failed" phrase in the log has been removed (it is no longer displayed when exiting dialogue for combat).
 - Trap adjustments (traps, mines, laser): with the "Lightfoot" perk, traps now ignore not only the main character but also their companions.
-- The "Lightfoot" perk now not only reduces damage from toxic puddles, but eliminates it entirely. - Unified healing script for all medics in the game (Flagstaff, Vault 25, Puerto, Casa Nueva, Two Sun): a unified script-macro system has been introduced + healing for all medics has been broken down into separate services + prices and discounts have been revised + voice lines have been rewritten and clarified.
+- The "Light Step" perk now not only reduces damage from toxic puddles, but eliminates it entirely.
+- Unified healing script for all medics in the game (Flagstaff, Vault 25, Puerto, Casa Nueva, Two Sun): a unified script-macro system has been introduced + healing for all medics has been broken down into separate services + prices and discounts have been revised + voice lines have been rewritten and clarified.
 - Various text fixes by Roman Kozlov (typos, gender-specific voice lines).
 - Numerous minor improvements to text, scripts, and maps throughout the game.
 - All scripts have been recompiled.
@@ -130,95 +140,95 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - Base Sonora and Dayglow expansion combined in one release
 - Increased random encounter critter numbers to minumum of 2 to fix grammar errors
 - Small fixes to several maps (rcity and tsgrave)
-- updated multiple scripts for 'amigo/amiga' 
+- updated multiple scripts for 'amigo/amiga'
 - updated several scripts VCRobot,RCRngMap,SCBoss, HCRunchA,HCRunchB, and AFGold to match Nevada Band's 1.14+ changes
 - added more Spanish translation to GCPit.ssl
 - Fixes to Jackal raid quest in ZTMap.ssl, and GCGate.ssl
 - Made asking about drilling machine parts mutually exclusive with telling that it is fixed - FCAdmin
 - Made Villa marauders leave if Sancho or Hugo return - FCVillA or FCVillB
 - fixed bug in drilling machine quest that made broke it if light restored before fixing machine. Also restored fade for machine fixing - FSRobot.ssl and FSTransf.ssl
-- YCBoss.ssl - restored a node to flesh out mission setup  
-- YCGhlMat.ssl - fixed incorrect NodeAnswer  
-- YCIsdCrh.ssl - fixed incorrect dialogue option 221 to 222  
-- YCLiveB.ssl - added recognition of the Ghoul perk, which was missing, but setup  
-- YSMonoGh.ssl - fixed activation point for the Monorail quest when being activated by the monorail supervisor  
-- SCBoss.ssl - added small Spanish Trait use  
-- SCShpBoy.ssl - fixed incorrect reply in script  
-- tweaked PVCOvrser as there was an incorrect reaction result in script  
-- fixed a misdirected node in RCAcvBnd to correct the dialogue  
-- fixed a node in RCAcvTlk to complete the 'Fish' trade route for Garage City quest  
-- added a bit check in RCBoss to prevent a conversation loop.  
-- added a bit check in RCFrmMan to make a conversation start more natural, using existing dialogue lines  
-- added small espanol trait use for Jose  
-- fixed BCCrvnQT to limit the response if Phoenix not known yet  
-- BCGarPst.ssl - fixed backwards skill check, bonusReaction corrected  
-- BCMisBos.ssl - fixed Mark_state_visited to Mark_state_unknown  
-- BCMisSld.ssl - added Espanol trait to Spanish song  
-- PCGopStp.ssl - fixed dialogue options  
-- PCMerkBs.ssl - Many fixes, head claiming was broken/messed up. Fixed multiple nodes, and dialogue  
-- PCBdBos.ssl - added alternate answers for one node  
-- PCPrtznA.ssl - added check to see if PC knows Matthias  
-- PCScvTlk.ssl - gave armor reaction correct dialogue number  
-- PCCasBar.ssl - changed int check from -4 to 1  
-- PCAtmBld.ssl - added dialogue node to complete dialogue as written  
-- PCAtmBos.ssl - added node to make sense of negative answer to job offer  
-- PCAtmClt.ssl - added more graceful conversation exit  
-- upgraded Espanol Trait to translate Mexican and Spanish ëcombat tauntsí (multiple scripts)  
-- fixed bug with Nightkin Boss rescue in Dayglow (YCMutBos.ssl)  
-- fixed incorrect reply bug CCNina.ssl  
-- fixed incorrect reply bug CCCrvBos.ssl  
-- fixed CCBoss.ssl to prevent big response being repeated on main dialogue node  
-- added fix to PCBdLohB.ssl to have floating message of revenge after end of quest  
-- fixed goodbye message in FCSlvRdr.ssl  
-- fixed FCCtznB.ssl to make better transition to offer to cure kid  
-- changed FCBishop to have ëidiotí node more in line with other idiot nodes  
-- added ëBrahmin Sausagesí to Flagstaff barman and used this for food delivery quest (FCBarmen.ssl and FCAdmin.ssl)  
-- added Espanol_Trait to GCPit.ssl dialogue  
-- fixed GCGate.ssl to have correct result for successful perception check - also added Jackal quest ditch node.  
-- added node to GCBrmAtk.ssl to have better responses for buying the brahmin  
-- fixed VCRobot.ssl to differentiate between grandson/daughter, and use Espanol_Trait  
-- added Espanol_Trait to ZIUseStp.ssl  
-- fixed the feedback for ZSblock to not spam 'destroying' process with constant 'look' messages  
-- modified HCBoss, HCPrisnr, HCRunchA, HCRunchB, and HCRunchC to incorporate use of the Espanol Perk  
-- updated OBJ_CAR.ssl to account for trying to power with a Generator Fusion Cell  
-- fixed brahmin quest at Bar to account for buying the brahmin, rather than stealing - GCBarmen.ssl and GCBrmPsA.ssl  
-- fixed TCBoss.ssl to use correct dialogue line when discussing ZAX being destroyed  
-- fixed TCCrvBos.ssl to use correct node when responding to paying for escort  
-- fixed TCCrvQst.ssl to only offer generator cell if the quest is started. Moved quest start as well and added zReply to use amigo/amiga correctly  
-- fixed TCCtzTlk.ssl to add missing dialogue from dialogue file.  
-- fixed TCCult.ssl to give Science check different results. Original had identical results.  
-- fixed TCTins.ssl to make ëworkerí and ëguardí tinsmiths have different ëlookí descriptions and different floating lines.  
-- fixed NCApcAst.ssl to force the PC to correctly work to get access to pre-war medicines/drugs  
-- multiple small fixes to NCApcBos to improve dialogue and include missing lines  
-- fixed NCQuestA to prevent endlessly introducing oneself  
-- improved NCSilosA.ssl to make dialogue smoother  
-- modified ZcImgrnt, DCCtznE, NCHimadr, NCMer, HCPost, HCSolder, HSComp, ACCtzCav, CCBosGrd, CCNina, CCNinb, AFTinTan, and EncMexSC script files to standardize Spanish_trait handling.  
-- fixed DCCtzn and NCHimadr scripts, as they were broken/unfinished at several points  
-- fixed incorrect text line reference in MCRio.ssl  
-- fixed incorrect text line reference in MCBoss.ssl  
-- finished incomplete and non-working scripting for DCCtznE.ssl  
-- added intermediary steps and dialogue logic to ëBrahmin Questí in GCBrmAtk.ssl  
-- fixes to dialogue logic to discuss looking for Villa people that are already found - FCMadre.ssl  
-- fixes to end of quest for freeing trapped Villa kin, added dialogue on Mine Exit - FCVillaA.ssl  
-- fixes to FCBoss.ssl to make the idiot PC Rat King quest work  
-- fixes to pinball machine quest in FCBarmen.ssl  
-- made PCDrgdlr.ssl push his stuff with floating lines  
-- fixed all three Sonora express scripts so PC recognizes after visiting one  
-- fixed Phoenix Sonora express ëletterí quest to have better dialogue logic - PCPost.ssl  
-- fixed RCAcvTlk.ssl to have better dialogue logic  
-- added mid-quest feedback for ëspy questí to PCMaster.ssl  
-- added mid-radio-quest feedback and dialogue logic to RCComndr.ssl  
-- fixed dialogue logic and ëspyí quest for RCRngRad.ssl  
-- added fixes to start of quest with RCPresly.ssl  
-- fixes to RCAgata.ssl to fix start of quest with Presley  
-- changed coordinates of repeater in ZIRadio.ssl  
-- fixed CCNina.ssl to make Spanish perk work correctly  
-- fixed quest to restore power to Monorail in YSMonoGh.ssl  
-- added clues and improvements to AFGold ëmapí quest  
-- multiple fixes to the ësurveyí quest in RCRngMap.ssl  
-- fixes to ZTMap.ssl for Jackals raid quest and Inferno Robot event bug  
-- fixes to GCGate.ssl dialogues for Jackal quest and first visit  
-- added fixes to ëJackal attackí quest in GCMercJc.ssl, and added quest fail consequences  
+- YCBoss.ssl - restored a node to flesh out mission setup
+- YCGhlMat.ssl - fixed incorrect NodeAnswer
+- YCIsdCrh.ssl - fixed incorrect dialogue option 221 to 222
+- YCLiveB.ssl - added recognition of the Ghoul perk, which was missing, but setup
+- YSMonoGh.ssl - fixed activation point for the Monorail quest when being activated by the monorail supervisor
+- SCBoss.ssl - added small Spanish Trait use
+- SCShpBoy.ssl - fixed incorrect reply in script
+- tweaked PVCOvrser as there was an incorrect reaction result in script
+- fixed a misdirected node in RCAcvBnd to correct the dialogue
+- fixed a node in RCAcvTlk to complete the 'Fish' trade route for Garage City quest
+- added a bit check in RCBoss to prevent a conversation loop.
+- added a bit check in RCFrmMan to make a conversation start more natural, using existing dialogue lines
+- added small espanol trait use for Jose
+- fixed BCCrvnQT to limit the response if Phoenix not known yet
+- BCGarPst.ssl - fixed backwards skill check, bonusReaction corrected
+- BCMisBos.ssl - fixed Mark_state_visited to Mark_state_unknown
+- BCMisSld.ssl - added Espanol trait to Spanish song
+- PCGopStp.ssl - fixed dialogue options
+- PCMerkBs.ssl - Many fixes, head claiming was broken/messed up. Fixed multiple nodes, and dialogue
+- PCBdBos.ssl - added alternate answers for one node
+- PCPrtznA.ssl - added check to see if PC knows Matthias
+- PCScvTlk.ssl - gave armor reaction correct dialogue number
+- PCCasBar.ssl - changed int check from -4 to 1
+- PCAtmBld.ssl - added dialogue node to complete dialogue as written
+- PCAtmBos.ssl - added node to make sense of negative answer to job offer
+- PCAtmClt.ssl - added more graceful conversation exit
+- upgraded Espanol Trait to translate Mexican and Spanish "combat taunts" (multiple scripts)
+- fixed bug with Nightkin Boss rescue in Dayglow (YCMutBos.ssl)
+- fixed incorrect reply bug CCNina.ssl
+- fixed incorrect reply bug CCCrvBos.ssl
+- fixed CCBoss.ssl to prevent big response being repeated on main dialogue node
+- added fix to PCBdLohB.ssl to have floating message of revenge after end of quest
+- fixed goodbye message in FCSlvRdr.ssl
+- fixed FCCtznB.ssl to make better transition to offer to cure kid
+- changed FCBishop to have "idiot" node more in line with other idiot nodes
+- added "Brahmin Sausages" to Flagstaff barman and used this for food delivery quest (FCBarmen.ssl and FCAdmin.ssl)
+- added Espanol_Trait to GCPit.ssl dialogue
+- fixed GCGate.ssl to have correct result for successful perception check - also added Jackal quest ditch node.
+- added node to GCBrmAtk.ssl to have better responses for buying the brahmin
+- fixed VCRobot.ssl to differentiate between grandson/daughter, and use Espanol_Trait
+- added Espanol_Trait to ZIUseStp.ssl
+- fixed the feedback for ZSblock to not spam 'destroying' process with constant 'look' messages
+- modified HCBoss, HCPrisnr, HCRunchA, HCRunchB, and HCRunchC to incorporate use of the Espanol Perk
+- updated OBJ_CAR.ssl to account for trying to power with a Generator Fusion Cell
+- fixed brahmin quest at Bar to account for buying the brahmin, rather than stealing - GCBarmen.ssl and GCBrmPsA.ssl
+- fixed TCBoss.ssl to use correct dialogue line when discussing ZAX being destroyed
+- fixed TCCrvBos.ssl to use correct node when responding to paying for escort
+- fixed TCCrvQst.ssl to only offer generator cell if the quest is started. Moved quest start as well and added zReply to use amigo/amiga correctly
+- fixed TCCtzTlk.ssl to add missing dialogue from dialogue file.
+- fixed TCCult.ssl to give Science check different results. Original had identical results.
+- fixed TCTins.ssl to make "worker" and "guard" tinsmiths have different "look" descriptions and different floating lines.
+- fixed NCApcAst.ssl to force the PC to correctly work to get access to pre-war medicines/drugs
+- multiple small fixes to NCApcBos to improve dialogue and include missing lines
+- fixed NCQuestA to prevent endlessly introducing oneself
+- improved NCSilosA.ssl to make dialogue smoother
+- modified ZcImgrnt, DCCtznE, NCHimadr, NCMer, HCPost, HCSolder, HSComp, ACCtzCav, CCBosGrd, CCNina, CCNinb, AFTinTan, and EncMexSC script files to standardize Spanish_trait handling.
+- fixed DCCtzn and NCHimadr scripts, as they were broken/unfinished at several points
+- fixed incorrect text line reference in MCRio.ssl
+- fixed incorrect text line reference in MCBoss.ssl
+- finished incomplete and non-working scripting for DCCtznE.ssl
+- added intermediary steps and dialogue logic to "Brahmin Quest" in GCBrmAtk.ssl
+- fixes to dialogue logic to discuss looking for Villa people that are already found - FCMadre.ssl
+- fixes to end of quest for freeing trapped Villa kin, added dialogue on Mine Exit - FCVillaA.ssl
+- fixes to FCBoss.ssl to make the idiot PC Rat King quest work
+- fixes to pinball machine quest in FCBarmen.ssl
+- made PCDrgdlr.ssl push his stuff with floating lines
+- fixed all three Sonora express scripts so PC recognizes after visiting one
+- fixed Phoenix Sonora express "letter" quest to have better dialogue logic - PCPost.ssl
+- fixed RCAcvTlk.ssl to have better dialogue logic
+- added mid-quest feedback for "spy quest" to PCMaster.ssl
+- added mid-radio-quest feedback and dialogue logic to RCComndr.ssl
+- fixed dialogue logic and "spy" quest for RCRngRad.ssl
+- added fixes to start of quest with RCPresly.ssl
+- fixes to RCAgata.ssl to fix start of quest with Presley
+- changed coordinates of repeater in ZIRadio.ssl
+- fixed CCNina.ssl to make Spanish perk work correctly
+- fixed quest to restore power to Monorail in YSMonoGh.ssl
+- added clues and improvements to AFGold "map" quest
+- multiple fixes to the "survey" quest in RCRngMap.ssl
+- fixes to ZTMap.ssl for Jackals raid quest and Inferno Robot event bug
+- fixes to GCGate.ssl dialogues for Jackal quest and first visit
+- added fixes to "Jackal attack" quest in GCMercJc.ssl, and added quest fail consequences
 
 
 >> Fallout Sonora, No. 15, January 30, 2025:
@@ -358,7 +368,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - Several minor adjustments to texts, scripts, maps, pro-profiles.
 - Added two new soundtracks to the world map - for walking and transport.
 - Graphic updates from A. Berezina + new recolor doctor sprite + new sprite for El Diablo + fixed incorrect frame for HMWARRDF sprite.
-- Santa Ana: added a pi√±ata to residential buildings.
+- Santa Ana: added a piñata to residential buildings.
 - Phoenix: raised the upper border of the screen on the starting map for a full view of the city walls.
 - Puerto: added the ability to warn Yunga to save him from the explosion.
 - The ability to rob merchants at high skill levels has been completed.
@@ -409,7 +419,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - Phoenix: the delay with which monks could join Matthias' group during the assault on the cathedral has been fixed.
 - *Motel: a unique sprite has been created for Mother Bates.
 - Rangers: Helford now gives a hunting rifle for the radio station quest.
-- Rangers: the madmen in Quartz have been given the AI ‚Äã‚Äãof wild ghouls to change their combat phrases.
+- Rangers: the madmen in Quartz have been given the AI of wild ghouls to change their combat phrases.
 - Puerto: Paul can now transform a plasma rifle into a turbo plasma rifle.
 - Puerto: General Dixon's dialogue has been slightly adjusted.
 - *Puerto: General Dixon has been given his own sprite and weapon.
@@ -487,7 +497,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - *Mojave Water Pump: now you can collect water through the water pump with Science once every 3 days.
 - Flagstaff: now the electric panel on the lower adit can be used multiple times without "recharging" the generator, but with less damage.
 - *Flagstaff: added the reaction of the exhibit (skeleton) to Science.
-- *Quartz: clarified the area of ‚Äã‚Äã‚Äã‚Äãaction of toxic puddles (two hexes are excluded, one is added).
+- *Quartz: clarified the area of action of toxic puddles (two hexes are excluded, one is added).
 - *SanBrahmin: another stone trap has been added near El Monstro (there are now 5 of them).
 - Phoenix: the killer near the cathedral now attacks the main character if you try to talk to him three times.
 - Phoenix: Inquisitors at the ruins of the train station now react to the Followers' robe.
@@ -498,7 +508,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - *Casa Nueva: you can make syrup through the hydrolysis lab once.
 - *Puerto: the welcome sign has been given a reaction to Science.
 - Puerto: the prominent blackness at the stern of the ship has been fixed (BOS0018-BOS0020.FRM).
-- Puerto: the bandits in Brotherhood raids have been given the AI ‚Äã‚Äãof Mexicans (they shout phrases in Spanish).
+- Puerto: the bandits in Brotherhood raids have been given the AI of Mexicans (they shout phrases in Spanish).
 - Puerto: General and Quartermaster now attack when alarms are activated on nearby doors.
 - *Puerto: Scripts and map of the second camp (BSCAMPC.MAP) have been clarified for better stealth play.
 - *Inferno: A trading machine with mentats has been added to the supermarket.
@@ -595,7 +605,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - The price of fuel for the bike was reduced from 200 to 100.
 - Slightly reduced the damage of the laser rifle and increased MinStrength to 4.
 - Toxic puddles no longer irradiate.
-- Adjusted the damage values ‚Äã‚Äãfrom triggers during random encounters (ZTTriger).
+- Adjusted the damage values from triggers during random encounters (ZTTriger).
 - Clarified the formula for detecting laser traps (ZTLaser) with an increase in the role of Perception and the Trap skill.
 - Now you can use several decoders cumulatively on one computer.
 - Clarified the script conditions for accepting into the party.
@@ -654,7 +664,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - *Casa Grande: resin has been removed from the workbench in the starting area, a shovel has been added to the workbench, and a shotgun has been added to the caravan driver for bargaining or stealing.
 - Rangers: Flick's irradiated cola is no longer replenished when re-entering the map (the bug did not affect the quest).
 - Rangers: killing the general resets the alliance between the rangers and Willa + the general has been given the opportunity to have a dialogue after completing his final quest.
-- Two-Sun: the quest to find relatives in Phoenix is ‚Äã‚Äãnow closed by interacting with the padre in Two-Sun when he is freed or killed.
+- Two-Sun: the quest to find relatives in Phoenix is now closed by interacting with the padre in Two-Sun when he is freed or killed.
 - *Two-Sun: resin has been removed from the locker in the hangar and Tinsmith glasses have been added there.
 - Casa Nueva: Carnivorous plants no longer receive the injury bonus when attacking.
 - Casa Nueva: Pinky has a knockback option added.
@@ -712,7 +722,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 + Due to numerous complaints, the removal of shovels when using them has been transferred from a variable increment to a simple random with a correction for Strength: (random(0,100) <= (10-dude_strength))
 - Removed the check for a minimum Science of 0 when reading holodisks.
 - The irradiation timer at locations has been increased again to 60 seconds without a perk + irradiation in the Flagstaff mine has been disabled + now irradiation at locations after mutation stops altogether + similarly, the timer for poisoning has been increased from 5 seconds to 10 without a perk.
-- In 19 scripts, an adjustment was made to the skill tagging when increasing it (an engine bug in which odd skill values ‚Äã‚Äãwere rounded to even, thereby missing 1 skill point).
+- In 19 scripts, an adjustment was made to the skill tagging when increasing it (an engine bug in which odd skill values were rounded to even, thereby missing 1 skill point).
 - Several merchants now have the ability to have a dialogue in power armor.
 - Villa: now Villa's reputation cannot fall below "Disliked" until the main character kills one of her kind (bypassing the engine option due to the reminder videos).
 - Jackals: clarified Suka's dialogue regarding the ranger-prisoner, when an alliance with the rangers has already been concluded.
@@ -738,7 +748,7 @@ Important! Saves from previous versions of 1.16 will sometimes not work correctl
 - Puerto: the general now shows the location of the Rangers when giving his basic quest + the same quest, if unfinished, is reset when the general dies.
 - Two-Sun: a bug in which electronic parts did not disappear from the inventory after being handed over to the tinsmith.
 - Two-Sun: removed the message about the Geiger counter on the burial ground map in Two-Sun, since radiation on this map was disabled in Update #2.
-- Hermosillo: the partner's phrase "I'll never get to Puerto Pe√±asco" is blocked when the personal quest is closed or canceled + the partner disappears until the next visit to the map after the offer to visit the paladin in Puerto.
+- Hermosillo: the partner's phrase "I'll never get to Puerto Peñasco" is blocked when the personal quest is closed or canceled + the partner disappears until the next visit to the map after the offer to visit the paladin in Puerto.
 - *Hermosillo: the sink-hiding place in the garrison has been replaced with a regular sink (it could be used from the other side of the wall), and the stimulator has been moved to a chest of drawers in the same house.
 - The reputation loss for typical rangers on the world map has been reduced when killed (it was -100, now it's -3).
 - Ghouls in random encounters on the peninsula have been given special lines for the main character mutant.
@@ -1181,7 +1191,7 @@ Version 0.22 (June 25, 2019) ---------------------------------------------------
 + Puerto: pier map PSDOCS.MAP completed (though it would be worth adding a port crane)
 + Puerto: minor improvements to PSBASA.MAP map, including additional NPCs for the crowd
 + Puerto: ship engine and ship reactor drawn (poorly drawn)
-+ Puerto: new wall sprites for Caborca ​​drawn - interior brick walls, white wall with red stripe at the bottom, white wall with blue stripe at the bottom
++ Puerto: new wall sprites drawn for Caborca - interior brick walls, white wall with red stripe at the bottom, white wall with blue stripe at the bottom
 + Puerto: Desert Storm quest fully implemented
 + Desert Storm quest: Brotherhood camp map built (first level of BSCAMPA.MAP map)
 + Desert Storm quest desert": the first raid map BSCAMPB.MAP (a tent camp in the desert) was built + a new set of external walls was drawn for the map
@@ -1375,7 +1385,7 @@ Version 0.15 (February 6, 2019) ------------------------------------------------
 
 Version 0.14 (January 11, 2019) ---------------------------------------------------
 
-+ Removed the following files from resources as unnecessary: ​​CMBATAI2.msg, AIBDYMSG.TXT, AIGENMSG.TXT
++ Removed the following files from resources as unnecessary: CMBATAI2.msg, AIBDYMSG.TXT, AIGENMSG.TXT
 + Optimized set_injure_start and set_injure_update macros (by outputting the LVAR_Medic_Quest variable to the LVAR_Self_Flags bitmask)
 + Reorganized special goods macros for traders (by outputting the LVAR_Barter_Dopusk variable to the LVAR_Self_Flags bitmasks under numbers 10 and 11)
 + Successful poisoning with scorpion venom now reduces Karma by 5 units

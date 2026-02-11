@@ -998,4 +998,3 @@
 {1098}{}{Super Mutant}
 {1099}{}{Desperado}
 {1100}{}{Ladder}
-
