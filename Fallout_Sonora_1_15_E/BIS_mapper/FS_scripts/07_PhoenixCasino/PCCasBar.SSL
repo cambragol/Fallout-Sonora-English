@@ -84,7 +84,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -170,7 +170,7 @@ procedure talk_p_proc begin
    setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_PHENIX_CASINO,50) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_ARENA_MASTER,15) // Поправка к отношению за принадлежность к фракциям
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,102,NodeStartDialog,-1,-1)
    end
 end

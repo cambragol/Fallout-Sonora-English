@@ -96,7 +96,7 @@ procedure map_enter_p_proc begin
        check_restock_item(PID_MOTO_LUMP, 1, 1, 100) // 1 шт на всю игру
        check_restock_item(PID_BOOK_OLD, 2, 2, 100) // 2 шт за всю игру
        end
-       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -175,7 +175,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-10) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
 
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 

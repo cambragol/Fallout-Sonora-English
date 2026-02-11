@@ -83,7 +83,7 @@ procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
        if (cur_map_index == MAP_RANGERS_BASA) then begin
-       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
        end
        Flick_Visible
    end
@@ -170,7 +170,7 @@ procedure talk_p_proc begin
       end
    end
    else if (cur_map_index == MAP_RANGERS_BASA) then begin
-      set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+      set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
       dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end

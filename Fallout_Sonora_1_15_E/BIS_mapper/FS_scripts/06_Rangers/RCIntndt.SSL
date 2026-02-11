@@ -99,7 +99,7 @@ procedure map_enter_p_proc begin
        if (map_first_run == true) then begin
        item_add(self_obj,PID_TOOL_RADIO,1)
        end
-       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -187,7 +187,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_BOS_TRAITOR,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
 
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
 end
 
