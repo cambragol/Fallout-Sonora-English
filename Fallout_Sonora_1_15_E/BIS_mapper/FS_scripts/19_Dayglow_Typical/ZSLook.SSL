@@ -89,12 +89,12 @@ end
                                                      end                         \
 
 procedure id_proc begin
-   /* Описание макроса:
-      check - уровень навыка (при <=0 опыт не выдается, при >0 выдается как check*2)
-      msg - строка для лога (при <=0 не выдается)
-      pid - проверка PID объекта (при <=0 игнорируется)
-      map - карта размещения объекта (при <=0 игнорируется)
-      indx - индекс особой процедуры (при <=0 игнорируется)
+   /* Macro description:
+      check - skill level (if <=0, experience is not given, if >0, it is given as check*2)
+      msg - string for log (if <=0, it is not given)
+      pid - check PID of object (if <=0, it is ignored)
+      map - object placement map (if <=0, it is ignored)
+      indx - index of special procedure (if <=0, it is ignored)
    */
 
    //--- Вилла и ее окрестности

@@ -30,35 +30,35 @@ export variable obj_critter_b; // указатель на криттера 2
 
 --- Памятка по настройке новой карты/локации:
 
-   data/MAPS.txt - зарегистрировать карту
-         MAP.MSG - подписать уровни новой карты
-         WORLDMAP.MSG - подписать новый район для локации
-         ZTMAP.msg - написать стартовое сообщение
-         MAPS.H - зарегистрировать макрос (раздел map)
-   data/city.txt - зарегистрировать локацию
-         MAP.MSG - подписать новую локацию (строки 1500+Area)
-         INFO.msg - обновить список локаций
-         MAPS.H - зарегистрировать макрос (раздел area)
-         Учесть в перке Знаток Соноры (SCRIPT_OBJ_DUDE - critter_p_proc)
-   WORLDMAP.TXT - внести новую встречу
-         WORLDMAP.TXT - пересчитать сумму вероятностей для всех встреч набора
-         WORLDMAP.MSG - подписать новую встречу (начиная с 3000) + не забыть точку входа
-         VAULT13.GAM - для спецвстречи:
-             + зарегистрировать GVAR (начиная с 600)
-             + добавить GVAR в макросы
-             + внести в процедуру gvar_special_enc в ZTMap
+   data/MAPS.txt - register the map
+         MAP.MSG - label levels of the new map
+         WORLDMAP.MSG - label the new area for the location
+         ZTMAP.msg - write the start message
+         MAPS.H - register the macro (map section)
+   data/city.txt - register the location
+         MAP.MSG - label the new location (lines 1500+Area)
+         INFO.msg - update the list of locations
+         MAPS.H - register the macro (area section)
+         Consider in the Sonora Expert perk (SCRIPT_OBJ_DUDE - critter_p_proc)
+   WORLDMAP.TXT - add a new encounter
+         WORLDMAP.TXT - recalculate the total probability for all encounters in the set
+         WORLDMAP.MSG - label the new encounter (starting from 3000) + don't forget the entry point
+         VAULT13.GAM - for the special encounter:
+             + register GVAR (starting from 600)
+             + add GVAR to macros
+             + include in the gvar_special_enc procedure in ZTMap
 
-   Создать карту:
-         + Создать gam-файл с 10 mvar (1 для карт встреч)
-         + Создать map-файл
-             + Удалить ненужные уровни
-             + Привязать скрипт ZTMAP
-             + По необходимости разместить на карте генератор транспорта ГГ
-             + По необходимости добавить рендомизаторы окружения
-             + По необходимости добавить Таинственного Незнакомца
-             + Задать освещение, ЕСЛИ оно отлично от стандарта
-             + Блок индивидуальных операций при загрузке карты
-             + Инициация рад-таймера по необходимости
+   Create a map:
+         + Create a gam file with 10 mvars (1 for encounter maps)
+         + Create a map file
+             + Remove unnecessary levels
+             + Attach the ZTMAP script
+             + If needed, place the PC's vehicle generator on the map
+             + If needed, add environmental randomizers
+             + If needed, add the Mysterious Stranger
+             + Set lighting, IF it differs from the standard
+             + Block individual operations during map loading
+             + Initiate the rad-timer if necessary
 */
 
 
@@ -137,7 +137,7 @@ procedure map_enter_p_proc begin
       end
       // tweaked to allow eye-robot for DLC to approach *after* any dialogues are triggered -cambragol
       add_timer_event(self_obj, 20, 2);
-      
+
       if (map_first_run) then begin
           //--- Встречная реплика при первом входе на карту
           mapIndexMsg := cur_map_index;
@@ -801,11 +801,11 @@ end
 
 procedure map_area_exit_proc begin
    /*
-     Пояснение: необходимость в смене координат возникает в том случае,
-     когда герой переходит с уровня на уровень одной карты через сетку перехода (пример: пещеры).
-     В этом случае при выходе на карту мира ГГ окажется в координатах локации из city.txt.
-     На стационарных локациях так и должно быть.
-     Но на случайных встречах это приводит к багу, поэтому приходится обновлять координаты.
+     Explanation: the need to change coordinates arises when the player character
+     transitions from one level to another within the same map through a transition grid (e.g., caves).
+     In this case, when exiting to the world map, the player character would end up at the coordinates of the location from city.txt.
+     This is intended for stationary locations.
+     However, for random encounters, this leads to a bug, so the coordinates must be updated.
    */
 
         set_exitmap(MAP_RND_CITY_2,AREA_RND_CITY)

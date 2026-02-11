@@ -79,36 +79,36 @@ procedure map_enter_p_proc begin
        if (map_first_run == true) then begin
        check_restock_item(PID_TOOL_RADIO, 1, 1, 100)
        end
-       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
 procedure setBarterA begin
-        check_restock_many(3000,3500)
+   check_restock_many(3000,3500)
 
-        check_restock_item(PID_ARMOR_TESLA, 1, 1, 100)
-        check_restock_item(PID_ARMOR_METALIC_A, 1, 1, 100)
-        check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
-        check_restock_item(PID_ARMOR_JACKET_C, 1, 1, 100)
-        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 5, 5, 100)
-        check_restock_item(PID_TOOL_BOOTS, 5, 5, 100)
-        check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
-        check_restock_item(PID_TOOL_LOCKPICKS_MH, 2, 3, 100)
-        check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
+   check_restock_item(PID_ARMOR_TESLA, 1, 1, 100)
+   check_restock_item(PID_ARMOR_METALIC_A, 1, 1, 100)
+   check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
+   check_restock_item(PID_ARMOR_JACKET_C, 1, 1, 100)
+   check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 5, 5, 100)
+   check_restock_item(PID_TOOL_BOOTS, 5, 5, 100)
+   check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
+   check_restock_item(PID_TOOL_LOCKPICKS_MH, 2, 3, 100)
+   check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
 
-           check_restock_item(PID_AMMO_40_MM, 30, 30, 100)
-        check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
-           check_restock_item(PID_AMMO_308, 6, 6, 100)
-        check_restock_item(PID_W_GRENADE_FRAG, 5, 7, 100)
-        check_restock_item(PID_W_GRENADE_PLASMA, 4, 5, 100)
-        check_restock_item(PID_W_SPEAR_ELECTRO, 1, 1, 100)
-           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 10, 10, 100)
-        check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
-        check_restock_item(PID_W_TASER, 1, 1, 100)
-           check_restock_item(PID_AMMO_5_MM, 10, 10, 100)
-        check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
-           check_restock_item(PID_AMMO_10_MM, 20, 20, 100)
-        check_restock_item(PID_W_KNIFE_MEAT, 1, 1, 100)
+   check_restock_item(PID_AMMO_40_MM, 30, 30, 100)
+   check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
+   check_restock_item(PID_AMMO_308, 6, 6, 100)
+   check_restock_item(PID_W_GRENADE_FRAG, 5, 7, 100)
+   check_restock_item(PID_W_GRENADE_PLASMA, 4, 5, 100)
+   check_restock_item(PID_W_SPEAR_ELECTRO, 1, 1, 100)
+   check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 10, 10, 100)
+   check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
+   check_restock_item(PID_W_TASER, 1, 1, 100)
+   check_restock_item(PID_AMMO_5_MM, 10, 10, 100)
+   check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
+   check_restock_item(PID_AMMO_10_MM, 20, 20, 100)
+   check_restock_item(PID_W_KNIFE_MEAT, 1, 1, 100)
 end
 
 procedure setBarterB begin
@@ -182,7 +182,7 @@ procedure talk_p_proc begin
       end
    end
    else begin
-      set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+      set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
       dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end

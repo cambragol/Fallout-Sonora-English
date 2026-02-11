@@ -388,7 +388,7 @@ procedure NodeQst106 begin
    set_map_var(MVAR_DIEGO_C_GUITAR,2);
    setBonusReaction(25)
    set_REP(1)
-   Reply(269)
+   zReply(269)
    NAnswer(270,1,NodeQst107)
 end
 
