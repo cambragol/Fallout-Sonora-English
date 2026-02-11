@@ -185,7 +185,7 @@ procedure NodeFrand begin
    BAnswer(297,4,NodeFrand3)
    end
    else begin
-   Reply(290)
+   zReply(290)
    NAnswer(291,4,NodeFrand4)
    BAnswer(292,4,NodeFrand2)
    end

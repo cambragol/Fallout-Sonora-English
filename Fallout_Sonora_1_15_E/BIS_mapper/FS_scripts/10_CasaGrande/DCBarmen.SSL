@@ -56,7 +56,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
 
        if ((global_var(GVAR_GAME_END)>0) and (global_var(GVAR_TWOSUN_STATUS_ZAX)<0) and (getQuest(GVAR_CGRANDE_ATTAK_TO_BAR) >= qEnd)) then begin
        set_obj_visibility(self_obj, 0);
@@ -136,7 +136,7 @@ end
 
 procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
-   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
