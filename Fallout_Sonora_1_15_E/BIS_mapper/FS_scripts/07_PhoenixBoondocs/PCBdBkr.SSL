@@ -119,7 +119,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(-1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    if ((global_var(GVAR_CAR_MAP_INDEX) == cur_map_index) and (dude_has_car == 0)) then begin
       if (item_amnt(self_obj,PID_MOTO_KEY) > 0) then begin
       dialog_proc(1,102,NodeStartDialog,-1,-1)
@@ -149,7 +149,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -169,7 +169,7 @@ procedure NodeFstDialog3 begin
    NAnswer(207,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (bitDialog(bit_2) == 0) then begin

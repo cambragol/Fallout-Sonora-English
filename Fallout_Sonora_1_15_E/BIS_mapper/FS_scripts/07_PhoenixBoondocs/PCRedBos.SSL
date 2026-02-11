@@ -376,7 +376,7 @@ procedure NodeStopDialog209 begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -592,7 +592,7 @@ procedure NodeFstDialog307 begin
    NAnswer(269,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (getQuest(GVAR_PHENIX_QST_CARDINAL_SPY) == qStart) then begin

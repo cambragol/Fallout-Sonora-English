@@ -91,8 +91,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        //timer_move_to_home
        timer_move_patrol(HomeTile,tile_num_in_direction(HomeTile,2,3))
@@ -166,7 +166,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,50)
@@ -241,7 +241,7 @@ procedure NodeFstDialog6 begin
    NAnswer(217,-3,NodeFstDialog5a)
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog begin
    set_local_var(LVAR_Dude_Is_Cult,1);
@@ -256,7 +256,7 @@ procedure NodeStopDialog begin
    NAnswer(254,-3,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (local_var(LVAR_Dude_Is_Cult)>0) then begin
@@ -298,7 +298,7 @@ procedure NodeSndDialog begin
    NAnswer(254,-3,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(262)
@@ -342,7 +342,7 @@ procedure NodeAnswer300 begin
    NAnswer(288,4,Node999)
 end
 
-//--- КВЕСТ
+//--- QUEST
 
 procedure NodeQst100 begin
    Reply(302)

@@ -232,7 +232,7 @@ procedure NodeDialogMap103 begin
    NAnswer(407,1,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -245,7 +245,7 @@ procedure NodeFstDialog2 begin
    NAnswer(203,1,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
@@ -290,7 +290,7 @@ procedure NodeSndDialog203 begin
    NAnswer(249,1,NodeSndDialog201)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    bitDialogExp(bit_3,10)

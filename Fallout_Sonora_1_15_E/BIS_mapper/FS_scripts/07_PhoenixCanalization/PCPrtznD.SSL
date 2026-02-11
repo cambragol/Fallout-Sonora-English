@@ -176,7 +176,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    if (global_var(GVAR_PHENIX_STATUS_SPYPARTY) > 1) then begin
    floater(self_obj,103,COLOR_MSG_GREEN);
    end
@@ -204,7 +204,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 /*
 {200}{}{Стой, ты у меня на мушке.}
@@ -268,7 +268,7 @@ procedure NodePartyNon begin
    call Node999;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

@@ -187,7 +187,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -214,7 +214,7 @@ procedure NodeFstDialog3 begin
    BAnswer(237,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(200)
@@ -243,7 +243,7 @@ procedure NodeSndDialog begin
    BAnswer(204,3,NodeSndDialog3)
    end
 
-   //--- квест
+   //--- quest
    if (getQuest(GVAR_PHENIX_QST_LETTERS) == qZero) then begin
       if (item_amnt(dude_obj,PID_Q_LETTERS) > 0) then begin
       NAnswer(316,1,NodeQst203)
@@ -273,14 +273,14 @@ procedure NodeSndDialog begin
       //tweaked the above to only make one of the three appear as they should be mutually exclusive - cambragol
    end
 
-   //--- Посылка найденная на карте мира
+   //--- A parcel found on the world map
    if (getQuest(GVAR_ENCOUNTER_CURIER_BOX) < qEnd) then begin
       if (item_amnt(dude_obj,PID_Q_CASE_CURIER) > 0) then begin
       NAnswer(290,1,NodeQst305)
       end
    end
 
-   //--- Тин-Тан на Платформе
+   //--- Tin-Tan on the Platform
    if (gvar_bit(GVAR_OIL_PLATFORM_QST_KILL_BIT, bit_2) != 0) then begin
    if (gvar_bit(GVAR_OIL_PLATFORM_QST_KILL_BIT, bit_3) == 0) then begin
       NAnswerRep(280,1,NodeTin103,10,280,NodeTin100)
@@ -305,7 +305,7 @@ procedure NodeSndDialog3 begin
    NAnswer(226,1,Node999)
 end
 
-//--- КАМЕРЫ ХРАНЕНИЯ
+//--- STORAGE ROOMS
 
 #define COAST_BOX                  350
 
@@ -338,7 +338,7 @@ procedure NodeBox102 begin
    NAnswer(266,1,Node999)
 end
 
-//--- КВЕСТ
+//--- QUEST
 
 procedure NodeQst100 begin
    Reply(301)

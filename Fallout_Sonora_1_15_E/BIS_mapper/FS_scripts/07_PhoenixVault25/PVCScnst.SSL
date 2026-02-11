@@ -105,8 +105,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -182,7 +182,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    Reply(200)
@@ -246,7 +246,7 @@ procedure NodeFstDialogBad begin
    end
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(300)
@@ -256,7 +256,7 @@ procedure NodeSndDialog begin
    NAnswer(301,1,Node999)
 end
 
-//--- ВОПРОСЫ О СЕБЕ
+//--- QUESTIONS ABOUT MYSELF
 
 procedure NodeName begin
    Reply(311)
@@ -409,7 +409,7 @@ procedure NodeName302 begin
    NAnswer(356,1,NodeName)
 end
 
-//--- ВОПРОСЫ ОБ ИССЛЕДОВАНИЯХ
+//--- QUESTIONS ABOUT RESEARCH
 
 procedure NodeMissia begin
    Reply(401)
@@ -442,7 +442,7 @@ procedure NodeMissia201 begin
    NAnswer(302,1,Node999)
 end
 
-//--- ВОПРОСЫ О БОМБЕ
+//--- QUESTIONS ABOUT THE BOMB
 
 procedure NodeBomb begin
    Reply(381)

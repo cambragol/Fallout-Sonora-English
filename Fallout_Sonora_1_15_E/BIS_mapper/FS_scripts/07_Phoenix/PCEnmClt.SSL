@@ -157,7 +157,7 @@ end
 
 procedure talk_p_proc begin
    if (map_var(MVAR_PNX_GUNSSHOP_STOP) == 1) then begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else begin

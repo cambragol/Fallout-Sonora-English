@@ -224,7 +224,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,40) // Поправка к отношению за принадлежность к фракциям
@@ -235,7 +235,7 @@ procedure talk_p_proc begin
    floater(self_obj,103,COLOR_MSG_RED);
    end
    else begin
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
    end
 end
@@ -256,7 +256,7 @@ procedure NodeStartDialog begin
    end
 
    if ((global_var(GVAR_GAME_END)!=0) and (bitDialog(bit_9) == 0)) then begin
-   item_add(self_obj,PID_W_MICROWAVE_PISTOL,1) // bonus after the end of the game
+   item_add(self_obj,PID_W_MICROWAVE_PISTOL,1) // бонус после финала игры
    bitDialogExp(bit_9,0)
    end
 
@@ -283,7 +283,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -291,7 +291,7 @@ procedure NodeFstDialog begin
    NAnswer(201,1,NodeStartDialog)
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog100 begin
    bitDialogZero(bit_3)
@@ -348,12 +348,12 @@ procedure NodeStopDialog205 begin
    BAnswer(217,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
 
-   //--- Расспросы
+   //--- QUESTIONS
    NAnswer(220,1,NodeAnswer100)
 
    //--- Раскрытие товара
@@ -447,7 +447,7 @@ procedure NodeQstCult6 begin
    call Node999;
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(221)

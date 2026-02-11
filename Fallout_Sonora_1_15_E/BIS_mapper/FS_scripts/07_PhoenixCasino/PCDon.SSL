@@ -122,7 +122,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_PHENIX_STATUS_DIEGO,100) // Поправка к отношению за принадлежность к фракциям
    dialog_proc(103,102,NodeStartDialog,-1,-1)
 end
@@ -145,7 +145,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    if (map_var(MVAR_PNX_CASINO_PSWD)>0) then begin
@@ -215,7 +215,7 @@ procedure NodeFstDialog8 begin
    NAnswer(222,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(random(250,252))
@@ -256,7 +256,7 @@ procedure NodeSndDialog begin
    NAnswer(253,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(261)

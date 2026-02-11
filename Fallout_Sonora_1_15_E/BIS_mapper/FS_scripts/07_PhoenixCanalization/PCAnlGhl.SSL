@@ -134,7 +134,7 @@ procedure NodeStartDialog begin
    call NodeFstDialog;
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)

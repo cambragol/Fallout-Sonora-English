@@ -95,7 +95,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
    end
 end
 
@@ -109,7 +109,7 @@ procedure setBarterA begin
         check_restock_item(PID_M_RADAWAY, 2, 3, 100)
         check_restock_item(PID_M_RAD_X, 1, 2, 100)
 
-        //- крышки
+        //- caps
         if (global_var(GVAR_PHENIX_STATUS_CARDINAL) < 0) then begin
         check_restock_many(200,250)
         end
@@ -192,7 +192,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,35) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_PHENIX_STATUS_CARDINAL,50) // Поправка к отношению за принадлежность к фракциям
 
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -228,7 +228,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ВЫХОД В БОЙ
+//--- GOING INTO BATTLE
 
 procedure NodeEnemy begin
    setBonusReaction(-20)
@@ -265,7 +265,7 @@ procedure NodeEnemy4 begin
    BAnswer(228,1,Node998)
 end
 
-//--- НАРК ПОГИБ
+//--- DRUG DEPARTMENT DIED
 
 procedure NodeStopDialog100 begin
    bitDialogExp(bit_2,0)
@@ -322,7 +322,7 @@ procedure NodeStopDialog200 begin
    NAnswer(321,1,NodeStartDialog)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -349,7 +349,7 @@ procedure NodeFstDialog4 begin
    BAnswer(254,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(random(210,215))

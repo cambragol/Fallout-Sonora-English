@@ -216,7 +216,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeManyMove begin
    manyAmnt := item_amnt(dude_obj,PID_BOOTLE_CAPS);
@@ -387,7 +387,7 @@ procedure NodeDialog303 begin
    BAnswer(242,1,Node998)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(224)

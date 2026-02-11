@@ -140,7 +140,8 @@ end
 
 procedure talk_p_proc begin
    if (self_elevation == 0) then begin
-      z_floater(self_obj,random(210,219),COLOR_MSG_NORMAL);
+   // Added for spanish handling - cambragol
+   z_floater(self_obj,random(210,219),COLOR_MSG_NORMAL);
    end
    else begin
    floater(self_obj,random(200,207),COLOR_MSG_NORMAL);
