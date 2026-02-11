@@ -141,38 +141,37 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
 procedure setBarterA begin
-        //- крышки
-        if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
-        check_restock_many(400,500)
-        end
-        else begin
-        check_restock_many(800,1000)
-        end
+   //- крышки
+   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+   check_restock_many(400,500)
+   end
+   else begin
+   check_restock_many(800,1000)
+   end
 
-        //- вещи
-        if (map_first_run) then begin
-        check_restock_item(PID_W_KNUCKLES_SPIKED, 2, 2, 100)
-        end
-        check_restock_item(PID_AMMO_44_MAGNUM, 2, 3, 100)
-        check_restock_item(PID_M_STIMPAK, 3, 5, 100)
+   //- вещи
+   if (map_first_run) then begin
+   check_restock_item(PID_W_KNUCKLES_SPIKED, 2, 2, 100)
+   end
+   check_restock_item(PID_AMMO_44_MAGNUM, 2, 3, 100)
+   check_restock_item(PID_M_STIMPAK, 3, 5, 100)
 
-        //- еда
-        check_restock_item(PID_M_FRUIT, 2, 5, 100)
-        check_restock_item(PID_M_MEAT_JERKY, 2, 5, 100)
-        check_restock_item(PID_M_BRAHMIN_POTROH, 1, 2, 100) // added because he is selling them to the mine admin and maybe more - cambragol
-        if (local_var(LVAR_Alcohol_Status) == 0) then begin
-        check_restock_item(PID_M_TEQUILA, 1, 4, 100)
-        check_restock_item(PID_M_BEER, 2, 5, 100)
-        end else begin
-        check_restock_item(PID_M_BEER, 1, 4, 100)
-        check_restock_item(PID_M_BOOZE, 2, 5, 100)
-        end
-
+   //- еда
+   check_restock_item(PID_M_FRUIT, 2, 5, 100)
+   check_restock_item(PID_M_MEAT_JERKY, 2, 5, 100)
+   check_restock_item(PID_M_BRAHMIN_POTROH, 1, 2, 100) // added because he is selling them to the mine admin and maybe more - cambragol
+   if (local_var(LVAR_Alcohol_Status) == 0) then begin
+   check_restock_item(PID_M_TEQUILA, 1, 4, 100)
+   check_restock_item(PID_M_BEER, 2, 5, 100)
+   end else begin
+   check_restock_item(PID_M_BEER, 1, 4, 100)
+   check_restock_item(PID_M_BOOZE, 2, 5, 100)
+   end
 end
 
 procedure setBarterB begin
@@ -352,7 +351,7 @@ procedure talk_p_proc begin
    floater(self_obj,102,COLOR_MSG_RED);
    end
    else begin
-   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(105,0,NodeStartDialog,-1,-1)
    end
 end
@@ -545,6 +544,11 @@ procedure NodeGame104 begin
 end
 
 procedure NodeGame105 begin
+   if (getQuest(GVAR_FLAGSTAFF_QST_GAME) == qZero) then begin
+      Reply(368)
+      setQuest(GVAR_FLAGSTAFF_QST_GAME,qEnd);
+   end
+   else begin
    setQuest(GVAR_FLAGSTAFF_QST_GAME,qEnd);
    item_add(dude_obj,PID_BOOTLE_CAPS,50)
    setBonusReaction(20)
@@ -554,6 +558,7 @@ procedure NodeGame105 begin
    end
    else begin
    Reply(366)
+   end
    end
    NAnswer(363,0,NodeGame106)
 end

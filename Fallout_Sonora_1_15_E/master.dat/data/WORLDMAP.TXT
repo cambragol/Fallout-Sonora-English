@@ -370,12 +370,12 @@ type_03=Dead, pid:16777257, Item:(1-4)41; Green Ghoul Ripper
 position=wedge, spacing:2
 
 [Encounter: MEXI_Patrul]
-type_00=pid:16777285, Item:165(wielded), Item:134, Item:(6-10)11, Script:628 ; Patrol Leader in Combat Armor
+type_00=pid:16777285, Item:165(wielded), Item:134, Item:(1-2)11, Script:628 ; Patrol Leader in Combat Armor
 type_01=pid:16777283, Item:155(wielded), Item:134, Script:628 ; Private in Metal Armor M
 type_02=pid:16777284, Item:155(wielded), Item:134, Script:628, If (Rand(25%)) ; Private in Metal Armor Zh
 type_03=pid:16777283, Item:158(wielded), Item:133, Script:628 ; Private in Metal Armor M
 type_04=pid:16777284, Item:158(wielded), Item:133, Script:628, If (Rand(25%)) ; Private in Metal Armor Ж
-position=huddle, spacing:3, distance:10
+position=wedge, spacing:2
 
 [Encounter: MEXI_Alejo]
 type_00=pid:16777321, Item:134(wielded), Script:636 ; Alejo

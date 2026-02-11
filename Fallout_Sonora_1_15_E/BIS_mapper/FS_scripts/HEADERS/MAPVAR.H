@@ -163,7 +163,7 @@
 //------------------------------- Шахта (под землей)
 
 #define MVAR_FLAGMINE_MAP_SOLAR          (1) // бонус освещения: 0 - не задан, 1 - задан (точные изменения записаны в скрипте ZTMap, процедура map_light_proc)
-//с версии 1.16 не используется - #define MVAR_FLAGMINE_RAT_EXP            (2) // служит для расчета урона, получаемого королем крыс от электрической ловушки (иначе опыт не начисляется)
+// Not used since v1.16 - #define MVAR_FLAGMINE_RAT_EXP            (2) // служит для расчета урона, получаемого королем крыс от электрической ловушки (иначе опыт не начисляется)
 #define MVAR_FLAG_RatKingVsbl            (4) // обнаружение крысиного короля: 0 - невидим, 1 - видим
 
 //------------------------------- Заброшенный район (музей)
@@ -499,36 +499,36 @@
 
 //------------------------------- Поселение
 
-#define MVAR_NUEVA_MER_DIALOG            (1) // !=0 - ГГ поговорил с мэром хотя бы раз
-#define MVAR_NUEVA_MER_ROSAKNOW          (2) // >0 - ГГ в разговоре с мэром о пропаже людей сдал Розалию, <0 - ГГ провел диалог, но не выдал Розилию
-#define MVAR_NUEVA_CURFEW                (3) // число задержаний ГГ в комендантский час
-#define MVAR_NUEVA_WATERFLASK            (4) // ГГ дал воды человеку у позорного столба
+#define MVAR_NUEVA_MER_DIALOG            (1) // !=0 - MC talked to the mayor at least once
+#define MVAR_NUEVA_MER_ROSAKNOW          (2) // >0 - MC gave up Rosalia in a conversation with the mayor about missing people, <0 - MC had a dialogue but did not give up Rosalia
+#define MVAR_NUEVA_CURFEW                (3) // number of MC detentions during curfew
+#define MVAR_NUEVA_WATERFLASK            (4) // MC gave water to the man at the pillory
 
-//------------------------------- Карьер
+//------------------------------- Quarry
 
-#define MVAR_NUEVA_MEAT_TILE             (1) // тайл для перемещения Эль Гиганте к месту сброса мяса
+#define MVAR_NUEVA_MEAT_TILE             (1) // tile for moving El Gigante to the meat drop-off point
 
-//------------------------------- Теплицы (эктерьер)
+//------------------------------- Greenhouses (exterior)
 
-#define MVAR_NUEVA_LAB_DOCS_DISC         (1) // !=0 - ГГ получил документацию в лабораторном компьютере
+#define MVAR_NUEVA_LAB_DOCS_DISC         (1) // !=0 - PC has obtained documentation from the lab computer
 
-//------------------------------- Теплицы (интерьер)
+//------------------------------- Greenhouses (interior)
 
-#define MVAR_NUEVA_LAB_CLIMAT_A          (1) // !=0 - ГГ запустил вентиляцию на уровне 1 (купол)
-#define MVAR_NUEVA_LAB_CLIMAT_B          (2) // !=0 - ГГ запустил вентиляцию на уровне 2 (теплица справа)
-#define MVAR_NUEVA_LAB_CLIMAT_C          (3) // !=0 - ГГ запустил вентиляцию на уровне 3 (теплица слева)
-#define MVAR_NUEVA_LAB_MANTIS_GENER      (4) // !=0 - Обращенный призвал мантиса на помощь в бою (обнуляется когда мантис или Обращенный погибнет)
-#define MVAR_NUEVA_LAB_MANTIS_COUNT      (5) // хранит количество сгенерированных в бою мантисов
+#define MVAR_NUEVA_LAB_CLIMAT_A          (1) // !=0 - PC has activated ventilation at level 1 (dome)
+#define MVAR_NUEVA_LAB_CLIMAT_B          (2) // !=0 - PC has activated ventilation at level 2 (greenhouse on the right)
+#define MVAR_NUEVA_LAB_CLIMAT_C          (3) // !=0 - PC has activated ventilation at level 3 (greenhouse on the left)
+#define MVAR_NUEVA_LAB_MANTIS_GENER      (4) // !=0 - The Converted has summoned a Mantis for battle (reset when Mantis or Converted dies)
+#define MVAR_NUEVA_LAB_MANTIS_COUNT      (5) // stores the number of Mantises generated in battle
 
 /***************************************************************
-************************ САНТА АНА *****************************
+************************ SANTA ANA *****************************
 ***************************************************************/
 
-//------------------------------- Поселение
+//------------------------------- Settlement
 
-#define MVAR_SANTA_DIALOG                (1) // число проведенных диалогов по квесту GVAR_SANTAANA_QST_DIALOG
-#define MVAR_SANTA_BOSS_ATTAK            (2) // инициация драки со старостой в церкви
-#define MVAR_SANTA_MEAT_TILE             (3) // тайл для перемещения Эль Диабло к месту сброса мяса
+#define MVAR_SANTA_DIALOG                (1) // number of dialogues conducted for quest GVAR_SANTAANA_QST_DIALOG
+#define MVAR_SANTA_BOSS_ATTAK            (2) // initiation of the fight with the elder in the church
+#define MVAR_SANTA_MEAT_TILE             (3) // tile for moving El Diablo to the meat drop-off point
 
 #define dialog_qst_SANTA                 if (getQuest(GVAR_SANTAANA_QST_DIALOG) == qStart) then begin \
                                             inc_map_var(MVAR_SANTA_DIALOG); \

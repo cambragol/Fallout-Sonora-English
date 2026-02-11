@@ -210,11 +210,11 @@ procedure critter_p_proc begin
    set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
 
    if (partyPidSelf!=0) then begin
-   if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
-       if (local_var(LVAR_Stop_Run) == 0) then begin
-       partyRunToDude
-       end
-   end
+      if (global_var(GVAR_GARAGE_EUGENE_STATUS) == 1) then begin
+         if (local_var(LVAR_Stop_Run) == 0) then begin
+            partyRunToDude
+         end
+      end
    end
 end
 

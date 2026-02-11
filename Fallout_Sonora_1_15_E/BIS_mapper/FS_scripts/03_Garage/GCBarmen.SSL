@@ -115,7 +115,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
-       set_BarterBoxProc(BARTER_TIME) // !дублировать в NodeStartDialog
+       set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
@@ -205,7 +205,7 @@ procedure talk_p_proc begin
    setReaction(1) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
-   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(103,102,NodeStartDialog,-1,-1)
 end
 

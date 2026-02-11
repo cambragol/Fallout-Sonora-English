@@ -276,10 +276,10 @@ procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    zReply(200)
    NAnswer(201,1,NodeFstDialog2)
-      // added this as the dialouge indicated phoenix was not visited yet but known - cambragol
-      if (town_known(AREA_PHOENIX) == MARK_STATE_KNOWN) then begin
-         NAnswer(204,1,NodeFstDialog3)
-      end
+   // added this as the dialouge indicated phoenix was not visited yet but known - cambragol
+   if (town_known(AREA_PHOENIX) == MARK_STATE_KNOWN) then begin
+      NAnswer(204,1,NodeFstDialog3)
+   end
 end
 
 procedure NodeFstDialog2 begin

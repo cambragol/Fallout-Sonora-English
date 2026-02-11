@@ -209,13 +209,13 @@ procedure NodeSndDialog begin
 
    if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) == qStart) then begin
       if (bitDialog(bit_2) == 0) then begin
-        if (item_amnt(self_obj,PID_BOOTLE_CAPS) >= 100) then begin
-         zNAnswer(211,1,NodeSndDialog2)
-        end
-        // added for the case that the player robs him of the money before asking for it - cambragol
-        else begin
-         zNAnswer(211,1,NodeStolenMoney1)
-        end
+         if (item_amnt(self_obj,PID_BOOTLE_CAPS) >= 100) then begin
+            zNAnswer(211,1,NodeSndDialog2)
+         end
+         // added for the case that the player robs him of the money before asking for it - cambragol
+         else begin
+            zNAnswer(211,1,NodeStolenMoney1)
+         end
       end
    end
    NAnswer(212,1,Node999)

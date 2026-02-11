@@ -163,7 +163,12 @@ procedure NodeSndDialog begin
    if (getQuest(GVAR_FLAGSTAFF_SLAVES_ZAGON) < qEnd) then begin
    NAnswer(230,1,NodeSndDialog20)
    end
+   if (map_var(MVAR_SlavStoryA) == -1) then begin
    NAnswer(211,1,Node999)
+   end
+   else begin
+   NAnswer(213,1,Node999)
+   end
 end
 
 procedure NodeSndDialog10 begin

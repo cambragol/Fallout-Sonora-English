@@ -129,26 +129,26 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure use_poker_fishka begin
-       if (cur_map_index != MAP_PHOENIX_CENTER) then begin
-          display_mstr(122);
-       end
-       else if (has_skill(dude_obj, SKILL_GAMBLING) < 20) then begin
-          skill_display_mstr(116,SKILL_GAMBLING,20)
-       end
-       else if (local_var(LVAR_Stavka) >= 20) then begin
-          display_mstr(121);
-       end
-       else if (local_var(LVAR_Playing_Counter) <= local_var(LVAR_Stavka)) then begin
-          display_mstr(120);
-       end
-       else if (local_var(LVAR_Playing_Counter) > 0) then begin
-          inc_local_var_amt(LVAR_Stavka,1);
-          display_msg(mstr(118)+local_var(LVAR_Stavka)+mstr(119));
-          item_remove(dude_obj, PID_POKER_FISH, 1)
-       end
-       else begin
-          display_mstr(115);
-       end
+   if (cur_map_index != MAP_PHOENIX_CENTER) then begin
+      display_mstr(122);
+   end
+   else if (has_skill(dude_obj, SKILL_GAMBLING) < 20) then begin
+      skill_display_mstr(116,SKILL_GAMBLING,20)
+   end
+   else if (local_var(LVAR_Stavka) >= 20) then begin
+      display_mstr(121);
+   end
+   else if (local_var(LVAR_Playing_Counter) <= local_var(LVAR_Stavka)) then begin
+      display_mstr(120);
+   end
+   else if (local_var(LVAR_Playing_Counter) > 0) then begin
+      inc_local_var_amt(LVAR_Stavka,1);
+      display_msg(mstr(118)+local_var(LVAR_Stavka)+mstr(119));
+      item_remove(dude_obj, PID_POKER_FISH, 1)
+   end
+   else begin
+      display_mstr(115);
+   end
 end
 
 procedure gaming_proc begin
