@@ -162,7 +162,7 @@ procedure talk_p_proc begin
    z_floater(self_obj,103,COLOR_MSG_RED);
    end
    else begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-90) // Поправка к отношению за принадлежность к фракциям
@@ -193,7 +193,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog100 begin
    bitDialogExp(bit_6,0)
@@ -223,7 +223,7 @@ procedure NodeStopDialog103 begin
    NAnswer(236,4,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -232,7 +232,7 @@ procedure NodeFstDialog begin
    NAnswer(202,-3,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    upCoast := 0;
@@ -253,7 +253,7 @@ procedure NodeSndDialog begin
    Reply(220)
    end
 
-   //--- Вопросы:
+   //--- QUESTIONS:
    NAnswer(260,4,NodeAnswer100)
    if (bitDialog(bit_2) == 0) then begin
    if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin
@@ -271,7 +271,7 @@ procedure NodeSndDialog begin
    NAnswer(253,4,NodeAnswer301)
    end
 
-   //--- квест на починку фильтра:
+   //--- QUEST на починку фильтра:
    if (getQuest(GVAR_CGRANDE_WATER_REPAIR) == qZero) then begin
    NAnswer(300,4,NodeQst001)
    end
@@ -285,7 +285,7 @@ procedure NodeSndDialog begin
    NAnswer(300,4,NodeQst000)
    end
 
-   //--- квест магистральщиков:
+   //--- QUEST магистральщиков:
    if (bitGrande_shrf_attak_mer == 0) then begin
    if (global_var(GVAR_CGRANDE_STATUS_SHEFF) == 0) then begin
    if (global_var(GVAR_CGRANDE_STATUS_MER) == 0) then begin
@@ -307,7 +307,7 @@ procedure NodeSndDialog begin
    NAnswer(222,-3,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(261)
@@ -398,7 +398,7 @@ procedure NodeAnswer301 begin
    NAnswer(255,4,Node999)
 end
 
-//--- КВЕСТ
+//--- QUEST
 
 procedure NodeQst000 begin
    if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin

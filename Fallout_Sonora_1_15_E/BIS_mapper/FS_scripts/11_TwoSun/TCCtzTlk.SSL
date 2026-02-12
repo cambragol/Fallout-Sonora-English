@@ -162,7 +162,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    zReply(200)
@@ -203,7 +203,7 @@ procedure NodeFstDialog4 begin
    BAnswer(216,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

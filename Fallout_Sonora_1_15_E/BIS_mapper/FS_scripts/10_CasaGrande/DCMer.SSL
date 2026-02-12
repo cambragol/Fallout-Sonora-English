@@ -157,9 +157,9 @@ procedure NodeRoadWar4;
 
 //---------------------
 
-#define LVAR_Story_Know                     (6) // ГГ знает предысторию города и обговорил ее с мэром
+#define LVAR_Story_Know                     (6) // The main character knows the city's backstory and discussed it with the mayor.
 
-import variable obj_critter_a; // указатель на мэра
+import variable obj_critter_a; // pointer to the mayor
 import variable box_stop_use;
 
 //---------------------
@@ -292,7 +292,7 @@ procedure talk_p_proc begin
    floater(self_obj,104,COLOR_MSG_RED);
    end
    else begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-90) // Поправка к отношению за принадлежность к фракциям
@@ -335,7 +335,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    Reply(200)
@@ -442,7 +442,7 @@ procedure NodeFstDialog011 begin
    NAnswer(216,4,NodeFstDialog009)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
@@ -461,7 +461,7 @@ procedure NodeSndDialog begin
    Reply(241)
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
 
    NAnswer(370,4,NodeAnswer300)
 
@@ -514,7 +514,7 @@ procedure NodeSndDialog begin
    NAnswer(453,4,NodeQst101)
    end
 
-   //--- Вторичные квесты
+//--- Secondary quests
 
    if (getQuest(GVAR_CGRANDE_QST_BATHHOUSE) == qStart) then begin
       if (global_var(GVAR_CGRANDE_STATUS_BATHHOUSE) == 0) then begin
@@ -539,7 +539,7 @@ procedure NodeSndDialog begin
    NAnswer(223,-3,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer200 begin
    Reply(351)
@@ -971,7 +971,7 @@ procedure NodeQst303 begin
    NAnswer(560,1,Node999)
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog begin
    Reply(300)
@@ -1194,7 +1194,7 @@ procedure NodeBathhouse201 begin
    BAnswer(295,1,Node999)
 end
 
-//--- КВЕСТ
+//--- QUEST
 
 procedure NodeQst100 begin
    setQuest(GVAR_CGRANDE_QST_BANDITS,qStart);

@@ -138,7 +138,7 @@ procedure push_p_proc begin
    script_overrides;
    end
    else begin
-   push_options(self_tile,3,-1) // толкать (точка отсчета, макс расстояние, фраза над нпс при толкании), удалить если не надо
+   push_options(self_tile,3,-1) // push (start point, max distance, phrase above NPC when pushing), delete if not needed
    end
 end
 
@@ -147,7 +147,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -186,11 +186,12 @@ procedure talk_p_proc begin
 end
 
 /*
-Салливан нападает на мэра в баре после успешного разруливания ситуации с грабителями (мэр жив, дочь спасена, Салливан жив).
-При этом устанавливать set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_26);
+Sullivan attacks the mayor in the bar after successfully resolving the situation with the robbers (the mayor is alive, the daughter is saved, Sullivan is alive).
 
-- Ты не уйдешь отсюда, Альфред. (угрожающе достает оружие) Не волнуйся, я позабочусь о твоих похорах. - Ривера... Что ты...
-- Я и подумать не мог, что все так удачно сложится. Грабители нападают на город и убивают мэра, а я убиваю грабителей. Какой правдоподобный финал. - Ты не можешь так со мной поступить! Мы с тобой знакомы с самого детства...
-- Ты сам виноват, друг. Ты обмяг и потерял свою силу из-за этой девчонки. А значит и свое право указывать мне. В старые времена у тебя хватало яиц, чтобы править этим городом. Мне же доставалась жалкая участь помощника. Теперь *я* буду мэром Каса-Гранде. - Предатель!
-- Замолкни. На тебя тошно смотреть.
+Set set_gvar_bit_on(GVAR_DIALOGS_FLAGS_BIT, bit_26);
+
+"You're not leaving here, Alfred." (He draws his weapon threateningly.) "Don't worry, I'll take care of your funeral." "Rivera... What are you..."
+"I never thought things would work out so well. The robbers attack the city and kill the mayor, and I kill the robbers. What a plausible ending." "You can't do this to me! We've known each other since childhood..."
+"It's your own fault, friend. You've gone soft and lost your strength because of that girl. And therefore, your right to tell me what to do. In the old days, you had the balls to rule this city." I was given the miserable fate of assistant. Now *I* will be the mayor of Casa Grande. - Traitor!
+- Shut up. You're disgusting to look at.
 */

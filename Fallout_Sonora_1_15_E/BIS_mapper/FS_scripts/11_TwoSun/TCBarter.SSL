@@ -135,7 +135,7 @@ procedure setBarterA begin
         check_restock_item(PID_W_KNUCKLES_PNEUMATIC, 1, 2, 100)
         check_restock_item(PID_W_SPEAR_PNEUMATIC, 1, 2, 100)
         check_restock_item(PID_W_SLEDGEHAMMER, 1, 1, 100)
-        check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
+           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
         check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
 
         //- крышки
@@ -169,8 +169,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (map_var(MVAR_TWOSUN_Alarma)>0) then begin
        timer_move_to_tile(1,map_var(MVAR_TWOSUN_Alarma),random(0,5))
@@ -237,7 +237,7 @@ procedure talk_p_proc begin
    floater(self_obj, 103, COLOR_MSG_RED);
    end
    else begin
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(1,0,NodeStartDialog,-1,-1)
    end
 end
@@ -280,7 +280,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeBonusDialog begin
    bitDialogExp(bit_5,0)
@@ -329,7 +329,7 @@ procedure NodeStopDialog3 begin
    NAnswer(263,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if ((bitDialog(bit_8) == 0) and ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C))) then begin
@@ -558,9 +558,9 @@ end
 procedure NodeCoastCorrect begin
    /*
    Comment:
-      I had to contrive such a complex formula,
-      because the engine does not correctly perceive multiplication by a negative number
-      (it resulted in huge numbers)
+   I had to contrive such a complex formula,
+   because the engine does not correctly perceive multiplication by a negative number
+   (it resulted in huge numbers)
    */
    /*
    if (local_var(LVAR_Barter_Mod) > 0) then begin
@@ -578,7 +578,7 @@ procedure NodeCoastCorrect begin
    end
 end
 
-//--- ТОРГОВЛЯ
+//--- TRADE
 
 /*
 {280}{}{Can I count on goods "for the worthy"?}

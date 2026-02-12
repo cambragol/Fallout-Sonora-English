@@ -90,8 +90,8 @@ procedure loot_gener begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if ((local_var(LVAR_HomeTile_Music)>0) and (map_var(MVAR_Vault_Music) > 0)) then begin
        set_obj_visibility(self_obj, 0);

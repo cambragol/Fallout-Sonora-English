@@ -195,7 +195,7 @@ procedure talk_p_proc begin
    floater(self_obj,105,COLOR_MSG_RED);
    end
    else begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-50) // Поправка к отношению за принадлежность к фракциям
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
@@ -346,7 +346,7 @@ procedure NodeStopDialog202 begin
    NAnswer(327,0,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -371,7 +371,7 @@ procedure NodeFstDialog4 begin
    BAnswer(209,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (local_var(LVAR_Game_Stop) > 0) then begin
@@ -411,7 +411,7 @@ procedure NodeSndDialog3 begin
    NAnswer(215,0,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(301)

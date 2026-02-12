@@ -170,7 +170,7 @@ procedure talk_p_proc begin
    floater(self_obj,102,COLOR_MSG_NORMAL);
    end
    else begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -194,7 +194,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,100)
@@ -208,17 +208,19 @@ procedure NodeFstDialog2 begin
 end
 
 procedure NodeFstDialog3 begin
+   // added for spanish handling - cambragol
    zReply(204)
    NAnswer(205,1,NodeFstDialog4)
 end
 
 procedure NodeFstDialog4 begin
+   // added for spanish handling - cambragol
    zReply(206)
    NAnswer(207,1,Node999)
    NAnswer(208,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
@@ -240,7 +242,7 @@ procedure NodeSndDialog begin
    NAnswer(211,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(231)

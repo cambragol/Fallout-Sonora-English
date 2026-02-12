@@ -134,7 +134,7 @@ procedure talk_p_proc begin
       end
    end
    else if (map_var(MVAR_CGRANDE_BAR_PARTY) == 0) then begin
-      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
       dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else begin
@@ -158,7 +158,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    zReply(200)
@@ -201,7 +201,7 @@ procedure NodeFstDialog4 begin
    NAnswer(208,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

@@ -162,7 +162,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -172,7 +172,8 @@ procedure NodeFstDialog begin
 end
 
 procedure NodeFstDialog2 begin
-   Reply(203)
+   // added for spanish handling - cambragol
+   zReply(203)
    NAnswer(205,1,NodeFstDialog4)
    BAnswer(209,1,NodeFstDialog5)
 end
@@ -186,7 +187,8 @@ end
 procedure NodeFstDialog4 begin
    Reply(206)
    NAnswer(207,1,Node999)
-   BAnswer(208,1,Node998)
+   // added for spanish handling - cambragol
+   zBAnswer(208,1,Node998)
 end
 
 procedure NodeFstDialog5 begin
@@ -194,7 +196,7 @@ procedure NodeFstDialog5 begin
    BAnswer(214,1,Node998)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

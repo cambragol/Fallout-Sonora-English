@@ -122,7 +122,7 @@ end
 
 procedure talk_p_proc begin
    if (bitDialog(bit_1) == 0) then begin
-   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(-1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else begin
@@ -141,7 +141,7 @@ procedure NodeStartDialog begin
    call NodeDialog;
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeDialog begin
    bitDialogExp(bit_1,0)

@@ -155,7 +155,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -205,7 +205,7 @@ procedure NodeFstDialog7 begin
    NAnswer(254,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TWOSUN_STATUS_ZAX) > 0) then begin
@@ -260,6 +260,6 @@ procedure NodeQstDialogEnd2 begin
 end
 
 procedure NodeQstDialogEnd3 begin
-   //исчезновение?
+   //disappearance?
    call Node999;
 end

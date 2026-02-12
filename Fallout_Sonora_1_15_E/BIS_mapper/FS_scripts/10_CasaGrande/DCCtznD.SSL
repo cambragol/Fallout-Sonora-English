@@ -185,7 +185,7 @@ end
 
 procedure talk_p_proc begin
    if (getQuest(GVAR_CGRANDE_QST_SALVATION) == qZero) then begin
-      setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
       fracReaction(GVAR_TITUL_WARRIOR_ROAD,-50) // Поправка к отношению за принадлежность к фракциям
       dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
@@ -223,7 +223,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -299,7 +299,7 @@ procedure NodeFstDialog201 begin
    NAnswer(306,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(216)

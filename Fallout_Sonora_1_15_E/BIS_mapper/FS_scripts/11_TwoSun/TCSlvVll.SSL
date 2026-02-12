@@ -175,7 +175,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -202,7 +202,7 @@ procedure NodeFstDialog4 begin
    NAnswer(208,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (map_var(MVAR_TWOSUN_PartyVill) == 0) then begin
@@ -221,6 +221,7 @@ procedure NodeSndDialog begin
 end
 
 procedure NodeSndDialog2 begin
+   // added for spanish handling - cambragol
    zReply(213)
    NAnswer(214,1,NodeSndDialog3)
 end

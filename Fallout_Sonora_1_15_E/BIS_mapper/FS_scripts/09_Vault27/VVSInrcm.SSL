@@ -126,7 +126,7 @@ procedure NodeFstDialog4 begin
    NAnswer(219,-3,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
@@ -194,7 +194,7 @@ procedure NodeAnswer501 begin
    NAnswer(212,4,Node999)
 end
 
-//--- КВЕСТ
+//--- QUEST
 
 procedure NodeQst begin
    if (getQuest(GVAR_VAULT27_POISON) > qStart) then begin

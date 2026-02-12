@@ -203,7 +203,7 @@ procedure talk_p_proc begin
    floater(self_obj,104,COLOR_MSG_NORMAL); //!!! убрать, когда возьмусь за квест этого персонажа
    end
    else begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_BOS,50) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-20) // Поправка к отношению за принадлежность к фракциям
@@ -245,7 +245,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ (до получения квеста)
+//--- FIRST DIALOGUE (before receiving the quest)
 
 procedure NodeFstDialog begin
    Reply(200)
@@ -306,7 +306,7 @@ procedure NodeFstDialog2 begin
    BAnswer(262,1,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ (получение квеста у туалета)
+//--- FIRST DIALOGUE (getting the quest at the toilet)
 
 procedure NodeFstDialog200 begin
    if ((game_time_hour >= 0600) and (game_time_hour < 2200)) then begin
@@ -373,7 +373,7 @@ procedure NodeFstDialog209 begin
    call Node999;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ (до завершения квеста)
+//--- REPEAT DIALOGUE (until the quest is completed)
 
 procedure NodeSndDialog begin
    Reply(300)
