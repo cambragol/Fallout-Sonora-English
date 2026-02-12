@@ -309,12 +309,12 @@ procedure NodeSndDialog begin
    zNAnswer(231,1,NodeFAID200)
    end
 
-   //--- Расспросы
+   //--- Questions
    NAnswer(400,3,NodeAnswer100)
    NAnswer(430,3,NodeAnswer200)
    NAnswer(440,3,NodeAnswer300)
 
-   //--- Про убежище 24
+   //--- About vault 24
    if (bitDialog(bit_6) == 0) then begin
       if ((getQuest(GVAR_VAULT24_VISITED) >= qEnd) or (global_var(GVAR_HOLODISK_10) != 0)) then begin
       NAnswer(451,1,NodeAnswer110)
@@ -324,7 +324,7 @@ procedure NodeSndDialog begin
    NAnswer(211,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    if (global_var(GVAR_INF_STATUS_APOC) >= 2) then begin

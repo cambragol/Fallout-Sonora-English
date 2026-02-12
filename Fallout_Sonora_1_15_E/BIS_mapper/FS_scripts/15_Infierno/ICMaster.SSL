@@ -122,8 +122,8 @@ procedure look_at_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -241,7 +241,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
 end
 
@@ -324,7 +324,7 @@ procedure NodeTitul4 begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -482,7 +482,7 @@ procedure NodeFstDialog204 begin
    NAnswer(253,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
@@ -540,7 +540,7 @@ procedure NodeSndDialog begin
    NAnswer(251,0,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswr100 begin
    Reply(261)
@@ -707,7 +707,7 @@ procedure NodeAnswr210 begin
    NAnswer(372,0,NodeSndDialog)
 end
 
-//--- КВЕСТЫ
+//--- QUESTЫ
 
 procedure NodeQst100 begin
    setQuest(GVAR_INF_QST_APOSTOL_B,qEnd+1);

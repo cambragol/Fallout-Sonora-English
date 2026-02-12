@@ -177,7 +177,7 @@ procedure talk_p_proc begin
    z_floater(self_obj,352,COLOR_MSG_GREEN);
    end
    else begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
@@ -209,7 +209,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    Reply(200)
@@ -242,7 +242,7 @@ procedure NodeFstDialog102 begin
    NAnswer(219,-3,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_BOS) > 0) then begin
@@ -283,7 +283,7 @@ procedure NodeSndDialog3 begin
    NAnswer(306,4,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(214)
@@ -496,8 +496,8 @@ procedure NodeAnswer501 begin
 end
 
 procedure NodeAnswer502 begin
-   //Тебе стоит аккуратнее выбирать выражения. И нет, Братство так не считает. Мы даруем Аризоне свободу и право на развитие. Мы возвращаем частичку Старого Мира. Это ли не чудо посреди пустыни?
-   //Генерал Диксон провел огромную работу, чтобы мы закрепились в этом форте. И мы достигли успехов. Плантации Каса-Нуэва дают нам пищу, жестянщики Ту-Сана обеспечивают энергией и технологиями.
+   //You should be more careful with your words. And no, the Brotherhood doesn't see it that way. We're granting Arizona freedom and the right to develop. We're reclaiming a piece of the Old World. Isn't that a miracle in the desert?
+   //General Dixon has done a tremendous job of securing our position in this fort. And we've succeeded. The Casa Nueva plantations provide us with food, the Tu-Sana tinsmiths provide us with energy and technology.
    Reply(316)
    BAnswerSkill(323,4,NodeAnswer504,SKILL_CONVERSANT,80,317,NodeAnswer503)
    NAnswer(318,4,Node999)

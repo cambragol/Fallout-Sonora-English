@@ -164,8 +164,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (self_TEAM == TEAM_PLAYER) then begin
        add_timer_event(self_obj, 20, 1);
@@ -231,9 +231,9 @@ procedure critter_p_proc begin
    end
 
    if (partyPidSelf!=0) then begin
-      if (local_var(LVAR_Flag_Run) != 0) then begin
-         partyRunToDude // персонаж бегает вслед за ГГ
-      end
+   if (local_var(LVAR_Flag_Run) != 0) then begin
+      partyRunToDude // персонаж бегает вслед за ГГ
+   end
    end
 end
 
@@ -280,14 +280,14 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    /*
    if (getQuest(GVAR_NUEVA_QST_APOC_HOME) >= qEnd) then begin
    floater(self_obj,103,COLOR_MSG_GREEN);
    end
    else begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    */
@@ -333,7 +333,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -388,7 +388,7 @@ procedure NodeFstDialog9 begin
    NAnswer(221,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if ((getQuest(GVAR_INF_QST_APOSTOL_A) == qStart) and (getQuest(GVAR_INF_QST_APOSTOL_B) >= qEnd)) then begin
@@ -398,7 +398,7 @@ procedure NodeSndDialog begin
    Reply(250)
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
    NAnswer(270,1,NodeAnswer100)
    NAnswer(330,1,NodeAnswer200)
    if (global_var(GVAR_INF_STATUS_APOSTOL) == 0) then begin
@@ -428,7 +428,7 @@ procedure NodeSndDialog begin
    NAnswer(251,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(271)

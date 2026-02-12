@@ -136,10 +136,10 @@ procedure NodeStartDialog begin
    else begin
    call NodeSndDialog;
    end
-   //!!! If the dialogue is successful, install - set_global_var(GVAR_HERMO_DUDE_ALARM,1);
+   //!!! If the dialogue is successful, set - set_global_var(GVAR_HERMO_DUDE_ALARM,1);
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,100)
@@ -174,7 +174,7 @@ procedure NodeFstDialog4 begin
    call Node999;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if DudeTraitHas(TRAIT_espanol) then begin

@@ -106,70 +106,70 @@ procedure map_enter_p_proc begin
        set_start_home
        if (map_first_run) then begin
        incBarterMod(50);
-       check_restock_item(PID_TOOL_RADIO, 1, 1, 100) // 1 шт на всю игру!
+       check_restock_item(PID_TOOL_RADIO, 1, 1, 100) // 1 piece for the whole game!
        end
        set_BarterBoxProc(BARTER_TIME) // !duplicate in NodeStartDialog
    end
 end
 
 procedure setBarterA begin
-   //Зеленый уровень товара - для простых гражданских
-   check_restock_item(PID_ARMOR_COMBAT, 1, 1, 100)
-   check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 2, 3, 100)
-   check_restock_item(PID_TOOL_FLARE, 4, 8, 100)
-   check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
-   check_restock_item(PID_M_STIMPAK, 3, 5, 100)
+      //Green level of goods - for ordinary civilians
+        check_restock_item(PID_ARMOR_COMBAT, 1, 1, 100)
+        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 2, 3, 100)
+        check_restock_item(PID_TOOL_FLARE, 4, 8, 100)
+        check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
+        check_restock_item(PID_M_STIMPAK, 3, 5, 100)
 
-   check_restock_item(PID_W_GRENADE_PLASMA, 5, 8, 100)
-   check_restock_item(PID_W_GRENADE_FRAG, 8, 12, 100)
-   check_restock_item(PID_W_THROWING_KNIFE, 7, 10, 100)
-   check_restock_item(PID_W_COMBAT_KNIFE, 2, 3, 100)
-   check_restock_item(PID_W_POWER_FIST, 1, 1, 100)
-   check_restock_item(PID_W_SPEAR_SHOCKER, 1, 1, 100)
-   check_restock_item(PID_W_SUPER_SLEDGE, 1, 1, 100)
+        check_restock_item(PID_W_GRENADE_PLASMA, 5, 8, 100)
+        check_restock_item(PID_W_GRENADE_FRAG, 8, 12, 100)
+        check_restock_item(PID_W_THROWING_KNIFE, 7, 10, 100)
+        check_restock_item(PID_W_COMBAT_KNIFE, 2, 3, 100)
+        check_restock_item(PID_W_POWER_FIST, 1, 1, 100)
+        check_restock_item(PID_W_SPEAR_SHOCKER, 1, 1, 100)
+        check_restock_item(PID_W_SUPER_SLEDGE, 1, 1, 100)
 
-   check_restock_item(PID_AMMO_SIGNAL_A, 10, 20, 100)
-   check_restock_item(PID_W_SIGNAL_PISTOL, 1, 1, 100)
-   check_restock_item(PID_AMMO_10_MM, 3, 6, 100)
-   check_restock_item(PID_W_SMG_UZI, 1, 1, 100)
-   //check_restock_item(PID_W_SMG_10, 1, 1, 100)
-   check_restock_item(PID_W_PISTOL_10, 1, 1, 100)
-   check_restock_item(PID_AMMO_44_MAGNUM, 5, 8, 100)
-   check_restock_item(PID_W_REVOLVER_POLICE, 1, 1, 100)
-   check_restock_item(PID_AMMO_50_AE, 5, 7, 100)
-   check_restock_item(PID_W_PISTOL_50, 1, 1, 100)
-   check_restock_item(PID_AMMO_SHOTGUN_SHELLS, 6, 6, 100)
-   check_restock_item(PID_W_SHOTGUN_COMBAT, 1, 1, 100)
-   check_restock_item(PID_AMMO_5_MM, 6, 8, 100) // в пачке 25 патронов
-   check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
-   check_restock_item(PID_AMMO_308, 5, 10, 100)
-   //check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
-   check_restock_item(PID_W_RIFLE_COMBAT, 1, 1, 100)
-   check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
-   check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
+           check_restock_item(PID_AMMO_SIGNAL_A, 10, 20, 100)
+        check_restock_item(PID_W_SIGNAL_PISTOL, 1, 1, 100)
+           check_restock_item(PID_AMMO_10_MM, 3, 6, 100)
+        check_restock_item(PID_W_SMG_UZI, 1, 1, 100)
+        //check_restock_item(PID_W_SMG_10, 1, 1, 100)
+        check_restock_item(PID_W_PISTOL_10, 1, 1, 100)
+           check_restock_item(PID_AMMO_44_MAGNUM, 5, 8, 100)
+        check_restock_item(PID_W_REVOLVER_POLICE, 1, 1, 100)
+           check_restock_item(PID_AMMO_50_AE, 5, 7, 100)
+        check_restock_item(PID_W_PISTOL_50, 1, 1, 100)
+           check_restock_item(PID_AMMO_SHOTGUN_SHELLS, 6, 6, 100)
+        check_restock_item(PID_W_SHOTGUN_COMBAT, 1, 1, 100)
+           check_restock_item(PID_AMMO_5_MM, 6, 8, 100) // в пачке 25 патронов
+        check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
+           check_restock_item(PID_AMMO_308, 5, 10, 100)
+        //check_restock_item(PID_W_RIFLE_HUNTING, 1, 1, 100)
+        check_restock_item(PID_W_RIFLE_COMBAT, 1, 1, 100)
+           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 5, 5, 100)
+        check_restock_item(PID_W_LASER_PISTOL, 1, 1, 100)
 
-   //- крышки
-   check_restock_many(2500,3500)
+        //- крышки
+        check_restock_many(2500,3500)
 end
 
 procedure setBarterB begin
-   //Синий уровень товара -  для членов БС и торговцев
-   check_restock_item(PID_ARMOR_COMBAT_BOS, 1, 1, 100)
-   check_restock_item(PID_TOOL_STEALTH_BOY, 1, 1, 100)
-   check_restock_item(PID_W_GRENADE_PULSE, 2, 4, 100)
-   check_restock_item(PID_AMMO_40_MM, 16, 20, 100)
-   check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
-   check_restock_item(PID_W_SHOTGUN_ASSAULT, 1, 1, 100)
-   check_restock_item(PID_W_LIGHT_AUTOGUN, 1, 1, 100)
-   check_restock_item(PID_W_RIFLE_SNIPER, 1, 1, 100)
-   check_restock_item(PID_W_LASER_RIFLE, 1, 1, 100)
-   check_restock_item(PID_W_PLASMA_PISTOL, 1, 1, 100)
-   check_restock_item(PID_W_REVOLVER_COMBAT, 1, 1, 100)
-   check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
-   check_restock_item(PID_W_MINIGUN, 1, 1, 100)
-   check_restock_item(PID_W_PLASMA_RIFLE, 1, 1, 100)
-   check_restock_item(PID_AMMO_10_MM_NSP, 3, 4, 100)
-   //! гатлинг-лазер?
+      //Blue level of goods - for BS members and traders
+        check_restock_item(PID_ARMOR_COMBAT_BOS, 1, 1, 100)
+        check_restock_item(PID_TOOL_STEALTH_BOY, 1, 1, 100)
+        check_restock_item(PID_W_GRENADE_PULSE, 2, 4, 100)
+           check_restock_item(PID_AMMO_40_MM, 16, 20, 100)
+        check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
+        check_restock_item(PID_W_SHOTGUN_ASSAULT, 1, 1, 100)
+        check_restock_item(PID_W_LIGHT_AUTOGUN, 1, 1, 100)
+        check_restock_item(PID_W_RIFLE_SNIPER, 1, 1, 100)
+        check_restock_item(PID_W_LASER_RIFLE, 1, 1, 100)
+        check_restock_item(PID_W_PLASMA_PISTOL, 1, 1, 100)
+        check_restock_item(PID_W_REVOLVER_COMBAT, 1, 1, 100)
+        check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
+        check_restock_item(PID_W_MINIGUN, 1, 1, 100)
+        check_restock_item(PID_W_PLASMA_RIFLE, 1, 1, 100)
+        check_restock_item(PID_AMMO_10_MM_NSP, 3, 4, 100)
+        //! Gatling laser?
 
    set_BarterDopusk;
 end
@@ -247,7 +247,7 @@ procedure talk_p_proc begin
    floater(self_obj,103,COLOR_MSG_NORMAL);
    end
    else begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
@@ -255,7 +255,7 @@ procedure talk_p_proc begin
    fracReaction(GVAR_TITUL_BOS_TRAITOR,-90) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-20) // Поправка к отношению за принадлежность к фракциям
 
-   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -276,7 +276,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    incBarterMod(100);
@@ -305,7 +305,7 @@ procedure NodeFstDialog4 begin
    call NodeSndDialog;
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_BOS) > 0) then begin
@@ -333,7 +333,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
    if (global_var(GVAR_TITUL_BOS) == 0) then begin
    NAnswer(212,3,NodeAnswer)
    end
@@ -374,7 +374,7 @@ procedure NodeSndDialog begin
    NAnswer(211,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(213)
@@ -491,7 +491,7 @@ procedure NodeBarter201 begin
    end
    NAnswerSkill(262,3,NodeBarter204,SKILL_BARTER,100,259,NodeBarter203)
    NAnswerRep(268,3,NodeBarter206,15,255,NodeBarter202)
-   //? Заплатить 1000 крышек, доказывая свою платежеспособность
+   //? Pay 1000 caps, proving your solvency
 
    NAnswer(258,1,NodeSndDialog)
 end

@@ -180,7 +180,7 @@ procedure talk_p_proc begin
    floater(self_obj,103,COLOR_MSG_NORMAL);
    end
    else begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_BOS,25) // Поправка к отношению за принадлежность к фракциям
@@ -221,7 +221,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -237,7 +237,8 @@ procedure NodeFstDialog2 begin
 end
 
 procedure NodeFstDialog3 begin
-   Reply(208)
+   // added for spanish handling - cambragol
+   zReply(208)
    if (getQuest(GVAR_VILLA_ALLIANCE_PIP) >= qStart) then begin
    NAnswer(209,0,NodeFstDialog4)
    end
@@ -271,7 +272,7 @@ procedure NodeFstDialog7 begin
    NAnswer(219,0,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_BOS) != 0) then begin
@@ -409,7 +410,7 @@ procedure NodeAnswer102 begin
    NAnswer(288,0,Node999)
 end
 
-//--- КВЕСТЫ
+//--- QUESTЫ
 
 procedure NodeQst100 begin
    Reply(220)
@@ -502,7 +503,7 @@ procedure NodeQst303 begin
    NAnswer(289,0,NodeQst304)
    end
    if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_20) != 0) then begin
-   //NAnswer(290,0,NodeQst304) - инфа от разведчика
+   //NAnswer(290,0,NodeQst304) - info from a scout
    end
 
    NAnswer(279,0,Node999)

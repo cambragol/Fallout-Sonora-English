@@ -39,7 +39,7 @@ variable replyNum;
 
 //---------------------
 
-
+// modified for handling of espanol trait - cambragol
 
 procedure start begin
 end

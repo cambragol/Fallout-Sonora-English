@@ -118,8 +118,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
        add_timer_event(self_obj, 20, 1);
@@ -171,11 +171,11 @@ procedure critter_p_proc begin
    end
 
    if (partyPidSelf!=0) then begin
-      if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
-         if (local_var(LVAR_Stop_Run) == 0) then begin
-            partyRunToDude
-         end
-      end
+   if (global_var(GVAR_HERMO_STATUS_PARTY) > 0) then begin
+       if (local_var(LVAR_Stop_Run) == 0) then begin
+       partyRunToDude
+       end
+   end
    end
 end
 
@@ -215,7 +215,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(-1) // Attitude to the main character (1 - positive character, -1 negative, 0 neutral)
+   setReaction(-1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    // is this correct? - cambragol
    if (local_var(LVAR_Puerto_Visit) == 2) then begin
@@ -320,7 +320,7 @@ procedure NodeParty3 begin
    NAnswer(235,1,NodeSndDialog)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    //bitDialogExp(bit_1,0)
@@ -355,7 +355,7 @@ procedure NodeFstDialog5 begin
    NAnswer(213,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(220)

@@ -120,8 +120,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (game_time_hour < 0600) then begin
        timer_move_patrol(23099,16299)
@@ -187,7 +187,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_BOS,50) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-25) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-25) // Поправка к отношению за принадлежность к фракциям
@@ -232,7 +232,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog begin
    if ((global_var(GVAR_TITUL_BOS)>0) or town_rep_is_idolized or (getReaction>=75)) then begin
@@ -359,7 +359,7 @@ procedure NodeStopDialog14 begin
    NAnswer(370,-3,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -406,7 +406,7 @@ procedure NodeFstDialog5 begin
    NAnswer(215,-3,NodeSndDialog)
 end
 
-//--- ВТОРОЙ ДИАЛОГ
+//--- SECOND DIALOGUE
 
 procedure NodeSndDialog begin
    if (getReaction>=90) then begin
@@ -430,7 +430,7 @@ procedure NodeSndDialog begin
    Reply(210)
    end
 
-   //--- Рядовые расспросы
+   //--- Routine questions
    if (bitDialog(bit_4) == 0) then begin
    NAnswer(230,4,NodeAnswer200)
    end
@@ -446,21 +446,21 @@ procedure NodeSndDialog begin
    end
    end
 
-   //--- Эль Гиганто
+   //--- El Giganto
    if (getQuest(GVAR_NUEVA_QST_EL_GIGANTO) < qEnd) then begin
       if ((bitDialog(bit_6) != 0) or (getQuest(GVAR_NUEVA_QST_EL_GIGANTO) != qZero)) then begin
       NAnswer(300,4,NodeAnswer306)
       end
    end
 
-   //--- Квест пропавшего на плантации
+   //--- QUEST of the missing on the plantation
    if (getQuest(GVAR_NUEVA_QST_PLANT_DEAD) == qStart) then begin
    if (bitDialog(bit_3) == 0) then begin
    BAnswer(220,4,NodeAnswer100)
    end
    end
 
-   //--- Пинки
+   //--- Pinky
    if (getQuest(GVAR_NUEVA_QST_PINKI) == qStart) then begin
       if (bitDialog(bit_9) == 0) then begin
          NAnswer(330,4,NodeAnswer102)
@@ -472,7 +472,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Тин-Тан на Платформе
+   //--- Tin-Tan on the Platform
    if (gvar_bit(GVAR_OIL_PLATFORM_QST_KILL_BIT, bit_2) != 0) then begin
    if (gvar_bit(GVAR_OIL_PLATFORM_QST_KILL_BIT, bit_3) == 0) then begin
       NAnswer(350,4,NodeTin100)

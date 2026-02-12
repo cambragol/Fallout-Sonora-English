@@ -45,6 +45,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       // added to allow for combat taunts to be either pure spanish, or 'translated' via the Espanol Trait - cambragol
        if DudeTraitHas(TRAIT_espanol) then begin
        critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_HERMO_SOLDIER_ENG);
        end

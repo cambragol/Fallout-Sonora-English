@@ -53,7 +53,7 @@ procedure NodeQst106;
 
 //---------------------
 
-
+// modified for Espanol trait - cambragol
 
 procedure start begin
 end
@@ -172,7 +172,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -201,7 +201,7 @@ procedure NodeFstDialog004 begin
    NAnswer(207,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_REBIRTH)>0) then begin
