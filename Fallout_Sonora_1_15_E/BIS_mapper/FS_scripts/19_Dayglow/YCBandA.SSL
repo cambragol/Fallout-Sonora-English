@@ -92,8 +92,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -184,7 +184,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -237,7 +237,7 @@ procedure NodeFstDialog5 begin
    NAnswer(213,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if DudePerkHas(PERK_ghouling_fiziology) then begin
@@ -346,7 +346,7 @@ procedure NodeAnswerQst begin
    end
 end
 
-//--- КВЕСТ МАРИАЧИ
+//--- QUEST МАРИАЧИ
 
 procedure NodeQst100 begin
    Reply(251)
@@ -388,6 +388,7 @@ procedure NodeQst106 begin
    set_map_var(MVAR_DIEGO_C_GUITAR,2);
    setBonusReaction(25)
    set_REP(1)
+   // added for spanish handling - cambragol
    zReply(269)
    NAnswer(270,1,NodeQst107)
 end
@@ -440,7 +441,7 @@ procedure NodeQst113b begin
    if (tile_contains_obj_pid(12484, 0, 33556712) == true) then begin
    //set_obj_visibility(tile_contains_pid_obj(12484,0,33556712), 1);
    destroy_object(tile_contains_pid_obj(12484,0,33556712));
-   create_object_sid(33556713, 12484, 0, -1); // исчезновение гитары со стола
+   create_object_sid(33556713, 12484, 0, -1); // disappearance of the guitar from the table
    end
    set_local_var(LVAR_Home_Tile, 10696);
    set_local_var(LVAR_Home_Rotat, 2);

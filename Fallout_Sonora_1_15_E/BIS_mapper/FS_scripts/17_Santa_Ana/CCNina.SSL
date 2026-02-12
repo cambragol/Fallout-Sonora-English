@@ -352,6 +352,7 @@ end
 //--- ДИАЛОГ В ПОДЗЕМЕЛЬЕ
 
 procedure NodeSndDialog begin
+
    Reply(230)
       if DudeTraitHas(TRAIT_espanol) then begin
          BAnswer(232,1,NodeSndDialog101)
@@ -381,14 +382,14 @@ end
 
 procedure NodeSndDialog102 begin
    if DudeTraitHas(TRAIT_espanol) then begin
-      zReply(243)
+      Reply(243)
       if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) < 0) then begin
       GAnswer(240,1,NodeSndDialog103)
       end
       NAnswer(244,1,Node999)
    end
    else begin
-      zReply(235)
+      Reply(235)
       if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) < 0) then begin
       GAnswer(237,1,NodeSndDialog103)
       end

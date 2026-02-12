@@ -307,7 +307,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    set_global_var(GVAR_SANTAANA_STATUS_FIESTA, 1);
@@ -346,7 +346,7 @@ procedure NodeFstDialog104 begin
    NAnswer(207,0,Node999)
 end
 
-//--- ВТОРОЙ ДИАЛОГ ВО ВРЕМЯ ЦЕРЕМОНИИ
+//--- SECOND DIALOGUE DURING THE CEREMONY
 
 procedure NodeFstDialog200 begin
    setQuest(GVAR_SANTAANA_QST_FIESTA, qStart);
@@ -420,7 +420,7 @@ procedure NodeFstDialog208 begin
    NAnswer(229,0,NodeFstDialog200)
 end
 
-//--- ТРЕТИЙ ДИАЛОГ ПОСЛЕ ЦЕРЕМОНИИ
+//--- THIRD DIALOGUE AFTER THE CEREMONY
 
 procedure NodeSndDialog begin
    Reply(225)

@@ -166,7 +166,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    if (map_var(MVAR_OIL_PLATFORM_GHOULSAMNT) > 0) then begin
    floater(self_obj, 102, COLOR_MSG_RED);
    end
@@ -202,7 +202,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog begin
    bitDialogExp(bit_4,0)
@@ -234,7 +234,7 @@ procedure NodeFinalDialog begin
    set_REP(25)
    set_SLAVA(50)
    setBonusReaction(80)
-
+   // added for spanish handling - cambragol
    zReply(280)
    zGAnswer(281,1,NodeFinalDialog2)
    NAnswer(284,1,NodeFinalDialog3)
@@ -289,7 +289,7 @@ procedure NodeFstDialog3 begin
    NAnswer(208,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (getReaction>=50) then begin
@@ -302,7 +302,7 @@ procedure NodeSndDialog begin
    Reply(210)
    end
 
-   //--- Основной квест локации
+   //--- Main quest of the location
 
    if (getQuest(GVAR_OIL_PLATFORM_QST_A) == qZero) then begin
       NAnswer(209,1,NodeQst100)
@@ -317,7 +317,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Квест на поиск расхитителя рыб
+   //--- QUEST to find the fish thief
 
    if (getQuest(GVAR_OIL_PLATFORM_QST_C) == qStart) then begin
       if (global_var(GVAR_OIL_STATUS_GHOUL) != 0) then begin
@@ -336,7 +336,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Побочные расспросы
+   //--- Side inquiries
 
    NAnswer(220,1,NodeAnswer101)
    NAnswer(340,1,NodeAnswer301)
@@ -365,7 +365,7 @@ procedure NodeSndDialog begin
    NAnswer(213,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer101 begin
    Reply(221)
@@ -497,6 +497,7 @@ procedure NodeAnswer304 begin
       end
    end
    else begin
+      //added for spanish handling - cambragol
       zReply(346)
    end
    NAnswer(342,1,NodeAnswer305)
@@ -528,7 +529,7 @@ procedure NodeAnswer399 begin
    NAnswer(355,1,Node999)
 end
 
-//--- КВЕСТЫ
+//--- QUESTS
 
 procedure NodeQst100 begin
    setQuest(GVAR_OIL_PLATFORM_QST_A, qStart);
@@ -569,7 +570,7 @@ procedure NodeQst105 begin
 end
 
 procedure NodeQst106 begin
-   //Важно: Reply здесь одиннаков с NodeAnswer106, остальное другое
+   //Important: Reply here is the same as NodeAnswer106, the rest is different
    Reply(264)
    GAnswer(259,1,NodeQst105)
    NAnswer(260,1,Node999)

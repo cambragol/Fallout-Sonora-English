@@ -79,8 +79,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (local_var(LVAR_Flag_Run) == 0) then begin
        timer_move_to_home
@@ -192,7 +192,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_2,0)
@@ -286,7 +286,7 @@ procedure NodeFstDialog107 begin
    NAnswer(213,1,NodeSndDialog100)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if DudePerkHas(PERK_ghouling_fiziology) then begin
@@ -345,6 +345,7 @@ procedure NodeSndDialog200 begin
    set_local_var(LVAR_Home_Rotat, 5);
    move_to(self_obj, HomeTile, 2);
 
+   // added for spanish handling - cambragol
    zReply(232)
    NAnswer(233,1,Node999)
 end

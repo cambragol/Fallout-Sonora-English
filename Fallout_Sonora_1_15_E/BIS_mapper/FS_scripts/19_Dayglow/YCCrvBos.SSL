@@ -110,8 +110,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -180,7 +180,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -222,7 +222,7 @@ procedure NodeBarter3 begin
    end
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (getQuest(GVAR_DAYGLOW_MAIN_D) == 102) then begin
@@ -255,7 +255,7 @@ procedure NodeSndDialog begin
    NAnswer(236,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(241)
@@ -324,7 +324,7 @@ procedure NodeAnswer108 begin
    NAnswer(244,1,NodeSndDialog)
 end
 
-//--- КВЕСТ НА ПОИСК АРТЕФАКТОВ
+//--- QUEST TO SEARCH ARTIFACTS
 
 procedure NodeQstItems begin
    setQuest(GVAR_DAYGLOW_QST_CARAVAN, qStart);

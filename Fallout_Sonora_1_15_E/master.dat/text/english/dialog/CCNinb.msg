@@ -29,6 +29,7 @@
 {212}{}{Stay here, I'll check outside.}
 
 {213}{}{(falls to her knees and sobs) El Diablo... *whine whine* No entiendes, gringo. Viví para esto.}
+{1213}{}{(falls to her knees and sobs) El Diablo... *whine whine* No entiendes, gringo. Viví para esto.}
 {214}{}{(grabs your sleeve) ¡Este es mi destino! ¡Ya no encuentro sentido a la vida!}
 {215}{}{(exhausted) Bueno. Me iré a casa. Que sea lo que tenga que ser.}
 
