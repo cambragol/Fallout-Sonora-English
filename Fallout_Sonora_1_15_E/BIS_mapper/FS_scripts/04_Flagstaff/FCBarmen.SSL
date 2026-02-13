@@ -146,32 +146,33 @@ procedure map_enter_p_proc begin
 end
 
 procedure setBarterA begin
-   //- крышки
-   if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
-   check_restock_many(400,500)
-   end
-   else begin
-   check_restock_many(800,1000)
-   end
+        //- крышки
+        if (getQuest(GVAR_FLAGSTAFF_MINES_DESTROY) >= qEnd) then begin
+        check_restock_many(400,500)
+        end
+        else begin
+        check_restock_many(800,1000)
+        end
 
-   //- вещи
-   if (map_first_run) then begin
-   check_restock_item(PID_W_KNUCKLES_SPIKED, 2, 2, 100)
-   end
-   check_restock_item(PID_AMMO_44_MAGNUM, 2, 3, 100)
-   check_restock_item(PID_M_STIMPAK, 3, 5, 100)
+        //- вещи
+        if (map_first_run) then begin
+        check_restock_item(PID_W_KNUCKLES_SPIKED, 2, 2, 100)
+        end
+        check_restock_item(PID_AMMO_44_MAGNUM, 2, 3, 100)
+        check_restock_item(PID_M_STIMPAK, 3, 5, 100)
 
-   //- еда
-   check_restock_item(PID_M_FRUIT, 2, 5, 100)
-   check_restock_item(PID_M_MEAT_JERKY, 2, 5, 100)
-   check_restock_item(PID_M_BRAHMIN_POTROH, 1, 2, 100) // added because he is selling them to the mine admin and maybe more - cambragol
-   if (local_var(LVAR_Alcohol_Status) == 0) then begin
-   check_restock_item(PID_M_TEQUILA, 1, 4, 100)
-   check_restock_item(PID_M_BEER, 2, 5, 100)
-   end else begin
-   check_restock_item(PID_M_BEER, 1, 4, 100)
-   check_restock_item(PID_M_BOOZE, 2, 5, 100)
-   end
+        //- еда
+        check_restock_item(PID_M_FRUIT, 2, 5, 100)
+        check_restock_item(PID_M_MEAT_JERKY, 2, 5, 100)
+        check_restock_item(PID_M_BRAHMIN_POTROH, 1, 2, 100) // added because he is selling them to the mine admin and maybe more - cambragol
+        if (local_var(LVAR_Alcohol_Status) == 0) then begin
+        check_restock_item(PID_M_TEQUILA, 1, 4, 100)
+        check_restock_item(PID_M_BEER, 2, 5, 100)
+        end else begin
+        check_restock_item(PID_M_BEER, 1, 4, 100)
+        check_restock_item(PID_M_BOOZE, 2, 5, 100)
+        end
+
 end
 
 procedure setBarterB begin
@@ -188,8 +189,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (game_time_hour <= 0600) then begin
        timer_move_to_tile(0,11308,5)
@@ -300,7 +301,7 @@ end
 
 procedure critter_p_proc begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -317,7 +318,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -346,7 +347,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    if (game_time_hour <= 0600) then begin
    floater(self_obj,102,COLOR_MSG_RED);
    end
@@ -415,7 +416,7 @@ procedure NodeSndDialog begin
    end
    end
 
-   //--- Квесты бара
+   //--- Bar Quests
    if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) == qZero) then begin
       if (getQuest(GVAR_FLAGSTAFF_BARMEN_DINNER) >= qEnd) then begin
       NAnswer(310,0,NodeQst101)
@@ -448,7 +449,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
    NAnswer(201,3,NodeAnswer)
    NAnswer(270,3,NodeBarterTeam)
    if (local_var(LVAR_Alcohol_Status) == 1) then begin
@@ -544,6 +545,7 @@ procedure NodeGame104 begin
 end
 
 procedure NodeGame105 begin
+   // improved handling of game quest - cambragol
    if (getQuest(GVAR_FLAGSTAFF_QST_GAME) == qZero) then begin
       Reply(368)
       setQuest(GVAR_FLAGSTAFF_QST_GAME,qEnd);
@@ -681,7 +683,7 @@ procedure NodeFlag3 begin
    NAnswer(349,0,Node999)
 end
 
-//--- ВОПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(210)
@@ -930,7 +932,7 @@ procedure NodeBarterTeam501 begin
    NAnswer(286,0,Node999)
 end
 
-//--- КВЕСТЫ БАРА
+//--- BAR QUESTS
 
 procedure NodeQst101 begin
    Reply(311)

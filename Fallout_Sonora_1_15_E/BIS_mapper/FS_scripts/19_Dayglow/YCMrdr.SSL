@@ -47,7 +47,7 @@ procedure NodeBarter;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (8) // отвечает за ...
+//#define LVAR_Flag_A                     (8) // is responsible for ...
 
 //---------------------
 
@@ -91,8 +91,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_random
    end
@@ -119,7 +119,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -133,8 +133,8 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   setReaction(1) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // correction to the attitude for belonging to a faction
    set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
 end
@@ -155,7 +155,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    if DudePerkHas(PERK_ghouling_fiziology) then begin
@@ -190,7 +190,7 @@ procedure NodeFstDialog4 begin
    NAnswer(209,0,NodeBarter)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)

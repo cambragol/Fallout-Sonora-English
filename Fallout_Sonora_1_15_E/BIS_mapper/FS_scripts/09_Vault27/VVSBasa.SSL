@@ -44,7 +44,7 @@ procedure repair_proc begin
                    item_add(objContainer,PID_TOOL_CAR_GAZ,1)
                    item_add(objContainer,PID_W_MINIGUN,1)
                    if DudePerkHas(PERK_marauder) then begin
-                   item_add(objContainer,PID_AMMO_5_MM,2) // в пачке 5 патронов
+                   item_add(objContainer,PID_AMMO_5_MM,2) // there are 5 cartridges in a pack
                    end
                    item_add(objContainer,PID_ARMOR_VAULT,1)
                    item_add(objContainer,PID_M_STIMPAK,1)

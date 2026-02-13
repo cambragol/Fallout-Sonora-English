@@ -115,8 +115,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -136,7 +136,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -153,7 +153,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -174,13 +174,13 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    if (map_var(MVAR_FLAG_PostSlav) > 0) then begin
       floater(self_obj,129,COLOR_MSG_RED);
    end
    else if ((map_var(MVAR_FLAG_PostSlav) == -1) and (bitDialog(bit_11) == 0)) then begin
-      dialog_proc(1,0,NodeSndDialog2,-1,-1) // эта опция вынесена перед проверкой времени, иначе ночью ситуация получится нелепой
+      dialog_proc(1,0,NodeSndDialog2,-1,-1) // this option is placed before the time check, otherwise the situation will be awkward at night
    end
    else if (game_time_hour < 0600) then begin
       floater(self_obj,102,COLOR_MSG_RED);
@@ -206,7 +206,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -227,7 +227,7 @@ procedure NodeFstDialog3 begin
    NAnswer(206,1,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
@@ -250,11 +250,6 @@ procedure NodeSndDialog begin
       NAnswer(267,1,NodeBox100)
    end
 
-   //- Вопросы
-   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
-   NAnswer(280,3,NodeQst200)
-   end
-   else begin
    // added below to make the PC recognize the Sonora express at other locations - cambragol
    if (gvar_bit(GVAR_EXPRESS_FLAGS_BIT, bit_7) != 0) then begin
    NAnswer(334,1,NodeAnswer101)
@@ -263,9 +258,7 @@ procedure NodeSndDialog begin
    NAnswer(300,1,NodeAnswer100)
    set_gvar_bit_on(GVAR_EXPRESS_FLAGS_BIT, bit_7);
    end
-   end
-
-   //NAnswer(300,1,NodeAnswer100)
+      
    NAnswer(320,1,NodeAnswer200)
    if ((bitDialog(bit_2) != 0) and (bitDialog(bit_10) == 0)) then begin
       if ((getQuest(GVAR_MAIN_QUEST_PHENIX) == qStart) and (town_known(AREA_PHOENIX) < MARK_STATE_VISITED)) then begin
@@ -273,7 +266,10 @@ procedure NodeSndDialog begin
       end
    end
 
-   //- Квесты
+   //- Quests
+   if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qStart) then begin
+   NAnswer(280,3,NodeQst200)
+   end
    if (getQuest(GVAR_FLAGSTAFF_POST_VOR) == qZero) then begin
    NAnswer(270,3,NodeQst100)
    end
@@ -289,7 +285,7 @@ procedure NodeSndDialog2 begin
    NAnswer(219,1,Node999)
 end
 
-//--- КАМЕРЫ ХРАНЕНИЯ
+//--- STORAGE ROOMS
 
 #define COAST_BOX                  250
 
@@ -322,7 +318,7 @@ procedure NodeBox102 begin
    NAnswer(266,1,Node999)
 end
 
-//--- КВЕСТ
+//--- QUEST
 
 procedure NodeQst100 begin
    Reply(271)
@@ -410,7 +406,7 @@ procedure NodeQst208 begin
    BAnswer(299,1,Node999)
 end
 
-//--- ВОПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    bitDialogExp(bit_2,0)
@@ -508,16 +504,16 @@ end
 
 procedure NodeAnswer301 begin
    /*
-   Замечание:
-   Раньше предполагалось, что можно приобщиться к конвою посыльных за крышки,
-   но два таких каравана для Флагпула - это перебор.
+   Note:
+   It was previously assumed that you could join a convoy of messengers for bottle caps,
+   but two such convoys are overkill for Flagstaff.
    */
    Reply(353)
    NAnswer(354,1,NodeSndDialog)
    NAnswer(355,1,Node999)
 end
 
-//--- ОТПРАВКА ПОСЫЛКИ
+//--- SENDING A PARCEL
 
 procedure NodeCurier begin
    Reply(mstr(222)+dialogCityCoast+mstr(223))

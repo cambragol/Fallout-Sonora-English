@@ -629,7 +629,7 @@ procedure use_obj_on_p_proc begin
    end
    */
 
-   //--- Инструментарий:
+    //--- Tools:
 
    if (objUsedPid == PID_M_NUKA_COLA_RAD) then begin
        item_add(self_obj,PID_BOOTLE_CAPS,1)
@@ -765,7 +765,7 @@ procedure use_obj_on_p_proc begin
        display_mstr(118);
    end
 
-   //--- Реликвии:
+    //--- Relics:
 
    else if (objUsedPid == PID_RELICT_VILLA_FAMILY) then begin
        script_overrides;
@@ -776,7 +776,7 @@ procedure use_obj_on_p_proc begin
        display_mstr(110);
    end
 
-   //--- Квестовые предметы:
+    //--- QUEST items:
 
    else if (objUsedPid == PID_POCKET_TRASH) then begin
        script_overrides;
@@ -934,8 +934,8 @@ procedure map_stop_proc begin
 end
 
 //-----------------------------------------------------------------------------
-//-------------   Управление почтовыми ящиками Сонора Экспресс
-//-----------------------------------------------------------------------------
+//------------- Managing Sonora Express Mailboxes
+//------------------------------------------------------------------------------
 
    /*
 procedure express_box_enter begin

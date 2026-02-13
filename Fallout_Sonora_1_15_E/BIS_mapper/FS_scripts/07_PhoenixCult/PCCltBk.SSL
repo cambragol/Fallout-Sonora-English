@@ -109,8 +109,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -123,7 +123,7 @@ procedure critter_p_proc begin
    if (global_var(GVAR_TITUL_PHENIX_CULT) == 0) then begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
    end
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -140,7 +140,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -182,7 +182,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -198,7 +198,7 @@ procedure NodeFstDialog2 begin
    NAnswer(205,1,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_PHENIX_CULT)>0) then begin
@@ -208,14 +208,14 @@ procedure NodeSndDialog begin
    zReply(210)
    end
 
-   //--- квест Аарона
+   //--- Aaron's QUEST
    if (global_var(GVAR_PHENIX_QST_CULT_A_BIT) == 10) then begin
       if (map_var(MVAR_PNX_CULT_SPY_BOOKS) == 0) then begin
       NAnswer(280,1,NodeSpy)
       end
    end
 
-   //--- доставка книг
+   //--- book delivery
    if (bitDialog(bit_5) != 0) then begin
       if (bitDialog(bit_7) == 0) then begin
       NAnswer(300,1,NodeBooks)
@@ -241,7 +241,7 @@ procedure NodeSndDialog begin
    */
 
 
-   //--- расспросы
+   //--- QUESTIONS
    NAnswer(220,3,NodeAnswer100)
    NAnswer(240,3,NodeAnswer200)
    if ((bitDialog(bit_3) != 0) and (bitDialog(bit_4) == 0)) then begin
@@ -250,7 +250,7 @@ procedure NodeSndDialog begin
    NAnswer(212,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(221)

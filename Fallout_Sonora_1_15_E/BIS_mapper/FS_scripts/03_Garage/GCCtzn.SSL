@@ -33,7 +33,7 @@ procedure talk_p_proc;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 import variable box_stop_use;
 
@@ -64,8 +64,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_random_home(3)
    end
@@ -76,7 +76,7 @@ end
 
 procedure critter_p_proc begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -97,7 +97,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -110,12 +110,13 @@ end
 
 procedure talk_p_proc begin
    if town_rep_is_liked then begin
-      z_floater(self_obj,random(120,126),COLOR_MSG_GREEN);
+   // added for spanish handling - cambragol
+   z_floater(self_obj,random(120,126),COLOR_MSG_GREEN);
    end
    else if town_rep_is_hated then begin
-      floater(self_obj,random(130,139),COLOR_MSG_RED);
+   floater(self_obj,random(130,139),COLOR_MSG_RED);
    end
    else begin
-      floater(self_obj,random(110,116),COLOR_MSG_NORMAL);
+   floater(self_obj,random(110,116),COLOR_MSG_NORMAL);
    end
 end

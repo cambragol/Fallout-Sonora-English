@@ -101,8 +101,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -115,7 +115,7 @@ procedure critter_p_proc begin
    if ((global_var(GVAR_PHENIX_STATUS_DIEGO) <= 0) and (global_var(GVAR_TITUL_PHENIX_CASINO) <= 0)) then begin
    set_using_stop
    end
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -132,7 +132,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -150,7 +150,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_PHENIX_CASINO,50) // Поправка к отношению за принадлежность к фракциям
    dialog_proc(1,102,NodeStartDialog,-1,-1)
 end
@@ -174,20 +174,21 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СВОЙ ЧЕЛОВЕК В КАЗИНО
+//--- YOUR MAN IN THE CASINO
 
 procedure NodeFrand begin
    bitDialogExp(bit_1,0)
    bitDialogExp(bit_4,0)
    if (getReaction < 0) then begin
-   Reply(295)
-   NAnswer(296,4,NodeFrand4)
-   BAnswer(297,4,NodeFrand3)
+      Reply(295)
+      NAnswer(296,4,NodeFrand4)
+      BAnswer(297,4,NodeFrand3)
    end
    else begin
-   zReply(290)
-   NAnswer(291,4,NodeFrand4)
-   BAnswer(292,4,NodeFrand2)
+      // added for spanish handling - cambragol
+      zReply(290)
+      NAnswer(291,4,NodeFrand4)
+      BAnswer(292,4,NodeFrand2)
    end
    BAnswer(305,-3,NodeFrand4)
 end
@@ -226,7 +227,7 @@ procedure NodeFrand6 begin
    NAnswer(306,-3,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -247,12 +248,12 @@ procedure NodeFstDialog3 begin
    NAnswer(206,4,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(210)
 
-   //--- Расспросы
+   //--- QUESTIONS
    NAnswer(250,4,NodeAnswer100)
    if ((getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) and (bitDialog(bit_2) == 0)) then begin
    NAnswer(275,4,NodeAnswer201)
@@ -268,7 +269,7 @@ procedure NodeSndDialog begin
    end
    end
 
-   //--- Квесты
+   //--- QUESTы
    if (getQuest(GVAR_PHENIX_QST_CASINO_DEBT) == qZero) then begin
       if (global_var(GVAR_PHENIX_STATUS_DIEGO) < 0) then begin
       NAnswer(320,4,NodeQst3)
@@ -299,7 +300,7 @@ procedure NodeSndDialog begin
    NAnswer(212,-3,Node999)
 end
 
-//--- КВЕСТ И ДОПУСК К ДИЕГО
+//--- QUEST AND ADMISSION TO DIEGO
 
 procedure NodeQst begin
    Reply(321)
@@ -411,7 +412,7 @@ procedure NodeDopusk begin
    NAnswer(342,4,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    if (global_var(GVAR_PHENIX_STATUS_DIEGO) == 0) then begin
@@ -464,7 +465,7 @@ procedure NodeAnswer203 begin
    NAnswer(286,4,Node999)
 end
 
-//--- ЗАПРЕТ ИГРЫ
+//--- GAME BAN
 
 procedure NodeCassa begin
    Reply(222)
@@ -528,7 +529,7 @@ procedure NodeCassa6 begin
 end
 
 /*
-   Если будет доделана квестовая линия Дона Диего:
-      - в NodeCassa5 разблокировать пересылку на NodeCassa6
-      - в NodeQst304 разблокировать часть кода
+If Don Diego's questline is completed:
+- Unlock forwarding to NodeCassa6 in NodeCassa5
+- Unlock part of the code in NodeQst304
 */

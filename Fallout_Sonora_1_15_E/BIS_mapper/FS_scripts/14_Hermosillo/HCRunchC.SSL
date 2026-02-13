@@ -1,5 +1,5 @@
 #include "..\headers\define.h"
-//---------------------
+//--------------------- дети на ранчо
 
 #define NAME                            SCRIPT_HCRunchC
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_HERMOSILLO  // привязка к репутации (-1, если не нужно)
@@ -36,7 +36,7 @@ procedure talk_p_proc;
 
 //---------------------
 
-
+// modified for handling of Espanol trait - cambragol
 
 procedure start begin
 end
@@ -56,8 +56,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (game_time_hour < 0700) then begin
        timer_move_to_home
@@ -80,7 +80,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   set_critter_options(map_var(MVAR_HERMO_Runcho_Enemy),0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(map_var(MVAR_HERMO_Runcho_Enemy),0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -118,7 +118,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -135,24 +135,24 @@ end
 procedure talk_p_proc begin
    if DudeTraitHas(TRAIT_espanol) then begin
       if (game_time_hour < 0600) then begin
-      floater(self_obj,102,COLOR_MSG_RED);
+         floater(self_obj,102,COLOR_MSG_RED);
       end
       else if town_rep_is_liked then begin
-      z_floater(self_obj,random(210,220),COLOR_MSG_NORMAL);
+         z_floater(self_obj,random(210,220),COLOR_MSG_NORMAL);
       end
       else begin
-      z_floater(self_obj,random(210,220),COLOR_MSG_RED);
+         z_floater(self_obj,random(210,220),COLOR_MSG_RED);
       end
    end
    else begin
       if (game_time_hour < 0600) then begin
-      floater(self_obj,102,COLOR_MSG_RED);
+         floater(self_obj,102,COLOR_MSG_RED);
       end
       else if town_rep_is_liked then begin
-      z_floater(self_obj,random(110,120),COLOR_MSG_NORMAL);
+         z_floater(self_obj,random(110,120),COLOR_MSG_NORMAL);
       end
       else begin
-      z_floater(self_obj,random(110,120),COLOR_MSG_RED);
+         z_floater(self_obj,random(110,120),COLOR_MSG_RED);
       end
    end
 end
