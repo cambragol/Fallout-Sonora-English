@@ -24,23 +24,23 @@ SONORA Active Items
 ***************        SONORA Ammo     ***************************
 ******************************************************************/
 
-#define PID_AMMO_ENERGY_CELL                (1) // not used in gameplay
-#define PID_AMMO_MICRO_FUSION_CELL          (2) // 10 rounds per pack
-#define PID_AMMO_22_LR                      (3) // 5 rounds per pack
-#define PID_AMMO_9_MM                       (4) // not used in gameplay
-#define PID_AMMO_10_MM                      (5) // 12 rounds per pack
-#define PID_AMMO_10_MM_NSP                  (6) // 12 rounds per pack
-#define PID_AMMO_44_MAGNUM                  (7) // 6 rounds per pack
-#define PID_AMMO_50_AE                      (8) // 6 rounds per pack
-#define PID_AMMO_5_MM                       (9) // 25 rounds per pack
-#define PID_AMMO_308                        (10) // 5 rounds per pack
-#define PID_AMMO_SHOTGUN_SHELLS             (11) // 6 rounds per pack
-#define PID_AMMO_SHOTGUN_SHELLS_BULLET      (12) // 6 rounds per pack
+#define PID_AMMO_ENERGY_CELL                (1) // не используется в геймплее
+#define PID_AMMO_MICRO_FUSION_CELL          (2) // в пачке 10 патронов
+#define PID_AMMO_22_LR                      (3) // в пачке 5 патронов
+#define PID_AMMO_9_MM                       (4) // не используется в геймплее
+#define PID_AMMO_10_MM                      (5) // в пачке 12 патронов
+#define PID_AMMO_10_MM_NSP                  (6) // в пачке 12 патронов
+#define PID_AMMO_44_MAGNUM                  (7) // в пачке 6 патронов
+#define PID_AMMO_50_AE                      (8) // в пачке 6 патронов
+#define PID_AMMO_5_MM                       (9) // в пачке 25 патронов
+#define PID_AMMO_308                        (10) // в пачке 5 патронов
+#define PID_AMMO_SHOTGUN_SHELLS             (11) // в пачке 6 патронов
+#define PID_AMMO_SHOTGUN_SHELLS_BULLET      (12) // в пачке 6 патронов
 #define PID_AMMO_40_MM                      (13)
 #define PID_AMMO_SIGNAL_A                   (14)
 #define PID_AMMO_SIGNAL_B                   (15)
 #define PID_AMMO_SIGNAL_C                   (16)
-#define PID_AMMO_TANK                       (185) // 5 rounds per pack
+#define PID_AMMO_TANK                       (185) // в пачке 5 шт
 
 /*****************************************************************
 ***************        SONORA Weapon     *************************

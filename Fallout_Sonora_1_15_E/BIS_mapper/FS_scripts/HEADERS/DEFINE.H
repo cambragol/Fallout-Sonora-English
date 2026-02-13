@@ -353,7 +353,7 @@
 #define PERK_swift_learner                  (50)
 #define PERK_tag                            (51)
 #define PERK_mutate                         (52)
-//!!! Perks 53-72 are for engine use and not available to the player
+//!!! Perks 53-74 are systemic and not available to the player 
 #define PERK_RESERV_73                      (73)
 #define PERK_dermal_armor                   (74)
 #define PERK_dermal_enhancement             (75)
