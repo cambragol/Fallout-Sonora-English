@@ -69,8 +69,8 @@
 {1244}{}{Relax with an outsider bitch? Okay, it will make me rise even higher in the eyes of the pack.}
 {245}{}{Of course, you're a leader. Sit down, I'll rub your back...}
 {246}{}{Something's gone wrong.}
-{247}{}{I don't trust outsiders. And you are an outsider.}
-{1247}{}{I don't trust any outsider bitch. And you are an outsider.}
+{247}{}{I don't trust outsiders. And *you* are an outsider.}
+{1247}{}{I don't trust any outsider bitch. And *you* are an outsider.}
 {248}{}{Yeah, I don't trust you either.}
 {249}{}{Your "grooming" services have raised your reputation in the eyes of the Jackals.}
 

@@ -1,28 +1,27 @@
 {100}{}{You see an immigrant.}
 {101}{}{You see a dirty, emaciated person.}
 
-{110}{}{¡Por favor, no nos ataquen!}
-{111}{}{¡No queremos problemas!}
+{110}{}{ï¿½Por favor, no nos ataquen!}
+{111}{}{ï¿½No queremos problemas!}
 {112}{}{Estamos buscando un nuevo hogar.}
-{113}{}{¿Ya llegamos?}
+{113}{}{ï¿½Ya llegamos?}
 {114}{}{Quiero dormir.}
-{115}{}{Eres un aventurero, ¿no?}
+{115}{}{Eres un aventurero, ï¿½no?}
 {116}{}{Ya hemos tenido suficiente de estos tiranos y guerrilleros.}
 {117}{}{Hay bandidos por todas partes.}
-{118}{}{¡Déjanos en paz!}
+{118}{}{ï¿½Dï¿½janos en paz!}
 {119}{}{No tenemos nada de valor.}
 
-{210}{}{«You're not going to attack us, right?»}
-{211}{}{«We just want to live in peace.»}
-{212}{}{«We're looking for a new home, a fresh start.»}
-{213}{}{«Are we there yet?»}
-{214}{}{«I just want to sleep.»}
-{215}{}{«You're on a quest, right?»}
-{216}{}{«We've had enough of these gangs and warlords.»}
-{217}{}{«The damn raiders are everywhere.»}
-{218}{}{«Leave us be!»}
-{219}{}{«We have nothing to steal.»}
-
+{210}{}{ï¿½You're not going to attack us, right?ï¿½}
+{211}{}{ï¿½We just want to live in peace.ï¿½}
+{212}{}{ï¿½We're looking for a new home, a fresh start.ï¿½}
+{213}{}{ï¿½Are we there yet?ï¿½}
+{214}{}{ï¿½I just want to sleep.ï¿½}
+{215}{}{ï¿½You're on a quest, right?ï¿½}
+{216}{}{ï¿½We've had enough of these gangs and warlords.ï¿½}
+{217}{}{ï¿½The damn raiders are everywhere.ï¿½}
+{218}{}{ï¿½Leave us be!ï¿½}
+{219}{}{ï¿½We have nothing to steal.ï¿½}
 
 {310}{}{You're not going to attack us, right?}
 {311}{}{We just want to live in peace.}

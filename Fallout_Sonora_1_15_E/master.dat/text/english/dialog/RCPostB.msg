@@ -36,6 +36,9 @@
 {138}{}{What's with that tin can you're wearing? Ditch it, now! Or... give it to me...}  
 {139}{}{Cadets get proper leather armor made from brahmin hide, not... whatever that is.}  
 
+{1130}{}{Get lost, you damn cultist bitch!}  
+{1131}{}{Wearing those robes? You're asking for it honey.}  
+
 #Reputation
 {140}{}{Buzz off.}
 {141}{}{I ain't gonna gab with you.}
