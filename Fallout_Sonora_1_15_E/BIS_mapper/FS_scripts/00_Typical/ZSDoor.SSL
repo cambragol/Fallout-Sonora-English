@@ -526,12 +526,12 @@ procedure damage_p_proc begin
       else if (weapon_dmg_type(target_obj) == DMG_normal_dam) then begin
 
          /*
-         Замечание: Я долго пытался понять, как быть с силовым выламыванием дверей.
-         В итоге решил, что проще вообще отказаться от этой опции, ограничившись подрывом.
+         Note: I spent a long time trying to figure out what to do with forcefully breaking down doors.
+         In the end, I decided it would be easier to abandon this option entirely and limit it to blasting.
 
-         В Fallout 2 выламывание производилось простым актом удара по двери.
-         В случае деревянной двери хватало одного удара, в случае металлической - двух.
-         Вот оригинальный код:
+         In Fallout 2, breaking down doors was done simply by hitting the door.
+         A wooden door required just one hit, while a metal door needed two.
+         Here’s the original code:
 
                if (DOOR_STATUS == STATE_WOOD) then begin
                   destroy_object(self_obj);
@@ -543,26 +543,26 @@ procedure damage_p_proc begin
                   end
                end
 
-         Но в этой системе есть множество просчетов: не учитывается Сила и другие параметры ГГ,
-         не читывается наличие и качество использованного оружия, нет проверки на тип урона (дверь уничтожается даже от ЭМИ),
-         разные двери должны быть разной степени крепости, опция доступна любому игроку с любой прокачкой и т.д.
+         But there are many miscalculations in this system: Strength and other parameters of the GG are not taken into account, 
+         the presence and quality of the weapon used is not readable, there is no check for the type of damage (the door is destroyed even by EMP), 
+         different doors should be of different degrees of strength, the option is available to any player with any level, etc. 
 
-         Однако же часть дверей была лишена этой опции вовсе, и это как правило те двери, которые больше всего важны для ликвидации.
-         Например, дверь к заложнице у скваттеров убежища 15. То есть опция полезна там, где от нее мало пользы, и наоборот -
-         можно выбивать двери, которые выбивать нет смысла (двери Модока, например).
+         However, some doors were deprived of this option altogether, and these are usually the doors that are most important for elimination. 
+         For example, the door to the hostage at the squatters' shelter 15. That is, the option is useful where it is of little use, and vice versa - 
+         you can knock out doors that there is no point in knocking out (Modoc doors, for example). 
 
-         Создание *полноценной* механики выламывания подразумевает такие тонкости
-         (прокачка ГГ, качество оружия, качество двери), которые движок Fallout 2 не позволяет сделать на уровне *скриптовой* механики.
-         Например, можно сделать проверку типа урона, но нельзя проверить, применялось ли огнестрельное оружие или удар нанесен голыми руками.
-         Нельзя сделать проверку размера урона, так как эта опция работает лишь у криттеров и не работает у окружения.
-         Понадобится также симулировать степень защиты двери и ее технического состояния (аналог ОЗ),
-         причем найти способ проиндексировать эти параметры для разных дверей в разных местах - а как это сделать?
+         Creating a *full* breakout mechanic involves subtleties like this 
+         (leveling up the character, quality of weapons, quality of doors), which the Fallout 2 engine does not allow to do at the level of *script* mechanics. 
+         For example, you can check for the type of damage, but you cannot check whether a firearm was used or whether the blow was done with bare hands. 
+         It is not possible to check the amount of damage, since this option only works for critters and does not work for the environment. 
+         It will also be necessary to simulate the degree of protection of the door and its technical condition (analogous to OZ), 
+         and find a way to index these parameters for different doors in different places - but how to do this? 
 
-         Самое же важное - это ролеплей. Ведь выламывание двери подразумевает отыгрыш роли качка-вышибалы и для других ролей не подходит.
-         Но если дверь можно тупо выбить автоматной очередью, то какой уж тут ролеплей? Эта опция доступна всем, а значит девальвирует навык взлома.
-         Придется найти способ ограничить игрока с другой ролевой моделью. Но механика этого не позволяет, как я написал выше.
+         The most important thing is role play. After all, breaking down a door involves playing the role of a jock-bouncer and is not suitable for other roles. 
+         But if the door can be stupidly knocked down with a burst of machine gun fire, then what role is there? This option is available to everyone, which means it devalues ​​the hacking skill. 
+         We'll have to find a way to limit a player with a different role model. But the mechanics do not allow this, as I wrote above. 
 
-         Дополнение: Впрочем, опцию можно реализовать как бонус от какого-либо перка (Бонус рукопашного урона) или трейта (Тяжелая рука).
+         Addition: However, the option can be implemented as a bonus from any perk (Melee Damage Bonus) or trait (Heavy Hand). 
          */
 
          /*

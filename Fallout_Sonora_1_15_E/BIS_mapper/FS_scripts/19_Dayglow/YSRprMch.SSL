@@ -180,7 +180,7 @@ end
                                                    ItemPidFinishAmnt := amnt; \
                                                    call NodeCraftPrev; \
 
-//--- ХИМИЯ
+//--- CHEMISTRY
 
 procedure NodeDialog250 begin
    itemCraftOptions(PID_TOOL_PARTS_MECHANICAL,0,0,0,0,PID_BOOTLE_CAPS,(150+has_skill(dude_obj, SKILL_REPAIR)))
@@ -211,7 +211,7 @@ procedure NodeDialog256 begin
    itemCraftOptions(PID_TOOL_PARTS_ELECTRONIC,PID_AMMO_MICRO_FUSION_CELL,0,0,0,PID_W_GRENADE_PULSE,1)
 end
 
-//--- БОЕПРИПАСЫ
+//--- AMMUNITION
 
 procedure NodeDialog260 begin
    itemCraftOptions(PID_MEX_TORPEDOS,0,0,0,0,PID_AMMO_SIGNAL_A,(24+(has_skill(dude_obj, SKILL_REPAIR)/10)))
@@ -232,7 +232,7 @@ procedure NodeDialog263 begin
    itemCraftOptions(PID_AMMO_SIGNAL_B,0,0,0,0,PID_AMMO_SIGNAL_C,1)
 end
 
-//--- УНИКАЛЬНОЕ
+//--- UNIQUE
 
 procedure NodeDialog270 begin
    itemCraftOptions(PID_Q_DAYGLOW_BORDERBADGE_A,PID_CLEAR,0,0,0,PID_Q_DAYGLOW_BORDERBADGE_B,1)
@@ -248,7 +248,7 @@ procedure NodeDialog272 begin
    itemCraftOptions(PID_Q_DAYGLOW_TRAIL_DETALS_A,PID_TOOL_PARTS_ELECTRONIC,PID_KATOD_LUMP,0,0,PID_Q_DAYGLOW_TRAIL_DETALS_B,1)
 end
 
-//--- ФИНИШ
+//--- FINISH
 
 procedure NodeCraftPrev begin
 

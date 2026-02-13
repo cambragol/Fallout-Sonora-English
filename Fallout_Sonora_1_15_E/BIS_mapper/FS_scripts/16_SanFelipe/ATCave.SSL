@@ -20,27 +20,27 @@ end
 
 procedure expl_proc begin
    if (getQuest(GVAR_SANFELIPE_DESTROY_CAVE) < qEnd) then begin
-      terminate_combat;
-      gfade_out(ONE_GAME_SECOND);
-      if (dude_elevation == 0) then begin
-         if (tile_distance(dude_tile,11906) <= 3) then begin
-            move_to(dude_obj, tile_num_in_direction(11906,2,5), 0);
-         end
-      end
-      create_object_sid(33554701, 11906, 0, -1);
-      create_object_sid(33554701, 11904, 0, -1);
-      gfade_in(ONE_GAME_SECOND);
+            terminate_combat;
+            gfade_out(ONE_GAME_SECOND);
+   	         if (dude_elevation == 0) then begin
+   	         if (tile_distance(dude_tile,11906)<=3) then begin
+   	         move_to(dude_obj, tile_num_in_direction(11906,2,5), 0);
+   	         end
+   	         end
+               create_object_sid(33554701, 11906, 0, -1);
+               create_object_sid(33554701, 11904, 0, -1);
+            gfade_in(ONE_GAME_SECOND);
 
-      if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero) then begin
-         setQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE,qStop);
-      end
-      set_global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE,map_var(MVAR_FELIPE_MONSTR_CAVE_AMNT));
-      setQuest(GVAR_SANFELIPE_DESTROY_CAVE,qEnd);
+   	      if (getQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE) == qZero) then begin
+            setQuest(GVAR_SANFELIPE_STATUS_CTZNCAVE,qStop);
+   	      end
+            set_global_var(GVAR_SANFELIPE_STATUS_MONSTRCAVE,map_var(MVAR_FELIPE_MONSTR_CAVE_AMNT));
+            setQuest(GVAR_SANFELIPE_DESTROY_CAVE,qEnd);
 
-      display_mstr(100);
-      exp_add(1000);
-      if (dude_elevation != 0) then begin
-         critter_dmg(dude_obj, 999, DMG_explosion);
-      end
+            display_mstr(100);
+   	      exp_add(1000);
+   	      if (dude_elevation != 0) then begin
+   	      critter_dmg(dude_obj, 999, DMG_explosion);
+   	      end
    end
 end

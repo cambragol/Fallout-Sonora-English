@@ -88,7 +88,7 @@ procedure NodeQst606;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 import variable box_stop_use;
 
@@ -114,8 +114,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -126,7 +126,7 @@ end
 
 procedure critter_p_proc begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    if self_enemy_dude then begin
    BarklyAttakDude
    end
@@ -146,7 +146,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,3,3,3) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -180,7 +180,7 @@ procedure talk_p_proc begin
    floater(self_obj,103,COLOR_MSG_NORMAL);
    end
    else begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-40) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_BOS,25) // Поправка к отношению за принадлежность к фракциям
@@ -221,7 +221,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -237,7 +237,8 @@ procedure NodeFstDialog2 begin
 end
 
 procedure NodeFstDialog3 begin
-   Reply(208)
+   // added for spanish handling - cambragol
+   zReply(208)
    if (getQuest(GVAR_VILLA_ALLIANCE_PIP) >= qStart) then begin
    NAnswer(209,0,NodeFstDialog4)
    end
@@ -271,7 +272,7 @@ procedure NodeFstDialog7 begin
    NAnswer(219,0,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (global_var(GVAR_TITUL_BOS) != 0) then begin
@@ -409,7 +410,7 @@ procedure NodeAnswer102 begin
    NAnswer(288,0,Node999)
 end
 
-//--- КВЕСТЫ
+//--- QUESTЫ
 
 procedure NodeQst100 begin
    Reply(220)
@@ -502,7 +503,7 @@ procedure NodeQst303 begin
    NAnswer(289,0,NodeQst304)
    end
    if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_20) != 0) then begin
-   //NAnswer(290,0,NodeQst304) - инфа от разведчика
+   //NAnswer(290,0,NodeQst304) - info from a scout
    end
 
    NAnswer(279,0,Node999)

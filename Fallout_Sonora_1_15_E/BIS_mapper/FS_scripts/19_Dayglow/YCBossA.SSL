@@ -145,8 +145,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -178,7 +178,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,5,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,5,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -200,8 +200,8 @@ procedure talk_p_proc begin
    floater(self_obj, 104, COLOR_MSG_NORMAL);
    end
    else begin
-   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   setReaction(0) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // correction to the attitude for belonging to a faction
    dialog_proc(0,0,NodeStartDialog,HEAD_DAYGLOW_BOSS_A,BACKGROUND_WASTELND)
    end
 end
@@ -243,7 +243,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog100 begin
    zReply(200)
@@ -346,12 +346,13 @@ procedure NodeFstDialog206 begin
    NAnswer(233,0,NodeStartDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
 
    if DudePerkHas(PERK_ghouling_fiziology) then begin
       if (getReaction>35) then begin
+      // 255, 254 and 256 added z for spanish handling - cambragol
       zReply(255)
       end
       else if (getReaction>0) then begin
@@ -376,7 +377,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Задания
+   //--- TASKS
    if (getQuest(GVAR_DAYGLOW_MAIN_A) == qStart) then begin
       if (global_var(GVAR_DAYGLOW_TURBINA) >= 5) then begin
       GAnswer(262,0,NodeQst101)
@@ -418,7 +419,7 @@ procedure NodeSndDialog begin
       GAnswer(370,0,NodeQst200)
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
 
    if (getQuest(GVAR_DAYGLOW_MAIN_B) >= qStart) then begin
       NAnswer(300,0,NodeAnswer101)
@@ -525,7 +526,7 @@ procedure NodeAnswer107 begin
    NAnswer(316,3,NodeSndDialog)
 end
 
-//--- КВЕСТЫ
+//--- QUESTS
 
 procedure NodeQst100 begin
    if DudePerkHas(PERK_ghouling_fiziology) then begin
@@ -559,6 +560,7 @@ procedure NodeQst102 begin
    call NodeQst104;
    end
    else begin
+   // added for spanish handling - cambragol
    zReply(266)
    GAnswer(267,0,NodeQst104)
    zBAnswer(268,0,NodeQst103)

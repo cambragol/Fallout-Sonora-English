@@ -393,6 +393,7 @@ end
 */
 
 procedure NodeDialog007 begin
+   // added for spanish handling - cambragol
    zReply(260)
    NAnswer(261,0,Node999)
 end

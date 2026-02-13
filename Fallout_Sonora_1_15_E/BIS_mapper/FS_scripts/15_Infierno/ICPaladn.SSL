@@ -179,8 +179,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (self_TEAM == TEAM_PLAYER) then begin
        add_timer_event(self_obj, 20, 1);
@@ -222,8 +222,9 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 
+   // fix for debug spam - cambragol
    if (self_TEAM == TEAM_PLAYER) then begin
       if (cur_map_index == MAP_PHOENIX_BNDCS) then begin
          if (map_var(MVAR_PNX_RING_START) == 1) then begin
@@ -233,9 +234,9 @@ procedure critter_p_proc begin
    end
 
    if (partyPidSelf!=0) then begin
-      if (local_var(LVAR_Flag_Run) != 0) then begin
-         partyRunToDude // персонаж бегает вслед за ГГ
-      end
+   if (local_var(LVAR_Flag_Run) != 0) then begin
+      partyRunToDude // персонаж бегает вслед за ГГ
+   end
    end
 end
 
@@ -273,7 +274,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure attak_enemy_dude begin
@@ -313,7 +314,7 @@ procedure talk_p_proc begin
    floater(self_obj, 106, COLOR_MSG_RED);
    end
    else begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -342,7 +343,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog100 begin
    Reply(481)
@@ -391,7 +392,7 @@ procedure NodeStopDialog107 begin
    NAnswer(499,0,NodePartyNon)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    Reply(200)
@@ -516,7 +517,7 @@ procedure NodeFstDialog207 begin
    NAnswer(257,0,NodeFstDialog206)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_10) == 0) then begin
@@ -526,7 +527,7 @@ procedure NodeSndDialog begin
    Reply(302)
    end
 
-   //--- Задания
+   //--- TASKS
 
    if (getQuest(GVAR_INF_QST_PALADIN_A) < qEnd) then begin
 
@@ -568,7 +569,7 @@ procedure NodeSndDialog begin
 
    end
 
-   //--- Расспросы
+   //--- QUESTIONS
 
    if (getQuest(GVAR_INF_QST_PALADIN_B) < qEnd) then begin
    NAnswer(263,0,NodeAnswer2)
@@ -626,7 +627,7 @@ procedure NodeSndDialog begin
    end
 end
 
-//--- РАСПРОСЫ
+//--- INQUIRIES
 
 procedure NodeAnswer begin
    Reply(304)
@@ -748,7 +749,7 @@ procedure NodeAnswer303 begin
    NAnswer(474,0,NodeSndDialog)
 end
 
-//--- КВЕСТ НА ПРОПАВШИХ
+//--- QUEST FOR THE MISSING
 
 procedure NodeQst begin
    if (gvar_bit(GVAR_RADIO_FLAGS_BIT, bit_10) == 0) then begin
@@ -895,7 +896,7 @@ end
 
 procedure NodeQst203 begin
    Reply(358)
-   //Listen, I can't do this without your help. How's your leg, can you fight?
+   //Listen, I can't do this without your help. How's your leg? Can you fight?
    NAnswer(359,0,Node999)
 end
 
@@ -1028,7 +1029,7 @@ procedure NodeQst214 begin
    end
 end
 
-//--- ПАРТИЯ
+//--- PARTY
 
 procedure NodePartyAdd begin
    set_Medic_Quest; // контроль на случай повторного травмирования уже в команде ГГ

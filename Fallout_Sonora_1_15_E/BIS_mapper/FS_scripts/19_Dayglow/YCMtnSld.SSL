@@ -73,8 +73,8 @@ procedure map_update_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -84,7 +84,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -101,7 +101,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,5,5,5) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,5,5,5) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -121,7 +121,7 @@ procedure talk_p_proc begin
    floater(self_obj, 102, COLOR_MSG_NORMAL);
    end
    else begin
-   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   setReaction(0) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
 end
