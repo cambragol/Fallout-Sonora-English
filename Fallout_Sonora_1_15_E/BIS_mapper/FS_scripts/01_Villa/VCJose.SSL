@@ -237,8 +237,8 @@ procedure NodeFstDialog begin
    else begin
       zReply(200)
    end
-   NAnswer(201,1,NodeFstDialog001)
-   NAnswer(216,1,NodeFstDialog001)
+   NAnswer(201,4,NodeFstDialog001)
+   BAnswer(216,4,NodeFstDialog001)
    NAnswer(218,-3,NodeFstDialog001)
 end
 
