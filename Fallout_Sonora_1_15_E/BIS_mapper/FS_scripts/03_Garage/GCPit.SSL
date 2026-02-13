@@ -168,8 +168,7 @@ procedure setBarterA begin
         end
 
         if (gvar_bit(GVAR_CAR_FLAGS_BIT, bit_5) != 0) then begin
-        check_restock_item(PID_TOOL_CAR_GAZ, 2, 2, 100) // BUs for a bike appear only after purchasing it, otherwise it may overwhelm the game with the item and also disrupt the preparation of the player’s perception for finding the bike (acts as a spoiler) 
-end
+        check_restock_item(PID_TOOL_CAR_GAZ, 2, 2, 100) // BUs for a bike appear only after purchasing it, otherwise it may overwhelm the game with the item and also disrupt the preparation of the player’s perception for finding the bike (acts as a spoiler)
         end
 end
 
