@@ -54,7 +54,7 @@ procedure NodeSndDialog;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (8) // отвечает за ...
+//#define LVAR_Flag_A                     (8) // is responsible for ...
 
 //---------------------
 
@@ -113,7 +113,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,2,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,2,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -133,7 +133,7 @@ procedure talk_p_proc begin
    floater(self_obj,103,COLOR_MSG_NORMAL);
    end
    else if ((map_var(MVAR_DIEGO_C_CARREGULATOR) == 3) and (item_amnt(self_obj,PID_Q_DAYGLOW_CARAVAN_4) > 0)) then begin
-   setReaction(-1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   setReaction(-1) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else begin

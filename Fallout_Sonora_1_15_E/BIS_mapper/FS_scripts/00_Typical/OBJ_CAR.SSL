@@ -231,7 +231,7 @@ procedure use_obj_on_p_proc begin
    else if (objUsedPid == PID_TOOL_CAR_GAZ) then begin
        script_overrides;
        play_sfx("WOS1XXX1");
-       car_give_gas(16000); // 80000 - полный бак, 40000 - 50%, 16000 - 20%
+       car_give_gas(16000); // 80000 - full tank, 40000 - 50%, 16000 - 20%
        item_remove(dude_obj, objUsedPid, 1)
    end
    else if (objUsedPid == PID_AMMO_ENERGY_CELL) then begin
@@ -250,6 +250,7 @@ procedure use_obj_on_p_proc begin
        display_mstr(202);
        floater(dude_obj,201,COLOR_MSG_NORMAL);
    end
+
    else if (objUsedPid == PID_TOOL_PARTS_MECHANICAL) then begin
        script_overrides;
        display_mstr(204);

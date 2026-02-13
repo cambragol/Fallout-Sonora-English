@@ -126,7 +126,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -140,8 +140,8 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   setReaction(0) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // correction to the attitude for belonging to a faction
 
    if ((local_var(LVAR_MariachiTime) > 0) and (local_var(LVAR_MariachiTime) > game_time)) then begin
       floater(self_obj, 105, COLOR_MSG_GREEN);
@@ -346,7 +346,7 @@ procedure NodeAnswerQst begin
    end
 end
 
-//--- QUEST МАРИАЧИ
+//--- MARIACHI QUEST
 
 procedure NodeQst100 begin
    Reply(251)

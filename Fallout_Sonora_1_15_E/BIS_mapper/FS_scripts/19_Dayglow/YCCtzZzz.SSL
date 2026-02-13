@@ -33,7 +33,7 @@ procedure talk_p_proc;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (5) // отвечает за ...
+//#define LVAR_Flag_A                     (5) // is responsible for ...
 
 //---------------------
 
@@ -98,7 +98,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,2,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,2,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 

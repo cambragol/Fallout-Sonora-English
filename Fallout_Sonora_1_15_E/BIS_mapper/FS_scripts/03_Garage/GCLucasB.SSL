@@ -41,7 +41,7 @@ procedure NodeDialog3;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 import variable obj_critter_a; // указатель на Когана
 import variable obj_critter_b; // указатель на Лукаса
@@ -148,7 +148,7 @@ procedure critter_p_proc begin
           end
        end
 
-       set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+       set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
 end
 
@@ -166,7 +166,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin

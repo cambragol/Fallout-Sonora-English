@@ -99,7 +99,7 @@ procedure NodeAnswer404;
 
 //---------------------
 
-#define LVAR_Alcoghol                   (6) // алкоголь: 0 - не использован, 1 - использован
+#define LVAR_Alcoghol                   (6) // alcohol: 0 - not used, 1 - used
 
 import variable box_stop_use;
 
@@ -137,8 +137,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -151,7 +151,7 @@ procedure critter_p_proc begin
    if (local_var(LVAR_Alcoghol)<=3) then begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
    end
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -172,7 +172,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -364,7 +364,7 @@ procedure NodeSndDialog begin
    //--- QUESTIONS
    NAnswer(213,3,NodeAnswer)
 
-   //--- Квесты бармена
+   //--- Bartender's Quests
    if (getQuest(GVAR_FLAGSTAFF_BARMEN_DOLG) == qStart) then begin
       if (map_var(MVAR_DolgSten) == 0) then begin
       NAnswer(301,0,NodeBarQst)
@@ -379,7 +379,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Квест по смене надзирателя
+   //--- QUEST for changing the warden
    if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) == qStart) then begin
       if (bitDialog(bit_9) == 0) then begin
          NAnswer(350,3,NodeAnswer400)
@@ -391,7 +391,7 @@ procedure NodeSndDialog begin
       end
    end
 
-   //--- Рейнджер
+   //--- Ranger
    if (getQuest(GVAR_FLAGSTAFF_RANGER_KILL) == qZero) then begin
       NAnswer(214,3,NodeQuestRanger100)
    end
@@ -412,7 +412,7 @@ procedure NodeSndDialog begin
    NAnswer(219,0,Node999)
 end
 
-//--- ДОПУСК В ЗАГОН
+//--- ADMISSION TO THE CORNER
 
 procedure NodeDopusk begin
    Reply(220)
@@ -448,7 +448,7 @@ procedure NodeDopusk4 begin
    NAnswer(228,0,Node999)
 end
 
-//--- КВЕСТ - ДОЛГИ НАЕМНИКА
+//--- QUEST - A MERCENARY'S DEBT
 
 procedure NodeBarQst begin
    Reply(302)
@@ -473,7 +473,7 @@ procedure NodeBarQst4 begin
    call Node999;
 end
 
-//--- КВЕСТ - ОДИНОКИЙ РЕЙНДЖЕР
+//--- QUEST - THE LONE RANGER
 
 procedure NodeQuestRanger100 begin
    Reply(281)
@@ -575,7 +575,7 @@ procedure NodeQuestRanger208 begin
    NAnswer(373,0,Node999)
 end
 
-//--- ОСВОБОЖДЕНИЕ РАБОВ ИЗ ВИЛЛЫ
+//--- FREEING SLAVES FROM THE VILLA
 
 procedure NodeFreedom begin
    if (getQuest(GVAR_MAIN_QUEST_FLAGSTAFF) >= qEnd) then begin
@@ -771,19 +771,19 @@ procedure NodeAnswer202 begin
 end
 
 /*
-{245}{}{[Наука 60] Вы подозрительно много знаете о старых технологиях.}
-{246}{}{Хм, любопытно. Действительно, я получил образование в закрытой организации и к тому же много изучал довоенную литературу.}
-{247}{}{Но старая техника не надежна. Зачем продолжать ее использовать?}
-{248}{}{Хороший вопрос. Бывали случаи, когда чрезмерная зависимость от старой техники приводила к вымиранию целых поселений. Но пока эти риски себя оправдывают. Самое сложное ждет впереди. Ведь техника также требует образования и реконструкции, а умельцев в этих вопросах все меньше.}
-{249}{}{Достаточно иметь интерес и быть настойчивым.}
+{245}{}{[Science 60] You know a suspicious amount about old technology.}
+{246}{}{Hm, curious. Indeed, I received my education in a closed organization and also studied a lot of pre-war literature.}
+{247}{}{But old technology is unreliable. Why continue to use it?}
+{248}{}{Good question. There have been cases where overreliance on old technology led to the extinction of entire settlements. But so far, these risks have paid off. The hardest part lies ahead. After all, technology also requires education and reconstruction, and there are fewer and fewer experts in these matters.}
+{249}{}{All you need is interest and persistence.}
 
-{263}{}{Эти огнепоклонники вам симпатичны?}
-{264}{}{Нисколько. Их взгляд на вещи затуманен тенью поколений. Они мистифицировали историю и манипулируют ею в своих целях. Немногие в этом культе понимают настоящее положение дел. Большинство сектантов откровенно глупы.}
+{263}{}{Do you like these fire-worshippers?}
+{264}{}{Not at all. Their view of things is clouded by the shadow of generations. They have mystified history and manipulated it for their own purposes. Few in this cult understand the true state of affairs. Most of the cultists are frankly stupid.}
 
-{255}{}{Так рабы - временная мера?}
-{256}{}{Скорее исключительная. Мне необходимо поддерживать производительность... любой ценой. И на то есть ряд причин, которые я не стану обсуждать с первым встречным.}
-{257}{}{Речь об экспансии Братства Стали, не так ли?}
-{258}{}{Какая неожиданная проникновенность... Разумеется, ведь Братство - единственная сила, способная поставить на ноги этот регион и обеспечить его достойным будущим. Кто еще сможет это сделать? Местные жители забыли о старых технологиях и все быстрее скатываются в каменный век. Жалкое зрелище.}
+{255}{}{So slaves are a temporary measure?}
+{256}{}{More like an exceptional measure. I need to maintain productivity... at any cost. And there are a number of reasons for that that I won't discuss with just anyone.}
+{257}{}{You're talking about the expansion of the Brotherhood of Steel, aren't you?}
+{258}{}{What unexpected insight... Of course, because the Brotherhood is the only force capable of getting this region back on its feet and ensuring its future. Who else could do it? The locals have forgotten about old technologies and are sliding faster and faster into the Stone Age. A pitiful sight.}
 */
 
 procedure NodeAnswer300 begin

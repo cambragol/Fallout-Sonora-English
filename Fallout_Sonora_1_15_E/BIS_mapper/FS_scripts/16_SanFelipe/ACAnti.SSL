@@ -49,7 +49,7 @@ procedure NodeQst106;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 //---------------------
 
@@ -79,8 +79,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -111,7 +111,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -144,7 +144,7 @@ procedure talk_p_proc begin
       end
    end
    else if DudeTraitHas(TRAIT_espanol) then begin
-      setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+      setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
       dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else begin

@@ -128,7 +128,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -148,7 +148,7 @@ end
 procedure talk_p_proc begin
    if (map_var(MVAR_DIEGO_C_BAR_COMBAT) == 1) then begin
    //floater(self_obj, 103, COLOR_MSG_RED);
-   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   setReaction(0) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else if (map_var(MVAR_DIEGO_C_BAR_COMBAT) < 0) then begin

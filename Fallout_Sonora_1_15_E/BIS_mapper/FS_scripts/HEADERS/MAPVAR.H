@@ -163,7 +163,7 @@
 //------------------------------- Шахта (под землей)
 
 #define MVAR_FLAGMINE_MAP_SOLAR          (1) // бонус освещения: 0 - не задан, 1 - задан (точные изменения записаны в скрипте ZTMap, процедура map_light_proc)
-//с версии 1.16 не используется - #define MVAR_FLAGMINE_RAT_EXP            (2) // служит для расчета урона, получаемого королем крыс от электрической ловушки (иначе опыт не начисляется)
+// Not used since v1.16 - #define MVAR_FLAGMINE_RAT_EXP            (2) // служит для расчета урона, получаемого королем крыс от электрической ловушки (иначе опыт не начисляется)
 #define MVAR_FLAG_RatKingVsbl            (4) // обнаружение крысиного короля: 0 - невидим, 1 - видим
 
 //------------------------------- Заброшенный район (музей)
@@ -521,14 +521,14 @@
 #define MVAR_NUEVA_LAB_MANTIS_COUNT      (5) // stores the number of Mantises generated in battle
 
 /***************************************************************
-************************ САНТА АНА *****************************
+************************ SANTA ANA *****************************
 ***************************************************************/
 
-//------------------------------- Поселение
+//------------------------------- Settlement
 
-#define MVAR_SANTA_DIALOG                (1) // число проведенных диалогов по квесту GVAR_SANTAANA_QST_DIALOG
-#define MVAR_SANTA_BOSS_ATTAK            (2) // инициация драки со старостой в церкви
-#define MVAR_SANTA_MEAT_TILE             (3) // тайл для перемещения Эль Диабло к месту сброса мяса
+#define MVAR_SANTA_DIALOG                (1) // number of dialogues conducted for quest GVAR_SANTAANA_QST_DIALOG
+#define MVAR_SANTA_BOSS_ATTAK            (2) // initiation of the fight with the elder in the church
+#define MVAR_SANTA_MEAT_TILE             (3) // tile for moving El Diablo to the meat drop-off point
 
 #define dialog_qst_SANTA                 if (getQuest(GVAR_SANTAANA_QST_DIALOG) == qStart) then begin \
                                             inc_map_var(MVAR_SANTA_DIALOG); \

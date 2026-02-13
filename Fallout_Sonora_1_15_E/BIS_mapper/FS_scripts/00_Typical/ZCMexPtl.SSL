@@ -32,7 +32,7 @@ procedure talk_p_proc;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 //---------------------
 
@@ -44,6 +44,7 @@ end
 procedure map_enter_p_proc begin
    if (is_loading_game == false) then begin
        set_start_home
+       // added to allow for combat taunts to be either pure spanish, or 'translated' via the Espanol Trait - cambragol
        if DudeTraitHas(TRAIT_espanol) then begin
        critter_add_trait(self_obj,TRAIT_OBJECT,OBJECT_AI_PACKET,AI_HERMO_SOLDIER_ENG);
        end
@@ -71,10 +72,10 @@ end
 
 procedure critter_p_proc begin
    if town_rep_is_antipaty then begin
-   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(2,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
    else begin
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
 end
 
@@ -92,7 +93,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,3,3,3) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin

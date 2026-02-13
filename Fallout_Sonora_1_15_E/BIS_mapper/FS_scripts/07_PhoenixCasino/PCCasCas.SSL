@@ -133,8 +133,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (rotation_to_tile(self_tile, dude_tile) >= 4) or (rotation_to_tile(self_tile, dude_tile) == 0) then begin
        timer_move_to_tile(0,tile_num_in_direction(HomeTile,5,2),5)
@@ -171,7 +171,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -192,7 +192,7 @@ procedure talk_p_proc begin
    floater(self_obj,random(105,108),COLOR_MSG_RED);
    end
    else begin
-   set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(1,102,NodeStartDialog,-1,-1)
    end
 end

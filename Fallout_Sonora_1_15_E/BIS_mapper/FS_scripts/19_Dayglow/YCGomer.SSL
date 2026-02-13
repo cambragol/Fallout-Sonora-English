@@ -86,7 +86,7 @@ procedure NodeParty3;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 variable attakParam;
 
@@ -276,7 +276,7 @@ procedure combat_p_proc begin
    if (fixed_param == COMBAT_SUBTYPE_TURN) then begin
    call ghoul_enemy;
    end
-   effectAttak(0,0,5,5,5) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,5,5,5) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -303,8 +303,8 @@ procedure talk_p_proc begin
       floater(self_obj, 158, COLOR_MSG_RED);
    end
    else begin
-      setReaction(-1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-      fracReaction(GVAR_TITUL_REBIRTH,20) // поправка к отношению за принадлежность к фракции
+      setReaction(-1) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+      fracReaction(GVAR_TITUL_REBIRTH,20) // correction to the attitude for belonging to a faction
       dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
 end
@@ -317,6 +317,7 @@ procedure Node999 begin
 end
 
 procedure NodeStartDialog begin
+   // fix for debug spam - cambragol
    if (cur_map_index == MAP_DAYGLOW_PATRUL) then begin
       if (map_var(MVAR_DIEGOPTRL_GOMER_STOP_DIALOG) == 1) then begin 
          call NodeCapDialog;

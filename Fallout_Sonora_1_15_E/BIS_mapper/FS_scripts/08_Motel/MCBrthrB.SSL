@@ -32,7 +32,7 @@ procedure talk_p_proc;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (5) // отвечает за ...
+//#define LVAR_Flag_A                     (5) // is responsible for ...
 
 //---------------------
 
@@ -80,7 +80,7 @@ procedure critter_p_proc begin
    if (tile_distance_objs(self_obj,dude_obj) <= 6) then begin
    invisToDude(10,102) // Скрывание нпс от ГГ до некоторой дистанции, в скобках бонус к дальности и реплика для лога (устанавливать set_obj_visibility(self_obj, 1) в map_enter_p_proc)
    end
-   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(2,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -97,7 +97,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 

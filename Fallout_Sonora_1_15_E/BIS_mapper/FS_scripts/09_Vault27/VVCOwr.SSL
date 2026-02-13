@@ -64,7 +64,7 @@ procedure critter_p_proc begin
    end
    else begin
       invisToDude(10,-1) // Скрывание нпс от ГГ до некоторой дистанции, в скобках реплика для лога; не забыть set_obj_visibility(self_obj, 1) в map_enter_p_proc.
-      set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+      set_critter_options(2,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
 end
 
@@ -82,7 +82,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
    if (fixed_param == COMBAT_SUBTYPE_TURN) then begin
        if ((local_var(LVAR_Reply_Attak) == 0) and (obj_is_visible_flag(self_obj) == true)) then begin

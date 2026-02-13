@@ -29,7 +29,7 @@ procedure destroy_p_proc;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 //---------------------
 
@@ -79,19 +79,19 @@ end
 
 procedure critter_p_proc begin
    if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_A) then begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
    else if (armor_pid_dude_var == PID_ARMOR_PURPLE_ROBE_B) then begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
    else if (global_var(GVAR_TITUL_PHENIX_CULT) > 0) then begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
    else if (map_var(MVAR_PnxVlt_Dopusk) == 0) then begin
-   set_critter_options(2,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(2,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
    else begin
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
 end
 
@@ -110,7 +110,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin

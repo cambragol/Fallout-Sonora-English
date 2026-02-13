@@ -145,7 +145,7 @@ end
 
 procedure critter_p_proc begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    if (game_time_hour < 0600) then begin
       if ((global_var(GVAR_TITUL_BOS)>0) or town_rep_is_idolized or (getReaction>=75)) then begin
       end
@@ -171,7 +171,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,3,3,3) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,3,3,3) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin

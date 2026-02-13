@@ -49,9 +49,9 @@ procedure NodeParty;
    0-7 для торговцев
 */
 
-//#define LVAR_Flag_A                     (5) // отвечает за ...
-//#define LVAR_Flag_A                     (6) // отвечает за ...
-//#define LVAR_Flag_A                     (8) // отвечает за ...
+//#define LVAR_Flag_A                     (5) // is responsible for ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
+//#define LVAR_Flag_A                     (8) // is responsible for ...
 
 import variable box_stop_use;
 
@@ -166,7 +166,7 @@ procedure combat_p_proc begin
    //облучают: радмуравьи, кентавр, светящийся гуль
    //отравляют: растения, скорпы (если жало не травмировано), летун (очень сильно), спороносы
    //травмы: собаги (по ногам), брамы (руки и ноги), летун (глаза), коготь (везде), гули (глаза), люди (везде)
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectIntimidationPerk
    effectRegeratHP
 end
@@ -205,12 +205,12 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-   //fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // поправка к отношению за принадлежность к фракции
+   setReaction(1) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+   //fracReaction(GVAR_TITUL_ARIZONA_RANGER,20) // correction to the attitude for belonging to a faction
    //fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    //fracReaction(GVAR_TITUL_VILLA_TRADITION,20) // Поправка к отношению за принадлежность к фракциям
    //fracReaction(GVAR_TITUL_VILLA_DISTROY,-20) // Поправка к отношению за принадлежность к фракциям
-   //set_BarterBoxProc(BARTER_TIME) // !дублировать в map_enter_p_proc
+   //set_BarterBoxProc(BARTER_TIME) // !duplicate in map_enter_p_proc
    dialog_proc_barter(0,0,NodeStartDialog,-1,-1)
    /*
    dialog_proc или dialog_proc_barter - диалог:

@@ -38,7 +38,7 @@ end
 
 procedure use_obj_on_p_proc begin
    stopUseCarGaz
-   else RepairUsedJunk(PID_GENERATOR_ENERGY,100) // (pid,limit,bonus) - детали, лимит на число использования, бонус к навыку (обычно 20)
+   else RepairUsedJunk(PID_GENERATOR_ENERGY,100) // (pid,limit,bonus) - parts, limit on number of uses, bonus to skill (usually 20)
    else RepairUsedJunk(PID_TOOL_PARTS_MECHANICAL,20)
    else RepairUsedJunk(PID_TOOL_PARTS_ELECTRONIC,20)
    else if (objUsedPid == PID_BOOTLE_CAPS) then begin

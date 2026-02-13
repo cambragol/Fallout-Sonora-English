@@ -41,7 +41,7 @@ procedure NodeSndDialog;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 import variable obj_critter_a; // указатель на мэра
 
@@ -83,8 +83,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (cur_map_index == MAP_CASA_GRANDE_BAR) then begin
        timer_move_to_home
@@ -101,7 +101,7 @@ procedure critter_p_proc begin
    if (cur_map_index == MAP_CASA_GRANDE_BAR) then begin
    attakParam := map_var(MVAR_CGRANDE_BAR_MER);
    end
-   set_critter_options(attakParam,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(attakParam,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 
    if (cur_map_index == MAP_CASA_GRANDE_CITY) then begin
    if (self_visible == true) then begin

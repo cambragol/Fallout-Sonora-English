@@ -47,7 +47,7 @@ procedure NodeSndDialog4;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (5) // отвечает за ...
+//#define LVAR_Flag_A                     (5) // is responsible for ...
 
 //---------------------
 
@@ -104,7 +104,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,2,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,2,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -121,8 +121,8 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-   fracReaction(GVAR_TITUL_REBIRTH,90) // поправка к отношению за принадлежность к фракции
+   setReaction(0) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+   fracReaction(GVAR_TITUL_REBIRTH,90) // correction to the attitude for belonging to a faction
 
    if (getQuest(GVAR_DAYGLOW_QST_LIVE) == 10) then begin
    floater(self_obj, 103, COLOR_MSG_NORMAL);

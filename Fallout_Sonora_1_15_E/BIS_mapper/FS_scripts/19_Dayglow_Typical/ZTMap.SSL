@@ -28,7 +28,7 @@ export variable obj_critter_b; // указатель на криттера 2
 
 /*
 
---- Reminder for setting up a new map/location:
+--- Памятка по настройке новой карты/локации:
 
    data/MAPS.txt - register the map
          MAP.MSG - label levels of the new map
@@ -137,7 +137,7 @@ procedure map_enter_p_proc begin
       end
       // tweaked to allow eye-robot for DLC to approach *after* any dialogues are triggered -cambragol
       add_timer_event(self_obj, 20, 2);
-      
+
       if (map_first_run) then begin
           //--- Встречная реплика при первом входе на карту
           mapIndexMsg := cur_map_index;
@@ -396,10 +396,10 @@ end
                                        end                                      \
 
 procedure map_exit_p_proc begin
-   /* 
-   IMPORTANT: When playing in the mapper, the procedure only works when you enter the world map, 
-   that is, it does not work on green grids, stairs, and the load_map function. 
-   But the game works in all these cases. Therefore, the mapper is not suitable for the test. 
+   /*
+   ВАЖНО: При игре в маппере процедура срабатывает только по выходу на карту мира,
+          то есть она не работает на зеленых сетках, лестницах и функции load_map.
+          Но в игре работает во всех этих случаях. Поэтому для теста маппер не годится.
    */
 
    //--- Перемещение ящиков Экспресс Сонора в рюкзак ГГ
@@ -801,11 +801,11 @@ end
 
 procedure map_area_exit_proc begin
    /*
-     Пояснение: необходимость в смене координат возникает в том случае,
-     когда герой переходит с уровня на уровень одной карты через сетку перехода (пример: пещеры).
-     В этом случае при выходе на карту мира ГГ окажется в координатах локации из city.txt.
-     На стационарных локациях так и должно быть.
-     Но на случайных встречах это приводит к багу, поэтому приходится обновлять координаты.
+     Explanation: the need to change coordinates arises when the player character
+     transitions from one level to another within the same map through a transition grid (e.g., caves).
+     In this case, when exiting to the world map, the player character would end up at the coordinates of the location from city.txt.
+     This is intended for stationary locations.
+     However, for random encounters, this leads to a bug, so the coordinates must be updated.
    */
 
         set_exitmap(MAP_RND_CITY_2,AREA_RND_CITY)

@@ -53,7 +53,7 @@ procedure NodeStopDialogEnd;
 
 //---------------------
 
-#define LVAR_Alcoghol                   (6) // алкоголь: 0 - не использован, 1 - использован
+#define LVAR_Alcoghol                   (6) // alcohol: 0 - not used, 1 - used
 
 //---------------------
 
@@ -116,7 +116,7 @@ procedure critter_p_proc begin
          end
       end
    end
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -136,7 +136,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -155,7 +155,7 @@ procedure talk_p_proc begin
    floater(self_obj,102,COLOR_MSG_RED);
    end
    else if (self_elevation > 0) then begin
-   setReaction(-1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(-1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
    else if (local_var(LVAR_Alcoghol) != 0) then begin

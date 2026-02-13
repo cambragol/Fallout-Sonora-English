@@ -101,8 +101,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -115,7 +115,7 @@ procedure critter_p_proc begin
    if ((global_var(GVAR_PHENIX_STATUS_DIEGO) <= 0) and (global_var(GVAR_TITUL_PHENIX_CASINO) <= 0)) then begin
    set_using_stop
    end
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -132,7 +132,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -174,7 +174,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СВОЙ ЧЕЛОВЕК В КАЗИНО
+//--- YOUR MAN IN THE CASINO
 
 procedure NodeFrand begin
    bitDialogExp(bit_1,0)
@@ -185,6 +185,7 @@ procedure NodeFrand begin
       BAnswer(297,4,NodeFrand3)
    end
    else begin
+      // added for spanish handling - cambragol
       zReply(290)
       NAnswer(291,4,NodeFrand4)
       BAnswer(292,4,NodeFrand2)

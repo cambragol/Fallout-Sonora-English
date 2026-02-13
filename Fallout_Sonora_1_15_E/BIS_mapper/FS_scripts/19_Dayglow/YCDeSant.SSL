@@ -147,7 +147,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,5,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,5,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -171,8 +171,8 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-   fracReaction(GVAR_TITUL_REBIRTH,50) // поправка к отношению за принадлежность к фракции
+   setReaction(0) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+   fracReaction(GVAR_TITUL_REBIRTH,50) // correction to the attitude for belonging to a faction
    dialog_proc(0,0,NodeStartDialog,-1,-1)
 end
 

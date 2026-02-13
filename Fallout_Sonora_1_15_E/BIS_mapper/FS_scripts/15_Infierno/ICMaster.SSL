@@ -100,7 +100,7 @@ procedure NodeQst204;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 import variable box_stop_use;
 
@@ -185,7 +185,7 @@ procedure critter_p_proc begin
    if (global_var(GVAR_INF_STATUS_APOSTOL)<=0) then begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
    end
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 
 /*
    if (combat_is_initialized == false) then begin
@@ -223,7 +223,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -707,7 +707,7 @@ procedure NodeAnswr210 begin
    NAnswer(372,0,NodeSndDialog)
 end
 
-//--- QUESTЫ
+//--- QUESTS
 
 procedure NodeQst100 begin
    setQuest(GVAR_INF_QST_APOSTOL_B,qEnd+1);
@@ -766,12 +766,12 @@ end
 procedure NodeQst101 begin
    Reply(313)
 
-   Это слишком опасно. Может, есть другой вариант?
-      Хорошо. В таком случае остается лишь одно - ТЫ станешь подопытным. Прими мутаген, стань одним из нас.
-         Да ты бредишь. / Представь, какие возможности даст тебе вирус. Ты станешь бессмертным, сможешь выдержать радиоактивный фон даже в центре ядерной воронки, наконец ты обретешь верных друзей среди моей паствы. Что скажешь?
-            Нет. Ни в коем случае. Я не собираюсь жертвовать своей природой ради всего этого. / В таком случае делай то, что я прошу. Используй мутаген на потрошителях.
-            Во мне уже столь рад от местных руин, что я начинаю светится в темноте. Похоже, мне придется принять мутаген. / Очень хорошо. Позволь, я подготовлю церемонию.
-
+   It's too dangerous. Perhaps there's another option?
+      Okay. In that case, there's only one option left—YOU become a test subject. Take the mutagen, become one of us.
+         You're delusional. / Imagine the possibilities the virus will give you. You'll become immortal, able to withstand the radiation even in the center of a nuclear crater, and finally, you'll find true friends among my flock. What do you say?
+            No. Absolutely not. I'm not going to sacrifice my nature for all this. / In that case, do as I ask. Use the mutagen on the rippers.
+               I'm already so overjoyed by the local ruins that I'm starting to glow in the dark. It looks like I'll have to take the mutagen. / Very well. Allow me to prepare the ceremony.
+               
    NAnswer(322,0,NodeQst104)
    NAnswer(315,0,NodeQst103)
    BAnswer(314,0,NodeQst102)

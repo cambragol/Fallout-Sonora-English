@@ -23,7 +23,7 @@ procedure NodeDialog104;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (1) // отвечает за ...
+//#define LVAR_Flag_A                     (1) // is responsible for ...
 
 //---------------------
 

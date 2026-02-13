@@ -45,7 +45,7 @@ procedure NodeDialog7;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (8) // отвечает за ...
+//#define LVAR_Flag_A                     (8) // is responsible for ...
 
 //---------------------
 
@@ -114,7 +114,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,2,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,2,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -133,7 +133,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
+   setReaction(0) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
    fracReaction(GVAR_TITUL_REBIRTH,-20) // Поправка к отношению за принадлежность к фракциям
    if (map_var(MVAR_DIEGOCAFE_MUTANT_QST) == 0) then begin
    dialog_proc(0,0,NodeStartDialog,-1,-1)
