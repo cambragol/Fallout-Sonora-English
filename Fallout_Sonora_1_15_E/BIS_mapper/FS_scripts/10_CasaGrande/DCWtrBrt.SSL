@@ -111,8 +111,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -123,7 +123,7 @@ end
 
 procedure critter_p_proc begin
    obj_critter_a := self_obj;
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -140,7 +140,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -174,7 +174,7 @@ procedure talk_p_proc begin
    floater(self_obj,245,COLOR_MSG_RED);
    end
    else begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_DUDE_IS_SLAVE,-100) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-100) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_CGRANDE_STATUS_SHEFF,100) // Поправка к отношению за принадлежность к фракциям
@@ -237,7 +237,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog begin
    bitDialogExp(bit_4,0)
@@ -334,7 +334,8 @@ procedure NodeStopDialog200 begin
       Reply(272)
       NAnswer(273,4,NodeStopDialog201)
    end
-      NAnswer(274,-3,Node999)
+      // added for spanish handling - cambragol
+      zNAnswer(274,-3,Node999)
 end
 
 procedure NodeStopDialog201 begin
@@ -343,7 +344,7 @@ procedure NodeStopDialog201 begin
    NAnswer(277,4,NodeSndDialog)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -423,7 +424,7 @@ procedure NodeFstDialog11 begin
    zNAnswer(227,4,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
@@ -462,7 +463,7 @@ procedure NodeBarter begin
    NAnswer(229,-3,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer101 begin
    Reply(262)

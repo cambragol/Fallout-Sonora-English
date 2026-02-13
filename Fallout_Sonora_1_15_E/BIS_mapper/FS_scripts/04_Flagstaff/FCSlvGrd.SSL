@@ -34,7 +34,7 @@ procedure talk_p_proc;
 //---------------------
 
 #define LVAR_Tile_B                     (6) // номер второго тайла для патрулирования
-#define LVAR_Alcoghol                   (7) // алкоголь: 0 - не использован, 1 - использован
+#define LVAR_Alcoghol                   (7) // alcohol: 0 - not used, 1 - used
 
 import variable box_stop_use;
 
@@ -80,8 +80,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if (local_var(LVAR_Tile_B) > 0) then begin
        timer_move_patrol(HomeTile,local_var(LVAR_Tile_B))
@@ -100,10 +100,10 @@ procedure critter_p_proc begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
    end
    if (local_var(LVAR_Alcoghol) == 0) then begin
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
    else begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
    end
 end
 
@@ -125,7 +125,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin

@@ -62,7 +62,7 @@ procedure NodeAnswer206;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (8) // отвечает за ...
+//#define LVAR_Flag_A                     (8) // is responsible for ...
 
 import variable box_stop_use;
 
@@ -84,31 +84,31 @@ procedure map_enter_p_proc begin
 end
 
 procedure setBarterA begin
-   check_restock_many(3000,3500)
+        check_restock_many(3000,3500)
 
-   check_restock_item(PID_ARMOR_TESLA, 1, 1, 100)
-   check_restock_item(PID_ARMOR_METALIC_A, 1, 1, 100)
-   check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
-   check_restock_item(PID_ARMOR_JACKET_C, 1, 1, 100)
-   check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 5, 5, 100)
-   check_restock_item(PID_TOOL_BOOTS, 5, 5, 100)
-   check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
-   check_restock_item(PID_TOOL_LOCKPICKS_MH, 2, 3, 100)
-   check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
+        check_restock_item(PID_ARMOR_TESLA, 1, 1, 100)
+        check_restock_item(PID_ARMOR_METALIC_A, 1, 1, 100)
+        check_restock_item(PID_ARMOR_LEATHER, 1, 1, 100)
+        check_restock_item(PID_ARMOR_JACKET_C, 1, 1, 100)
+        check_restock_item(PID_TOOL_PLASTIC_EXPLOSIVES, 5, 5, 100)
+        check_restock_item(PID_TOOL_BOOTS, 5, 5, 100)
+        check_restock_item(PID_TOOL_GEIGER_COUNTER, 1, 1, 100)
+        check_restock_item(PID_TOOL_LOCKPICKS_MH, 2, 3, 100)
+        check_restock_item(PID_TOOL_ZIPPER, 1, 1, 100)
 
-   check_restock_item(PID_AMMO_40_MM, 30, 30, 100)
-   check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
-   check_restock_item(PID_AMMO_308, 6, 6, 100)
-   check_restock_item(PID_W_GRENADE_FRAG, 5, 7, 100)
-   check_restock_item(PID_W_GRENADE_PLASMA, 4, 5, 100)
-   check_restock_item(PID_W_SPEAR_ELECTRO, 1, 1, 100)
-   check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 10, 10, 100)
-   check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
-   check_restock_item(PID_W_TASER, 1, 1, 100)
-   check_restock_item(PID_AMMO_5_MM, 10, 10, 100)
-   check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
-   check_restock_item(PID_AMMO_10_MM, 20, 20, 100)
-   check_restock_item(PID_W_KNIFE_MEAT, 1, 1, 100)
+           check_restock_item(PID_AMMO_40_MM, 30, 30, 100)
+        check_restock_item(PID_W_LAUNCHER, 1, 1, 100)
+           check_restock_item(PID_AMMO_308, 6, 6, 100)
+        check_restock_item(PID_W_GRENADE_FRAG, 5, 7, 100)
+        check_restock_item(PID_W_GRENADE_PLASMA, 4, 5, 100)
+        check_restock_item(PID_W_SPEAR_ELECTRO, 1, 1, 100)
+           check_restock_item(PID_AMMO_MICRO_FUSION_CELL, 10, 10, 100)
+        check_restock_item(PID_W_ATOMIC_CUTTER, 1, 1, 100)
+        check_restock_item(PID_W_TASER, 1, 1, 100)
+           check_restock_item(PID_AMMO_5_MM, 10, 10, 100)
+        check_restock_item(PID_W_RIFLE_ASSAULT, 1, 1, 100)
+           check_restock_item(PID_AMMO_10_MM, 20, 20, 100)
+        check_restock_item(PID_W_KNIFE_MEAT, 1, 1, 100)
 end
 
 procedure setBarterB begin
@@ -125,8 +125,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+	// Timer number 1 is reserved for character movement around the location
+	// Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -154,7 +154,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectRegeratHP
 end
 
@@ -171,8 +171,8 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // отношение к ГГ (персонаж: 1 положительный, 0 нейтральный, -1 отрицательный)
-   fracReaction(GVAR_TITUL_REBIRTH,75) // поправка к отношению за принадлежность к фракции
+   setReaction(1) // attitude towards the main character (character: 1 positive, 0 neutral, -1 negative)
+   fracReaction(GVAR_TITUL_REBIRTH,75) // correction to the attitude for belonging to a faction
    if town_rep_is_vilified then begin
       if DudePerkHas(PERK_ghouling_fiziology) then begin
       floater(self_obj, 102, COLOR_MSG_RED);
@@ -203,7 +203,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -250,7 +250,7 @@ procedure NodeBarter2 begin
    NAnswer(212,0,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if town_rep_is_hated then begin

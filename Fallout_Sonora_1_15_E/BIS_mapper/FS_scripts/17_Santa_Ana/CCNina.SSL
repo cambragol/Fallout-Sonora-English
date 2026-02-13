@@ -58,7 +58,7 @@ procedure NodeSndDialog105;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (5) // отвечает за ...
+//#define LVAR_Flag_A                     (5) // is responsible for ...
 
 //---------------------
 
@@ -92,8 +92,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        if ((global_var(GVAR_SANTAANA_STATUS_NINA) == 1) and (self_elevation == 0)) then begin
        timer_move_to_tile(0,TILE_CHRCH_DOOR,5)
@@ -140,7 +140,7 @@ procedure critter_p_proc begin
        end
    end
 
-   set_critter_options(1,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(1,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure port_to_chrch begin
@@ -189,7 +189,7 @@ procedure pickup_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,0,0,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,0,0,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -218,7 +218,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(1) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(1) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
 
    if (global_var(GVAR_SANTAANA_STATUS_NINA) >= 2) then begin
    floater(self_obj, 103, COLOR_MSG_GREEN);
@@ -244,8 +244,9 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ДИАЛОГ НА ПЛОЩАДИ ДО ЦЕРЕМОНИИ
-//This script was tweaked to standardize handling of the espanol perk - cambragol
+//--- DIALOGUE IN THE SQUARE BEFORE THE CEREMONY
+
+// This script was tweaked to standardize handling of the espanol perk - cambragol
 
 
 procedure NodeFstDialog begin
@@ -349,7 +350,7 @@ procedure NodeFstDialog110 begin
    NAnswer(224,1,Node999)
 end
 
-//--- ДИАЛОГ В ПОДЗЕМЕЛЬЕ
+//--- DIALOGUE IN THE DUNGEON
 
 procedure NodeSndDialog begin
    Reply(230)

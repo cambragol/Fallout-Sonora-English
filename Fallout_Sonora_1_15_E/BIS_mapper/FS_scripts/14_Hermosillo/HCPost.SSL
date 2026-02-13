@@ -53,7 +53,7 @@ procedure NodeSndDialog105;
 
 //---------------------
 
-#define LVAR_Alcoghol                   (6) // алкоголь: 0 - не использован, 1 - использован
+#define LVAR_Alcoghol                   (6) // alcohol: 0 - not used, 1 - used
 
 //---------------------
 
@@ -85,8 +85,8 @@ end
 //This script was tweaked to standardize handling of the espanol perk - cambragol
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 зарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 зарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -126,7 +126,7 @@ procedure critter_p_proc begin
       attakParam := 0;
    end
 
-   set_critter_options(attakParam,1) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(attakParam,1) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -146,7 +146,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -163,7 +163,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    if ((game_time_hour < 0600) or (game_time_hour > 1800)) then begin
    dialog_proc(0,0,NodeStartDialog,HEAD_HERMO_POST_NIGHT,BACKGROUND_WASTELND)
    end
@@ -190,7 +190,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeEnemy begin
    if DudeTraitHas(TRAIT_espanol) then begin
@@ -268,7 +268,7 @@ procedure NodeFstDialog8 begin
    BAnswer(239,1,NodeEnemy)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    if DudeTraitHas(TRAIT_espanol) then begin

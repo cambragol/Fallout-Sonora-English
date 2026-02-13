@@ -97,7 +97,7 @@ procedure NodeMines5;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 //---------------------
 
@@ -124,8 +124,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -135,7 +135,7 @@ procedure timed_event_p_proc begin
 end
 
 procedure critter_p_proc begin
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -152,7 +152,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,1,1,1) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -194,7 +194,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -229,7 +229,7 @@ end
 procedure NodeFstDialog103 begin
    bitDialogExp(bit_2,50)
    zReply(211)
-   NAnswer(220,4,NodeFstDialog105)
+   zNAnswer(220,4,NodeFstDialog105)
    NAnswer(218,-3,NodeFstDialog105)
    BAnswer(260,4,NodeFstDialog150)
    NAnswer(280,4,NodeFstDialog170)
@@ -360,7 +360,7 @@ procedure NodeFstDialogEnd begin
    NAnswer(256,-3,Node999)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    Reply(300)
@@ -396,7 +396,7 @@ procedure NodeSndDialog begin
    NAnswer(302,-3,Node999)
 end
 
-//--- ВОПРОСЫ О СЕБE
+//--- QUESTIONS ABOUT YOURSELF
 
 procedure NodeAnswer100 begin
    bitDialogExp(bit_6,0)
@@ -461,7 +461,7 @@ procedure NodeAnswer107 begin
    GAnswer(349,4,NodeSndDialog)
 end
 
-//--- ВОПРОСЫ О РЕЙНДЖЕРАХ
+//--- QUESTIONS ABOUT RANGERS
 
 procedure NodeAnswer200 begin
    Reply(371)
@@ -511,7 +511,7 @@ procedure NodeAnswer211 begin
    NAnswer(394,4,NodeSndDialog)
 end
 
-//--- ВОПРОСЫ О СВОЕЙ МИССИИ
+//--- QUESTIONS ABOUT YOUR MISSION
 
 procedure NodeAnswer300 begin
    Reply(401)

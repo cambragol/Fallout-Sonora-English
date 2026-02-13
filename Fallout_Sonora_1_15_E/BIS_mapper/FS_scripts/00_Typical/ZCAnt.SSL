@@ -60,8 +60,8 @@ procedure look_at_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_random
    end
@@ -93,7 +93,7 @@ procedure combat_p_proc begin
    if (self_PID == PID_ANT_GLOW) then begin
    paramAttak := 5;
    end
-   effectAttak(0,paramAttak,1,1,0) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,paramAttak,1,1,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    effectIntimidationPerk
 end
 

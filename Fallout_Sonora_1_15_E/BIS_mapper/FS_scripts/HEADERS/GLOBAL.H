@@ -721,7 +721,7 @@
 #define GVAR_TWOSUN_QST_LOST_TIN             (172) // квест на поиск пропавшего жестянщика: 0 - не взят, 1 - взят, 2 - завершен (сдан Харду)
 #define GVAR_TWOSUN_QST_LOVE_PIP             (269) // квест жестянщика-любовника: 0 - не взят, 1 - взят, 2 - завершен любым способом
 
-//--- Каса-Нуэвa:
+//--- Casa Nueva:
 #define GVAR_NUEVA_STATUS_APOC               (256) // status of the leader of the Followers of the Apocalypse: -1 - dead, 0 - alive
 #define GVAR_NUEVA_STATUS_MER                (366) // status of the mayor of Casa-Nueva: -999 - suicide in free play, -1 - violently dead, 0 - alive
 #define GVAR_NUEVA_STATUS_EL_GIGANTO         (359) // status of El Giganto: -1 - dead, 0 - alive

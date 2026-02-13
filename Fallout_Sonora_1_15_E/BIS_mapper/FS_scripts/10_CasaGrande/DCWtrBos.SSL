@@ -67,7 +67,7 @@ procedure NodeQst205;
 
 //---------------------
 
-//#define LVAR_Flag_A                     (6) // отвечает за ...
+//#define LVAR_Flag_A                     (6) // is responsible for ...
 
 import variable box_stop_use;
 
@@ -109,8 +109,8 @@ procedure description_p_proc begin
 end
 
 procedure timed_event_p_proc begin
-   // Таймер за номером 1 рарезервирован под перемещение персонажа по локации
-   // Таймер за номером 2 рарезервирован под всплывающие реплики
+   // Timer number 1 is reserved for character movement around the location
+   // Timer number 2 is reserved for pop-up dialogue
    if (fixed_param == 1) then begin
        timer_move_to_home
    end
@@ -121,7 +121,7 @@ end
 
 procedure critter_p_proc begin
    set_using_stop // привязка хозяина и объекта (удалить, если не нужно)
-   set_critter_options(0,0) //условие нападения (0 личная вражда, 1 вражда клановая, 2 всегда), разворот к ГГ
+   set_critter_options(0,0) //attack condition (0 personal feud, 1 clan feud, 2 always), turn to GG
 end
 
 procedure use_skill_on_p_proc begin
@@ -138,7 +138,7 @@ procedure use_obj_on_p_proc begin
 end
 
 procedure combat_p_proc begin
-   effectAttak(0,0,2,2,2) //отравление min, облучение min, травма ног %, травма рук %, травма глаз %
+   effectAttak(0,0,2,2,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
 end
 
 procedure damage_p_proc begin
@@ -162,7 +162,7 @@ procedure talk_p_proc begin
    z_floater(self_obj,103,COLOR_MSG_RED);
    end
    else begin
-   setReaction(0) // Отношение к ГГ (1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
+   setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_ARIZONA_RANGER,-20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_PHENIX_CULT,20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_WARRIOR_ROAD,-90) // Поправка к отношению за принадлежность к фракциям
@@ -193,7 +193,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog100 begin
    bitDialogExp(bit_6,0)
@@ -223,7 +223,7 @@ procedure NodeStopDialog103 begin
    NAnswer(236,4,Node999)
 end
 
-//--- ПЕРВЫЙ ДИАЛОГ
+//--- FIRST DIALOGUE
 
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
@@ -232,7 +232,7 @@ procedure NodeFstDialog begin
    NAnswer(202,-3,NodeSndDialog)
 end
 
-//--- ПОВТОРНЫЙ ДИАЛОГ
+//--- REPEAT DIALOGUE
 
 procedure NodeSndDialog begin
    upCoast := 0;
@@ -253,7 +253,7 @@ procedure NodeSndDialog begin
    Reply(220)
    end
 
-   //--- Вопросы:
+   //--- QUESTIONS:
    NAnswer(260,4,NodeAnswer100)
    if (bitDialog(bit_2) == 0) then begin
    if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin
@@ -271,7 +271,7 @@ procedure NodeSndDialog begin
    NAnswer(253,4,NodeAnswer301)
    end
 
-   //--- квест на починку фильтра:
+   //--- QUEST for filter repair:
    if (getQuest(GVAR_CGRANDE_WATER_REPAIR) == qZero) then begin
    NAnswer(300,4,NodeQst001)
    end
@@ -285,7 +285,7 @@ procedure NodeSndDialog begin
    NAnswer(300,4,NodeQst000)
    end
 
-   //--- квест магистральщиков:
+   //--- QUEST for highwaymen:
    if (bitGrande_shrf_attak_mer == 0) then begin
    if (global_var(GVAR_CGRANDE_STATUS_SHEFF) == 0) then begin
    if (global_var(GVAR_CGRANDE_STATUS_MER) == 0) then begin
@@ -307,7 +307,7 @@ procedure NodeSndDialog begin
    NAnswer(222,-3,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(261)
@@ -398,7 +398,7 @@ procedure NodeAnswer301 begin
    NAnswer(255,4,Node999)
 end
 
-//--- КВЕСТ
+//--- QUEST
 
 procedure NodeQst000 begin
    if (global_var(GVAR_CGRANDE_STATUS_MER) < 0) then begin

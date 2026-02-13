@@ -10,11 +10,12 @@
 {108}{}{The woman is thrilled about new shoes.}
 {109}{}{Thank you so much! It's so hard to find shoes in these desert regions...}
 
-{110}{}{Eh... wha... Dear, check... *yawn* the... door.}
-{111}{}{Uh... qué... honey, check... *yawn* la puerta...}
-{112}{}{Get out, you damn gringo!}
-{1112}{}{Get out, you damn gringa!}
-{113}{}{Vete, dirty... gringo!}
+{110}{}{«Eh... wha... Dear, check... *yawn* the... door.»}
+{111}{}{Eh... qué... Cariño, revisa... *bostezo* la... puerta.}
+{112}{}{«Get out, you damn gringo!»}
+{1112}{}{«Get out, you damn gringa!»}
+{113}{}{¡Lárgate, maldito gringo!}
+{1113}{}{¡Lárgate, maldita gringa!}
 {114}{}{I'm too busy. Habla con mi... husband.}
 {115}{}{I'm too busy to talk. Speak with... mi... husband.}
 {116}{}{You better leave. No nos gusta... strangers making preguntas.}
