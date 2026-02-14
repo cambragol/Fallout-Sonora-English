@@ -20,7 +20,7 @@
 {204}{}{Damn...}
 {205}{}{This won't save you...}
 
-{208}{}{Smart call, ï¿½my dear friendï¿½. But even with your community's consent, there's still one thorn in my side - the Rangers. They fancy themselves noble guardians, but in truth, they're little more than a self-important blockade standing in the way of our progress north. We've been scouting their positions around Phoenix, and once we're ready, we'll deal with those bastards properly.}  #added for espanol trait - cambraagol
+{208}{}{Smart call, «my dear friend». But even with your community's consent, there's still one thorn in my side - the Rangers. They fancy themselves noble guardians, but in truth, they're little more than a self-important blockade standing in the way of our progress north. We've been scouting their positions around Phoenix, and once we're ready, we'll deal with those bastards properly.}  #added for espanol trait - cambraagol
 {209}{}{What in the blazes is this? Which idiot let a MUTANT on board?! Someone's getting a proper dressing-down for this! Alright, you green freak, you better have a damn good reason for being here. Well?}
 {210}{}{What in the blazes is this? Someone's getting a proper dressing-down for letting a civilian waltz in here like they own the place. Fine. You're here now - so talk. Who are you, and what exactly do you want from me?}  
 {211}{}{I'm here to wipe out your army of invading scum from the face of the earth. Death to the invaders!}
