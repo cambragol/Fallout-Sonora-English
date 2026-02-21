@@ -168,7 +168,7 @@
 {328}{}{Can you modify the rear seat so it can fit two passengers?}
 {329}{}{Yeah, I can weld on a frame with an extra seat. Don't expect it to hold more than that, though.}
 {330}{}{You can now carry one additional passenger.}
-{331}{}{If it has wheels and isn't completely cursed - yes. Bikes, mostly. Engines are dead tech, but a good frame can still fly across the wastes.}
+{331}{}{I'll keep that in mind. In case repairs are needed.}
 
 {340}{}{Can you boost the power of this laser emitter?}
 {341}{}{Interesting piece. Looks like it's made from scrap parts. Sure, I can work on it. My price is }
