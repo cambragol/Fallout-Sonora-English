@@ -77,7 +77,7 @@
 {250}{}{Will you come with me to Sonora? I could use your back-up on the road.}
 {251}{}{Go with humans? No way. Humans not want Gomer around.}
 {252}{}{Alright, whatever you say.}
-{253}{}{Your fellow super mutants are getting ready to attack these caravaners. Can you talk them out of it?}
+{253}{}{Your fellow super mutants are getting ready to attack these caravanners. Can you talk them out of it?}
 {254}{}{No, no, they don't listen to Gomer. They kicked Gomer out. Don't respect Gomer. But... Gomer won't let his mutant friends get hurt!}
 {255}{}{Got it.}
 

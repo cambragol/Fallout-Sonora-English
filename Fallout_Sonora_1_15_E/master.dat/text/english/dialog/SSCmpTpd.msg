@@ -36,7 +36,7 @@
 {237}{}{-10 yards.}
 {238}{}{-100 yards.}
 
-{240}{}{Valley mode.}
+{240}{}{Volley mode.}
 {241}{}{Current mode: }
 {242}{}{ Scatter angle: }
 {243}{}{One torpedo.}

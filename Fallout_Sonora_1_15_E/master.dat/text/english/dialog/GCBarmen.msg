@@ -227,10 +227,10 @@
 {449}{}{It's better than nothing. I'll talk to someone at their base.}
 {450}{}{It's better than nothing. Good luck.}
 {451}{}{Well, none of the Rangers will listen to me. Been down that road before.}
-{452}{}{I have bad news. No one in the ranger territory wants to trade food with you.}
+{452}{}{I have bad news. No one in Ranger territory wants to trade food with you.}
 {453}{}{I understand. Thanks for trying.}
 {454}{}{Good luck. Hang in there.}
-{455}{}{Some people in the Ranger territory have agreed to trade food with you.}
+{455}{}{Some people in Ranger territory have agreed to trade food with you.}
 {456}{}{Well, well... business will be picking up, thanks to you. With food coming in again, the city won't be facing famine. But the Rangers' presence has already left its mark on my establishment. Maybe it's for the better, maybe not. Either way, thank you. Here, take a hundred caps as your share of the deal.}
 {457}{}{Thanks. And you're welcome.}
 {458}{}{Sorry to say, but there won't be any caravans coming. The tribes have become bitter towards outsiders after a series of murders.}

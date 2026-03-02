@@ -62,7 +62,7 @@
 {258}{}{But why are you doing this? Aren't there other options?}
 {259}{}{I lived in Casa Grande as a normal, law-abiding citizen. But Bustos came. He declared himself a count and seized power in the city. He labeled those who disagreed as criminals and began to persecute them. He drove us out.}
 {260}{}{And now you have nowhere to go?}
-{261}{}{We're busy surviving out here because of a tyrant and dictator. By robbing caravans, we simply take what is ours -- what was taken from us. Besides, we aren't bloodthirsty; we let go all the caravaners who don't put up a fight.}
+{261}{}{We're busy surviving out here because of a tyrant and dictator. By robbing caravans, we simply take what is ours -- what was taken from us. Besides, we aren't bloodthirsty; we let go all the caravanners who don't put up a fight.}
 {262}{}{You're just letting them go so they can lead another caravan you can rob again, aren't you? Raider scum...}
 {263}{}{I don't give a shit what you think about it.}
 {264}{}{}

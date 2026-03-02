@@ -241,7 +241,7 @@
 {1464}{}{I would tell you a lot, but you already know everything very well, sister.}
 {465}{}{I'm kind of at a loss. Without the Brotherhood, I guess I'll have to just help people like you.}
 {466}{}{This is the fort you were heading to. Aren't you happy?}
-{467}{}{Total disappointment. Headquarters in California will be furious once they find out how things are here. You know, I wouldn't mind going with you to the some of nearby settlements. I'd like to clear my head a bit before returning to duty.}
+{467}{}{Total disappointment. Headquarters in California will be furious once they find out how things are here. You know, I wouldn't mind going with you to some of the nearby settlements. I'd like to clear my head a bit before returning to duty.}
 {468}{}{Inferno still bothers you, huh? I get it.}
 
 #Brotherhood

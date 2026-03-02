@@ -56,8 +56,8 @@
 {251}{}{There was a real bloodbath in the town hall. Some were killed, others got hurt bad. If you've got a weak stomach, best stay clear of there.}
 {252}{}{Your padre and madre were also taken, so you'd best hurry up before something worse happens to them.}
 {253}{}{Of course, only us old bones knew about the Founder's hidden room. It holds some truly ancient things and knowledge that not everyone in the Villa is supposed to know. Your padre would've taken you there when he thought you were ready.}
-{254}{}{It's obvious, aint it? First find Jose and ask him about the raid. Then go after the raiders. You'll have to make decisions on your own after that.}
-{1254}{}{It's obvious, aint it? First find Jose and ask him about the raid. Then go after the raiders. You'll have to make decisions on your own after that.}
+{254}{}{It's obvious, ain't it? First find Jose and ask him about the raid. Then go after the raiders. You'll have to make decisions on your own after that.}
+{1254}{}{It's obvious, ain't it? First find Jose and ask him about the raid. Then go after the raiders. You'll have to make decisions on your own after that.}
 {255}{}{But you old folks always taught us not to use things from the Old World. Now it turns out even the Founder broke that taboo?}
 {256}{}{Don't jump to conclusions. The taboo was there to protect you from the dangers of the Old World. But not all are dangerous. Some are worth their weight in gold.}
 {257}{}{Maybe if we knew more about things from the Old World, we'd have been ready for the raider attack.}

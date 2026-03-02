@@ -13,8 +13,8 @@
 #Questions
 {220}{}{Tell me about this place.}
 {221}{}{Casa Grande's the only oasis between Two-Sun and Phoenix. Caravans stop here for clean water and a rest. Aside from that, this place is a real dump.}
-{222}{}{Why's this town such dump?}
-{223}{}{Who the hell knows? We caravaners bring in loads of caps, but the locals can't even afford basics. Highwaymen are part of the problem, but that ain't the whole story.}
+{222}{}{Why's this town such a dump?}
+{223}{}{Who the hell knows? We caravanners bring in loads of caps, but the locals can't even afford basics. Highwaymen are part of the problem, but that ain't the whole story.}
 {224}{}{Yeah, it looks like an abandoned junkyard.}
 {225}{}{Well, we shouldn't judge too harshly. Folks here are just trying to survive like everyone else.}
 {226}{}{I want to know more.}

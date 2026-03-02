@@ -26,7 +26,7 @@
 {225}{}{Why? Did something happen in the past?}
 {226}{}{Shut up before I smash you.}
 {227}{}{Your subordinates aren't talkative either. Why so much anger towards people?}
-{228}{}{Mad? No. Master taught us respect for life. But normies like you chased us from the West. Now, if you don't shut up, I'll shut you up.}
+{228}{}{Anger? No. Master taught us respect for life. But normies like you chased us from the West. Now, if you don't shut up, I'll shut you up.}
 {229}{}{Okay, okay...}
 {230}{}{You always been this... different?}
 {231}{}{I was like you once. Had feelings - fear, hate, envy. Master gave me new life. I got rid of human crap. Then you normies killed the Master.}

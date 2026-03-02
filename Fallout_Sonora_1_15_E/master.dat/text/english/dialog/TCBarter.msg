@@ -41,7 +41,7 @@
 {248}{}{Well... no.}
 {249}{}{Too bad.}
 {250}{}{Actually, there is something. Don't ask about the source, but it's top-tier food. (shows three containers labeled "MRE") It will be costly.}
-{251}{}{"Individual Ration Pack"? Sounds promising, I'll consider it.}
+{251}{}{"Meal, Ready-to-Eat"? Sounds promising, I'll consider it.}
 {252}{}{You'll give a discount to a member of the Brotherhood of Steel, won't you?}
 {253}{}{You'll give a discount to a Follower of Fire, right?}
 {254}{}{Certainly. Our allies are deserving of such courtesy.}

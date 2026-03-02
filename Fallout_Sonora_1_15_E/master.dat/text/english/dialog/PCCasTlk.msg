@@ -6,7 +6,7 @@
 {201}{}{[Sit next to him at the counter]}
 {202}{}{(turns toward you with a friendly grin) Hey partner, can you buy me a drink? That one-armed bandit took all my cash.}
 {1202}{}{(turns around with a friendly grin) Hey, little lady, can you buy me a drink? That one-armed bandit took all my cash.}
-{203}{}{Just buy you a drink, just like that? I'm not crazy mister.}
+{203}{}{Just buy you a drink, just like that? I'm not crazy, mister.}
 {1203}{}{Ask a lady for a drink? Have you no shame?}
 {204}{}{Whatever you say, partner. But if you sit next to someone at a bar, be prepared to be asked for a drink.}
 {1204}{}{Okay, lady. You win. Sorry for the old traveler's tactlessness. But that damn slot machine took my last caps. I can't buy you a drink either, beauty.}

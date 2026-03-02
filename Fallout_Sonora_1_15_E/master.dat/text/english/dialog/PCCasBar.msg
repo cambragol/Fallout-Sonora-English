@@ -94,7 +94,7 @@
 {275}{}{Uh, I need to recount...}
 
 {280}{}{You only serve alcoholic drinks?}
-{281}{}{Basically, yes. I can also offer clean water, if you like. But few are can afford luxury like that.}
+{281}{}{Basically, yes. I can also offer clean water, if you like. But few can afford luxury like that.}
 {282}{}{Where do you get your alcohol from?}
 {283}{}{We've got many sources. The beer is produced by a couple of local brewers. Sometimes something special, like pre-war whiskey, can be found in old ruins. But we produce tequila ourselves.}
 {284}{}{Yourself? You're kidding?}

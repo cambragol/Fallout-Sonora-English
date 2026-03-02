@@ -180,7 +180,7 @@
 {8701}{}{Highly advanced steroids. While in effect, they increase strength and reflexes. Very addictive. Effects: +2 ST, +2 AG, +3 EN.}
 {8800}{}{Scrap Metal}
 {8801}{}{Valuable parts from mechanical equipment. May be useful for repairs or for profitable exchange.}
-{8900}{}{Electronics Parts}
+{8900}{}{Electronic Parts}
 {8901}{}{Various parts from electronic equipment: capacitors, vacuum tubes, inductors and much more. All this can be useful for repairs or for a profitable exchange.}
 {9000}{}{Flammable Mixture}
 {9001}{}{A bottle containing a blend of various flammable substances. A relatively valuable resource in post-nuclear conditions.}

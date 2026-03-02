@@ -843,15 +843,15 @@
 #
 # series 5600 - Radscorpions
 #
-{5600}{}{, sending the Radscorpion flying on it's back}
+{5600}{}{, sending the Radscorpion flying on its back}
 {5601}{}{, separating the head from the carapace}
 {5602}{}{, seriously damaging the tail}
-{5603}{}{, putting a major hurt on it's claws}
+{5603}{}{, putting a major hurt on its claws}
 {5604}{}{. The blow slips between the cracks of the Radscorpion's tough carapace}
 {5605}{}{, striking through the tough carapace without pausing}
 {5606}{}{, passing through the natural armor and knocking the Radscorpion over}
 {5607}{}{. The Radscorpion cannot cope with a new sensation, like missing internal organs}
-{5608}{}{, sending the 'scorpion flying and crippling some of it's legs}
+{5608}{}{, sending the scorpion flying and crippling some of its legs}
 {5609}{}{. The attack cuts through an unprotected joint on the leg, severing it}
 {5610}{}{, seriously wounding and blinding the mutant creature}
 {5611}{}{, penetrating almost to the brain. Talk about squashing a bug}
@@ -941,7 +941,7 @@
 {6201}{}{, which collapses}
 {6202}{}{. The manti ponders whether to continue living}
 {6203}{}{, crippling the limb}
-{6204}{}{, causing the Manti to lick it's wounds. It holds the limb oddly}
+{6204}{}{, causing the Manti to lick its wounds. It holds the limb oddly}
 {6205}{}{, bypassing the chitinous armor}
 {6206}{}{. The manti shrieks and shivers must unhuman like}
 {6207}{}{, which causes the manti to fall over. A limb is bent at an odd shape}

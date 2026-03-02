@@ -118,7 +118,7 @@
 {309}{}{Knight Set.}
 {310}{}{Ah, so you and I are in the same rank, brother. Very good. Here's your equipment: an atomic cutter, a super sledgehammer and rubber boots. Receive and sign.}
 {311}{}{Scout Kit.}
-{312}{}{A smart choice, considering you're also from the wasteland... Oh, I'm sorry, I don't mean to offend you. Here's your equipment: rocket launcher with ammo, shock glove, stealth boy. Receive and sign.}
+{312}{}{A smart choice, considering you're also from the wasteland... Oh, I'm sorry, I don't mean to offend you. Here's your equipment: flare pistol with ammo, shock glove, stealth boy. Receive and sign.}
 {313}{}{Thank you, Knight Raymond.}
 {314}{}{That's all? Okay, that'll do too.}
 

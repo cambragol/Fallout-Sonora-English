@@ -566,8 +566,8 @@ enc_00=Chance:20%,Enc:(2-3) ENC_Ants AMBUSH Player
 enc_01=Chance:25%,Enc:(2-3) ENC_Coyote AMBUSH Player
 enc_02=Chance:20%,Enc:(2-2) ENC_RatPig AMBUSH Player
 enc_03=Chance:16%,Enc:(2-3) ENC_SmallScorpions AMBUSH Player
-enc_04=Chance:8%,Enc:(2-2) VILLA_Jackals AMBUSH Player)
-enc_05=Chance:1%,Counter:1,Enc: VILLA_Banda_Nevada AMBUSH Player,If(Player(Level) > 4
+enc_04=Chance:8%,Enc:(2-2) VILLA_Jackals AMBUSH Player
+enc_05=Chance:1%,Counter:1,Enc: VILLA_Banda_Nevada AMBUSH Player,If(Player(Level) > 4)
 enc_06=Chance:1%,Counter:1,Special,Map:Special Gold Encounter,Enc:Special1, If(Player(Level) > 4) And If(Global(600) == 0)
 enc_07=Chance:1%,Counter:1,Special,Map:Special Bibl Encounter,Enc:Special1, If(Player(Level) > 4) And If(Global(601) == 0)
 enc_08=Chance:1%,Counter:1,Special,Map:Special Cafe Encounter,Enc:Special1, If(Player(Level) > 4) And If(Global(602) == 0)

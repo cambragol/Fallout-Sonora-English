@@ -34,7 +34,7 @@
 {222}{}{Arthur Carrington, expedition leader. We were scavenging this vault for resources. You've probably already seen our gear near the tunnel.}
 {223}{}{How long can you survive down there?}
 {224}{}{Hard to say. I've got food and water. The air is fixed, but not for long.}
-{225}{}{Why does the intercom work if there's no power in the vault?}
+{225}{}{How does the intercom work if there's no power in the vault?}
 {226}{}{The old engineers were smart. They wired the intercoms to work like walkie-talkies with long-lasting batteries. Just for situations like this.}
 {227}{}{What should I know before entering the vault?}
 {228}{}{It's dark, no power. The air is toxic, but a gas mask should help. And take a weapon... just in case.}

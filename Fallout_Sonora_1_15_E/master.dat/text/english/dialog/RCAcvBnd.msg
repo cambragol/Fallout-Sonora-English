@@ -21,6 +21,7 @@
 {206}{}{Ah, yeah. Must be those idiots who were told to stay out of the aqueduct. Didn't listen. Just like you.}
 {207}{}{They were killed. Not by a beast, but by a man.}
 {208}{}{Aren't you sharp? So, what's your next move, genius?}
+{1208}{}{Aren't you sharp? So, what's your next move, genius?}
 {209}{}{I'll kill everyone involved. Starting with you.}
 {210}{}{Garth was right about you being dangerous. Come on, outsider, try me.}
 {1210}{}{Garth was right about you being dangerous. Come on, outsider, try me.}

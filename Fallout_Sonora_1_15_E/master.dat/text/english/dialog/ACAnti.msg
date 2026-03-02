@@ -9,7 +9,7 @@
 {201}{}{«About what?»}
 {202}{}{«Have you talked to Cesareo yet? He's trying to settle this bay. I say it's a lousy idea.»}
 {1202}{}{«Have you talked to Cesareo yet? He's trying to settle this bay. I say it's a lousy idea.»}
-{203}{}{«Why?}
+{203}{}{«Why?»}
 {204}{}{«We're cut off from civilization. Out here, you live or die on your own. And what do we have? One boat. A pile of scrap from the ruins. Inland it's nothing but dead mountains. There's NOTHING here! Even fishing means heading far out to sea - the coastline's poisoned.»}
 {205}{}{«So what do you suggest?»}
 {206}{}{«The captain's led us straight into hell! It's time to give him the black mark and head back to Mexico. I'm not the only one thinking it. Help us turn him around. Whatever he asks you to do - do the opposite. And if he still won't listen... then things get bloody. You understand?»}

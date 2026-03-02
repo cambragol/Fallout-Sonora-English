@@ -150,7 +150,7 @@
 {313}{}{There are some outsiders, marauders probably, lurking out on the plantations. It'd be good to drive them away.}
 {314}{}{Anything else?}
 {315}{}{Well, the raiders damaged the weather station. It needs repairs. There might be parts in Garage City.}
-{316}{}{I'll see what I can do?}
+{316}{}{I'll see what I can do.}
 {317}{}{}
 {318}{}{The marauders on the plantations are no longer a problem.}
 {319}{}{You did it! Things might have turned out bad, without your help. The Villa's lucky to have you.}

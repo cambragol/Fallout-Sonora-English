@@ -12,7 +12,7 @@
 {201}{}{So why did you run away from the community?}
 {202}{}{They want to punish me. You know why. Why ask if you already know?}
 {203}{}{I need to know your side.}
-{204}{}{Your right. You better stay here. I'll just carry on.}
+{204}{}{You're right. You better stay here. I'll just carry on.}
 
 {210}{}{If this is my last day, I'd rather spend it with you.}
 {211}{}{If this is my last day, I'd rather see him at the bottom of a well than with you.}

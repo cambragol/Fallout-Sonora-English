@@ -86,7 +86,7 @@
 {263}{}{Shepherd? Are you a priest or something?}
 {264}{}{Our church was destroyed by pagans like you. Our god died in the atomic flame, so I lead my flock according to his commandments. But far from those lands where our faith turned to shame.}
 {265}{}{What kind of church is it? What's it all about?}
-{266}{}{You wouldn't understand the basics concepts in a simple mass. I'll only say that our god, the Master, wanted to save people from their vices and shortcomings by offering a different path.}
+{266}{}{You wouldn't understand the basic concepts in a simple mass. I'll only say that our god, the Master, wanted to save people from their vices and shortcomings by offering a different path.}
 {267}{}{The different path being that of mutations and freakishness?}
 {268}{}{Your vision is limited. Thanks to the Master, we are devoid of human vices and are able to survive even in such an inhospitable place as these ruins. And you?}
 {1269}{}{I don't think I would live here regardless. Why did you come to this place?}

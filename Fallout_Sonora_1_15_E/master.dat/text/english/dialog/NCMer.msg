@@ -80,15 +80,18 @@
 {265}{}{Rosalia says you've forbidden searching for her husband.}
 {266}{}{Nonsense! Her husband simply ran off from her. Don't pay attention-old witch is losing her mind.}
 {267}{}{Alright. If you say so...}
+
 {268}{}{Rosalia. She says you forbade anyone to look for her husband.}
 {269}{}{What nonsense! I haven't forbidden the search -- let her search. But she can't find him because her hubby just skipped town. Her bitchy temper must have driven him away.}
 {270}{}{I see.}
 {271}{}{No worries - the old witch is going crazy.}
 
+#Questions
 {280}{}{Please tell me about this town.}
-{281}{}{We are a peaceful peasant community. Half the people work on plantations, the rest in various peaceful activities. The Followers even have their own school here.}
-{282}{}{Thanks for your answer.}
-{283}{}{What do they grow here?}
+{281}{}{We're a peaceful farming community. Most people work on the plantations. But there's also the Followers of the Apocalypse; they run a hospital and a school.}
+{282}{}{That's all I wanted to know.}
+{283}{}{I see.}
+
 {284}{}{Mostly corn and fire agave. The whole town lives off these plantations.}
 {285}{}{So you trade with other cities?}
 {286}{}{The harvest is only enough for our needs and for nearby settlements. A caravan from Phoenix regularly comes for agave syrup.}
@@ -136,7 +139,7 @@
 
 {340}{}{The settlement of Santa Ana wants to start trading with you.}
 {341}{}{Santa Ana? Strange. I haven't heard of such a village.}
-{342}{}{They used to keep to themselves. But leadeship changed recently, and they've changed their outlook.}
+{342}{}{They used to keep to themselves. But leadership changed recently, and they've changed their outlook.}
 {343}{}{Oh, now that sounds intriguing. I'll have to get a caravan ready. Maybe we can find some new hands from the people of Santa Ana, ones we often sorely lack. Thanks for passing on the message.}
 {344}{}{You're welcome.}
 

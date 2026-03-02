@@ -4315,7 +4315,7 @@
 {23144}{}{Let's see what color your blood is.}
 {23145}{}{Look at you bleeding so sweetly.}
 {23146}{}{Death will only make you prettier.}
-{23147}{}{growls like a jackal}
+{23147}{}{*growls like a jackal*}
 {23148}{}{Jackals, surround him!}
 {23149}{}{I'll jump on him from behind!}
 {23150}{}{Your skull will decorate the priestess's throne.}

@@ -48,7 +48,7 @@
 {190}{}{If everything goes smoothly, you won't be part of it. We'll just meet up with the caravan, complete the exchange, and go our separate ways.}
 {191}{}{Do what you want. I'm not involved.}
 {192}{}{Sounds good. When are we heading out?}
-{193}{}{We need to find the part first. Walk around the factory and find the gadget their looking for. It should be here somewhere.}
+{193}{}{We need to find the part first. Walk around the factory and find the gadget they're looking for. It should be here somewhere.}
 {194}{}{Fine.}
 {195}{}{I need to ask you something.}
 {196}{}{No questions until I get the contracts.}

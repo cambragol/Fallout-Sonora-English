@@ -5,13 +5,14 @@
 
 {200}{}{Hold it. This is a restricted area. No civilians allowed on the base.}
 {201}{}{Civilians? What are you, some kind of army?}
-{202}{}{Not exactly. We are the Brotherhood of Steel, an ancient miltary order. So we do keep military discipline.}
+{202}{}{Not exactly. We are the Brotherhood of Steel, an ancient military order. So we do keep military discipline.}
 {203}{}{Got it. And who are you?}
 {204}{}{Amazing. Who do I have the honor of speaking to?}
 {205}{}{I am Paladin Latham, Chief of Patrol. Any more questions?}
 {206}{}{No, uh... sir.}
 {207}{}{Oh, I have plenty of questions, but you probably won't answer them.}
-{208}{}{Not exactly. We are the Brotherhood of Steel, an ancient miltary order. So we do keep military discipline.}
+{208}{}{Not exactly. We are the Brotherhood of Steel, an ancient military order. So we do keep military discipline.}
+{1208}{}{Not exactly. We are the Brotherhood of Steel, an ancient military order. So we do keep military discipline.}
 {209}{}{You might be what I've been looking for. I'm from a village up north. We've had a lot of trouble recently and are looking for... protectors.}  
 {210}{}{You might be what I've been looking for. Most of my village has been captured by slavers, and I'm trying to free them...}
 {211}{}{I'm sorry, but I can't bother the general about some village. We don't have time for that.}

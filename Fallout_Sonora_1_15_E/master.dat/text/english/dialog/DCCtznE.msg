@@ -85,7 +85,7 @@
 {283}{}{Varios campesinos. Pero soy el único que sigue vivo.}
 {284}{}{«Sad story. I'm really sorry.»}
 {285}{}{«How interesting. I'd like to ask more.»}
-{286}{}{«Sounds like you're full of shit old man.»}
+{286}{}{«Sounds like you're full of shit, old man.»}
 {287}{}{«Very interesting. But I gotta go. Bye.»}
 {288}{}{}
 {289}{}{}
@@ -102,7 +102,7 @@
 {299}{}{Es por una vieja herida.}
 {300}{}{«Sorry, I shouldn't have brought it up. Let's talk about something else?»}
 {301}{}{«If you don't want to talk, that's your business. I'll find others to talk to. Bye.»}
-{302}{}{«You waddle around like a pregnant Brahmin before a sacrifice. Ever seen that?»}
+{302}{}{«You waddle around like a pregnant brahmin before a sacrifice. Ever seen that?»}
 {303}{}{«You waddle around like a mole rat that's eaten uranium crumbs. Ever seen that?»}
 {304}{}{«Even Uncle Jose worked on the plantations with his bad leg. You're just a whiner and a loser.»}
 {305}{}{«Ha ha, yeah. I'll look at you when a stray bullet rips the muscles of your triceps.»}

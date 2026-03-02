@@ -124,7 +124,7 @@
 {359}{}{I'll take revolver ammo.}
 {360}{}{Badge for revolver ammo? Done.}
 {361}{}{Nice trade.}
-{362}{}{I need a small caliber, like a 0.22 for practice.}
+{362}{}{I need a small caliber, like a .22 for practice.}
 {363}{}{I've got plenty. Take a whole round for the badge.}
 {364}{}{Fair deal.}
 {365}{}{I need some flare rounds.}

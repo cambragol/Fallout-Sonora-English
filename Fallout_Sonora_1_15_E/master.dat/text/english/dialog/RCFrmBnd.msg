@@ -25,6 +25,7 @@
 {215}{}{Tough situation...}
 {216}{}{Do something! Without you, I'm done for!}
 {217}{}{Then unbutton your jacket and get ready for an examination. The good doctor will heal you now.}
+{1217}{}{Then unbutton your jacket and get ready for an examination. The good doctor will heal you now.}
 {218}{}{This wound looks too serious... I'm no doctor.}
 {219}{}{Then go to the Rangers and get some meds from them. I'll die without a stimpak!}
 {220}{}{Hang in there, I'll be quick.}
@@ -40,7 +41,7 @@
 {229}{}{Whoa, whoa, put that away...}
 {250}{}{Do you enjoy watching me suffer?}
 {251}{}{I'm working on your problem...}
-{252}{}{Don't push it. Remember, your dead without me.}
+{252}{}{Don't push it. Remember, you're dead without me.}
 {253}{}{Honestly, I didn't expect any help. It's... n-nice of you. Maybe I need to rethink my views on people.}
 {254}{}{Looks like you also need a dose of good conversation. Shall we talk?}
 {255}{}{I think my mission here is done. Stay safe.}

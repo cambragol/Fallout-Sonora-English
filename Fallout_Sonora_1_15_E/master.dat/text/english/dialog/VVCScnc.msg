@@ -59,8 +59,8 @@
 {266}{}{This is one of the residential levels. Apart from the sleeping quarters, there's nothing much here.}
 {267}{}{I had another question.}
 
-{270}{}{You saved me. Without you, I would have been stuck there forever, maybe evening doomed to become one of those... zombies. And there's still no sign of the rescue team from Phoenix. Oh, I'll really lay into some people when I get back!}
-{1270}{}{You saved me. Without you, I would have been stuck there forever, maybe evening doomed to become one of those... zombies. And there's still no sign of the rescue team from Phoenix. Oh, I'll really lay into some people when I get back!}
+{270}{}{You saved me. Without you, I would have been stuck there forever, maybe even doomed to become one of those... zombies. And there's still no sign of the rescue team from Phoenix. Oh, I'll really lay into some people when I get back!}
+{1270}{}{You saved me. Without you, I would have been stuck there forever, maybe even doomed to become one of those... zombies. And there's still no sign of the rescue team from Phoenix. Oh, I'll really lay into some people when I get back!}
 {271}{}{[Next]}
 {272}{}{Then we need to hurry!}
 {273}{}{I can't repay you right now, but when I get to Phoenix, I'll tell my friends in the Cathedral of Fire about you. You should visit there too. But... Uhm... I'll need help getting to Phoenix. Care to join me?}

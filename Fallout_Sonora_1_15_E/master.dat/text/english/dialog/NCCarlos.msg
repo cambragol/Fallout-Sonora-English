@@ -10,7 +10,7 @@
 {204}{}{Have you settled into Casa Nueva yet?}
 {205}{}{There's plenty of work for me here. Plus, I signed an agreement for several years... Well, I marked it with a cross. Now I have a home and the means to survive. I won't starve, that's for sure.}
 {206}{}{Cool. I'm glad everything worked out for you.}
-{207}{}{You know, they gave me some first aid supplies, but I doubt I'll need them here. Here, there yours. You need them more than I do.}
+{207}{}{You know, they gave me some first aid supplies, but I doubt I'll need them here. Here, they're yours. You need them more than I do.}
 {208}{}{Thanks, Carlos. Goodbye for now.}
 
 {210}{}{Hello, }

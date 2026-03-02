@@ -68,7 +68,7 @@
 {207}{}{I think I'm starting to get used to this pain.}
 {208}{}{For your vile betrayal, you were stripped of all your ranks in the Brotherhood of Steel.}
 {209}{}{For your vile betrayal, you were expelled from the Rangers.}
-{210}{}{For your vile betrayal, you were expelled from the magistrates.}
-{211}{}{For your vile betrayal, you were expelled from the Fire Cult.}
+{210}{}{For your vile betrayal, you were expelled from the Blue Shields.}
+{211}{}{For your vile betrayal, you were expelled from the Fire Worshippers.}
 {212}{}{After such a long journey, you have earned the title of peace-loving wanderer.}
 {213}{}{The title of peace-loving wanderer has been lost. But it's not too late to return to the righteous path.}

@@ -22,5 +22,5 @@
 {232}{}{General station info.}
 {233}{}{.....}
 {234}{}{Contract for parts from... Garage City?}
-{235}{}{(Turns out the Followers of Fire provided the same part you handed over to the caravaners in Garage City. It was sent here to replace the old, damaged one.)}
+{235}{}{(Turns out the Followers of Fire provided the same part you handed over to the caravanners in Garage City. It was sent here to replace the old, damaged one.)}
 {236}{}{Hey, I remember that deal!}

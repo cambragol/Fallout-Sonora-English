@@ -70,7 +70,7 @@
 {314}{}{Was your husband really a criminal?}
 {315}{}{I didn't ask where he got his supplies. But it was clear he was robbing travelers and farmers to provide for us. We had to survive somehow. It was worse in Phoenix; he was forced into much dirtier work there.}
 {316}{}{Did you escape Phoenix?}
-{317}{}{Yes... Big city. Too many people, too few resources. In the wastelands, you're fate's in your own hands, but in the city, you're always at someone's mercy.}
+{317}{}{Yes... Big city. Too many people, too few resources. In the wastelands, your fate's in your own hands, but in the city, you're always at someone's mercy.}
 {318}{}{Do you hate the Rangers now?}
 {319}{}{Of course. Even if they were right, and my husband really was a criminal, that doesn't make it any easier for me!}
 {320}{}{}

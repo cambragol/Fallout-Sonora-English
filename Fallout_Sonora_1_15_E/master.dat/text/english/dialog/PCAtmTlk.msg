@@ -66,7 +66,7 @@
 {264}{}{Well said. I'll leave. Peacefully. Tell Theodore to remove the guards from the doors.}
 {265}{}{Smart move, Ralph.}
 {266}{}{Your boss asked me to fix the cooling system. Any pointers on where to start?}
-{267}{}{What is that old man thinking, letting a stranger into the heart of the plant? Alright, let's see. First, check the damage on the lower level. You'll need materials and equipment for repairs. The easiest place to get them is at the Tinsmiths' town. It's somewhere south of the city, the caravaners should know exactly where.}
+{267}{}{What is that old man thinking, letting a stranger into the heart of the plant? Alright, let's see. First, check the damage on the lower level. You'll need materials and equipment for repairs. The easiest place to get them is at the Tinsmiths' town. It's somewhere south of the city, the caravanners should know exactly where.}
 {268}{}{Thanks.}
 
 {270}{}{I know you helped the Cardinals sabotoge the cooling system.}

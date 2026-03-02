@@ -51,7 +51,7 @@
 {2238}{}{We examined the wreckage. And what did we find? The system was deliberately blown up with dynamite. How do you explain that, my greenish and rotten friend?}
 {239}{}{I have nothing to do with this. You let me in yourself and then...}
 {240}{}{Enough of this nonsense, darling. I'll tell you what - find the culprits behind the attack. Then I'll decide if you get paid.}
-{241}{}{Give me my caps, you rotten freak, or you're gonna finally, meet your ancestors.}
+{241}{}{Give me my caps, you rotten freak, or you're gonna meet your maker.}
 {242}{}{How can I do that? The intruders could have snuck in from anywhere!}
 {243}{}{You have the right idea. Now go and don't come back without info. Woo-ha-ha, I'll have fun trampling on one foot!}
 {244}{}{Okay... uh, I'll go. Goodbye.}

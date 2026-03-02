@@ -317,7 +317,7 @@
 {3015}{}{A pack of radscorpions.}
 {3016}{}{Some wild brahmin.}
 {3017}{}{Some monsters.}
-{3018}{}{A robot.}
+{3018}{}{Some robots.}
 {3019}{}{Some giant centipedes.}
 {3020}{}{Gold!}
 {3021}{}{Henry Bemis.}
@@ -356,7 +356,7 @@
 {3102}{}{A pack of wolves.}
 {3103}{}{A herd of wild brahmin.}
 {3104}{}{A pack of savages.}
-{3105}{}{A White Mountain squad.}
+{3105}{}{A White Mountain savage.}
 {3106}{}{A hunter.}
 {3107}{}{Gold!}
 {3108}{}{Henry Bemis.}
@@ -437,7 +437,7 @@
 {3308}{}{A crashed bomber.}
 {3309}{}{A Petro-Chico truck.}
 {3310}{}{The Cry of Silence.}
-{3311}{}{A night movie showing.}
+{3311}{}{A drive-in showing.}
 {3312}{}{Snowfall.}
 {3313}{}{The Lost Vault.}
 {3314}{}{A Mobile Fortress.}
@@ -605,9 +605,9 @@
 
 # Encounter Table 18 -- ISLD_D
 {3900}{}{A group of giant ants exploring the coast.}
-{3901}{}{A monster.}
+{3901}{}{Some monsters.}
 {3902}{}{A body washed ashore.}
-{3903}{}{A fisherman.}
+{3903}{}{Some fishermen.}
 {3904}{}{The body of a scout.}
 {3905}{}{Some raiders torturing a clerk.}
 

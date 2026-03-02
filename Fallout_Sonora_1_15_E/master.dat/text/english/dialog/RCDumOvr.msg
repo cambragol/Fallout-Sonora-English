@@ -82,7 +82,7 @@
 {305}{}{Exactly, friend. This place needs a fresh caretaker - someone young, skilled with tech. Hard to come by these days.}
 {1305}{}{Exactly, ma'am. This place needs a fresh caretaker - someone young, skilled with tech. Hard to come by these days.}
 {306}{}{Anyone you have in mind?}
-{307}{}{Well, aside from you, caravaners mentioned a lad from Garage City. Supposedly gifted, but wasting away his days. I'd like to train him up, but the locals there ain't too fond of us Rangers, see? Can't just snatch him up, gotta make him willing.}
+{307}{}{Well, aside from you, caravanners mentioned a lad from Garage City. Supposedly gifted, but wasting away his days. I'd like to train him up, but the locals there ain't too fond of us Rangers, see? Can't just snatch him up, gotta make him willing.}
 {308}{}{Maybe I could convince him.}
 {309}{}{Consider it done. I'll fetch the kid from that scrapyard.}
 {310}{}{Guess you'll have to find someone else. Later, old timer.}

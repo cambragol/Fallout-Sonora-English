@@ -10,7 +10,7 @@
 #Responses - good attitude
 {110}{}{I'm watching you.}
 {111}{}{Don't try to enter the pen without permission.}
-{112}{}{What's behind that door? Try to get in and your dead.}
+{112}{}{What's behind that door? Try to get in and you're dead.}
 {113}{}{Enter only with the warden's permission.}
 {114}{}{You can't go there.}
 

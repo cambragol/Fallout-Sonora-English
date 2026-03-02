@@ -31,7 +31,7 @@
 {226}{}{I could. But why should I?}
 {227}{}{No reason, I guess. Sorry for bothering you. Bye.}
 {228}{}{Well, maybe I can get you some medical supplies. You must need something.}
-{229}{}{Alright. Bring me five stimpaks or one of miltary drugs, and I'll give your friend a break.}
+{229}{}{Alright. Bring me five stimpaks or some kind of military drug, and I'll give your friend a break.}
 {230}{}{I'll think about it.}
 {231}{}{Here's five stimpaks.}
 {232}{}{I've got some Psycho.}

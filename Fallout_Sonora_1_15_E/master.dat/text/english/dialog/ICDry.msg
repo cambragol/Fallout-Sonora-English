@@ -84,7 +84,7 @@
 {285}{}{Are these demons the rest of the survivors?}  
 {286}{}{Tell me what this city was like before the bombing.}  
 {287}{}{Okay, let's stop here. I need to let this information sink in.}  
-{288}{}{And you? I guess your a demon too?}  
+{288}{}{And you? I guess you're a demon too?}  
 {289}{}{Are you the only one alive? Is anyone else here?}  
 
 ### About the Brotherhood of Steel

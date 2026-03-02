@@ -48,6 +48,7 @@
 {264}{}{Hmmm. (thinks, assessing prospects) Damn, too far and dangerous... Uhhh, I just can't help ya.}
 {265}{}{My people were taken by slavers. I'm hoping the Rangers will help get them back.}
 {266}{}{Doubt they would, buddy. But go see the commander in the infocenter. Where's yer settlement at?}
+{1266}{}{Doubt they would, lady. But go see the commander in the infocenter. Where's yer settlement at?}
 {267}{}{It's... far from here.}
 {268}{}{Hmmm. Well, alright.}
 {269}{}{To the north. We call it "Villa".}

@@ -382,7 +382,7 @@
 {4038}{}{**END-PAR**}
 {4039}{}{ - Report #03-01:}
 {4040}{}{ We blew up the elevator and lowered a rope to the}
-{4041}{}{ bottom. The slaves heard wierd sounds from the lower}
+{4041}{}{ bottom. The slaves heard weird sounds from the lower}
 {4042}{}{ floors and mistook them for ghost voices. This scared}
 {4043}{}{ them and caused them to flee. Casualties: one}
 {4044}{}{ mercenary killed and two wounded; three slaves}

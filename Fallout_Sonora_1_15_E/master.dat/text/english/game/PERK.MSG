@@ -221,7 +221,7 @@
 {1193}{}{With this Perk you immediately gain one experience level.}  # Here and Now
 {1194}{}{If your active weapon slot is empty, at the end of your turn, your Armor Class increases by 1/12 of your Unarmed Combat skill and +2 for each unused action point (instead of the usual +1).}
 {1195}{}{You have thoroughly studied the geography of the Sonoran Desert. This Perk lifts the "fog of war" on the entire world map, revealing all accessible locations.}
-{1196}{}{Your a big star and your Karma shines twice as bright. Whether good or bad, your Karma is doubled for any kind of reaction or modifiers.}  # Karma Beacon
+{1196}{}{You're a big star and your Karma shines twice as bright. Whether good or bad, your Karma is doubled for any kind of reaction or modifiers.}  # Karma Beacon
 {1197}{}{You are agile, lucky, and always careful. This Perk halves your chances of setting off a trap.}  # Light Step
 {1198}{}{You have a better understanding of living creatures and their strengths and weaknesses.  You get a one-time bonus of +10% to Doctor, and you do +5 damage per attack to living creatures.}  # Living Anatomy
 {1199}{}{In combat, you can intimidate your opponent to make them abandon their intended attack. The higher your Charisma, the more likely it is to succeed. But this won't work on especially tough enemies.}

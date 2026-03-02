@@ -21,7 +21,7 @@
 {221}{}{(Cody was among the children that the Tinsmiths acquired from outer settlements and re-educated under their rules. The parents gave Cody as payment for repairing the water pump in Casa Grande. However, for better assimilation within the Collective, his official history was a bit "simplified".)}
 
 {230}{}{Receiving a part from...Garage City?}
-{231}{}{(It turns out the Tinsmiths received from the Followers of Fire the very same part you gave to the caravaners in Garage City. It was sent here for mass reproduction.)}
+{231}{}{(It turns out the Tinsmiths received from the Followers of Fire the very same part you gave to the caravanners in Garage City. It was sent here for mass reproduction.)}
 {232}{}{Dossier on Carlos}
 {233}{}{(Oddly enough, despite all their isolation, the Tinsmiths appreciated and accepted Carlos for his talents and interest in technology.)}
 {234}{}{Okay, well, let's tweak the dossier a little here... and here... This should knock Carlos's arrogance down a notch.}
