@@ -23,12 +23,12 @@
 {1202}{}{Stay out of it, lady. You have no idea how much blood was spilled for this water pump. They stole it from us! Now they demand payment for our own water! (yells past you) Give me water, you bastard!}
 {203}{}{Okay, not my problem. Do whatever you want.}
 {204}{}{I'm not letting you swing that sledgehammer around like a maniac. Walk away.}
-{205}{}{Calm down. It's not worth the bloodshed.}
-{206}{}{Bloodshed? What do you know about bloodshed! Crowds of people died for that cursed water! I've got nothing left to lose!}
+{205}{}{Calm down. It's not worth it.}
+{206}{}{Not worth it? What do you know about anything? Crowds of people died for that cursed water! I've got nothing left to lose!}
 {207}{}{Hand over the sledgehammer. Now.}
 {208}{}{Okay, give him what he deserves.}
 {209}{}{Take a deep breath, man. It's not worth it.}
-{210}{}{Sacrifices? What do you know about sacrifices? People died by the dozens for this damned water. I've got nothing left to lose...}
+{210}{}{Not worth it? What do you know about anything? People died by the dozens for this damned water. I've got nothing left to lose...}
 {211}{}{Alright, if you say so. Go ahead and give him hell.}
 {212}{}{That's all in the past. No need for more bloodshed.}
 {213}{}{(looks around confused, then at his sledgehammer) God... I think I've lost my mind. I need to clear my head.}

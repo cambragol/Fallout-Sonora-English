@@ -52,7 +52,5 @@
 {240}{}{Why are you so distrustful of strangers?}
 {241}{}{Trust is immaterial. We possess superior development metrics compared to nearly all wasteland dwellers. Outsiders are mainly useful as slaves, and occasionally as trading partners. Until recently, we maintained isolation and did not even engage in trade.}
 {242}{}{What changed?}
-{243}{}{That is correct... Until recently, we were a closed community, restricting entry of outsiders.}
-{244}{}{What's changed?}
-{245}{}{Food shortages, mathematical projections of our future, and contact with a highly developed community. But I can't discuss this with strangers.}
-{246}{}{Interesting.}
+{243}{}{Food shortages, mathematical calculations of prospects, and contact with a highly developed community. But I cannot discuss this with outsiders.}
+{244}{}{Curious.}
