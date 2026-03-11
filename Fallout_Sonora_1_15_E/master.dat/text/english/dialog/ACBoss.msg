@@ -27,7 +27,7 @@
 {216}{}{«We're trying to settle here, but it hasn't been easy. Our fishermen need the lighthouse to reach open water - but it's dead. We also need to scout the land. We don't even have a proper map. And Jan keeps whining about monsters in the ship graveyard. I don't believe him - but it wouldn't hurt to check. You're here. Help us.»}
 {217}{}{«Alright. I'll look into these problems.»}
 {218}{}{Lighthouse no work. Fishermens stuck. We need map for... uh... aqua? tierra? (squints at dictionary) Jan say monsters in ship graveyard. I no believe Jan. You help us?}
-{219}{}{«I'm here on behalf of the Brotherhood of Steel. They're your neighbors. They want contact.»}
+{219}{}{«I'm here on behalf of the Brotherhood of Steel. They're your neighbors, and they want to establish contact.»}
 {220}{}{«A thousand devils! We hoped these lands were quiet as a corked bottle. Forgive us - we have reasons not to trust outsiders.»}
 {221}{}{¡Mil demonios! (slams book shut) Friends... enemies? Which one you be, eh?}
 {222}{}{«Maybe I can change your opinion.»}

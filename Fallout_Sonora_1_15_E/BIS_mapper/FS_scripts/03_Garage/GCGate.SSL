@@ -685,98 +685,96 @@ end
 
 procedure NodeWeapon000 begin
    Reply(351)
-   NAnswerSkill(354,3,NodeWeapon002,SKILL_CONVERSANT,60,354,NodeWeapon002b)
-   NAnswerStat(357,3,NodeWeapon003,STAT_pe,8,357,NodeWeapon003b)
-   NAnswerSkill(360,3,NodeWeapon004,SKILL_BIG_GUNS,40,360,NodeWeapon004b)
-   NAnswer(352,0,NodeSndDialog)
-   NAnswer(353,0,Node999)
+   NAnswerSkill(354,4,NodeWeapon002,SKILL_CONVERSANT,60,354,NodeWeapon002b)
+   NAnswerStat(357,4,NodeWeapon003,STAT_pe,8,357,NodeWeapon003b)
+   NAnswerSkill(360,4,NodeWeapon004,SKILL_BIG_GUNS,40,360,NodeWeapon004b)
+   NAnswer(352,4,NodeSndDialog)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeWeapon002 begin
    Reply(355)
-   NAnswer(356,0,NodeWeapon005)
-   NAnswer(352,0,NodeSndDialog)
-   NAnswer(353,0,Node999)
+   NAnswer(356,4,NodeWeapon005)
+   NAnswer(352,4,NodeSndDialog)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeWeapon002b begin
    Reply(355)
-   NAnswer(352,0,NodeSndDialog)
-   NAnswer(353,0,Node999)
+   NAnswer(352,4,NodeSndDialog)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeWeapon003 begin
    Reply(358)
-   NAnswer(359,0,NodeWeapon005)
-   NAnswer(352,0,NodeSndDialog)
-   NAnswer(353,0,Node999)
+   NAnswer(359,4,NodeWeapon005)
+   NAnswer(352,4,NodeSndDialog)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeWeapon003b begin
    Reply(358)
-   // line below commented out to give correct result for successful Perception check - cambragol
-   //NAnswer(359,0,NodeWeapon005)
-   NAnswer(352,0,NodeSndDialog)
-   NAnswer(353,0,Node999)
+   NAnswer(352,4,NodeSndDialog)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeWeapon004 begin
    Reply(361)
-   NAnswer(362,0,NodeWeapon005)
-   NAnswer(352,0,NodeSndDialog)
-   NAnswer(353,0,Node999)
+   NAnswer(362,4,NodeWeapon005)
+   NAnswer(352,4,NodeSndDialog)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeWeapon004b begin
    Reply(361)
-   NAnswer(352,0,NodeSndDialog)
-   NAnswer(353,0,Node999)
+   NAnswer(352,4,NodeSndDialog)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeWeapon005 begin
    bitDialogExp(bit_11,50)
    zReply(363)
 
-   NAnswer(364,0,NodeWeapon007)
-   NAnswer(366,0,NodeWeapon008)
-   NAnswer(368,0,NodeWeapon009)
-   NAnswer(373,0,Node999)
+   NAnswer(364,4,NodeWeapon007)
+   NAnswer(366,4,NodeWeapon008)
+   NAnswer(368,4,NodeWeapon009)
+   NAnswer(373,4,Node999)
 end
 
 procedure NodeWeapon006 begin
    Reply(371)
 
-   NAnswer(364,0,NodeWeapon007)
-   NAnswer(366,0,NodeWeapon008)
-   NAnswer(368,0,NodeWeapon009)
+   NAnswer(364,4,NodeWeapon007)
+   NAnswer(366,4,NodeWeapon008)
+   NAnswer(368,4,NodeWeapon009)
    //372 - Я хочу выкупить это ружье.
-   NAnswer(373,0,Node999)
+   NAnswer(373,4,Node999)
 end
 
 procedure NodeWeapon007 begin
    Reply(365)
 
-   NAnswer(366,0,NodeWeapon008)
-   NAnswer(368,0,NodeWeapon009)
-   NAnswer(374,0,Node999)
+   NAnswer(366,4,NodeWeapon008)
+   NAnswer(368,4,NodeWeapon009)
+   NAnswer(374,4,Node999)
 end
 
 procedure NodeWeapon008 begin
    Reply(367)
 
-   NAnswer(364,0,NodeWeapon007)
-   NAnswer(368,0,NodeWeapon009)
-   NAnswer(375,0,Node999)
+   NAnswer(364,4,NodeWeapon007)
+   NAnswer(368,4,NodeWeapon009)
+   NAnswer(375,4,Node999)
 end
 
 procedure NodeWeapon009 begin
    Reply(369)
-   NAnswerSkill(376,0,NodeWeapon010,SKILL_REPAIR,40,379,NodeWeapon011)
+   NAnswerSkill(376,4,NodeWeapon010,SKILL_REPAIR,40,379,NodeWeapon011)
    if (item_amnt(dude_obj,PID_W_SHOTGUN_DUBLET)>0) then begin
-   NAnswer(384,0,NodeWeapon012)
+   NAnswer(384,4,NodeWeapon012)
    end
-   NAnswer(370,0,Node999)
-   BAnswer(383,0,Node999)
+   NAnswer(370,4,Node999)
+   BAnswer(383,4,Node999)
 end
 
 procedure NodeWeapon010 begin
@@ -791,13 +789,13 @@ procedure NodeWeapon010 begin
    item_add(self_obj,PID_W_SHOTGUN_DUBLET,1)
 
    Reply(377)
-   NAnswer(378,0,NodeWeapon013)
+   NAnswer(378,4,NodeWeapon013)
 end
 
 procedure NodeWeapon011 begin
    Reply(380)
-   NAnswer(381,0,Node999)
-   BAnswer(382,0,Node999)
+   NAnswer(381,4,Node999)
+   BAnswer(382,4,Node999)
 end
 
 procedure NodeWeapon012 begin

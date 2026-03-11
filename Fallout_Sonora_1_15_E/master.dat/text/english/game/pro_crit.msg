@@ -244,7 +244,7 @@
 {12201}{}{A terrifying monster, the worst nightmare you could imagine.}
 {12300}{}{Señor Handy}
 {12301}{}{You see a robot of the Señor Handy series.}
-{12400}{}{Jack}
+{12400}{}{Pancho}
 {12401}{}{}
 {12500}{}{Eugene}
 {12501}{}{}
@@ -268,11 +268,11 @@
 {13401}{}{}
 {13500}{}{Barkley}
 {13501}{}{}
-{13600}{}{Jack}
+{13600}{}{Pancho}
 {13601}{}{}
-{13700}{}{Jack}
+{13700}{}{Pancho}
 {13701}{}{}
-{13800}{}{Jack}
+{13800}{}{Pancho}
 {13801}{}{}
 {13900}{}{Sancho}
 {13901}{}{}

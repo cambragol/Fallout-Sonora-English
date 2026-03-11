@@ -262,7 +262,6 @@ procedure combat_p_proc begin
    else begin
    effectAttak(0,0,1,1,2) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
    end
-   //effectIntimidationPerk
    effectRegeratHP
 end
 

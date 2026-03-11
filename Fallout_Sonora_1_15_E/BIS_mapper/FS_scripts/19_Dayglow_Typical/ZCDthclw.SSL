@@ -81,6 +81,8 @@ procedure look_at_p_proc begin
    end
 end
 
+#define meatTile      global_var(GVAR_MEAT_TO_ANIMALES_HEX) \
+
 procedure timed_event_p_proc begin
    // Timer number 1 is reserved for character movement around the location
    // Timer number 2 is reserved for pop-up dialogue
@@ -88,54 +90,24 @@ procedure timed_event_p_proc begin
        if (self_visible == false) then begin
           add_timer_event(self_obj, 40, 1);
        end
-       else if ((cur_map_index == MAP_SANTA_ANA_PLAZA) and (map_var(MVAR_SANTA_MEAT_TILE) > 0)) then begin
-          timer_move_to_tile(0,map_var(MVAR_SANTA_MEAT_TILE),random(0,5))
+      else if ((meatTile > 0) and (self_elevation == global_var(GVAR_MEAT_TO_ANIMALES_LVL))) then begin
+          timer_move_to_tile(0,meatTile,random(0,5))
           if (combat_is_initialized == false) then begin
              floater(self_obj, 107, COLOR_MSG_GREY);
           end
-          if (tile_distance(self_tile,map_var(MVAR_SANTA_MEAT_TILE)) <= 1) then begin
-             if (tile_contains_obj_pid(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_MEAT_JERKY) == true) then begin
-             destroy_object(tile_contains_pid_obj(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_MEAT_JERKY));
+          if (tile_distance(self_tile,meatTile) <= 1) then begin
+             if (tile_contains_obj_pid(meatTile, self_elevation, PID_M_MEAT_JERKY) == true) then begin
+             destroy_object(tile_contains_pid_obj(meatTile, self_elevation, PID_M_MEAT_JERKY));
              end
-             if (tile_contains_obj_pid(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_IGUANA) == true) then begin
-             destroy_object(tile_contains_pid_obj(map_var(MVAR_SANTA_MEAT_TILE), self_elevation, PID_M_IGUANA));
+             else if (tile_contains_obj_pid(meatTile, self_elevation, PID_M_IGUANA) == true) then begin
+             destroy_object(tile_contains_pid_obj(meatTile, self_elevation, PID_M_IGUANA));
              end
-            set_map_var(MVAR_SANTA_MEAT_TILE, 0);
+             set_global_var(GVAR_MEAT_TO_ANIMALES_HEX, 0);
           end
-       end
-       else if ((cur_map_index == MAP_CASA_NUEVA_CEMENT) and (map_var(MVAR_NUEVA_MEAT_TILE) > 0)) then begin
-          timer_move_to_tile(0,map_var(MVAR_NUEVA_MEAT_TILE),random(0,5))
-          if (combat_is_initialized == false) then begin
-             floater(self_obj, 107, COLOR_MSG_GREY);
-          end
-          if (tile_distance(self_tile,map_var(MVAR_NUEVA_MEAT_TILE)) <= 1) then begin
-             if (tile_contains_obj_pid(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_MEAT_JERKY) == true) then begin
-             destroy_object(tile_contains_pid_obj(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_MEAT_JERKY));
-             end
-             if (tile_contains_obj_pid(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_IGUANA) == true) then begin
-             destroy_object(tile_contains_pid_obj(map_var(MVAR_NUEVA_MEAT_TILE), 0, PID_M_IGUANA));
-             end
-             set_map_var(MVAR_NUEVA_MEAT_TILE, 0);
-          end
-       end
-       else if ((cur_map_index == MAP_DAYGLOW_CITYHEART) and (map_var(MVAR_DIEGOHEART_MEAT_HEX) > 0)) then begin
-          timer_move_to_tile(0,map_var(MVAR_DIEGOHEART_MEAT_HEX),random(0,5))
-          if (combat_is_initialized == false) then begin
-             floater(self_obj, 107, COLOR_MSG_GREY);
-          end
-          if (tile_distance(self_tile,map_var(MVAR_DIEGOHEART_MEAT_HEX)) <= 1) then begin
-             if (tile_contains_obj_pid(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_MEAT_JERKY) == true) then begin
-             destroy_object(tile_contains_pid_obj(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_MEAT_JERKY));
-             end
-             if (tile_contains_obj_pid(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_IGUANA) == true) then begin
-             destroy_object(tile_contains_pid_obj(map_var(MVAR_DIEGOHEART_MEAT_HEX), self_elevation, PID_M_IGUANA));
-             end
-             set_map_var(MVAR_DIEGOHEART_MEAT_HEX, 0);
-          end
-       end
-       else begin
+      end
+      else begin
           timer_move_random
-       end
+      end
    end
    if (fixed_param == 2) then begin
        //timer_float_reply(120,121)
@@ -181,7 +153,6 @@ procedure combat_p_proc begin
       end
    end
    effectAttak(0,0,3,3,3) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
-   effectIntimidationPerk
 end
 
 procedure damage_p_proc begin

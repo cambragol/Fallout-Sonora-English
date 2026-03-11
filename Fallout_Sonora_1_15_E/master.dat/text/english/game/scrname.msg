@@ -100,7 +100,7 @@
 {200}{}{Radio Station}
 {201}{}{Prisoner}
 {202}{}{Worker}
-{203}{}{Mercenary}
+{203}{}{Bar Patron}
 {204}{}{Colonist}
 {205}{}{Servant}
 {206}{}{Escaped Prisoner}

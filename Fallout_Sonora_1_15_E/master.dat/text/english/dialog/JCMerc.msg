@@ -12,7 +12,7 @@
 {206}{}{Beware of their poisoned blades and claws. And we need to get some light in here. There must be torches in these tunnels; it's worth finding them and lighting them.}
 {207}{}{This is not a good time to chat. Keep moving.}
 {208}{}{I didn't expect to see a ranger here. And still locked up. Looks like they're not as tough as everyone thinks they are.}
-{209}{}{Do you think these were the last ones?}
-{210}{}{Seems like it. These tunnels are cleared of filth. Now we just have to loot the corpses and head home.}
+{209}{}{}
+{210}{}{Looks like these were the last ones. Now we just have to loot the corpses and head home.}
 {211}{}{Okay.}
 {212}{}{[More]}

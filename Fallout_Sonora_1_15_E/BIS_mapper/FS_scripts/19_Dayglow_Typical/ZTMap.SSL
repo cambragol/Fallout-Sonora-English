@@ -28,7 +28,7 @@ export variable obj_critter_b; // указатель на криттера 2
 
 /*
 
---- Памятка по настройке новой карты/локации:
+--- Reminder for setting up a new map/location:
 
    data/MAPS.txt - register the map
          MAP.MSG - label levels of the new map
@@ -132,6 +132,8 @@ procedure map_enter_p_proc begin
       set_global_var(GVAR_RADIOACTIV_GLOBAL,0);
       set_global_var(GVAR_RADIOACTIV_STOP,0);
       set_global_var(GVAR_RANDOM_CAVE_ENEMIES,random(0,6)); // см SCRIPT_ZSRandom
+      set_global_var(GVAR_MEAT_TO_ANIMALES_HEX, 0);
+      set_global_var(GVAR_MEAT_TO_ANIMALES_LVL, 0);
       if (getQuest(GVAR_GAME_DLC_1) == qZero) then begin
       setQuest(GVAR_GAME_DLC_1,qStart); // !!! даёт допуск к DLC
       end
@@ -397,9 +399,9 @@ end
 
 procedure map_exit_p_proc begin
    /*
-   ВАЖНО: При игре в маппере процедура срабатывает только по выходу на карту мира,
-          то есть она не работает на зеленых сетках, лестницах и функции load_map.
-          Но в игре работает во всех этих случаях. Поэтому для теста маппер не годится.
+   IMPORTANT: When playing in the mapper, the procedure only works when you enter the world map,
+   that is, it does not work on green grids, stairs, and the load_map function.
+   But the game works in all these cases. Therefore, the mapper is not suitable for the test.
    */
 
    //--- Перемещение ящиков Экспресс Сонора в рюкзак ГГ

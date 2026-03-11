@@ -168,6 +168,7 @@
 {372}{}{I've never been swindled like this before. Goodbye, cheapskate.}
 {373}{}{Thanks, that's enough. I'll sell the gun in a neighboring town. Nice doing business.}
 {374}{}{Deal. But for the moment, I'll hang around here a bit longer.}
+{375}{}{If I end up there, I can talk to someone about alcohol supplies.}
 
 #Trade route quest
 {400}{}{Do you have anything edible?}
