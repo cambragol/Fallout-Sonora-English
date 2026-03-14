@@ -1,2 +1,2 @@
-{110}{}{No hay suficientes materiales como para empezar el proceso de reciclaje.}
-{111}{}{Esta máquina todavía funciona.}
+{110}{}{La puerta lleva a una carretera, pero no ves por qué ir hacia allá.}
+{111}{}{De momento, no hay por qué ir allí.}

@@ -440,7 +440,7 @@
 #72: SanFelipeLight, FelipeA.MAP
 #---------------------------------------
 {416}{}{Asentamiento}
-{417}{}{Groto}
+{417}{}{Fuente de Agua}
 {418}{}{Faro}
 #---------------------------------------
 #73: BSCamp1, BSCampA.MAP
@@ -481,7 +481,7 @@
 #---------------------------------------
 #79: VillaRuins, VLRUINS.MAP
 #---------------------------------------
-{437}{}{Ruinas}
+{437}{}{Ruinas Antiguas}
 {438}{}{Escondite}
 {439}{}{}
 #---------------------------------------
@@ -631,7 +631,7 @@
 #---------------------------------------
 #104. Special Baron Encounter, rndBaron.MAP
 #---------------------------------------
-{512}{}{Algún lado}
+{512}{}{Punto de Reunion para ir a Dayglow}
 {513}{}{}
 {514}{}{}
 #---------------------------------------
@@ -956,7 +956,7 @@
 {1536}{}{El Grito del Silencio}
 {1537}{}{Cine al aire libre}
 {1538}{}{El Padre}
-{1539}{}{Baron de Arizona}
+{1539}{}{Punto de Reunion}
 {1540}{}{Una nevada}
 {1541}{}{El Santuario Perdido}
 {1542}{}{Fortaleza Movil}

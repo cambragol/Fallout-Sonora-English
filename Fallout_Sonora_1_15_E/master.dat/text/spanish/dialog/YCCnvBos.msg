@@ -52,7 +52,7 @@
 {243}{}{No creo que nadie de aquí te extrañe.}
 {244}{}{Adiós.}
 {245}{}{¡Agh! Pensé que eras otro necrófago, pero sólo eres un mutante asqueroso. No te queremos aquí, lárgate.}
-{1245}{}{¡Agh! Pensé que eras otro necrófago, pero resultas ser otra perra asquerosa, y encima mutante... No te queremos aquí, vete.}
+{1245}{}{¡Agh! Pensé que eras otro necrófago, pero sólo eres una mutante asquerosa. No te queremos aquí, lárgate.}
 
 {250}{}{Me envió el alcalde del Pueblo Viejo.}
 {251}{}{¿Ah, sí? ¿Y qué quiere?}

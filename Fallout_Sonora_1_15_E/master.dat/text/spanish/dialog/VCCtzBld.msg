@@ -16,7 +16,8 @@
 {110}{}{Creo que me... quebraron las costillas...}
 {111}{}{Eres fortachón. No vas a quebrarme el resto de mis costillas, ¿no?}
 
-{200}{}{¡Me salvaste la vida!}
+{200}{}{¡Mi salvador!}
+{1200}{}{¡Mi salvadora!}
 {201}{}{Cuídate.}
 {202}{}{Mientras te trataba, dijiste que desconfías en la medicina vieja. ¿Por qué?}
 {203}{}{Según los ancestros, tenemos que desconfiar de cualquier cosa del Viejo Mundo. Nos dijeron que todo estaba maldito, que tenían espíritus y era peligroso. Pero, me salvaste la vida con esa cosa... ¿Estaré maldito?}
@@ -35,3 +36,6 @@
 {215}{}{¿Conoces a alguien que haya salido de la Villa?}
 {216}{}{Pero, ¿¡que sea de la Villa!? ¿A quién se le ocurriría abandonar su hogar e irse a caminar al desierto?}
 {217}{}{Eh... sí, me pregunto quién haría eso. Tengo que irme.}
+
+{218}{}{¡Eh!}
+{219}{}{Me voy.}

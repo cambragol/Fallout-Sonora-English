@@ -15,6 +15,7 @@
 {214}{}{Si fueras yo, ya estarías muerto.}
 {215}{}{¿Acaso te da risa, normalucho?}
 {216}{}{(frunce el ceño) No. Para nada, grandulón.}
+{1216}{}{(frunce el ceño) No. Para nada, preciosa.}
 {217}{}{Bien.}
 {218}{}{Puede que me lo tome personalmente, si lo haces de nuevo.}
 
@@ -54,6 +55,7 @@
 {250}{}{Qué sorpresa. Lo normal es que perseguir a los criminales, no que vengan a nosotros.}
 {251}{}{Pero, no he cometido crímenes.}
 {252}{}{¿A quién le dices criminal?}
+{1252}{}{¿A quién le dices criminal?}
 {253}{}{¿Sabías que Flagstaff te declaró como su persona más buscada? Tienes suerte, porque no han ofrecido alguna recompensa por ti. Sin embargo, ahora te conozco y sé en dónde podría encontrarte. Recuérdalo, compórtate.}
 {254}{}{Claro que sí, sheriff.}
 {255}{}{Pendejo, no soy el sheriff. Pero si me obligas, voy a ser peor que cualquier sheriff.}
@@ -64,17 +66,20 @@
 {259}{}{(con lentitud, coloca la mano sobre su ametralladora mientras te mira a los ojos) Sal de mi oficina. Ahora.}
 
 {260}{}{Te doy la bienvenida a... Alto, muéstrame tu cuello. Los collares de esclavos dejan marcas de ese tipo, es muy extraño que un esclavo fugitivo decida venir aquí. ¿Qué quieres, *esclavo*?}
+{1260}{}{Te doy la bienvenida a... Alto, muéstrame tu cuello. Los collares de esclavos dejan marcas de ese tipo, es muy extraño que una esclava fugitiva decida venir aquí. ¿Qué quieres, *esclava*?}
 {261}{}{No me llames así, o te arrepentirás.}
 {262}{}{Parece que no entiendes la situación en la que te encuentras. Chicos... (te apunta con el dedo)}
 {263}{}{¡No me hagas nada...!}
 {264}{}{Los voy a matar a todos, esclavistas...}
 {265}{}{Quiero mi libertad de vuelta, los Hojalateros me trataron muy mal.}
 {266}{}{Hmm. Los Hojalateros no querrán comprarme un fugitivo al mismo precio. Me has dejado en una posición incómoda. Pues, estoy dispuesto a comprar tus derechos y así firmar tu libertad, pero eso te costará 1.000 chapas. Y dudo que tengas ese monto.}
+{1266}{}{Hmm. Los Hojalateros no querrán comprarme una fugitiva al mismo precio. Me has dejado en una posición incómoda. Pues, estoy dispuesto a comprar tus derechos y así firmar tu libertad, pero eso te costará 1.000 chapas. Y dudo que tengas ese monto.}
 {267}{}{Lo conseguiré.}
 {268}{}{Entonces, no me dejas elección... Hora de morir.}
 {269}{}{Hmm. Vale, es un trato. Estaré esperando esas 1.000 chapas.}
 
 {270}{}{(entrecierra los ojos al verte el rostro) Hmm. Hace unos días, me llegó una descripción acerca de uno de los Escudos Azules. Y es sospechoso, porque te pareces mucho.}
+{1270}{}{(entrecierra los ojos al verte el rostro) Hmm. Hace unos días, me llegó una descripción acerca de una de los Escudos Azules. Y es sospechoso, porque te pareces mucho.}
 {271}{}{Es sólo una coincidencia, ¿qué evidencia tienes?}
 {272}{}{No. Pero no te quitaré el ojo de encima.}
 {273}{}{Vale.}
@@ -132,6 +137,7 @@
 {1320}{}{Hecho. Desde hoy, oficialmente, eres una mujer libre. Te felicito. Es tu segunda oportunidad, aprovechala.}
 {321}{}{Por supuesto, lo haré. Adiós.}
 {322}{}{Oye, no es como si me hubieras liberado de verdad, siempre fui libre, sólo quería salirme de tu estúpida lista.}
+{1322}{}{Oye, no es como si me hubieras liberado de verdad, siempre fui libre, sólo quería salirme de tu estúpida lista.}
 
 # Quest of the Cardinals
 {323}{}{Te arrepentirás de esto.}
@@ -195,7 +201,7 @@
 {382}{}{Hmph. Podría haber descubierto eso por cuenta propia.}
 {1382}{}{Hmph. Podría haber descubierto eso por cuenta propia.}
 {383}{}{Vale, he revisado las facturas... Hay varios esclavos de la Villa que acabaron en la colonia de Flagstaff. Los Seguidores del Fuego los compraron y fueron trasladados hacia Two-Sun. Para darse un viaje así, tuvieron que haber sido muy buenos esclavos.}
-{384}{}{Gracias, Bruce. Es hora de que visite Two-Sun, ojalá que hayan caravanas yendo hacia allá.}
+{384}{}{Gracias, Bruce. Es hora de que visite a esa tal Two-Sun, ojalá que hayan caravanas yendo hacia allá.}
 {385}{}{Bruce, te diré la verdad, no me ayudaste casi nada. Adiós.}
 {386}{}{Volveré en otro momento, no tengo tantas chapas ahora mismo.}
 

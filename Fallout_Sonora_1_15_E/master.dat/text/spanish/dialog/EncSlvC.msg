@@ -11,6 +11,7 @@
 {205}{}{Tienes una mente minúscula, igual que un átomo en un útero nuclear. ¡Te haremos pedazos hasta que no quede rastro de ti!}
 {206}{}{¿De qué hablas...?}
 {207}{}{Si en serio eres uno de nuestros Hermanos, ya deberías saberlo; si no estás iniciado en los asuntos más importantes, no eres digno.}
+{1207}{}{Si en serio eres una de nuestras Hermanas, ya deberías saberlo; si no estás iniciado en los asuntos más importantes, no eres digna.}
 {208}{}{Entonces, ¿te puedo hacer una pregunta?}
 {209}{}{Pareces ser un listillo. ¿Qué importa si hablamos un poco?}
 

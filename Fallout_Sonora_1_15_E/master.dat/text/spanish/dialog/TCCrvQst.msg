@@ -1,15 +1,16 @@
 {100}{}{Ves a un campesino.}
 {101}{}{Ves a un campesino de apariencia común. Resalta mucho entre los Hojalateros.}
-{102}{}{Gracias por ayudarme, recordaremos lo que hiciste y le contaremos a todos los que hiciste.}
+{102}{}{Gracias por ayudarme, recordaremos lo que hiciste.}
 
 {200}{}{Oye, no eres de aquí, ¿cierto? Bueno, es obvio. Te daré un consejo - ni te molestes con estos imbéciles. No les importan los forasteros.}
 {201}{}{¿Y tú eres...?}
 {202}{}{Sólo soy otra víctima de sus pendejadas. Nuestro pueblo necesita células de fusión para nuestro generador, pero los Hojalateros no quieren vendérmelas. ¿Y sabes por qué? ¡Porque según ellos no somos 'dignos' de esa tecnología!}
-{203}{}{Quiero saber más acerca de eso.}
-{204}{}{No es mi problema. Adiós.}
+{203}{}{¿Por qué?}
+{204}{}{No lo sé... Tratar con estas... Personas, es muy difícil. Solo somos una pequeña aldea, todos somos granjeros. Ni siquiera le interesamos a los Hojalateros. Ese generador era nuestra única fuente de energía. Y sin él, todo nuestro valle se transformará en un desierto.}
+{205}{}{Resulta que tengo una célula de fusión.}
 
-{210}{}{¿Qué quieres saber?}
-{211}{}{Nada más. Adiós.}
+{210}{}{¿Conseguiste la célula de fusión?}
+{211}{}{Aún no, lo lamento.}
 {212}{}{Tengo que irme.}
 {213}{}{Cuéntame más.}
 
@@ -30,7 +31,7 @@
 {251}{}{Necesitamos esas células urgentemente... Mira, eres un campesino igual que nosotros, ¿no? Se nota. No importa lo que lleves puesto, tus ojos y manos te delatan. Tenemos que ayudarnos el uno al otro, amigo.}
 {1251}{}{Necesitamos esas células urgentemente... Mira, eres una campesina igual que nosotros, ¿no? Se nota. No importa lo que lleves puesto, tus ojos y manos te delatan. Tenemos que ayudarnos el uno al otro, amiga.}
 {252}{}{¿Y cómo me ayudarás tú a mí?}
-{253}{}{Tengo muchos contactos entre las caravanas, puedo arreglarte una escolta y mejorar tu reputación. Además, tengo dinero de la preguerra. Ya no se usa, pero puede que le encuentres un uso.}
+{253}{}{Tengo muchos contactos entre las caravanas, puedo arreglarte una escolta.}
 {254}{}{Me lo pensaré.}
 {255}{}{¿Con quién podría hablar acerca de las células?}
 {256}{}{Las guardan en ese hangar de allá, el intendente está a cargo de ellas. Pero dudo que cambie de parecer.}
@@ -45,6 +46,7 @@
 {262}{}{Necesito células de fusión para nuestro generador. Están en el almacén del hangar de por allá, pero no puedo entrar sin que me vean. Parece que vienes de allá y los robots te dejaron en paz. ¿Me puedes traer una?}
 {263}{}{Veré que puedo hacer.}
 {264}{}{Eso es problema tuyo, yo tengo que ocuparme de los míos.}
+{1264}{}{Eso es problema tuyo, yo tengo que ocuparme de los míos.}
 {265}{}{Me largo.}
 {266}{}{¿Encontraste alguna?}
 
@@ -52,7 +54,7 @@
 {301}{}{¡Increíble! ¿Cómo la conseguiste? No importa, no quiero saberlo. Tengo que irme de aquí antes de que sospechen. Gracias compadre, nuestra comunidad hubiera colapsado sin tu ayuda.}
 {1301}{}{¡Increíble! ¿Cómo la conseguiste? No importa, no quiero saberlo. Tengo que irme de aquí antes de que sospechen. Gracias señorita, nuestra comunidad hubiera colapsado sin su ayuda.}
 {302}{}{Oye, ¿no te olvidas de algo?}
-{303}{}{Perdóname, yo... te mentí, no conozco a nadie en las caravanas. Pero le contaré a todos lo que hiciste. Si quieres, podemos ir a Casa Grande, será más seguro ir juntos. Decídete, porque no puedo esperarte.}
+{303}{}{Perdóname, yo... te mentí, no conozco a nadie en las caravanas. Pero... Tengo dinero de la preguerra, aquí tienes, quédatelo. Y... Eh, si quieres, podemos ir a Casa Grande, será más seguro ir juntos. ¿Qué me dices?}
 {304}{}{Vamos.}
 {305}{}{No, no tengo otras cosas que hacer.}
 {306}{}{¿Entonces vendrás conmigo? El camino a Casa Grande es difícil, pero es más seguro que vayamos los dos.}

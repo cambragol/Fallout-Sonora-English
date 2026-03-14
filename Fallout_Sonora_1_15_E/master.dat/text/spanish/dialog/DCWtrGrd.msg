@@ -12,3 +12,26 @@
 {118}{}{Mantener la bomba a salvo se vuelve cansino.}
 {119}{}{Los forajidos afectan nuestro negocio.}
 {120}{}{Es mejor que evites a los forajidos.}
+
+{130}{}{Sullivan solía dirigir esta bomba de agua con puño de hierro.}
+{131}{}{Nos hace falta un jefe nuevo, de lo contrario, este lugar se caerá a pedazos.}
+{132}{}{Sullivan era todo un bastardo.}
+{133}{}{¿Qué demonios haremos ahora?}
+
+{140}{}{Sullivan es un tipo duro.}
+{141}{}{¡Ahora estamos a cargo nosotros!}
+{142}{}{Sullivan es quien dirige esta ciudad ahora.}
+{143}{}{El alcalde era un inútil, deberíamos haberlo sacado de aquí hace mucho.}
+
+{150}{}{Entre más pronto terminemos, más pronto volveremos a casa.}
+
+
+
+
+
+
+
+
+
+
+

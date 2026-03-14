@@ -79,6 +79,7 @@
 {273}{}{A veces es mejor dar una retirada para reunir tus fuerzas. ¿No crees que este es uno de esos momentos?}
 {274}{}{La Presa Parker se inundó y fue destruida. Los Rangers ya no pueden seguir apoyando la lucha de San Brahmán.}
 {275}{}{Se acabó, Jerónimo ha dejado de apoyar a los rangers.}
+{276}{}{¡Veamos si siquiera eres capaz de cuidarte a ti mismo, idiota!}
 
 #After receiving the quest
 {300}{}{¿Algo que reportar? Toda información sobre el enemigo que poseas será valiosa.}

@@ -45,6 +45,7 @@
 {262}{}{Se han despachado a varios Rangers hacia Fénix, operarán encubiertos para recolectar información. Su prioridad actual es establecer contacto con una guerrilla que se opone a la Iglesia del Fuego.}
 {263}{}{Apoyo a los esclavos fugitivos en Two-Sun}
 {264}{}{Two-Sun es controlada por un grupo que venera la tecnología y significan una amenaza para los asentamientos del área. Los Seguidores del Fuego colaboran con ellos para así obtener bienes y servicios. Debido a la lejanía de la ciudad, es difícil controlar la situación. Los esclavos fugitivos llevan a cabo sabotaje en Two-Sun, por lo que se despacharon espías para ayudarlos. }
+{265}{}{El culto se encuentra en declive y bajo persecución. Su base principal fue destruida por fuerzas insurgentes urbanas. De momento, solo los grupos aislados de cultistas presentan una amenaza.}
 
 {290}{}{Amenaza en el Sur}
 {291}{}{Nuestros exploradores nos informan de la destrucción del fuerte de la Hermandad del Acero en el sur. ¡Esto pasará a la historia de Arizona como un día de libertad e independencia!}

@@ -1,6 +1,7 @@
 {100}{}{Ves a Matthias.}
 {101}{}{Estás viendo a uno de los Seguidores. Parece estar sumido en sus pensamientos.}
 {102}{}{Adelante, acólito.}
+{1102}{}{Adelante, acólita.}
 {103}{}{Matthias se encuentra orando lo más rápido que puede, está rogando por la salvación de toda la humanidad.}
 {104}{}{. . .}
 {105}{}{Puedes contar con mi eterna gratitud, porque de ahora en adelante, la iglesia podrá regresar a su misión original.}
@@ -58,6 +59,7 @@
 {269}{}{Debes infiltrarte en la oficina del profesor e instalar los fusibles que el arma necesita, al activarla, contarás con algunos minutos para escapar de la Catedral.}
 {270}{}{Entiendo... Pero, ¿cómo voy a entrar? Debe ser un área restringida.}
 {271}{}{Voy a otorgarte con la llave y una túnica de los Seguidores. Debes presentarte ante los guardias como un novato y que se te pidió que te presentes al profesor.}
+{1271}{}{Voy a otorgarte con la llave y una túnica de los Seguidores. Debes presentarte ante los guardias como una novata y que se te pidió que te presentes al profesor.}
 {272}{}{Dame esa llave y la túnica, iré de inmediato.}
 {273}{}{Que el Fuego Santo nos perdone. Amén.}
 {274}{}{Eh... Lo que tú digas, Matthias.}
@@ -89,6 +91,7 @@
 {317}{}{No es lo que piensas...}
 {318}{}{Puedo convencer a Aaron de que lleve a cabo una investigación completa de tus pertenencias y contactos. ¿Qué tienes que decir sobre eso?}
 {319}{}{Estás agotando mi paciencia, gusano atómico. Fuera de aquí.}
+{1319}{}{Estás agotando mi paciencia, larva atómica. Fuera de aquí.}
 {320}{}{Si haces eso, el que saldrá mal parado no seré yo.}
 {321}{}{¡Ah, santo cielo! Llegaste hace poco a la Catedral y ya has indagado más a fondo que los profetas de Vault-Tec.}
 {322}{}{¿Vault... qué?}
@@ -99,6 +102,7 @@
 
 # Dialogue in the confessional
 {330}{}{Debo decirlo, no esperaba que un novato que vino del yermo podría resolver este caso. Había conseguido esconder mis acciones, incluso de Aaron... hasta ahora.}
+{1330}{}{Debo decirlo, no esperaba que una novata que vino del yermo podría resolver este caso. Había conseguido esconder mis acciones, incluso de Aaron... hasta ahora.}
 {331}{}{Eres uno de los 'leales' siervos de Aaron, ¿por qué ayudas a sus enemigos?}
 {332}{}{Porque la iglesia ha alterado sus creencias bajo el liderazgo de Aaron. Una vez fue una fortaleza de santidad y sabiduría, pero en este momento es un receptáculo de pecado. Ya no puedo soportar esto.}
 {333}{}{Cuéntame lo que pasó.}
@@ -120,6 +124,7 @@
 {348}{}{Esto es una idiotez, voy a decirle todo esto a Aaron.}
 {349}{}{En ese caso, no me dejas opción. Que el Fuego Santo nos perdone...}
 {350}{}{Eh...}
+{350}{}{Eh...}
 {351}{}{Bien, estoy contigo. Será interesante saber la otra versión de este conflicto.}
 {1351}{}{Bien, estoy contigo. Será interesante saber la otra versión de este conflicto.}
 {352}{}{Que así sea. Debes hallar el cuartel general de los rebeldes bajo Union Station. El alcantarillado es la única forma de llegar allí, diles que te he enviado yo, mientras lo consigues, intentaré avisarles de tu llegada. Te deseo suerte.}
@@ -127,6 +132,7 @@
 {354}{}{He cambiado de opinión, voy a contárselo a Aaron.}
 {1354}{}{He cambiado de opinión, voy a contárselo a Aaron.}
 {355}{}{Has lo que debas hacer, acólito.}
+{1355}{}{Has lo que debas hacer, acólita.}
 {356}{}{Vale.}
 {357}{}{Necesito saber cuál de los Cardenales Rojos le está filtrando información a la iglesia.}
 {358}{}{¡Qué pregunta tan insolente! Incluso si lo supiera, ciertamente no te lo diría.}

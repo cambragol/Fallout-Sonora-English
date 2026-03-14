@@ -106,9 +106,9 @@
 {299}{}{Bueno, si llego a estar cerca lo haré.}
 {300}{}{Claro.}
 {301}{}{Sí, aquí está, tómalo.}
-{302}{}{Ay, compadre, ¡nos has salvado! Oigan chicos, miren, este normalucho nos hizo un gran favor. ¡Denle las gracias!}
-{1302}{}{Ay, nena, ¡nos has salvado! Oigan chicos, miren, esta preciosura nos hizo un gran favor. ¡Denle las gracias!}
-{303}{}{Fue un gusto ser de ayudaAdiós, Ed.}
+{302}{}{¡Nos has salvado! Oigan chicos, miren, este normalucho nos hizo un gran favor. ¡Denle las gracias!}
+{1302}{}{¡Nos has salvado! Oigan chicos, miren, este preciosa normalucho nos hizo un gran favor. ¡Denle las gracias!}
+{303}{}{Estoy feliz de ayudar. Adiós, Ed.}
 {304}{}{Demonios, De Santi me habría pagado más... Me refería a otra cosa, no importa. Eh, adiós.}
-{305}{}{¡Nos has salvado, gracias! Dudo que un normalucho hubiera hecho algo así por nosotros. Oigan chicos, ¡Denle las gracias!}
-{1305}{}{¡Nos has salvado, gracias! Dudo que un normalucho hubiera hecho algo así por nosotros. Oigan chicos, ¡Denle las gracias!}
+{305}{}{Ay, compadre, ¡nos has salvado! Gracias. Dudo que un normalucho hubiera hecho algo así por nosotros. Oigan chicos, ¡Denle las gracias!}
+{1305}{}{Oh, nena, ¡nos has salvado! Gracias. Dudo que un normalucho hubiera hecho algo así por nosotros. Oigan chicos, ¡Denle las gracias!}

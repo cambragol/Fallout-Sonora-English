@@ -23,7 +23,7 @@
 {220}{}{¿Qué hay de los Rangers? ¿No pueden ayudarte con tu grupo?}
 {221}{}{Hablé con Garth, es como... el sheriff de este lugar. Pero creo que no hace nada al respecto. ¿Y qué va a hacer? Ya le pregunté a los demás, nadie sabe nada.}
 {222}{}{¿De dónde vinieron tú y los demás?}
-{223}{}{Escapamos de un pueblito que está lejos de aquí, la vida era insoportable. Escuchamos que los Rangers protegerían a cualquiera, pero me parece que aquí no somos bienvenidos.}
+{223}{}{Somos de una gran ciudad, al este de aquí. Habíamos oído que los rangers estaban dispuestos a proteger a cualquiera. Pero no parece que los lugareños sean amistosos con los forasteros.}
 {224}{}{Buscaré a tus amigos, y si me entero de algo, te lo haré saber.}
 {225}{}{Gracias. Cuéntame lo que descubras.}
 {226}{}{Adiós, nos vemos.}
@@ -45,8 +45,8 @@
 {244}{}{Te deseo suerte, niño.}
 
 {250}{}{Garth pagará por sus crímenes. Tus amigos fueron vengados.}
-{251}{}{Lo sé... pero eso no me los traerá de vuelta. Nos hicimos amigos en nuestro peor momento, pasaron muchas cosas durante el viaje. Tuvimos que robarle a viajeros y a pueblos pequeños. Pero aquí sentíamos que éramos parte de algo, teníamos una vida normal, aunque desconfiaran de nosotros. Pero ese maldito Ranger lo arruinó todo.}
-{252}{}{Es una pena que haya acabado así.}
-{253}{}{Tenía una razón válida para desconfiar de ustedes.}
-{254}{}{Gracias por tu ayuda. Ten, llévate estas balas. Se las robé a los rangers, así que es justo que sea tu recompensa. Debo irme, no tengo lugar aquí.}
-{255}{}{Adiós.}
+{251}{}{Sí... ¿Sabes? Realmente, no éramos amigos. Es solo que, la carretera nos unió, ¿sabes? Pasaron muchas cosas durante el viaje. ¿Quién hubiese dicho que un pueblo así terminaría siendo peor que el yermo? Un ranger demente lo arruinó todo.}
+{252}{}{Sí, es una pena que haya acabado así.}
+{253}{}{}
+{254}{}{Gracias por todo. Ten, acepta estas balas. A decir verdad, se las robé a los Rangers, así que es justo entregártelas. Es hora de que me marche. No podré labrarme una vida aquí.}
+{255}{}{Que te vaya bien.}

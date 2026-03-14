@@ -153,6 +153,7 @@
 {334}{}{No necesito un guía para encontrarla.}
 {335}{}{Que amable eres.}
 {336}{}{¡Un asesino! ¡En nombre del Fuego, deténganlo!}
+{1336}{}{¡Una asesina! ¡En nombre del Fuego, deténganla!}
 {337}{}{Relájate, soy yo quién está a cargo aquí.}
 {338}{}{No van a ayudarte.}
 {339}{}{El Fuego Santo te bendiga.}
@@ -162,6 +163,7 @@
 {342}{}{Entonces, ¿de qué se trata tu fe?}
 {343}{}{Eres el líder de la iglesia, ¿verdad?}
 {344}{}{He oído suficiente por hoy. Gracias por hablar conmigo.}
+{1344}{}{He oído suficiente por hoy. Gracias por hablar conmigo.}
 {345}{}{Te lo voy a repetir, no tengo tiempo para eso.}
 {346}{}{Bien, iré a hablar con alguien más.}
 {347}{}{Solo estás intentando deshacerte de mí.}

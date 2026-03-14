@@ -33,7 +33,7 @@
 {227}{}{No soy un suicida. Mejor vuelvo a Sonora...}
 {228}{}{No vas a pasar la frontera hasta que te de permiso.}
 {229}{}{El robot ha sido destruido.}
-{230}{}{Más vale que tengas una buena razón para estar aquí. Bueno, entra. Bienvenido a Dayglow.}
+{230}{}{Bueno, puedes pasar. Te voy a dar un consejo: antes que nada, ve directo a hablar con el Alcalde Gustavo, está en un edificio grande cerca de la estación de monorriel. Y, te doy la bienvenida a Dayglow.}
 {231}{}{Gracias por recibirme.}
 {232}{}{Deberías haberme dejado pasar desde el principio. Que pérdida de tiempo...}
 {233}{}{Bienvenido, hermano. ¿Primera vez en Dayglow?}
@@ -57,6 +57,6 @@
 {249}{}{No esperaba eso. Gracias. Y, bienvenido a Dayglow.}
 {250}{}{Puedes pasar.}
 {251}{}{Adiós.}
-{252}{}{Puedes pasar. Yo no lo permitiría, pero alguien allá atrás hizo un escándalo cuando supo que venías.}
+{252}{}{Puedes entrar. Yo no lo permitiría, pero alguien allá en el campamento de allá atrás hizo un escándalo cuando supo que venías. Te voy a dar un consejo: antes que nada, ve directo a hablar con el Alcalde Gustavo, está en un edificio grande cerca de la estación de monorriel.}
 {253}{}{Estaré aquí por un rato. ¿Necesitas ayuda en algo?}
 

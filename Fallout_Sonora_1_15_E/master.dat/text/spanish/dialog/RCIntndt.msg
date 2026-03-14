@@ -19,6 +19,8 @@
 {211}{}{Por ahora, nada.}
 {212}{}{Basta de cháchara, hablemos en serio.}
 {213}{}{Sigo sintiendo curiosidad por tu historia.}
+{214}{}{Quiero comerciar.}
+
 {220}{}{Me gustaría saber de ti.}
 {221}{}{¿En serio te interesa mi vida?}
 {222}{}{¿Cuál es tu papel aquí?}
@@ -43,11 +45,11 @@
 #Ranger
 {250}{}{Parece que debo hablar contigo, ahora estoy entre los reclutas.}
 {251}{}{Ya había oído que te iniciaron, Ranger. Es impresionante lo rápido que te ganaste eso.}
-{252}{}{[Siguiente]}
+{252}{}{[Más]}
 {253}{}{Bien, si necesitas algo, dímelo. Te voy a asignar una litera, pero cuidado con tu equipamiento. Aquí tienes tu armadura y una cantimplora para tus viajes. Y bien, ¿qué arma prefieres?}
 {254}{}{[Un rifle de caza y munición]}
 {255}{}{[Una pistola de bengalas, con... bengalas]}
-{256}{}{[Cinco cuchillos arrojadizos]}
+{256}{}{[Diez cuchillos arrojadizos]}
 {257}{}{Firma aquí. Pero ten en cuenta que si se te pierde algo, es cosa tuya.}
 {258}{}{Gracias, cuidaré bien de mi equipamiento.}
 {259}{}{Ya lo sé. Dame eso.}

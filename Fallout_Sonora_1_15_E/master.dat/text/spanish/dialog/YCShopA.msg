@@ -1,6 +1,6 @@
 {100}{}{Ves a un necrófago, parece ser el mecánico de San Isidro.}
 {101}{}{Ves a un necrófago con un uniforme de trabajo andrajoso. Uno de sus ojos fue sustituido por una especie de lente.}
-{102}{}{Lo siento, sólo atiendo necrófagos y a los amigos de los necrófagos.}
+{102}{}{Esto es una tienda y un taller. Pero, eh... Sólo atiendo necrófagos y a los amigos de los necrófagos. Primero, ve a hablar con GUstavo}
 {103}{}{No voy a atender a un imbécil como tú. Piérdete.}
 {104}{}{Eso no va a funcionar conmigo. Pero se ve genial.}
 

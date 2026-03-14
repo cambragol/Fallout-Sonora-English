@@ -1,7 +1,7 @@
 {100}{}{Ves a un mecánico.}
 {101}{}{Ves a un trabajador, se está esforzando por arreglar un pedazo de chatarra.}
-{102}{}{De ahora en adelante, los objetos del mecánico incluirán más chapas y partes útiles.}
-{103}{}{De ahora en adelante, los objetos del mecánico incluirán aún más chapas y partes útiles.}
+{102}{}{De ahora en adelante, el inventario del mecánico contendrá objetos más útiles.}
+{103}{}{}
 {104}{}{¡Lo veo y no lo creo! ¿¡Eso es una servoarmadura!?}
 
 {105}{}{«¡Lo veo y no lo creo!» ¿¡Eso es una servoarmadura!?}
@@ -9,14 +9,17 @@
 {107}{}{«¿Qué pasa, compadre?»}
 {1107}{}{«¿En qué la ayudo, señorita?»}
 
-{199}{}{¡Oh! «¿Qué hubo?» ¿Recién llegas a nuestra ciudad, no?}
-
-{200}{}{¡Oh! ¡Saludos! ¿Recién llegas a nuestra ciudad, no?}
+{197}{}{¡Oh! «¿Qué hubo, compadre?» ¿Eres nuevo por aquí?}
+{1197}{}{Oh! «¡Saludos, señorita!» ¿Es nueva por aquí?}
+{198}{}{Oh! «¡Saludos, compañeros!» ¿No eres de por aquí, verdad?}
+{199}{}{Oh! ¡Saludos, compañeros! ¿No eres de por aquí, verdad?}
+{200}{}{Oh! ¡Saludos, compañero! ¿Eres nuevo por aquí?}
+{1200}{}{Oh! ¡Saludos, compañera! ¿Eres nueva por aquí?}
 {201}{}{¿Es esto una ciudad?}
 {202}{}{¿Por qué lo duda, señor? Contamos con todo lo que una ciudad ocupa - un bar, un hotel, casas, trabajo. Quédese y lo verá usted mismo.}
 {1202}{}{¿Por qué lo duda, señorita? Contamos con todo lo que una ciudad ocupa - un bar, un hotel, casas, trabajo. Quédese y lo verá usted misma.}
 {203}{}{Eh, me lo pensaré. ¿Quién eres tú?}
-{204}{}{Me llamo Pedro Fuerte... o, simplemente Pete.}
+{204}{}{Soy el mecánico, reciclo lo que traigan los chatarreros. Arreglo lo que puedo, y preparo el resto para los envíos. Mi nombre es Pedro Fuerte... Pero, la mayoría me llama Pete.}
 {205}{}{Te voy a llamar Pete.}
 {206}{}{Como le acomode, señor.}
 {1206}{}{Como le acomode, señorita.}
@@ -28,8 +31,8 @@
 {210}{}{¡Hola!}
 {211}{}{Adiós.}
 {212}{}{¿Podrías responderme unas cuántas cosas?}
-{213}{}{Suficiente de eso, cuéntame algo más.}
-{214}{}{Cuéntame más.}
+{213}{}{Ya veo.}
+{214}{}{Cuéntame otra cosa.}
 {215}{}{¿Llamas a esta pocilga una ciudad?}
 
 #Questions
@@ -48,7 +51,7 @@
 {230}{}{No, no, el Sr. Kogan es nuestro jefe. Sin él, no podemos sobrevivir.}
 {231}{}{Esa no era mi pregunta, pero, como sea.}
 {232}{}{¿Hacia dónde va todo lo que reparas?}
-{233}{}{De donde sea que vengan las caravanas, porque vuelven a donde empezaron. En estos tiempos, todos necesitan lo que hallamos entre las ruinas.}
+{233}{}{De donde sea que vengan las caravanas, porque vuelven a donde empezaron. Aunque, últimamente, apenas nos llegan caravanas.}
 {234}{}{¿Quiénes son los chatarreros?}
 {235}{}{Se dedican a buscar objetos útiles entre la 'mina' - es decir, las ruinas locales que poseen restos del Viejo Mundo. Luego vienen aquí con lo que hayan encontrado y las revisamos, a cambio les damos chapas. Los chatarreros están divididos en clanes, pero todos están trabajando en un contrato con el cartel.}
 {236}{}{Digamos que alguien quiere comerciar sin ser parte del cartel, ¿se puede?}
@@ -59,8 +62,9 @@
 {241}{}{Esto es malo, señor. El jefe me trataba mal, me pagaba una miseria aunque trabajara duro, pero sin él... sin él, ¡Ciudad Garaje será un vertedero vacío!}
 {1241}{}{Esto es malo, señor. El jefe me trataba mal, me pagaba una miseria aunque trabajara duro, pero sin él... sin él, ¡Ciudad Garaje será un vertedero vacío!}
 {242}{}{¿Estás seguro?}
-{243}{}{Él era el único que sabía cómo dirigir un negocio. Y ahora habrá una guerra entre los chatarreros por la 'mina', o lo que queda de ella. No sé qué hacer... Quizás sea el momento de irme de aquí. Pero, ¿a dónde iré?}
+{243}{}{Él era el único que sabía cómo dirigir un negocio. Y ahora habrá una guerra entre los chatarreros por la 'mina', o lo que queda de ella. No sé qué hacer... Quizás sea el momento de irme de aquí.}
 {244}{}{Creo que eso es una decisión difícil. Hablemos de algo menos triste.}
+{245}{}{Espera, aún no terminamos.}
 
 #About the product
 {249}{}{Bien, ¿qué necesitas?}#added for more natural interaction -cambragol
@@ -82,7 +86,13 @@
 {1261}{}{Sí, señorita. (te deja ver el inventario completo)}
 {262}{}{El Sr. Kogan me ha dado el derecho de ver tu inventario completo. Déjame ver lo que vendes.}
 {263}{}{A la orden, señor. (te deja ver el inventario completo)}
-{1263}{}{A la orden, señorita.(te deja ver el inventario completo)}
+{1263}{}{A la orden, señorita. (te deja ver el inventario completo)}
+{264}{}{¿Comerciamos?}
+{265}{}{Las caravanas volverán a venir aquí, Lucas y yo nos aseguramos de eso. Así que muéstrame TODO lo que vendas.}
+{266}{}{Ah.}
+{267}{}{En ese caso, hagamos un trato...}
+
+
 {264}{}{¿Qué es ese dispositivo?}
 {265}{}{¿Te refieres al contador geiger? (lo sostiene y escanea tu cuerpo) ¡Ay, señor, debería comprar esta cosa! Muestra sus niveles radioactivos. Hay muchos chatarreros a los que le encantaría algo así, pero es demasiado caro para ellos.}
 {1265}{}{¿Te refieres al contador geiger? (lo sostiene y escanea tu cuerpo) ¡Ay, señorita, debería comprar esta cosa! Muestra sus niveles radioactivos. Hay muchos chatarreros a los que le encantaría algo así, pero es demasiado caro para ellos.}
@@ -109,14 +119,15 @@
 {285}{}{Hace tiempo que estamos intentando atrapar a ese pendejo. Si descubres quién está acuñando las chapas falsas, cuéntamelo.}  
 {286}{}{Lo haré.}  
 {287}{}{Ya veremos.}  
+
 {288}{}{Respecto a las chapas falsas...}  
 {289}{}{¿Sí? ¿Alguna pista?}  
 {290}{}{No, no he descubierto nada.}  
 {291}{}{Me parece que es Todd, él me pagó con chapas nuevas.}  
 {292}{}{Puede que él sea una víctima, así que no lo culpemos todavía. Pero, no es mala idea investigarlo.}  
 {293}{}{¿Qué sugieres?}  
-{294}{}{¿Qué crees, compadre? Te metes a su remolque, ves si tiene herramientas... ¡Y si las hay, las rompes! Alguien tiene que hacerlo, ¿sabes? Le preguntaría a los demás chatarreros, pero me da miedo que linchen a Todd. No quiero que alguien salga herido.}  
-{1294}{}{¿Qué cree, señorita? Se mete a su remolque, ve si tiene herramientas... ¡Y si las hay, las rompes! Alguien tiene que hacerlo, ¿sabe? Le preguntaría a los demás chatarreros, pero me da miedo que linchen a Todd. No quiero que alguien salga herido.}  
+{294}{}{Encuentra las herramientas en su remolque... ¡Y las rompes! Se lo pediría a los demás, pero si lo hago, me temo que Todd terminaría linchado.}
+{1294}{}{Encuentra las herramientas en su remolque... ¡Y las rompes! Se lo pediría a los demás, pero si lo hago, me temo que Todd terminaría linchado.}
 {295}{}{De acuerdo, ya entendí. Entro a su remolque, veo si tiene herramientas. Y si estoy ahí, las rompo.}  
 {296}{}{Pues, ¿lo harás?}  
 {297}{}{Sí. Pero tendré que entrar en la casa de otra persona. Eso es arriesgado, ¿qué me darás a cambio?}  
@@ -156,6 +167,7 @@
 {328}{}{¿Podrías modificar el asiento trasero? Así puedo llevar a dos personas.}
 {329}{}{Sí, puedo soldar un asiento adicional. Pero no te creas que es capaz de sostener más que eso.}
 {330}{}{Ahora podrás llevar dos pasajeros.}
+{331}{}{Si tiene ruedas y no está arruinado por completo, entonces sí. En su mayoría, motocicletas. Puede que los motores ya sean tecnología extinta, pero si se encuentra un buen vehículo, aún puede recorrer el yermo.}
 
 {340}{}{¿Podrías amplificar la potencia de este emisor láser?}
 {341}{}{Que arma más interesante, parece que fue ensamblada con piezas de repuesto. Claro, puedo hacerle un arreglo. Te cobraré }
@@ -169,6 +181,12 @@
 {352}{}{ chapas.}
 {353}{}{Tienes razón, debería pensarlo bien.}
 {354}{}{Dejaré que modifiques la pistola. Toma las chapas.}
+{355}{}{Arregla esta escopeta rota.}
+{356}{}{Eso te costará }
+{357}{}{ chapas.}
+{358}{}{Aquí tienes las chapas.}
+{359}{}{Tal vez en otro momento.}
+
 
 {360}{}{Quiero mejorar algunas bengalas.}
 {361}{}{Quiero mejorar las bengalas todavía más.}

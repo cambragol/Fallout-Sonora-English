@@ -69,6 +69,7 @@
 {265}{}{No importa cómo justifiques tus crímenes, mereces la muerte.}
 {266}{}{Te entiendo, yo tuve que sufrir a la esclavitud en Two-Sun. Puedo ayudarte.}
 {267}{}{La verdad es que no conocía este lado de la historia, ahora definitivamente no quiero ayudar a Bustos.}
+{1267}{}{La verdad es que no conocía este lado de la historia, ahora definitivamente no quiero ayudar a Bustos.}
 
 {270}{}{Quiero unirme a tu banda.}
 {271}{}{(sisea a través de la máscara) ¿Por qué?}

@@ -1,5 +1,5 @@
 {100}{}{Ves a un colono.}
-{101}{}{Ves a un ciudadano de Flagstaff.}
+{101}{}{Ves a un colono de Flagstaff.}
 {102}{}{No me molestes.}
 {103}{}{¡Estás loco! ¿¡Por qué mataste a mi sirviente!? ¿¡Quién me lo va a pagar!?}
 {1103}{}{¡Perra de mierda, estás loca! ¿¡Por qué mataste a mi sirviente!? ¿¡Quién me lo va a pagar!?}

@@ -74,6 +74,7 @@
 {294}{}{Claro, toma todo lo que necesites. Eres parte de los Rangers, estaré feliz de darte agua.}
 {295}{}{Gracias...}
 {296}{}{No soy ningún bandido. De hecho, es al revés - me atacaron.}
+{1296}{}{No soy ningún bandido. De hecho, es al revés - me atacaron.}
 {297}{}{Eso sí que suena mal. Puedes beber un sorbo, pero no puedo darte más que eso. Quizás debas pedirle ayuda a los Rangers.}
 {298}{}{Vamos, se generoso. Deja que un huésped tenga unos sorbitos más.}
 {1298}{}{Vamos, se generoso. Deja que una huésped tenga unos sorbitos más.}

@@ -1,5 +1,5 @@
 {100}{}{Ves a Gray.}
-{101}{}{Ves a un ciudadano de Flagstaff. Está agotado.}
+{101}{}{Ves a un colono de Flagstaff. Está agotado.}
 {102}{}{Tengo sueño, déjame sólo.}
 {103}{}{*Bostezo*}
 {104}{}{Z-z-z}

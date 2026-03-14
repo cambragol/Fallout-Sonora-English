@@ -34,7 +34,8 @@
 {220}{}{Se dice que han habido desapariciones en la plantación y que no haces nada al respecto.}
 {221}{}{Eso es una acusación grave.}
 {222}{}{Es lo que dice a gente...}
-{223}{}{Recuerda esto, no me gusta que hayan rumores o pánico en mi pueblo. Si no quieres problemas, no empeores las cosas. Es así de simple.}
+{223}{}{Recuerda esto, forastero. No me gusta que hayan rumores o pánico en mi pueblo. Si no quieres problemas, no empeores las cosas. Es así de simple.}
+{1223}{}{Recuerda esto, mujer. No me gusta que hayan rumores o pánico en mi pueblo. Si no quieres problemas, no empeores las cosas. Es así de simple.}
 {224}{}{Sí, no quiero ningún problema.}
 {225}{}{Te digo lo mismo, la justicia le llega a todos, tarde o temprano.}
 {226}{}{Has hecho mucho por nosotros, debería agradecértelo.}
@@ -56,6 +57,7 @@
 
 {243}{}{¡Alto! (te apunta con su rifle) Enfunda tu arma, no está permitido portarlas abiertamente.}
 {244}{}{Perdona, sheriff. No conozco bien las reglas de este sitio.}
+{1244}{}{Perdona, sheriff. No conozco bien las reglas de este sitio.}
 {245}{}{Tus reglas no me importan.}
 {246}{}{¡Ja! [Haz caso a la regla]}
 {247}{}{¡Claro que no! [Mantén tu arma en mano]}
@@ -128,7 +130,8 @@
 {314}{}{Interesante.}
 {315}{}{Conozco de una sola vez en la que un Garra Mortal entró a una ciudad y creó un montón de problemas. Fue en el Cementerio, una hembra se anidó en un sótano abandonado e incluso puso huevos. Pero hubo un mercenario que los encontró y se encargó de ellos al destruir los huevos. Imagina si esas cosas hubieran eclosionado.}
 {316}{}{Eso es terrorífico.}
-{317}{}{Bueno, hiciste un buen trabajo, sí que sabes luchar. Deberías unirte a nosotros.}
+{317}{}{Bueno, hiciste un buen trabajo, guerrero. Deberías unirte a nosotros.}
+{1317}{}{Bueno, hiciste un buen trabajo, señorita. Deberías unirte a nosotros.}
 {318}{}{Tal vez, tal vez... Tengo otras preguntas.}
 {319}{}{Habías mencionado tu entrenamiento. ¿En dónde fue eso?}
 {320}{}{Soy un paladín de la Hermandad del Acero. Nuestra base local se encuentra en Puerto Peñasco, mientras que el cuartel general está lejos en California. Me entrenaron allí y luego me ofrecí de voluntario para esta misión.}

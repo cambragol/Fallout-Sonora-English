@@ -24,6 +24,7 @@
 {167}{}{Me lo pensaré.}
 {168}{}{Tengo algunas preguntas.}
 {169}{}{¡Oye, te veo! Sale a la luz, rata. ¿Nos estás espiando para Kogan?}
+{1169}{}{¡Oye, te veo! Sale a la luz, zorra. ¿Nos estás espiando para Kogan?}
 {170}{}{Y bien, ¿trajiste los contratos?}
 {171}{}{Todavía no.}
 {172}{}{¿Quién dijo que te los traería?}

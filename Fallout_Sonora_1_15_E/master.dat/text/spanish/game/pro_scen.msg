@@ -2417,8 +2417,8 @@
 {124701}{}{En esta cama yacen huesos humanos, exceptuando a la cabeza.}
 {124800}{}{Cama}
 {124801}{}{En esta cama yace el esqueleto de un hombre, parece que era un anciano.}
-{124900}{}{Cadáveres}
-{124901}{}{Los cadáveres de los miembros de la expedición. Están envueltos con trapos para que apesten menos.}
+{124900}{}{Cadáver}
+{124901}{}{El cadáver de uno de los miembros de la expedición. Está envuelto con trapos para que apeste menos.}
 {125000}{}{Terminal de la Biblioteca}  
 {125001}{}{Este terminal da acceso a la biblioteca electrónica.}  
 {125100}{}{Objeto de Alta Tecnología}  
@@ -3934,11 +3934,11 @@
 {205000}{}{Cactus}
 {205001}{}{Un cactus común y corriente.}
 {205100}{}{Faro Viejo}
-{205101}{}{Esta estructura antigua se llama 'faro'. Dicen que hace tiempo le daba luz a los marineros, pero no se sabe con certeza.}
+{205101}{}{Esta estructura antigua se llama faro.}
 {205200}{}{Faro Viejo}
-{205201}{}{Esta estructura antigua se llama 'faro'. Dicen que hace tiempo le daba luz a los marineros, pero no se sabe con certeza.}
+{205201}{}{Esta estructura antigua se llama faro.}
 {205300}{}{Faro Viejo}
-{205301}{}{Esta estructura antigua se llama 'faro'. Dicen que hace tiempo le daba luz a los marineros, pero no se sabe con certeza.}
+{205301}{}{Esta estructura antigua se llama faro.}
 {205400}{}{Espíritu de San José}
 {205401}{}{El avión biplaza del Padre Fred Stadtmuller.}
 {205500}{}{Espíritu de San José}

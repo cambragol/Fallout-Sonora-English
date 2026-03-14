@@ -47,6 +47,7 @@
 {233}{}{(Baja la cabeza a sus rodillas)}
 {234}{}{¿Estás bien?}
 {235}{}{(te empuja hacia atrás) ¡Sal de aquí, gringo! ¡El Diablo está aquí!}
+{1235}{}{(te empuja hacia atrás) ¡Sal de aquí, gringa! ¡El Diablo está aquí!}
 {236}{}{¿El Diablo? No lo entiendo, ¿acaso hay algo aquí abajo?}
 {237}{}{El Diablo está muerto. (le das tu mejor sonrisa) ¡Muerto!}
 {238}{}{(abre los ojos como platos) ¿Está muerto...? No... ¡No, no, no! (sale corriendo)}
@@ -55,7 +56,8 @@
 {240}{}{«El Diablo está muerto.»}
 {241}{}{«¿Te encuentras bien, pequeña?»}
 {242}{}{«¿Está todo bien?»}
-{243}{}{(te empuja hacia atrás) ¡Por favor, corre! ¡El Diablo está con nosotros!»}
+{243}{}{(te empuja hacia atrás) ¡Por favor, sal de aquí, gringo! ¡El Diablo está con nosotros!»}
+{1243}{}{(te empuja hacia atrás) ¡Por favor, sal de aquí, gringa! ¡El Diablo está con nosotros!»}
 {244}{}{«¿El Diablo? Pero... espera, ¿qué fue eso?»}
 {245}{}{(abre los ojos como platos) ¿Está muerto...? No... No puede ser. ¡No, no, no! (sale corriendo)}
 {246}{}{«Está asustada, pero, ¿por qué?»}

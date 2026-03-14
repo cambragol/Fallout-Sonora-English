@@ -44,3 +44,6 @@
 {241}{}{Ahora todo será distinto. Aaron nos dio una segunda oportunidad, tanto a nosotros como al hotel. Pronto este desierto será una tierra prometida.}
 {242}{}{Amén.}
 {243}{}{Buena suerte.}
+
+{250}{}{Aaron y su catedral han caído. Lo sabes, ¿verdad?}
+{251}{}{¿¡Cómo te atreves a difundir tal mentira!? Es obvio que Aaron aún lidera a su iglesia, ¡la cual sigue prosperando! Cierra tu sucia boca, antes de que pierda la paciencia.}

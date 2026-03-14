@@ -4,8 +4,8 @@
 # First dialogue
 {200}{}{¿Tienes algún asunto que tratar aquí? Si es así, habla con el Maestro Hard. Lo encontrarás en el taller en el hangar de allá.}
 {201}{}{Gracias.}
-{202}{}{Me gustaría hablar contigo.}
-{203}{}{Eres demasiado amable para estar hablando en serio. Me llamo Abel, soy uno de los Seguidores del Fuego, si eso te suena. Ahora déjame en paz.}
+{202}{}{De hecho, me gustaría hablar contigo.}
+{203}{}{Sí, claro. Me llamo Abel, soy uno de los Seguidores del Fuego, si eso te suena. Ahora déjame en paz.}
 {204}{}{¿Qué haces aquí?}
 {205}{}{Eres persistente. Nuestra iglesia necesita los servicios de los Hojalateros, igual que cualquier otra comunidad moderna. Debo supervisar que se cumplan las peticiones de la iglesia.}
 {206}{}{¿Tanto confían en los Hojalateros?}
@@ -27,7 +27,8 @@
 {221}{}{Es una larga historia. Es mejor que vayas a la Catedral en Fénix y lo veas por tu cuenta.}
 {222}{}{De acuerdo.}
 
-{230}{}{De hecho, yo también soy parte de los Seguidores del Fuego.}
+{230}{}{De hecho, yo también soy un Seguidor del Fuego.}
+{1230}{}{De hecho, yo también soy una Seguidora del Fuego.}
 {231}{}{¿Lo dices en serio? Eso lo cambia todo. Bienvenido a Two-Sun, hermano. Juntos, le traeremos gloria al Fuego Santo.}
 {1231}{}{¿Lo dices en serio? Eso lo cambia todo. Bienvenido a Two-Sun, hermana. Juntos, le traeremos gloria al Fuego Santo.}
 {232}{}{Veo que ya estás más a gusto. ¿Te puedo hacer unas preguntas?}

@@ -35,23 +35,26 @@
 {222}{}{Eso es una pena.}
 {223}{}{¿Tienes chapas? Si es así, muéstrame cuál es el problema.}
 {224}{}{Nada.}
-{225}{}{Cúrame de una vez, doctor.}
-{226}{}{}
-{227}{}{El tratamiento te costará }
-{228}{}{ chapas.}
-{229}{}{De acuerdo, aquí tienes.}
-{230}{}{¿Sabe qué, doctor? Mejor me aguanto.}
-{231}{}{Puede esperar. Tengo más preguntas.}
-{232}{}{Ya estás bien.}
-{233}{}{Gracias, doctor.}
-{234}{}{La siguiente vez, creo que me buscaré otra clínica. Adiós.}
+{225}{}{Para ti, los servicios básicos son gratis. ¿Cuál es el problema?}
+{226}{}{[Curar heridas por }
+{227}{}{ chapas]}
+{228}{}{[Curar miembros rotos por }
+{229}{}{[Curar toda la radiación por }
+{230}{}{[Curar todo el veneno por }
+{231}{}{Eso no era todo, Doc.}
+{232}{}{Estás bien.}
+{233}{}{Gracias, Doc.}
+{234}{}{La siguiente vez, me iré a otra clínica. Adiós.}
 {235}{}{ chapas.}
+{236}{}{Solo cúrame en todo lo que puedas.}
 
 {250}{}{Me gustaría pedirte uno de esos implantes que tienes.}
 {251}{}{(con el ceño fruncido) El Maestro Hard ha autorizado que se te atienda médicamente. Sin embargo, dispensar nuestros implantes más avanzados a un primitivo del yermo sería ineficiente e ilógico.}
+{1251}{}{(con el ceño fruncido) El Maestro Hard ha autorizado que se te atienda médicamente. Sin embargo, dispensar nuestros implantes más avanzados a una primitiva del yermo sería ineficiente e ilógico.}
 {252}{}{¿De verdad te importan tanto?}
 {253}{}{Para instalar un implante nuevo, es necesario autorizar la operación, y eso no se le da a cualquier Hojalatero. Se exige una justificación válida y una compatibilidad con el cuerpo. Algunos deben esperar años para calificar.}
 {254}{}{El Maestro Hard confía en mí, es una sola operación, no creo que le importe.}
+{1254}{}{El Maestro Hard confía en mí, es una sola operación, no creo que le importe.}
 {255}{}{Puede que tengas razón. Selecciona el implante necesario. El costo es de }
 {256}{}{No, ahora no. Tengo que prepararme primero.}
 {257}{}{Este implante es una contraindicación ante tu sistema biológico.}
@@ -67,6 +70,7 @@
 {267}{}{Genial. }
 {268}{}{ chapas. Después de la operación, necesitarás dos días para adaptarte a él.}
 {269}{}{Claro. Empecemos, doctor.}
+{270}{}{Entiendo. En ese caso, intentaré conseguir el permiso de Hard.}
 
 # Questions
 {300}{}{Este lugar está muy sucio.}

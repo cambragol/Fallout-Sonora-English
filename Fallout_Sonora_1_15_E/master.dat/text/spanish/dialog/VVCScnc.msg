@@ -11,7 +11,7 @@
 {116}{}{No creo que estos tipos sólo lean libros. ¿Quiénes son?}
 
 #Before the escape (in the reactor room)
-{200}{}{Ya anticipaba que Fénix enviaría a un rescatista. Pero, ¿quién eres TU?}
+{200}{}{Ya anticipaba que Fénix enviaría a un rescatista... Pero, ¿quién eres TU?}
 {201}{}{Soy un campesino de la Villa. Mis ancestros están conectados a este refugio, de alguna forma. Y quiero averiguar el cómo.}
 {1201}{}{Soy una campesina de la Villa. Mis ancestros están conectados a este refugio, de alguna forma. Y quiero averiguar el cómo.}
 {202}{}{Me impresiona que hayas llegado tan lejos. ¿Sabes? He oído acerca de esa historia con la Villa, si quieres que te cuente los detalles, tendrás que ayudarme a terminar mi misión en este refugio.}
@@ -41,7 +41,7 @@
 {229}{}{Sí, estás en lo correcto. Asumo que los moradores se resistieron a las acciones del supervisor y fueron capaces de detener algunos de los procedimientos. Salvaron sus vidas, pero se condenaron a muchos años de un terrible sufrimiento, y se volvieron una especie de muertos... vivientes... como zombis.}
 {230}{}{Ya debían de estar sufriendo un tiempo antes de que eso ocurriera.}
 {231}{}{Si nos quedamos aquí parados, vamos a acabar como ellos.}
-{232}{}{Sí... claro... Mira, tengo que llegar a la superficie. Creo que ya no queda nada de valor en este sitio, así que no veo por qué seguir exponiéndome a más peligros. Si estamos juntos, tendremos mejores posibilidades de salir de aquí con vida. ¿Puedes ayudarme?}
+{232}{}{Sí... claro... Mira, tengo que llegar a la superficie. Creo que ya no queda nada de valor en este sitio. Si estamos juntos, tendremos mejores posibilidades de salir de aquí con vida. ¿Puedes ayudarme?}
 {233}{}{Vayámonos, te llevaré a la superficie.}
 {234}{}{Muy bien. Puedes ir a la delantera. No seré de mucha ayuda en una pelea, pero cuidaré la retaguardia.}
 {235}{}{Adelante.}
@@ -51,28 +51,28 @@
 {251}{}{Vayámonos.}
 
 {260}{}{¿Qué puedes contarme acerca de esta sala?}
-{261}{}{Este es el nivel del reactor. En algún punto, el reactor se sobrecalentó y tuvo un momento crítico, lo que destruyó parte del nivel. Y por suerte, la roca nos protege de su poderosa radiación.}
+{261}{}{Este es el nivel del reactor. En algún punto, el reactor se sobrecalentó y tuvo un momento crítico, lo que destruyó parte del nivel. Y por suerte, la roca nos protege de su intensa radiación.}
 {262}{}{Este es el nivel de servicio, el centro de control del refugio y otros servicios de apoyo solían estar aquí. Me encantaría ver todo este esplendor tecnológico en su estado original.}
 {263}{}{Este es el centro de educación. La biblioteca está en un estado electrónico, esto demuestra que nuestros ancestros poseían un ingenio asombroso.}
 {264}{}{Este es el salón de entretenimiento, pero parece que debido a la sobrepoblación del refugio, lo utilizaron como habitaciones extra, más que para la recreación.}
-{265}{}{Esta es la oficina del supervisor, el 'gerente' del refugio, por así decirlo. Desde este lugar, era posible controlar todos los sistemas del refugio. Aquí ya no funciona nada - parece que el supervisor destruyó todo el equipo utilizando una explosión de pulso electromágnetico.}
+{265}{}{Esta es la oficina del supervisor, el 'gerente' del refugio, por así decirlo. Desde este lugar, era posible controlar todos los sistemas del refugio. Aquí ya no funciona nada - parece que el supervisor destruyó todo el equipo utilizando una explosión de pulso electromagnético.}
 {266}{}{Estamos en uno de los niveles residenciales, no hay mucho que ver aquí, además de las habitaciones.}
 {267}{}{Tengo otra pregunta.}
 
-{270}{}{Me salvaste. Si no hubiera sido por ti, habría estado atrapado allí abajo por siempre, o quizás estaba condenado a convertirme en uno de esos... zombis. Me ha hecho ver las cosas importantes de la vida de otra manera un poco distinta.}
-{1270}{}{Me salvaste. Si no hubiera sido por ti, habría estado atrapado allí abajo por siempre, o quizás estaba condenado a convertirme en uno de esos... zombis. Me ha hecho ver las cosas importantes de la vida de otra manera un poco distinta.}
-{271}{}{De todas formas, ya eres libre. Es hora de que ayudes a la gente que sigue con vida.}
-{272}{}{¿Sólo "un poco"? La vida no le está enseñando mucho, Señor Científico.}
+{270}{}{Me has salvado. Sin ti, me habría quedado ahí adentro para siempre, quizás hasta hubiese estado condenado a transformarme en uno de esos... Zombis. Además, aún no se aparece el equipo de rescatistas de Fénix. Ah, ¡tengo en mente a algunas personas a las cuales hacerles una admonición!}
+{1270}{}{Me has salvado. Sin ti, me habría quedado ahí adentro para siempre, quizás hasta hubiese estado condenado a transformarme en uno de esos... Zombis. Además, aún no se aparece el equipo de rescatistas de Fénix. Ah, ¡tengo en mente a algunas personas a las cuales hacerles una admonición!}
+{271}{}{[Siguiente]}
+{272}{}{Entonces, ¡tenemos que apresurarnos!}
 {273}{}{En estos momentos, no puedo recompensarte de ninguna forma, pero tengo amigos en la Catedral del Fuego, así que al llegar les contaré de ti una vez que lleguemos a Fénix. Deberías darle una visita al lugar, si no lo has hecho. Pero, em... Necesitaré ayuda para llegar a Fénix. ¿Puedes acompañarme?}
 {274}{}{Claro, vamos a Fénix. ¿Por qué no?}
-{275}{}{Gracias, has vuelto a salvarme. Si vamos a viajar juntos, puedo llevar parte de tu equipamiento. Tampoco estoy en contra de tomar algunos desvíos, si podemos ver algún sitio interesante en el camino.}
+{275}{}{Gracias, has vuelto a salvarme. Si vamos a viajar juntos, puedo llevar parte de tu equipamiento. Tampoco estoy en contra de tomar algunos desvíos, ya sabes... Para apreciar el panorama.}
 {276}{}{Genial. Andando, Arthur.}
 {277}{}{Hagas lo que hagas, no te vayas sin mí.}
 {278}{}{Me encantaría tenerte en mi equipo, pero primero, quiero que cumplas con tu promesa y me des respuestas.}
-{279}{}{He oído que hubieron problemas en la Catedral, es mejor que vayamos de una vez.}
-{1279}{}{He oído que hubieron problemas en la Catedral, es mejor que vayamos de una vez.}
+{279}{}{He oído que hubieron problemas en la Catedral.}
+{1279}{}{He oído que hubieron problemas en la Catedral.}
 {280}{}{La verdad, es que no pienso ir a Fénix en estos momentos.}
-{281}{}{No hay problema, déjame en el asentamiento más cercano y podré llegar a Fénix por mi cuenta. Puedo llevar algunas de tus cosas, y no estoy de contra de echar un vistazo a asentamientos interesantes en el camino.}
+{281}{}{No hay problema, déjame en el asentamiento más cercano y podré llegar a Fénix por mi cuenta. Tampoco estoy en contra de tomar algunos desvíos, ya sabes... Para apreciar el panorama.}
 {282}{}{Bienvenido a mi equipo. Vamos, Arthur.}
 {283}{}{Entonces, vas a ser mi brahmán de carga. Y no vayas a quejarte. ¡A moverse!}
 {284}{}{Bienvenido a mi equipo. Es hora de que hablemos de las respuestas que me prometiste.}
@@ -115,17 +115,17 @@
 {360}{}{Cuéntame qué le ocurrió a la expedición.}
 {361}{}{Nos separamos en dos grupos - el primero iba a revisar el generador de respaldo y el segundo lo lideré yo, fuimos hacia el reactor. Todo fue cuesta abajo después de eso.}
 {362}{}{¿Qué le pasó a tu grupo?}
-{363}{}{Llegamos al reactor y empezamos a explorar, pero había una... trampa, supongo. La explosión mató a mi equipo y me dejó inconsciente. Cuando desperté, el elevador estaba arriba y la corriente eléctrica se había cortado, no podía establecer contacto con el primer grupo.}
-{364}{}{¿Qué ocurrió con el otro grupo?}
-{365}{}{Seguramente fueron atacados por los zombis, no lo sé con certeza, es más probable que lo sepas tú. El generador no pudo haber fallado por su cuenta, así que uno de los zombis tuvo que haber arrancado las células de fusión y eso me dejó atrapado.}
-{366}{}{Encontré a tu grupo, uno de ellos tenía una bala en el cráneo. Explícame eso.}
-{1366}{}{Encontré a tu grupo, uno de ellos tenía una bala en el cráneo. Explícame eso.}
-{367}{}{¿Por qué revisas mis trapos sucios? No fui el único superviviente, hubo otro que estaba herido, pero cuidarlo sólo habría agotado mis propios recursos, no podía permitir eso.}
-{368}{}{Me parece que no te arriesgaste para que tu equipo muriera.}
-{369}{}{Ser cauteloso fue lo que me mantuvo con vida, fue aquí en el refugio que mis ambiciones se apoderaron de mi mente. Tenía que hacer algo, la expedición se había en puesto en riesgo - si fallaba, el culto me hubiera dejado ir, o me hubieran reemplazado. ¡No podía permitirlo!}
+{363}{}{Llegamos al nivel del reactor y empezamos a explorar. Y en ese entonces, nos atacaron los zombis. Apenas conseguí entrar a la sala del reactor. Tras eso, alguien desactivó el generador de respaldo. Un poco después, todo el grupo quedó... En silencio.}
+{364}{}{Me suena a que estabas preocupado de salvarte a ti mientras tus hombres morían.}
+{365}{}{Veo que no tomaron precauciones y se apresuraron.}
+{366}{}{Cerca del reactor, encontré el cadáver de un mercenario, con una marca que sugería que le dispararon con un arma láser. Explícame eso.}
+{1366}{}{Cerca del reactor, encontré el cadáver de un mercenario, con una marca que sugería que le dispararon con un arma láser. Explícame eso.}
+{367}{}{¿Por qué sacas los trapos sucios de otra persona? Sí, no fui el único superviviente, pero él estaba herido. Estuvo gimiendo de dolor durante una hora y me volví loco. No sabía como ayudarlo, así que... Acabé con su sufrimiento.}
+{368}{}{Cambiemos de tema.}
+{369}{}{Ser precavido es lo que me permitió a llegar a esta edad. Y este refugio fue el único lugar en el que mis ambiciones dominaron mi mente. Sí, me apresuré. Al fin y al cabo, la expedición podría haber sido abandonada en cualquier momento. O peor, ¡podrían haber enviado a otra persona a que me reemplazaran!}
 
 {370}{}{¿Qué sabes acerca de los 'zombis'?}
-{371}{}{Diría que son los desafortunados resultados de las complicaciones que dejó el "Protocolo Cero": gases tóxicos, virus esparcidos por el aire, radiación, medicamentos, y más. Se quedaron en una especie de limbo durante décadas hasta que los despertamos. Sus mentes se pudrieron, lo único que quedó fueron sus instintos más primitivos.}
+{371}{}{Diría que son los desafortunados resultados de las complicaciones que dejó el "Protocolo Cero": gases tóxicos, virus esparcidos por el aire, radiación, medicamentos, y más. Sus cuerpos quedaron suspendidos durante décadas, hasta que los despertamos. Sus mentes se pudrieron, lo único que quedó fueron sus instintos más primitivos.}
 {372}{}{¿Te diste cuenta de que muté a algo similar?}
 {1372}{}{¿Te diste cuenta de que muté a algo similar?}
 {373}{}{Es similar, pero distinto. A primera vista, casi pensé que eras uno de ellos. Tienes una vida larga y extraña por delante.}
@@ -137,6 +137,7 @@
 {384}{}{No debiste haberme mentido. Es tu primer y último aviso.}
 {385}{}{Al menos, agradezco la tarjeta. Iré a investigar.}
 {386}{}{¿Tengo que volver a ese maldito infierno? Eso no será nada fácil.}
+{387}{}{No hay por qué hacer eso ahora. Encontré algunos diarios y todo estaba explicado en ellos.}
 
 {390}{}{¿Qué harás ahora?}
 {391}{}{Voy a escribir un gran informe e intentaré sacarle más recursos al Culto para que así pueda completar la expedición. Me hará falta un equipo de guardias en los que pueda confiar para exterminar a los zombis, y un nuevo grupo de esclavos.}
@@ -150,7 +151,7 @@
 {399}{}{¿A qué te refieres?}
 {400}{}{La tecnología no puede salvar a una sociedad corrupta, sólo hará estallar guerras por el poder que puede dar.}
 {401}{}{Hmm... Jamás lo había pensado así. Debido al Culto del Fuego, Fénix ha cambiado. La tecnología antigua nos beneficia, pero igualmente, nos divide... Quizás debería leer sobre la sociología.}
-{402}{}{Pensaba en voz alta. Olvídalo.}
+{402}{}{Es bueno que nos entendamos. Ahora, necesito que me respondas otras preguntas.}
 {403}{}{Ya hablamos suficiente. Adiós.}
 {404}{}{Me alegra que estés entendiendo mejor las cosas. Tengo otras preguntas...}
 
@@ -171,15 +172,17 @@
 {463}{}{Hemos llegado a Fénix, Q.E.D. Ojalá hubiera tenido más gente como tú acompañándome durante la expedición, de esa forma, no hubiera fallado.}
 {464}{}{¿Qué piensas hacer ahora?}
 {465}{}{Tengo mucho que hacer. Primero, debo hablar con mi cliente y entregar mi informe acerca de lo descubierto. Eso me llevará un par de días. Estaré ocupado hasta ese entonces.}
-{466}{}{De acuerdo, nos veremos aquí mismo en dos días.}
-{467}{}{Ahí está mi salvador. Hola.}
+{466}{}{Bien, nos reagruparemos aquí en 24 horas.}
+{467}{}{Saludos, mi salvador.}
+{1467}{}{Saludos, mi salvadora.}
 {468}{}{Adiós, Arthur.}
+{469}{}{¿¡Qué demonios pasó aquí!? ¿¡La catedral fue destruida!? ¡No puedo creerlo!}
 
 {470}{}{Ahí viene mi salvador. Me alegro de verte.}
 {1470}{}{Ahí viene mi salvadora. Me alegro de verte.}
 {471}{}{¿Cómo te fue en tu informe? No te ves muy emocionado.}
-{472}{}{Ya no hay nadie a quién pueda darle mi informe. La Catedral del Fuego fue destruida. Ya no existe. No sé qué ocurrió, pero los Seguidores del Fuego ahora son un grupo de fugitivos, y nadie necesita a un científico como yo.}
-{473}{}{¿Estás seguro de eso?}
+{472}{}{Ya no hay nadie a quién pueda darle mi informe. La Catedral del Fuego fue destruida. Ya no existe. No sé qué ocurrió, pero los Seguidores del Fuego ahora son un grupo de fugitivos, y nadie necesita a un científico como yo. Ni tampoco los resultados de mis meses de trabajo.}
+{473}{}{¿Ahora qué?}
 {474}{}{Hay una cosa que podría intentar, he oído que supuestamente hay una ciudad de científicos más al sur. Quiero buscarla, quizás encuentre... un hogar. Me gustaría viajar junto a ti, si planeas ir en esa dirección.}
 {475}{}{¿Hacia el sur? Lo pensaré.}
 {476}{}{Ah, por cierto. Pude conseguir un poco de Rad-X y estimulantes dentro del laboratorio. Quiero que te los quedes, es mi forma de darte las gracias por haberme rescatado.}
@@ -188,11 +191,28 @@
 {481}{}{¡Sí, ya llegamos! Esta ciudad es como un oasis, aquí prospera la ciencia y el progreso. Incluso el aire se siente distinto. Es perfecto para mis investigaciones.}
 {482}{}{Es hora de decir adiós.}
 {483}{}{Así es. Déjame revisar mis cosas, puede que aún tenga algo que te pertenezca, así que mira bien. Quiero entrar a la ciudad y asentarme tan pronto como pueda.}
-{484}{}{[Más]}
+{484}{}{[Separarse]}
 {485}{}{Estoy feliz de haberte conocido. Jamás pensé que alguien que vive en el yermo me enseñaría la lección más importante de mi vida: que debo valorar la vida humana. Solía dedicarme a la ciencia para obtener gloria y fortunas. Pero es el momento de que haga algo verdaderamente significativo.}
 {486}{}{Adiós, Arthur.}
 {487}{}{El cliente se enfureció al ver mi informe. Se me recriminó porque fui ineficiente y desperdicié recursos, incluso me amenazaron con quemarme en la hoguera. ¿Cómo iba a saber yo que el Refugio tendría esos... 'zombis', o que estaba así de destrozado? Me dijeron que los costos de la expedición no estaban justificados. ¡Malditos avaros! Parece que mi carrera científica se acabó.}
+{488}{}{Me parece que están hablando de Casa Nueva. Será difícil llegar hasta allá.}
+
+{489}{}{¿Y qué?}
+{490}{}{Adiooos.}
+{491}{}{¡Oh!}
+{492}{}{Oki.}
+{493}{}{Ir.}
+{494}{}{Tú no ser necesitado.}
+{495}{}{Esconder arma.}
+{496}{}{Tú quitarte armadura.}
+{497}{}{Eh.}
+{498}{}{Ajá.}
+{499}{}{Nadie.}
+{500}{}{[Apunta a una máquina rota]}
+{501}{}{¡Oh, z-zombis! ¡Mí no querer ser zombi!}
+{502}{}{¿Aquí?}
+{503}{}{}
 
 # added to fix arthur recognizing Casa Nueva
-{488}{}{Bueno, creo que me gustaría ir a Casa Nueva, ese sitio tiene algo que encanta. Podría hacer mi vida allí, podría tener un hogar. Si vas a ir hacia allá, me gustaría viajar contigo. }
-{489}{}{Ya llegamos. Hogar, dulce hogar.}
+{588}{}{Bueno, creo que me gustaría ir a Casa Nueva, ese sitio tiene algo que encanta. Podría hacer mi vida allí, podría tener un hogar. Si vas a ir hacia allá, me gustaría viajar contigo. }
+{589}{}{Ya llegamos. Hogar, dulce hogar.}

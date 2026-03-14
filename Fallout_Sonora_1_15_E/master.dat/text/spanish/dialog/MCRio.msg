@@ -1,6 +1,7 @@
 {100}{}{Ves a Río.}
 {101}{}{Estás viendo a uno de los Escudos Azules.}
 {102}{}{Vaya, vaya, parece que tenemos a una rata topo.}
+{1102}{}{Vaya, vaya, parece que tenemos a una rata topo.}
 {103}{}{Bonita armadura, pero le falta lo más importante - la velocidad.}
 {104}{}{Rel: }
 {105}{}{+20}
@@ -14,6 +15,7 @@
 {203}{}{Vale.}
 {204}{}{}
 {205}{}{(hace una media sonrisa) Pero miren a quién tenemos aquí. Al nuevo favorito de Ben.}
+{1205}{}{(hace una media sonrisa) Pero miren a quién tenemos aquí. A la nueva puta de Ben.}
 {206}{}{¿Estás celoso? Te da miedo tener que hacerme espacio, ¿no?}
 {207}{}{Más te vale que me escuches, perra. NADIE me va a quitar mi puesto junto a Ben. Hemos estado juntos en las buenas y en las malas, él confía en mí. ¿Y tú? Aquí nadie te conoce, cabrón.}
 {208}{}{Río, relájate, no quiero reemplazarte o algo así.}
@@ -31,7 +33,8 @@
 {222}{}{Me gustaría hablar contigo, apenas llegué aquí.}
 {223}{}{Quieres hablar, ¿eh? ¿Hablar CONMIGO, perra? ¿Me ves cara de prostituta? Vete a hablar con un cadáver del yermo, porque nosotros somos una pandilla. Aquí no nos gustan los debiluchos. ¿Entendido?}
 {224}{}{Güey, tienes modales de mierda.}
-{225}{}{Sí, así es, güey. Veo que estás aprendiendo. Quizás podamos trabajar juntos algún día.}
+{225}{}{Sí, así es, 'güey'. Veo que estás aprendiendo. Quizás podamos trabajar juntos algún día.}
+{1225}{}{Sí, así es, puta. Veo que estás aprendiendo. Quizás podamos trabajar juntos algún día.}
 {226}{}{Genial, ya hice el primer contacto.}
 {227}{}{Esto no es un buen comienzo.}
 {228}{}{Métete tus modales por el culo. Ojalá el pavimento sea tu tumba, perra.}

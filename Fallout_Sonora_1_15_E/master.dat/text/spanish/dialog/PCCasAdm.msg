@@ -7,13 +7,15 @@
 {201}{}{Esto no es nada impresionante, pensé que estaría más... lleno.}
 {202}{}{Debería estarlo, pero los ciudadanos de Fénix están pasando por tiempos difíciles y eso afecta nuestro negocio. Pero que puede hacer uno, ¿no?}
 {203}{}{Sí, tienes razón.}
-{204}{}{Este casino es genial, lo que han hecho es sorprendente.}
-{205}{}{Todo esto lo conseguimos a través de mucho esfuerzo. Es todo gracias a Don Diego.}
-{206}{}{Ya veo.}
+{204}{}{Este lugar es increíble. Cuesta creer que hayan conseguido repararlo.}
+{205}{}{Se requirieron años de esfuerzo y determinación. Es todo gracias a Don Diego.}
+{206}{}{Ya veo..}
+{207}{}{¡Guau!}
 
 #Re-dialogue
 {210}{}{¿Puedo ayudarle en algo?}
 {211}{}{No, estoy bien.}
+{212}{}{Hasta luego.}
 
 #Banning casino games
 {220}{}{Eso espero. ¿Por qué no me dejan jugar en el casino?}
@@ -21,8 +23,8 @@
 {222}{}{Con gusto seguiremos dándote la oportunidad de jugar, pero únicamente con las chapas que posees. No te daremos más.}
 {223}{}{¿Por qué?}
 {224}{}{¿Me lo puedes explicar?}
-{225}{}{No es difícil deducir que si alguien gana demasiado, le hace daño a las ganancias del casino. Ya has ganado suficiente como para vivir el resto de tu vida cómodamente. Es el momento de abrirle el paso a los jugadores nuevos. ¿No crees?}
-{1225}{}{No es difícil deducir que si alguien gana demasiado, le hace daño a las ganancias del casino. Ya has ganado suficiente como para vivir el resto de tu vida cómodamente. Es el momento de abrirle el paso a los jugadores nuevos. ¿No crees?}
+{225}{}{No es difícil deducir que si alguien gana demasiado, le hace daño a las ganancias del casino. Ya has ganado suficiente como para vivir el resto de tu vida cómodamente.}
+{1225}{}{No es difícil deducir que si alguien gana demasiado, le hace daño a las ganancias del casino. Ya has ganado suficiente como para vivir el resto de tu vida cómodamente.}
 {226}{}{Entonces eso de 'La casa siempre gana' es mentira. No me engañas.}
 {227}{}{Entiendo tu lógica, pero que porquería.}
 {228}{}{Por favor, no te molestes. Siempre apreciamos a un cliente con dinero. Déjame darte un pequeño regalo de parte del casino para demostrar que somos amistosos. Esta botella contiene whiskey de la preguerra, el de *verdad*. No está ni envenenado ni irradiado. Estos días, es un placer poco común y muy caro.}
@@ -86,6 +88,9 @@
 {302}{}{Por cierto, si decides relajarte en el casino, ten en cuenta que todos deben seguir las mismas reglas. Si quieres jugar a la ruleta, compra fichas como cualquier otro jugador. Si te endeudas, el casino no lo borrará de tu cuenta. ¿Entendido? Bien.}
 {303}{}{Me parece justo. Bueno, debo irme.}
 {304}{}{Voy a tratar este casino como si me perteneciera.}
+{305}{}{¡Guau!}
+{306}{}{Ajá.}
+{307}{}{¡Guau!}
 
 #Work and access to the boss
 {320}{}{¿Están contratando? Busco trabajo.}
@@ -105,7 +110,8 @@
 {334}{}{Hmm, siempre nos viene bien alguien capaz. En especial alguien con tu nivel de talento.}
 {335}{}{Genial. ¿Puedo hablar con tu jefe?}
 {336}{}{Don Diego me dijo que podía pedirte un trabajo. ¿Cuál es tu problema?}
-{337}{}{Ah, así que te contrató a ti. Es muy agradable que uno pueda aliviarse el peso de la responsabilidad de sus hombros, al menos en cosas menores.}
+{337}{}{Ah, así que eres nuestro nuevo empleado. Es muy agradable que uno pueda aliviarse el peso de la responsabilidad de sus hombros, al menos en cosas menores.}
+{1337}{}{Ah, así que eres nuestra nueva empleada. Es muy agradable que uno pueda aliviarse el peso de la responsabilidad de sus hombros, al menos en cosas menores.}
 {338}{}{Te escucho.}
 {339}{}{No imaginas el desastre que dejó la muerte de Don Diego. De verdad me vendría bien un empleado con cerebro.}
 

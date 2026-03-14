@@ -6,3 +6,4 @@
 {112}{}{Piérdete, normalucho. Nadie quiere que estés aquí.}
 {113}{}{¿Qué quieres?}
 {114}{}{Relájate y siéntete como en casa.}
+{115}{}{Hoy en día, el jefe está muy ocupado. Y es por eso que es difícil encontrarlo parado en un solo lugar.}

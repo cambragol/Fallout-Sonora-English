@@ -18,3 +18,4 @@
 {214}{}{¿De verdad? Bueno, es cierto, no estabas ahí... Pero no importa. Los abandoné. Y ahora debo vivir con esa carga.}
 {215}{}{Sigue.}
 {216}{}{Los que se escondieron en el ayuntamiento se llevaron lo peor, fue una masacre.}
+{217}{}{Duh... uumm...}

@@ -1,10 +1,11 @@
-{100}{}{Ves a un colono.}
-{101}{}{Ves a una ciudadana de Flagstaff.}
+{100}{}{Ves a una colona.}
+{101}{}{Ves a una colona de Flagstaff.}
 {102}{}{Ya pasó el toque de queda. Lárgate de aquí.}
 
 #Dialogue
 {200}{}{¿Estás ciego? Esta casa ya está tomada. ¿Qué quieres?}
 {201}{}{Eres una maleducada, así no se saluda a la gente.}
+{1201}{}{Eres una maleducada, así no se saluda a la gente.}
 {202}{}{¿Y qué esperas si vienes y te metes en mi casa? Para que sepas, esto es una ciudad pequeña, aquí nos conocemos todos. Pero a ti no.}
 {203}{}{Lo mismo digo.}
 {204}{}{Sí que eres sorprendente.}

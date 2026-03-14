@@ -3,51 +3,59 @@
 {102}{}{Guarda esa cosa de inmediato, no se permiten armas en este pueblo.}
 {103}{}{Somos una comunidad pacífica, no hay por qué caminar aquí con esa cosa, asustas a los demás.}
 {104}{}{¿Acaso pasó algo? ¡Ve a la cama, ándale! Durante la noche, el pueblo está en toque de queda.}
-{105}{}{Me exigen que tome decisiones. ¿Qué quieren que haga? ¡Yo sólo firmaba papeles para la Hermandad!}
+{105}{}{El pueblo me exige respuestas. ¿Qué quieren que haga? ¡Yo sólo firmaba papeles para la Hermandad!}
+
+{110}{}{Alvaro}
+{111}{}{Alvaro}
+{112}{}{Alvaro}
+{113}{}{Alvaro}
 
 #First meeting
-{200}{}{¡Ah, una cara nueva en nuestro hogar! Que agradable sorpresa... Saludos. Se podría decir que soy el alcalde de este pueblo. Mi nombre es Álvaro.}
-{2200}{}{¡Ah, una cara nueva en nuestro pueblo! ¡A LA MADRE, Y QUÉ CARA! ¿Sabes cómo te tienen que ver los demás? Soy el alcalde de esta ciudad y te pido que te vayas tan pronto como acabes lo que hayas venido a hacer. Y por cierto, me llamo Álvaro.}
-{201}{}{Hola, Alcalde.}
-{202}{}{Hmm. ¿No te quieres presentar? No voy a obligarte, debes tener tus razones.}
-{203}{}{Sí, así es.}
-{204}{}{Soy }
-{205}{}{. Es un gusto, Señor Álvaro.}
-{206}{}{Y tienes buenos modales. Tú y yo nos llevaremos bien.}
-{207}{}{Gracias por darme la bienvenida.}
-{208}{}{Esto es penoso, alcalde. ¿Llamas a esto un pueblo?}
-{209}{}{Eh, sí, sé que no es tan grande como Fénix o su cercanía. No he visto lo que hay más allá del Desierto Sonorense. Pero, piénsalo - ¿no es este lugar pacífico?}
-{210}{}{Eso creo.}
-{211}{}{Pero este lugar es terrible - no hay civilización..}
-{212}{}{¿Puedo saber hacia dónde vas?}
-{213}{}{No lo sé, adonde me lleve el viento.}
-{214}{}{Bueno, está bien, te creeré. La verdad no es asunto mío.}
-{215}{}{Gracias por entenderlo.}
-{216}{}{Eso es todo.}
-{217}{}{Puedes sentirte agusto para pasar la noche en nuestro pueblo, pero también debes seguir las reglas. No nos vienes a causar problemas, ¿cierto?}
-{218}{}{Claro que no. Y agradezco tu oferta.}
-{219}{}{Si no me molestan, no muerdo. Recuérdalo.}
-{220}{}{Soy parte de la Hermandad del Acero, tengo mi insignia.}
-{221}{}{¡Ah, te doy la bienvenida! No te había reconocido... Em... Siempre estaremos felices de recibir a nuestros defensores. Siéntase agusto.}
-{222}{}{Gracias.}
-{223}{}{De inmediato.}
-{224}{}{Voy hacia Puerto Peñasco, tengo cosas que hacer allí.}
-{225}{}{Eso me sorprende, los únicos que van hacia allá sin permiso son las caravanas. Pero si no quieres hablar, no voy a insistir.}
-{226}{}{Gracias por entenderlo.}
-{227}{}{Como dicen, el que mucho habla, mucho yerra.}
-{228}{}{No es asunto tuyo.}
-{229}{}{Bueno, digamos que de verdad no es asunto mío. De todas formas, recuerda respetar a los demás y evita las peleas - somos un pueblo pacífico.}
-{230}{}{Lo siento, no debí haber respondido así - el viaje me ha cansado...}
-{231}{}{Si no quieres tener problemas, no los empieces. ¿Bien?}
-{232}{}{Fue un gusto hablar contigo, pero tengo mucho papeleo que hacer.}
-{233}{}{Nos vemos luego.}
-{234}{}{¿Nos llamamos igual? Que chistoso. Estoy seguro de que nos llevaremos bien.}
+{200}{}{¡Ah, una cara nueva en nuestro hogar! Que agradable sorpresa... Saludos. Se podría decir que soy el alcalde de este pueblo. Mi nombre es Álvaro. ¿Y el tuyo?}
+{2200}{}{¡Ah, una cara nueva en nuestro pueblo! ¡A LA MADRE, Y QUÉ CARA! ¿Sabes cómo te tienen que ver los demás? Soy Álvaro, ¿cuál es el tuyo?}
+{201}{}{Preferiría no hablar mucho de mí. Ya sabes como es, el silencio vale más que el oro.}
+{202}{}{Está bien, no insistiré. Entonces, ¿puedo preguntar qué te trae por aquí?}
+{203}{}{Dejémonos de cortesías, alcalde. Es mejor que yo quede en el anonimato.}
+{204}{}{Me llamo }
+{205}{}{. Es un placer, señor Álvaro.}
+{206}{}{Oh, ¿buenos modales? Entonces, nos llevaremos de maravilla. Dime, ¿qué te trae a Casa Nueva?}
+{207}{}{Ah, chingá... ¡Tenemos el mismo nombre! ¡Qué casualidad! Seguro que nos llevaremos de maravilla. Dime, ¿qué asuntos te traen a Casa Nueva?}
+{208}{}{Tal vez sí. Pero aun así… ¿qué te trae por aquí?}
+{209}{}{Solo voy a donde me lleva el viento.}
+{210}{}{Alcalde, eso no es asunto tuyo.}
+{211}{}{Sirvo a la Hermandad del Acero.}
+{212}{}{¡Oh! ¡Bienvenido, bienvenido! Al principio, no te reconocí. Siempre nos alegra ver a nuestros protectores. Siéntete como en casa, sírvete lo que quieras.}
+{213}{}{Gracias por una bienvenida tan agradable.}
+{214}{}{Así está mejor.}
+{215}{}{Me dirijo a Puerto Peñasco. Tengo asuntos que tratar por allá.}
 
-{239}{}{Eso quiere decir que tu pueblo está condenado. Deberías salir de aquí antes de que venga una turba.}
-{240}{}{(mientras está sentado, tiene sus manos en la cabeza e ignora a todos a su alrededor) Agh...}
-{241}{}{Te ves terrible. ¿Pasó algo?}
-{242}{}{Todo está perdido... Solíamos sobrevivir gracias a la Hermandad del Acero. Y hace poco nos llegó un mensajero con terribles noticias...}
-{243}{}{Sí, lo sé - la Hermandad fue destruida. Quizás haya sido una explosión en su almacén de municiones.}
+{216}{}{¡Ja! ¡Tú gracioso!}
+{217}{}{No veo qué hay de gracioso. Aunque supongo que te reirías toda la noche si te meneara un dedo en la cara.}
+{218}{}{¡Je-je!}
+{219}{}{¡Ja-ja-ja!}
+
+{220}{}{Bueno, puedes descansar aquí antes de seguir con tu camino. Solo respeta las reglas, y no molestes a la gente sin motivo. Ya por la tarde, suelen estar chamb-... Trabajando.}
+{221}{}{Gracias por la hospitalidad.}
+{222}{}{Adiós.}
+{223}{}{Puedes reabastecerte antes de irte. Pero, te pido que te marches en cuanto termines tus asuntos.}
+{224}{}{No te preocupes. No pienso quedarme mucho tiempo.}
+{225}{}{Me iré cuando me dé la gana. ¿Entendido?}
+
+{230}{}{(sujetándose la cabeza, el alcalde se sienta en su escritorio, ignorando a todos a su alrededor) Ah, chingá...}
+{231}{}{Tienes muy mala cara. ¿Pasó algo?}
+{232}{}{¡Tú ser gracioso!}
+{233}{}{Todo está perdido… Antes, salíamos adelante gracias a la Hermandad del Acero. Pero hace poco, llegó un mensajero con noticias terribles…}
+{234}{}{Sí, lo sé. La base de la Hermandad fue destruida.}
+{235}{}{[Escúchalo]}
+{236}{}{¿Y ahora qué hacemos? ¿Quién nos va a proteger? ¿Quién nos va a guiar?}
+{237}{}{¿Y qué hay de los Seguidores?}
+{238}{}{Los Seguidores del Apocalipsis no son guerreros, y hay tan pocos… Es inútil… Todo está perdido… Todo está perdido…}
+{239}{}{¡Póntelos bien, Álvaro! ¡Eres el alcalde, todo está en tus manos!}
+{240}{}{Me das asco. No eres un alcalde… ni siquiera eres hombre.}
+{241}{}{¿Qué clase de alcalde soy? Solo hacía papeleo para la gente de la Orden. Ahora tendremos que sobrevivir por nuestra cuenta. No será fácil…}
+{242}{}{Confía en ti mismo. Puedes con esto.}
+{243}{}{Entonces este pueblo está acabado. Lárgate mientras puedas, “alcalde”.}
+
 {244}{}{¿Qué deberíamos hacer ahora? ¿Quién nos protegerá? ¿Quién nos dirá qué hacer?}
 {245}{}{¿Y qué hay de los Seguidores?}
 {246}{}{Ellos no son guerreros y son tan pocos para todos los problemas que hay. No hay esperanza, todo está perdido... todo...}
@@ -59,22 +67,23 @@
 {250}{}{Disculpa, pero hoy tengo mucho papeleo que hacer.}
 {251}{}{Adiós.}
 {252}{}{¿En qué puedo ayudarle, joven?}
+{1252}{}{¿En qué puedo ayudarla, señorita?}
 {253}{}{Ahí estás, eres nuestro héroe, compadre. ¿En qué te ayudo?}
 {1253}{}{Ahí está, usted es nuestra salvadora, señorita. ¿En qué le ayudo?}
-{254}{}{Nos vemos}
+{254}{}{Nos vemos.}
 
 {260}{}{Se rumorea que aquí ha estado desapareciendo gente. ¿Es cierto eso?}
 {261}{}{¿Quién te dijo eso?}
 {262}{}{No te lo diré.}
-{263}{}{Ah, ¿está claro que aquí nadie desaparece! Sólo unos criminales que escaparon cuando construíamos el pueblo.}
-{264}{}{Ya veo.}
-{265}{}{Ojalá que no andes por ahí contando rumores tan feos, que no son verdad.}
-{266}{}{Claro, no hay problema.}
-{267}{}{Lo haré sólo si descubro que estás mintiendo. Adiós, señor alcalde.}
-{268}{}{La señora Rosalía. Me dijo que has prohibido la búsqueda de su esposo.}
-{269}{}{Que pendej- Es decir, que tontería. No he prohibido la búsqueda, si quiere buscar, que lo haga. Pero seguro no encuentra a su marido porque se fue del pueblo, de tanto que ching- molesta esa señora.}
+{263}{}{¿Ah, sí? No deberías creerle a cualquier viajero. ¡Claro que aquí no desaparece nadie! ¡Y no te atrevas a difundir rumores así de asquerosos!}
+{264}{}{Está bien. Si tú lo dices…}
+{265}{}{Rosalía dice que has prohibido buscar a su esposo.}
+{266}{}{¿¡De qué verg-...!? ¿De qué está hablando!? ! Lo cierto es que su esposo se tuvo que haber hartado de ella. No le hagas caso, esa bruja está perdiendo la cabeza.}
+{267}{}{Está bien. Si tú lo dices…}
+{268}{}{Rosalía. Dice que prohibiste que alguien buscara a su esposo.}
+{269}{}{¿¡De qué verg-...!? ¿De qué habla? Yo no he prohibido nada, que busque si quiere. Pero no lo va a encontrar porque su maridito se largó del pueblo. Su mal carácter debió de ahuyentarlo.}
 {270}{}{Ya veo.}
-{271}{}{No hay problema - esa bruja se está volviendo loca.}
+{271}{}{No te preocupes, la bruja se está volviendo loca.}
 
 {280}{}{Por favor, cuéntame sobre este lugar.}
 {281}{}{Somos una comunidad pacífica de campesinos. La mitad del pueblo trabaja en las plantaciones y el resto en actividades igual de pacíficas. Los Seguidores tienen su propia escuela por aquí.}
@@ -86,63 +95,53 @@
 {287}{}{Por cierto, ¿qué asentamientos hay por aquí?}
 {288}{}{Ya veo.}
 {289}{}{Puerto Peñasco está al oeste y Two-Sun al este. Eso es todo, excepto por un par de aldeas pequeñas y unos puestos avanzados aquí y allá. Pero son pasajeros, difícilmente vale la pena tomarlos en cuenta.}
-{290}{}{Gracias.}
-{291}{}{Este lugar es un verdadero oasis en el desierto. ¿Cómo es esto posible?}
-{292}{}{Le agradecemos a los Seguidores del Apocalipsis por su amabilidad e inteligencia. Ellos han desarrollado variedades de plantas que pueden prosperar en un desierto árido.}
-{293}{}{¿Las demás ciudades también compran sus cosechas?}
-{294}{}{¿Quiénes son los Seguidores?}
-{295}{}{Por cierto, ¿quiénes son esos Seguidores?}
-{296}{}{Los Seguidores del Apocalipsis... Es un nombre raro, pero ya nos acostumbramos. Ellos llevan a cabo investigaciones científicas, educan a los niños y curan enfermedades. Es gracias a sus experimentos que la plantación está allí. Pero te conviene mucho más hablar con ellos en persona.}
-{297}{}{He oído de otro grupo - los Seguidores del Fuego, están en Fénix.}
-{298}{}{He escuchado hablar de ellos, pero jamás los he visto. A excepción de las caravanas que vienen de Fénix.}
-{299}{}{Por cierto, ¿por qué has vetado el alcohol en este lugar?}
-{300}{}{¿Por qué vetaste el alcohol en el pueblo?}
-{301}{}{Técnicamente, sólo está vetado el alcohol fuerte. Hay demasiado trabajo que hacer como para distraerse con el entretenimiento. Los campesinos tienen algunos días libres para hacer lo que les de la gana después de cada cosecha.}
-{302}{}{Aquí no hay guardias, eso es interesante. ¿Acaso no tienes miedo de los esclavistas o los saqueadores?}
-{303}{}{Respecto a tu comunidad 'pacífica' - ¿no le tienes miedo a los esclavistas o los saqueadores?}
-{304}{}{¿Por qué deberíamos tener miedo? Nuestros patrones imponen el orden en estas tierras. Somos un pueblo pacífico que sólo hace cosas pacíficas. Ni siquiera tenemos permitido tener armas. Así que no hay nada que temer.}
-{305}{}{Sí, tienes todo un oasis en este lugar. ¿Cómo fue que este lugar llegó a ser así?}
-{306}{}{¿Patrones? ¿Quiénes son?}
-{307}{}{Un momento, ¿no sabes de la base militar en Puerto Peñasco? Entonces no debería hablarte sobre esto, pero que sepas que hay alguien que nos defiende.}
-{308}{}{Ya sabes de quién estamos hablando - de la Hermandad del Acero. Ellos son los maestros de estas tierras.}
 
-{310}{}{¿Qué opinas de la Hermandad del Acero?}
-{311}{}{Son nuestros patrones, no podríamos sobrevivir sin ellos.}
-{312}{}{Ya veo.}
-{313}{}{¿Lo dices en serio?}
-{314}{}{Te lo digo de corazón.}
-{315}{}{Eso es bueno.}
-{316}{}{Está bien - supongo que te creeré.}
-{317}{}{No hay nada de felicidad o admiración en lo que dices.}
-{318}{}{¿Te puedo ser honesto, no? No nos gusta hablarlo, pero la verdad es que aquí todos somos peones. Somos esclavos de por vida, para serte honesto. Para que nos protejan y den un lugar en donde vivir, tendríamos que pagar impuestos que no podemos permitirnos.}
-{319}{}{Te escucho...}
-{320}{}{No nos alcanzan las chapas, así que la gente firma un contrato de servidumbre y básicamente se venden de por vida.}
-{321}{}{Eso es triste.}
+{290}{}{Entonces, ¿qué cultivan aquí?}
+{291}{}{Principalmente elote y agave ardiente. El pueblo vive de esas plantaciones.}
+{292}{}{¿Con qué pueblos comercian?}
+{293}{}{Principalmente con asentamientos cercanos. Los más grandes son Puerto Peñasco y Two-Sun.}
+{294}{}{Principalmente con asentamientos cercanos. El más grande es Two-Sun.}
+{295}{}{Un verdadero oasis en medio del desierto. ¿Cómo lo lograron?}
+{296}{}{Eso se lo debemos a los Seguidores del Apocalipsis. Se encargan de investigar, enseñan a los niños, curan enfermedades. La verdad es que las plantaciones mismas existen en el desierto gracias a sus experimentos. Pero, mejor pregúntales a ellos directamente.}
+{297}{}{Conozco a otros Seguidores… Quiero decir, a los Seguidores del Fuego Santo, en Fénix.}
+{298}{}{He oído de ellos, pero nunca nos hemos cruzado con ellos.}
+{299}{}{Conozco una comunidad agrícola parecida. Los esclavistas se la apropiaron.}
+{300}{}{Lamento oír eso. Estas tierras tienen protectores poderosos. Así que no tenemos nada que temer.}
+{301}{}{¿Qué opinas de la Hermandad del Acero?}
+{302}{}{Son nuestros patrones. Sin ellos, no habríamos sobrevivido.}
+{313}{}{¿Fue una respuesta sincera?}
+{314}{}{Sí. Fue sincera.}
+{315}{}{Escucho tristeza en tu voz. No estás siendo honesto, ¿verdad?}
+{316}{}{¿Puedo hablar con franqueza? Mucha gente aquí vive como peones. Para tener protección y un lugar seguro donde vivir, hay que pagar impuestos aplastantes. Aun así… podría ser peor. Somos libres, siempre y cuando no hagamos algo que vaya contra los intereses de la Hermandad.}
+{317}{}{¿Y estás dispuesto a obedecer a la Hermandad en todo?}
+{318}{}{¡No tenemos opción! Vivimos solo gracias a la Orden. Sin ella nunca habríamos construido un pueblo ni cultivado en el desierto, aunque nos costó algo de libertad. ¿Lo entiendes?}
+{319}{}{No me toca juzgar. Cambiemos de tema.}
+{320}{}{A mí me suena bastante a esclavitud. Cambiemos de tema.}
+{321}{}{¿Sumisión a cambio de la supervivencia? Realmente no hay mucha opción, supongo. Cambiemos de tema.}
+
 {322}{}{Es justo lo que pensaba.}
 {323}{}{Pero no es tan malo. Se nos da vía libre en todo lo que no contradiga las leyes y los intereses de la Hermandad del Acero. Y la neta, es que si necesitamos ayuda y protección en la que podamos confiar. Al fin y al cabo, la Hermandad ocupa comida y una ruta comercial. No habría nada de eso sin nosotros.}
 {324}{}{¿Y estás bien con esta situación?}
 {325}{}{¡No tenemos otra opción! Es gracias a la Hermandad y los Hojalateros que hemos construido un pueblo tan hermoso y cultivado tantas cosechas. Sin su ayuda, seguiríamos sobreviviendo miserablemente como chatarreros en medio del desierto.}
-{326}{}{Eso es cierto, no hay mucha elección. No sabría que elegir en una situación así.}
-{327}{}{Para mí es difícil entender cómo podrías abandonar tu libertad y entrar a una jaula. Eso es un error. Adiós.}
-{328}{}{Sé de la infección y cómo se ha ocultado. Además de la presión en los aldeanos y las reglas, regulaciones y prohibiciones. ¿No es eso tu tiranía si la Hermandad no tiene nada que ver?}
-{329}{}{Si no puedes ser un Garra Mortal, al menos puedes fingir ser una rata cerdo. ¿Es eso lo que quieres decir, debilucho?}
+{326}{}{Eso es cierto, no es que tengan otra opción. No sabría que elegir en una situación así.}
+{327}{}{Para mí, es difícil entender cómo podrías abandonar tu libertad y entrar a una jaula. Eso es un error. Adiós.}
+{328}{}{Sé de la infección y cómo se ha ocultado. Además de la presión en los aldeanos y las reglas, regulaciones y prohibiciones. ¿No es eso tu tiranía, si la Hermandad no tiene nada que ver?}
+{329}{}{Si no puedes ser un lobo, al menos puedes fingir ser una rata cerdo. ¿Es eso lo que quieres decir, debilucho?}
 
-{330}{}{¿Sabías que la mascota de tu hijo está muriendo?}
-{331}{}{Sí... Ya estoy hasta la madre de los lloriqueos y ruidos que la rata hace por la noche. Le dije a Chip que no debería tener a un animal en casa, pero no me escucha. Y ahora tengo que aguantar y lidiar con las quejas de los vecinos.}
-{332}{}{¿Y qué les hizo Meñique a ustedes?}
-{333}{}{Bueno... para decir la verdad, nada en particular, sólo los ruidos que hace en la noche. Su apariencia es algo intimidante y eso es suficiente. Si fuera útil, quizás la opinión que tienen los demás sobre Meñique sería distinta.}
-{334}{}{Eso es una observación interesante.}
+{330}{}{¿Sabías que la mascota de tu hijo se está muriendo?}
+{331}{}{Le dije a Chip que no tuviera un animal en la casa. ¡Pero no me hizo caso! Ahora tengo que lidiar con las quejas de los vecinos, y ya estoy hasta la ma-... Ya estoy harto de ese tema.}
+{332}{}{¿Qué les hizo Meñique?}
+{333}{}{Lo tolero por Chip. La mayoría de los vecinos también. Pero Frank… él lo odia por alguna razón. Frank odia a todos los mutantes.}
+{334}{}{Ya veo.}
 
-{340}{}{Hay un asentamiento llamado Santa Ana, quieren empezar a comerciar contigo.}
-{341}{}{¿Santa Ana? No había oído ese nombre en años. Esa aldea solía evitar cualquier tipo de contacto con nosotros. ¿Qué cambió?}
-{342}{}{Digamos que cambiaron de líder.}
-{343}{}{Ah, eso sí que es intrigante, voy a alistar una caravana. Quizás podamos encontrar trabajadores en la gente de Santa Ana, nos hacen falta. Gracias por hacérmelo saber.}
+{340}{}{El asentamiento de Santa Ana quiere empezar a comerciar con ustedes.}
+{341}{}{¿Santa Ana? Qué raro. No he oído de ese pueblo.}
+{342}{}{Antes se mantenían aislados. Pero cambió el liderazgo hace poco y han cambiado de mentalidad.}
+{343}{}{Oh, ahora sí suena interesante. Tendré que preparar una caravana. Tal vez podamos conseguir manos nuevas de la gente de Santa Ana, que siempre nos hacen falta. Gracias por traer el mensaje.}
 {344}{}{De nada.}
 
-{350}{}{Tienes un acento interesante, Álvaro.}
-{351}{}{He usado nuestra jerga toda mi vida, sólo he dejado de usarla ahora que estoy más viejo, a veces se me escapa. Eso no es nada raro, en estos lados.}
-{352}{}{Ya veo. Perdón si fue incómodo.}
-{353}{}{No hay problema, hablas chistoso.}
-{354}{}{«Te entiendo, compadre. Te entiendo.»}
-{355}{}{Me hace feliz ver a alguien como yo, pero eso no quiere decir que seamos amigos. Al menos aquí, la mitad de la gente tiene algún acento... Pero, me alegra ver a otra persona que tiene mis mismas raíces.}
-{356}{}{Genial, hablemos de otra cosa, si no te importa.}
+{350}{}{Álvaro, tienes un acento interesante.}
+{351}{}{He usado nuestra jerga toda mi vida, sólo he dejado de usarla ahora que estoy más viejo, y ya que estoy en la posición de alcalde, creo me hace ver algo menos profesional. Y a veces se me escapa. Eso no es nada raro, en estos lados.}
+{352}{}{«Te entiendo, compadre. Te entiendo.»}
+{353}{}{Me hace feliz ver a alguien como yo, pero eso no quiere decir que seamos amigos. Al menos aquí, la mitad de la gente tiene algún acento... Pero, me alegra ver a otra persona que tiene mis mismas raíces.}
+{354}{}{Genial, hablemos de otra cosa, si no te importa.}

@@ -86,7 +86,8 @@
 {284}{}{En parte, aunque no sé que hubiera hecho en tu lugar...}
 {285}{}{Los gánsteres no suelen vivir mucho, no quiero ser uno de ellos. Lo único que puedo hacer es ahogar mis penas en el alcohol. Me quedo aquí a beber, no le hago daño a nadie y todos están felices.}
 {286}{}{Eso es muy triste, Mike. Ya entiendo el por qué no me entrenarás.}
-{287}{}{Vuelve cuando seas un ángel que irradie paz y amabilidad. Puede que en ese entonces, te enseñe todo lo que sé.}
+{287}{}{Vuelve cuando seas un santo que irradie paz y amabilidad. Puede que en ese entonces, te enseñe todo lo que sé.}
+{1287}{}{Vuelve cuando seas un ángel que irradie paz y amabilidad. Puede que en ese entonces, te enseñe todo lo que sé.}
 {288}{}{Vale. Te demostraré que puedes confiar en mí.}
 {289}{}{Dudo que pueda hacerle bien a esta ciudad. Adiós, Mike.}
 {290}{}{¿Sigues estando en contra de entrenarme?}
@@ -130,6 +131,7 @@
 {331}{}{Nos vemos mañana, Mike.}
 
 {332}{}{(con desdén) Sabía que no podía confiar en ti, me juraste que usarías tus habilidades para el bien, pero ahora no creo ni una sola palabra de lo que dices. Piérdete.}
+{1332}{}{(con desdén) Sabía que no podía confiar en ti, me juraste que usarías tus habilidades para el bien, pero ahora no creo ni una sola palabra de lo que dices. Piérdete.}
 {333}{}{Eh...}
 {334}{}{Fuera de mi vista, eres una desgracia.}
 {335}{}{Bueno, olvídalo.}

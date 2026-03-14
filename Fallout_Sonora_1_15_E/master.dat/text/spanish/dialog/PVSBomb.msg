@@ -4,6 +4,7 @@
 {113}{}{La bomba está lista para explotar. Utiliza la habilidad de Trampas para activarla.}
 {114}{}{Es la bomba más grande que jamás hayas visto.}
 {115}{}{Eso no será necesario. Todo ya pasó como debía.}
+{116}{}{Eso no será necesario. La Iglesia ya ha sido derrocada.}
 
 {120}{}{Ves una ojiva nuclear de potencia baja. No está terminada, pero podría activarse.}
 {121}{}{La bomba no tiene los fusibles necesarios, así que no es un peligro.}

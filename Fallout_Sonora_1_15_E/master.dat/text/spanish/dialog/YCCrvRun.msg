@@ -30,8 +30,8 @@
 {223}{}{No.}
 {224}{}{Entonces no hay trato. Adiós.}
 {225}{}{[Irte]}
-{226}{}{Espera, cambié de parecer. Aquí tienes las chapas. Dame el inyector.}
-{1226}{}{Espera, cambié de parecer. Aquí tienes las chapas. Dame el inyector.}
+{226}{}{Espera, cambié de parecer. Aquí tienes las chapas. Ahora, dame el inyector.}
+{1226}{}{Espera, cambié de parecer. Aquí tienes las chapas. Ahora, dame el inyector.}
 {227}{}{Si no me lo quieres dar, entonces lo tomaré a la fuerza...}
 {228}{}{Sí. Ten las 800 chapas.}
 {229}{}{Sí. Ten las 1.000 chapas.}

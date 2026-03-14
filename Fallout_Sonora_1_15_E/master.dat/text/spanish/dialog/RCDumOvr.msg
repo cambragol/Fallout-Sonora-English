@@ -24,7 +24,7 @@
 {224}{}{¿Hace cuánto que estás trabajando aquí?}
 {225}{}{Hmm, déjame pensar. Unos 30 años, creo. Aquí nadie cuenta los años.}
 {226}{}{¿Por qué los rangers se establecieron en esta presa?}
-{227}{}{Ah, hay muchas razones: es una fortaleza para defendernos de los malos, nos protege de las tormentas de polvo, hay mucha agua y siempre hay electricidad. No lo pensamos dos veces.}
+{227}{}{¿No es obvio? Es una forteza impenetrable, y una fuente de energía imparable.}
 {228}{}{Soy el supervisor de la presa, me aseguro de que el lugar funcione y no tenga problemas..}
 {229}{}{Y, Rufus, ¿cuál es tu trabajo?}
 {230}{}{¿El acueducto también es parte de la planta eléctrica?}
@@ -63,11 +63,11 @@
 {273}{}{Bueno, vamos a ver... ¡Santa Catarina! ¿Cómo...? ¡Está funcionando!}
 {274}{}{Claro, está como nueva. Pero... em... no soy una caridad, ¿sabes?}
 {275}{}{Sí... lo que pensaba. Toma, por ayudarnos. te puedes llevar unas células de microfusión. Si no las ocupas, las puedes intercambiar en alguna ciudad por algo útil.}
-{276}{}{Sí, no fue tan difícil.}
-{277}{}{Los Rangers no olvidan a sus amigos. Toma, por ayudarnos. te puedes llevar unas células de microfusión. Si no las ocupas, las puedes intercambiar en alguna ciudad por algo útil.}
-{278}{}{[Continuar]}
-{279}{}{Gracias, es una pena que no me vayas a reemplazar cuando me retire. Si no te importa, ¿podrías dejarme sólo con este bebé? Puede que necesite cuidados adicionales, no quiero que vuelva a descomponerse.}
-{280}{}{Claro, volveré más tarde... pero, tú asegúrate de que este lugar siga funcionando.}
+{276}{}{Sí, arreglarla no fue tan difícil. Es mi pequeña contribución a la gran causa de los Rangers.}
+{277}{}{¡Así es! Los Rangers jamás olvidan a sus amigos.}
+{278}{}{[Más]}
+{279}{}{Gracias, eso debería mantenerla en marcha durante un tiempo. Es una pena que no seguirás aquí cuando yo me retire.}
+{280}{}{Bien, vendré a verla después... De momento, mantén a este pedazo de chatarra funcionando.}
 {281}{}{Tranquilo, viejo. Puede que esos cables te chamusquen un poco los dedos.}
 {282}{}{}
 {283}{}{¿En dónde puedo conseguir partes electrónicas?}
@@ -93,6 +93,8 @@
 {322}{}{Entonces, ¿no me darás una recompensa?}
 {323}{}{Tus esfuerzos se quedaron cortos, ¿no? Bueno, a moverse, tengo cosas que volver al trabajo.}
 {324}{}{Bueno, así son las cosas...}
+{325}{}{Traigo malas noticias. El niño talentoso de Ciudad Garaje está muerto.}
+
 {330}{}{Aquí está el niño que querías.}
 {331}{}{Vaya. ¡Hola, hijo! Me da la sensación de que vas a encajar con los Rangers. Pero, primero lo primero - te vendría bien una ducha...}
 {332}{}{Ejem...}

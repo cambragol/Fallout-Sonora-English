@@ -1,6 +1,7 @@
 {100}{}{Ves a un necrófago de la central eléctrica.}
 {101}{}{Ves a una persona con la piel chamuscada y podrida, lleva un uniforme de trabajo deshilachado.}
-{102}{}{Vaya, vaya, así que ahí estás. Piérdete o te arrancaremos los dientes.}
+{102}{}{Vaya, vaya, así que ahí estás, buscapleitos. Piérdete o te arrancaremos los dientes.}
+{1102}{}{Vaya, vaya, así que ahí estás, buscapleitos. Piérdete o te arrancaremos los dientes.}
 
 {110}{}{Shh, te va a escuchar.}
 

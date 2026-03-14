@@ -5,6 +5,7 @@
 {104}{}{Papá... papá... se nos fue...}
 {105}{}{¿En dónde conseguiste eso? Escóndelo antes de que los demás lo vean, los guardaespaldas de mi papá abrirán fuego a cualquier forajido que vean.}
 {106}{}{¿Qué está pasando? ¿En dónde está mi papá?}
+{107}{}{Papá ya no está, y Sullivan se apoderó de la ciudad. Y ahora, también soy suya. ¿¡Cómo fue que todo terminó así!?}
 
 {110}{}{Z-z-z...}
 {111}{}{Hrr...}
@@ -19,7 +20,7 @@
 
 {120}{}{*Tarareando*}
 {121}{}{Es un buen día para hacer bromas.}
-{122}{}{¿Debería invitar al chico nuevo a una partida de póquer?}
+{122}{}{¿Qué me dices de una partida de póquer?}
 {123}{}{Necesito pedirle más chapas a mi papi.}
 {124}{}{Estaré bien, papá me perdonará.}
 {125}{}{Ah, que aburrimiento...}
@@ -122,6 +123,7 @@
 {332}{}{Estoy bien. Lo digo en serio. Pero mientras me tenían de rehén, los forajidos hablaban de mi padre. Dijeron que le robó el poder al alcalde anterior y que mató despiadadamente a la mitad de los ciudadanos que estaban en contra de su poder. Yo era demasiado joven para recordar todo eso. ¿Es verdad?}
 {333}{}{Deja de ser una ingenua, abre los ojos - cualquier forma de poder es violenta. Tu papá es sólo un ejemplo de eso.}
 {334}{}{Lo entiendo... Puede que haya sido un tirano y que haya cometido esos terribles crímenes. Pero para mí, él era... mi papá. Él siempre cumplía mis deseos y me daba lo mejor. ¿Cómo es que las cosas acabaron así?}
+{1334}{}{Lo entiendo... Puede que haya sido un tirano y que haya cometido esos terribles crímenes. Pero para mí, él era... mi papá. Él siempre cumplía mis deseos y me daba lo mejor. ¿Cómo es que las cosas acabaron así?}
 {335}{}{Bienvenida a la realidad. Este mundo está hecho de sangre.}
 {336}{}{Sí, ahora lo entiendo. Y voy a hacer todo lo que pueda para evitar que esto ocurra otra vez.}
 {337}{}{Eso depende de ti. Yo he terminado mis asuntos en esta ciudad. Es hora de que me vaya.}
@@ -138,3 +140,9 @@
 {347}{}{Entonces, ¿por qué la cara larga?}
 {348}{}{Oye, ¿en dónde están esos ojos ansiosos de una chica joven e ingenua?}
 {349}{}{Al menos te ama. Eso quiere decir que en su interior, no es ningún tirano. Es sólo que las cosas terminaron así.}
+
+{350}{}{¿Sabes qué pasó con el embajador de los Hojalateros?}
+{351}{}{Esto no te lo dije yo, pero... Digamos que ya está en la tumba. Si no me crees, ve al cementerio.}
+{352}{}{Mierda, no me gusta como suena eso...}
+{353}{}{No, no lo sé.}
+{354}{}{De acuerdo.}

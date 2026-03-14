@@ -76,7 +76,8 @@
 {302}{}{El Yermo me abrió los ojos y me mostró el mundo. Ustedes están completamente equivocados.}
 {303}{}{¡No te corresponde a ti decidir cómo debemos vivir! La Villa ha sobrevivido gracias a los valores y tradiciones que hemos escogido. El yermo no puede dictarnos un camino distinto. Y tú...}
 {304}{}{¿Yo qué?}
-{305}{}{¡Eres hipócrita, nada más! ¡Estás usando el mundo exterior para esconder tu idiotez! Sal de aquí y no vuelvas nunca. ¡Te maldigo, }
+{305}{}{¡Eres un hipócrita, nada más! ¡Estás usando el mundo exterior para esconder tu idiotez! Sal de aquí y no vuelvas nunca. ¡Te maldigo, }
+{1305}{}{¡Eres una hipócrita, nada más! ¡Estás usando el mundo exterior para esconder tu idiotez! Sal de aquí y no vuelvas nunca. ¡Te maldigo, }
 {306}{}{!}
 {307}{}{Cálmate, Abuela.}
 {308}{}{Los hipócritas son ustedes, no volveré a colocar un pie entre ustedes, víboras.}

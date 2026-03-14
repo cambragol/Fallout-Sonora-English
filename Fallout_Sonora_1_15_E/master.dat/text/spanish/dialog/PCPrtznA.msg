@@ -9,7 +9,7 @@
 {201}{}{¿Partido? Pues, me topé con este lugar por accidente. ¿Qué estás haciendo aquí? ¿Qué es este lugar?}
 {202}{}{¿Encontraste el escondite y esquivaste las trampas con nada más que tu suerte? Lo dudo. Pero como ya estás aquí, te lo diré - estamos luchando contra la Iglesia y su líder, Aaron. ¿Qué piensas de eso?}
 {203}{}{Estoy aquí para acabar contigo y a toda tu banda de criminales.}
-{204}{}{Perfecto. ¡Tenemos un espía! ¡Vamos, chicos!}
+{204}{}{Agradezco tu honestidad. ¡Atrapen al espía!}
 {205}{}{Inténtalo...}
 {206}{}{Oye, no me malentiendas...}
 
@@ -21,15 +21,15 @@
 {215}{}{Eh, no. ¡No quiero meterme en esto!}
 {216}{}{La primera impresión suele ser correcta, que decepcionante.}
 {217}{}{No le diré a nadie acerca de ustedes, lo prometo.}
-{218}{}{Supongo que no eres tan bueno juzgando a la gente, porque ahora voy a matarte.}
-{219}{}{Me temo que esa respuesta no me sirve. ¡Maten al espía!}
+{218}{}{Supongo que eres más perceptivo de lo que pareces, supongo no me dejarás ir sin una pelea.}
+{219}{}{Me temo que sería imposible. ¡Maten al espía!}
 {220}{}{Oh, mierda...}
 {221}{}{Ese fue tu último error...}
 {222}{}{Déjame ir y hagamos que esto nunca pasó. ¿Sí?}
-{223}{}{Esperas salir de aquí sin ningún rasguño, ¿verdad? Puede que sí. Tal vez no.}
+{223}{}{Me la pones difícil. Te creeré, pero veremos qué sucede.}
 {224}{}{Eh, me voy, o eso creo. Adiós.}
 {225}{}{Quiero unirme a tu grupo.}
-{226}{}{Muy bien, pero no podemos arriesgarnos al aceptar a cualquiera. Cuéntame de ti. ¿Quién eres y qué sabes sobre el Partido de la Liberación?}
+{226}{}{Muy bien, sin embargo, no podemos arriesgarnos al aceptar a cualquiera. Cuéntame de ti. ¿Quién eres y qué sabes sobre el Partido de la Liberación?}
 {227}{}{Estoy buscando a mi familia, fueron esclavizados y los trajeron a esta ciudad. Necesito ayuda para encontrarlos.}
 {228}{}{La verdad es que estoy buscando a unos tipos peligrosos que debo eliminar. Y parece que los encontré.}
 {1228}{}{La verdad es que estoy buscando a unos tipos peligrosos que debo eliminar. Y parece que los encontré.}
@@ -69,12 +69,12 @@
 {275}{}{Eh, bueno, ya entendí.}
 {276}{}{Yo nací años antes de que Aaron llegara al poder en la ciudad. La persona que fui en ese entonces ya murió.}
 {277}{}{Me suena a que es algo muy personal. ¿Perdiste a alguien querido?}
-{278}{}{Eres más inteligente de lo que pareces. Cuando Aaron llegó al poder, erradicó a cualquiera que estuviera opuesto a él. La sangre fluía por todas las calles de la ciudad.}
-{279}{}{[Más]}
-{280}{}{Hay muchos que perdieron a sus seres queridos a manos de su Inquisición. Pero como te dije, el pasado no importa.}
+{278}{}{Eres más inteligente de lo que pareces. Cuando Aaron llegó al poder, erradicó a cualquiera que estuviera opuesto a él. La sangre fluía por todas las calles de la ciudad. Todos perdimos a alguien.}
+{279}{}{}
+{280}{}{}
 {281}{}{¿Por qué la gente toleró a esto y a la Inquisición?}
 {282}{}{En ese entonces, Fénix estaba pasando por una hambruna. Deshacerse de las bocas innecesarias y mantener a los débiles a raya servía muchos intereses. La iglesia utilizó sus sermones y orientación para influir en las masas y reforzó el control de Aaron sobre el poder.}
-{283}{}{Suena a que fue toda una tragedia para la ciudad. Cambiemos de tema.}
+{283}{}{Suena a que fue toda una tragedia para la ciudad. Volvamos al 'presente'.}
 
 # Quests
 {300}{}{¿Qué quieres que haga?}

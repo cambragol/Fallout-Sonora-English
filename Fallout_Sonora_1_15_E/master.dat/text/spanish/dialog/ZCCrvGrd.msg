@@ -7,3 +7,7 @@
 {113}{}{Sería genial tener un almuerzo de verdad.}
 {114}{}{El viaje ha sido brutal.}
 {115}{}{Los brahmanes son muy lentos cuando cargan algo.}
+
+{120}{}{Mierda, ¡mataron al jefe!}
+{121}{}{Ya no hay nadie que pague, así que cada uno por su camino...}
+{122}{}{Vamos a repartirnos las cosas y nos iremos por distintos caminos.}

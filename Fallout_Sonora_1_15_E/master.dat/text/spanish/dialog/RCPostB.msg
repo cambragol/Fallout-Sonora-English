@@ -36,6 +36,9 @@
 {138}{}{¿Por qué llevas puesto un montón de metal? ¡Tira esa cosa ahora! O... dámela...}  
 {139}{}{A los cadetes les damos armaduras hechas de cuero de brahmán... A diferencia de... eso que llevas.}  
 
+{1130}{}{¡Piérdete, maldita zorra cultista!}  
+{1131}{}{¿Viniste aquí con esas túnicas? Lo estás pidiendo a gritos, nena.}  
+
 #Reputation
 {140}{}{Piérdete.}
 {141}{}{No voy a hablar contigo.}

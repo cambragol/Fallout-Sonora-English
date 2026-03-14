@@ -63,6 +63,7 @@
 {235}{}{«Lo entiendo. Está bien, me voy.»}
 {236}{}{«¿Puedo unirme a ustedes?»}
 {237}{}{«¿Crees que queremos a un chicano entre nosotros? Claro que no. Lárgate.»}
+{1237}{}{«¿Crees que queremos a una chicana entre nosotros? Claro que no. Lárgate.»}
 {238}{}{«Ouch...»}
 {239}{}{«Vete a la mierda, de aquí no me voy.»}
 

@@ -1,9 +1,9 @@
 {100}{}{Ves a un mercader de agua.}
 {101}{}{Estás viendo a un hombre inusualmente limpio. No tiene que ensuciarse con un trabajo como este.}
-{102}{}{¿Eres uno de los Hojalateros? Entonces no asustes a la gente con ese pedazo de hojalata.}
-{103}{}{Sal de aquí antes de que te dispare, los forajidos no tienen lugar en esta ciudad.}
-{104}{}{Este es el precio de tu codicia, perra.}
-{105}{}{¿Recuerdas lo que dijiste? Esto es lo que recibes a cambio de tu codicia.}
+{102}{}{Vaya, jamás había visto una armadura tan grande. Supongo que es tecnología de los Hojalateros. ¿Has venido por agua?}
+{103}{}{Me repugnas, forajido. Piérdete, antes de que alguien te llene de plomo.}
+{104}{}{Ese es el precio de tu codicia, pequeño desgraciado.}
+{105}{}{Esto fueron las consecuencias de tu codicia.}
 {106}{}{De ahora en adelante, la selección de bienes que el mercader tiene disponible será más extensa.}
 {107}{}{No puedo hablarle a dos personas al mismo tiempo.}
 
@@ -18,7 +18,7 @@
 {1205}{}{Ya me di cuenta, por cómo me miras. Cálmate, amigo. De todos modos, ¿en dónde estoy?}
 {206}{}{Estás en la bomba de agua. Extraemos agua del subsuelo y se la vendemos a aquellos que la necesiten. La embotellamos en esta sección. ¿Necesitas agua?}
 {207}{}{No, estoy buscando otra cosa.}
-{208}{}{Estoy demasiado ocupado como para chacharear. No me distraigas de mi trabajo.}
+{208}{}{Oye, a mí no me pagan para hablar. ¿Vas a comprar agua, o no?.}
 {209}{}{Esta no es la mejor bienvenida que he tenido...}
 {210}{}{Sí, necesito agua, y rápido.}
 {211}{}{Todos necesitan agua, eso está claro. Pero si quieres beber, tienes que pagar. En este lugar, nada es gratis.}
@@ -39,10 +39,12 @@
 {226}{}{Dios mío, ¿cuántas millas has caminado bajo este ardiente sol? Está bien, toma un poco de agua. Pero no te mueras aquí adentro.}
 {227}{}{Muchísimas gracias...}
 {1227}{}{Muchísimas gracias...}
+{228}{}{[Trueque]}
+{229}{}{Ajá.}
 
 {230}{}{Oye, espera un momento. Déjame verte el cuello. Vamos, muéstrame.}
 {231}{}{¿De qué se trata esto?}
-{232}{}{Perdona si parezco un entrometido, pero hay muchos esclavos que han escapado de Two-Sun debido a la caída de los Hojalateros. No puedo confiar en ellos, sólo quiero asegurarme de que le estoy hablando a una persona libre.}
+{232}{}{Perdona si parezco un entrometido, pero hay muchos esclavos que han escapado de Two-Sun debido a la caída de los Hojalateros. No puedo confiar en ellos, sólo quiero asegurarme de que le estoy hablando a alguien de confianza.}
 {233}{}{Tienes agallas, ¿lo sabías?}
 {234}{}{No quiero problemas.}
 {235}{}{No tienes marcas de collar. Eso es bueno... para los dos.}
@@ -70,30 +72,29 @@
 {255}{}{Aquí tienes. Úsalo sabiamente.}
 {256}{}{Gracias, adiós.}
 
-{257}{}{No, necesito respuestas.}
-{258}{}{Mira, yo estoy aquí para vender agua. Si tienes preguntas, háblale a mi jefe o alguien más.}
-{259}{}{Está bien, adiós.}
+{257}{}{¿Eh? ¿Qué?}
+{258}{}{Vaya, maldita sea.}
+{259}{}{}
 {260}{}{Estoy rastreando a una caravana esclavista...}
 {261}{}{Intento encontrar a un Hojalatero...}
 {262}{}{No sé ni mierdas sobre eso. ¿Necesitas agua o no?}
 {263}{}{No, sólo estoy rondando por aquí.}
-{264}{}{¿Quién está a cargo de este sitio?}
-{265}{}{John Sullivan. Debe estar en la sala de generadores arreglando algo, otra vez.}
+{264}{}{No.}
+{265}{}{}
 {266}{}{De acuerdo, gracias.}
 {267}{}{¿Cómo te las estás arreglando sin tu jefe?}
 {268}{}{Me estoy haciendo cargo de todo por él. Me hizo un favor al 'renunciar'.}
 {269}{}{Entiendo. Gracias.}
 
-{270}{}{Gracias por lidiar con ese demente, ha sido un problema durante un buen rato. Ojalá que esto le sirva de advertencia a los demás.}
-{271}{}{No hay problema.}
-{272}{}{Eso no fue nada fácil.}
-{273}{}{Te daré un poco de agua limpia. Pero no corras la voz acerca de esto.}
-{274}{}{Comprendo, no diré nada.}
-{1274}{}{Comprendo, no diré nada.}
-{275}{}{No pierdas el tiempo con ese lunático, hace tiempo que se merecía eso. Esto le servirá de ejemplo a los demás.}
-{276}{}{Este lugar es un manicomio.}
-{277}{}{No sé que pensar.}
-{278}{}{Si no quieres problemas, no se le cuentes a los demás.}
+{270}{}{Gracias por encargarte de ese desquiciado. Ya llevaba tiempo siendo un problema. Ojalá que esto sirva de ejemplo para los demás.}
+{271}{}{Gracias por lidiar con ese desquiciado. Si no hubieses estado ahí, me hubiese herido. Ten, llévate algo de agua.}
+{272}{}{Olvídate de ese psicópata, lleva tiempo pidiendo problemas. Esto le servirá de aviso a los demás.}
+{273}{}{¿Por qué te atacó?}
+{274}{}{¡Uf!}
+{275}{}{Hace tiempo, se estaba librando una lucha por el control de esta estación. Ese perdedor se unió al bando equivocado.}
+{276}{}{Supongo que tenía sus razones.}
+{277}{}{Veo que esto ha de ser historia antigua. Nada de qué preocuparse.}
+{278}{}{¿Por qué intentó atacarte?}
 {279}{}{Gracias por lidiar con ese psicópata, pensé que iba a atacarme. Te daré un poco de agua. Pero, no le cuentes esto a nadie, ¿bien?}
 {280}{}{¿Por qué ese tipo quería atacarte?}
 {281}{}{Es mejor que no lo sepas, confía en mí. Hace tiempo, hubo una guerra de clanes para apoderarse de esta bomba de agua. Él pensaba que deberíamos compartir el agua.}

@@ -59,7 +59,7 @@
 {255}{}{Soy un mercenario, nada más. ¿Lo entiendes? No tengo hogar, ni familia, ni nombre.}
 {256}{}{Ah, lo siento. Tuvo que ser difícil crecer sin familia ni un hogar.}
 {257}{}{¿Toda la gente en el yermo es así de... salvaje? En nuestra Villa, somos como una gran familia.}
-{258}{}{No sé... No sé cómo es la vida en un grupo grande como el tuyo. Probablemente no sería capaz de vivir así, no sé compartir, o confiar en alguien que no sea yo mismo... Mierda, es mejor que te calles antes de que arranque los dientes.}
+{258}{}{No sé... No sé cómo es la vida en un grupo grande como el tuyo. No sé compartir, o confiar en alguien que no sea yo mismo... Mierda, es mejor que te calles antes de que arranque los dientes.}
 {259}{}{¿Por qué estás tan enojado?}
 {260}{}{Ah, esto te molesta, ¿no?}
 {261}{}{No lo entenderías. Cuando era un bebé, me encontraron en un basurero, en medio de una gran ciudad. No soy el único con una historia así. Vengo de un lugar en donde no aprecian a las personas. La población es demasiado grande y no hay nada que hacer. Si desapareciera alguien, nadie se daría cuenta.}
@@ -99,7 +99,7 @@
 {297}{}{¿Y pensaste que sería así de fácil? Mi padre estaba preparado en caso de que la Villa tuviera que defenderse.}
 {298}{}{Creo que subestimamos a la astucia de tu gente. ¿Cuántas trampas y secretos tienen aquí abajo?}
 {299}{}{¿No intentaste salir o pedir ayuda?}
-{300}{}{Nadie me respondió, esos bastardos me dejaron atrás. No pude salir de aquí por mi cuenta - las escaleras estaban destruidas y no encontré otra salida. Pero... ya que estás aquí, debe haber otra entrada, ¿no?}
+{300}{}{Nadie me respondió, esos bastardos me dejaron atrás. No pude salir de aquí por mi cuenta - las escaleras están destruidas y no encontré otra salida. Pero... ya que estás aquí, debe haber otra entrada, ¿no?}
 {301}{}{Eh, sí, pero primero tengo que hablar contigo.}
 {302}{}{¿Había algo interesante en este sótano?}
 {303}{}{Nada por lo que arriesgaría mi pellejo. Aunque es raro ver tecnología en un vertedero como este. ¿Para qué la necesitas?}
@@ -116,7 +116,7 @@
 {314}{}{Sí, claro. Recuerda que yo también puedo aplastar cabezas.}
 {315}{}{No puedo esperar mucho de un saqueador. Bien, dejemos de hablar de esto.}
 
-{320}{}{¿Qué ocurrió allá arriba? Antes de que quedaras atrapado aquí.}
+{320}{}{¿Qué ocurrió allá arriba?}
 {321}{}{No sé mucho, yo solo participé en el principio del asalto.}
 {322}{}{En primer lugar, ¿por qué nos atacaron? ¿Querían nuestra cosecha?}
 {323}{}{Malditos saqueadores, lo único que saben hacer es robar. ¿O me equivoco?}
@@ -124,7 +124,7 @@
 {1324}{}{Pendeja... (se burla de ti, pero luego tose con amargura) No sabes nada del mundo que hay allá afuera, ¿cierto? Se llevaron a tu gente para que trabajen en la mina. Pero dudo que sepas qué es eso.}
 {325}{}{[Escucha]}
 {326}{}{Ten cuidado con lo que dices, o te las verás conmigo...}
-{327}{}{Les colocarán collares y los obligarán a trabajar bajo tierra. Si se rehúsan, sus castigos serán graves. Acéptalo, ellos no volverán a la Villa. Puede que algunos nunca vuelvan a ver la luz del día.}
+{327}{}{Les colocarán collares y los obligarán a trabajar bajo tierra. Si se rehúsan, sus castigos serán graves. Acéptalo, ellos nunca volverán a la Villa. Puede que algunos nunca vuelvan a ver la luz del día.}
 {328}{}{No entiendo cómo pudiste ser parte de algo así.}
 {329}{}{Tuvieron suerte de que yo no estaba aquí, los hubiera enterrado a todos.}
 {330}{}{Eres un campesino, abre los ojos. Un rifle pone de rodillas a tres de ustedes. ¿Qué van a hacer en contra de una banda de mercenarios? (escupe) No tienen idea de lo cruel que es el mundo, porque han vivido en su edén por demasiado tiempo.}

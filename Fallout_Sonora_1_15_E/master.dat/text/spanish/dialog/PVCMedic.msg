@@ -20,19 +20,19 @@
 # Curación
 {220}{}{Necesito curación.}
 {221}{}{Bueno, veamos. ¿Qué quieres que revise?}
-{222}{}{Lesiones.}
-{223}{}{Trauma físico.}
-{224}{}{Radiación.}
-{225}{}{Envenenamiento.}
+{222}{}{[Cura heridas por }
+{223}{}{[Cura miembros rotos }
+{224}{}{[Cura toda la radiación por }
+{225}{}{[Cura todo el envenenamiento por }
 {226}{}{Olvídalo, sanará por sí mismo.}
-{227}{}{Nada fuera de lo normal. Puedo curarte. Pero no eres un Seguidor, así que tendrás que hacer una donación, serán }
-{228}{}{ chapas.}
-{229}{}{Aquí tienes.}
-{230}{}{Nada fuera de lo normal. Podemos curarte.}
-{231}{}{Una pena. En ese caso, no puedo ayudarte.}
-{232}{}{¿Cómo...?}
-{233}{}{Olvídalo, sanará por sí mismo.}
-{234}{}{Alabado sea el Fuego Santo. Ahora, vete, tengo otros pacientes que atender.}
+{227}{}{Es un caso típico. Me encargaré de ello. Pero como no eres un Seguidor, tendrás que hacer una donación.}
+{228}{}{ chapas]}
+{229}{}{Oh.}
+{230}{}{Es un caso típico. Te cuidaremos.}
+{231}{}{El tratamiento no es gratis. ¡Anda!}
+{232}{}{Tendré que ir por algunas chapas...}
+{233}{}{}
+{234}{}{Alabado sea el Fuego Santo. Ahora, vete, tengo otras cosas que hacer.}
 {235}{}{Necesito algo más, doctor.}
 {236}{}{Adelante, doctor.}
 {237}{}{Con mucho gusto.}
@@ -40,5 +40,5 @@
 {240}{}{¿Has visto algún campesino de la Villa?}
 {241}{}{Hmm, uno de los esclavos mencionó a la Villa durante su examen.}
 {242}{}{¿Qué le pasó?}
-{243}{}{No lo sé. Los informes sobre traslados de esclavos se guardan en la Catedral. Mi trabajo es examinarlos médicamente, nada más.}
+{243}{}{Ni idea. Mi único trabajo es examinarlos físicamente.}
 {244}{}{Ya veo.}

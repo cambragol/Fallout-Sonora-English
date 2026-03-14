@@ -7,7 +7,6 @@
 # First Meeting
 {200}{}{Gustavo Obanel Vallejo a su servicio. Soy el administrador de San Isidro. Listo, al diablo con la formalidad. Quiero saber por qué interrumpes nuestro descanso eterno.}
 {1200}{}{Gustavo Obanel Vallejo a su servicio. Soy el administrador de San Isidro. Listo, al diablo con la formalidad. Quiero saber por qué interrumpes nuestro descanso eterno.}
-# Gustavo Obanel Vallejo at your service. I'm the manager of San Ysidro. Now, to hell with pleasantries. I want to know the reason why you're disturbing our posthumous peace. We don't tolerate smooth-skins here. Our family has suffered enough from you. Therefore, explain clearly and without lying - why should we tolerate your presence?
 {201}{}{Los necrófagos pueden irse directo al infierno. Estoy aquí por el dinero, escuché que uno puede ganar riquezas en este lugar.}
 {202}{}{Una respuesta honesta, eso no me lo esperaba. Puedo tratar con gente como tú, empiezas a agradarme.}
 {203}{}{Eso depende de nuestros términos, compañero.}
@@ -121,7 +120,7 @@
 {304}{}{Entendido. Hablamos luego.}
 {305}{}{Podrías solo decirme que no quieres hablarme. Adiós.}
 {306}{}{Compadre, siempre estaré feliz de escucharte y responder tus dudas. }
-{1306}{}{Compadre, siempre estaré feliz de escucharla y responder sus dudas. }
+{1306}{}{Señorita, siempre estaré feliz de escucharla y responder sus dudas. }
 {307}{}{Está bien, nos vemos.}
 
 {310}{}{Me gustaría saber más de ti.}

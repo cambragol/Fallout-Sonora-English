@@ -6,7 +6,7 @@
 {1103}{}{Gracias, señorita. Pero ya tengo un par de chanclas.}
 {104}{}{Eso fue muy amable de su parte.}
 
-{200}{}{¡Yo los vi! ¡Lo juro! ¡Digo la verdad! Pero, tú... ¿eres un extraño, verdad?}
+{200}{}{¡Yo los vi! ¡Lo juro! ¡Digo la verdad! Pero, tú... ¿Quién eres?}
 {201}{}{¿Qué viste?}
 {202}{}{Cuidado con lo que dices, mocoso.}
 {203}{}{¡Monstruos! Salen del acueducto cuando es de noche, ¡lo juro, yo los vi! Ahora ya entiendo por qué no nos dejan ir allá abajo. ¡Seguro que hay un montón de ellos!}
@@ -23,6 +23,8 @@
 {214}{}{Lo tendré en cuenta.}
 {215}{}{No gracias, la pólvora debe estar mojada.}
 {216}{}{Andas descalzo, parece que cualquier te sería de ayuda.}
+{217}{}{Pues... No lo sé. Es malo que Garth no pueda ayudarnos, él era muy duro. Hubo una vez en la que lo vi entrar al acueducto por sí mismo. No le tenía miedo a nada. ¡Hubiese podido protegernos de quien sea!}
+{218}{}{¿Qué aceptarás de vuelta?}
 
 {220}{}{¡Los vi con mis propios ojos! ¡Digo la verdad!}
 {221}{}{Te creo. Adiós.}

@@ -80,8 +80,8 @@
 {263}{}{¿Por qué no acaban con ellos?}
 {264}{}{Nos encantaría lidiar con ellos, pero no sabemos en dónde está su base. ¿Sabes en dónde está su campamento?}
 {265}{}{No, no lo sé.}
-{266}{}{Eso pensaba.}
-{267}{}{Ya hablamos suficiente sobre los Chacales.}
+{266}{}{Eso pensaba. Si llegas a encontrar su guarida, házmelo saber. Seguramente esté al norte, o al noroeste.}
+{267}{}{Lo tendré en mente.}
 {268}{}{La verdad, sí.}
 {269}{}{¿Neta? ¡Eso cambia las cosas! Mira, tenemos a un par de tipos que tienen ganas de acabar con esa tribu. Si los llevas a su guarida, podríamos acabar con ellos de una vez por todas.}
 {270}{}{Cuenta conmigo. Su campamento está al norte, junto a un río seco. Hay que seguirlo hasta llegar a una vieja casa de ladrillo. Los veré allí.}
@@ -94,6 +94,7 @@
 {276}{}{Sí, eso escuché. Los Rangers se fueron de madre. Luego de esto, no los vamos a dejar estar cerca de Ciudad Garaje. Si te cruzas con ellos, diles eso.}
 {277}{}{De acuerdo.}
 {278}{}{Esa armadura que tienes es bonita.}
+{279}{}{Conversemos un poco sobre los Chacales...}
 
 # Refugees
 {280}{}{He oído que tienen refugiados.}
@@ -162,6 +163,8 @@
 {340}{}{Y recuerda que la caravana está bien armada y organizada, son más peligros que un saqueador cualquiera del yermo.}
 {341}{}{Gracias por decírmelo.}
 {342}{}{Ya tengo que irme. Adiós.}
+{343}{}{¿Cómo puedo llegar a Flagstaff desde aquí?}
+{344}{}{Toma la carretera que se dirije al este de aquí. Te tomará unos días de viaje. Aunque, si fuera tú, iría en esa dirección sin tomar la carretera. Recuerda mis palabras: En el yermo, es mejor encontrarte con un animal, que con un hombre.}
 
 {345}{}{¡A-ba-boo-ba-gee!}
 {346}{}{Eh... (se te queda mirando, totalmente confuso) Mira, pienso que no deberías entrar... puede que te confundan con un Chacal. ¿Bien? Así que si entras, no digas no te advertí.}
@@ -189,7 +192,7 @@
 {364}{}{¿Cuál es el propósito de un arma que no dispara?}
 {365}{}{¡Para intimidar! Y si hay una emergencia, siempre podría golpear a alguien con la culata, ¿no?}
 {366}{}{¿No hay nadie que sepa arreglarla?}
-{367}{}{A nuestro mecánico le escasean las partes. Es poco común ver un arma funcional por aquí. Incluso si funcionara, es inútil si no tengo munición.}
+{367}{}{A nuestro mecánico le escasean las partes. Es poco común ver un arma funcional por aquí.}
 {368}{}{Puedo arreglarla.}
 {369}{}{¿En serio? Eso sería un milagro. Te voy a dar 25 chapas, si lo consigues.}
 {370}{}{Ahora no puedo hacerlo. Lo intentaré después.}
@@ -206,6 +209,7 @@
 {381}{}{No puedo arreglarlo ahora. Quizás luego.}
 {382}{}{Olvídalo, no voy a tocar tu arma, por el momento.}
 {383}{}{Si eso es lo que me vas a pagar, mejor la tiro al basurero. Búscate a alguien más.}
+{384}{}{Tengo un arma adicional, probemos a quitarle algunas partes.}
 
 {390}{}{Oye, ¿no que ibas a unirte a esos tipos para atacar a los Chacales?}
 {391}{}{Cambié de parecer.}

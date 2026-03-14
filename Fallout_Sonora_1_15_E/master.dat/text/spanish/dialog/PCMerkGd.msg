@@ -1,5 +1,7 @@
 {100}{}{Ves a un guardia.}
+{1100}{}{Ves a una guardia.}
 {101}{}{Ves a uno de los mercenarios del gremio. Te observa con atención.}
+{1101}{}{Ves a una de las mercenarias del gremio. Te observa con atención.}
 
 {110}{}{Bruce tiene un temperamento tan duro como una piedra.}
 {111}{}{Bruce no sólo mantiene el orden, él lo impone.}

@@ -1,7 +1,8 @@
 {101}{}{Ves a un niño tribal de pelo largo y negro.}
 {102}{}{¡No me empujes!}
 {103}{}{¡Corran! ¡Es el espíritu de metal!}
-{104}{}{No eres como los demás, tú eres una buena persona. Gracias.}
+{104}{}{No eres como los demás, tú eres un buen hombre. Gracias.}
+{1104}{}{No eres como los demás, tú eres una buena mujer. Gracias.}
 
 {110}{}{¡Shh!}
 {111}{}{¡Cállate! Nos escuchará...}
@@ -20,7 +21,7 @@
 {202}{}{(uno de los niños se te acerca con temor)  "¿Por qué importarte? ¡Tú no ser de acá!" - (los demás lo agarran y te piden una disculpa) "Calmarte, tonto, quizás él poder ayuda. ¿O tu hablar con chamán?" - "No, chamán castigarnos." - "Ser lo mismo..."}
 {1202}{}{(uno de los niños se te acerca con temor)  "¿Por qué importarte? ¡Tú no ser de acá!" - (los demás lo agarran y te piden una disculpa) "Calmarte, tonto, quizás ella poder ayuda. ¿O tu hablar con chamán?" - "No, chamán castigarnos." - "Ser lo mismo..."}
 {203}{}{Cuéntenme lo que pasó.}
-{204}{}{¿Tú prometer no hablar de esto? Nosotros entrar a Ciudad Enterrada, estar a oeste de aquí, lugar en donde arena cubrir viejo pueblo. Nosotros escuchar gruñido en catacumbas, ¡y nosotros correr!}
+{204}{}{¿Tú prometer no hablar de esto? Nosotros entrar a Ciudad Enterrada, estar a oeste de aquí, lugar en donde arena cubrir viejo pueblo. Nosotros escuchar gruñido en ca... Catacumbas, ¡y nosotros correr!}
 {205}{}{Hicieron lo correcto, niños.}
 {206}{}{Ustedes son unas gallinas.}
 {207}{}{Pero dos de nosotros no volver.}
@@ -35,4 +36,4 @@
 
 {220}{}{Gracias. Ahora nosotros obedecer a mayores.}
 {221}{}{Así es. No hicieron caso y casi muere alguien. Jamás olviden esta lección.}
-{222}{}{No es necesario que hagas caso a *todo* lo que dicen. Adiós, muchachos.}
+{222}{}{No es necesario que hagas caso a *todo* lo que dicen. Adiós, niños.}

@@ -2,6 +2,7 @@
 {102}{}{Ves a uno de los pastores locales. Su rostro te parece familiar.}
 
 {200}{}{¡Tú! Tú ser canalla que intentar robarnos a los brahmanes cerca de Ciudad Garaje.}
+{1200}{}{¡Tú! Tú ser desgraciada que intentar robarnos a los brahmanes cerca de Ciudad Garaje.}
 {201}{}{Sí, pero las cosas salieron bien. Sigues vivo.}
 {202}{}{Hmm... ¿Tú calmar a ladrones? Eso no cambia verdad. Yo no confiar en ti. Ojalá que ancianos echarte del pueblo.}
 {203}{}{Vamos, cálmate...}

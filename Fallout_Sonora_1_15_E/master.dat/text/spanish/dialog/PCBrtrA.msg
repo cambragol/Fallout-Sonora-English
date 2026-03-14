@@ -150,6 +150,10 @@
 {375}{}{Toda la munición que tengo.}
 {376}{}{¿Podrías convertir mi pistola de bengalas para que dispare cartuchos de escopeta?}
 {377}{}{Fácil. Pero recuerda que no es una escopeta. El cartucho será más poderoso que una bengala, pero será más difícil dispararlo con una sola mano.}
+{378}{}{¿Podrías mejorar esta pistola láser?}
+{379}{}{He trabajado con este modelo antes. Hay una forma de mejorar la emisión del láser.}
+{380}{}{Arregla este rifle roto.}
+{381}{}{Bien, solo tendré que reemplazar unas cuantas partes.}
 
 #Quests
 {400}{}{¿Será que una de tus armas le disparó a los monjes afuera del casino?}
@@ -162,6 +166,6 @@
 {407}{}{Eso es sospechoso. Esta es la única tienda de armas que hay, ¿no?}
 {408}{}{Puede que mi tienda sea la única en la ciudad, pero puedes conseguir armas en todos lados. Las personas con más armamento en la ciudad deben ser los Seguidores del Fuego. Por un tiempo, amasaron todas las armas posibles para empezar una revolución. Además, como parte de nuestro acuerdo, debo abastecerlos con el mejor armamento posible.}
 {409}{}{Entonces, ¿quién pudo haber atacado a los monjes?}
-{410}{}{¿Me lo preguntas a *mí*? Para detective, no vales nada. Habla con los del tianguis... es decir, el mercado. Ellos lo vieron todos.}
+{410}{}{¿Me lo preguntas a mí? Para detective, no vales nada. Habla con los del tianguis... es decir, el mercado. Ellos lo vieron todos.}
 {411}{}{De acuerdo, hablaré con ellos. Pero recuerda, todo el que haga mal a los Seguidores será castigado. No hay escape.}
 {412}{}{Gracias, fuiste de mucha ayuda. Cuídate.}

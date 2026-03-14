@@ -85,8 +85,8 @@
 
 
 {310}{}{Los Seguidores fueron atacados e investigo el asunto. ¿Qué sabes al respecto?}
-{311}{}{Este asunto está quedando más claro.}
-{312}{}{Ya tienes una mejor idea de lo ocurrido, ve a hablar con Aaron.}
+{311}{}{(2/3) Se ha obtenido un testimonio inicial relacionado a los ataques.}
+{312}{}{(3/3) Se ha obtenido el testimonio final relacionado a los ataques. Hora de hablar con Aaron.}
 {313}{}{(frunce el ceño y le dan tics nerviosos) ¿Así que eres otro lacayo de los seguidores? Ya les dije todo lo que sabía a los monjes, déjanos en paz.}
 {314}{}{(frunce el ceño y le dan tics nerviosos) No pensaba que fueran capaces de convertirte. Pero, ya les dije todo lo que sabía a los monjes.}
 {315}{}{Bueno, tendrás que repetirme tu historia.}

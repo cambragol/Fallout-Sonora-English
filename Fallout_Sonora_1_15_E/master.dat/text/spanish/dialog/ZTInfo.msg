@@ -46,3 +46,7 @@
 {151}{}{Esta fue la carretera que tomaste desde Sonora. Para regresar, debes esperar junto al punto de encuentro.}
 {152}{}{La carretera está bloqueada por unos edificios colapsados.}
 {153}{}{El puente se encuentra destruido. Pero puedes todavía bajar, si eres astuto.}
+
+{150}{}{Las huellas llevan de la choza del destilador hacia el cementerio. Parece que alguien fue arrastrado hasta aquí.}
+{151}{}{¡Qué hedor! Es obvio que este lugar lleva tiempo sin una limpieza.}
+{152}{}{Gracias a tus sentidos de chatarrero, encontraste una escotilla cubierta por las arenas.}

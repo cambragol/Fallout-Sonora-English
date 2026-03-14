@@ -31,6 +31,7 @@
 {211}{}{Por ahora no.}
 
 {212}{}{¡Vaya, pero si eres el nuevo campeón! Esto es genial. Mira, sé que me estoy saliendo de las reglas, pero toma, una cerveza - la casa invita. De verdad, eres genial. (habla en voz baja) Ahora se lo podré contar a todos...}
+{1212}{}{¡Vaya, pero si eres la nueva campeona! Esto es genial. Mira, sé que me estoy saliendo de las reglas, pero toma, una cerveza - la casa invita. De verdad, eres genial. (habla en voz baja) Ahora se lo podré contar a todos...}
 {213}{}{Gracias, eso es muy amable de tu parte.}
 {214}{}{Tus tragos saben a meado, pero me gusta tu actitud.}
 

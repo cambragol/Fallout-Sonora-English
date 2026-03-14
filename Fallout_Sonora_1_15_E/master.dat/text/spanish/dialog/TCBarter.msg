@@ -1,6 +1,7 @@
 {100}{}{Ves al Intendente.}
 {101}{}{Estás viendo al Hojalatero que está a cargo del almacén. Su calva está equipada con un avanzado casco de computación.}
 {102}{}{Una servoarmadura T-51b... Me intriga como fuiste capaz de procurar un equipo tan tecnológicamente avanzado.}
+{103}{}{¿¡QUIEN quebró la puerta del almacén!?}
 
 # First dialogue
 {200}{}{(como si no te notara) Cinco mil ciento ochenta y seis... no, ese cálculo es incorrecto...}
@@ -118,8 +119,8 @@
 {334}{}{[Armadura de metal]}
 {335}{}{[Pistola de plasma]}
 {336}{}{[Medicamentos: 3 estimulantes, 3 antídotos, 1 Rad-X]}
-{337}{}{[Sigilante y Gafas de Visión Nocturna]}
-{338}{}{[Batería nuclear]}
+{337}{}{[Sigilante, Sensor de Movimiento y Gafas de Visión Nocturna]}
+{338}{}{[2 batería nucleares]}
 {339}{}{[350 chapas]}
 {340}{}{Utiliza esta recompensa sabiamente.}
 {341}{}{Le daré un buen uso a todo esto.}
@@ -145,7 +146,7 @@
 {410}{}{Te daré tecnología a cambio de tecnología. Puedes tener el reloj si me das especificaciones para las armas de energía.}
 {411}{}{Eso es justo. Poseo la información que requieres y ciertamente impulsará tus habilidades. Sin embargo, muchos de nosotros están en desacuerdo con la idea de que un primitivo utilice tecnología avanzada.}
 {412}{}{Esto me vendrá bien, nos vemos luego, Hojalatero.}
-{413}{}{Poseo un formidable puño neumático, utilizado para insertar la justicia a aquellos que nos engañen. No veo el reloj atómico entre tus pertenencias, nómada desértico.}
+{413}{}{Poseo un formidable puño neumático, utilizado para insertar la justicia a aquellos que nos engañen. No veo el reloj atómico entre tus pertenencias, viajero desértico.}
 {414}{}{¿Cómo pasó esto...?}
 {415}{}{Dame un momento para pensarlo. No te preocupes, el reloj estará a salvo.}
 {416}{}{El Intendente ha reducido el costo de sus bienes en un 10%.}

@@ -111,5 +111,5 @@
 {312}{}{Bueno... unas personas en pasamontañas salieron de los callejones y empezaron a dispararle a los monjes. Luego desaparecieron, no le hicieron nada a los demás. Eso es todo lo que sé.}
 {313}{}{Hmm, eso es interesante. Gracias.}
 {314}{}{Te creeré. Por ahora.}
-{315}{}{Tengo las cosas un poco más claras.}
-{316}{}{Ya empiezo a entender las cosas. Es hora de hablar con Aaron acerca de esto.}
+{315}{}{(2/3) Se ha adquirido un testimonio inicial relacionado a los ataques.}
+{316}{}{(3/3) Se ha adquirido el testimonio final relacionado a los ataques. Es hora de hablar con Aaron acerca de esto.}

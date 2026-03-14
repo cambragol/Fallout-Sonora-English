@@ -1,5 +1,6 @@
 {100}{}{Ves a un mecánico.}
 {101}{}{Ves a un habitante del yermo.}
+{102}{}{Oye, ¡cuidado! Estuviste a punto de atropellarme.}
 
 #First dialogue
 {200}{}{(ves a un joven, lleva un atuendo andrajoso y te observa con cansancio, claramente está molesto) ¿Qué quieres?}

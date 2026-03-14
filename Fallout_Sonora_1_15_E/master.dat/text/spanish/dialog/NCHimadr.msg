@@ -81,7 +81,8 @@
 {249}{}{«No seas así, Juan. Ya me conoces, ¿no somos amigos?»}
 
 {250}{}{«¿Por qué está prohibido tener un arma?»}
-{251}{}{«¿Viste las reglas en el cartel de la entrada? No te conviene para nada quebrarlas, podría costarte muy caro.»}
+{251}{}{«¿Viste las reglas en el cartel de la entrada? No te conviene para nada quebrarlas, querido viajero. Podría costarte muy caro.»}
+{1251}{}{«¿Viste las reglas en el cartel de la entrada? No te conviene para nada quebrarlas, querida viajera. Podría costarte muy caro.»}
 {252}{}{«Lo siento, no debí haber preguntado. Olvídalo.»}
 {253}{}{«¿Y entonces qué es esa lanza que llevas? Es rara.»}
 {254}{}{«Jeje, no es un arma, es una coa. Durante la cosecha, la uso para cortar el agave. Incluso llevar una coa está prohibido, pero yo tengo permiso del alcalde.»}

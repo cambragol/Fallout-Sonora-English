@@ -36,7 +36,7 @@
 {235}{}{No te soporto, te voy a quitar esa sonrisa de la cara.}
 {236}{}{Me llamo Larry. En esta ciudad, hago... distintas cosas. Por ejemplo, protejo la ciudad si es necesario. No lo hago gratis, por supuesto.}
 {237}{}{¿No eres parte de los chatarreros?}
-{238}{}{No, imbécil. Soy parte de un grupo de luchadores de élite a los que no les gusta que gente sospechosa llegue a su ciudad.}
+{238}{}{No, imbécil. Soy parte de un equipo de chatarreros bastante bueno, a los que no les gusta que gente sospechosa llegue a su ciudad.}
 {239}{}{Y según tú, soy una de esas personas. ¿No?}
 {240}{}{¿Y qué me vas a hacer? ¡Muéstrame lo que tienes, mamón!}
 {241}{}{No, ya no busco chatarra. Mientras que el Sr. Kogan me pague, no tengo por qué hacerlo.}

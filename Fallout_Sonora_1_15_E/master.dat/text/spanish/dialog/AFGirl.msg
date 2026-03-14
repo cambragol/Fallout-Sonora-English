@@ -51,6 +51,7 @@
 {241}{}{Suficiente. Adiós.}
 {242}{}{Encontré una chapa de identificación entre un montón de huesos. Creo que le pertenecía a tu papá.}
 {243}{}{Resulta que estaba en la plataforma y encontré esta chapa de identificación. Tiene tu apellido.}
+{1243}{}{Resulta que estaba en la plataforma y encontré esta chapa de identificación. Tiene tu apellido.}
 
 {250}{}{Hola.}
 {251}{}{Adiós.}

@@ -62,6 +62,7 @@
 {264}{}{La Hermandad del Acero gobierna este lugar, son buenos tipos, mientras no los estés chingando. Guarda tu arma y cuidadito con lo que dices; no les gustan los vaqueros o los que echan desmadre.}
 {265}{}{Algunos llaman a este lugar la Ciudad del Diablo. Se dice que los demonios caminan por estas calles, o algo así. Mira, ¿en serio tenemos que andar por acá?}
 {266}{}{¿Así que los monjes mantuvieron este refugio como un secreto durante años y años? Carajo, ¿qué otros secretos tendrán guardados?}
+{267}{}{Nunca había andado por acá antes, ¿este es tu rancho?}
 
 {300}{}{Háblame sobre ti.}
 {301}{}{No hay mucho que contar. Llámame Pancho, si te late. Estoy aquí por ordenes de unos caravaneros del norte, ocupaban gente que explorara el sur. Tenían la esperanza de encontrar asentamientos adecuados con los que comerciar, pero parece que la idea había fallado desde un principio.}
@@ -74,7 +75,8 @@
 {308}{}{¿Qué hay en el puerto?}
 {309}{}{Mi patrón está allá. Tengo que informarle de lo que visto... Pero no he podido encontrar nada en especial. Sería bueno encontrar más información acerca de Hermosillo para ellos, seguro que encontramos algo para llevarles.}
 {310}{}{Eso es un buen trato. Claro, estoy dentro.}
-{311}{}{Me alegro de oír eso, no te arrepentirás.}
+{311}{}{Me alegro de oír eso, compadre. No te arrepentirás.}
+{1311}{}{Me alegro de oír eso, señorita. No te arrepentirás.}
 {312}{}{Entonces, vámonos a Puerto Peñasco...}
 {313}{}{Te llevaré hacia allá, pero si esto es algún tipo de estafa, lo pagarás.}
 {314}{}{Te digo que no hay ningún problema. No te preocupes, te daré una parte de la paga.}
@@ -104,6 +106,7 @@
 {338}{}{No sé. Sin la Hermandad, las ciudades de por acá van a ir cuesta abajo... y sin las chapas, no hay por qué regresar a Fénix. Tendré que vagar por el yermo, buscando chamba.}
 {339}{}{Deberías acompañarme. Me vendrá bien tu ayuda con mi... misión, y podrías tener un lugar en nuestra Villa una vez que todo esté bien por allá.}
 {340}{}{¿Crees que tus parientes me van a aceptar? Bueno, vale la pena intentarlo. Eso debe ser genial, tener un hogar propio con tu familia. Vamos, yo te cuido la espalda.}
+{1340}{}{¿Crees que tus parientes me van a aceptar? Bueno, vale la pena intentarlo. Eso debe ser genial, tener un hogar propio con tu familia. Vamos, yo te cuido la espalda.}
 {341}{}{Vamos, Pancho.}
 {342}{}{Tienes razón, estás completamente jodido. Creo que deberíamos separarnos.}
 {343}{}{¿Me vas a dejar así? ¿Después de todo lo que hemos pasado juntos?}

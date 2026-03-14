@@ -167,7 +167,7 @@
 {393}{}{Eh, está bien...}
 {394}{}{(La operación dura varias horas a puerta cerrada. Tú esperas fuera. Finalmente, Talius sale y declara en voz alta: "¡Donovan vivirá!")}
 {395}{}{Vaya, Talius, ¡Sí que haces milagros!}
-{396}{}{Sí, claro. No te creo. Adiós, 'doctor'.}
-{1396}{}{Sí, claro. No te creo. Adiós, 'doctor'.}
+{396}{}{Sí, claro. No te creo. Bueno, adiós, 'doctor' Talius.}
+{1396}{}{Sí, claro. No te creo. Bueno, adiós, 'doctor' Talius.}
 {397}{}{Oye, acerca de Donovan...}
 

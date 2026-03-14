@@ -5,9 +5,11 @@
 {103}{}{¡Eres un traidor! ¡Se te metió el Diablo!}
 {1103}{}{¡Eres una traidora! ¡Se te metió el Diablo!}
 {104}{}{Hugo jamás regresará a la villa.}
-{105}{}{Hugo regresó a la Villa.}
+{105}{}{Hugo regresó a la Villa. Por haberlo salvado, recibes}
 {106}{}{Claro, como tu quieras.}
 {107}{}{Nos vemos en la Villa.}
+{1107}{}{Nos vemos en la Villa, amiga.}
+{108}{}{ puntos de experiencia.}
 
 #First dialogue
 {200}{}{, no puede ser... Ya habíamos perdido la esperanza.}

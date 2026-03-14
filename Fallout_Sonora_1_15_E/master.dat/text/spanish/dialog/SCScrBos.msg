@@ -36,6 +36,10 @@
 {213}{}{¿Puedo hacerte unas preguntas?}
 {214}{}{Sí, pero no creo que pueda responderlas todas.}
 {215}{}{No tengo más preguntas.}
+{216}{}{¡No!}
+{217}{}{Aja.}
+{218}{}{Pueees...}
+{219}{}{Smack.}
 
 # Questions
 {220}{}{Me encontré con un prisionero allá afuera.}
@@ -139,36 +143,36 @@
 {320}{}{¿Sigues con eso? Te lo advierto, llamaré a los paladines si no tienes cuidado con lo que dices.}
 {321}{}{Lo siento, no quiero problemas. Adiós.}
 {322}{}{¿Así que no tienes ningún argumento, verdad? De acuerdo.}
-{323}{}{El General Dixon está equivocado. Sus decisiones fomentan y apoyan a la esclavitud. Sé que entiendes eso.}
-{324}{}{Quizás. ¿Pero a qué te refieres TÚ diciendo que está equivocado?}
-{325}{}{Dixon está siendo un despiadado. A través de sus 'vasallos', impone la tiranía, captura recursos, roba tecnología y practica la esclavitud.}
-{326}{}{No sé que más decir. Es mejor que dejemos de hablar.}
+{323}{}{El General Dixon está mal. El costo de sus políticas es demasiado alto, pues promueven y apoyan a la esclavitud. ¿Acaso no lo entiendes?}
+{324}{}{¿De verdad? ¿Acaso no fueron nuestros operadores en Fénix los que le trajeron paz y orden a la ciudad? ¿No fue nuestra intervención la que le otorgó las chapas de botella a Arizona? ¿No fue la producción de Two-Sun y la mina de Flagstaff las que crearon una red de comercio, la cual aún crece?}
+{325}{}{Dixon está siendo un despiadado. A través de sus 'operadores', impone la tiranía, captura recursos, roba tecnología y practica la esclavitud.}
+{326}{}{No... No sé que más decir. Es mejor que dejemos de hablar.}
 {327}{}{Estoy parcialmente de acuerdo. Sin embargo, todo lo que mencionaste son medidas necesarias. Los locales han perdido su conexión con el Viejo Mundo, con lo que eran antes. Ahora son unos salvajes, perdieron una hilo que una vez los unió con nosotros; la cultura. Si no intervenimos, ese hilo jamás nos volverá a atar, y nunca volverán a ser civilizados.}
 {328}{}{No sé en qué pensar. Déjame pensarlo.}
 {329}{}{He visitado muchos asentamientos del yermo, tu influencia en ellos no es tan bonito como me lo presentas.}
 {1329}{}{He visitado muchos asentamientos del yermo, tu influencia en ellos no es tan bonito como me lo presentas.}
-{330}{}{¿Lo dices en serio? Nuestros agentes han establecido la paz y el orden en Fénix, nuestra intervención le enseñó a Arizona como usar las chapas, la producción de Two-Sun y la mina de Flagstaff crearon una red comercial que se encuentra en auge. ¿Qué tienes que decir al respecto?}
-{331}{}{Eso es cierto. Pero solo forma parte de la expansión de la Hermandad, la cual le arrebata la libertad a las personas, destruye sus tradiciones, y los somete a la esclavitud.}
-{332}{}{No puedo llevarte la contraria, lo que dices es verdad.}
+{330}{}{La Hermandad del Acero está cometiendo un grave error. ¿Acaso no lo ves?}
+{331}{}{Sí. Es muy preocupante. ¿Algo más?}
+{332}{}{A un nivel local, eso me suena a exceso. ¿Hay algo más?}
 {333}{}{Hmm. Dame ejemplos de los lugares que hayas visitado.}
-{334}{}{Por ahora dejemos esto de lado. No deseo discutir el tema.}
+{334}{}{Pues, eh... Ahora mismo no puedo pensar en nada en particular. Hablemos de esto luego.}
 {335}{}{Nadie en Fénix se opone a su 'señor', Aaron. Ahora está construyendo un supuesto 'imperio' y aplasta a los rebeldes. Eso no es libertad.}
 {336}{}{Gracias a su maravillosa influencia, estalló una guerra en San Brahmán: La poderosa Fénix contra unas pacíficas tribus del yermo.}
 {337}{}{Los Hojalateros de Two-Sun son brutales. Compran esclavos y los envían a sus muertes, para que busquen tecnología y la puedan acaparar.}
 {338}{}{Puedes visitar el cementerio de Casa Grande para que veas cómo su influencia condenó a la población a una guerra muy sangrienta, todo por una bomba de agua.}
 {339}{}{Pensemos en Casa Nueva: no son más que un rebaño de brahmanes. Sin su ayuda, ellos serían débiles y jamás podrían sobrevivir por su cuenta.}
-{340}{}{Siendo sincera... también dudo de nuestras acciones. Pero no he descubierto una solución capaz de satisfacer a todos.}
-{341}{}{¿De verdad?}
+{340}{}{Tus palabras han... Puesto a nuestro sendero en duda. Puede que estemos cometiendo un grave error, incluso si nuestras intenciones son nobles.}
+{341}{}{Entonces, ¿por fin puedes verlo?}
 {342}{}{Le hemos hecho poco bien a Arizona. No tenemos derecho a invadirlos, despojar a los habitantes de sus recursos y obligarlos a trabajar. Va en contra de los principios de la Hermandad.}
 {343}{}{Por lo que veo, comprendes lo que quería decirte.}
-{344}{}{Pero esto no recae por completo en el consejo de ancianos, sino que es resultado de las ambiciones de Dixon. Pero no es posible detenerlo, y dudo que otro general cambie las cosas.}
-{345}{}{Me alegra que pensemos lo mismo. Pero tal vez profundizamos demasiado en el tema. Dejémoslo así.}
+{344}{}{Y aún así, esto no es culpa de los Ancianos, sino que de las ambiciones de Dixon. Reemplazarlo no resolverá todo esto, ya estamos demasiado apegados a esto.}
+{345}{}{Me alegra que veas la verdad. Pero tal vez profundizamos demasiado en el tema. Dejémoslo así.}
 {346}{}{Tenemos que detener esto. Ayúdame.}
-{347}{}{Lo siento. Pero no puedo.}
+{347}{}{No... No, lo siento. Pero no puedo.}
 {348}{}{Adiós, Maura.}
 {349}{}{Debemos detenerlo, ayúdame. Sus errores llevaron a que mi hogar y mi familia cayeran en las manos de los esclavistas.}
-{350}{}{Te pido perdón por lo ocurrido. Llévate esta tarjeta, puede detonar los torpedos nucleares en la bodega de la nave. Coloca el temporizado y sal de aquí tan rápido como puedas. La Hermandad jamás debió haber venido a Sonoa.}
-{351}{}{Gracias, Maura.}
-{352}{}{Adelante, amigo mío.}
-{1352}{}{Adelante, cariño.}
+{350}{}{Te... Te pido perdón por lo ocurrido. Llévate esta llave, puede detonar los torpedos nucleares en la bodega de la nave. Coloca el temporizado y sal de aquí tan rápido como puedas. La Hermandad jamás debió haber venido a Sonora.}
+{351}{}{Gracias, Escriba Maura.}
+{352}{}{Ve, mi valiente amigo.}
+{1352}{}{Adelante. La historia nos juzgará a ambas.}
 

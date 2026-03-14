@@ -199,7 +199,7 @@
 {9700}{}{Toallitas húmedas}
 {9701}{}{Un paquete sellado con toallitas sanitarias. Pueden reemplazar un baño cuando viajas por el yermo.}
 {9800}{}{Hojas del Yermo}
-{9801}{}{Unas hojas maduras de una planta del yermo. Muchos viajeros las ven como una buena fuente de micronutrientes, pero los citadinos como un afrodisíaco.}
+{9801}{}{Hojas maduras de una planta del yermo. Muchos viajeros las ven como una buena fuente de micronutrientes, pero los citadinos como un afrodisíaco. Guárdalas para comerciar.}
 {9900}{}{Café}
 {9901}{}{Esta jarra contiene una especie de "granos de café". Parece que esto es una especie de producto del Viejo Mundo.}
 {10000}{}{Chanclas}
@@ -702,7 +702,7 @@
 {34700}{}{Huesos}
 {34701}{}{Ves a Ed. Y Ed está muerto. El mono tiene el número 13 en su espalda.}
 {34800}{}{Máquina expendedora de Mentats}
-{34801}{}{Según las grandes letras rojas que dicen "MENTATS", esta máquina debe vender Mentats.}
+{34801}{}{Según las grandes letras rojas que dicen "MENTATS", esta máquina debe vender mentats.}
 {34900}{}{Restos de un robot}
 {34901}{}{Este robot ha caído en esta laguna tóxica. ¡Qué muerte tan horrorosa!}
 ###------- HOLODICKS
@@ -804,12 +804,12 @@
 {39701}{}{La cabeza cercenada de uno de los jefes de Los Panchos.}
 {39800}{}{Cabeza de Chucho}
 {39801}{}{Otra cabeza cercenada de uno de los jefes de Los Panchos.}
-{39900}{}{Cabeza de Adie}
+{39900}{}{Cabeza de Eydie}
 {39901}{}{Esta es otra cabeza cercenada de uno de los jefes de Los Panchos.}
 {40000}{}{La cabeza de Gil McCord}
 {40001}{}{La cabeza cercenada del legendario pistolero del Gremio de Mercenarios}
 {40100}{}{Pieza de una lanza}
-{40101}{}{Un fragmento de una lanza, tomada del caparazón de un escorpión.}
+{40101}{}{Un fragmento de una lanza, tomada del caparazón de un escorpión. Puede servir de evidencia para demostrar que el monstruo ha muerto.}
 {40200}{}{Hongo Brillante}
 {40201}{}{Un hongo inusual que crece en los charcos tóxicos, no es comestible para los humanos.}
 {40300}{}{Dispositivo de Alta Tecnología}
@@ -990,16 +990,16 @@
 {49001}{}{Tarjeta de acceso militar para la Base Naval Coronado. Color: azul.}
 {49100}{}{Tarjeta de acceso de la isla Coronado}
 {49101}{}{Tarjeta de acceso militar para la Base Naval Coronado. Color: rojo.}
-{49200}{}{}
-{49201}{}{}
-{49300}{}{}
-{49301}{}{}
+{49200}{}{Colgante de Bodas}
+{49201}{}{Un colgante, que marca el lazo marital entre dos personas. Lo encontraste en las plantaciones de Casa Nueva.}
+{49300}{}{Cuchillo de carnicero}
+{49301}{}{Un cuchillo, hecho para cortar carne.}
 {49400}{}{}
 {49401}{}{}
-{49500}{}{}
-{49501}{}{}
-{49600}{}{}
-{49601}{}{}
+{49500}{}{Escopeta Rota}
+{49501}{}{Una escopeta Winchester Widowmaker con dos cañones y calibre 12. De cañón corto, con asa en caoba. No dispara.}
+{49600}{}{Pistola casera}
+{49601}{}{Una pistola casera, de disparo único.}
 {49700}{}{Pistola de bengalas (Modificada)}
 {49701}{}{Una pistola originalmente diseñada para disparar bengalas. El cañón fue modificado para que dispare cartuchos de escopeta. Necesitas más fuerza, pero es más letal. Min. FU: 5}
 {49800}{}{Emisor Láser (Mejorado)}

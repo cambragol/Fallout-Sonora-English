@@ -17,6 +17,7 @@
 {208}{}{De acuerdo}
 {209}{}{Ahora sé quién tiene la culpa del desastre que es esta nave.}
 {210}{}{Ahí estás, la nueva estrella. No eres más que un novato que se cree el siguiente ídolo de la Hermandad. Nada mal, pero no creas que lo tienes fácil.}
+{1210}{}{Ahí estás, la nueva estrella. No eres más que una cara bonita que se cree el siguiente ídolo de la Hermandad. Nada mal, pero no creas que lo tienes fácil.}
 {211}{}{Lo entiendo. Haré lo que sea necesario para demostrarle a la Hermandad lo que valgo.}
 {212}{}{Bien. Pero recuérdalo - no puedes quebrar tu lealtad a la Hermandad. Muchos lo intentaron, y ninguno vivió para contarlo.}
 {213}{}{No me importa lo que pienses tú o los demás. Me gané mi lugar, si no te gusta, puedes irte al carajo.}
@@ -26,6 +27,7 @@
 {220}{}{¿A qué vienes, muchacho? ¿Quieres hablar con un veterano, o almorzar? Dilo de una vez.}
 {1220}{}{¿A qué vienes, niña? ¿Quieres hablar con un veterano, o almorzar? Dilo de una vez.}
 {221}{}{Hola, soldado. ¿Quieres pasarte el descanso comiendo, o quieres hablarle a un veterano?}
+{1221}{}{Hola, lindura. ¿Quieres pasarte el descanso comiendo, o quieres hablarle a un veterano?}
 {222}{}{Ninguna de las dos. Ya me voy.}
 {223}{}{Está bien, pero si necesitas algún consejo, yo estaré aquí.}
 {224}{}{Adiós, Graham.}
@@ -45,6 +47,7 @@
 {253}{}{Bien, me apunto. Juguemos.}
 {254}{}{No, quiero una de tus raciones.}
 {255}{}{Para un vagabundo, eso es mucho. Pero me parece bien, pon 50 chapas y jugaremos.}
+{1255}{}{Para una vagabunda, eso es mucho. Pero me parece bien, pon 50 chapas y jugaremos.}
 {256}{}{}
 {257}{}{¿Crees que estoy aquí para jugar a las cartas? ¿Sabes en dónde te encuentras?}
 {258}{}{Perdón, Graham.}

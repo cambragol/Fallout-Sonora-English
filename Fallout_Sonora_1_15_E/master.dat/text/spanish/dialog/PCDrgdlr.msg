@@ -11,7 +11,8 @@
 {202}{}{Todo tipo de placeres. Trágate esta pastilla y te dará un subidón que ningún casino podría darte. Yo la he probado, confía en mí.}  
 {203}{}{Así que vendes drogas, ¿no?}  
 {204}{}{No creo que tengas algo que valga la pena.}  
-{205}{}{Claro, claro, lo que tú digas. Pero créeme, te estás perdiendo del último pedacito de felicidad que queda en este horrible mundo.}  
+{205}{}{Claro, claro, lo que tú digas. Pero créeme, te estás perdiendo del último pedacito de placer que queda en este horrible mundo.}  
+{1205}{}{Claro, claro, lo que tú digas. Pero créeme, te estás perdiendo del último pedacito de placer que queda en este horrible mundo.}  
 {206}{}{¿Placer? Creo que ya nos estamos entendiendo.}  
 {207}{}{¿Qué es lo que estás traficando, exactamente?}  
 {208}{}{No sé a qué te refieres. Tengo estimulantes, antídotos - todo limpio, nada ilegal. La verdadera pregunta es, para qué los usas. Pero, oye, eso es asunto tuyo, no mío. (guiño)}  
@@ -132,6 +133,7 @@
 {315}{}{Si te lo dijera, tendría que matarte.}
 {316}{}{Así que tú fuiste quien ayudó a Larry... odio cuando alguien se mete con mis clientes.}
 {317}{}{Larry... ah, el drogadicto, ¿no?}
+
 {318}{}{Sí, Larry. Puede que el tipo haya sido una basura, pero gracias a él ganaba algunas chapas muy fáciles. ¿Qué voy a hacer ahora?}
 {319}{}{Luego de un tiempo, él no te iba a hacer tanto dinero. Piénsatelo.}
 

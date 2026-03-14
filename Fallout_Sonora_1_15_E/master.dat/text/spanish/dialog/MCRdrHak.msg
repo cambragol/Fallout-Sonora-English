@@ -45,7 +45,8 @@
 {1237}{}{Te conseguí un poco de Psico.}
 {238}{}{Esta dosis será suficiente para la ceremonia. Gracias, amigo. ¿Qué habría hecho sin ti?}
 {1238}{}{Esta dosis será suficiente para la ceremonia. Gracias, amiga. ¿Qué habría hecho sin ti?}
-{239}{}{Es un favor por un favor. Recuérdalo.}
+{239}{}{Es un favor por un favor. Recuérdalo, aquí, tu verdadero amigo soy yo.}
+{1239}{}{Es un favor por un favor. Recuérdalo, aquí, tu verdadera amiga soy yo.}
 {240}{}{Todos los cargos contra ti han sido retirados. Eres libre.}
 {241}{}{¿Lo dices en serio? ¿Puedo volver a la ciudad y vivir como una persona normal?}
 {242}{}{Adiós, Chuck.}

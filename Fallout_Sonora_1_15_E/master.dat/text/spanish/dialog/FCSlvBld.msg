@@ -27,6 +27,7 @@
 {206}{}{'Difícil' es quedarse corto, nos pasamos del plazo de entrega, y además hay rumores de ratas gigantes en la mina. Nuestros jefes están furiosos, y se desquitan con nosotros.}
 {207}{}{Ya veo.}
 {208}{}{Espera, tú no eres un guardia. ¿Eres parte de una caravana o algo así?}
+{1208}{}{Espera, tú no eres una guardia. ¿Eres parte de una caravana o algo así?}
 {209}{}{No. Busco a mis parientes, son campesinos de la Villa. ¿Sabes algo al respecto?}
 {210}{}{¡Todos los conocemos! Pero, tengo malas noticias - Sancho y Hugo bajaron a la mina, y desde ese entonces no sabemos nada de ellos.}
 {211}{}{Gracias por contármelo. Descansa lo que puedas.}

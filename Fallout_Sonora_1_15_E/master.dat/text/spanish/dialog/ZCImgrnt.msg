@@ -23,7 +23,6 @@
 {218}{}{«¡Déjanos en paz!»}
 {219}{}{«No tenemos nada de valor.»}
 
-
 {310}{}{¡Por favor, no nos ataques!}
 {311}{}{¡No queremos problemas!}
 {312}{}{Estamos buscando un nuevo hogar.}

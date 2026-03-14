@@ -5,6 +5,7 @@
 {201}{}{Para un tirano como tú, soy la muerte.}
 {202}{}{Me preguntaba si podía unirme a tu ejército.}
 {203}{}{¿De qué demonios hablas? ¡Atrapen a este espía!}
+{1203}{}{¿De qué demonios hablas? ¡Atrapen a este espía!}
 {204}{}{Vaya...}
 {205}{}{Está cometiendo un error, General.}
 {206}{}{Un civil. ¡Quiero unirme a su ejército, General!}

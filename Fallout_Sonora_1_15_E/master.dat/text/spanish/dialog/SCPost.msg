@@ -6,16 +6,16 @@
 {105}{}{Bienvenido de vuelta. ¿Cómo te fue en la patrulla?}
 
 #First dialogue
-{200}{}{Alto. ¿Por qué estás aquí?}
+{200}{}{Alto. ¿Por qué propósito estás aquí?}
 {201}{}{No es nada, mejor me voy.}
 {202}{}{Estaba explorando la costa y me topé con ustedes. ¿Qué es este lugar?}
 {203}{}{Es mejor que no lo sepas. Muévete.}
-{204}{}{Me parece que son un montón de malhumorados.}
-{205}{}{¿Por qué demonios sigues aquí? No necesitamos a gente como tú. Lárgate y no vuelvas nunca.}
-{206}{}{Em, claro.}
-{207}{}{¿Y a dónde me puedo ir?}
-{208}{}{No tienes mucha cabeza, ¿verdad? Nuestros escribas deberían usarte de sujeto de pruebas. Pero es mejor que no me ensucie las manos. Piérdete.}
-{209}{}{Ah, claro. Ya entendí. Por supuesto.}
+{204}{}{Hmph. Como sea.}
+{205}{}{¿Qué demonios me miras? No queremos a un buscapleitos por aquí. Piérdete, y no vuelvas nunca. Andando...}
+{206}{}{Eh... Yo...}
+{207}{}{¿Propósito? ¿A qué te refieres? ¡No lo sé!}
+{208}{}{Ah, tenemos a un listillo. No te medicaste, ¿verdad? Nuestros escribas deberían usar a los idiotas como tú para sus experimentos. (adopta un tono amenazador) Fuera de aquí.}
+{209}{}{Ah, quieres que me vaya. Lo entiendo. Vale.}
 
 #Re-dialogue
 {210}{}{Puedes pasar.}

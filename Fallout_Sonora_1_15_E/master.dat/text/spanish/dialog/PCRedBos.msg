@@ -145,6 +145,7 @@
 {328}{}{Te equivocas, yo no fui.}
 {1328}{}{Te equivocas, yo no fui.}
 {329}{}{Mientes. Muchachos, desháganse de este idiota...}
+{1329}{}{Mientes. Muchachos, desháganse de esta zorra...}
 {330}{}{Más te vale que no me hagas daño...}
 {331}{}{Vete al infierno.}
 {332}{}{Me confundieron por alguien más. O sea, mírame, ¿cómo voy a poder con uno de los tuyos?}

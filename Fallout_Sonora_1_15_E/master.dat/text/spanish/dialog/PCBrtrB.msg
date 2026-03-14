@@ -51,7 +51,7 @@
 {240}{}{¿Te has topado con objetos de los Refugios?}
 {241}{}{¿Refugios? De qué estás... ¡Ah, ya entiendo! Los Refugios de Vault-Tec; esos lugares son de leyenda. Se dice que algunos de nuestros ancestros vivieron allí después de la Gran Guerra, pero ya ha pasado tanto tiempo que ya nadie sabe en dónde están esos Refugios.}
 {242}{}{¿Quién podría saberlo?}
-{243}{}{Tendrás que ir con los Seguidores del Fuego. Hay tanta información en su biblioteca que ni saben que hacer con ella. Puede que tengan las coordenadas de los Refugios, pero no te las darán sin una buena razón.}
+{243}{}{Prueba a hablar con los Seguidores del Fuego. Hay tanta información en su biblioteca que ni saben que hacer con ella. Puede que tengan las coordenadas de los Refugios, pero no te las darán sin una buena razón.}
 {244}{}{¿Qué hay de los chatarreros?}
 {245}{}{Ja, ¿crees que un chatarrero que valga su peso en oro te revelaría la localización de un Refugio? ¡Las leyendas dicen que su interior está lleno de tesoros! Pero si eres de piquito de oro, prueba a hablar con Bob en los barrios bajos. Es uno de los chatarreros más viejos que hay en Fénix.}
 {246}{}{De acuerdo.}
@@ -130,5 +130,5 @@
 {314}{}{Bueno, los monjes andaban por la calle, no eran ninguna molestia. De repente, de varios callejones salieron unos tipos con pasamontañas, creo que eran unos cinco. En su mayoría estaban usando subfusiles. Luego de matar a los monjes, regresaron rápidamente a los callejones. Esos tipos planearon bien su ataque.}
 {315}{}{Ya veo, pero si me estás ocultando algo, lo pagarás.}
 {316}{}{Gracias, has sido de mucha ayuda.}
-{317}{}{Esta situación ya está más clara.}
-{318}{}{Las cosas ya están quedando más claras, es hora de hablarle a Aaron acerca de esto.}
+{317}{}{(2/3) Has adquirido un testimonio inicial relacionado al ataque.}
+{318}{}{(3/3) Has adquirido un testimonio final relacionado al ataque. Hora de hablarle a Aaron acerca de esto.}

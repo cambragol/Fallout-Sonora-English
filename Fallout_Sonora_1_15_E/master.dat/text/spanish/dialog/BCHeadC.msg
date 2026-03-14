@@ -41,13 +41,14 @@
 {216}{}{Miren estas cosas paganas: libros, tecnologías, sustancias dudosas y peligrosas... Siempre las hemos rechazado por esta razón, son peligrosas. Nada vale más que la vida de nuestra tribu y los brahmanes ¡Pero Chatto y los jóvenes coleccionan estos objetos! ¡El Brahmán Oscuro poseyó las mentes de la juventud!}
 {217}{}{¿Y esto es nuestro futuro? ¿Cuándo caímos tan bajo que hasta los jóvenes se rebelan contra la tribu? ¡Es culpa de los misionarios! ¡Expúlsenlos de nuestro hogar! El pueblo debe seguir siendo nuestro...}
 {218}{}{Ah, veo que un forastero está aquí. ¿Quién eres? ¿Qué haces aquí entre nuestra tribu?}
+{1218}{}{Ah, veo que una forastera está aquí. ¿Quién eres, mujer? ¿Qué haces aquí entre nuestra tribu?}
 {219}{}{Ah, veo que un Seguidor del Fuego ha venido a nuestro pueblo. ¿Qué es lo que quieres? ¿Llevarte a nuestros niños y a nuestros brahmanes? Hubieron otros además de ti y te diremos lo mismo que a ellos, ustedes han comprado a otras personas pero no pueden hacer eso con la tribu de San Brahmán. ¡Regresa a tu apestosa Fénix, forastero!}
 {220}{}{En nombre de la Villa, voy a hablar con tu jefe. Nana me dejó pasar.}
 {221}{}{¡Ah, Brahmán Divino de la Paz! Si Nana ha dejado pasar a un forastero, debe tener sus razones. De acuerdo, adelante. Pero que sepas que tengo un ojo de águila, nada escapa de mi vista. Voy a vigilar cada paso que des en nuestro pueblo.}
 {222}{}{Gracias, Mangas. Perdona mi intrusión, por favor.}
 {223}{}{La vejez te dejó loco de remate. Déjame en paz y quítate de mi camino.}
 {224}{}{Nos vemos, Mangas.}
-{225}{}{[Continuar]}
+{225}{}{[Más]}
 
 #Repeat dialogue
 {230}{}{Bienvenido, forastero de la Villa.}
@@ -104,6 +105,7 @@
 {282}{}{Sí, y hace mucho que he querido hallar una persona que pueda encontrar y destruir ese lugar... esa 'fábrica'. Si no hay aguardiente, será más fácil que nuestra tribu se resista a los forasteros. Cuando encuentres ese lugar, debes destruirlo y tu recompensa será generosa.}
 {283}{}{De acuerdo, lo haré.}
 {284}{}{Le ofreceré sacrificios al Brahmán Divino para que te guíe y proteja durante tus viajes. Te deseo suerte.}
+{1284}{}{Le ofreceré sacrificios al Brahmán Divino para que te guíe y proteja durante tus viajes. Te deseo suerte.}
 {285}{}{Adiós, Mangas.}
 {286}{}{Espera, te quiero hacer otra pregunta.}
 {287}{}{Ese lugar debe tener muchos guardias y ni siquiera sé en dónde está. No, no me meteré en esto.}
@@ -111,6 +113,7 @@
 
 {290}{}{¡Te traigo buenas noticias, Mangas! La producción de tequila en Fénix fue destruida por completo.}
 {291}{}{El Brahmán Divino tuvo que haberte ayudado con esta tarea, no tuvo que haber sido fácil. Ahora lo entiendo, te había juzgado mal, no todos los forasteros buscan conquistarnos o robarnos. Te lo agradezco, campesino.}
+{1291}{}{El Brahmán Divino tuvo que haberte ayudado con esta tarea, no tuvo que haber sido fácil. Ahora lo entiendo, te había juzgado mal, no todos los forasteros buscan conquistarnos o robarnos. Te lo agradezco, campesina.}
 {292}{}{De nada.}
 {293}{}{Habías mencionado que me darías una recompensa.}
 {294}{}{Te mereces respeto y una recompensa. Te entrego estas cosas, se las quité a algunos miembros de la tribu que se alejaban del camino. Estoy seguro de que les encontrarás un uso.}

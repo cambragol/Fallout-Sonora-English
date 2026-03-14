@@ -32,12 +32,21 @@
 {226}{}{No. Me iré de aquí, para siempre.}
 {230}{}{Hola, ¿en qué puedo ayudarte?}
 {231}{}{Disculpa, ¿qué es este lugar?}
-{232}{}{Transportamos paquetes, ese es nuestro servicio. ¿Acaso el cartel de afuera no lo hizo obvio?}
-{233}{}{Un servicio así es... inusual, si consideramos que estamos en un yermo. ¿Qué transportan?}
-{234}{}{Transportamos lo que sea, incluso una pulga muerta, mientras la paga sea la adecuada. ¿Sólo tenías curiosidad o harás una orden?}
+{232}{}{Nuestro servicio transporta paquetes. Transportaremos lo que sea, siempre y cuando el precio sea le correcto; incluso llevaremos una rata muerta si pagan bien. ¿Era por curiosidad, o pondrás una orden?}
+{233}{}{}
+{234}{}{}
 {235}{}{Quizás. Quiero saber más.}
 {236}{}{No, no, sólo me llamó la atención el cartel. Adiós.}
 {237}{}{Creo que estás siendo una maleducada, con este tipo de atención, no volveré a entrar aquí.}
+
+{260}{}{¿Puedo dejar mi equipamiento contigo?}
+{261}{}{Así es. Contamos con una taquilla de almacenamiento. Tus pertenencias serán protegidas bajo una cerradura de combinación segura y estará bajo supervisión. Cada taquilla tiene un precio de }
+{262}{}{ chapas.}
+{263}{}{Eso es demasiado caro.}
+{264}{}{Está bien, me gustaría rentar una taquilla.}
+{265}{}{Muy bien. Podrás accederla en todo momento.}
+{266}{}{Gracias.}
+{267}{}{Necesito otra taquilla.}
 
 {280}{}{Necesito saber algo, ¿alguna de tus caravanas escoltó a un hombre llamado Tin-Tan?}
 {281}{}{Mantenemos un registro, pero no lo voy a revisar gratis.}
@@ -93,8 +102,8 @@
 {326}{}{Vamos a firmar un pequeño contrato. Firma aquí... excelente. Ve a los barrios bajos y entrega la carta, luego trae el recibo del cliente. Buena suerte.}
 {327}{}{[Sal de la oficina]}
 {330}{}{He entregado la carta, aquí está el recibo del cliente.}
-{331}{}{Maravilloso. Aquí tienes tus 25 chapas, te las has ganado. Espero que no deba explicarte que no toleramos ningún tipo de traición.}
-{332}{}{Claro.}
+{331}{}{Maravilloso. Aquí tienes tus 25 chapas, te las has ganado.}
+{332}{}{Genial.}
 {333}{}{Gracias por la ayuda, trabajar contigo ha sido un placer. Desafortunadamente, no tendremos más entregas durante un tiempo.}
 {334}{}{Adiós.}
 {335}{}{Acerca de la carta, no hay nadie que pueda recibirla. El destinatario está muerto.}

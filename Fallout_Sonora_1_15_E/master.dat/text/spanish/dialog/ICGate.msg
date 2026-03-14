@@ -2,6 +2,7 @@
 {105}{}{¡Bastardos! ¡Los haré pedazos por lo que le hicieron a mis amigos!}
 
 {200}{}{¿Eh? ¿Otro normalucho? ¿Y te acercas a mí? ¡Ja! ¿Eres tonto o qué?}
+{1200}{}{¿Eh? ¿Otra normalucha? ¿Y te acercas a mí? ¡Ja! ¿Eres tonta o qué?}
 {201}{}{¿Qué es este lugar? ¿Y quién eres tú?}
 {202}{}{¿Por qué eres tan verde, gordo y feo?}
 {203}{}{Guardar tus armas y seguirme. Levi hablar contigo.}

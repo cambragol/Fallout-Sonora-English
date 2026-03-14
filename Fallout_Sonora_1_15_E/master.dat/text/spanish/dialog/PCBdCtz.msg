@@ -4,6 +4,12 @@
 {103}{}{Ves a un habitante de la casa comunal. Se está quitando la tierra del pelo con un cepillo.}
 {104}{}{Ves a un habitante de la casa comunal. Enderezan con cariño sus harapos sucios.}
 {105}{}{Ves a uno de los residentes locales. Tiene varios puntos calvos en su cabello, lo que indica sus terribles condiciones de vida.}
+{1101}{}{Ves a una habitante de la casa comunal, es lamentable.}
+{1102}{}{Ves a una habitante de la casa comunal, se está metiendo el dedo en la oreja.}
+{1103}{}{Ves a una habitante de la casa comunal. Se está quitando la tierra del pelo con un cepillo.}
+{1104}{}{Ves a una habitante de la casa comunal. Enderezan con cariño sus harapos sucios.}
+{1105}{}{Ves a una de los residentes locales. Tiene varios puntos calvos en su cabello, lo que indica sus terribles condiciones de vida.}
+
 
 {110}{}{Me estoy muriendo de hambre.}
 {111}{}{Ojalá encuentre alguna rata para la cena.}

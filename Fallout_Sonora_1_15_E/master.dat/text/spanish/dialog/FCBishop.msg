@@ -87,21 +87,21 @@
 #Treatment
 {270}{}{Necesito asistencia médica.}
 {271}{}{Por el nombre del Fuego Santo, ¿qué te ha ocurrido?}
-{272}{}{Tengo una herida.}
-{273}{}{Me han lisiado.}
-{274}{}{He absorbido radiación.}
-{275}{}{Me han envenenado.}
-{276}{}{Por suerte, no es nada grave.}
-{277}{}{Es obvio que la iglesia está dispuesta a ayudarte, pero, ¿no gustarías de recompensarla con una pequeña donación? Estamos hablando de }
-{278}{}{ chapas.}
+{272}{}{[Cura tus heridas por }
+{273}{}{[Cura tus miembros rotos por }
+{274}{}{[Cura tu radiación por }
+{275}{}{[Cura tu envenenamiento por }
+{276}{}{Pensándolo bien, no es nada grave.}
+{277}{}{En el nombre del Fuego Santo, ¿qué pasó?}
+{278}{}{ chapas]}
 {279}{}{Está bien, voy a donar.}
-{280}{}{¡Pero no tengo esas chapas!}
+{280}{}{¡Pero no tengo tantas chapas!}
 {281}{}{Esto me apena, pero sin una donación, no puedo serte de ayuda.}
 {282}{}{Demonios...}
 {283}{}{No hace falta, ya se me pasará.}
 {284}{}{¡Alabado sea el Fuego Santo por permitirte vivir un poco más!}
 {285}{}{Ah, mucho mejor.}
-{286}{}{}
+{286}{}{Gracias, pero eso no era todo.}
 {287}{}{¡Hombre de bolsa grande! ¡Oh, oh!}
 {288}{}{¿Te refieres a mi túnica? (niega con la cabeza) Ah, desafortunado hijo del Átomo, siento pena por ti. Desearía poder ayudarte en recuperar los Átomos de la Consciencia que has perdido, pero por desgracia, no puedo hacer nada al respecto. Puedes irte, Hijo de la Radiación. Ve a jugar afuera.}
 {289}{}{¿Ir fuera? Yo gustar ir fuera. Mi jugar.}

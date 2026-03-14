@@ -1,5 +1,5 @@
 {100}{}{Ves a un vendedor callejero.}
-{101}{}{Ves a un moreno despeinado con un delantal sucio.}
+{101}{}{Ves a un negro despeinado con un delantal sucio.}
 
 # Floating Lines
 {110}{}{¿Tienes una mosca en la sopa? Pues... cómetela.}
@@ -78,5 +78,5 @@
 {313}{}{Fue muy malo, los monjes estaban caminando por la calle, y entonces unos tipos con pasamontañas salieron de la nada, como si fueran ratas del alcantarillado. Los rodearon y empezaron a dispararles, jamás había oído tantos disparos juntos. Después de eso desaparecieron, como si nunca hubieran estado ahí, todo fue tan rápido.}
 {314}{}{Muy bien. En el futuro, no me vuelvas a hacer enojar, porque te haré algo peor.}
 {315}{}{Hmm, esto me deja más clara la situación.}
-{316}{}{Creo que esto me ayudará mucho, debo hablar con Aaron al respecto.}
-{317}{}{Gracias, has sido de mucha ayuda.}
+{316}{}{(2/3) Se adquirieron los primeros testimonios relacionados al ataque.}
+{317}{}{(3/3) Se adquirieron los testimonios finales relacionados al ataque. Hora de hablar con Aaron.}

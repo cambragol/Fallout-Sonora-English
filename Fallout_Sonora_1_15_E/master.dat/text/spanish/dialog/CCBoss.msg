@@ -20,13 +20,14 @@
 {201}{}{Sólo estaba pasando por al lado y escuché su... ¿festival? ¿Qué está pasando aquí?}
 {1201}{}{Sólo estaba pasando por al lado y escuché su... ¿festival? ¿Qué está pasando aquí?}
 {202}{}{¿Qué está pasando? Verás, gringo. Estamos celebrando el día de nuestro santo. ¡Estás en la celebración del Día de la Vida! Por favor, disfruta el festival y siéntete como en casa. Nosotros le damos la bienvenida a cualquiera... que venga con buenas intenciones.}
+{1202}{}{¿Qué está pasando? Verás, gringa. Estamos celebrando el día de nuestro santo. ¡Estás en la celebración del Día de la Vida! Por favor, disfruta el festival y siéntete como en casa. Nosotros le damos la bienvenida a cualquiera... que venga con buenas intenciones.}
 {203}{}{Durante todo mi viaje, esta es la primera vez que veo un lugar tan alegre. Estaré contento de unirme a sus festividades.}
 {1203}{}{Durante todo mi viaje, esta es la primera vez que veo un lugar tan alegre. Estaré contenta de unirme a sus festividades.}
 {204}{}{Casi toda la gente amistosa con la que me he cruzado ha intentado engañarme. Ojalá que ustedes sean la excepción.}
 {205}{}{Bueno, entonces te damos la bienvenida, gringo. Si tienes alguna pregunta, por favor, habla conmigo. Me llamo Hilario López Andrade. Soy el jefe de la aldea y también su sacerdote. ¡Bueno! ¿Por qué están tan callados? ¡Sigamos celebrando, hermanos y hermanas!}
 {206}{}{Gracias por acogerme.}
 {207}{}{De acuerdo, me quedaré un tiempo.}
-{208}{}{}
+{208}{}{¿Qué está pasando? Ah, gringos, estamos celebrando el día de nuestro santo. ¡Estás en la celebración del Día de la Vida! Por favor, disfruta el festival y siéntete como en casa. Nosotros le damos la bienvenida a cualquiera... que venga con buenas intenciones.}
 {209}{}{}
 {210}{}{Debes tener muchas preguntas, amigo. A mí también me gustaría saber más de ti, pero por desgracia, en este momento estoy muy ocupado. Alguien robó la corona de la ceremonia y no podemos encontrarla. No puedes coronar a alguien sin una corona, eso va en contra de nuestras tradiciones.}
 {1210}{}{Debes tener muchas preguntas, amiga. A mí también me gustaría saber más de ti, pero por desgracia, en este momento estoy muy ocupado. Alguien robó la corona de la ceremonia y no podemos encontrarla. No puedes coronar a alguien sin una corona, eso va en contra de nuestras tradiciones.}
@@ -64,9 +65,11 @@
 {237}{}{Pues, lo más seguro es que algo se te va a ocurrir. Porque tarde o temprano, ese "santo" hubiera muerto.}
 {238}{}{Ah, estás preocupado por tu poder, ¿a poco sí, jefecito? Ahora será más difícil unir a todos usando el miedo, no podrás gobernarlos.}
 {239}{}{Sé lo que estás haciendo, gringo. Si es que... cuando te mueras, el mundo será un lugar mejor. No voy a permitir que salgas de esta iglesia.}
+{1239}{}{Sé lo que estás haciendo, gringa. Si es que... cuando te mueras, el mundo será un lugar mejor. No voy a permitir que salgas de esta iglesia.}
 {240}{}{Inténtalo, viejo.}
 {241}{}{Estás cometiendo un grave error...}
 {242}{}{Suficiente, gringo. Vete y no vuelvas nunca.}
+{1242}{}{Suficiente, gringa. Vete y no vuelvas nunca.}
 {243}{}{Es mejor que no me amenaces, anciano. Créeme, no es buena idea.}
 {244}{}{Ya no tengo nada que hacer aquí. Adiós, Hilario.}
 {245}{}{Luego de todo lo que has hecho y escuchado, ejecutarte no sería suficiente.}
@@ -77,6 +80,7 @@
 {1249}{}{Ya me voy. Es sólo que me olvide de... mis cosas. Adiós.}
 {250}{}{Todo el pueblo de Santa Ana quiere que te vayas. ¿No lo entiendes? Tus acciones los pusieron en tu contra.}
 {251}{}{He protegido a esta gente por quince años. ¡Y así me pagan! Ahora que se fue El Diablo me culparán por todo. ¿Sabes lo que sacrifiqué? ¿El tormento por el que pasé los primeros años? Pero fui elegido como el jefe, e hice lo que tuve que hacer - los salvé. ¿Y vienes a decirme que estuvo mal? ¡Al carajo con lo que pienses, gringo!}
+{1251}{}{He protegido a esta gente por quince años. ¡Y así me pagan! Ahora que se fue El Diablo me culparán por todo. ¿Sabes lo que sacrifiqué? ¿El tormento por el que pasé los primeros años? Pero fui elegido como el jefe, e hice lo que tuve que hacer - los salvé. ¿Y vienes a decirme que estuvo mal? ¡Al carajo con lo que pienses, gringa!}
 {252}{}{Parece que no puedo convencerte. ¡Es mejor que te mueras!}
 {253}{}{Como tú gustes. Ahora, todo esto es asunto tuyo. Adiós, Hilario.}
 {254}{}{Ya no tienes lugar en Santa Ana. El pueblo entero está en tu contra, es hora de que te largues.}

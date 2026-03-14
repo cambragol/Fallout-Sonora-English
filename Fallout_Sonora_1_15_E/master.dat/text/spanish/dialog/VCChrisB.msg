@@ -9,15 +9,16 @@
 {115}{}{Gracias, al menos no me voy a morir de hambre.}
 
 {200}{}{, eres tú... No me sorprende, porque la Villa te considerá su ídolo, sé que ellos te enviaron. Te ven como su líder. No querrás perder ese trato, ¿verdad?}
-{201}{}{¿Pero por qué escapaste de los demás?}
+{201}{}{Pero, ¿por qué escapaste de los demás?}
 {202}{}{Porque querían darme un castigo. Ya sabes la razón, ¿por qué preguntas algo que ya sabes?}
-{203}{}{Sólo quería asegurarme.}
-{204}{}{Es mejor que te quedes ahí, espérame.}
+{203}{}{Necesitaba saber tu lado de la historia.}
+{204}{}{Tienes razón, es mejor que te quedes ahí. Seguiré con lo mío.}
 
 {210}{}{Si este es mi último día, preferiría pasarlo junto a ti.}
 {211}{}{Si este es mi último día, preferiría estar en el fondo del pozo que al lado tuyo.}
 {212}{}{No vayas a ningún lado, ya vuelvo.}
 {213}{}{Me parece que no entiendo lo que ocurrió. Dime qué está pasando.}
+{1213}{}{Me parece que no entiendo lo que ocurrió. Dime qué está pasando.}
 {214}{}{Claro. No hay prisa.}
 {215}{}{Sigue.}
 
@@ -25,8 +26,8 @@
 {221}{}{Los saqueadores se 'olvidaron' de mí, igual que tú. Pero a diferencia de ti, no estaba fuera de la Villa, sólo me escondí en el sótanos. Los demás no pueden perdonarme eso y creen que soy un... traidor. Y ya lo sabes, los traidores jamás han durado mucho en la Villa.}
 {222}{}{¿Qué clase de castigo tenían planeado?}
 {223}{}{No lo tengo claro, pero escuché que pensaban en apedrearme. Antes lo hacían así. Pero después del asalto, seguro que piensan en algo peor.}
-{224}{}{¿Cómo sabías de este lugar?}
-{225}{}{Eran las ruinas antiguas de algún asentamiento. Nuestros ancestros se llevaron ladrillos de aquí para construir sus hogares. Y el resto se lo llevó el tiempo. Ya no queda casi nada...}
+{224}{}{Por cierto, ¿qué es de este lugar?}
+{225}{}{(encoge los hombros con indiferencias) Son ruinas antiguas. Nuestros ancestros obtuvieron ladrillos de aquí para construir sus hogares. Por cierto, ten cuidado allá arriba, porque pareciera que están a punto de colapsar...}
 {226}{}{[Más]}
 {227}{}{Es chistoso, ¿no? La Villa existe gracias a estas ruinas. Y ahora, me mantienen vivo a mí. Pero nadie sabe nada sobre quiénes vivían aquí. Quizás, si estuviera en otra ciudad podría encajar, en alguna que no sea como la Villa.}
 {228}{}{¿Qué piensas hacer ahora?}
@@ -35,7 +36,7 @@
 {231}{}{¡Ya lo sé! Puede que sea lo que siempre he querido, pero me daba miedo admitirlo. Casi toda nuestra gente decidió ignorar al mundo exterior. Han vivido así durante décadas, y están listos a lanzarle piedras a cualquier cambio. Quiero ser libre, compadre. ¡Dame una oportunidad!}
 {1231}{}{¡Ya lo sé! Puede que sea lo que siempre he querido, pero me daba miedo admitirlo. Casi toda nuestra gente decidió ignorar al mundo exterior. Han vivido así durante décadas, y están listos a lanzarle piedras a cualquier cambio. Quiero ser libre, señorita. ¡Dame una oportunidad!}
 {232}{}{Claro, te traeré suministros para el viaje. Espérame aquí.}
-{233}{}{No. Me importa mi reputación. Mereces un castigo. Prepárate, porque regresaremos a la Villa.}
+{233}{}{No. Este es tu hogar. Mereces un castigo. Prepárate, porque regresaremos a la Villa.}
 {234}{}{Primero, cuéntame la historia completa.}
 {1234}{}{Primero, cuéntame la historia completa.}
 {235}{}{Para darle suministros a Chris, usa el objeto en su personaje.}
@@ -54,3 +55,14 @@
 {1245}{}{¡Vamos, haz lo que tengas que hacer!}
 {246}{}{Es mejor que te calles.}
 {247}{}{Mira, a mí tampoco me gusta esto.}
+
+#Low INT
+{250}{}{Eh, ¿tú también?}
+{251}{}{¡Oye! ¿¡Cómo eso!?}
+{252}{}{Malo.}
+{253}{}{¡Bueno! ¡Mí encontrar comida!}
+{254}{}{¡Tú malo! ¡Aplastar!}
+{255}{}{¡Comida! ¡Aquí!}
+{256}{}{Adelante.}
+{257}{}{Bueno.}
+{258}{}{Ajá.}

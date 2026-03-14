@@ -1,30 +1,30 @@
 {102}{}{ recibe una chapa de botella.}
-{103}{}{Este objeto no te será de ayuda con esto.}
-{104}{}{Esto no te será de ayuda}
-{105}{}{Esa habilidad no te será de ayuda con esto.}
-{106}{}{Esta persona se rehúsa a ir más lejos.}
-{107}{}{Esta criatura se rehúsa a ir más lejos.}
-{108}{}{Esta persona hostil se rehúsa a obedecerte.}
-{109}{}{Esta criatura hostil se rehúsa a obedecerte.}
+{103}{}{Este objeto no te serÃ¡ de ayuda con esto.}
+{104}{}{Esto no te serÃ¡ de ayuda}
+{105}{}{Esa habilidad no te serÃ¡ de ayuda con esto.}
+{106}{}{Esta persona se rehÃºsa a ir mÃ¡s lejos.}
+{107}{}{Esta criatura se rehÃºsa a ir mÃ¡s lejos.}
+{108}{}{Esta persona hostil se rehÃºsa a obedecerte.}
+{109}{}{Esta criatura hostil se rehÃºsa a obedecerte.}
 
 #----------------------------------------------
 # Names of skills and basic parameters
 #----------------------------------------------
-{110}{}{Armas pequeñas}
+{110}{}{Armas pequeÃ±as}
 {111}{}{Armas grandes}
-{112}{}{Armas de energía}
+{112}{}{Armas de energÃ­a}
 {113}{}{Desarmado}
 {114}{}{Armas melee}
 {115}{}{Armas arrojadizas}
 {116}{}{Primeros auxilios}
 {117}{}{Doctor}
 {118}{}{Sigilo}
-{119}{}{Ganzúa}
+{119}{}{GanzÃºa}
 {120}{}{Robar}
 {121}{}{Trampas}
 {122}{}{Ciencia}
 {123}{}{Reparar}
-{124}{}{Conversación}
+{124}{}{ConversaciÃ³n}
 {125}{}{Trueque}
 {126}{}{Apostar}
 {127}{}{Supervivencia}
@@ -36,24 +36,24 @@
 {133}{}{[}
 {134}{}{] }
 
-{135}{}{Reacción}
-{136}{}{Reputación}
+{135}{}{ReacciÃ³n}
+{136}{}{ReputaciÃ³n}
 {137}{}{Karma}
 {138}{}{Nivel}
 
 {140}{}{}
 {141}{}{No es posible hacer eso con tus habilidades.}
 {142}{}{No es posible robarle a esta criatura.}
-{143}{}{El objetivo no consiguió ver tu trampa. Escapaste sin consecuencias.}
+{143}{}{El objetivo no consiguiÃ³ ver tu trampa. Escapaste sin consecuencias.}
 {144}{}{Pudiste convencer al objetivo de que fue un malentendido.}
-{145}{}{No es posible robarle a un robot mientras está activo.}
-{146}{}{ te está observando muy de cerca.}
-{147}{}{Tus habilidades no serán suficientes para curar esta herida, necesitas suministros médicos.}
+{145}{}{No es posible robarle a un robot mientras estÃ¡ activo.}
+{146}{}{ te estÃ¡ observando muy de cerca.}
+{147}{}{Tus habilidades no serÃ¡n suficientes para curar esta herida, necesitas suministros mÃ©dicos.}
 {148}{}{No puedes robar si llevas puesta una servoarmadura.}
 {149}{}{Es imposible hacer eso.}
 
 {150}{}{Fuerza}
-{151}{}{Percepción}
+{151}{}{PercepciÃ³n}
 {152}{}{Resistencia}
 {153}{}{Carisma}
 {154}{}{Inteligencia}
@@ -66,18 +66,18 @@
 
 {200}{}{Has obtenido }
 {201}{}{ puntos de experiencia.}
-{202}{}{ puntos de experiencia por un diálogo exitoso.}
-{203}{}{ puntos de experiencia y una mejora a tu reputación.}
+{202}{}{ puntos de experiencia por un diÃ¡logo exitoso.}
+{203}{}{ puntos de experiencia y una mejora a tu reputaciÃ³n.}
 
 #----------------------------------------------
 #Injuries?
 #----------------------------------------------
 
-{300}{}{¡Tu pierna izquierda fue lisiada! Sufres un dolor intenso.}
-{301}{}{¡Tu pierna derecha fue lisiada! Sufres un dolor intenso.}
-{302}{}{¡Tu brazo izquierdo fue lisiado! Sufres un dolor intenso.}
-{303}{}{¡Tu mano derecha fue lisiada! Sufres un dolor intenso.}
-{304}{}{¡Tus ojos han sido lisiados! Sufres un dolor intenso.}
+{300}{}{Â¡Tu pierna izquierda fue lisiada! Sufres un dolor intenso.}
+{301}{}{Â¡Tu pierna derecha fue lisiada! Sufres un dolor intenso.}
+{302}{}{Â¡Tu brazo izquierdo fue lisiado! Sufres un dolor intenso.}
+{303}{}{Â¡Tu mano derecha fue lisiada! Sufres un dolor intenso.}
+{304}{}{Â¡Tus ojos han sido lisiados! Sufres un dolor intenso.}
 {305}{}{Agh, esto va a tardar mucho en curarse...}
 
 #----------------------------------------------
@@ -89,26 +89,26 @@
 {322}{}{!!!}
 {323}{}{El fuego aterra a }
 {324}{}{ y escapa.}
-{325}{}{¡Demonios!}
-{326}{}{ pierde fuerza y percepción debido a que el pulso electromagnético dejó fritas algunas de sus partes.}
+{325}{}{Â¡Demonios!}
+{326}{}{ pierde fuerza y percepciÃ³n debido a que el pulso electromagnÃ©tico dejÃ³ fritas algunas de sus partes.}
 {327}{}{!}
 {328}{}{No es posible hacer esto durante el combate.}
-{329}{}{¡Peep!}
+{329}{}{Â¡Peep!}
 
 #----------------------------------------------
 # Comments about ineffectiveness (using the wrong item, skill, etc. )
 #----------------------------------------------
 
-{330}{}{Esto es inútil}
+{330}{}{Esto es inÃºtil}
 {331}{}{Eso no sirve}
 {332}{}{Algo anda mal}
 {333}{}{Nada}
 {334}{}{No puedo hacerlo}
-{335}{}{¿Hmm?}
-{336}{}{Es demasiado difícil}
-{337}{}{Esto es inútil}
-{338}{}{Esto es inútil}
-{339}{}{Esto es inútil}
+{335}{}{Â¿Hmm?}
+{336}{}{Es demasiado difÃ­cil}
+{337}{}{Esto es inÃºtil}
+{338}{}{Esto es inÃºtil}
+{339}{}{Esto es inÃºtil}
 
 #----------------------------------------------
 # Replies upon completion of tasks ( clearing mines, repairs, refueling the bike, etc.)
@@ -119,7 +119,7 @@
 {342}{}{Genial}
 {343}{}{Hecho}
 {344}{}{Lo tengo}
-{345}{}{Tuve éxito}
+{345}{}{Tuve Ã©xito}
 {346}{}{Bien}
 {347}{}{Hecho}
 {348}{}{Hecho}
@@ -130,43 +130,43 @@
 #----------------------------------------------
 
 # Consumables
-{400}{}{ se rehúsa a comer eso.}
-{401}{}{Esta experiencia te ha dado una lección.}
+{400}{}{ se rehÃºsa a comer eso.}
+{401}{}{Esta experiencia te ha dado una lecciÃ³n.}
 {402}{}{ no puede comer durante el combate.}
-{403}{}{ se rehúsa a tomar eso.}
+{403}{}{ se rehÃºsa a tomar eso.}
 {404}{}{Esto no aplica a los robots.}
 {405}{}{Entregar comida gratis te ha otorgado experiencia y karma.}
 {406}{}{Esto no aplica a las plantas.}
-{407}{}{ se rehúsa a aceptar eso.}
-{408}{}{Esta criatura se ha hecho más amistosa contigo.}
-{409}{}{Los estimulantes afectan únicamente a los humanos.}
+{407}{}{ se rehÃºsa a aceptar eso.}
+{408}{}{Esta criatura se ha hecho mÃ¡s amistosa contigo.}
+{409}{}{Los estimulantes afectan Ãºnicamente a los humanos.}
 {410}{}{Los animales y los mutantes no beben alcohol.}
-{411}{}{Esto no afectará a un nómada.}
-{412}{}{ sucumbe a los efectos nocivos de la sustancia química y entra en cólera.}
-{413}{}{¿Alcohol? No me interesa...}
-{414}{}{¡Eso era justo lo que me faltaba!}
-{415}{}{A los miembros de la Hermandad no les gusta que les muestres sus propias raciones. Quizás piensen que eres un ladrón.}
-{416}{}{¡Santo cielo, cuánta generosidad!}
-{417}{}{¿En serio me quieres dar esto?}
-{418}{}{Este objeto no funcionará a través de un casco de servoarmadura.}
-{419}{}{La distribución gratis de este valioso líquido te otorgó experiencia y karma.}
+{411}{}{Esto no afectarÃ¡ a un nÃ³mada.}
+{412}{}{ sucumbe a los efectos nocivos de la sustancia quÃ­mica y entra en cÃ³lera.}
+{413}{}{Â¿Alcohol? No me interesa...}
+{414}{}{Â¡Eso era justo lo que me faltaba!}
+{415}{}{A los miembros de la Hermandad no les gusta que les muestres sus propias raciones. QuizÃ¡s piensen que eres un ladrÃ³n.}
+{416}{}{Â¡Santo cielo, cuÃ¡nta generosidad!}
+{417}{}{Â¿En serio me quieres dar esto?}
+{418}{}{Este objeto no funcionarÃ¡ a travÃ©s de un casco de servoarmadura.}
+{419}{}{La distribuciÃ³n gratis de este valioso lÃ­quido te otorgÃ³ experiencia y karma.}
 
 # Items of clutter
-{420}{}{Creo que esto me vendrá bien}
-{421}{}{¡Santo cielo! ¡Gracias!}
-{422}{}{El niño felizmente acepta tu regalo. Puede que le cuente a sus amigos sobre ti.}
-{423}{}{El niño no quiere aceptar tu regalo, parece ser que piensa que eres una amenaza.}
-{424}{}{La pala no te ayudará con esto, para nada.}
-{425}{}{Un decodificador no te ayudará a piratear el robot, sólo hará falta tu habilidad.}
+{420}{}{Creo que esto me vendrÃ¡ bien}
+{421}{}{Â¡Santo cielo! Â¡Gracias!}
+{422}{}{El niÃ±o felizmente acepta tu regalo. Puede que le cuente a sus amigos sobre ti.}
+{423}{}{El niÃ±o no quiere aceptar tu regalo, parece ser que piensa que eres una amenaza.}
+{424}{}{La pala no te ayudarÃ¡ con esto, para nada.}
+{425}{}{Un decodificador no te ayudarÃ¡ a piratear el robot, sÃ³lo harÃ¡ falta tu habilidad.}
 {426}{}{ ha recibido una dosis de veneno.}
-{427}{}{ muere debido a una convulsión terrible.}
+{427}{}{ muere debido a una convulsiÃ³n terrible.}
 {428}{}{ fallece y cae al piso.}
-{429}{}{ queda inconsciente y muere un momento después.}
+{429}{}{ queda inconsciente y muere un momento despuÃ©s.}
 {430}{}{ deja de respirar.}
 {431}{}{No es posible hacer esto durante el combate.}
-{432}{}{Tu compañero sabe lo que esto significa.}
-{433}{}{¡Ooooh!}
-{434}{}{No tienes por qué estar asustando al niño, debe haber un propósito más digno para este trofeo.}
+{432}{}{Tu compaÃ±ero sabe lo que esto significa.}
+{433}{}{Â¡Ooooh!}
+{434}{}{No tienes por quÃ© estar asustando al niÃ±o, debe haber un propÃ³sito mÃ¡s digno para este trofeo.}
 {435}{}{Has fabricado 20 bengalas a partir de los cuetes viejos.}
 
 # Items of ammunition
@@ -215,68 +215,68 @@
 
 # Other items
 {480}{}{Lo normal es utilizar una llave en una cerradura.}
-{481}{}{Increíble. Y tan pronto como se te ocurrió...}
+{481}{}{IncreÃ­ble. Y tan pronto como se te ocurriÃ³...}
 {482}{}{El arma debe ser utilizada en el modo de combate, mientras la sostienes en tu arma.}
 {483}{}{Al utilizar la bolsa de doctor, has curado todas tus heridas.}
 {484}{}{Utiliza una bolsa de doctor para curar las heridas del paciente.}
 {485}{}{Debes colocar este objeto en tu mano para utilizarlo.}
 {486}{}{Es poco probable que esto te ayude a reparar al robot.}
-{487}{}{ se rehúsa a que tu tratamiento.}
-{488}{}{No necesitas cirugía.}
+{487}{}{ se rehÃºsa a que tu tratamiento.}
+{488}{}{No necesitas cirugÃ­a.}
 {489}{}{Debes usar este objeto en una motocicleta.}
-{490}{}{Eso no te ayudará con esto.}
+{490}{}{Eso no te ayudarÃ¡ con esto.}
 {491}{}{Has encontrado un uso para una reliquia antigua.}
 {492}{}{La pala ya no funciona.}
-{493}{}{La bolsa de doctor no te ayudará con esto.}
+{493}{}{La bolsa de doctor no te ayudarÃ¡ con esto.}
 
 #----------------------------------------------
 # Dialogue options
 #----------------------------------------------
 
 #Critter
-{500}{}{Esta persona es hostil y no hablará contigo.}
+{500}{}{Esta persona es hostil y no hablarÃ¡ contigo.}
 {501}{}{Ya has programado a este robot para que te proteja.}
 {502}{}{Has programado a este robot para que te proteja.}
 {503}{}{}
 {504}{}{Eres incapaz de reprogramar al robot para que te proteja.}
-{505}{}{¿Qué estás haciendo? ¿Me estás amenazando?}
-{506}{}{Esta persona no hablará contigo mientras sostengas un arma.}
-{507}{}{Este hombre se está muriendo, no puede hablar contigo.}
+{505}{}{Â¿QuÃ© estÃ¡s haciendo? Â¿Me estÃ¡s amenazando?}
+{506}{}{Esta persona no hablarÃ¡ contigo mientras sostengas un arma.}
+{507}{}{Este hombre se estÃ¡ muriendo, no puede hablar contigo.}
 {508}{}{. . .}
-{509}{}{La negociación ha fracasado.}
+{509}{}{La negociaciÃ³n ha fracasado.}
 {510}{}{?}
-{511}{}{Ves a un lugareño enloquecido.}
-{512}{}{Se ha acabado el oxígeno y }
-{513}{}{ se está asfixiando en el congelador.}
-{514}{}{¿Qué estás haciendo? ¿Me estás amenazando?}
-{515}{}{Enfunda tu arma o desenfundo la mía}
-{516}{}{Esta persona no hablará contigo mientras utilices una servoarmadura.}
+{511}{}{Ves a un lugareÃ±o enloquecido.}
+{512}{}{Se ha acabado el oxÃ­geno y }
+{513}{}{ se estÃ¡ asfixiando en el congelador.}
+{514}{}{Â¿QuÃ© estÃ¡s haciendo? Â¿Me estÃ¡s amenazando?}
+{515}{}{Enfunda tu arma o desenfundo la mÃ­a}
+{516}{}{Esta persona no hablarÃ¡ contigo mientras utilices una servoarmadura.}
 {517}{}{...}
 {518}{}{Parece que este robot no puede hablar.}
-{519}{}{Esta persona se rehúsa a ayudarte.}
+{519}{}{Esta persona se rehÃºsa a ayudarte.}
 
 # Computers
 {550}{}{Acceso denegado.}
 {551}{}{No es posible hacer eso durante el combate.}
 {552}{}{El sistema de seguridad ya fue pirateado.}
-{553}{}{¡El sistema de seguridad ha sido pirateado!}
+{553}{}{Â¡El sistema de seguridad ha sido pirateado!}
 {554}{}{Acceso concedido.}
-{555}{}{El juego resultó ser muy emocionante.}
-{556}{}{No consigues adivinar la contraseña.}
-{557}{}{Has instalado un decodificador. Ahora será mucho más fácil piratear la computadora.}
-{558}{}{Colocar otro codificador no te ayudará, es hora de usar tus habilidades.}
+{555}{}{El juego resultÃ³ ser muy emocionante.}
+{556}{}{No consigues adivinar la contraseÃ±a.}
+{557}{}{Has instalado un decodificador. Ahora serÃ¡ mucho mÃ¡s fÃ¡cil piratear la computadora.}
+{558}{}{Colocar otro codificador no te ayudarÃ¡, es hora de usar tus habilidades.}
 {559}{}{}
 
 #Equipment repair
-{570}{}{ no necesita ninguna reparación.}
+{570}{}{ no necesita ninguna reparaciÃ³n.}
 {571}{}{No es posible hacer esto durante el combate.}
 {572}{}{}
-{573}{}{No tienes la menor idea de cómo arreglar esto. Quizás podrías compensar tu falta de habilidad al agregar partes de repuesto.}  
-{574}{}{No tienes idea de cómo arreglar esto.}
-{575}{}{¡Que mala suerte! Te electrocutaste.}
-{576}{}{Estas partes harán que reparar esto sea un poco más fácil.}
-{577}{}{Estas partes harán que reparar esto sea mucho más fácil.}
-{578}{}{Colocar más repuestos no te ayudará. Usa tus habilidades.}
+{573}{}{No tienes la menor idea de cÃ³mo arreglar esto. QuizÃ¡s podrÃ­as compensar tu falta de habilidad al agregar partes de repuesto.}  
+{574}{}{No tienes idea de cÃ³mo arreglar esto.}
+{575}{}{Â¡Que mala suerte! Te electrocutaste.}
+{576}{}{Estas partes harÃ¡n que reparar esto sea un poco mÃ¡s fÃ¡cil.}
+{577}{}{Estas partes harÃ¡n que reparar esto sea mucho mÃ¡s fÃ¡cil.}
+{578}{}{Colocar mÃ¡s repuestos no te ayudarÃ¡. Usa tus habilidades.}
 {579}{}{Ves a un Segador.}
 
 #----------------------------------------------
@@ -286,10 +286,10 @@
 #Important: male and female nicknames are antipodes and coincide in numbers with a difference of 50.
 #- men's
 {600}{}{Crusado}
-{601}{}{Escorpión}
-{602}{}{Caníbal}
+{601}{}{EscorpiÃ³n}
+{602}{}{CanÃ­bal}
 {603}{}{Rey}
-{604}{}{César}
+{604}{}{CÃ©sar}
 {605}{}{Hidalgo}
 {606}{}{Sargento}
 {607}{}{Colmillo}
@@ -310,7 +310,7 @@
 
 #- women's
 {650}{}{Viuda Negra}
-{651}{}{Ciempiés}
+{651}{}{CiempiÃ©s}
 {652}{}{Comecerebros}
 {653}{}{Reina}
 {654}{}{Cleopatra}
@@ -318,7 +318,7 @@
 {656}{}{Sargenta}
 {657}{}{Garras}
 {658}{}{Machete}
-{659}{}{Mágnum}
+{659}{}{MÃ¡gnum}
 {660}{}{Napalm}
 {661}{}{Ross}
 {662}{}{Marina}
@@ -327,16 +327,16 @@
 {665}{}{Mamasota}
 {666}{}{Perra Loca}
 {667}{}{Chica Mala}
-{668}{}{Ángel}
+{668}{}{Ãngel}
 {669}{}{Jane la Loca}
 {670}{}{Blancanieves}
-{671}{}{Rubí}
+{671}{}{RubÃ­}
 
 #----------------------------------------------
 # Cartography
 #----------------------------------------------
 
-{1400}{}{Se ha revelado una nueva localización en el mapa}
+{1400}{}{Se ha revelado una nueva localizaciÃ³n en el mapa}
 {1401}{}{: }
 {1402}{}{.}
 {1403}{}{Provienen ruidos sospechosos de la caverna.}
@@ -381,7 +381,7 @@
 {1536}{}{El Grito del Silencio}
 {1537}{}{Cine al aire libre}
 {1538}{}{El Padre}
-{1539}{}{Baron de Arizona}
+{1539}{}{Punto de Reunion}
 {1540}{}{Una nevada}
 {1541}{}{El Santuario Perdido}
 {1542}{}{Fortaleza Movil}

@@ -58,6 +58,7 @@
 {253}{}{Y para ti, eso no es más que una historia. Si te soy honesto, para mí también lo es. Pero no tienes la idea de los problemas que puede causar una escorpión hembra. Hay que hacer algo al respecto de esto.}
 {254}{}{[Más]}
 {255}{}{Quizás puedas convencerla de que espabile. Sin ofender, pero puede que te ganes su confianza más fácilmente, pero no tienes la apariencia de un ranger, sino de un campesino.}
+{1255}{}{Quizás puedas convencerla de que espabile. Sin ofender, pero puede que te ganes su confianza más fácilmente, pero no tienes la apariencia de un ranger, sino de una campesina.}
 {256}{}{¿Qué tengo que hacer?}
 {257}{}{Es simple, explícale que no es bienvenida en estas tierras. Será mucho mejor para todos si ella y el niño se van de aquí.}
 {258}{}{Está bien, lo voy a intentar.}

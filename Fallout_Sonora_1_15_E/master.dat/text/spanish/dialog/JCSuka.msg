@@ -1,5 +1,6 @@
 {103}{}{Una perra menos.}
 {104}{}{¡Imbécil! ¡El veneno no tiene efecto contra un Chacal!}
+{1104}{}{¡Perra estúpida! ¡El veneno no tiene efecto contra un Chacal!}
 
 #Counter dialogue
 {200}{}{¡Atrapen al forastero! ¡Háganlo pedazos! ¡Tráiganme su cabeza!}
@@ -20,7 +21,7 @@
 {215}{}{¿Así que vas a matarme?}
 {216}{}{Eh, no me vas a comer, ¿cierto?}
 {217}{}{(su rostro cambia drásticamente) ¡Estamos hambrientos! M-matamos para sobrevivir. Nos morimos de hambre y tú, forastero, serás nuestro alimento. (mira a los demás) ¡Alimentaremos a nuestros cachorros con su cuerpo! (una docena de voces aúllan a través de la madriguera, en total acuerdo)}
-{1217}{}{(su rostro cambia drásticamente) ¡Estamos hambrientos! M-matamos para sobrevivir. Nos morimos de hambre y tú, perra, serás nuestro alimento. (mira a los demás) ¡Alimentaremos a nuestros cachorros con su cuerpo! (una docena de voces aúllan a través de la madriguera, en total acuerdo}
+{1217}{}{(su rostro cambia drásticamente) ¡Estamos hambrientos! M-matamos para sobrevivir. Nos morimos de hambre y tú, perra, serás nuestro alimento. (mira a los demás) ¡Alimentaremos a nuestros cachorros con su cuerpo! (una docena de voces aúllan a través de la madriguera, en total acuerdo)}
 {218}{}{La verdad es que tenía otros planes...}
 {219}{}{No estás hablando en serio, ¿verdad?}
 
@@ -58,7 +59,8 @@
 {250}{}{Puedes rondar por las madrigueras.}
 {251}{}{Puedes rondar por las madrigueras. Pero no intentes traicionarnos.}
 {252}{}{Creo que ya me voy.}
-{253}{}{Los Rangers nos han alimentado como lo prometieron. Y a pesar de que no nos gustan las verduras, el hambre ya no amenaza nuestros estómagos. Nuestra manada te lo debe, mensajero del Chacal Divino.}
+{253}{}{Los Rangers nos han alimentado como lo prometieron. Y a pesar de que no nos gustan las verduras, el hambre ya no amenaza nuestros estómagos. Nuestra manada te lo debe, mensajero del Gran Chacal.}
+{1253}{}{Los Rangers nos han alimentado como lo prometieron. Y a pesar de que no nos gustan las verduras, el hambre ya no amenaza nuestros estómagos. Nuestra manada te lo debe, mensajera del Gran Chacal.}
 
 {260}{}{Hablemos sobre tus problemas de comida.}
 {261}{}{Nos rodea el desierto, con poca comida y agua. El hambre nos obliga a atacar a los forasteros.}

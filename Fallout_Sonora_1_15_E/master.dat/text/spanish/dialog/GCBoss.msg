@@ -198,6 +198,7 @@
 {354}{}{Ten cuidado, somos los únicos que saben de este trato, pero no sabemos qué podría pasar. Voy a hablar con la caravana mientras tú te aseguras de que todo salga como debe. El cliente debe irse satisfecho.}
 {355}{}{De acuerdo.}
 {356}{}{Eh... Tengo que ir a orinar, ya sabes, es lo más importante antes de un trabajo así... Ya vengo.}
+{1356}{}{Eh... Tengo que ir a arreglarme, ya sabes, es lo más importante antes de un trabajo así... Ya vengo.}
 
 {360}{}{El trato fue un éxito, ¿no es así?}
 {361}{}{Ese fue un buen trato, no puedes imaginarte cuánto. Las chapas no son lo único que ganamos, sino que la ciudad obtuvo una oportunidad para sobrevivir.}

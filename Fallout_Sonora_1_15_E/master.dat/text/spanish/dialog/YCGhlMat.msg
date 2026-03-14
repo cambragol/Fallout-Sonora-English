@@ -1,8 +1,8 @@
 {100}{}{Ves a Phil.}
 {101}{}{Ves a un necrófago anciano con gafas. Se balancea débilmente en su silla.}
 
-{200}{}{Oiga, ¿qué personaje de libro se supone que es usted, mi estimado? No recuerdo haber leído de usted.}
-{1200}{}{Oiga, mi bella dama, ¿qué personaje de libro se supone que es? No recuerdo haber leído de usted.}
+{200}{}{Oye, ¿qué personaje de libro se supone que eres, mi estimado? No recuerdo haber leído de ti.}
+{1200}{}{Oye, ¿qué personaje de libro se supone que eres, mi dama? No recuerdo haber leído de ti.}
 {201}{}{¿De qué estás hablando, vejestorio?}
 {202}{}{¡Perdón, perdón! ¿Acaso un hombre ya no puede fantasear? Por cierto, soy Phil. Digamos que soy una especie de científico.}
 {203}{}{Encantado de conocerte, Phil. Los estudiosos son raros de encontrar en estos días.}
@@ -15,7 +15,7 @@
 
 {210}{}{¿Necesitas ayuda con algo?}
 {211}{}{No, nada.}
-{212}{}{Oye, ¿qué personaje de libro se supone que eres? No recuerdo haber leído de ti.}
+{212}{}{}
 {213}{}{¡Perdón, perdón! ¿Acaso un hombre ya no puede fantasear?}
 {214}{}{Parece que estás completamente sumergido en la literatura.}
 {215}{}{Ah, me gusta cuando las personas pueden ver la ironía en sí mismos. A diferencia de los melancólicos del otro lado de la otra sala. Se pusieron tan serios con construir la ciudad, más serios de lo que estuvieron sus vidas enteras.}
@@ -45,8 +45,8 @@
 {237}{}{Nada mal. Lo hiciste bien, para un novato. Necesitarás mucha más práctica para derrotarme.}
 {238}{}{Bueno, no me resultó.}
 {239}{}{Hablemos de otra cosa.}
-{240}{}{¿Me derrotaste? ¡Eso fue extraordinario!}
-{1240}{}{¿Me derrotaste? ¡Usted es una damisela extraordinaria!}
+{240}{}{¿Me derrotaste a MI? ¡Eso fue extraordinario!}
+{1240}{}{¿Me derrotaste a mí? ¡Qué mujer más extraordinaria!}
 {241}{}{¿Quieres jugar una partida de ajedrez?}
 {242}{}{¿Ahora ves que no vale la pena subestimar a tus oponentes?}
 {243}{}{Definitivamente fue un golpe de suerte. Siento haber batido tu récord mundial.}

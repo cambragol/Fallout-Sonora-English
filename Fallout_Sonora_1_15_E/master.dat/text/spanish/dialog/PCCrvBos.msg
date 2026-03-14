@@ -34,13 +34,14 @@
 
 {240}{}{¡Puta madre! ¿Por qué tenía que pasar esto con los Seguidores? Apenas empezaba a prosperar el negocio.}
 {241}{}{¿Eran muy importantes para tu caravana?}
-{242}{}{Nadie querrá hacer negocios con nosotros, sólo trabajábamos con los Seguidores. Y sin ellos, lo más seguro es que la producción de los Hojalateros se verá reducida. Mierda, hasta la economía de Fénix podría colapsar por una explosión ridícula. ¿Qué demonios les habrá pasado ahí adentro?}
+{242}{}{¡Eran los únicos con quienes trabajábamos! Y ahora que ya no están los Seguidores, nadie querrá hacer negocios conmigo. Lo más seguro es que los Hojalateros produzcan menos. Mierda, que puede toda la economía de Fénix vaya a colapsar. ¿Cómo habrá pasado esto?}
 {243}{}{¿Quién sabe? Por lo general, yo no me meto en los asuntos de otros. Adiós.}
 {244}{}{¡Yo no tuve nada que ver! Yo no fui, de ninguna manera.}
-{245}{}{Bueno, eso es obvio. Como si alguien del yermo podría pararle los carros a los Seguidores. Bueno, es lo que es.}
+{245}{}{Bueno, eso es obvio. Como si alguien del yermo podría pararle los carros a los Seguidores. Mierda.}
+{1245}{}{Bueno, eso es obvio. Como si alguien del yermo podría pararle los carros a los Seguidores. Mierda.}
 {246}{}{Vaya, pensé que estabas... sospechando de mí. Eso es un alivio. Bueno, ahí nos vemos.}
-{247}{}{Quizás la explosión fue culpa de ellos.}
-{248}{}{Bueno, eso es una teoría. Estaban más avanzados con toda esa tecnología nuclear. Hay rumores de que estaban ensamblando una bomba nuclear en el sótano de la Catedral. Quizás algo les salió mal y eso fue el resultado.}
+{247}{}{O sea, no es que se hayan hecho explotar a sí mismos, ¿cierto?}
+{248}{}{Exacto. Eran demasiado inteligentes para eso. Seguramente fueron sus enemigos. ¡Y ahora, todos nosotros tendremos que sufrir las consecuencias!}
 {249}{}{Pero, ¿por qué te molesta tanto? ¿Acaso tu caravana dependía de la Iglesia?}
 
 {250}{}{Estoy buscando a algunos esclavos, los trajeron desde la colonia de Flagstaff.}

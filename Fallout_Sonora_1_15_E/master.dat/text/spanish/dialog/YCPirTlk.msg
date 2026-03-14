@@ -1,49 +1,49 @@
-{100}{}{Ves a un necrófago.}
-{101}{}{Ves a un necrófago con armadura y casco de combate.}
+{100}{}{Ves a un necrÃ³fago.}
+{101}{}{Ves a un necrÃ³fago con armadura y casco de combate.}
 
-{200}{}{John me habló de ti, dijo que eres un listillo. ¿Pero en serio irás a la isla con esa suave carita de bebé?}
-{1200}{}{John me habló de ti, dijo que eres una chica astuta. ¿Pero en serio irás a la isla con esa suave carita de bebé?}
+{200}{}{John me hablÃ³ de ti, dijo que eres un tipo listo. Â¿Pero en serio irÃ¡s a la isla con esa suave carita de bebÃ©?}
+{1200}{}{John me hablÃ³ de ti, dijo que eres una muchacha inteligente. Â¿Pero en serio irÃ¡s a la isla con esa suave carita de bebÃ©?}
 {201}{}{Buena pregunta. Tengo que pensarlo.}
-{202}{}{Podré hacerle frente a todo lo que haya en esa isla, necrófago.}
-{203}{}{John me habló de ti, dijo que eres un listllo. Te esperan problemas en esa isla, lo entiendes, ¿verdad?}
-{1203}{}{John me habló de ti, dijo que eres una chica astuta. Te esperan problemas en esa isla, lo entiendes, ¿verdad?}
-{204}{}{Buena pregunta. Debería prepararme de antemano.}
+{202}{}{No deberÃ­a importarle a tu cara de necrÃ³fago, estÃ¡s hecho mierda.}
+{203}{}{John me hablÃ³ de ti, dijo que eres un tipo listo. Te esperan problemas en esa isla, lo entiendes, Â¿verdad?}
+{1203}{}{John me hablÃ³ de ti, dijo que eres una muchacha inteligente. Te esperan problemas en esa isla, lo entiendes, Â¿verdad?}
+{204}{}{Buena pregunta. DeberÃ­a prepararme de antemano.}
 {205}{}{No recuerdo haberte preguntado.}
-{206}{}{John me habló de ti, pero no esperaba ver a la gente de Gustavo. ¿Qué está pasando?}
-{207}{}{Sí, le falta gente. Gustavo va a supervisar la operación.}
-{208}{}{Gustavo será nuestro supervisor. ¿Entendido?}
+{206}{}{John me hablÃ³ de ti, pero no esperaba ver a la gente de Gustavo. Â¿QuÃ© estÃ¡ pasando?}
+{207}{}{SÃ­, le falta gente. Gustavo va a supervisar la operaciÃ³n.}
+{208}{}{Gustavo serÃ¡ nuestro supervisor. Â¿Entendido?}
 
-{210}{}{Bueno. Este es el plan, tenemos un transpondedor, los robots no nos atacarán mientras estemos dentro de su alcance. Así que solo tenemos que subirnos al bote e ir hacia la isla. Ahí vemos como le hacemos.}
-{211}{}{Necesito prepararme. Espérame un momento.}
-{212}{}{Entiendo. ¿Cuál es mi objetivo en la isla?}
+{210}{}{Bueno. Este es el plan, tenemos un transpondedor, los robots no nos atacarÃ¡n mientras estemos dentro de su alcance. AsÃ­ que solo tenemos que subirnos al bote e ir hacia la isla. AhÃ­ vemos como le hacemos.}
+{211}{}{Necesito prepararme. EspÃ©rame un momento.}
+{212}{}{Entiendo. Â¿CuÃ¡l es mi objetivo en la isla?}
 
-{220}{}{Pero la base está destruida, ¿no? ¿Qué se podría rescatar de ahí?}
-{221}{}{La isla entera fue bombardeada, la tierra aún está irradiada, pero los niveles subterráneos todavía siguen ahí. Los robots suben, luego bajan y aún los reparan. La base era una de las más grandes en la América de la preguerra, así que incluso después del bombardeo, todavía deberían haber reliquias por ahí.}
-{222}{}{Los niveles de radiación deben estar muy altos.}
-{223}{}{Por supuesto, es por eso que sólo los necrófagos y los robots podemos trabajar ahí. Eso nos conviene mucho. Pero tendrás que prepararte bien si no quieres que te cocinen los radioisótopos.}
-{224}{}{¿Y por qué no han ido allá hasta ahora?}
-{225}{}{Por las armas de la isla. Varias sobrevivieron gracias a escudos durante el bombardeo. Están a través de toda la costa, y evitan que nos acerquemos demasiado. Además, hay barricadas, escombros en el agua, minas submarinas y robots patrulleros. Tampoco habíamos conseguido el transpondedor hasta ahora, lo recibimos de la fábrica de aviones. Buen trabajo, por cierto.}
-{226}{}{¿Cuál es mi objetivo en la isla?}
-{227}{}{Tu trabajo, suavecito, es deshabilitar el sistema de seguridad para que los robots y las armas dejen de dispararnos. Luego de eso, nos encargaremos nosotros.}
-{1227}{}{Tu trabajo, suavecita, es deshabilitar el sistema de seguridad para que los robots y las armas dejen de dispararnos. Luego de eso, nos encargaremos nosotros.}
+{220}{}{Pero la base estÃ¡ destruida, Â¿no? Â¿QuÃ© se podrÃ­a rescatar de ahÃ­?}
+{221}{}{La isla entera fue bombardeada, la tierra aÃºn estÃ¡ irradiada, pero los niveles subterrÃ¡neos todavÃ­a siguen ahÃ­. Los robots suben, luego bajan y aÃºn los reparan. La base era una de las mÃ¡s grandes en la AmÃ©rica de la preguerra, asÃ­ que incluso despuÃ©s del bombardeo, todavÃ­a deberÃ­an haber reliquias por ahÃ­.}
+{222}{}{Los niveles de radiaciÃ³n deben estar muy altos.}
+{223}{}{Por supuesto, es por eso que sÃ³lo los necrÃ³fagos y los robots podemos trabajar ahÃ­. Eso nos conviene mucho. Pero tendrÃ¡s que prepararte bien si no quieres que te cocinen los radioisÃ³topos.}
+{224}{}{Â¿Y por quÃ© no han ido allÃ¡ hasta ahora?}
+{225}{}{Por las armas de la isla. Varias sobrevivieron gracias a escudos durante el bombardeo. EstÃ¡n a travÃ©s de toda la costa, y evitan que nos acerquemos demasiado. AdemÃ¡s, hay barricadas, escombros en el agua, minas submarinas y robots patrulleros. Tampoco habÃ­amos conseguido el transpondedor hasta ahora, lo recibimos de la fÃ¡brica de aviones. Buen trabajo, por cierto.}
+{226}{}{Â¿CuÃ¡l es mi objetivo en la isla?}
+{227}{}{Tu trabajo, suavecito, es deshabilitar el sistema de seguridad para que los robots y las armas dejen de dispararnos. Luego de eso, nosotros nos encargaremos y veremos quÃ© extraer y cÃ³mo.}
+{1227}{}{Tu trabajo, suavecita, es deshabilitar el sistema de seguridad para que los robots y las armas dejen de dispararnos. Luego de eso, nosotros nos encargaremos y veremos quÃ© extraer y cÃ³mo.}
 
 
-{250}{}{¡Ah! ¿Hueles ese aire fresco?}
-{251}{}{Sólo siento el polvo radioactivo de la tierra quemada.}
-{252}{}{Bueno, para gustos, colores. No lo olvides, tu objetivo es deshabilitar el sistema de seguridad y luego nos encargamos nosotros. Pero ten cuidado con lo que tocas; todavía hay muchos juguetes militares que te pueden hacer polvo.}
-{253}{}{Gracias, capitán obvio.}
-{1253}{}{Gracias, capitán obvio.}
+{250}{}{Â¡Ah! Â¿Hueles ese aire fresco?}
+{251}{}{SÃ³lo siento el polvo radioactivo de la tierra quemada.}
+{252}{}{Bueno, para gustos, colores. No lo olvides, tu objetivo es deshabilitar el sistema de seguridad y luego nos encargamos nosotros. Pero ten cuidado con lo que tocas; todavÃ­a hay muchos juguetes militares que te pueden hacer polvo.}
+{253}{}{Gracias, capitÃ¡n obvio.}
+{1253}{}{Gracias, capitÃ¡n obvio.}
 {254}{}{Entendido.}
-{255}{}{Tu objetivo es deshabilitar el sistema de seguridad, nos ocuparemos del resto y podrás regresar al puerto.}
-{256}{}{La alerta de combate fue desactivada. El acceso a la base está abierto a todos los interesados.}
-{257}{}{¡Bien hecho! Nos ocuparemos del resto. Puedes volver al puerto, pero no podrás volver aquí.}
+{255}{}{Tu objetivo es deshabilitar el sistema de seguridad, nos ocuparemos del resto y podrÃ¡s regresar al puerto.}
+{256}{}{La alerta de combate fue desactivada. El acceso a la base estÃ¡ abierto a todos los interesados.}
+{257}{}{Â¡Bien hecho! Nos ocuparemos del resto. Puedes volver al puerto, pero no podrÃ¡s volver aquÃ­.}
 {258}{}{Vale.}
-{259}{}{Por cierto, ¿qué planean hacer con lo que encuentren?}
-{260}{}{Tomarlos, por supuesto. Todo lo útil que haya, desde munición a electrónicos, lo usaremos para ayudar a Dayglow o para venderlos.}
-{261}{}{¿Entonces los juguetitos peligrosos terminarán en las manos del mejor comprador?}
-{262}{}{Por supuesto. ¿Algún problema?}
-{263}{}{No, señor. Ninguno.}
-{264}{}{¡Idiota! ¡Si llegan a las manos equivocadas será un desastre! No dejaré que te lleves nada.}
-{265}{}{Todo lo que sea útil, desde munición a electrónicos, lo usaremos para ayudar a Dayglow.}
+{259}{}{Por cierto, Â¿quÃ© planean hacer con lo que encuentren?}
+{260}{}{Tomarlos, por supuesto. Todo lo Ãºtil que haya, desde municiÃ³n a electrÃ³nicos, lo usaremos para ayudar a Dayglow o para venderlos.}
+{261}{}{Â¿Entonces los juguetitos peligrosos terminarÃ¡n en las manos del mejor comprador?}
+{262}{}{Por supuesto. Â¿AlgÃºn problema?}
+{263}{}{No, seÃ±or. Ninguno.}
+{264}{}{Â¡Idiota! Â¡Si llegan a las manos equivocadas serÃ¡ un desastre! No dejarÃ© que te lleves nada.}
+{265}{}{Todo lo que sea Ãºtil, desde municiÃ³n a electrÃ³nicos, lo usaremos para ayudar a Dayglow.}
 {266}{}{Entendido.}
 

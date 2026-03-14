@@ -17,9 +17,12 @@
 {208}{}{No me importa, sólo vengo de visita.}
 {209}{}{Lo siento, no era lo que quería decir.}
 
-{220}{}{¿Qué necesitas?}
+{220}{}{¿Qué necesitas, forastero?}
+{1220}{}{¿Qué necesitas, mujer?}
 {221}{}{¿Qué quieres, campesino?}
+{1221}{}{¿Qué quieres, campesina?}
 {222}{}{Es bueno verte, amigo mío.}
+{1222}{}{Es bueno verte, amiga mía.}
 {223}{}{No necesito nada. Adiós.}
 
 {230}{}{¿Qué haces aquí?}

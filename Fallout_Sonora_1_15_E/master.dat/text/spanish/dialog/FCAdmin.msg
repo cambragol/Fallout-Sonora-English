@@ -115,6 +115,12 @@
 {282}{}{Claro.}
 {283}{}{¿Un ladrón? ¿Aquí? Vaya.}
 
+{284}{}{Mi gente de la Villa tienen miedo de que volverán a ser enviados a las minas.}
+{285}{}{¡Campesinos estúpidos! Lo único que necesitamos es que la mina FUNCIONE.}
+{286}{}{Es decir, si resuelvo tus problemas de la mina, ¿dejarás a la Villa en paz! ¿Qué debe hacerse?}
+{287}{}{¡Campesinos estúpidos! Lo único que necesitamos es que la mina FUNCIONE. Y ahora mismo, está funcionando mejor que nunca.}
+{288}{}{¿Eso significa que ya no necesitas a gente de la Villa? Perfecto. Se lo haré saber a mis ancianos.}
+
 {290}{}{¿Cómo le está yendo a la mina?}
 {291}{}{Tengo otra pregunta.}
 {292}{}{De acuerdo.}

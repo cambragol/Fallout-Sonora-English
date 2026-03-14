@@ -28,6 +28,18 @@
 {223}{}{Has vuelto, veo que sigues pensando en tu destino. ¿Quieres verlo otra vez?}
 {1223}{}{Has vuelto, veo que sigues pensando en tu destino. ¿Quieres verlo otra vez?}
 {224}{}{No gracias.}
+{225}{}{No.}
+{226}{}{Qué extraño, los espíritus no tienen nada qué decir sobre tu futuro. Tal vez, todo lo que haya importado, ya ha sucedido.}
+{227}{}{¡Ah!}
+
+{230}{}{¿Sí?}
+{231}{}{¿Hm?}
+{232}{}{[Entrégale 100 chapas]}
+{233}{}{[Más]}
+{234}{}{¡Ja!}
+{235}{}{Shoo.}
+{236}{}{}
+
 
 {240}{}{No tengo nada más que contarte.}
 {241}{}{De acuerdo, adiós.}
@@ -39,7 +51,7 @@
 {247}{}{¿Por qué es sagrado? ¿Qué lo hace distinto?}
 {248}{}{Es un brahmán de mucha fuerza. Genaro lo mantiene apartado en un corral para que esté seguro, hasta el Día del Sol. Si fallece o enferma, sería una tragedia.}
 {249}{}{¿No sientes pena por el brahmán?}
-{250}{}{¡No! El brahmán se sacrifica por nosotros. Genaro escoge uno y lo cuida todo el año, un año en el que está limpio y bien alimentado. Por lo que el brahmán muere y le otorga perdón a nuestra tribu. Un final digno para un animal digno.}
+{250}{}{Nuestro futuro ya está aquí. Y eso no puede cambiarse.}
 {251}{}{Y, ¿qué hay de tu tribu? ¿Qué les espera en el futuro?}
 {252}{}{Estamos al borde del abismo, cubiertos de niebla. El futuro no está claro.}
 {253}{}{Intrigante.}

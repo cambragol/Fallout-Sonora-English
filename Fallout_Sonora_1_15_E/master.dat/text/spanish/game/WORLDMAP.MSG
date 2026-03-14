@@ -1,11 +1,11 @@
-#######################################################
+#
+# 
 #
 # Etiquetas de texto y mensajes usados para ciudad y mapa del mundo
 #
-#######################################################
+# ?
 
-
-# Villa
+#Villa
 {200}{}{Area Residencial}
 {201}{}{Plaza de la Sombra}
 {202}{}{Sotano de la Villa}
@@ -50,7 +50,7 @@
 {251}{}{Puerto}
 {252}{}{Base de la Hermandad}
 #
-# Rangers
+#Rangers
 {260}{}{Camino a la Presa}
 {261}{}{Presa}
 {262}{}{Acueducto}
@@ -60,7 +60,7 @@
 {266}{}{Giers Wash}
 {267}{}{Ciudadela}
 #
-# Phoenix
+#Phoenix
 {270}{}{Puerta de la Ciudad}
 {271}{}{Centro}
 {272}{}{Barrios bajos}
@@ -79,7 +79,7 @@
 {283}{}{Plataforma petrolifera}
 {284}{}{Laguna Negra}
 #
-# Casa Grande
+#CasaGrande
 {290}{}{Bomba de Agua}
 {291}{}{Mansion}
 {292}{}{Cementerio}
@@ -92,16 +92,17 @@
 {301}{}{Guarnicion}
 {302}{}{Fuerte}
 #
-# San Felipe (Old Lighthouse)
+# San Felipe ( Old Lighthouse )
 {310}{}{Asentamiento del Faro}
 {311}{}{Fondeport}
-{312}{}{Cerro Picacho del Diablo}
+{312}{}{Gruta}
+{313}{}{Cerro Picacho del Diablo}
 #
 # Inferno
 {320}{}{Atasco de Trafico}
 {321}{}{Residencias}
 {322}{}{Supermercado}
-{323}{}{Estacion de Policía}
+{323}{}{Estacion de Policia}
 {324}{}{Iglesia Misteriosa}
 {325}{}{Interestatal}
 #
@@ -115,7 +116,7 @@
 #! Empty slot
 {340}{}{Desierto}
 #
-# Dead Motel
+#DeadMotel
 {350}{}{Motel Viejo}
 #
 # Dayglow DLC
@@ -128,18 +129,17 @@
 {366}{}{Ruinas de National City}
 {367}{}{Corazon de San Diego}
 {368}{}{Muelles}
-{369}{}{Refugio 24}
-{370}{}{Base Naval EE.UU}
+{369}{}{Base Naval EE.UU}
 #
-# ! Empty slot
+#! Empty slot
 {370}{}{Desierto}
 #
-# Santa Ana
+# SantaAna
 {380}{}{Plaza Zaragoza}
 {381}{}{Monumento Antiguo}
 {382}{}{Cementerio Antiguo}
 #
-# ! Empty slot
+#! Empty slot
 {390}{}{Desierto}
 #
 # Jackals
@@ -148,7 +148,7 @@
 # Motorcycle without energy
 {410}{}{Motocicleta sin combustible}
 #
-# Destroyed Arroyo (do not use!)
+# Destroyed Arroyo ( do not use!)
 {420}{}{Desierto}
 #
 # Vault 27
@@ -158,7 +158,7 @@
 # Brotherhood Camp
 {440}{}{Campamento en el Desierto}
 {441}{}{Campamento en Caborca}
-{442}{}{Campamento en las Montañas}
+{442}{}{Campamento en los Montes}
 #
 # Raiders
 {450}{}{Base de los Escudos Azules}
@@ -200,45 +200,46 @@
 {493}{}{Litoral}
 #
 # Explosion crater in Puerto
-{500}{}{Centro de la Explosión}
+{500}{}{Centro de la Explosion}
 #
-# Special Encounter - Gold
+# Special Encounter- Gold
 {510}{}{Yermo Sonorense}
 #
-# Special Encounter - Henry Bemis
+# Special Encounter- Henry Bemis
 {520}{}{Yermo Sonorense}
 #
-# Special Encounter - Roadside Cafe
+# Special Encounter- Roadside Cafe
 {530}{}{Yermo Sonorense}
 #
-# Special Encounter - Bomber
+# Special Encounter- Bomber
 {540}{}{Yermo Sonorense}
 #
-# Special Encounter - Petro-Chico Truck
+# Special Encounter- Petro-Chico Truck
 {550}{}{Yermo Sonorense}
 #
-# Special Encounter - Scream of Silence
+# Special Encounter- Scream of Silence
 {560}{}{Yermo Sonorense}
 #
-# Special Encounter - Night movie screening
+# Special Encounter- Night movie screening
 {570}{}{Yermo Sonorense}
 #
-# Special Encounter - Padre
+# Special Encounter- Padre
 {580}{}{Yermo Sonorense}
 #
-# Special Encounter - Baron of Arizona
+# DLC - Gathering Point in Dayglow
 {590}{}{Yermo Sonorense}
+{591}{}{Refugio 24}
 #
-# Special Encounter - Snowfall
+# Special Encounter- Snowfall
 {600}{}{Yermo Sonorense}
 #
-# Special Encounter - Lost Vault (Van Buren)
+# Special Encounter- Lost Vault ( Van Buren )
 {610}{}{Yermo Sonorense}
 #
-# Special Encounter - Mobile fortress of the Master's army
+# Special Encounter- Mobile fortress of the Master's army
 {620}{}{Yermo Sonorense}
 #
-# Special Encounter - Rail Nomads
+# Special Encounter- Rail Nomads
 {630}{}{Yermo Sonorense}
 #
 #! Empty slot
@@ -247,7 +248,7 @@
 #! Empty slot
 {650}{}{Yermo Sonorense}
 #
-# Irradiated Village (Quartzsite)
+# Irradiated Village ( Quartzsite )
 {660}{}{Ruinas de Quartzsite}
 #
 #ShadowWorlds
@@ -263,41 +264,41 @@
 {679}{}{Desierto}
 #
 # Camp Winon
-{680}{}{Campamento en las Montañas}
+{680}{}{Campamento en los Montes}
 
 
-#######################################################
+################################################## #####
 #
 # Miscellaneous
 #
-#######################################################
+################################################## #####
 
-# Signature when hovering over the GG marker (does not work, a rudiment of Fallout 1):
+# Signature when hovering over the GG marker ( does not work , a rudiment of Fallout 1):
 {1000}{}{Desierto}
 {1001}{}{Montes}
 {1002}{}{Ciudad}
 {1003}{}{Costa}
 
-# Signature of a location not yet explored:
+# Signature of a location not yet explored :
 {1004}{}{Desconocido}
 
-# Miscellaneous:
+# Miscellaneous :
 {1500}{}{Has ganado 10.000 puntos de experiencia.}
 {1501}{}{Ruinas}
 {1502}{}{La motocicleta ya no tiene combustible.}
 {1503}{}{Es una motocicleta. No parece que que pueda ponerse en marcha.}
 
 
-#######################################################
+################################################## #####
 #
 # Description of encounters on the world map
 #
-#######################################################
+################################################## #####
 
 {2998}{}{Encuentras:}
-{2999}{}{¿Deseas tropezarte con este encuentro?:}
+{2999}{}{Deseas tropezarte con este encuentro:}
 
-# Encounter Table 0 -- TEST_D
+# Encounter Table 0-- TEST_D
 {3000}{}{Red Ryder.}
 {3001}{}{Un derrumbe}
 {3002}{}{Niebla radiactiva}
@@ -330,7 +331,7 @@
 {3029}{}{Una fortaleza movil.}
 {3030}{}{Legend City.}
 
-# Encounter Table 1 -- VILL_D
+# Encounter Table 1-- VILL_D
 {3050}{}{Algunas hormigas gigantes.}
 {3051}{}{Una manada de coyotes.}
 {3052}{}{Una manada de ratas cerdo.}
@@ -349,13 +350,13 @@
 {3065}{}{Una fortaleza movil.}
 {3066}{}{Legend City.}
 
-# Encounter Table 2 -- FLAG_D
+# Encounter Table 2-- FLAG_D
 {3100}{}{Red Ryder.}
 {3101}{}{Una manada de ratas cerdo.}
 {3102}{}{Una manada de lobos.}
-{3103}{}{Un rebaño de brahmanes.}
+{3103}{}{Un grupo de brahmanes.}
 {3104}{}{Un grupo de salvajes.}
-{3105}{}{Un escuadron de Montaña Blanca.}
+{3105}{}{Un escuadron del Monte Blanco.}
 {3106}{}{Un cazador.}
 {3107}{}{Oro.}
 {3108}{}{Henry Bemis.}
@@ -370,7 +371,7 @@
 {3117}{}{Una fortaleza movil.}
 {3118}{}{Legend City.}
 
-# Encounter Table 3 -- FLAG_M
+# Encounter Table 3-- FLAG_M
 {3150}{}{Red Ryder.}
 {3151}{}{Un derrumbe}
 {3152}{}{Una manada de ratas topo.}
@@ -388,7 +389,7 @@
 {3164}{}{El Santuario Perdido.}
 {3165}{}{Legend City.}
 
-# Encounter Table 4 -- FLAG_R
+# Encounter Table 4-- FLAG_R
 {3200}{}{Red Ryder.}
 {3201}{}{Una manada de ratas cerdo.}
 {3202}{}{Una banda de forajidos.}
@@ -397,8 +398,9 @@
 {3205}{}{Una caravana.}
 {3206}{}{Un grupo de colonizadores.}
 {3207}{}{Una manada de perros.}
+{3208}{}{La banda de Trayvon.}
 
-# Encounter Table 5 -- RNGR_D
+# Encounter Table 5-- RNGR_D
 {3250}{}{Red Ryder.}
 {3251}{}{Una tormenta de polvo}
 {3252}{}{Una manada de coyotes.}
@@ -423,11 +425,11 @@
 {3271}{}{Un terrible monstruo, La Fantasma.}
 {3272}{}{Deshidratacion}
 
-# Encounter Table 6 -- DSRT_A
+# Encounter Table 6-- DSRT_A
 {3300}{}{Una tormenta de polvo}
 {3301}{}{Deshidratacion}
 {3302}{}{Una manada de escorpiones.}
-{3303}{}{Un escorpión legendario.}
+{3303}{}{Un escorpion legendario.}
 {3304}{}{Algunos ciempies gigantes.}
 {3305}{}{Oro.}
 {3306}{}{Henry Bemis.}
@@ -441,7 +443,7 @@
 {3314}{}{Una fortaleza movil.}
 {3315}{}{Legend City.}
 
-# Encounter Table 7 -- DSRT_B
+# Encounter Table 7-- DSRT_B
 {3350}{}{Una tormenta de polvo}
 {3351}{}{Deshidratacion}
 {3352}{}{Una manada de escorpiones.}
@@ -459,9 +461,9 @@
 {3364}{}{El Santuario Perdido.}
 {3365}{}{Una fortaleza movil.}
 {3366}{}{Legend City.}
-{3367}{}{Un vehículo accidentado.}
+{3367}{}{Un vehiculo accidentado.}
 
-# Encounter Table 8 -- MEXI_D
+# Encounter Table 8-- MEXI_D
 {3400}{}{Red Ryder.}
 {3401}{}{Una manada de escorpiones.}
 {3402}{}{Un enjambre de mantis.}
@@ -481,9 +483,10 @@
 {3416}{}{Una nevada.}
 {3417}{}{Una fortaleza movil.}
 {3418}{}{Legend City.}
-{3419}{}{Un mexicano y un ciempiés.}
+{3419}{}{Un mexicano y un ciempies.}
+{3420}{}{Un mexicano y un ciempies.}
 
-# Encounter Table 9 -- MEXI_M
+# Encounter Table 9-- MEXI_M
 {3450}{}{Red Ryder.}
 {3451}{}{Un derrumbe}
 {3452}{}{Una manada de ratas topo.}
@@ -501,7 +504,7 @@
 {3464}{}{Legend City.}
 {3465}{}{Un brahman carnivoro.}
 
-# Encounter Table 10 -- CALF_D
+# Encounter Table 10-- CALF_D
 {3500}{}{Red Ryder.}
 {3501}{}{Niebla radiactiva}
 {3502}{}{Una manada de ratas.}
@@ -520,7 +523,7 @@
 {3515}{}{Una fortaleza movil.}
 {3516}{}{Legend City.}
 
-# Encounter Table 11 -- PHNX_D
+# Encounter Table 11-- PHNX_D
 {3550}{}{Red Ryder.}
 {3551}{}{Una manada de ratas.}
 {3552}{}{Una manada de perros.}
@@ -536,14 +539,14 @@
 {3562}{}{El Santuario Perdido.}
 {3563}{}{Legend City.}
 
-# Encounter Table 12 -- PHNX_M
+# Encounter Table 12-- PHNX_M
 {3600}{}{Niebla radiactiva}
 {3601}{}{Un grupo de hormigas gigantes.}
 {3602}{}{El cadaver de un merodeador.}
 {3603}{}{Un chatarrero solitario.}
 {3604}{}{Un robot enojado.}
 
-# Encounter Table 13 -- ROAD_D
+# Encounter Table 13-- ROAD_D
 {3650}{}{Red Ryder.}
 {3651}{}{Un cuerpo junto a la carretera.}
 {3652}{}{Una manada de ratas.}
@@ -557,7 +560,7 @@
 {3660}{}{El Santuario Perdido.}
 {3661}{}{Legend City.}
 
-# Encounter Table 14 -- TUSN_D
+# Encounter Table 14-- TUSN_D
 {3700}{}{Red Ryder.}
 {3701}{}{Una manada de ratas.}
 {3702}{}{Una manada de escorpiones.}
@@ -565,9 +568,9 @@
 {3704}{}{Un grupo de saqueadores.}
 {3705}{}{Un robot explorador.}
 {3706}{}{El cadaver de un esclavo fugitivo.}
-{3707}{}{Un cíborg.}
+{3707}{}{Un ciborg.}
 
-# Encounter Table 15 -- TUSN_M
+# Encounter Table 15-- TUSN_M
 {3750}{}{Un derrumbe}
 {3751}{}{Una manada de ratas topo.}
 {3752}{}{Una manada de lobos.}
@@ -584,15 +587,15 @@
 {3763}{}{El Santuario Perdido.}
 {3764}{}{Legend City.}
 
-# Encounter Table 16 -- INFN_D
+# Encounter Table 16-- INFN_D
 {3800}{}{Niebla radiactiva}
 {3801}{}{Un grupo de hormigas gigantes.}
-{3802}{}{Un montón de chatarreros.}
-{3803}{}{Un montón de segadores.}
+{3802}{}{Un monton de chatarreros.}
+{3803}{}{Un monton de segadores.}
 {3804}{}{Un agente de la USP.}
 {3805}{}{Harvey.}
 
-# Encounter Table 17 -- PORT_D
+# Encounter Table 17-- PORT_D
 {3850}{}{Red Ryder.}
 {3851}{}{Deshidratacion}
 {3852}{}{Algunas hormigas gigantes.}
@@ -600,7 +603,7 @@
 {3854}{}{Una manada de escorpiones.}
 {3855}{}{Una patrulla de la Hermandad.}
 
-# Encounter Table 18 -- ISLD_D
+# Encounter Table 18-- ISLD_D
 {3900}{}{Unas hormigas gigantes explorando la costa.}
 {3901}{}{Un monstruo.}
 {3902}{}{Un cadaver en la costa.}
@@ -608,7 +611,7 @@
 {3904}{}{El cuerpo de un explorador.}
 {3905}{}{Unos saqueadores y un escriba.}
 
-# Encounter Table 19 -- ISLD_M
+# Encounter Table 19-- ISLD_M
 {3950}{}{Un derrumbe}
 {3951}{}{Niebla radiactiva}
 {3952}{}{Un grupo de hormigas gigantes.}
@@ -624,6 +627,7 @@
 {3962}{}{Una Noche de peliculas.}
 {3963}{}{El Padre volador.}
 {3964}{}{Legend City.}
+{3965}{}{Supermutantes perdidos.}
 
-# Encounter Table 20 -- OCEAN_O
+# Encounter Table 20-- OCEAN_O
 {4000}{}{Niebla radiactiva}

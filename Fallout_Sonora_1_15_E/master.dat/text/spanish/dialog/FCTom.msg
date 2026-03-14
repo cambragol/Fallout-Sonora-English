@@ -4,6 +4,7 @@
 {200}{}{Hola, soy Tom, vivo en esta cabaña. ¿Qué te trae a nuestra ciudad?}
 {201}{}{No soy de por aquí. Quiero conocer gente.}
 {202}{}{Sí, claro. ¿Quieres aprovecharte de la fiebre del uranio, no es así? Olvídalo, esta ciudad no es lo que dicen. Si quieres ganarte la vida, tendrás que trabajar como esclavo.}
+{1202}{}{Sí, claro. ¿Quieres aprovecharte de la fiebre del uranio, no es así? Olvídalo, esta ciudad no es lo que dicen. Si quieres ganarte la vida, tendrás que trabajar como esclavo.}
 {203}{}{No he venido a ganar dinero, estoy buscando a mi familia.}
 {204}{}{¿Sí? Entonces buena suerte, la necesitarás.}
 {205}{}{¿Te puedo hacer unas preguntas?}

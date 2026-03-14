@@ -6,4 +6,5 @@
 
 {111}{}{Uh-uh-uh...}
 {112}{}{¡Tus trucos no funcionarán en mí! ¡Aléjate, maldito cultista!}
+{1112}{}{¡Tus trucos no funcionarán en mí! ¡Aléjate, maldita cultista!}
 {113}{}{¡Mi cabeza! Escucho tantos pensamientos... tantos... Tus pensamientos... ¡son horribles!} 

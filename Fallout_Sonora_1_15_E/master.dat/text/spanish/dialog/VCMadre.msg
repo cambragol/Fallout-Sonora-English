@@ -69,6 +69,10 @@
 {281}{}{Bien pensado, mamá.}
 {282}{}{Un poco de suerte me vendría bien.}
 {283}{}{Al equiparte el collar, ganaste una bonificación permanente a tu suerte.}
+{284}{}{Quizás pueda negociar con la mina para que nos dejen en paz.}
+{285}{}{La mina necesita trabajadores. No descansarán hasta que sus problemas con la mano de obra estén resueltos. Dudo que sea posible llegar a un compromiso.}
+{286}{}{¿Y si llegó el momento de cambiar? Nuestra conexión con Ciudad Garaje nos podría dar un empujón inicial.}
+{287}{}{Tú decidirás qué camino tomaremos. Pero, debes entender que aceptar una nueva forma de vida será dificíl para nuestra comunidad.}
 
 {290}{}{¿Cómo te trataron en Flagstaff?}
 {291}{}{Los carceleros me hacían trabajar, pero me tuvieron más clemencia porque soy mujer. Para los hombres no era así, los guardias solían ser extremadamente crueles con ellos. Aun así, los carceleros no querían perder a un trabajador, así que en su mayoría preferían intimidar en vez de golpear.}

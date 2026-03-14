@@ -12,5 +12,6 @@
 {223}{}{Estoy haciendo salchichas de brahmán. Son mi comida favorita, pero es difícil encontrar los condimentos.}
 {224}{}{¡Huele delicioso! ¿Puedo probarlas?}
 {225}{}{Vaya tufo. ¿Siquiera es comestible?}
-{226}{}{Nuestros héroes deberían estar bien alimentados. Ten, come.}
+{226}{}{Nuestro héroe debería estar bien alimentado. Ten, come.}
+{1226}{}{Nuestra heroína debería estar bien alimentada. Ten, come.}
 {227}{}{Muchas gracias.}

@@ -6,7 +6,7 @@
 {104}{}{Si esto es alguna clase de truco, lo pagarás caro.}
 {200}{}{¿Hmm? No creo haberte visto por aquí antes. Hola, esto es el Acueducto. ¿Qué te trae por aquí?}
 {201}{}{Tengo asuntos de los que ocuparme por aquí.}
-{202}{}{Lo que tú digas. Pero asegúrate de que tus "asuntos" no se conviertan en mis problemas. No me agradan los recién llegados que intentan imponer nuevas reglas.}
+{202}{}{Lo que tú digas. Pero asegúrate de que tus "asuntos" no se conviertan en mis problemas.}
 {203}{}{¿Y quién eres tú?}
 {204}{}{Puede que no me reconozcas, también soy un Ranger. Me he unido hace poco.}
 {1204}{}{Puede que no me reconozcas, también soy una Ranger. Me he unido hace poco.}

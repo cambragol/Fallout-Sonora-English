@@ -35,7 +35,7 @@
 {225}{}{Iré con ustedes, pero luego.}
 
 {226}{}{Los guardias ya no están.}
-{227}{}{Eso veo, pero no cambia nada, no podemos acercarnos al General. La presa está repleta de Rangers, ni siquiera podríamos llegar a la ciudadela en el otro lado. Una de dos, o nos matan los francotiradores, o nos atrapan las patrullas.}
+{227}{}{Eso veo, pero no cambia nada, no podemos acercarnos al General. La presa está repleta de Rangers, ni siquiera podríamos llegar a la ciudadela en el otro lado. Una de dos, o nos matan a disparos, o nos capturarán.}
 {228}{}{El General está muerto.}
 {229}{}{¿En serio? ¿No es un truco? Bueno, también escuché eso. Parece que estiró la pata, eso es un alivio. Pero no sé que haré ahora.}
 
@@ -55,7 +55,7 @@
 {241}{}{¿Se supone que eso me haría sentir mejor? Hm. Bueno, parece que estamos en las mismas, quizás deberíamos ayudarnos.}
 
 #On the ferry map
-{300}{}{Hablemos al llegar a la barcaza. Si hablamos aquí, nuestras voces podrían atraer a los coyotes.}
+{300}{}{Hablemos al llegar a la barcaza.}
 {301}{}{De acuerdo. Concentrémonos en llegar a salvo.}
 {302}{}{Vale.}
 
@@ -66,24 +66,24 @@
 {310}{}{¿Cómo se llama, señorita?}
 {311}{}{Soy Cecilia, y este es mi hijo.}
 {312}{}{No se parece mucho a ti.}
-{313}{}{Es adoptado. Lo encontré entre las ruinas, no podía dejarlo atrás.}
+{313}{}{Es... adoptado. Lo encontré entre unas ruinas, no podía dejarlo allí.}
 {314}{}{¿Es cierto que tu esposo era un criminal?}
 {315}{}{No le preguntaba de donde conseguía los suministros, pero le robaba a los viajeros y los granjeros para mantenernos, eso estaba claro. De alguna forma teníamos que sobrevivir. En Fénix lo tenía peor; allí estaba forzado a trabajos mucho más sucios.}
 {316}{}{¿Escapaste de Fénix?}
-{317}{}{Sí... La gran ciudad. Demasiada gente y muy pocos recursos. En el yermo, el destino es honesto contigo, pero en la ciudad siempre estás a la merced de otro.}
+{317}{}{Sí... La gran ciudad. Demasiada gente y muy pocos recursos. En el yermo, al menos tu destino está en tus manos, pero en la ciudad siempre estás a la merced de otro.}
 {318}{}{¿Así que ahora odias a los Rangers?}
-{319}{}{Por supuesto.}
-{320}{}{Ellos quieren prevenir historias como la tuya.}
-{321}{}{Pero pasó. Es culpa suya. No pueden arreglarlo.}
-{322}{}{Mi aldea tampoco aprobaría eso.}
-{323}{}{Hmm, en nuestra Villa, cada campesino sigue los deseos de la comunidad. Pero es distinto.}
-{324}{}{Eso es una buena acción.}
-{325}{}{Habérmelo dicho antes.}
+{319}{}{Por supuesto, e incluso si hubiesen tenido razón y mi esposo realmente hubiese sido un criminal, ¡eso no me hace la vida más fácil!}
+{320}{}{}
+{321}{}{Lo entiendo.}
+{322}{}{Mi aldea tampoco aceptaría algo así.}
+{323}{}{Hmm, en nuestra Villa, cada campesino debe seguir los caprichos de la comunidad. Pero, es distinto.}
+{324}{}{Eso es respetable.}
+{325}{}{Deberías haberme advertido de eso antes.}
 
 {330}{}{La barcaza está lista para partir. Súbete, te llevaré al otro lado.}
-{331}{}{Estoy profundamente agradecida. No cualquiera nos habría ayudado, especialmente en territorio de los Rangers. Pero, ¿y tú? ¿Nos acompañarás a California?}
+{331}{}{Estoy profundamente agradecida. No cualquiera nos habría ayudado, especialmente en territorio de los Rangers. Pero, ¿y tú? Nos... ¿Nos acompañarás a California?}
 {332}{}{No puedo. Tengo un compromiso con mi familia y mi hogar.}
-{333}{}{Está bien. No es común encontrar gente tan leal a sus comunidades como tú. Te deseo suerte, gracias por todo.}
+{333}{}{Ah... Está bien. No es común encontrar gente tan leal a su gente como tú. Te deseo suerte, gracias por todo.}
 {334}{}{De nada.}
 {335}{}{No tengo nada que darte de vuelta, pero si alguna vez te encuentras en Fénix, háblale al cantinero del casino acerca de mí, quizás te de un descuento. Adiós.}
 {336}{}{[Envía a la familia al otro lado]}

@@ -20,6 +20,7 @@
 {215}{}{(se inclina hacia ti) Los Hojalateros son precavidos contra los espías, no quieren que sus planes salgan a la luz. Así que debo tener cuidado con los desconocidos.}
 {216}{}{Me alegro de que nos entendamos.}
 {217}{}{Como Seguidor del Fuego, ¡me ofende que me trates así!}
+{1217}{}{Como Seguidora del Fuego, ¡me ofende que me trates así!}
 {218}{}{Soy parte de la Hermandad, no les gustará que me trates así.}
 {219}{}{¿Por qué eres tan antipático?}
 {220}{}{No eres de por aquí.}

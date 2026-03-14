@@ -37,7 +37,8 @@
 
 {223}{}{Me gustaría comerciar con ustedes.}
 {224}{}{Necesitamos bienes. El Maestro Hard siempre está dispuesto a comerciar, mientras sea rentable.}
-{225}{}{Genial, sé que ambos sacaremos un beneficio.}
+{225}{}{Genial, siempre estoy listo para un buen trato.}
+{1225}{}{Genial, siempre estoy lista para un buen trato.}
 
 {226}{}{Me encuentro en la búsqueda de conocimiento técnico.}
 {227}{}{Durante un siglo, los Hojalateros han estado atados a una única fuente de energía. ¿Quién crees que eres para buscar nuestro conocimiento? Sin embargo, los tiempos han cambiado. Quizás el Maestro Hard quiera hablarte.}
@@ -58,7 +59,8 @@
 {237}{}{Estás en lo correcto.}
 
 {238}{}{¿Puedes ver mi túnica? Estoy con los Seguidores del Fuego Santo, y siempre hemos tenido buenas relaciones con los Hojalateros.}
-{239}{}{Tu catedral se desmoronó, tenerlos entre nosotros es un riesgo calculado. Vete ahora, y no interrumpas nuestro orden.}
+{1238}{}{¿Puedes ver mi túnica? Estoy con los Seguidores del Fuego Santo, y siempre hemos tenido buenas relaciones con los Hojalateros.}
+{239}{}{Tu catedral se desmoronó, tenerlos entre nosotros es calculado como un riesgo. Vete ahora, y no interrumpas nuestro orden.}
 {240}{}{Demonios...}
 
 {241}{}{Estoy viajando hacia el Puerto de Acero, vengo desde la Catedral. Me dijeron que podría pasar la noche entre ustedes.}

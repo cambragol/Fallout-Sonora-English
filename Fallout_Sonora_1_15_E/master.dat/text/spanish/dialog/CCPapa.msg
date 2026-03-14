@@ -14,6 +14,7 @@
 
 #Re-dialogue
 {220}{}{Hola, gringo.}
+{1220}{}{Hola, gringa.}
 {221}{}{Hola, amigo.}
 {1221}{}{Hola, amiga.}
 {222}{}{Adiós, Enrique.}
@@ -88,6 +89,7 @@
 {298}{}{Comprendo.}
 {299}{}{El Diablo también atacaba a los animales salvajes o a los saqueadores que nos amenazaban, nos hicimos su rebaño, pues nos comía cuando tenía hambre.}
 {300}{}{¿Y siguieron haciéndole sacrificios?}
-{301}{}{Cada ciertos meses, le entregábamos un sacrificio al que habíamos criado específicamente para ese propósito. Hilario lo convirtió en una ceremonia y predicaba una purificación divina. Así que vivíamos con el demonio... hasta que llegaste tú, gringo.}
+{301}{}{Cada cuantos meses, le entregábamos un sacrificio al que habíamos criado específicamente para ese propósito. Hilario lo convirtió en una ceremonia y predicaba una purificación divina. Así que vivíamos con el demonio... hasta que llegaste tú, gringo.}
+{1301}{}{Cada cuantos meses, le entregábamos un sacrificio al que habíamos criado específicamente para ese propósito. Hilario lo convirtió en una ceremonia y predicaba una purificación divina. Así que vivíamos con el demonio... hasta que llegaste tú, gringa.}
 {302}{}{Bueno, ojalá que puedan regresar a una vida normal. Adiós.}
 {303}{}{Deberían estar avergonzados. Todos ustedes. En la Villa nos mantenemos unidos pase lo que pase. Escuchar esto me hace querer volver a casa. Adiós.}

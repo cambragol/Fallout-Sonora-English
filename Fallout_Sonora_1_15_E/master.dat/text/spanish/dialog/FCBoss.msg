@@ -115,10 +115,10 @@
 {294}{}{Sí. Nos vemos.}
 {295}{}{¿Era un ranger? Era otro criminal intentando hacerse el héroe. Bueno, has hecho un buen trabajo. Toma, son 200 chapas.}
 {296}{}{¡Oye, habíamos acordado que eran 300!}
-{297}{}{Estás recordando mal. No te daré más.}
+{297}{}{No te daré más.}
 {298}{}{Bueno, como sea... Hasta luego.}
 {299}{}{¿Se te ocurre qué podría ser?}
-{300}{}{Lo más probable es que sea alguna bestia o una pandilla estableció una guarida entre las ruinas. Si encuentras las patrullas desaparecidas, lo averiguaras.}
+{300}{}{Podría ser cualquier cosa, un mutante, una pandilla, o algo más.}
 
 {301}{}{Uno de tus subordinados le debe 100 chapas al bar.}
 {302}{}{Sí, había oído algo al respecto, pero es una cantidad pequeña y no voy a intervenir en eso.}
@@ -188,3 +188,16 @@
 {362}{}{...Me parece bien. No estoy en contra de deshacerse de Látigo. Será divertido ver a un capataz reemplazar a otro. Pero, sigo sin entender el por qué te importa esto.}
 {363}{}{Ninguna razón en específico.}
 {364}{}{No puedo soportar las injusticias.}
+
+{370}{}{Las patrullas habían sido eliminas por un saboteador de los rangers. Está escondido en el sótano del museo.}
+{371}{}{¿Un ranger? Es solo un criminal intentando hacerse el héroe. Enviaré a un escuadrón de mis hombres, ¡y sacaremos a ese hijo de puta de ahí adentro! En cuanto a ti, creo que 50 chapas debería compensar la información.}
+{372}{}{Quería una solución al problema. Lo único que hiciste fue traerme información. Eso es todo lo que vale.}
+{1372}{}{Quería una solución al problema. Lo único que hiciste fue traerme información. Eso es todo lo que vale.}
+{373}{}{Como sea...}
+
+{380}{}{Hay otra cosa de la que quiero hablar. Mis ancianos tienen miedo de volver a ser esclavizados.}
+{381}{}{Es normal temerle a los forasteros. Pero, mi mina ya no necesita tantos esclavos, pues está funcionando a su máxima capacidad. Dudo que vuelva a organizar otra caravana esclavista.}
+{382}{}{Eso es... Un poco tranquilizante. Se los haré saber.}
+{383}{}{Si la mina estuviese funcionando a su máxima capacidad, no tendría que depender de la esclavitud. Hasta que todo esté en orden, tendré que seguir buscando esclavos, sea en donde sea.}
+{384}{}{Ya veo.}
+{385}{}{Y, ¿qué hay de malo con la mina?}

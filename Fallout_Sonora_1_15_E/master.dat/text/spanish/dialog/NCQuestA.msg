@@ -15,20 +15,21 @@
 {206}{}{Claro, nos vemos bajo el cartel de la entrada.}
 {207}{}{Más te vale que esto no sea una estafa.}
 {208}{}{Piérdete.}
+{209}{}{Y-y?}
 
 {210}{}{Gracias por venir, ¿nadie te siguió, verdad?}
 {1210}{}{Gracias por venir, ¿nadie te siguió, verdad?}
 {211}{}{No... ¿Por qué me pediste que viniera?}
 {212}{}{Verás... mi esposo desapareció hace unos días. Se fue a la plantación y nunca volvió, y no lo puedo encontrar. ¡Necesito que me ayudes!}
-{213}{}{Pero, ¿por qué me lo dices en secreto?}
-{214}{}{¡Porque no tengo permitido hablar de ello? Es para no causarles pánico a los demás, eso me dijo el alcalde. ¡Debe ser una conspiración! Están escondiendo algo.}
-{215}{}{¿Qué hay de los demás? ¿Acaso nadie del pueblo lo está buscando?}
-{216}{}{Este lugar no es tan pacífico como lo parece, nos obligan a quedarnos callados, pero créeme, no es la primera vez que alguien desaparece.}
-{217}{}{¿Cómo te obligan?}
-{218}{}{Tenemos reglas muy estrictas, si lo miras desde afuera, este lugar es un paraíso, pero en realidad lo pagamos con nuestra libertad. Si alguien causa problemas, es castigado o expulsado.}
-{219}{}{Comprendo. Lo buscaré, ¿cómo se ve tu esposo?}
-{220}{}{Es moreno, bajo, tiene bigote... Ah, y lleva un collar de nuestro matrimonio. El alcalde le otorga uno a cualquiera que se case en nuestra ciudad.}
-{221}{}{Intentaré encontrarlo.}
+{213}{}{Pero, ¿por qué me lo dices en secreto? ¿Por qué no está siendo buscado por todo el pueblo?}
+{214}{}{¡Silencio! El alcalde me prohibió hablar de esto, para que no haya pánico. Pero es obvio que esconde algo. No es la primera vez que alguien desaparece. Desde afuera, el pueblo parece ser respetable, pero en realidad, es algo que pagamos con nuestra libertad. Cualquiera que esté en desacuerdo es castigado... O es expulsado de la ciudad. Aquí, las reglas son muy estrictas.}
+{215}{}{Ah-h.}
+{216}{}{[Salir]}
+{217}{}{No.}
+{218}{}{[Más]}
+{219}{}{Ya veo. Pero, ¿cómo voy a encontrar a alguien que jamás he visto?}
+{220}{}{¿Cómo se ve mi esposo...? Es un poco moreno, no es muy alto y tiene un bigote... Ah, y tiene puesto un pendiente de nuestra boda. El alcalde se lo entrega a cualquiera que se case en nuestro pueblo.}
+{221}{}{No te preocupes, intentaré encontrarlo.}
 {222}{}{No te prometo nada.}
 {223}{}{Me parece que podría traerme problemas. Veré qué encuentro, pero te costará.}
 {224}{}{Por supuesto, puedo darte comida y todas mis chapas - ya no me queda nada más.}
@@ -44,7 +45,7 @@
 {241}{}{Ah, perdón. Me llamo Rosalía, me ocupo de las cosechas.}
 {242}{}{Tengo que irme, Rosalía.}
 {243}{}{Dicen que discutías con tu esposo.}
-{244}{}{¡Es obvio que discutíamos! No nos casamos por amor, el alcalde apoya los matrimonios y nos dan beneficios. Pero con los años, nos acostumbramos el uno al otro...}
+{244}{}{¡Claro que discutíamos! Nuestro matrimonio no fue por amor. La ciudad obliga a la gente a casarse. Pero, ¡eso no significa que él no me importa!}
 {245}{}{Ya veo...}
 {246}{}{Un momento, ¿quién te dijo eso? ¿No se lo dijiste al alcalde, cierto? ¡No podemos confiar en él, debes entenderlo! Ni siquiera pienses en hablarle de los desaparecidos.}
 {1246}{}{Un momento, ¿quién te dijo eso? ¿No se lo dijiste al alcalde, cierto? ¡No podemos confiar en él, debes entenderlo! Ni siquiera pienses en hablarle de los desaparecidos.}
@@ -65,5 +66,10 @@
 {261}{}{No te rindas, Rosalía. Adiós.}
 {262}{}{Puede que eso sea lo más seguro, pero debería hablar de esto con ellos. Adiós.}
 {263}{}{Hice lo que me pediste. ¿Y mi dinero?}
-{264}{}{¿Qué quieres? ¿Chapas? ¡Llévatelas y déjame sola! Ustedes solo piensan en sí mismos...}
-{265}{}{No te alteres tanto, mujer.}
+{264}{}{¿Qué quieres? ¿Chapas? ¡Pues aquí tienes! ¡Llévatelas todas!}
+{265}{}{Cálmate, mujer. O te pondrás roja de la rabia.}
+{266}{}{Aquí tienes. [Entrega su pendiente de bodas]}
+{267}{}{No. [Llévala a ver el cadáver]}
+{268}{}{¿Qué?}
+{269}{}{[Más]}
+{270}{}{De acuerdo.}

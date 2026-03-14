@@ -50,11 +50,12 @@
 {250}{}{Doctor, necesito su ayuda.}
 {251}{}{No puedo tratar a un civil sin la autorización necesaria. Apenas tenemos suficientes estimulantes para nuestros hombres. Prueba a hablar con los Seguidores del Apocalipsis en Casa Nueva. Estarán felices de ayudarte.}
 {252}{}{Gracias por el consejo, intentaré no desangrarme en el camino.}
-{253}{}{No eres un doctor, sólo un carnicero. No te importa la vida de la gente común. Adiós.}
+{253}{}{Tenemos que hablar de otra cosa.}
 {254}{}{Cúrame, doctor.}
 {255}{}{Estás bien, ahora ve por tu rifle y vuelve a la batalla.}
-{256}{}{¡Ya voy, doctor!}
-{257}{}{Que chistoso, doctor.}
+{256}{}{¡Tú sí sabes, doc!}
+{257}{}{Ya te lo dije, no te trataré gratis.}
+{258}{}{[Salir]}
 
 {260}{}{¿Quién grita tanto? ¿A quién torturas?}
 {261}{}{No es eso, es uno de nuestros soldados. Perdió la cabeza, es muy grave.}
@@ -81,3 +82,9 @@
 {281}{}{Es lo que mejor sabes hacer, quédate así.}
 {282}{}{Gracias. Más aún por haber ayudado a mi paciente. Quiero darte algo; es un kit quirúrgico y un par de estimulantes. Sé que les darás un buen uso.}
 {283}{}{Gracias, Doctor. Cuídese.}
+
+{290}{}{[Curar todas las heridas por }
+{291}{}{ chapas]}
+{292}{}{[Curar todos los miembros rotos por }
+{293}{}{[Curar toda la radiación por }
+{294}{}{[Curar todo el veneno por }

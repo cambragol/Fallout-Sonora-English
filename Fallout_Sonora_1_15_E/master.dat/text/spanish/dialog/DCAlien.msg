@@ -18,7 +18,7 @@
 {209}{}{¿Por qué buscas al dueño?}
 {210}{}{Él es de mi familia. Su carta me estaba invitando a venir a trabajar acá. Así que, aquí estoy. Pero ha desaparecido.}
 {211}{}{¿Te mudaste a otro pueblo así sin más?}
-{212}{}{¿Por qué no? Después de la explosión en Fénix, las cosas se pusieron muy mal de un momento a otro.}
+{212}{}{¿Por qué no? Tras la caída de la iglesia en Fénix, las cosas se pusieron muy mal de un momento a otro.}
 {213}{}{¿Explosión? ¿A qué te refieres?}
 {214}{}{¿Lo dices en serio? Toda la Ruta 10 está hablando de ello. La Catedral del Fuego le hizo honor a su nombre, se quemó y explotó.}
 {215}{}{Vaya, que inesperado... ¿Has escuchado sobre tu tío? Quizás los lugareños digan algo.}

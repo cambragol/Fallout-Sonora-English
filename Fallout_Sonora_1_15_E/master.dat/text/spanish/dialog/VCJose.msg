@@ -6,6 +6,12 @@
 {105}{}{Se te metieron los demonios del yermo. Abandona nuestra Villa y déjanos en paz.}
 {1105}{}{Se te metieron los demonios del yermo. Abandona nuestra Villa y déjanos en paz.}
 
+{120}{}{*Silba*}
+{121}{}{*Suspira*}
+{122}{}{Ay, ay, ay...}
+{123}{}{Eh...}
+{124}{}{Y... ¿Qué hacemos ahora, eh?}
+
 # added by cambragol
 {199}{}{«Ay, güey.» ¡Me alegra tanto que sigas con vida! Ay, ay, ay, malditos saqueadores. Tuviste suerte de no estar acá.}
 # First Dialogue
@@ -29,6 +35,8 @@
 {215}{}{Lo siento, pero igual se los llevaron. Sólo quedaron los viejos y los niños.}
 {216}{}{Tenemos que hablar en serio, José. Necesito saber lo que ocurrió.}
 {217}{}{¡Bastardos!}
+{218}{}{¡Oh!}
+{219}{}{[Escucha]}
 
 {220}{}{¡Ese es el espíritu del valiente guerrero que necesitamos! ¿Qué harás ahora? ¿Vas a rastrear a los saqueadores? Se fueron hace rato.}
 {1220}{}{¡Ese es el espíritu de la valiente guerrera que necesitamos! ¿Qué harás ahora? ¿Vas a rastrear a los saqueadores? Se fueron hace rato.}
@@ -47,11 +55,21 @@
 {233}{}{Parece que de ahora en adelante, tendré que arreglármelas por mi cuenta. ¡Adiós, Tío José!}
 {234}{}{De acuerdo.}
 
+{235}{}{¿Eh?}
+{236}{}{Gia-shias.}
+{237}{}{Okeei.}
+
+
 {240}{}{¡Gracias al cielo, has vuelto! ¡Y trajiste a los demás!}
 {1240}{}{¡Gracias al cielo, has vuelto! ¡Y trajiste a los demás!}
 {241}{}{Sí, no fue nada fácil. Hay un mundo entero allá afuera, ¿sabes? Nadie me habló de él.}
 {242}{}{Es mejor que te guardes eso, güey. Los forasteros tienen sus verdades y nosotros las nuestras. Nunca nos vamos a poner de acuerdo con ellos, es por eso que vivimos apartados. Nadie nos puede corromper ni imponernos sus reglas. Ya has visto lo que hizo ese asalto, no podemos dejar que eso ocurra otra vez, ¿cierto?}
 {243}{}{Voy a pensar sobre esto, José.}
+
+{244}{}{¡Ba-boom! ¡Gran bum! ¡Muya gente!}
+{245}{}{Ajá.}
+{246}{}{¡Gracias al cielo, has vuelto! ¡Y trajiste a los demás! Ni siquiera pude hablar contigo antes de que te fueras. ¡Sí que eres de otro mundo!}
+{1246}{}{¡Gracias al cielo, has vuelto! ¡Y trajiste a los demás! Ni siquiera pude hablar contigo antes de que te fueras. ¡Sí que eres de otro mundo!}
 
 # Repeated Dialogue
 {250}{}{Me alegro de verte, compadre.}
@@ -63,44 +81,45 @@
 {253}{}{Tengo algunas preguntas... No, tengo muchas preguntas.}
 {254}{}{Pregúntame lo que quieras.}
 {255}{}{Hay un mundo más allá de la Villa. ¿Qué sabes de él?}
-{256}{}{¿Qué puedes decirme de los sótanos de la Villa?}
+{256}{}{¿Sabías que había un alijo secreto en los sótanos de la Villa?}
 {257}{}{¿Quieres venir conmigo?}
-{258}{}{}
-{259}{}{Tengo otra pregunta.}
+{258}{}{Vamos.}
+{259}{}{Cambiemos de tema.}
 
 {260}{}{Un yermo salvaje y desértico. Hay caníbales al norte, un ciudad de basura al este, además de unos pueblitos y puestos de los Rangers. He escuchado que hay una gran ciudad, pero nunca he ido más allá de Ciudad Garaje.}
-{261}{}{¿Por qué dices que los alrededores son salvajes?}
-{262}{}{Hemos evitado a los forasteros por años, sólo comerciamos con ellos cuando de verdad hace falta. No puedes confiar en un forastero, casi nunca tienen familias u hogares. ¿Cómo podrías hacerte amigo de gente así? Es por eso que tu viejo aleja a todos los forasteros.}
-{263}{}{Nuestro conocimiento del mundo exterior es muy limitado, ¿no crees?}
-{264}{}{¿Acaso no te bastan los saqueadores y los caníbales? ¿Y qué hay de los merodeadores? No, por algo hay que mantener la distancia. En el yermo la gente no vive, sobrevive.}
-{265}{}{Háblame de los caníbales.}
-{266}{}{Los llamamos Chacales, son tan salvajes que apenas saben hablar. Se dice que todos son caníbales pero por suerte no se meten con nosotros, somos demasiado para ellos. Pero los chatarreros de la ciudad de al lado solían hablar de ellos, pero con miedo. Así que evita a esos salvajes.}
+{261}{}{¿No crees que nuestro conocimiento del mundo exterior es... Muy pobre?}
+{262}{}{¿Qué, no te basta saber que hay saqueadores? ¿O caníbales? ¿O chatarreros? No, no. Nosotros dejamos a los extraños afuera, y tenemos una buena razón para hacerlo. No se puede confiar en los forasteros. La mayoría no tiene familia, ni hogar. En el yermo, la gente no vive. Sobrevive.}
+{263}{}{¿Te vas a quedar ahí parado, o tienes algo que preguntarme?}
+{264}{}{}
+{265}{}{Cuéntame sobre los salvajes.}
+{266}{}{Los llamamos Chacales. Son tan salvajes que ya ni saben hablar. La gente dice que se comen a las personas. Por suerte, somos muy duros para ellos, pero los chatarreros de la ciudad de al lado solían hablar de ellos, y con miedo. Así que mantén la distancia de esos salvajes.}
 {267}{}{¿Quiénes son los Rangers?}
 {268}{}{Son tipos duros, se creen muy gallos. Según, nos protegen de los malhechores, ¿pero quién sabe qué andan tramando realmente? A veces vienen a presumir, pero nos las arreglamos sin su ayuda... Aunque, la verdad es que ahora mismo nos vendría bien una ayudita.}
-{269}{}{¿Hay alguien que haya viajado más allá de Ciudad Garaje?}
-{270}{}{Sí, tu tío Miguel. Se peleó con tu viejo y se fue de la Villa. Hace años que no sabemos de él.}
+{269}{}{¿Hay alguien que se haya ido de nuestro valle?}
+{270}{}{Pues... Sí, tu Tío Miguel. Tuvo una discusión con tu viejo y se fue de la Villa. Hace años que no oímos de él.}
 {271}{}{¿Por qué se pelearon?}
 {272}{}{Tuvieron una discusión acerca de cómo debería la Villa tratar con los forasteros. Uno pensaba que deberíamos echarlos, el otro que deberíamos hacer negocios con ellos. Jamás llegaron a un acuerdo, pero ambos tenían buenos puntos.}
 
-{273}{}{Háblame sobre la ciudad vecina.}
-{274}{}{Se llama Ciudad Garaje, es un sitio desagradable con gente desagradable.}
-{275}{}{¿Qué clase de gente hay por allá?}
-{276}{}{Se hacen llamar chatarreros. Se dedican a hurgar entre las ruinas, buscando alguna cosa que sea valiosa. Pero ten cuidado con ellos - son todos sinvergüenzas y encima apestan.}
-{277}{}{¿Hacia dónde habrá ido Miguel?}
-{278}{}{Él dijo que quería visitar esa gran ciudad de la que hablan las leyendas. Pero seguro que lo único que encontró fue la muerte entre las arenas.}
+{273}{}{¿Miguel dijo hacia dónde se fue?}
+{274}{}{Él dijo que quería visitar esa gran ciudad de la que hablan las leyendas. Pero seguro que lo único que encontró fue la muerte entre las arenas.}
+{275}{}{}
+{276}{}{}
+
+{277}{}{Háblame sobre la ciudad vecina.}
+{278}{}{Ciudad Garaje. Es un lugar podrido, con gente podrida. Se hacen llamar chatarreros. Se dedican a hurgar entre las ruinas, buscando alguna cosa que sea valiosa. Pero ten cuidado con ellos, ninguno es de confianza.}
 {279}{}{¿Cómo sabes sobre Ciudad Garaje?}
 {280}{}{Güey, acá en la Villa soy el que comerciante principal con los forasteros. ¿Cómo crees que sé? A veces vienen caravanas de allá, hablamos un poco y luego se van.}
-{281}{}{¿Cuál es la relación de la Villa con Ciudad Garaje?}
-{282}{}{Tu papá no te ha dicho, ¿cierto? La gente que vive ahí es mala, pero tenemos que comerciar con ellos. Les damos comida, a cambio arreglan algunas de nuestras cosas y nos dan herramientas. Hasta ahí llega nuestra "relación".}
-{283}{}{Me parece que no te gusta esa ciudad.}
-{284}{}{Ya conoces a tu tío José - me tratas bien y yo te trato igual, no hay pedo. Pero esos tipos... ellos te engañan, intentan robarte o dicen algo feo. Y encima piensan mal de nosotros. Nos tienen envidia porque vivimos mejor que ellos.}
+{281}{}{No parece que ese lugar te importe mucho.}
+{282}{}{Ya conoces a tu tío José - me tratas bien y yo te trato igual, no hay pedo. Pero esos tipos... ellos te engañan, intentan robarte o dicen algo feo. Y encima piensan mal de nosotros. Nos tienen envidia porque vivimos mejor que ellos.}
+{283}{}{}
+{284}{}{}
 {285}{}{}
-{286}{}{}
-{287}{}{(niega con la cabeza con una obvia tristeza) Ay, sobrino, el yermo te ha hecho muy mal, ¿cierto? ¿Te duele? Bueno, estás aquí, eso es lo que importa. No te preocupes - somos familia, nos mantenemos unidos.}
-{1287}{}{(niega con la cabeza con una obvia tristeza) Ay, sobrina, el yermo te ha hecho muy mal, ¿cierto? ¿Te duele? Bueno, estás aquí, eso es lo que importa. No te preocupes - somos familia, nos mantenemos unidos.}
+{286}{}{Jeje.}
+{287}{}{(niega con la cabeza con una obvia tristeza) Ay, sobrino, el condenado yermo te ha hecho muy mal, ¿cierto? ¿Aún tienes algo de piel, no? Bueno, eso ya es algo. No te preocupes, aún estamos contigo. Al fin y al cabo, somos de la misma sangre... O bueno, al menos, solíamos serlo.}
+{1287}{}{(niega con la cabeza con una obvia tristeza) Ay, sobrina, el condenado yermo te ha hecho muy mal, ¿cierto? ¿Aún tienes algo de piel, no? Bueno, eso ya es algo. No te preocupes, aún estamos contigo. Al fin y al cabo, somos de la misma sangre... O bueno, al menos, solíamos serlo.}
 {288}{}{Te lo agradezco, José. Me las arreglaré, de alguna manera.}
 {289}{}{¿Tienes algún problema, normalucho? No necesito tus condolencias, así que cállate.}
-
+{290}{}{Ah, so así que la Abuela Adonisia te ha estado contando cuentos de terror, ¿verdad? Jeje. Olvídalo, ahí abajo solo hay ratas y harina podrida.}
 {290}{}{¿De qué hablas? Ahí guardamos el grano. Ah, ya sé, la abuela Adonisia te llenó la cabeza con cuentos viejos, ¿cierto? Jaja, olvídalo, ahí no hay nada.}
 {291}{}{¿Y cómo me explicas este mono y esta computadora en mi muñeca?}
 {292}{}{¿Eh? ¿Las encontraste debajo del ayuntamiento, no? Pues, pregúntale a tu viejo. José no sabe nada.}
@@ -115,9 +134,14 @@
 {299}{}{No eres feliz, José. No puedes estarlo. Ha muerto gente, esclavizaron a los demás, la Villa está en ruinas... Deja de fingir que sonríes.}
 {300}{}{(le tiembla el labio) Sobrino... Por qué me dices eso...}
 {1300}{}{(le tiembla el labio) Sobrino... Por qué me dices eso...}
-{301}{}{Llora, llora...}
-{302}{}{Está bien, tío. Deja que salga, no tienes que aguantarte...}
-{303}{}{¿A qué te refieres?}
+{301}{}{Anda... Déjalo salir.}
+{302}{}{Está bien, José. Es normal, no es necesario que lo retengas...}
+{303}{}{Gracias, Tío José. Significa mucho para mí.}
+{304}{}{¡No te preocupes! ¡Las cosas van a salir bien!}
+{305}{}{Eso espero. Volvamos a mis preguntas.}
+{306}{}{Solo quería darte las gracias por el apoyo. Lo agradezco mucho, Tío José.}
+{307}{}{Oye, ¡ya basta de esto! Sólo soy un comerciante con la pata chueca, a mí no me cuentan sus secretos. Los ancianos no me comparten sus secretos.}
+{308}{}{Está bien, cambiemos de tema.}
 
 #Quests
 {310}{}{¿Puedo ayudar en algo antes de irme?}
@@ -125,9 +149,9 @@
 {312}{}{¿Qué más?}
 {313}{}{Por la plantación hay unos extraños, probablemente sean merodeadores. Creo que lo mejor sería echarlos.}
 {314}{}{¿Algo más?}
-{315}{}{Y, los saqueadores se chingaron la estación meteorológica, hay que arreglarla. Quizás hayan partes en Ciudad Garaje, o puedes intentar repararla así sin más.}
-{316}{}{¿Eso es todo?}
-{317}{}{Es todo lo que se me ocurre.}
+{315}{}{Pues, los saqueadores se chingaron la estación meteorológica, hay que arreglarla. Quizás hayan partes en Ciudad Garaje, o puedes intentar repararla así sin más.}
+{316}{}{Veré que puedo hacer.}
+{317}{}{}
 {318}{}{Esos merodeadores de la plantación ya no son un problema.}
 {319}{}{¡Órale! Sin tu ayuda, puede que eso haya terminado mal. La Villa es afortunada de tenerte.}
 {320}{}{Adiós.}
@@ -137,14 +161,14 @@
 
 #Gambling
 {350}{}{Sé que te gustan las apuestas, tío. ¿Quieres jugar?}
-{351}{}{¡No mames! ¡Tienes que salvar a nuestro pueblo! Cuando vuelvan a la Villa, con gusto juego a los dados contigo.}
-{352}{}{Entonces dejemos eso de lado y hablemos de otra cosa.}
-{353}{}{Tienes razón, tengo que apurarme.}
-{354}{}{No me digas que hacer. De todas formas, ya no quiero jugar.}
+{351}{}{¡Ay, no! Antes que nada, tienes que salvar a nuestra gente. Y cuando estén sanos y salvos en la Villa, pues será un gusto tirar los dados contigo.}
+{352}{}{De hecho, eso es justo de lo que quería hablar contigo.}
+{353}{}{Tienes razón, no debería perder el tiempo.}
+{354}{}{Pues, me mataste todas las ganas de jugar.}
 {355}{}{Bueno, ya que regresó nuestra gente, podría divertirme un rato. Pero recuerda, que sea tu tío no significa que te vaya a dejar ganar.}
 {356}{}{Genial, coloquemos el tablero y los dados...}
 {357}{}{Hmm, puede que no sea el momento. Mejor hablemos.}
 {358}{}{Este no es el momento, juguemos luego.}
 {359}{}{Acabas de derrotar a uno de los mejores apostadores de la Villa, lo que ha mejorado tus habilidades.}
-{360}{}{ }
+{360}{}{}
 {361}{}{Perdiste. No es la primera vez y no será la última.}

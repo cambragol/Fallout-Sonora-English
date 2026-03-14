@@ -1,4 +1,4 @@
-{100}{}{Ves a un sirviente.}
+{100}{}{Ves a un concerje.}
 {101}{}{Ves a un mexicano muy delgado, lleva puesta una camiseta hecha jirones y un collar. Agarra un trapero con sus ásperas manos.}
 
 {110}{}{¡Por supuesto, patrón!}
@@ -16,13 +16,13 @@
 {200}{}{¿En qué lo ayudo, patrón...? Ah, no eres parte de la Hermandad. Es mejor que no hablemos, a los paladines no les gusta.}
 {1200}{}{¿En qué la ayudo, señora...? Ah, no eres parte de la Hermandad. Es mejor que no hablemos, a los paladines no les gusta.}
 {201}{}{¿Por qué no?}
-{202}{}{Siempre están buscando espías, y si sospechan de ti, te inspeccionan e incluso te azotan en público. Este lugar es muy estricto, la otra semana ahogaron a alguien porque le robó comida al Paladín Supremo. No quiero terminar así.}
+{202}{}{A los paladines no les gusta, siempre están en búsqueda de conspiraciones. Este es un sitio estricto.}
 {203}{}{Comprendo. Bueno, cuídate.}
 
 {210}{}{(mira a su alrededor con nervios) Por favor, me meterás en problemas si seguimos hablando.}
 {211}{}{Ya veo.}
 {212}{}{Cuéntame más acerca de la nave y la Hermandad.}
-{213}{}{No eres parte de la Hermandad. Responder tus preguntas me podría meter en problemas. ¿Y qué voy a recibir yo a cambio? Sólo me traerás problemas.}
+{213}{}{¡Shh! No eres parte de la Hermandad. Me podría meter en problemas. ¿Y qué voy a recibir yo a cambio? Sólo me traerás problemas.}
 {214}{}{Lo entiendo.}
 {215}{}{Baja la voz, o nos van a escuchar.}
 {216}{}{No debería enojar a los paladines. Adiós.}
@@ -42,13 +42,13 @@
 {228}{}{¡Tengo que tallar la suciedad de la nave cuatro veces al día! O tengo que cargar cajas. La Hermandad siempre están enviando o recibiendo cosas.}
 {229}{}{¿Hay alguien cumpliendo su condena aquí? Además de ti.}
 {230}{}{¿Puedes irte de aquí?}
-{231}{}{No, si me alejo demasiado de la nave, el collar va a explotar. Fue un invento de los escribas, no son muy amables con los locales. Además, aquí me dan de comer. Si me quedara en el yermo, estaría buscando comida entre la basura. Es una decisión difícil, lo sé.}
+{231}{}{No realmente. ¡No hay nada a los alrededores, durante millas! Los asentamientos cercanos están controlados por la Orden. Además, aquí me dan de comer. En el yermo, volvería a estar muriéndome de hambre y comiendo lo que pueda. Ya sabes, no es que tenga opción.}
 {232}{}{Mira, soltarás la sopa, o te 'caerás' por la borda.}
 {233}{}{¿Qué quieres de mí? ¿No sabes en dónde estás?}
 {234}{}{Necesito información.}
 
 {240}{}{¿Qué sabes de la Hermandad del Acero?}
-{241}{}{No sé mucho de ellos, prefieren mantenerse en secreto. Sé que esto es un puesto avanzado; su base se encuentra en el oeste. Son los más fuertes de toda Arizona, incluso los Hojalateros se quedan cortos.}
+{241}{}{No sé mucho de ellos, prefieren mantenerse en secreto. Sé que esto es un puesto avanzado; su base principal se encuentra en alguna 'California'. Son los más fuertes de toda Arizona, incluso los Hojalateros se quedan cortos.}
 {242}{}{Entonces la Hermandad no se anda con bromas. Hablemos de otra cosa.}
 {243}{}{¿Quién está a cargo de la nave?}
 {244}{}{El General Dixon. Lo encontrarás en su alcoba o en la sala de guerra.}

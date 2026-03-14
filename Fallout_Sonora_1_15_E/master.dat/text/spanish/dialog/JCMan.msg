@@ -25,8 +25,8 @@
 {207}{}{Mmm, te ves jugoso.}
 
 {1205}{}{Si te mato, seré famoso y me respetarán más.}
-{1206}{}{¿Buscas la muerte, forastera?}
-{1207}{}{Mmm, te ves jugosa.}
+{1206}{}{¿Buscas la muerte, perra?}
+{1207}{}{Mmm, te ves jugosa, perra.}
 
 {210}{}{M-mi vida te pertenece.}
 {211}{}{*Quejido penoso*}

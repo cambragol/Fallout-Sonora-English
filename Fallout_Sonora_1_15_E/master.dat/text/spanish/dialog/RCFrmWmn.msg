@@ -33,6 +33,7 @@
 {200}{}{¡Cariño, tenemos visitas! Creo que no nos conocemos. ¿Cómo te llamas?}
 {201}{}{.}
 {202}{}{Sólo estoy pasando por aquí.}
+{1202}{}{Sólo estoy pasando por aquí.}
 {203}{}{Es un gusto, }
 {204}{}{. Si necesitas comida o un lugar en donde descansar, habla con los Rangers. Sigue la carretera y encontrarás su base, está a unas horas.}
 {205}{}{Es un gusto... aunque tienes un nombre raro.}

@@ -21,6 +21,7 @@
 
 {210}{}{¿Has visto a Chris? Debería regresar y enfrentarse a su destino.}
 {211}{}{Todavía no lo he visto.}
+{1211}{}{Todavía no lo he visto.}
 {212}{}{¿En dónde crees que podría estar?}
 {213}{}{Dudo que se haya escapado al yermo, no tiene las agallas para hacer eso, y tampoco tiene a dónde ir. Revisamos los sótanos, pero no estaba ahí. Alguien lo tiene escondido, ¿pero quién? Nadie quiere confesar, amigos, vecinos, ni siquiera su hermano menor.}
 {214}{}{Bueno, entonces debe andar por ahí.}

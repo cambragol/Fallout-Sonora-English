@@ -27,6 +27,7 @@
 {214}{}{Hablaré con él.}
 {215}{}{Ni yo ni la Villa tenemos la intención de meternos en esta guerra.}
 {216}{}{Entonces deberías recordar que nadie te invitó a nuestras tierras. Si no vas a ayudarnos, no te metas en nuestro camino.}
+{1216}{}{Entonces deberías recordar que nadie te invitó a nuestras tierras. Si no vas a ayudarnos, no te metas en nuestro camino.}
 {217}{}{De acuerdo, ya pronto me iré.}
 {218}{}{Puedes quedarte en nuestro campamento, por ahora. Ve.}
 {219}{}{Adiós, Jefe.}
@@ -36,6 +37,7 @@
 {223}{}{¿Por dónde puedo empezar?}
 {224}{}{Habla con uno de tus hermanos, su nombre es Oscar. Su choza está cerca del Santuario.}
 {225}{}{Me pondré con ello, Jefe.}
+{226}{}{Mi aldea también sufrió un ataque a manos de esclavistas. Estoy intentando encontrar una forma de protegerla.}
 
 #Re-dialogue
 {230}{}{Estás agotando nuestra paciencia en vano. Cuidado con lo que dices o te volverás un enemigo de nuestra tribu.}
@@ -80,6 +82,8 @@
 {265}{}{Gracias.}
 {266}{}{Espero que tu búsqueda por tus aldeanos perdidos acabe en un completo éxito. A eso agrego que nuestros exploradores nos informaron de que un grupo de esclavos fueron llevados a Flagstaff. Busca allí.}
 {267}{}{Gracias, Jefe.}
+{268}{}{Espero que tu búsqueda por un protector para tu Villa sea exitosa.}
+{269}{}{Espero que tu búsqueda por tus aldeanos perdidos acabe en un completo éxito. A eso agrego que nuestros exploradores nos informaron de que un grupo de esclavos fueron llevados a Flagstaff. Busca allí.}
 
 {270}{}{Creo que deberías reanudar la ruta de caravanas hacia San Brahmán.}
 {271}{}{Hemos cerrado todo sendero y ruta comercial con las colonias de Fénix. Esa es la decisión del Consejo de Ancianos.}

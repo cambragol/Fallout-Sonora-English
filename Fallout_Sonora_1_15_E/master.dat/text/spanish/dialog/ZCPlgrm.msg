@@ -31,4 +31,10 @@
 {151}{}{Jamás pensé que vería a otro fenómeno como yo por estos lares.}
 {152}{}{Los normaluchos son unos pendejos, ¿verdad?}
 {153}{}{Los normales te repudian, ¿verdad? Sabemos como se siente.}
-{154}{}{No podemos llevarte, caminamos sin rumbo alguno.}
+{154}{}{Te llevaríamos, pero ni siquiera nosotros sabemos a dónde vamos.}
+
+{1150}{}{Lo siento, mi podrida amiga, pero no puedes acompañarnos.}
+{1151}{}{Jamás pensé que aquí encontraría a alguien tan feo como yo.}
+{1152}{}{Los normaluchos son unos desgraciados, ¿o me equivoco?}
+{1153}{}{Los normales te repudian, ¿verdad? Sabemos como se siente.}
+{1154}{}{Te llevaríamos, pero ni siquiera nosotros sabemos a dónde vamos.}

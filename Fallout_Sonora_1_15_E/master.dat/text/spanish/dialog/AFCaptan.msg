@@ -118,6 +118,7 @@
 {336}{}{Algo tuvo que haberlo obligado a abandonar las ruinas, espero que los demás no lo sigan... Pero, ¿en serio dices la verdad? No sé si pueda pagarte 50 chapas si no tienes evidencia, lo siento. Te daré 10 chapas, dejémoslo así.}
 {337}{}{Lo entiendo, es mejor que nada. Gracias.}
 {338}{}{¡Algún día pagarás por tus mentiras, bastardo!}
+{339}{}{¿Alguna idea de qué está destruyendo las redes?}
 
 {340}{}{¿Qué hay de nuevo en la aldea?}
 {341}{}{No hay tantas buenas noticias. La Hermandad del Acero ya no está con nosotros, algo explotó dentro de su nave y ahora estamos por nuestra cuenta. Con toda esta tecnología antigua, no sé cómo nos las arreglaremos sin ellos.}
@@ -125,8 +126,8 @@
 {343}{}{Estamos en serios problemas con la plataforma petrolífera y los 'nómadas'. Nadie ha podido resolverlo todavía.}
 {344}{}{¡Las cosas están mejorando! La plataforma petrolífera ha dejado de contaminar el agua. Yo creo que en un par de semanas, el mar nos volverá a bendecir con pescado fresco.}
 {345}{}{Pero en cuanto al mar, las cosas han mejorado mucho. }
-{346}{}{Ruiz sabe de un tesoro y está obsesionado con encontrarlo. Pero no existe, jeje. No caigas en su trampa, compadre.}
-{1346}{}{Ruiz sabe de un tesoro y está obsesionado con encontrarlo. Pero no existe, jeje. No caiga en su trampa, señorita.}
+{346}{}{Ruiz sabe de un tesoro y está obsesionado con encontrarlo. Pero no existe, jeje. No caigas en sus tonterías, compadre.}
+{1346}{}{Ruiz sabe de un tesoro y está obsesionado con encontrarlo. Pero no existe, jeje. No caiga en sus tonterías, señorita.}
 {347}{}{Ruiz ha desaparecido, pero no quiero buscarlo.}
 {348}{}{Resulta que el tesoro que Ruiz estaba buscando era real. ¿Quién lo hubiera dicho?}
 {349}{}{A veces, el mar nos muestra cosas extrañas. En un momento, emerge un monstruo marino de las aguas, luego vemos luces en la otra orilla. Pero no solemos viajar hasta allá, no hay nada que hacer allí.}

@@ -32,7 +32,7 @@
 {200}{}{Localiza a los habitantes de la Villa dentro del corral de la prisión}  
 {201}{}{Libera a tus familiares de la prisión sea como sea}  
 {202}{}{Rescata a tus paisanos del interior de la mina}  
-{203}{}{Repara la máquina perforadora}  
+{203}{}{Repara la máquina perforadora de la mina}  
 {204}{}{Elimina al Rey Rata de la mina}  
 {205}{}{Averigua quién está atacando a las patrullas en el área abandonada}  
 {206}{}{Entrégale su almuerzo al administrador de la mina}  
@@ -58,7 +58,8 @@
 {307}{}{Establece una ruta comercial hacia el territorio de los Rangers}  
 {308}{}{Arregla un trato para traer alcohol desde Flagstaff}  
 {309}{}{Detén la fabricación de chapas falsas}  
-{310}{}{Encuentra y devuelve la máquina soldadora}  
+{310}{}{Encuentra y devuelve la máquina soldadora a Frank}  
+{311}{}{Encuentra la guarida Chacal para el portero}  
 
 #---------------------------------------------------------------- --------
 # SanBrahmin
@@ -86,7 +87,7 @@
 {504}{}{Desactiva el sistema de seguridad de la Zona Prohibida para los Hojalateros}  
 {505}{}{Identifica y detén a los asaltantes de la caravana}  
 {506}{}{Encuentra al Hojalatero desaparecido en Casa Grande}  
-{507}{}{Localiza a la familia de Cody en Casa Grande}  
+{507}{}{Descubre el destino de la familia de Cody en Casa Grande}  
 {508}{}{Entrégale una batería nuclear al campesino}  
 {509}{}{}  
 
@@ -145,7 +146,7 @@
 {808}{}{Localiza al agente del Partido de la Liberación entre las ruinas}  
 {809}{}{Sabotea la Catedral a petición del Partido de la Liberación}  
 {810}{}{Recauda una gran deuda para el casino}  
-{811}{}{Recupera las cartas robadas}  
+{811}{}{Recupera las cartas robadas para el Sonora Express}  
 {812}{}{Ayuda a la banda de los Cardenales Rojos con sus problemas}  
 {813}{}{Investiga el accidente de la central nuclear}  
 {814}{}{Ayuda a Iron Mike a buscar justicia}  
@@ -165,7 +166,10 @@
 {903}{}{Entrégale el contador geiger al cantinero}  
 {904}{}{Ayuda a Ruiz a encontrar el tesoro}  
 {905}{}{Atrapa a la criatura que roba las redes de pesca}  
-{906}{}{Investiga el asesinato misterioso}  
+{906}{}{Investiga el asesinato misterioso en la costa}
+{907}{}{}
+{908}{}{}
+{909}{}{}
 
 #---------------------------------------------------------------- --------  
 # Casa Grande  
@@ -178,7 +182,7 @@
 {1004}{}{Rescata a la ciudadana en la estación de tren}  
 {1005}{}{Destruye el tanque de combustible de los Escudos Azules}  
 {1006}{}{Cobra el precio de la cabeza del líder de los Escudos Azules para el Alcalde}  
-{1007}{}{}  
+{1007}{}{Pasa a saludar en el rancho Domínguez en Hermosillo}  
 {1008}{}{}  
 {1009}{}{}  
 
@@ -193,10 +197,14 @@
 # San Felipe (Old Lighthouse)  
 #---------------------------------------------------------------- --------  
 
-{1200}{}{Investiga los rumores de monstruos dentro del cementerio naval}  
-{1201}{}{Elimina a los monstruos}  
-{1202}{}{Repara el faro}  
-{1203}{}{Encuentra y rescata a Gloria}  
+{1200}{}{Repara el faro antiguo}
+{1201}{}{Investiga a los monstruos en el cementerio de naves }
+{1202}{}{Elimina el nido de las sanguijuelas}
+{1203}{}{Rescata a  Gloria}
+{1204}{}{Explora el área alrededor de San Felipe}
+{1205}{}{Encuentra una fuente de agua limpia}
+{1206}{}{Resiste el asalto de los salvajes}
+{1207}{}{Convence al capitán de abandonar la bahía}
 
 #---------------------------------------------------------------- --------  
 # Inferno  

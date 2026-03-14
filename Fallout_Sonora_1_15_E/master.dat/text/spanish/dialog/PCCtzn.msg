@@ -239,3 +239,5 @@
 {397}{}{Las chapas empezaron a devaluarse después de que explotó la Catedral.}
 {398}{}{¿Quién controlará el precio de los chapas ahora?}
 {399}{}{Parece que las chapas serán chatarra sin ningún valor, otra vez.}
+
+{400}{}{Se dice que Aaron está muerto. ¿Será verdad?}

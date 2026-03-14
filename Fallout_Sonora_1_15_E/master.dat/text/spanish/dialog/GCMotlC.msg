@@ -27,6 +27,7 @@
 {218}{}{Mira, pagamos por el cuarto y puedo hacer lo que me de la gana.}
 {219}{}{Si no te detienes, tendrás problemas con toda la ciudad.}
 {220}{}{Sabemos quién eres, pendejo miserable. Nadie te quiere aquí, no nos asustas.}
+{1220}{}{Sabemos quién eres, zorra harapienta. Nadie te quiere aquí, no nos asustas.}
 {221}{}{Está bien. Pero no olvidaré esto.}
 {222}{}{Cierra la boca. Si no te calmas, vas a ver de lo que soy capaz.}
 {223}{}{No queremos problemas... Puedes pretender que nunca estuvimos aquí...}

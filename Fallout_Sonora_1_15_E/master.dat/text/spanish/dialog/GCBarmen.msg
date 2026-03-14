@@ -113,7 +113,7 @@
 {306}{}{No tienes por qué ser así, cantinero.}
 {307}{}{¿Por qué no les preguntas tú?}
 {308}{}{¿Qué está ocurriendo en la ciudad?}
-{309}{}{Nada en particular. La ciudad ha caído en la pobreza y nadie sabe qué hacer al respecto.}
+{309}{}{Nada en particular. La ciudad está muriendo, y nadie sabe qué hacer al respecto.}
 {310}{}{Lo bueno es que el cartel por fin ha puesto a la fábrica en marcha. Esto le traerá la vida a una ciudad que se estaba muriendo.}
 {311}{}{¿Por qué viven en chozas así de horrendas?}
 {312}{}{Podrías encontrar casas mejores entre las ruinas locales.}

@@ -128,7 +128,7 @@
 {223}{}{}
 {224}{}{}
 {225}{}{}
-{226}{}{}
+{226}{}{Sobre una costa cubierta de basura, se puede discernir un asentamiento pequeño, más allá de la neblina.}
 {227}{}{}
 {228}{}{}
 {229}{}{}

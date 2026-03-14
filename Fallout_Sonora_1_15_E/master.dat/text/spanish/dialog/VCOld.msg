@@ -81,6 +81,7 @@
 {1282}{}{Por supuesto. Me he preparado para este momento durante toda mi vida.}
 {283}{}{Eh, ¿bromeas, cierto? Oye, papá, ¿qué está pasando?}
 {284}{}{También lamento compartir una triste noticia. El señor Andrés, el padre de su salvador, murió durante su encarcelamiento. (la multitud queda boquiabierta) De acuerdo a las reglas de nuestra comunidad, su descendiente tomará su lugar. }
+{1284}{}{También lamento compartir una triste noticia. El señor Andrés, el padre de su salvadora, murió durante su encarcelamiento. (la multitud queda boquiabierta) De acuerdo a las reglas de nuestra comunidad, su descendiente tomará su lugar. }
 {285}{}{, es tu turno de liderar a la Villa.}
 {286}{}{Por supuesto. Me he preparado para este momento durante toda mi vida.}
 {1286}{}{Por supuesto. Me he preparado para este momento durante toda mi vida.}
@@ -202,7 +203,7 @@
 {412}{}{[Siguiente]}
 {413}{}{(un campesino se levanta de su asiento) }
 {414}{}{(Sancho se levanta de su asiento) }
-{415}{}{Tienes razón, lo único que hicimos fue escapar del corral. No estaremos a salvo mientras las minas sigan en pie. Yo digo que deberíamos destruirlas.}
+{415}{}{Tienes razón, lo único que hicimos fue escapar del corral. No estaremos a salvo mientras las minas sigan en pie. Yo digo que deberíamos destruirla.}
 {416}{}{¿Cómo propones que deberíamos destruir las minas?}
 {417}{}{Sé que en las minas hay algo llamado "explosivos". Pueden "explotar" y derribar un chingo de rocas. Yo creo que en la mina deben haber guardados suficientes de esas cosas como para colapsar la entrada de la mina.}
 {418}{}{Estás demente. ¿Quieres que vuelva ahí para sabotearlos? Es muy peligroso.}

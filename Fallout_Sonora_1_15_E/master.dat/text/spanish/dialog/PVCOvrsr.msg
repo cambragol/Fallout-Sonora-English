@@ -49,8 +49,8 @@
 {239}{}{Sólo estás cubriendo el mal con palabras bonitas. No me engañarás..}
 
 # Primer diálogo si el jugador es miembro de la hermandad del acero
-{240}{}{Encantado de conocerte, hermano. Los agentes de la Hermandad han enviado informes de tu servicio. El Cuartel General considera que tienes potencial, pero mis agentes piensan lo contrario.}
-{1240}{}{Encantado de conocerte, hermana. Los agentes de la Hermandad han enviado informes de tu servicio. El Cuartel General considera que tienes potencial, pero mis agentes piensan lo contrario.}
+{240}{}{Encantado de conocerte, hermano. Los agentes de la Hermandad han enviado informes de tu servicio. Los Ancianos consideran que tienes potencial, pero mis agentes piensan lo contrario.}
+{1240}{}{Encantado de conocerte, hermana. Los agentes de la Hermandad han enviado informes de tu servicio. Los Ancianos consideran que tienes potencial, pero mis agentes piensan lo contrario.}
 {241}{}{Encantado de conocerte, hermano. Los agentes de la Hermandad han enviado informes de tu servicio. Tengo que decir que tienes un gran potencial.}
 {1241}{}{Encantado de conocerte, hermana. Los agentes de la Hermandad han enviado informes de tu servicio. Tengo que decir que tienes un gran potencial.}
 {242}{}{¿También eres miembro de la Hermandad?}
@@ -102,6 +102,7 @@
 {303}{}{No creo que sea necesario.}
 {304}{}{Los miembros de la Hermandad debemos confiar unos en otros.}
 {305}{}{Como miembro de la iglesia del Fuego Sagrado, juro tener cuidado.}
+{1305}{}{Formo parte de la iglesia del Fuego Sagrado, juro tener cuidado.}
 {306}{}{Sabes, es difícil cumplir mi misión cuando ni siquiera recibo apoyo.}
 {307}{}{Entonces me las voy a arreglar.}
 {308}{}{Buen punto. Toma esta tarjeta. Otorga un nivel de autorización medio, eso será suficiente. }
@@ -145,6 +146,7 @@
 {354}{}{¿Cuál es la trampa?}
 {355}{}{Crook y Aaron son viejos amigos. No quiero que Aaron supiera quién ordenó su muerte. Pero Crook no sale del casino, por lo que debes hacerlo en silencio.}
 {356}{}{¿Cómo puedo hacerlo silenciosamente?}
+{1356}{}{¿Cómo puedo hacerlo silenciosamente?}
 {357}{}{Tendrás que pensar en algo. Te pagaré 500 chapas por su asesinato.}
 {358}{}{Me ocuparé de ello y te lo haré saber cuando termine.}
 {359}{}{Es demasiado arriesgado. Será mejor que me ocupe del holodisco.}

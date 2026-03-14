@@ -34,6 +34,7 @@
 {234}{}{No irás a ningún lado, porque esas chapas son mías.}
 
 {240}{}{Eres un idiota si crees que puedes meterte con el campeón.}
+{1240}{}{Eres un idiota si crees que puedes meterte con la campeona.}
 {241}{}{Soy uno de los Seguidores, si me pones un dedo encima, mis hermanos te encontrarán.}
 {242}{}{¿Sabes quiénes son los forajidos? Soy parte de ellos, y nadie se mete con nosotros.}
 {243}{}{(su rostro se llena de terror) Mierda, no lo sabía... Perdóname, aquí tienes la llave. ¿Me perdonas, verdad? Yo, eh... me tengo que ir.}

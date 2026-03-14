@@ -10,6 +10,7 @@
 {204}{}{Vengo en son de paz. El granjero me dijo que le arrebataron su hogar y sus tierras.}
 {1204}{}{Vengo en son de paz. El granjero me dijo que le arrebataron su hogar y sus tierras.}
 {205}{}{Él es un hipócrita, igual que todos los demás. Llegaron a nuestras tierras, masacraron a nuestra gente y nos quitaron todo. Tomaremos lo que es nuestro.}
+{1205}{}{Él es un hipócrita, igual que todos los demás. Llegaron a nuestras tierras, masacraron a nuestra gente y nos quitaron todo. Tomaremos lo que es nuestro.}
 {206}{}{Ustedes no son más que ladrones.}
 {207}{}{Un momento, eso no lo sabía. ¿Qué pasó?}
 {208}{}{Qué conveniente que no te lo haya dicho. Nuestros ancestros vivieron aquí por generaciones. Y luego llegó Faber y su gente, nos esclavizaron y mataron a quienes se resistieron. Fuimos los únicos supervivientes, y ahora queremos venganza. Ojo por ojo.}

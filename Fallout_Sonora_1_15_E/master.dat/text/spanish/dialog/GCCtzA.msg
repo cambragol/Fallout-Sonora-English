@@ -14,6 +14,8 @@
 {213}{}{¿Y por qué debería hablar contigo? No veo el por qué. Solo sería perder el tiempo.}
 {214}{}{Buscaré alguna forma de que abras la boca.}
 {215}{}{Bueno, como quieras.}
+{216}{}{Hola.}
+{217}{}{Para mejorar su actitud ante ti, abre tu inventario y utiliza un objeto de comida en ellos.}
 
 {220}{}{Pues... Ciudad Garaje es una ciudad de chatarreros. Aquí, todos se ganan la vida en la mina, que está controlada por el cartel del Sr. Kogan.}
 {221}{}{Que respuesta tan completa, gracias.}

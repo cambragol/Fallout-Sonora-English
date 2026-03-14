@@ -1,5 +1,6 @@
 {100}{}{Ves a un adepto.}
 {101}{}{Estás viendo a uno de los Seguidores del Fuego Santo. Está gritando como un loco para llamar la atención.}
+{102}{}{(1/3) Se ha adquirido el primer testimonio relacionado a los ataques.}
 
 #Floating Lines
 {110}{}{¡Tiembla ante el Fuego Santo!}
@@ -19,10 +20,10 @@
 {200}{}{Acércate, hijo de la Radiación y Desolación. Todos deben presenciar que la justicia ha triunfado. ¡Nadie escapará de la furia de los cielos!}
 {201}{}{Em, ¿de qué estás hablando?}
 {202}{}{Nosotros, los siervos del Fuego Santo, hemos pasado años escondiéndonos de la gente común. Sus mentes y corazones eran incapaces de comprender hasta la más simple de las verdades. ¡Fuimos excluidos, golpeados e incluso asesinados! Pero esperamos... esperamos el momento adecuado.}
-{203}{}{[Sigue escuchando]}
-{204}{}{¿Por qué gritas tanto, loquito?}
+{203}{}{[Más]}
+{204}{}{Te puedo oír bien, ¿por qué gritas tanto?}
 {205}{}{¡Allí está! ¡La insolencia! ¡La blasfemia! Los siervos del Fuego Santo nos mantuvimos escondidos de la gente común durante años, pues eran incapaces de comprender hasta la más simple de las verdades. ¡Fuimos excluidos, golpeados e incluso asesinados! Pero fuimos pacientes y esperamos... esperamos el momento adecuado.}
-{206}{}{El momento en que el Señor se cansara de la estupidez humana y nos trajera la paz. Estas personas, cuyos cuerpos se hicieron recipientes para el Diablo Nuclear, son prueba de ello. Durante muchos años, planearon sus malévolas acciones en contra de la iglesia. Robaron y asesinaron a nuestros monjes, quienes enseñaban verdades. ¡Malagradecidos! ¡Arderán en la Llama Nuclear del Infierno!}
+{206}{}{El momento en que el Señor se cansara de la estupidez humana y nos trajera la liberación. Estas personas, cuyos cuerpos se hicieron recipientes para el Diablo Nuclear, son prueba de ello. Durante muchos años, planearon sus malévolas acciones en contra de la iglesia. Robaron y asesinaron a nuestros monjes, quienes enseñaban verdades. ¡Malagradecidos! ¡Arderán en la Llama Nuclear del Infierno!}
 {207}{}{Eso es terrible, esos tipos se lo merecían.}
 {208}{}{¡Que el Fuego Santo esté contigo! Ve en paz y cuéntale al hombre común acerca de cómo agreden a nuestra pacífica iglesia.}
 {209}{}{Por supuesto. Luego de saber todo esto, no permitiré que tanta injusticia siga en pie.}
@@ -31,6 +32,9 @@
 {212}{}{¡Escéptico! ¿No hemos hecho suficiente por esta ciudad! Observa como Fénix ha prosperado bajo la sabiduría de nuestro Señor, Aaron. Ve y reflexiona sobre ello... ¡Y teme al Fuego! ¡Teme al Fuego!}
 {213}{}{Lo siento, apenas llego a la ciudad. Pero me aseguraré de echarle un vistazo a tu iglesia.}
 {214}{}{No sé si pueda confiar en lo que dices, después de lo que he visto. Voy a formar mi propia opinión sobre tu iglesia.}
+{215}{}{¿Eh?}
+{216}{}{[Más]}
+{217}{}{¡Mm-hmm!}
 
 {220}{}{Saludos, hermano. Estoy feliz de ver que desde nuestro último encuentro, has sido iluminado. Solías ser un escéptico, me observabas con desdén. Pero ahora te doy mi mano y digo, crede firmiter et pecca fortiter.}
 {1220}{}{Saludos, hermana. Estoy feliz de ver que desde nuestro último encuentro, has sido iluminada. Solías ser una escéptica, me observabas con desdén. Pero ahora te doy mi mano y digo, crede firmiter et pecca fortiter.}
@@ -38,6 +42,7 @@
 {1221}{}{Saludos, hermana. Me alegra ver que te uniste a nuestra causa. Conlleva un gran honor y responsabilidad Crede firmiter et pecca fortiter.}
 {222}{}{Si no te importa, me gustaría hablar contigo.}
 {223}{}{¿Crede firmi... Qué? Todavía me falta leer los textos sagrados. Ahí nos vemos.}
+{224}{}{}
 
 #Repeat Dialogue
 {250}{}{Veo que las palabras del Fuego Santo no te permiten descansar. ¿Qué deseas saber ahora?}
@@ -45,6 +50,7 @@
 {252}{}{Saludos, hermano. ¿Está todo bien? ¿El hombre común te da algún problema?}
 {1252}{}{Saludos, hermana. ¿Está todo bien? ¿El hombre común te da algún problema?}
 {253}{}{Creo que ya me voy.}
+{254}{}{[Salir]}
 
 {260}{}{¿Quién eres?}
 {261}{}{Háblame de ti, hermano.}
@@ -53,7 +59,7 @@
 {264}{}{Bueno, esto me despejó muchas dudas. Nos vemos.}
 {265}{}{¿Cuál es la 'iglesia' que representas, Gabriel?}
 {266}{}{Así es. Tras unirnos a la iglesia, cambiamos nuestro nombre, plantando una lápida sobre nuestra otra vida.}
-{267}{}{}
+{267}{}{Tengo una pregunta más.}
 {268}{}{Por cierto, ¿podrías ayudarme a entender nuestra fe?}
 {269}{}{Debido a lo que escuché, me gustaría saber más de tu fe.}
 {270}{}{Háblame acerca de la religión que representas.}
@@ -67,7 +73,7 @@
 {278}{}{Sí que sabes hablar, viejo. Voy a verlo por mi cuenta, para ver si mientes o no.}
 {279}{}{Bueno, entonces debería explorar la ciudad y ver si es verdad. Adiós.}
 {280}{}{Disculpa mis modales, pero esa clase de preguntas no deberían discutirse en una calle. Y no te llenes la cabeza con escepticismo; de esa forma es como las almas de los monjes jóvenes le abren la puerta al Diablo Nuclear. ¡Teme al Fuego Santo, acólito, teme al Fuego!}
-{281}{}{Supongo que debería hablar con los curas de la catedral. Nos vemos.}
+{281}{}{Eh... Como sea.}
 {282}{}{¿Y qué es lo que haces?}
 {283}{}{¿Por qué castigaron a esos tipos?}
 {284}{}{Esos tipos de ahí atrás no le temían. ¿Por qué fueron ejecutados?}
@@ -85,12 +91,12 @@
 {300}{}{A petición de Aaron, estoy investigando los ataques hacia los monjes. ¿Qué puedes decirme de eso?}
 {301}{}{Repíteme lo que sabes acerca de los ataques hacia los Seguidores.}
 {302}{}{Los Seguidores a menudo solían ser los objetivos de robos y humillaciones. El día que Aaron llegó el poder - bendecido sea su nombre - las pandillas comenzaron a evitarnos. Pero hace poco, los ataques han vuelto a ocurrir.}
-{303}{}{[Continuar]}
+{303}{}{[Más]}
 {304}{}{El tiroteo durante la ejecución, el asesinato en los barrios bajos y el ataque en frente del casino son los crímenes más recientes e insolentes que han habido en contra de nuestros hermanos.}
 {305}{}{Gracias, eso me basta.}
 
 {310}{}{Cuéntame del tiroteo durante la ejecución.}
-{311}{}{Durante la ejecución, varios atacantes nos dispararon desde la cima de estas ruinas, claramente intentaban darme a mí. Es posible que los aliados de esos criminales intentasen rescatar a sus cómplices, pero fallaron, gracias a la voluntad del Ojo del Fénix.}
+{311}{}{Habían varios atacantes, dispararon desde varios puntos y claramente me apuntaban a mí. Puede que quienes respaldaban a los criminales hayan querido salvar a sus cómplices, pero fallaron, gracias a la voluntad del Ojo del Fénix.}
 {312}{}{¿Qué hay del ataque en frente del casino?}
 {313}{}{Unos criminales derribaron a nuestros hermanos en las afueras del casino, como si de un grupo de ratas topo se tratase. Es difícil saber con certeza lo que realmente ocurrió, pues todos dicen cosas distintas.}
 {314}{}{¿Qué sabes sobre el incidente en los barrios bajos?}

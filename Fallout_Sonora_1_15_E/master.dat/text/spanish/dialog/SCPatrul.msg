@@ -11,10 +11,9 @@
 {205}{}{Soy el Paladín Latham, el Jefe de Patrullas. ¿Tienes otra pregunta?}
 {206}{}{No, señor.}
 {207}{}{Sí, tengo muchas preguntas, pero dudo que las respondas.}
-{208}{}{De acuerdo, ¿qué te trae por aquí, amigo?}
-{1208}{}{De acuerdo, ¿qué te trae por aquí, amiga?}
-{209}{}{Soy de un pueblo en el norte. Fuimos atacados por esclavistas, e intento salvar a mis parientes...}
-{210}{}{Eres justo lo que estaba buscando. La mayoría de mi pueblo fue capturado por esclavistas, e intento liberarlos...}
+{208}{}{No exactamente. Somos la Hermandad del Acero, una antigua orden militar. Por lo tanto, mantenemos una disciplina militar estricta.}
+{209}{}{Puede que sean lo que estoy buscando. Vengo de una aldea al norte de aquí, últimamente hemos tenido problemas y buscamos... Protectores.}  
+{210}{}{Puede que sean lo que estoy buscando. La mayoría de mi aldea fue capturada por esclavistas e intento liberarlos...}
 {211}{}{Lo lamento, pero no puedo molestar al general con los asuntos de un pueblo. No tenemos tiempo para eso.}
 {212}{}{Creo que no me entendiste. Ustedes son los culpables. ¡Y estoy aquí para liberarlos y acabar con ustedes!}
 {213}{}{¿Por qué? ¿Acaso hay un problema?}
@@ -34,9 +33,15 @@
 {226}{}{Oye, no te haré nada.}
 {227}{}{No creo que vivas para ver ese día, normalucho.}
 
-{230}{}{¿Qué necesitas?}
+{230}{}{Bien, ¿qué necesitas?}
 {231}{}{Nada. Adiós.}
-{232}{}{¿Te puedo ayudar en algo? Ya eres parte de nosotros.}
+{232}{}{¿Qué necesitas, Explorador? }
+{233}{}{¿Qué necesitas, Paladín }
+{234}{}{¿Qué necesitas, Caballero }
+{235}{}{¿Qué necesitas, Escriba }
+{236}{}{?}
+{237}{}{¿Qué necesitas, Iniciado }
+{1237}{}{¿Qué necesitas, Iniciada }
 
 {240}{}{Necesito saber más acerca del Infierno.}
 {241}{}{No hay mucho que decir, los escribas nos han dicho que es una zona muerta, gracias a una explosión nuclear. También mencionaron que es radioactivo.}
@@ -56,6 +61,7 @@
 {255}{}{Suena a que estuviste en el Infierno, nuestra caravana desapareció por allá. ¿Había alguien dentro de la servoarmadura? ¿Estaba muerto?}
 {256}{}{Te diré lo que descubrí...}
 {257}{}{No tengo que decirte nada. Ahora es mía, y me la quedaré.}
+{258}{}{Cuéntame más sobre el escuadrón perdido.}
 
 {260}{}{¿Hay algo más que pueda hacer por la Hermandad?}
 {261}{}{Me hablaste sobre un ejército enemigo.}
@@ -158,3 +164,29 @@
 {360}{}{Necesitaré equiparme para el asalto.}
 {361}{}{Eso es responsabilidad tuya. Lo único que puedo hacer es otorgarte acceso al intendente. Habla con él, quizás puedas comprar algo mejor.}
 {362}{}{Gracias.}
+
+#San Felipe
+{370}{}{Viajo mucho, podría ayudarte a explorar el territorio circundante.}
+{371}{}{Eso nos sería de ayuda. Cuando llegamos, registramos la costa y no encontramos asentamientos. Sin embargo, últimamente hemos oído rumores, se dice que alguien se ha establecido al otro lado de la costa. Descubre si son rumores sustanciados. Y si hay alguien allá, caen bajo la jurisdicción de la Hermandad.}
+{372}{}{¡Sí, señor!}
+{373}{}{Estoy aquí para informarte sobre mi exploración de la costa.}
+{374}{}{¿Y bien? ¿Qué encontraste? ¿Hay alguien allá afuera?}
+{375}{}{No, señor. De momento, no hay nada.}
+{376}{}{En caso de que *sí* haya gente por allá, ¿qué harías con ellos?}
+{377}{}{Les daremos una opción: que sepan su lugar, o que se vayan. Estas tierras nos pertenecen y no podemos tolerar que unos forasteros se establezcan al lado nuestro. Así de simple.}
+{378}{}{Ya veo.}
+{379}{}{Tienes razón.}
+{380}{}{Resulta que sí había un asentamiento en la costa, lejos de aquí. Allí llegó un pequeño grupo de Mexicanos, escapaban de problemas con su... Gobierno.}
+{381}{}{Así que son rebeldes. Déjales claro que las reglas son distintas en este lugar; o se arrodillan ante la Hermandad por voluntad propia, o tomaremos esa decisión por ellos.}
+{382}{}{Parecen ser pacíficos, así que intentaré negociar con ellos.}
+{383}{}{Apenas están armados, podría acabar con ellos. Te haré saber cuando lo haya hecho.}
+{384}{}{Hay algunos Mexicanos que se asentaron en la costa, lejos de aquí. Si les ayudan a sobrevivir, están dispuestos a someterse.}
+{385}{}{Hmm. Eso funciona. Podrían abastecernos de pescado y vigilar esa parte de la costa. Es un trato útil. Bien hecho.}
+{386}{}{¡Me alegra haber sido de ayuda!}
+{1386}{}{¡Me alegra haber sido de ayuda!}
+{387}{}{Había un grupo de rebeldes Mexicanos. Se rehusaron a servir a la Hermandad, así que maté a su capitán. Tras eso, el resto se fue en bote. Ni idea hacia dónde.}
+{1387}{}{Había un grupo de rebeldes Mexicanos. Se rehusaron a servir a la Hermandad, así que maté a su capitán. Tras eso, el resto se fue en bote. Ni idea hacia dónde.}
+{388}{}{Has hecho lo correcto. Lo último que necesitamos cerca de nosotros son unos rebeldes. Nunca sabes qué clase de ideas tienen en la cabeza. Bien hecho.}
+{389}{}{Había un grupo de rebeldes mexicanos, pero ya se han ido del área.}
+{390}{}{Buena suerte. Lo último que necesitamos cerca de nosotros son unos rebeldes, sin importar su naturaleza. ¿Quién sabe qué andan tramando? Bien hecho.}
+

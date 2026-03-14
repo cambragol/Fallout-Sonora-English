@@ -73,8 +73,8 @@
 {255}{}{Puede que valga la pena ir hacia Two-Sun e investigar lo que pasa con los esclavos.}
 {256}{}{Has encontrado una especie de código detrás del cuadro.}
 {257}{}{Hmm... ¿Qué querrán decir estos números?}
-{258}{}{Estos mercenarios murieron a causa de una explosión enorme. Pero, a uno de ellos le dispararon en la cabeza con una bala de 10mm.}
-{259}{}{No debería quedarme a mirar esto, no vale la pena.}
+{258}{}{Este mercenario murió a causa de un disparo de un arma láser.}
+{259}{}{No vale la pena mirar esto durante mucho tiempo.}
 
 #Rangers, Quartzsite
 {260}{}{Esta antigua señal muestra cuánto falta para llegar a la Presa. Se pintó una inscripción: "Territorio de los Rangers".}

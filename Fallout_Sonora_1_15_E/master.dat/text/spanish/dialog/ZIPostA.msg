@@ -1,0 +1,1 @@
+{110}{}{La taquilla de almacenamiento está asegurada y no podrás abrirla. Tendrás que hablar con el encargado.}

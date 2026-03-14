@@ -1,74 +1,74 @@
 {100}{}{Ves a John D. Butler.}
-{101}{}{Ves a un necrófago con un traje de negocios desgastado.}
-{102}{}{¿Tú ir a base militar? ¡Soldado Gomer querer ir!}
+{101}{}{Ves a un necrÃ³fago con un traje de negocios desgastado.}
+{102}{}{Â¿TÃº ir a base militar? Â¡Soldado Gomer querer ir!}
 
 #Introduction
-{200}{}{¡Hola! Parece que no nos hemos visto antes. Soy John Butler, fui electo como el alcalde de Dayglow. ¿Y tú eres?}
+{200}{}{Â¡Hola! Parece que no nos hemos visto antes. Soy John Butler, fui electo como el alcalde de Dayglow. Â¿Y tÃº eres?}
 {201}{}{Es un placer, Butler. Soy }
-{202}{}{, sólo soy otra pobre alma que ronda por el yermo.}
-{203}{}{No intentes ser amable conmigo, necrófago.}
-{204}{}{(suspiro) Jamás pensé que vería un mutante acusar a otro de ser un mutante.}
-{205}{}{Sí que el yermo te lanza todo tipo de cosas.}
-{206}{}{*¡Aten-ción!* Soy John Butler. Yo mando en este pueblo... o lo que queda de él. Y doy la bienvenida a cualquier piel suave que se comporte. *¡A las armas! ¡Dispárenles!*}
-{207}{}{No tengo ninguna intención de causar problemas por aquí.}
-{208}{}{Los humanos y los supermutantes nos echaron de nuestros hogares. Estoy seguro de que sabes eso. Pero no hay ninguna razón para odiar a todos, al contrario, quiero demostrar que los necrófagos son tan humanos como ellos... *¡Sigan disparando!*}
-{209}{}{¿Intentas engañarme? Pensaba que los necrófagos odiaban a los normaluchos.}
-{210}{}{Llegamos a vivir aquí porque los humanos y los supermutantes nos echaron de nuestros hogares. Pero no hay ninguna razón para odiar a todos, al contrario, quiero demostrar que los necrófagos son tan humanos como ellos... *¡Sigan disparando!*}
+{202}{}{, sÃ³lo soy otra pobre alma que ronda por el yermo.}
+{203}{}{No intentes ser amable conmigo, necrÃ³fago.}
+{204}{}{(suspiro) JamÃ¡s pensÃ© que verÃ­a un mutante acusar a otro de ser un mutante.}
+{205}{}{SÃ­ que el yermo te lanza todo tipo de cosas.}
+{206}{}{*Â¡Aten-ciÃ³n!* Soy John Butler. Yo mando en este pueblo... o lo que queda de Ã©l. Y doy la bienvenida a cualquier piel suave que se comporte. *Â¡A las armas! Â¡DispÃ¡renles!*}
+{207}{}{No tengo ninguna intenciÃ³n de causar problemas por aquÃ­.}
+{208}{}{Los humanos y los supermutantes nos echaron de nuestros hogares. Estoy seguro de que sabes eso. Pero no hay ninguna razÃ³n para odiar a todos, al contrario, quiero demostrar que los necrÃ³fagos son tan humanos como ellos... *Â¡Sigan disparando!*}
+{209}{}{Â¿Intentas engaÃ±arme? Pensaba que los necrÃ³fagos odiaban a los normaluchos.}
+{210}{}{Llegamos a vivir aquÃ­ porque los humanos y los supermutantes nos echaron de nuestros hogares. Pero no hay ninguna razÃ³n para odiar a todos, al contrario, quiero demostrar que los necrÃ³fagos son tan humanos como ellos... *Â¡Sigan disparando!*}
 {211}{}{Parece que mantener la boca cerrada no es lo tuyo, John.}
-{212}{}{Tienes razón. Este viejo soldado no tiene sentido del humor. Las viejas costumbres perduran, aún después de cien años. Bueno, ¿cómo te puedo ayudar?}
+{212}{}{Tienes razÃ³n. Este viejo soldado no tiene sentido del humor. Las viejas costumbres perduran, aÃºn despuÃ©s de cien aÃ±os. Bueno, Â¿cÃ³mo te puedo ayudar?}
 {213}{}{Por ahora, con nada, gracias.}
 {214}{}{Eso es muy noble de tu parte.}
-{215}{}{Al diablo con los ancianos como yo. Hemos sobrevivido a muchas guerras y batallas, nuestro destino está únicamente en el pasado. Lo que importa es lo que le ocurra a tu generación... *¡A la carga! ¡Adelante!* Bueno, ¿cómo te puedo ayudar?}
-{216}{}{Sólo me pasaba para saludarte. Pero ya debo irme.}
-{1216}{}{Sólo me pasaba para saludarte. Pero ya debo irme.}
+{215}{}{Al diablo con los ancianos como yo. Hemos sobrevivido a muchas guerras y batallas, nuestro destino estÃ¡ Ãºnicamente en el pasado. Lo que importa es lo que le ocurra a tu generaciÃ³n... *Â¡A la carga! Â¡Adelante!* Bueno, Â¿cÃ³mo te puedo ayudar?}
+{216}{}{SÃ³lo me pasaba para saludarte. Pero ya debo irme.}
+{1216}{}{SÃ³lo me pasaba para saludarte. Pero ya debo irme.}
 
-{220}{}{Vaya, vaya, es nuestro viejo amigo, Gomer. ¿Y trajo un humano? ¡Eso es nuevo! Es como una serpiente haciéndose amigo de un conejo. Estoy felices por los dos.}
-{1220}{}{Vaya, vaya, es nuestro viejo amigo, Gomer. ¿Y trajo una humana? ¡Eso es nuevo! Es como una serpiente haciéndose amigo de un conejo. Estoy felices por los dos. Es una pena que no tengamos iglesia para el matrimonio.}
+{220}{}{Vaya, vaya, es nuestro viejo amigo, Gomer. Â¿Y trajo un humano? Â¡Eso es nuevo! Es como una serpiente haciÃ©ndose amigo de un conejo. Estoy felices por los dos.}
+{1220}{}{Vaya, vaya, es nuestro viejo amigo, Gomer. Â¿Y trajo una humana? Â¡Eso es nuevo! Es como una serpiente haciÃ©ndose amigo de un conejo. Estoy felices por los dos. Es una pena que no tengamos iglesia para el matrimonio.}
 {221}{}{Gomer es mi guardaespaldas.}
-{222}{}{Gomer me obedece, hasta necesita mi permiso para ir al baño.}
+{222}{}{Gomer me obedece, hasta necesita mi permiso para ir al baÃ±o.}
 
 #Repeat Dialogue
-{230}{}{Bien. ¿Cómo te puedo ayudar?}
-{231}{}{Hola, normalucho. ¿Tienes algo que decir?}
-{1231}{}{Hola, normalucha. ¿Tienes algo que decir?}
-{232}{}{Hola, joven mutante. ¿Cómo te puedo ayudar?}
-{233}{}{Hola, John. Sólo estoy de visita. Nos vemos.}
-{234}{}{Es una pena que no hayamos hablado más. Si necesitas algo, siempre estoy por aquí... *¡Hasta la muerte! ¡Mue-erte!*}
-{235}{}{Adiós.}
-{236}{}{¿Qué necesitas?}
+{230}{}{Bien. Â¿CÃ³mo te puedo ayudar?}
+{231}{}{Hola, normalucho. Â¿Tienes algo que decir?}
+{1231}{}{Hola, normalucha. Â¿Tienes algo que decir?}
+{232}{}{Hola, joven mutante. Â¿CÃ³mo te puedo ayudar?}
+{233}{}{Hola, John. SÃ³lo estoy de visita. Nos vemos.}
+{234}{}{Es una pena que no hayamos hablado mÃ¡s. Si necesitas algo, siempre estoy por aquÃ­... *Â¡Hasta la muerte! Â¡Mue-erte!*}
+{235}{}{AdiÃ³s.}
+{236}{}{Â¿QuÃ© necesitas?}
 {237}{}{Basta de bromas. Es hora de hablar en serio.}
 
-{240}{}{Cuéntame, ¿cómo fue que todos ustedes terminaron aquí?}
-{241}{}{Vivíamos en el norte, en una ciudad llamada Necrópolis. Entonces llegaron los supermutantes, y después, los normales. Se pelearon entre sí y se olvidaron de nosotros... *¡Apunten! ¡Fuego!* Y cuándo se calmó todo, los normales decidieron que tampoco les gustaban los necrófagos. Así que decidimos buscar un nuevo hogar.}
-{242}{}{¿Qué tipo de ciudad intentas construir?}
-{243}{}{Una ciudad normal y funcional. Con comercio y una economía, hoteles y casinos, carreteras y rascacielos. Y suficiente espacio para todos, necrófagos, humanos y mutantes. *¡Descansen, soldados!*}
-{244}{}{Gracias por la información. Necesito irme.}
-{245}{}{¿Puedo ayudar en algo?}
-{246}{}{¿En serio quieres ayudar? Si no fuera por mi ojo de vidrio, estaría llorando. Pregúntale a los muertos que te encuentres, seguro que alguien necesita ayuda.}
-{247}{}{Eso haré. Nos vemos.}
-{248}{}{¿Te puedo ayudar con algo más?}
-{249}{}{Cúentame sobre ti.}
+{240}{}{CuÃ©ntame, Â¿cÃ³mo fue que todos ustedes terminaron aquÃ­?}
+{241}{}{VivÃ­amos en el norte, en una ciudad llamada NecrÃ³polis. Entonces llegaron los supermutantes, y despuÃ©s, los normales. Se pelearon entre sÃ­ y se olvidaron de nosotros... *Â¡Apunten! Â¡Fuego!* Y cuÃ¡ndo se calmÃ³ todo, los normales decidieron que tampoco les gustaban los necrÃ³fagos. AsÃ­ que decidimos buscar un nuevo hogar.}
+{242}{}{Â¿QuÃ© tipo de ciudad intentas construir?}
+{243}{}{Una ciudad normal y funcional. Con comercio y una economÃ­a, hoteles y casinos, carreteras y rascacielos. Y suficiente espacio para todos, necrÃ³fagos, humanos y mutantes. *Â¡Descansen, soldados!*}
+{244}{}{Gracias por la informaciÃ³n. Necesito irme.}
+{245}{}{Â¿Puedo ayudar en algo?}
+{246}{}{Â¿En serio quieres ayudar? Si no fuera por mi ojo de vidrio, estarÃ­a llorando. PregÃºntale a los muertos que te encuentres, seguro que alguien necesita ayuda.}
+{247}{}{Eso harÃ©. Nos vemos.}
+{248}{}{Â¿Te puedo ayudar con algo mÃ¡s?}
+{249}{}{CÃºentame sobre ti.}
 {250}{}{Ya te lo he dicho. Soy John Butler. Soy el alcalde de Dayglow... bueno, la futura Dayglow.}
-{251}{}{¿San Isidro también cae sobre tu control?}
-{252}{}{Es uno de los distritos de la futura Dayglow. Hay varios campamentos necrófagos en las ruinas, pero el Pueblo Viejo y San Isidro son los más grandes. Cada uno tiene su propio administrador. *¡Dios bendiga a América!*}
+{251}{}{Â¿San Isidro tambiÃ©n cae sobre tu control?}
+{252}{}{Es uno de los distritos de la futura Dayglow. Hay varios campamentos necrÃ³fagos en las ruinas, pero el Pueblo Viejo y San Isidro son los mÃ¡s grandes. Cada uno tiene su propio administrador. *Â¡Dios bendiga a AmÃ©rica!*}
 
 #Story Quests
-{259}{}{¡Urgente! Hay una razón por la que debías reparar la radio. Una caravana de los Comerciantes de Ultramar acaba de contactarnos, los emboscaron en la Ruta 5. Mis necrófagos son demasiado lentos y débiles, eres nuestra última esperanza. Ve, ayuda a tus compañeros en ésta hora oscura. *¡Al ataque!*}
-{260}{}{¡Estoy en camino!}
-{261}{}{Como siempre, eres característicamente inútil. Me ocuparé de ello.}
-{262}{}{La caravana está en el cruce de carreteras, puedes llegar si te diriges hacia el norte por la calle principal, detrás del portón.}
-{263}{}{¿Los Comerciantes de Ultramar siguen vivos?}
-{264}{}{No he tenido la oportunidad de echarles un ojo. Volveré cuando sepa más.}
-{265}{}{El Sr. Rutger me contó de tu heroica hazaña. Necesitamos los bienes del norte, y los Comerciantes de Ultramar son la compañía de caravanas más confiable. Te lo agradezco }
+{259}{}{Â¡Urgente! Hay una razÃ³n por la que debÃ­as reparar la radio. Una caravana de los Comerciantes de Ultramar acaba de contactarnos, los emboscaron en la Ruta 5. Mis necrÃ³fagos son demasiado lentos y dÃ©biles, eres nuestra Ãºltima esperanza. Ve, ayuda a tus compaÃ±eros en Ã©sta hora oscura. *Â¡Al ataque!*}
+{260}{}{Â¡Estoy en camino!}
+{261}{}{Como siempre, eres caracterÃ­sticamente inÃºtil. Me ocuparÃ© de ello.}
+{262}{}{La caravana estÃ¡ en el cruce de carreteras, puedes llegar si te diriges hacia el norte por la calle principal, detrÃ¡s del portÃ³n.}
+{263}{}{Â¿Los Comerciantes de Ultramar siguen vivos?}
+{264}{}{No he tenido la oportunidad de echarles un ojo. VolverÃ© cuando sepa mÃ¡s.}
+{265}{}{El Sr. Rutger me contÃ³ de tu heroica hazaÃ±a. Necesitamos los bienes del norte, y los Comerciantes de Ultramar son la compaÃ±Ã­a de caravanas mÃ¡s confiable. Te lo agradezco }
 {266}{}{.}
 {267}{}{, buen trabajo.}
 {268}{}{No fue nada.}
-{269}{}{Puedo ver en tus ojos que la misión falló. Bueno, Rutger era el mejor caravanero. Sin él y su compañía, hacer tratos con los humanos será mucho más difícil. Pero Gustavo debe de estar contento, no quiere compartir los artefactos del Viejo Mundo con los normales.}
+{269}{}{Puedo ver en tus ojos que la misiÃ³n fallÃ³. Bueno, Rutger era el mejor caravanero. Sin Ã©l y su compaÃ±Ã­a, hacer tratos con los humanos serÃ¡ mucho mÃ¡s difÃ­cil. Pero Gustavo debe de estar contento, no quiere compartir los artefactos del Viejo Mundo con los normales.}
 {270}{}{Ese era el plan.}
-{271}{}{Es una pena que haya terminado así. Pero lo hice lo mejor que pude.}
-{1271}{}{Es una pena que haya terminado así. Pero lo hice lo mejor que pude.}
+{271}{}{Es una pena que haya terminado asÃ­. Pero lo hice lo mejor que pude.}
+{1271}{}{Es una pena que haya terminado asÃ­. Pero lo hice lo mejor que pude.}
 {272}{}{Necesito revisar y pensar algunas cosas. Puedes tomar un descanso.}
-{273}{}{Está bien.}
+{273}{}{EstÃ¡ bien.}
 {274}{}{}
 {275}{}{}
 {276}{}{}
@@ -77,58 +77,58 @@
 {279}{}{}
 
 #Story Quests
-{300}{}{Gustavo me pidió que te diera este holodisco.}
-{301}{}{Dámelo. Veamos qué se trae entre manos ese viejo... Hmm. ¡Qué increíbles noticias! Dayglow ahora posee electricidad y radiocomunicación, justo como en los viejos días. ¿Qué podría ser mejor? *¡Todos en línea! ¡A la batalla!*}
+{300}{}{Gustavo me pidiÃ³ que te diera este holodisco.}
+{301}{}{DÃ¡melo. Veamos quÃ© se trae entre manos ese viejo... Hmm. Â¡QuÃ© increÃ­bles noticias! Dayglow ahora posee electricidad y radiocomunicaciÃ³n, justo como en los viejos dÃ­as. Â¿QuÃ© podrÃ­a ser mejor? *Â¡Todos en lÃ­nea! Â¡A la batalla!*}
 {302}{}{[Seguir]}
-{303}{}{Ah, claro, Gustavo nos pide que cortemos lazos con los pieles suaves. Otra vez. El viejito simplemente no lo entiende. *¡Apunten! ¡Fuego!* Verás, Gustavo quiere proteger la ciudad de los forasteros. Creo que eso es estúpido, necesitamos bienes y suministros del Eje, y el Eje necesita la tecnología de Dayglow. Dime, no estás de acuerdo con la tontería que él piensa, ¿verdad?}
+{303}{}{Ah, claro, Gustavo nos pide que cortemos lazos con los pieles suaves. Otra vez. El viejito simplemente no lo entiende. *Â¡Apunten! Â¡Fuego!* VerÃ¡s, Gustavo quiere proteger la ciudad de los forasteros. Creo que eso es estÃºpido, necesitamos bienes y suministros del Eje, y el Eje necesita la tecnologÃ­a de Dayglow. Dime, no estÃ¡s de acuerdo con la tonterÃ­a que Ã©l piensa, Â¿verdad?}
 {304}{}{Claro que no.}
-{305}{}{No me importa, porque haré lo que sea mientras me paguen por ello.}
-{306}{}{Genial. Entonces te tengo unas tareas pequeñas y fáciles que puedes hacer.}
+{305}{}{No me importa, porque harÃ© lo que sea mientras me paguen por ello.}
+{306}{}{Genial. Entonces te tengo unas tareas pequeÃ±as y fÃ¡ciles que puedes hacer.}
 {307}{}{Te escucho.}
-{308}{}{¿Y si estoy de acuerdo con él, qué?}
-{309}{}{Sería una pena. Y muy estúpido.}
-{310}{}{No me convences. Iré de vuelta a San Isidro.}
-{311}{}{Está bien, me convenciste. ¿Qué necesitas que haga?}
-{312}{}{Sería una pena. Y muy estúpido. Dime, ¿Te importa quién paga por el trabajo? Yo también necesito tu ayuda.}
-{313}{}{¿Qué quieres que haga?}
+{308}{}{Â¿Y si estoy de acuerdo con Ã©l, quÃ©?}
+{309}{}{SerÃ­a una pena. Y muy estÃºpido.}
+{310}{}{No me convences. IrÃ© de vuelta a San Isidro.}
+{311}{}{EstÃ¡ bien, me convenciste. Â¿QuÃ© necesitas que haga?}
+{312}{}{SerÃ­a una pena. Y muy estÃºpido. Dime, Â¿Te importa quiÃ©n paga por el trabajo? Yo tambiÃ©n necesito tu ayuda.}
+{313}{}{Â¿QuÃ© quieres que haga?}
 
-{320}{}{Ahora mismo, los carroñeros están desmantelando la antigua fábrica de aviones, pieza por pieza. No me importa que los normales lo estén haciendo, pero están trabajando sin el Sello de Set y además tienen a necrófagos haciendo trabajo forzado. Además, necesitamos los componentes electrónicos de la fábrica para la siguiente caravana. ¡Ponte en ello y ve a la fábrica! Dile a los carroñeros que les daré el Sello de Set si consiguen todos los chips. ¡Y ni una palabra de esto a Gustavo!}
-{321}{}{¿Qué es el "Sello de Set"?}
-{322}{}{Es el derecho a buscar recursos en San Diego y sus alrededores. Y a cambio pedimos una parte de los ingresos, por supuesto. Es una especie de impuesto. *¡Nunca se rindan!* Si los carroñeros se llevaran todos los recursos, nuestra ciudad se quitará sin nada.}
-{323}{}{Entendido. Intentaré hablar con ellos.}
-{324}{}{Tenemos que hablar sobre la situación con los carroñeros en la fábrica.}
-{325}{}{Entonces, ¿terminaste el asunto de los chips?}
+{320}{}{Ahora mismo, los carroÃ±eros estÃ¡n desmantelando la antigua fÃ¡brica de aviones, pieza por pieza. No me importa que los normales lo estÃ©n haciendo, pero estÃ¡n trabajando sin el Sello de Set y ademÃ¡s tienen a necrÃ³fagos haciendo trabajo forzado. AdemÃ¡s, necesitamos los componentes electrÃ³nicos de la fÃ¡brica para la siguiente caravana. Â¡Ponte en ello y ve a la fÃ¡brica! Dile a los carroÃ±eros que les darÃ© el Sello de Set si consiguen todos los chips. Â¡Y ni una palabra de esto a Gustavo!}
+{321}{}{Â¿QuÃ© es el "Sello de Set"?}
+{322}{}{Es el derecho a buscar recursos en San Diego y sus alrededores. Y a cambio pedimos una parte de los ingresos, por supuesto. Es una especie de impuesto. *Â¡Nunca se rindan!* Si los carroÃ±eros se llevaran todos los recursos, nuestra ciudad se quitarÃ¡ sin nada.}
+{323}{}{Entendido. IntentarÃ© hablar con ellos.}
+{324}{}{Tenemos que hablar sobre la situaciÃ³n con los carroÃ±eros en la fÃ¡brica.}
+{325}{}{Entonces, Â¿terminaste el asunto de los chips?}
 {326}{}{No, lo siento.}
-{327}{}{Sólo quería volver a preguntártelo, ¿qué es el "Sello de Set"?}
-{328}{}{Ah, ya entendí.}
-{329}{}{Resulta que todos los carroñeros de la fábrica están muertos.}
-{330}{}{¿Todos muertos? ¡Dios santo! ¿Y los chips? ¿Los encontraste?}
+{327}{}{SÃ³lo querÃ­a volver a preguntÃ¡rtelo, Â¿quÃ© es el "Sello de Set"?}
+{328}{}{Ah, ya entendÃ­.}
+{329}{}{Resulta que todos los carroÃ±eros de la fÃ¡brica estÃ¡n muertos.}
+{330}{}{Â¿Todos muertos? Â¡Dios santo! Â¿Y los chips? Â¿Los encontraste?}
 {331}{}{Siempre estoy feliz de ayudar.}
-{332}{}{¿Y qué recibo yo por mis esfuerzos?}
+{332}{}{Â¿Y quÃ© recibo yo por mis esfuerzos?}
 {333}{}{Todos los chips fueron encontrados, ya tuvieron que haber llegado.}
-{334}{}{Excelente trabajo. *¡No dejen a nadie vivo!*}
-{335}{}{Aquí está tu recompensa. Pero todavía no vayas al bar, tenemos un problema en nuestras manos.}
-{336}{}{Gracias. ¿Qué pasó?}
-{337}{}{No. ¿Debería?}
-{338}{}{¡El objetivo principal eran los chips! Como los carroñeros fallaron, eres nuestra última esperanza. Trae los malditos chips.}
+{334}{}{Excelente trabajo. *Â¡No dejen a nadie vivo!*}
+{335}{}{AquÃ­ estÃ¡ tu recompensa. Pero todavÃ­a no vayas al bar, tenemos un problema en nuestras manos.}
+{336}{}{Gracias. Â¿QuÃ© pasÃ³?}
+{337}{}{No. Â¿DeberÃ­a?}
+{338}{}{Â¡El objetivo principal eran los chips! Como los carroÃ±eros fallaron, eres nuestra Ãºltima esperanza. Trae los malditos chips.}
 {339}{}{Ya voy.}
-{340}{}{Sí, aquí tienes.}
+{340}{}{SÃ­, aquÃ­ tienes.}
 {341}{}{No los tengo todos.}
-{342}{}{¡El objetivo principal eran los chips! Como los carroñeros fallaron, eres nuestra última esperanza. Trae los chips que faltan.}
-{343}{}{La fábrica está bajo el control de Gustavo. No recibirás ningún chip.}
-{344}{}{¿Gustavo se me adelantó? ¡Qué malas noticias! Pero tenemos un problema más grande. Tendremos que hablar de esto en otro momento.}
-{345}{}{¿Qué pasó?}
-{346}{}{¿Dónde está la fábrica de aviones?}
-{347}{}{Ve hacia la Ruta 805. Allí encontrarás el hospital de Paradise Valley, la fábrica está al este de allí.}
+{342}{}{Â¡El objetivo principal eran los chips! Como los carroÃ±eros fallaron, eres nuestra Ãºltima esperanza. Trae los chips que faltan.}
+{343}{}{La fÃ¡brica estÃ¡ bajo el control de Gustavo. No recibirÃ¡s ningÃºn chip.}
+{344}{}{Â¿Gustavo se me adelantÃ³? Â¡QuÃ© malas noticias! Pero tenemos un problema mÃ¡s grande. Tendremos que hablar de esto en otro momento.}
+{345}{}{Â¿QuÃ© pasÃ³?}
+{346}{}{Â¿DÃ³nde estÃ¡ la fÃ¡brica de aviones?}
+{347}{}{Ve hacia la Ruta 805. AllÃ­ encontrarÃ¡s el hospital de Paradise Valley, la fÃ¡brica estÃ¡ al este de allÃ­.}
 {348}{}{Entendido.}
 {349}{}{}
 
-{350}{}{Bien, lo he estado pensando, ¡Y ya me decidí! Verás, el Sr. Rutger tenía un valioso contrato del Eje para un intercambio tecnológico con la base naval Coronado. Sería MUY lucrativo para la ciudad, podemos restaurar las ruinas. ¡Y entonces el sueño de Dayglow será cumplido! *¡Viva América!*}
-{351}{}{¿Una base naval? ¿En serio?}
-{352}{}{Ahora mismo es inaccesible por las viejas defensas militares. Sin embargo, fabricamos un transpondedor con la chatarra de la fábrica, necesitamos configurarlo para que el sistema de defensa lo reconozca. Aquí tienes los códigos de acceso, debes transmitirlos desde la estación de radio que reparaste en San Isidro. ¡Y así es como nos haremos con la isla! Una vez que hayas hecho eso, ve a los muelles, te estará esperando un bote. ¡Y ni una sola palabra de esto a Gustavo, amigo mío!}
-{1352}{}{Ahora mismo es inaccesible por las viejas defensas militares. Sin embargo, fabricamos un transpondedor con la chatarra de la fábrica, necesitamos configurarlo para que el sistema de defensa lo reconozca. Aquí tienes los códigos de acceso, debes transmitirlos desde la estación de radio que reparaste en San Isidro. ¡Y así es como nos haremos con la isla! Una vez que hayas hecho eso, ve a los muelles, te estará esperando un bote. ¡Y ni una sola palabra de esto a Gustavo, nena!}
+{350}{}{Bien, lo he estado pensando, Â¡Y ya me decidÃ­! VerÃ¡s, el Sr. Rutger tenÃ­a un valioso contrato del Eje para un intercambio tecnolÃ³gico con la base naval Coronado. SerÃ­a MUY lucrativo para la ciudad, podemos restaurar las ruinas. Â¡Y entonces el sueÃ±o de Dayglow serÃ¡ cumplido! *Â¡Viva AmÃ©rica!*}
+{351}{}{Â¿Una base naval? Â¿En serio?}
+{352}{}{Ahora mismo es inaccesible por las viejas defensas militares. AquÃ­ tienes los cÃ³digos de acceso, debes transmitirlos desde la estaciÃ³n de radio que reparaste en San Isidro, no hay otro lugar con una seÃ±al tan fuerte. Una vez que hayas hecho eso, ve al puerto, habrÃ¡ un bote esperando por ti. Â¡Y ni una sola palabra de Ã©sto a Gustavo!}
+{1352}{}{Ahora mismo es inaccesible por las viejas defensas militares. AquÃ­ tienes los cÃ³digos de acceso, debes transmitirlos desde la estaciÃ³n de radio que reparaste en San Isidro, no hay otro lugar con una seÃ±al tan fuerte. Una vez que hayas hecho eso, ve al puerto, habrÃ¡ un bote esperando por ti. Â¡Y ni una sola palabra de Ã©sto a Gustavo!}
 {353}{}{[Salir]}
 
 # added by cambragol
-{354}{}{¿En dónde conseguiste los códigos de seguridad?}
-{355}{}{Fueron hallados en El Ardor, es otra base militar, no está muy lejos de aquí. En estos momentos, se está llevando a cabo una excavación.}
+{354}{}{Â¿En dÃ³nde conseguiste los cÃ³digos de seguridad?}
+{355}{}{Fueron hallados en El Ardor, es otra base militar, no estÃ¡ muy lejos de aquÃ­. En estos momentos, se estÃ¡ llevando a cabo una excavaciÃ³n.}

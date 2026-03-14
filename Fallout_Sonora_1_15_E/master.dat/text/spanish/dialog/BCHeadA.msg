@@ -1,10 +1,11 @@
 {100}{}{Ves a Nana, la anciana.}
 {101}{}{Ves a una sacerdotisa de atuendo tradicional.}
 {102}{}{Vete. No te tenemos miedo ni a ti ni a tus juguetes de metal.}
+{103}{}{¡Que el Brahmán Divino de la Paz nos proteja!}
 
 # First meeting
 {200}{}{Alto. Ya no permitimos forasteros en nuestro campamento.}
-{201}{}{Alto ahí. Te lo advertimos, debes irte de nuestro territorio. ¿Por qué sigues molestándonos?}
+{201}{}{Alto ahí. Se lo advertimos a tu escuadrón, deben irse de nuestro territorio. ¿Por qué sigues molestándonos?}
 {202}{}{No sé de qué estás hablando. Estoy buscando a una caravana que esclavizó a miembros de mi hogar, la Villa. Quizás haya pasado por aquí.}
 {203}{}{¿Entonces eres de la Villa? ¡He oído sobre tu aldea! Jamás hemos sido enemigos. Pero tampoco hemos sido amigos.}
 {204}{}{La verdad yo no sabía de ustedes.}

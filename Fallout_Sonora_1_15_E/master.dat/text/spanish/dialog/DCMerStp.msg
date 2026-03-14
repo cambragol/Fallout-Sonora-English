@@ -2,6 +2,9 @@
 {101}{}{Ves a un hombre bien equipado, te observa como ojos de halcón.}
 {102}{}{Vuelve con los Hojalateros, pedazo de chatarra. No queremos verte aquí.}
 {103}{}{E-eres tú... ¿Qué quieres? ¡Sal de aquí!}
+{104}{}{Hora de salir de aquí...}
+{105}{}{¡Oye, oye! ¡Yo no me voy a meter en esto!}
+{106}{}{Veo que es momento de que me vaya de esta ciudad. Mierda, y eso que todo iba tan bien...}
 
 {200}{}{El Don y los demás se encuentran en el bar abandonado, pasó algo por allá, pero no sé el qué.}
 {201}{}{El bar, entiendo. Gracias, te veo luego.}
@@ -9,22 +12,23 @@
 {203}{}{Tengo que cuidar la mansión, el Don tiene todas sus riquezas aquí adentro.}
 {204}{}{Comprendo. Entonces, debo ir al bar...}
 
-{210}{}{El Don está muerto. ¿Me escuchas? ¡Muerto! ¡La ciudad se irá a la ruina!}
-{211}{}{La muerte de una sola persona no acabará con la ciudad. Relájate.}
+{210}{}{El Don está muerto. ¿Me escuchas? ¡Muerto! ¿Entiendes lo que eso significa para la ciudad?}
+{211}{}{Estás exagerando, cálmate.}
 {212}{}{¿Quieres que me calme? Por fin tenía un trabajo decente, y ahora tendré que volver a la calle. Sin trabajo, sin chapas, sin conexiones. ¿Qué voy a hacer ahora?}
-{213}{}{Pero ahora la ciudad es libre, él era un tirano. ¿Acaso no son buenas noticias}
-{214}{}{¿Buenas noticias? Sí, claro. Ese supuesto 'tirano' me dio un buen trabajo. Y ahora tendré que volver a la calle. ¿Qué voy a hacer ahora?}
-{215}{}{¿Qué tienes en mente?}
-{216}{}{Quizás deba empezar a robar. Hay muchas caravanas por ahí, creo que puedo hacerlo sólo. Necesito sobrevivir.}
-{217}{}{Eres un peligro para la sociedad. Debo lidiar contigo.}
-{218}{}{No sé si estoy de acuerdo con eso. Ojalá encuentres un trabajo de verdad. Adiós.}
+{213}{}{Pero ahora la ciudad es libre, él era un tirano. ¿Acaso no son buenas noticias?}
+{214}{}{Claro, ¡ESTOY MUY FELIZ! Acabo de perder un buen empleo, era ese tirano el que me lo daba. Y ahora, por ese maldito accidente, tendré que volver a la calle. ¿Qué voy a hacer ahora?}
+{215}{}{Encontrarás otro trabajo, ya no eres un niño. Adiós.}
+{216}{}{Ojalá que encuentres otro empleo. Buena suerte.}
+{217}{}{Jeje.}
+{218}{}{¿Eh?}
 {219}{}{¿Qué quieres?}
-{220}{}{Nada, la verdad.}
+{220}{}{La verdad, nada.}
 {221}{}{Tu cabeza.}
 
 {230}{}{Em, hola. El Don está arriba.}
 {231}{}{Ah, eres tú. El Don te estaba buscando, quiere hablar contigo}
 {232}{}{Necesito hablar con él.}
+{233}{}{Ajá.}
 
 {250}{}{Eh, oye, un segundo. ¿A dónde vas?}
 {251}{}{Estoy dando un paseo por la ciudad.}
@@ -40,11 +44,18 @@
 {261}{}{Debo hablar con él, quiera o no. Adiós.}
 {262}{}{¿Entonces es el alcalde de la ciudad? Háblame de él.}
 {263}{}{Gracias, era todo lo que quería saber.}
+{264}{}{¿Coo-coo?}
+{265}{}{¿Eh?}
+{266}{}{¡Ah!}
+
+{270}{}{¿Es cierto que Bustos tiene a un forajido tras las rejas?}
+{271}{}{Sí, en el baño. Lo estaban torturando hace poco. Aunque, esa pequeña sabandija es bastante dura, no podrás romperlo tan fácilmente.}
+{272}{}{Ya veo.}
 
 {300}{}{¿Qué puedes contarme del alcalde?}
 {301}{}{Es el Don Alfred Bustos. Es el alcalde de nuestra ciudad y líder de la cámara de comercio. Y, es mi jefe. Aunque, yo sigo en libertad condicional.}
 {302}{}{Pero, ¿por qué le dicen Don?}
-{303}{}{Pues, es eso, un Don. Es como un título o algo así. La verdad no sé que significa, pero suena impresionante.}
+{303}{}{Pues, es eso, un Don. Suena genial. La gente empezó a llamarlo así cuando asumió el control de la ciudad.}
 {304}{}{¿Crees que esté contratando más guardias?}
 {305}{}{No estoy seguro. Deberías preguntarle tú.}
 {306}{}{¿Qué hay de ti? ¿Quién eres?}

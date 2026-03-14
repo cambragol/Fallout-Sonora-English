@@ -1,4 +1,4 @@
-{110}{}{Deberías inspeccionar el cadáver más de cerca.}
+{110}{}{Ves el cadáver de un jovencito. Si lo inspeccionas más de cerca, quizás puedas determinar de qué murió.}
 {111}{}{Es difícil hacer eso durante el combate.}
 
 {200}{}{Ves el cadáver de un adolescente. Parece que ha estado ahí por un buen rato.}

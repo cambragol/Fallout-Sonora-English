@@ -13,6 +13,7 @@
 {208}{}{¿No querrás decir, como perdón por lo que tú hiciste ahí? De todas formas, me lo llevo. Adiós, Ralph.}
 {209}{}{Buena suerte. Le diré a los otros cómo me ayudaste a entrar en razón. Deben saberlo, porque no parece que tengas buena reputación por aquí.}
 {210}{}{Gracias Ralph, lo agradezco mucho.}
+{1210}{}{Gracias Ralph, lo agradezco mucho.}
 {211}{}{No es nada. Mi reputación está bien como está. Adiós.}
 
 {220}{}{Era divertido estar en la central eléctrica. Me pregunto como estará todo por allá.}

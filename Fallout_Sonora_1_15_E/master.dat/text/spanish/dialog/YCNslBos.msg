@@ -23,12 +23,14 @@
 {216}{}{Quizás.}
 {217}{}{¿Quién sabe?}
 {218}{}{Ah, ojalá hubiéramos tenido a alguien como tú hace seis años. ¡Cuántos de nosotros podrían haber sido salvados de los supermutantes!}
-{219}{}{En ese entonces, trabajaba en las plantaciones y no sabía nada de la guerra contra los supermutantes. Es por eso que amo mi estilo de vida rural.}
-{1219}{}{En ese entonces, vivía tranquila en mi Villa y no sabía nada de la guerra contra los supermutantes. Es por eso que amo mi estilo de vida rural.}
+{219}{}{En ese entonces, trabajaba en las plantaciones y no sabía nada de una guerra con supermutantes. Es por eso que amo mi estilo de vida rural.}
+{1219}{}{En ese entonces, trabajaba en las plantaciones y no sabía nada de una guerra con supermutantes. Es por eso que amo mi estilo de vida rural.}
 {220}{}{Es suficiente, ya te salvé.}
 {221}{}{Bueno, necesito encontrar algún sitio en donde descansar. Gracias por ayudarme.}
+{1221}{}{Bueno, necesito encontrar algún sitio en donde descansar. Gracias por ayudarme.}
 {222}{}{Ahora que lo pienso, ¿Qué está haciendo la Hermandad por aquí?}
 {223}{}{Cuando los ancianos se enteraron que los mutantes se dirigían a San Diego, me enviaron a mí junto a mi escuadrón para descubrir qué pasaba. Nunca me habría imagino que encontraríamos el infierno. Radiación, monstruos, supermutantes, necrófagos, robots, ¡Aquí hay de todo! Necesito informar al comandante de esto. La gente común no debería pasar por aquí.}
 {224}{}{Entendido. Bueno, cuídate. Intenta no cruzarte con mutantes de nuevo.}
 {225}{}{Gracias.}
+{226}{}{Ten un buen viaje. Y que no te vuelvan a atrapar los mutantes.}
 

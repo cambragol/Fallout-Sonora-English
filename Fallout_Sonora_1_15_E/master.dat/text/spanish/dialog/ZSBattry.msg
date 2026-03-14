@@ -7,7 +7,7 @@
 {116}{}{El decodificador electrónico no te ayudará con una cerradura mecánica.}
 {117}{}{Abriste la máquina expendedora. Hora de ver qué hay dentro.}
 {118}{}{La máquina ya está abierta, eso no tiene sentido.}
-{119}{}{Recibiste una célula de microfusión.}
+{119}{}{Recibiste: (}
 {120}{}{La máquina ya no tiene existencias.}
-{121}{}{}
+{121}{}{).}
 {122}{}{Eres incapaz de forzar el mecanismo de seguridad de la máquina.}

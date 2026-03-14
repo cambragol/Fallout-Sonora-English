@@ -35,7 +35,7 @@
 {220}{}{Trabajamos la tierra, mayormente cosechamos maíz. Pero hace poco, fuimos atacados por los esclavistas en Flagstaff...}
 {221}{}{Ah, así que de eso se trata. Ya me habían hecho saber la falta de esclavos en la mina de uranio. Bueno, era inevitable. Eso es terriblemente injusto, hijo.}
 {1221}{}{Ah, así que de eso se trata. Ya me habían hecho saber la falta de esclavos en la mina de uranio. Bueno, era inevitable. Eso es terriblemente injusto, señorita.}
-{222}{}{Así es, General. Terriblemente injusto.}
+{222}{}{Así es, General. Terriblemente injusto. Pero, usted estuvo relacionado en eso, ¿cierto?}
 {223}{}{Me envía el Maestro Hard de Two-Sun. Aquí tengo su recomendación.}
 {224}{}{Hard debe tener una muy buena razón para confiar en ti. He escuchado que Two-Sun está cambiando - tanto que incluso sus habitantes están nerviosos. Pero no responde mi pregunta: ¿quién demonios eres, y qué fue lo que hiciste para ganarte la confianza de los Hojalateros?}  
 {1224}{}{Hard debe tener una muy buena razón para confiar en ti. He escuchado que Two-Sun está cambiando - tanto que incluso sus habitantes están nerviosos. Pero no responde mi pregunta: ¿quién demonios eres, y qué fue lo que hiciste para ganarte la confianza de los Hojalateros?}
@@ -44,9 +44,9 @@
 {227}{}{Pues, me prometieron que mi pueblo natal sería libre y lo protegerían.}
 {228}{}{Estoy aquí porque eres el responsable de lo que le pasó a mi hogar. Gracias a tu sed de uranio, Flagstaff asalta y esclaviza a pueblos como el mío.}
 {229}{}{Exijo la libertad y la independencia de mi pueblo natal.}
-{230}{}{Así que sueñas que tu pueblito sea libre, ¿no? ¿Un lugar en dónde jamás atacan a tu gente, y el maíz abunda aunque no hayan gotas ni de agua ni sangre?}  
+{230}{}{Además, tras todas tus aventuras, ¿no te gustaría cambiar a tu pequeña y primitiva aldea? Seguramente buscas liberarla de sus tradiciones anticuadas, de tener protección ante los bandidos y tener la tecnología para cultivar sus granjas sin que requiera un diluvio de sangre y esfuerzo. ¿Verdad?} 
 {231}{}{¿Es eso posible, General?}
-{232}{}{Por supuesto, General.}
+{232}{}{Por supuesto, General. Ni hace falta decirlo.}
 {233}{}{Sólo la Hermandad del Acero entiende lo que significa la justicia. Somos los únicos que seguimos aferrándonos a la sabiduría del Viejo Mundo - mientras que ustedes deambulan por las ruinas, intentando sobrevivir.}  
 {234}{}{Creo que lo entiendo.}
 {235}{}{¿Justicia? ¿En serio?}
@@ -54,7 +54,7 @@
 {237}{}{Pero no sabemos casi nada acerca de tu Hermandad.}
 {238}{}{Eso suena bien, General. ¿Pero qué clase de Hermandad es esta?}  
 {239}{}{La Hermandad del Acero es una orden antigua. Heredamos todo lo que importó antes de que las bombas cayeran - el conocimiento, el poder, la tecnología. Mientras que el yermo sigue golpeándose a sí mismo, nosotros estábamos acumulando fuerzas y esperando el momento indicado para expandirnos y traer el cambio al yermo. Y ese momento ha llegado. Los escribas te contarán el resto, si los soportas.}  
-{240}{}{.......}
+{240}{}{}
 {241}{}{Sólo pasaba por aquí y me preguntaba si tenía algún trabajo.}
 {242}{}{No pierdo el tiempo con mercenarios. Para eso tenemos el puesto de afuera de la nave. Si no tienes nada que tratar conmigo, te recomiendo que te vayas de inmediato.}  
 {243}{}{Lo siento, General...}
@@ -65,7 +65,7 @@
 {248}{}{[Asiente con la cabeza]}
 {249}{}{Imagina lo siguiente - bombas de agua haciendo su trabajo, generadores dando electricidad a sus hogares, y herramientas que hacen la mitad del trabajo por ustedes. La medicina ayudará a los enfermos y las armas mantendrán a los saqueadores lejos de ustedes. Es el futuro que le podemos ofrecer a tu hogar. Sólo tienes que tomarlo, nada más.}  
 {250}{}{No me engañas, no harás más que dominarnos y forzarnos a trabajar para el bien de la Hermandad y no para nosotros. Eso no es libertad.}
-{251}{}{Suficiente. Tu pueblo nos dará comida y recursos - si es por la razón o la fuerza, dependía de ti. Te ofrecí el camino fácil, pero prefieres complicar las cosas. Suelta tus armas y levanta las manos antes de que cambie de parecer.}  
+{251}{}{Me parece que estoy perdiendo el tiempo contigo. TUVISTE la oportunidad de hacer esto por las buenas. Tu pueblo nos dará comida y recursos - si es por la razón o la fuerza. Te ofrecí el camino fácil, pero prefieres tomar el difícil. Suelta tus armas, y levanta las manos.}  
 {252}{}{No, eso deberías hacerlo tú...}
 {253}{}{Vete a la mierda. No tienes el derecho de esclavizar a un pueblo libre.}
 {254}{}{Suena... maravilloso. Estoy seguro de que podré convencer a mi gente de las ventajas de unirnos a ti.}
@@ -74,9 +74,9 @@
 {256}{}{Entonces es necesario eliminarlos, porque están muy cerca de la Villa.}
 {257}{}{Ah, me gusta como piensas - Sí, los Rangers están escondidos en la presa, creen que es impenetrable. Pero pasaron por alto un detalle: no necesitas nada más que una sola grieta para derribar una presa. Ve y explora el área. Cuando llegue el momento, nos ocuparemos de ellos.}  
 {258}{}{¡De inmediato, General!}
-{259}{}{Como usted diga, General Dixon.}
+{259}{}{}
 
-{260}{}{Por fin estamos cara a cara, maldito pendejo. Sabía que vendrías tarde o temprano. Toda Arizona quiere arrancarte la cabeza.}  
+{260}{}{Por fin estamos cara a cara, maldito salvaje. Sabía que vendrías tarde o temprano. Toda Arizona quiere arrancarte la cabeza.}  
 {1260}{}{Por fin estamos cara a cara, perra asquerosa. Sabía que vendrías tarde o temprano. Toda Arizona quiere arrancarte la cabeza.}  
 {261}{}{Por fin nos conocemos, maldito salvaje. Sabía que este día llegaría. Toda Arizona te tiene los ojos encima, como una jauría de perros hambrientos.}  
 {1261}{}{Por fin nos conocemos, sucia puta. Sabía que este día llegaría. Toda Arizona te tiene los ojos encima, como una jauría de perros hambrientos.}  
@@ -86,13 +86,13 @@
 {264}{}{¿Qué piensa de mis 'idioteces', General?}
 {265}{}{No me importa lo que pienses o hayas escuchado, estoy aquí para acabar contigo y tu supuesta 'hermandad'.}
 {266}{}{Eres un campesino ignorante. ¿Tienes la menor idea de cuánto esfuerzo nos llevó crear la Iglesia del Fuego Santo en Fénix? Fue todo un esfuerzo ingrato, con el objetivo de sacar la ciudad - y la región - de la mugre. Y ahora todo ese plan se fue a la basura, gracias a un campesino sucio y estúpido. Es una maldita tragedia para Arizona y su futuro.}  
-{267}{}{[Más]}
+{267}{}{Continúa.}
 {268}{}{¿Sabes todo el esfuerzo que nos tomó forjar una alianza con los Hojalateros? Tuvimos que hacer milagros para asegurar las rutas comerciales. Y ahora, gracias a tus sucias manos, Two-Sun desaparecerá por completo.}  
-{269}{}{[Más]}
+{269}{}{Continúa.}
 {270}{}{La mina de Flagstaff significaba más de lo que podías imaginar - era la clave para el renacimiento de la civilización. El uranio genera electricidad, y la electricidad es la base para todo el progreso en Arizona. Sin ella, es imposible avanzar. ¿Tienes la menor idea de lo que hiciste?}  
-{271}{}{[Más]}
+{271}{}{Continúa.}
 {272}{}{.....}
-{273}{}{[Más]}
+{273}{}{Continúa.}
 {274}{}{Cuéntame, ¿exactamente qué intentas conseguir, hijo de perra?}  
 {1274}{}{Cuéntame, ¿exactamente qué intentas conseguir, pequeña puta?} 
 {275}{}{Gracias a tus planes y proyectos, mi familia y parientes tienen un futuro difícil e incierto por delante. Busco conseguir la libertad para mi Villa.}
@@ -103,11 +103,12 @@
 {280}{}{Tonterías. Yo no quiero ver el mundo arder. Pero gracias a tus acciones, Dixon, toda Arizona está ardiendo.}  
 {281}{}{Puede que tenga razón al respecto, General.}
 {282}{}{A pesar de tu estupidez, debo reconocer tus méritos. Nunca esperé que un paleto sería capaz de algo tan complicado. ¿Pero sabes qué? Estoy dispuesto a perdonarte.}
+{1282}{}{A pesar de tu estupidez, debo reconocer tus méritos. Nunca esperé que un paleto sería capaz de algo tan complicado. ¿Pero sabes qué? Estoy dispuesto a perdonarte.}
 {283}{}{¿En serio?}
 {284}{}{Que 'noble' de tu parte.}
 {285}{}{Tu pueblecito de rebeldes podrá ganarse nuestro perdón - y nuestra protección - en nombre de la Hermandad. Pero debes hacer tu parte. Para asegurarte ese futuro, debes librar a Arizona de nuestro adversario, los Rangers. Mis exploradores me informaron de que están escondidos en una central hidroeléctrica. Encuentra una forma de quitarla de la faz de la tierra.}  
 {286}{}{Al carajo contigo. Los Rangers nos protegerán, y tú irás directo al infierno.}
-{287}{}{Una pena. Entonces, siguiendo las leyes del Viejo Mundo, te sentencio a la pena de muerte por tus crímenes en nuestra contra. Prepárate, pedazo de mierda...}
+{287}{}{Una pena. Entonces, por tus crímenes contra la humanidad, te sentencio a la pena de muerte por tus crímenes en nuestra contra. Prepárate, pedazo de mierda...}
 {288}{}{Vete a la mierda.}
 {289}{}{Pero no he cometido ningún crimen...}
 {1289}{}{Pero no he cometido ningún crimen...}
@@ -115,7 +116,7 @@
 {291}{}{Como Paladín Supremo, te doy mi palabra. Andando.}
 {292}{}{De acuerdo. Adiós.}
 {293}{}{Es raro que lo consideres injusto si tomamos en cuenta que estás detrás de todo esto.}
-{294}{}{¿De qué demonios hablas? Simplemente estamos comprando baterías nucleares - las que fabrican los Hojalateros de Two-Sun. Es cierto que Flagstaff les entrega el uranio, pero ese es su problema, no el nuestro. Por lo que sé, su líder se volvió un avaricioso. ¿Pero qué podemos hacer al respecto? Necesitamos las baterías, y toda la región depende de ellas.}  
+{294}{}{¿De qué demonios hablas? Simplemente estamos comprando baterías nucleares - las que fabrican los Hojalateros de Two-Sun. Es cierto que Flagstaff les entrega el uranio, pero ese es su problema, no el nuestro. Por lo que sé, su líder se volvió un avaricioso. ¿Pero qué podemos hacer al respecto? Necesitamos... No. ¡Toda California y toda Arizona NECESITAN esas baterías!}  
 {295}{}{Cierto. Pero eres *tú* el que permite que el negocio siga andando. Eso es un hecho.}
 {296}{}{Hijo, no somos esclavistas. La Hermandad es una orden noble y antigua, nuestro propósito es mantener el orden en el yermo - porque ahora mismo, California es un maldito desastre. Se está llevando a cabo una guerra contra los supermutantes, si no detenemos eso, ellos llegarán a tu puerta. ¿Es eso lo que quieres?}  
 {1296}{}{Señorita, no somos esclavistas. La Hermandad es una orden noble y antigua, nuestro propósito es mantener el orden en el yermo - porque ahora mismo, California es un maldito desastre. Se está llevando a cabo una guerra contra los supermutantes, si no detenemos eso, ellos llegarán a tu puerta. ¿Es eso lo que quieres?}  

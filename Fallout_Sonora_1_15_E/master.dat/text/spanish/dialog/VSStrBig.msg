@@ -1,0 +1,1 @@
+{110}{}{Las escaleras están bloqueadas. De momento, no podrás usarlas.}

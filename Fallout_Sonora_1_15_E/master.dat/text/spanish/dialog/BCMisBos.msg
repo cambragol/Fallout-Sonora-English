@@ -36,6 +36,7 @@
 {225}{}{Tengo una misión especial. Aaron perdió la paciencia y quiere ver resultados.}
 {226}{}{Supongo que quiere una solución rápida.}
 {227}{}{Hmm. Me da curiosidad saber el cómo te ganaste la confianza de Aaron. Si tomamos eso en cuenta, debería escuchar tus consejos. Pero el que manda aquí soy yo, soy el Comandante. No lo olvides.}
+{1227}{}{Hmm. Me da curiosidad saber el cómo te ganaste la confianza de Aaron. Si tomamos eso en cuenta, debería escuchar tus consejos. Pero el que manda aquí soy yo, soy el Comandante. No lo olvides.}
 {228}{}{De acuerdo.}
 {229}{}{Tu mando me importa menos que una cucaracha.}
 

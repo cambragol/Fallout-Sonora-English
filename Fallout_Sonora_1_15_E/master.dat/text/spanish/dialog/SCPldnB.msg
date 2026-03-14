@@ -1,6 +1,7 @@
 {100}{}{Ves a Christopher.}
 {101}{}{Ves a un soldado joven, su expresión es triste y pensativa a la vez.}
-{102}{}{Ten cuidado con los supermutantes.}
+{102}{}{Ten cuidado con los supermutantes, soldado.}
+{1102}{}{Ten cuidado con los supermutantes, soldada.}
 
 {200}{}{Hola... No sabía que teníamos civiles... Eh, bienvenido a bordo.}
 {201}{}{¿Por qué estás tan distraído?}

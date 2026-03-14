@@ -66,4 +66,5 @@
 {254}{}{Bien.}
 {255}{}{Yo también puedo amenazarte. ¿Sabes por qué? Le estás hablando al campeón del cuadrilátero.}
 {256}{}{Sé que eres uno de los que sobrevivió a esas peleas. Lo respeto. Toma las cartas. ¿Me enseñarás a pelear algún día?}
+{1256}{}{Sé que eres una de las que sobrevivió a esas peleas. Lo respeto. Toma las cartas. ¿Me enseñarás a pelear algún día?}
 {257}{}{Me lo pensaré. Tengo cosas que hacer.}

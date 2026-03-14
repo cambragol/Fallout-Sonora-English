@@ -1,5 +1,5 @@
 {100}{}{Ves al viejo Gallegos.}
-{101}{}{Estás viendo a un ciudadano delgado de barba y vestimenta desaliñada. Se tambalea por la calle, apoyado de un palo.}
+{101}{}{Estás viendo a un ciudadano delgado, de barba y vestimenta desaliñada. Se tambalea por la calle, apoyado de un palo.}
 {102}{}{No me toques, pedazo de metal. Sé cómo defenderme. ¡Fuera, fuera!}
 {103}{}{}
 
@@ -159,3 +159,9 @@
 {359}{}{No voy a ir a ninguna parte contigo.}
 {360}{}{«Lo que esperaba. ¿Puedes responderme unas cosas, al menos?»}
 {361}{}{«Entonces, quédate ahí. Adiós, viejo.»}
+
+{370}{}{«¿Has visto al embajador de los Hojalateros?»}
+{371}{}{(mira a su alrededor y te asienta la cabeza muy discretamente)}
+{372}{}{«Él jamás regreso a Two-Sun. ¿Qué sabes de eso?»}
+{373}{}{«Si preguntan, yo no te conté esto. Pero encontrarás tu respuesta en el cementerio local. No vuelvas a hablarme de esto.»}
+{374}{}{«De acuerdo.»}

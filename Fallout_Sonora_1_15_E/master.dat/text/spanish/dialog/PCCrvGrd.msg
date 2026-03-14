@@ -1,5 +1,6 @@
 {100}{}{Ves a un guardia.}
 {101}{}{Ves a un guardia de caravana, se prepara para un largo viaje.}
+{1101}{}{Ves a una guardia de caravana, se prepara para un largo viaje.}
 
 {110}{}{Genial.}
 {111}{}{Dame un respiro.}

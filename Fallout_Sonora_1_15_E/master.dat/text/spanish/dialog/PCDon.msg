@@ -46,6 +46,7 @@
 #Attack on Followers
 {300}{}{Estoy investigando el ataque contra los Seguidores. ¿Qué sabes al respecto?}
 {301}{}{¿Quién te crees que eres para entrar e interrogarme? Saquen a este mugroso de aquí, chicos.}
+{1301}{}{¿Quién te crees que eres para entrar e interrogarme? Saquen a esta zorra de aquí, chicos.}
 {302}{}{¡Grave error!}
 {303}{}{No es necesario, ya me iba.}
 {304}{}{¿Desde cuándo los Seguidores tienen la costumbre de interrogar a cualquiera? Te diré lo que sé, pero sólo es por mostrar respeto ante la iglesia que alimenta la ciudad.}

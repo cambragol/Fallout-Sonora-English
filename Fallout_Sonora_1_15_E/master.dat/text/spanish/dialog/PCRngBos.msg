@@ -122,11 +122,14 @@
 {326}{}{Big Mario te espera, pero no sólo él - si consigues derrotarlo, también ganarás mucha gloria. Y bien, }
 {327}{}{. Esta será tu pelea más importante, ¿puedes hacerlo?}
 {328}{}{Hoy, voy a derribar a Big Mario Albright. Vamos, Angelo, camina conmigo, porque el cuadrilátero verá a su nuevo campeón.}
+{1328}{}{Hoy, voy a derribar a Big Mario Albright. Vamos, Angelo, camina conmigo, porque el cuadrilátero verá a su nueva campeona.}
 {329}{}{Mario tendrá que esperarme, ya vengo.}
 
 # First fight
 {330}{}{Bastante bien... para un novato. Además, recibiste unos cuantos golpes. De todas formas, el potencial está ahí, así que no te detengas.}
+{1330}{}{Bastante bien... para una chica. Además, recibiste unos cuantos golpes. De todas formas, el potencial está ahí, así que no te detengas.}
 {331}{}{Bastante bien, para ser un novato. Tienes potencial, debes desarrollarlo.}
+{1331}{}{Bastante bien, para ser una chica. Tienes potencial, debes desarrollarlo.}
 {332}{}{¿De verdad? Eso me motiva mucho.}
 {333}{}{No estoy aquí para lucirme, yo quiero chapas.}
 {334}{}{Te daré 100 chapas, es lo que te corresponde. Fue una pelea limpia. Si quieres volver a luchar, ven cuándo quieras y podemos hablarlo.}
@@ -163,6 +166,7 @@
 {361}{}{! Los espectadores estaban locos; hace años que no veíamos tanta emoción. Nos ganamos un montón de apuestas porque todos pensaban que Big Mario se mantendría invicto. ¡Pero les demostraste que estaban equivocados! Bien hecho, ten, tus 800 chapas. Aunque... tenemos un problema.}
 {362}{}{¿Qué pasó?}
 {363}{}{Bueno, pues, tienes el título de campeón. Eres invencible, ¿lo entiendes? Ya no nos queda nadie que pueda luchar contra ti. Y si la gente sigue apostando por ti mientras sigues ganando, no tendremos ninguna ganancia. La mayoría de nuestros ingresos vienen de las apuestas, ¿lo comprendes?}
+{1363}{}{Bueno, pues, tienes el título de campeona. Eres invencible, ¿lo entiendes? Ya no nos queda nadie que pueda luchar contra ti. Y si la gente sigue apostando por ti mientras sigues ganando, no tendremos ninguna ganancia. La mayoría de nuestros ingresos vienen de las apuestas, ¿lo comprendes?}
 {364}{}{Así que, ¿mi carrera se acabó?}
 {365}{}{¡Pero qué demonios! ¿O sea que me estás echando del cuadrilátero?}
 {366}{}{Exacto. Perdón, amigo mío, pero todo luchador tiene su época de oro. Fue un placer hacer negocios contigo, pero es momento de que sigamos con nuestras vidas.}

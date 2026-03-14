@@ -6,12 +6,14 @@
 {201}{}{Soy }
 {202}{}{ de la Villa. ¿Pero quién...? Mejor dicho, ¿*Qué* eres?}
 {203}{}{Perdón, joven. Verás, técnicamente soy una máquina del Viejo Mundo. Pero lo importante es que poseo la personalidad de tu ancestro, Félix Tejada. Que no te sorprenda, habían muchos robots iguales que yo por todo el continente.}
+{1203}{}{Perdón, jovencita. Verás, técnicamente soy una máquina del Viejo Mundo. Pero lo importante es que poseo la personalidad de tu ancestro, Félix Tejada. Que no te sorprenda, habían muchos robots iguales que yo por todo el continente.}
 {204}{}{¡Esto es sorprendente!}
 {205}{}{Debes tener muchas preguntas. Las responderé, pero a cambio también quiero saber unas cosas.}
 {206}{}{Sí, tengo mucho que preguntarte.}
 {207}{}{Primero quiero echar un vistazo. Hablamos luego.}
 
-{208}{}{«Perdón, joven.» Verás, técnicamente, soy una máquina del Viejo Mundo. Pero lo importante es que poseo la personalidad de tu ancestro, Félix Tejada. Que no te sorprenda, habían muchos robots iguales que yo por todo el continente.}
+{208}{}{«Perdón, mi niño.» Verás, técnicamente, soy una máquina del Viejo Mundo. Pero lo importante es que poseo la personalidad de tu ancestro, Félix Tejada. Que no te sorprenda, habían muchos robots iguales que yo por todo el continente.}
+{1208}{}{«Perdón, mi niña.» Verás, técnicamente, soy una máquina del Viejo Mundo. Pero lo importante es que poseo la personalidad de tu ancestro, Félix Tejada. Que no te sorprenda, habían muchos robots iguales que yo por todo el continente.}
 
 
 {210}{}{¡Ay! Hace mucho que no sentía la luz del sol, se siente bien.}

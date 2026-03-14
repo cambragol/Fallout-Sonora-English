@@ -17,12 +17,15 @@
 
 #Medicine
 {220}{}{Necesito que me cures.}
-{221}{}{Eso es extraño, no veo cómo podría ayudarte. Hay muchos que envidiarían tu salud.}
-{222}{}{¡Eso es un milagro, doctor! De repente me siento mejor.}
-{223}{}{Oh, bueno... Puedo curarte. Pero, el tratamiento es muy caro. Para cubrir la medicina, tendríamos que gastar como mínimo }
-{224}{}{ chapas. ¿Podrías ofrecernos esa cantidad, como compensación?}
-{225}{}{Sí, tengo las chapas que necesitas.}
-{226}{}{No tengo tantas chapas.}
+{221}{}{Oh, lo lamento... Puedo curarte, pero la medicina no es gratis.}
+{222}{}{No tengo nada valioso que ofrecer.}
+{223}{}{[Curar heridas por }
+{224}{}{ chapas]}
+{225}{}{[Curar miembros rotos por }
+{226}{}{[Curar toda la radiación por }
+{227}{}{[Curar todo el envenenamiento por }
+{228}{}{¿No tienes nada con qué pagar? Porque parece que eres bien acomodado.}
+{229}{}{Lo siento, no quería verte la cara de tonto...}
 
 {230}{}{Espera un momento, ¿te encuentras bien? No parece ser el caso.}
 {231}{}{Doctor, me duele... ¡Tengo que dejar mi adicción!}
@@ -41,6 +44,10 @@
 {243}{}{¿Un baño? ¡Vaya!}
 {244}{}{Has adquirido el extra de Rehabilitación.}
 {245}{}{Durante una semana, se te entrenó y trató, has superado tu adicción y serás más fuerte contra las reincidencias.}
+{246}{}{La verdad, no necesito ningún tratamiento.}
+{247}{}{¿Te sigue doliendo?}
+{248}{}{Estoy bien, Doc.}
+{249}{}{Sí, gracias, pero quería una última cosa.}
 
 #Dialogue
 {250}{}{Habías mencionado la medicina de la preguerra y unos experimentos.}
@@ -151,7 +158,7 @@
 {1384}{}{No lo había pensado.}
 {385}{}{Era la forma más efectiva para detener la infección.}
 {386}{}{¡Claro! Deja que un vagabundo del yermo resuelva tus problemas... Dios mío, necesito calmarme.}
-{387}{}{¿?}
+{387}{}{¿Eh?}
 {388}{}{Lo siento, tus acciones son dignas de elogio. La seguridad es lo primero. Pero, ¿qué haremos si la infección aparece en otro lugar? Sin los datos del laboratorio, lidiar con ella será mucho más difícil. Por el otro lado, ahora hay mucho tiempo para prepararnos. Así que, de todas formas - gracias.}
 {389}{}{Lo más importante es que el problema fue resuelto. Suerte con tu investigación, Néstor.}
 {390}{}{¡Oye, oye! ¿No me vas a pagar? No fue nada fácil.}
@@ -220,6 +227,7 @@
 {453}{}{¿Pero entonces cómo fue que tus ancestros vivían allí?}
 {454}{}{Los refugios se construyeron para sobrevivir a la dura época que seguiría luego de un ataque nuclear. Según la leyenda, los fundadores abandonaron el Refugio para ayudar a que el mundo renaciera. Este sacrificio es apreciado por todos los Seguidores.}
 {455}{}{Yo estuve ahí, el lugar está maldito de verdad. Ya fue saqueado, se llevaron todo lo que fuera útil.}
+{1455}{}{Yo estuve ahí, el lugar está maldito de verdad. Ya fue saqueado, se llevaron todo lo que fuera útil.}
 {456}{}{Eso no me sorprende. Había oído que los necrófagos tuvieron un Gran Éxodo hacia el sur, en dirección al Ardor. Suena a que encontraron un lugar que les sienta bien. Que esa zona radiactiva sea indulgente con ellos.}
 {457}{}{Sí, ocurrió algo así. ¿Hablamos de otra cosa?}
 {458}{}{Tengo una reliquia de ese Refugio. Mira, es una copia del diario del supervisor.}

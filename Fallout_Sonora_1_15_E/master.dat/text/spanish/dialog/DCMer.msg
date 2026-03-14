@@ -3,49 +3,47 @@
 {102}{}{Había oído hablar acerca de esa armadura, pero no pensé que fuera real.}
 {103}{}{No voy a tolerar a un repugnante Escudo Azul en mi ciudad.}
 {104}{}{Les aconsejo a los dos que se vayan de la ciudad. De inmediato.}
+{105}{}{¡Sullivan ha triunfado en esta batalla!}
 
 #First meeting
 {200}{}{(Apenas entras a la oficina del alcalde, un desagradable aroma a alcohol invade tu nariz. Al mirar a tu alrededor, terminas dándote cuenta de que hay un hombre sentado en la silla, cubre su rostro pero termina viéndote a través de sus dedos. Tras una corta pausa, termina diciendo: "¿Eh"?)}
 {201}{}{¿En dónde está el alcalde? Me gustaría hablar con él.}
-{202}{}{(Luego de dar un suspiro profundo, el hombre se reclina en su silla, claramente está cansado). Lo tienes en frente tuyo. ¿Quién eres?}
-{203}{}{¿Tú eres el alcalde? Y eso que pareces un borracho que se gastó el sueldo en el bar.}
-{204}{}{Dejemos esto claro, soy el alcalde de esta ciudad y mi posición es legítima. Si no piensas en reconocer a la autoridad local o aceptar nuestras reglas, entonces quiero que abandones Casa Grande de inmediato. Mi ciudad no necesita a un buscapleitos. ¿Lo entendiste?}
-{205}{}{Sí, lo entiendo.}
-{206}{}{Perdón, Sr. Alcalde. No voy a causar ningún problema.}
-{207}{}{Muy bien. ¿De dónde vienes?}
-{1207}{}{Muy bien. ¿De dónde vienes?}
-{208}{}{Me llamo }
-{209}{}{, estoy viajando por el yermo.}
+{202}{}{Lo tienes en frente tuyo. ¿Quién demonios eres?}
+{203}{}{Me llamo }
+{204}{}{.}
+{205}{}{Olvídalo, no me pareces un alcalde.}
+{206}{}{Dejemos esto claro, soy el alcalde de esta ciudad y mi posición es legítima. Si alguien tiene un problema con eso, el yermo está por allá. ¿Lo entendiste?}
+{207}{}{Sí.}
+{208}{}{Mis disculpas, Señor Alcalde. No he venido a causar problemas. Me llamo }
+{209}{}{Bien.}
 {210}{}{De acuerdo, }
-{211}{}{. ¿Y de dónde vienes?}
-{212}{}{¿Por qué te importa tanto?}
-{213}{}{Porque en una ciudad de este tamaño, todos quieren saber con quién están tratando y cuánto pueden confiar en ti. Y para ser sinceros, nadie te conoce.}
-{214}{}{A nadie debería importarle mis orígenes.}
-{215}{}{Entonces, ¿no quieres aceptar nuestras reglas? Estás andando por un camino que no te conviene, forastero. En ese caso, ¿podrías explicarme qué demonios estás haciendo aquí?}
-{1215}{}{Entonces, ¿no quieres aceptar nuestras reglas? Está andando por un camino que no le conviene, señorita. En ese caso, ¿podrías explicarme qué demonios estás haciendo aquí?}
-{216}{}{Soy de una aldea, está lejos de aquí. Simplemente le llamamos la Villa.}
-{217}{}{Jamás he oído hablar de ella, pero digamos que es verdad. ¿Qué vienes a hacer en mi ciudad, si estás tan lejos de casa?}
-{218}{}{Estoy viajando, eso es todo. ¿Puedo pasar la noche aquí?}
-{219}{}{No tengo problema con eso. Lo normal es que los visitantes pasen la noche cerca de la bomba de agua, dentro de los barracones, junto a las caravanas.}
-{220}{}{Gracias, Sr. Alcalde.}
-{221}{}{¿Qué clase de ciudad estás gobernando si ni siquiera tiene un motel? Bueno, tendré que conformarme con los barracones. Adiós, Sr. Alcalde.}
-{222}{}{Bustos. Mi nombre es Alfred Bustos. Vete, ya perdí mucho tiempo hablando contigo.}
-{223}{}{[Hecho]}
+{211}{}{. ¿Y? ¿Qué te trae a Casa Grande?}
+{212}{}{Por la voluntad del Fuego Santo, responderás a mis preguntas.}
+{213}{}{¿Eres parte de la Iglesia? Gracias a sus misiones, mi ciudad se gana unas chapas más. ¿Qué puedo hacer por ti?}
+{214}{}{Estoy buscando a una caravana que transporta a unos esclavos en particular. Puede que una haya pasado por aquí.}
+{215}{}{Yo no me meto en esa clase de cosas. Pero, últimamente, los Hojalateros han estado reuniendo esclavos para un plan importante. Han pasado varias de esas caravanas por aquí. Deberías revisar en Two-Sun.}
+{216}{}{Two-Sun... Gracias, Señor Alcalde.}
+{217}{}{Solo estoy de paso. ¿Hay algún sitio en donde pueda dormir?}
+{218}{}{No hay habitaciones vacantes en la ciudad. Si lo necesitas, puedes ir a descansar con los caravaneros junto a la estación de agua.}
+{219}{}{Gracias, Señor Alcalde.}
+{220}{}{Que los insectos vivan en esa choza. Adiós, Alcalde.}
+{221}{}{Bustos. Don Alfredo Bustos. Bienvenido a mi ciudad. Pero, de momento, no tengo tiempo para ti.}
+{222}{}{Bustos. Don Alfredo Bustos. Ahora, lárgate. No tengo tiempo para ti.}
+{223}{}{¿Por qué? ¿Pasó algo?}
 
-{224}{}{Estoy buscando a mi gente, fueron capturados por unos esclavistas.}
-{225}{}{(levanta una ceja) ¿Esclavos? ¿Estás por tu cuenta, no?}
-{226}{}{¿Sabrá algo acerca de ellos, por casualidad?}
-{227}{}{De vez en cuando, los esclavistas transportan a sus esclavos a través de mi ciudad. Pero, no les pregunto de dónde los consiguen.}
-{228}{}{¿Hacia dónde los llevan?}
-{229}{}{Depende, a algunos los llevan para que trabajen en el sur. En otros casos, simplemente transportan las maletas de sus dueños... Escúchame, forastero... ¿cómo te llamas?}
-{1229}{}{Depende, a algunos los llevan para que trabajen en el sur. En otros casos, simplemente transportan las maletas de sus dueños... Escúcheme, señorita... ¿cómo se llamas?}
-{230}{}{Olvídalo.}
-{231}{}{.}
-{232}{}{Los esclavistas tienen un poder formidable, si se llevaron a tu familia, no tienes ninguna oportunidad de darles su libertad de vuelta. Además, mi ciudad se sustenta de los caravaneros. No te atrevas a desestabilizar ese orden.}
-{233}{}{Ni los esclavistas ni tú me dan miedo. Adiós, alcalde.}
-{234}{}{Sólo quiero a mi familia de vuelta. Sé que debe entender eso, Sr. Alcalde.}
+{224}{}{Estoy buscando a mi gente. Los esclavistas se los llevaron.}
+{225}{}{(levanta una ceja) ¿Esclavos, dices? ¿Y crees que tienes oportunidad de rescatarlos? Como quieras. De vez en cuando, por mi ciudad, pasan caravanas que transportan esclavos. No pregunto en dónde los consiguen. Escúchame... Eh... ¿Cómo te llamabas?}
+{226}{}{.}
+{227}{}{No importa.}
+{228}{}{Los esclavistas son gente importante. Si se llevaron a los tuyos, no tienes oportunidad de rescatarlos. Además, mi ciudad sobrevive gracias a las caravanas. No te atrevas a meter las manos en mi negocio.}
+{229}{}{Los esclavistas no me dan miedo. Ni tampoco tú. Adiós, Alcalde.}
+{230}{}{Solo quiero rescatar a mi familia. Creo que usted lo entendería, Señor Alcalde.}
+{231}{}{Me gustaría hablar con usted, Don Bustos.}
+{232}{}{¡Ooga-booga-splash!}
+{233}{}{¿Qué demonios significa eso? ¿Quién te dejó pasar? ¡Guardias, saquen a este imbécil de mi oficina!}
+{234}{}{Boo.}
+{235}{}{[Salir]}
 
-{235}{}{No nos queda espacio para los forasteros en la ciudad. Puedes ir a pasar la noche junto a la bomba de agua, dentro de los barracones, allí también encontrarás a los caravaneros mientras descansan.}
 {236}{}{Bustos. Mi nombre es Alfred Bustos. Bienvenido a mi ciudad.}
 {237}{}{Necesito hablar con el alcalde de esta ciudad, soy parte de la Iglesia del Fuego Santo.}
 {238}{}{Qué sorpresa, lo normal es que se me avise si debo recibir a un embajador de la Iglesia.}
@@ -53,22 +51,22 @@
 {240}{}{¿Ahora qué?}
 {241}{}{¿Tú otra vez? ¿Qué quieres ahora?}
 {242}{}{¿Tú otra vez? Te dije que te largaras de mi ciudad.}
-{1242}{}{¿Usted otra vez? Le dije que se fuera de mi ciudad, señorita.}
+{1242}{}{¿Usted otra vez? Te dije que te fueras de mi ciudad, puta.}
 {243}{}{Adiós, Don Bustos.}
 {244}{}{(Apenas entras a la oficina, te das cuenta de que el alcalde está cansado y se apoya sobre la mesa. En su otra mano se encuentra una botella de tequila. al ver el color de tu túnica, deja salir un "Oh...") Qué sorpresa. Se me suele avisar si tendré la visita de un embajador de la Iglesia.}
 {245}{}{Sólo estoy de visita.}
-{246}{}{Claro, claro. Siéntete como en casa. ¿Estás pensando en ir hacia Two-Sun? ¿Puedo hacer algo para ayudarte?}
-{247}{}{¿Habrá pasado alguna caravana esclavista por la ciudad? Me interesa saberlo.}
-{248}{}{Sí, últimamente los Hojalateros han estado consiguiendo esclavos, seguramente tienen una tarea importante para ellos. Han pasado muchas caravanas de ese tipo por mi ciudad, pero no les pregunto de dónde los consiguen.}
-{249}{}{Entonces, debo ir a Two-Sun... Gracias, Sr. Alcalde. Nos vemos.}
+{246}{}{Claro, como era de esperarse. Siéntete como en casa. ¿Estás pensando en ir hacia Two-Sun? ¿Hay algo en lo que pueda ayudarte?}
+{247}{}{Pasa, siéntete como en casa.}
+{248}{}{}
+{249}{}{}
 
 #Bath
 {250}{}{Tengo que hablar contigo, se trata de la casa de baños.}
 {251}{}{Ese el edificio abandonado que está cruzando la calle. ¿Por qué te importa?}
 {252}{}{Curiosidad, eso era todo. No le haré perder más tiempo, Sr. Alcalde.}
 {253}{}{Resulta que hay un hombre que busca su reapertura.}
-{254}{}{Ya discutí este asunto con él. Nuestra ciudad es pequeña y todos se conocen entre sí, nuestra gente ha formado relaciones entre sí durante años y hay muchos que se sienten incómodos si a su barrio llega un forastero con un pasado cuestionable. No toleraré a un estafador en mi ciudad.}
-{255}{}{Hmm. ¿Y en dónde está el verdadero dueño de la casa de baños?}
+{254}{}{Ya lo discutimos. En una ciudad tan pequeña como esta, todos se conocen. Y nadie sabe quién es él. A la gente no le gusta que un extraño de pasado sospechoso se asiente cerca de ellos.}
+{255}{}{Entonces, ¿en dónde está el verdadero dueño?}
 {256}{}{Quizás fue devorado por los escorpiones, nuestra área está infestada con esas criaturas.}
 {257}{}{Eso es una pena, tendré que contarle que no estás de acuerdo.}
 {258}{}{Un momento. Antes de que te vayas, quiero dejarte claro que no me gusta que la gente se meta en los asuntos de otros, porque no les incumben.}
@@ -99,8 +97,8 @@
 {283}{}{Nos conocemos bien, te puedo garantizar que puedes confiar en él. }
 {284}{}{En ese caso, deberías hablar con él. Pero dudo que esto pueda enmendar mis pecados.}
 {285}{}{Eso es bueno, iré a hablar con él.}
-{286}{}{... No me sorprende que alguien con un nombre así sea incapaz de quedarse quieto. }
-{287}{}{Si esto es una broma, no da risa. Si te haces o te ocurre algo, pensarán que soy yo, porque nadie se dará cuenta de que en una ciudad hay dos personas que se llaman igual. Esto será muy desagradable... }
+{286}{}{... ¡Jaja! No me sorprende que alguien con un nombre como el tuyo sea incapaz de quedarse quieto.}
+{287}{}{Si esto es una broma, no da risa. Si pasa algo, me culparán a mí. Nadie creerá que hay dos Bustos en la ciudad...}
 
 {290}{}{Ese tipo ya no volverá a molestarte.}
 {291}{}{Muy bien hecho, no me gusta ensuciarme las manos.}
@@ -184,28 +182,28 @@
 {373}{}{No hay nadie que conozca a Casa Grande como yo. ¿Qué necesitas saber?}
 {374}{}{Ya sé lo suficiente. Hasta luego.}
 {375}{}{Dame un poco más de tu tiempo.}
-{376}{}{Más al este, hay una choza que solía pertenecer a un destilador de alcohol. A los Hojalateros no les gusta tener cerca a la gente... 'normal'.}
+{376}{}{Más al este, hay una choza que solía pertenecer a un destilador de alcohol. A los Hombres de Hojalata no les gusta tener cerca a la gente... 'normal'.}
 
 {380}{}{¿Qué se puede hacer en esta ciudad?}
 {381}{}{Casa Grande es una ciudad pequeña, a pesar del nombre. Solíamos tener un salón, era famoso en el área gracias a que tenía alcohol casero y música. Pero, el bar cerró y la rocola está rota, así que la gente debe entrenarse por su cuenta.}
-{382}{}{¿Qué pasó?}
-{383}{}{Ocurrió un tiroteo dentro del bar, pero eso ya está en el pasado. Sólo quiero que tengas en cuenta que el bar cerró.}
-{384}{}{Tú y yo sabemos que eso no fue un tiroteo.}
-{385}{}{Hablas demasiado. Bueno, lo que ocurrió fue que en el bar, mi gente pudo deshacerse de un clan enemigo. Es una pena, pero el cantinero murió a causa de una bala perdida. Era un buen tipo.}
-{386}{}{Gracias por ser honesto con tu respuesta. Pero, mejor cambiemos de tema.}
-{387}{}{¿Su propio alcohol? ¿En serio?}
-{388}{}{Sí, es producido localmente. Quizás jamás hayas probado esta bebida, es maravillosa. Nuestro destilador nos abastecía con cerveza y también la intercambiaba con Fénix. Ah, si no fuera por esos malditos escorpiones, él seguiría beneficiando a la tesorería de la ciudad con sus ingresos.}
-{389}{}{He visto que Fénix ha producido tequila.}
-{390}{}{¿En serio? A veces las caravanas vienen de sur y transportan jarabe de agave y lo llevan hacia Fénix. Ese competidor en específico era un gran problema para nuestro destilador. Y de hecho, ahora nos encontramos comprando el alcohol de Fénix.}
-{391}{}{Esto es un poco triste, dejemos de hablar de ello y cambiemos de tema.}
+{382}{}{He visto que Fénix ha producido tequila.}
+{383}{}{¿En serio? A veces, las caravanas vienen de sur y transportan jarabe de agave y lo llevan hacia Fénix. Ese competidor en específico era un gran problema para nuestro destilador. Y de hecho, ahora nos encontramos comprando el alcohol de Fénix.}
+{384}{}{Qué deprimente. Cambiemos de tema.}
+{385}{}{}
+{386}{}{}
+{387}{}{}
+{388}{}{}
+{389}{}{}
+{390}{}{}
+{391}{}{}
 {392}{}{¿Hay alguna tienda en esta ciudad?}
-{393}{}{Ve hacia la bomba de agua si necesitas reabastecerte. Los caravaneros suelen traernos el resto de los bienes, están en el estacionamiento de aquí cerca.}
+{393}{}{Ve hacia la bomba de agua si necesitas reabastecerte. Los caravaneros suelen traernos el resto de los bienes, están en el estacionamiento de aquí cerca. Allí también podrás comprar agua limpia.}
 {394}{}{¿Por qué hay tantas caravanas en este lugar?}
-{395}{}{Porque tenemos muchísima agua y somos un punto en la ruta entre Fénix y Two-Sun. Esta situación nos conviene, excepto por los condenados forajidos.}
-{396}{}{He oído un rumor de que los Hojalateros ya no existen. ¿Cómo crees que se verá afectada Casa Grande?}
-{397}{}{Hay más asentamientos en el sur y todavía podemos comerciar agua. Además, hay muchos saqueadores y forajidos que se apresuraron a ir al sur apenas se enteraron de los rumores. Por el momento, podremos mantenernos a flote. Pero, ¿qué nos deparará el futuro?}
+{395}{}{Porque tenemos muchísima agua y somos un punto en la ruta entre Fénix y Two-Sun. Esta situación nos conviene, excepto por los condenados forajidos que habitan la carretera.}
+{396}{}{Pero, los Hojalateros ya no están. ¿Cómo afectará eso a Casa Grande?}
+{397}{}{Es malo para el negocio, pero hay otros asentamientos además de los Hojalateros. Y luego de que eso se hizo sabido, muchos chatarreros fueron corriendo a Two-Sun. De momento, nos mantenemos a flote, pero quién sabe cuánto duremos.}
 {398}{}{Se dice que la Iglesia del Fuego Santo de Fénix fue destruida.}
-{399}{}{Sí, y eso es un problema. En cierto modo, la Iglesia apoyaba a esta ruta comercial de forma muy activa. Habrán menos caravanas sin ellos, pero alguien tomará su lugar, en algún punto.}
+{399}{}{Sí, y eso es un problema. En cierto modo, la Iglesia apoyaba a esta ruta comercial de forma muy activa. Habrán menos caravanas sin ellos, pero alguien tomará su lugar. O eso espero.}
 {400}{}{¿Quiénes son esos forajidos?}
 {401}{}{Verás todo tipo de chusma junto a la Interestatal 10. Sólo son unos saqueadores que en vez de atacar ciudades, se dedican a asaltar caravanas y a otros viajeros. Cada vez que atacan una caravana sufrimos pérdidas graves.}
 {402}{}{¿Has intentado atraparlos?}
@@ -221,7 +219,7 @@
 {412}{}{Tengo una última pregunta.}
 {413}{}{Iré a hablar con él de una vez. Adiós.}
 {414}{}{Háblame sobre Sullivan. ¿Es una buena persona?}
-{415}{}{Para mí, él es como un hermano ya que empezamos esto juntos. Yo sabía como negociar con los demás y él sabía cómo arreglar problemas. Sin John, las cosas no hubieran sido nada fáciles.}
+{415}{}{Es el hombre más confiado de toda Casa Grande. Yo sabía como negociar con los demás y él sabía cómo arreglar problemas. Sin John, las cosas hubiesen sido muy distintas.}
 {416}{}{Sí que parece que son hermanos. Pero, tu ciudad me interesa más.}
 {417}{}{Cuando se trata de negocios, la palabra 'hermano' pierde todo su significado.}
 {418}{}{Voy a pretender que no dijiste eso. Quizás en la gran ciudad sea así, pero aquí las chapas y la amistad van de la mano. Yo valoro mucho a John, es una persona en la que puedo confiar, no hay nadie como él en Casa Grande.}
@@ -229,7 +227,7 @@
 {420}{}{Ni siquiera menciones su nombre. Habíamos empezado esto juntos, jamás me había esperado una traición de ese tipo. Ya ni siquiera quiero saber de él.}
 {421}{}{¿No habías dicho que en Casa Grande no había nadie como él?}
 {422}{}{Esto tuvo que haberte dolido mucho, es mejor que no lo mencione.}
-{423}{}{(da un golpe a la mesa) Sullivan... Fue un villano y recibió su merecido. Lo único que puedo hacer es borrar a ese traidor de mi vida, es mejor que cierres la boca antes de que nuestra relación se dañe para siempre.}
+{423}{}{(da un golpe a la mesa) Sullivan... Fue un traidor y recibió su merecido. ¡Lo único que puedo hacer es BORRAR a ese traidor de mi vida!}
 {424}{}{Perdona, es mejor que ya no hablemos de esto.}
 {425}{}{Los problemas de tu pasado siguen allí, no puedes pretender que no existen. Hablemos de otro tema.}
 {426}{}{Por culpa tuya, la muerte es muy común en tu ciudad. Tus historias me dan miedo y ya he oído suficiente.}
@@ -256,17 +254,18 @@
 {446}{}{Si hablar de esto te pesa, entonces hablemos de otra cosa.}
 {447}{}{Tendré que seguir con la cabeza en alto. Adiós.}
 {448}{}{Cierra tu boca y escúchame de una vez. YO SOY EL ALCALDE DE ESTA CIUDAD. Yo me hago responsable por ella. Y no permitiré que NADIE hable mal de MI ciudad. ¿Quién te crees que eres para juzgarme? Eres otro vagabundo más. Así que sigue con tu camino.}
+{1448}{}{Cierra tu boca y escúchame de una vez. YO SOY EL ALCALDE DE ESTA CIUDAD. Yo me hago responsable por ella. Y no permitiré que NADIE hable mal de MI ciudad. ¿Quién te crees que eres para juzgarme? Eres otra vagabunda más. Así que sigue con tu camino.}
 {449}{}{Tienes razón, yo sólo estoy de paso. Adiós, Alcalde.}
 {1449}{}{Tienes razón, yo sólo estoy de paso. Adiós, Alcalde.}
 
 #First quest
 {450}{}{¿Hay algún trabajo que pueda hacer aquí? Me vendría bien ganarme unas chapas mientras esté aquí.}
-{451}{}{No tengo ningún trabajo que ofrecerte.}
-{452}{}{Comprendo. ¿Podrías responderme unas dudas, entonces?}
-{453}{}{De acuerdo, iré a preguntárselo a las demás personas de la ciudad.}
-{454}{}{No tengo ningún trabajo que ofrecerte... Sin embargo, podrías resolverme un problema.}
-{455}{}{¿De qué se trata?}
-{456}{}{Unos forajidos asaltaron a una caravana que pasaba por la estación de tren, agarraron el cargamento y se encerraron en la estación. No parece que vayan a irse de ahí, es como si quisieran provocarnos o ver qué haremos. Ve hacia allá y descubre qué es lo que quieren.}
+{451}{}{}
+{452}{}{}
+{453}{}{Recuérdame en dónde atacaron a la caravana.}
+{454}{}{Si eres valiente, tengo un trabajo disponible para ti.}
+{455}{}{What is it?}
+{456}{}{Unos forajidos asaltaron a una caravana que pasaba por la estación de tren, agarraron el cargamento y se encerraron en la estación. No parece que vayan a irse de ahí, es como si quisieran provocarnos o ver qué haremos. Ve hacia allá y descubre qué es lo que quieren, la estación está al sur de aquí.}
 {457}{}{Pero tienes guardias, ¿acaso están de adorno?}
 {458}{}{¿No hay algún sheriff que pueda lidiar con cosas así?}
 {459}{}{Es una caja con unas cosas viejas, nadie quiere arriesgarse la vida por algo así. Sólo deseamos que los forajidos se cansen de estar encerrados ahí y que eventualmente se vayan por decisión propia.}
@@ -345,6 +344,7 @@
 {546}{}{Aprecio a la gente que es capaz de hacer bien sus trabajos. Mereces una recompensa. (saca algunas chapas de la caja fuerte) En total, son 500 chapas, lo que acordamos. Déjame sólo, quiero descansar.}
 {547}{}{Adiós, Don.}
 {548}{}{Oye, ¿qué hay de mi recompensa? ¿Crees que arrastré su cabeza por el yermo para nada?}
+{1548}{}{Oye, ¿qué hay de mi recompensa? ¿Crees que arrastré su cabeza por el yermo para nada?}
 {549}{}{Claro, es tu derecho, te lo has ganado honestamente... (saca algunas chapas de la caja fuerte) En total, son 500 chapas, lo que acordamos. Déjame sólo, quiero descansar.}
 
 {550}{}{He conseguido destruir el tanque de combustible de los Escudos Azules. Eso debilitará a la banda.}

@@ -10,13 +10,13 @@
 {204}{}{No te creo, pero me basta... ¿A qué vienes?}
 
 {205}{}{Tengo que hablar con tu líder.}
-{206}{}{No tenemos un líder, aquí todos somos iguales. ¿Tú eres otro fugitivo, o un espía de los Hojalateros? Háblale a Jeff, él se ocupa de nuestras tácticas. Veremos qué piensa de ti.}
+{206}{}{Bien, ve a hablar con Jeff. Veamos qué tiene que decir.}
 {207}{}{Claro. Tenemos mucho que hablar.}
 {208}{}{Ya tuve suficiente. Muere.}
 {1208}{}{Ya tuve suficiente. Muere.}
 {209}{}{Vine a hacer una cosa - desaparecerte del mundo.}
 
-{210}{}{Pasa, pero ni se te ocurra traicionarnos.}
+{210}{}{Pasa.}
 {211}{}{De acuerdo.}
 {212}{}{Nos vemos.}
 {213}{}{¡Espía! ¡Vengan todos!}
@@ -35,8 +35,9 @@
 {230}{}{¿Cómo puedo salir de aquí sin activar las trampas?}
 {231}{}{Sal por la puerta de atrás. Es todo lo que te diré.}
 {232}{}{De acuerdo.}
-{233}{}{Estamos del mismo lado.}
+{233}{}{Oye, ¡muéstrame las trampas! Estamos del mismo lado.}
 {234}{}{Está bien, te mostraré las trampas. Pero ten cuidado.}
 {235}{}{Gracias.}
 {236}{}{Ya sabes demasiado.}
 {237}{}{Adiós...}
+

@@ -10,10 +10,12 @@
 {108}{}{La esposa de Domínguez está contenta con los zapatos nuevos.}
 {109}{}{¡Muchísimas gracias! Es tan difícil encontrar nuevos.}
 
-{110}{}{Eh... ¿Qué? Cariño, ve a ver... *bosteza* la puerta.}
+{110}{}{«Eh... ¿Qué? Cariño, ve a ver... *bosteza* la puerta.»}
 {111}{}{Eh... ¿Qué? Cariño, ve a ver... *bosteza* la puerta.}
-{112}{}{¡Sal de aquí, maldito gringo!}
-{113}{}{¡Fuera, mugroso gringo?}
+{112}{}{«¡Sal de aquí, maldito gringo!»}
+{1112}{}{«¡Sal de aquí, maldito gringa!»}
+{113}{}{¡Fuera, gringo!}
+{1113}{}{¡Fuera, gringa!}
 {114}{}{Estoy muy ocupada, habla con mi esposo.}
 {115}{}{No tengo tiempo para hablar contigo, habla con mi esposo.}
 {116}{}{Deberías irte de aquí, no nos gusta que un desconocido entre y nos haga preguntas.}

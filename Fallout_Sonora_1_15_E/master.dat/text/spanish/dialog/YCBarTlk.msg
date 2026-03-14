@@ -1,7 +1,7 @@
 {100}{}{Ves a Jeffrey.}
 {101}{}{Ves a un necrófago en un pijama viejo, toma pequeños sorbos de su cóctel con tranquilidad.}
 {102}{}{No puedo sacarte de aquí. Pero apártate de mi camino.}
-{103}{}{Los pieles suaves son muy xenófobos, ¿Cierto?}
+{103}{}{Los pieles suaves son muy remilgados... Oye, ¿me invitas una bebida?}
 {104}{}{¿Leyes? No creo que te guste vivir en un estado con leyes.}
 
 {200}{}{Hola, bienvenido, necrófago. ¿De dónde vienes?}

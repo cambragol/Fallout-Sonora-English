@@ -69,7 +69,8 @@
 {1244}{}{¿Relajarse con una hembra forastera? Sí, eso hará que la manada me respete aún más.}
 {245}{}{Por supuesto, debes ser un líder para ellos. Siéntate, voy a masajear tu espalda...}
 {246}{}{Espera, no me refería a esto.}
-{247}{}{No confío en los forasteros. Y tú eres uno.}
+{247}{}{No confío en los forasteros. Y *tú* eres uno.}
+{1247}{}{No confío en las perras forasteras. Y *tú* eres una, perra.}
 {248}{}{Yo tampoco confío en ti.}
 {249}{}{Al 'acicalar' a Colmillo Negro, has mejorado tu reputación con los Chacales.}
 

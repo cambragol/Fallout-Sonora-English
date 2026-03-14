@@ -17,4 +17,5 @@
 {211}{}{Entendido.}
 {212}{}{Aaron y el Asesor están muertos.}
 {213}{}{¡Qué noticias tan maravillosas! Este día pasará a la historia como la liberación de Fénix. Gracias, guerrero.}
-{214}{}{Espero que tu gobierno sea más justo. Adiós, Marcos.}
+{1213}{}{¡Qué noticias tan maravillosas! Este día pasará a la historia como la liberación de Fénix. Gracias, guerrera.}
+{214}{}{Espero que tu gobierno sea más justo. Dudo que volvamos a vernos. Adiós, Marcos.}

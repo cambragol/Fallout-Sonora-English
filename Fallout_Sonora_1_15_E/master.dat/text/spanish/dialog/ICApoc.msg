@@ -222,7 +222,8 @@
 
 ### The Consignment
 
-{500}{}{¿Hacia dónde vamos?}  
+{500}{}{¿Hacia dónde vamos, capitán?}  
+{1500}{}{¿Hacia dónde vamos, capitana?}  
 {501}{}{Sólo sígueme.}  
 {502}{}{¿A dónde quieres ir?}  
 {503}{}{Hacia un asentamiento llamado Casa Nueva.}  
@@ -241,9 +242,11 @@
 {513}{}{Pensándolo mejor, sigamos viajando por un tiempo más.}  
 {514}{}{Deja de perder el tiempo, ya hay que irnos.}  
 {515}{}{Lo que digas, capi.}  
+{1515}{}{Lo que digas, capitana.}  
 {516}{}{Vámonos.}  
 {517}{}{Necesito que me esperes aquí por un momento.}  
-{518}{}{No me abandonarás aquí, ¿cierto, amor mío? Bueno, ve.}  
+{518}{}{No me abandonarás aquí, ¿cierto? Bueno, ve.}  
+{1518}{}{No me abandonarás aquí, ¿cierto? Bueno, ve.}  
 {519}{}{Quédate ahí.}  
 {520}{}{Perdóname, ahora me doy cuenta de que te necesito. ¿Vendrás conmigo?}  
 {521}{}{Respecto a tu arma, es mejor que la guardes.}  

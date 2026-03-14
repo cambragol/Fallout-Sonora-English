@@ -35,7 +35,8 @@
 {1232}{}{¡Alto ahí, novata! ¿Cómo te atreves a abandonar el área sin permiso? ¿Siquiera terminaste la misión? ¡Explícate!}
 {233}{}{Es que, yo... He fallado la misión. Lo siento, señor...}
 {1233}{}{Es que, yo... He fallado la misión. Lo siento, señor...}
-{234}{}{¿Ibas a desertar, verdad? Jamás vuelvas a poner un pie en la base, a no ser que quieras ir a la corte. ¡Sal de mi vista!}
+{234}{}{Un desertor, ¿eh? Jamás vuelvas a poner un pie en la base, a no ser que quieras ir a la corte. ¡Sal de mi vista!}
+{1234}{}{Un desertor, ¿eh? Jamás vuelvas a poner un pie en la base, a no ser que quieras ir a la corte. ¡Sal de mi vista!}
 {235}{}{Sí, señor...}
 {236}{}{No me importa.}
 
@@ -54,4 +55,5 @@
 {251}{}{He descubierto la ubicación de la base.}
 {252}{}{Bien hecho, recluta. Por eso estábamos aquí en primer lugar.}
 {253}{}{He recuperado la reliquia, aquí tiene, señor Dobbs.}
-{254}{}{¡Bien hecho, soldado!}
+{254}{}{¡Bien hecho, hermano!}
+{1254}{}{¡Bien hecho, hermana!}

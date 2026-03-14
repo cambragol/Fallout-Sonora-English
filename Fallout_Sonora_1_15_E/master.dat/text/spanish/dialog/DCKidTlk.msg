@@ -5,6 +5,8 @@
 {103}{}{Tengo zapatos.}
 {104}{}{¡Vaya, muchas gracias!}
 {105}{}{Un cambio de zapatos hace feliz a un niño.}
+{106}{}{Has recibido: (}
+{107}{}{).}
 
 {200}{}{(En la vereda, ves a un niño con una apariencia salvaje y desaliñada. Su ropa está raída y manchada, está observando tu reacción cautelosamente, pues lanza un objeto de metal entre sus manos. Tiene una apariencia sospechosamente similar a una granada.)}
 {201}{}{Oye, niño. Esa cosa es peligrosa, ¿sabías eso?}

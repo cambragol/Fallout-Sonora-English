@@ -4,6 +4,7 @@
 {110}{}{En el nombre de el Maestro...}
 {111}{}{En el nombre de Su Espíritu Santo...}
 {112}{}{Acepta el alma pecaminosa de tu siervo...}
+{1112}{}{Acepta el alma pecaminosa de tu sierva...}
 {113}{}{Siervo de Dios, arrodíllate y arrepiéntete de tus pecados ante el Maestro.}
 {114}{}{Bebe de la sagrada copa del Virus Santo.}
 {115}{}{Que el Espíritu Santo esté contigo.}
@@ -19,6 +20,7 @@
 {206}{}{Lo que tú digas.}
 {207}{}{Muy bien. Ver a una persona normal en este lugar no era lo que esperaba. Cuéntame qué fue lo que te trajo aquí.}
 {208}{}{¿Quieres que sea cortés? Me están apuntando con una ametralladora, para ser un sacerdote no eres muy agradable.}
+{1208}{}{¿Quieres que sea cortés? Me están apuntando con una ametralladora, para ser un sacerdote no eres muy agradable.}
 {209}{}{Si pudieras ponerte en nuestros zapatos, no pensarías eso. Dime, ¿qué fue lo que te trajo a estas ruinas? Y no me mientas - si lo haces, lo sabré.}
 {210}{}{Pensé que aquí quedarían tesoros de la preguerra, quería buscar algo valioso entre estas ruinas.}
 {211}{}{Tu codicia te llevó directo al infierno. Como era de esperarse.}
@@ -42,6 +44,7 @@
 {229}{}{¿Compartimos nuestro nombre? Que raro giro del destino... Sin embargo, no importa. }
 {230}{}{Como sea. Creo que ya me voy.}
 {231}{}{No tienes ninguna forma de salir de este lugar. Garrett, explícaselo a nuestro huésped...}
+{1231}{}{No tienes ninguna forma de salir de este lugar. Garrett, explícaselo a nuestro huésped...}
 {232}{}{Voy a salir de aquí. No intentes detenerme.}
 {233}{}{¡Espera! ¿Y si te ayudo? ¿Me dejarás ir?}
 {234}{}{¿Quieres hacer un pacto con el diablo? De acuerdo.}
@@ -58,6 +61,7 @@
 {244}{}{¡Oh! ¡Amigos! ¡Migos!}
 {245}{}{Tu estar mintiendo, ser malo. Yo no tener amigos.}
 {246}{}{Está bien, lo entiendo. Te sientes sólo, igual que todos nosotros. Pero ahora somos tus amigos. Estarás bien a nuestro lado, te doy mi palabra.}
+{1246}{}{Está bien, lo entiendo. Te sientes sóla, igual que todos nosotros. Pero ahora somos tus amigos. Estarás bien a nuestro lado, te doy mi palabra.}
 {247}{}{¡No! ¡No creer! ¡Mentiras!}
 {248}{}{Este ser nos traerá demasiados problemas. Acaba con su sufrimiento, Garrett...}
 {249}{}{¡Sí!}
@@ -142,6 +146,7 @@
 {332}{}{Las vidas de mi gente dependen de este medicamento. Demuestra que realmente es seguro.}
 {333}{}{Hicimos todo lo que querías, si no cumples con tu palabra, puedes irte al carajo.}
 {334}{}{Eso es muy maleducado de tu parte. Garrett, muéstrale a nuestro huésped que ya no es bienvenido...}
+{1334}{}{Eso es muy maleducado de tu parte. Garrett, muéstrale a nuestra huésped que ya no es bienvenida...}
 {335}{}{¡Muere!}
 {336}{}{¡No, espera! Puedes darme el mutágeno para probar su efectividad. ¿Te parece bien?}
 {337}{}{Espera. ¿Y qué tal si coloco los rociadores con el mutágeno en las ruinas? ¿Eso te dejaría satisfecho?}

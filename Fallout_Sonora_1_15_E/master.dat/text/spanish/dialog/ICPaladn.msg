@@ -3,6 +3,7 @@
 {102}{}{Hora de reposicionarse.}
 {103}{}{Gracias, Doc.}
 {104}{}{¡Nos has traicionado! ¡Vas a morir como un perro!}
+{1104}{}{¡Nos has traicionado! ¡Vas a morir como una sucia puta!}
 {105}{}{¡Pagarán por las muertes de mis amigos, malditos bastardos!}
 {106}{}{¡M-malditos mutantes! Da un paso más y te disparo. ¿Estás con ellos?}
 
@@ -18,6 +19,7 @@
 {202}{}{Demonios. ¿Así que la Hermandad no fue lo que te trajo aquí? Que malas noticias. ¿Qué estás haciendo en este lugar? Está maldito.}
 {203}{}{Sólo estoy registrando este lugar, las ruinas abandonadas suelen tener cosas valiosas.}
 {204}{}{No puede ser, un chatarrero... (suspiro) Soy muy desafortunado, se me acabó la suerte.}
+{1204}{}{No puede ser, una chatarrera... (suspiro) Soy muy desafortunado, se me acabó la suerte.}
 {205}{}{¿Qué está pasando?}
 {206}{}{Estoy buscando a alguien, pero eso es personal.}
 {207}{}{Bien... Pretendamos que eso es verdad. ¿Me ayudarías a encontrar a alguien?}
@@ -262,7 +264,7 @@
 {486}{}{Bueno, ustedes sí tienen muchos enemigos...}
 {487}{}{Bien, perdona por haber gritado. Luego de lo que ocurrió en el Infierno, que la Hermandad haya recibido otro golpe más es demasiado.}
 {488}{}{Lo entiendo, pero al menos ahora estás liberado de todas las órdenes y regulaciones, ¿no?}
-{489}{}{No creo que pueda tener una vida rural en una tierra así de salvaje. Deberíamos seguir moviéndonos. Mira, seguiré estando a tu lado.}
+{489}{}{No creo que pueda tener una vida rural en una tierra así de salvaje. Tenemos que seguir moviéndonos. Mira, seguiré estando a tu lado.}
 {490}{}{Vámonos.}
 {491}{}{Parece que a alguien no le gustaba tu Hermandad para nada.}
 {492}{}{¡Exacto! Esto sólo pudo haber sido sabotaje.}
@@ -274,4 +276,5 @@
 {497}{}{Creo que presioné el botón equivocado. No sabía que esto pasaría.}
 {1497}{}{Creo que presioné el botón equivocado. No sabía que esto pasaría.}
 {498}{}{¡Estás demente, paleto de mierda! ¡Deberías haber nacido tieso!}
-{499}{}{Vaya...}
+{1498}{}{¡Estás demente, paleta de mierda! ¡Deberías haber nacido tieso!}
+{499}{}{Sí, sí...}

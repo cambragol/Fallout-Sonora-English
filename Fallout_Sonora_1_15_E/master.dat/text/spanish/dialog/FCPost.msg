@@ -65,6 +65,15 @@
 {254}{}{¡Sé escribir, eso es OBVIO! Si no fuera así, no podría trabajar en esto.}
 {255}{}{Como tú digas.}
 
+{260}{}{¿Puedo dejar mi equipamiento contigo?}
+{261}{}{Así es. Contamos con una taquilla de almacenamiento. Tus pertenencias serán protegidas bajo una cerradura de combinación segura y estará bajo supervisión. Cada taquilla tiene un precio de }
+{262}{}{ chapas.}
+{263}{}{Eso es demasiado caro.}
+{264}{}{Está bien, me gustaría rentar una taquilla.}
+{265}{}{Muy bien. Podrás accederla en todo momento.}
+{266}{}{Gracias.}
+{267}{}{Necesito otra taquilla.}
+
 # Quest
 {270}{}{Estoy buscando trabajo. ¿Están contratando?}
 {271}{}{Por desgracia, no. Para serte honesta, hay un montón de personas que desean ser guardias en nuestras caravanas.}

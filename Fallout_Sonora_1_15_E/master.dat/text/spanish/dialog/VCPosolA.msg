@@ -5,6 +5,7 @@
 
 # First dialogue
 {200}{}{Hola, guerrero. Entonces, ¿eres a quien le debemos la alianza? Sí que eres lo mejor de lo mejor. Ahora puedes relajarte y seguir con tu vida de siempre. Nosotros, los rangers, mantendremos la paz adentro y afuera de la Villa.}
+{1200}{}{Hola, guerrera. Entonces, ¿eres a quien le debemos la alianza? Sí que eres lo mejor de lo mejor. Ahora puedes relajarte y seguir con tu vida de siempre. Nosotros, los rangers, mantendremos la paz adentro y afuera de la Villa.}
 {201}{}{Pensé que nos enviarían más rangers.}
 {1201}{}{Pensé que nos enviarían más rangers.}
 {202}{}{No te preocupes, no estoy sólo. Los demás andan patrullando y explorando el área. Si es necesario, los llamaré por la radio.}

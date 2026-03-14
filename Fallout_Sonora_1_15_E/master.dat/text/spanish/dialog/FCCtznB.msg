@@ -1,5 +1,5 @@
 {100}{}{Ves a un colono.}
-{101}{}{Estás viendo a un ciudadano de Flagstaff.}
+{101}{}{Estás viendo a un colono de Flagstaff.}
 {102}{}{Ya es hora del toque de queda, ¿por qué estás aquí?}
 {103}{}{No voy a hablar con un forastero, tengo mejores cosas que hacer.}
 {104}{}{Ni me hables. Desde que mi hijo murió, ya no soy el mismo.}

@@ -1,9 +1,9 @@
 {100}{}{Ves a Paul.}
 {101}{}{Ves a un hombre muy desnutrido.}
 
-{198}{}{¡Vaya! ¿Un paladín, aquí adentro? Espera... ¿en dónde conseguiste esa armadura? Bueno, como sea que hayas llegado aquí, ten cuidado, los mutantes te matarán si te ven.}
-{199}{}{¡Vaya! ¿Un segador...? No, debes ser un necrófago... ¿cómo entraste aquí? Este sitio no es para los de tu tipo. Los mutantes te matarán si te ven.}
-{200}{}{¿¡Qué!? ¿Cómo entraste aquí? No deberías quedarte, los mutantes te matarán si te ven.}
+{198}{}{¡Oye! ¿Un paladín, aquí adentro? Espera... ¿en dónde conseguiste esa armadura? Bueno, como sea que hayas llegado aquí, ten cuidado, los mutantes te matarán si te ven.}
+{199}{}{¡Oye! ¿Un segador...? No, debes ser un necrófago... ¿cómo entraste aquí? Este sitio no es para los de tu tipo. Los mutantes te matarán si te ven.}
+{200}{}{¡Oye! Cómo... ¿Cómo entraste aquí? Si los mutantes te ven, acabarán contigo.}
 {201}{}{¿Te dejaron con vida, no? ¿Quién eres?}
 {202}{}{Lo sé, así que cierra la boca y no hagas ruido.}
 
@@ -12,51 +12,72 @@
 {212}{}{¿Por qué sigues aquí?}
 {213}{}{¿Qué tal?}
 {214}{}{Todavía tienes tiempo de salir de aquí.}
+{215}{}{¿Tienes algún plan en mente, hermano?}
+{1215}{}{¿Tienes algún plan en mente, hermana?}
+{216}{}{}
+{217}{}{}
+{218}{}{Adiós.}
 {219}{}{Nos vemos.}
 
-{220}{}{¿Quién eres?}
-{221}{}{Me llamo Paul. Me encargo de que la plataforma siga funcionando.}
-{222}{}{Eso es impresionante. ¿Cómo sabes qué tocar para hacer funcionar esta tecnología?}
-{223}{}{No te creo. Nadie sabe cómo operar tecnología tan vieja.}
-{224}{}{Pues, soy un ingeniero. Me entrenaron para esto durante toda mi vida.}
-{225}{}{¿En serio? ¿En dónde te entrenaron?}
-{226}{}{¿Has oído de la Hermandad del Acero? Es una orden antigua y soy un Caballero, por lo que saber de tecnología es lo mío. A pesar de que me especializo en armas de energía, tuve que aprender cómo operar esta cosa a la fuerza .}
-{227}{}{Hace poco que me uní a la Hermandad. Encantado de conocerte, hermano.}
-{1227}{}{Hace poco que me uní a la Hermandad. Encantada de conocerte, hermano.}
-{228}{}{Te creeré, no es que pueda llevarte la contraria. Pero en nuestra historia, hemos admitido a una sola persona en la Hermandad, y sus hazañas eran... legendarias, para ser honestos.}
+{220}{}{Mi nombre es Paul. Los mutantes me obligan a cuidar la plataforma, pues no son capaces de comprender su tecnología.}
+{221}{}{¿Y tú sí? ¿Qué te hace diferente?}
+{222}{}{Deja de presumir. Ya no queda nadie que entienda tecnología tan vieja.}
+{223}{}{¿Eh?}
 
-{230}{}{¿Cómo acabaste aquí?}
-{231}{}{Fui capturado por supermutantes cerca de Necrópolis. Primero me quisieron matar, pero al descubrir que era un ingeniero me dejaron vivir para que los ayudara con este lugar. Desde ese día he sido un prisionero.}
-{232}{}{¿Necrópolis? ¿En dónde queda eso?}
-{233}{}{Está en California, no me sorprende que no lo sepas; estamos lejos de allá.}
-{234}{}{Háblame acerca de la Hermandad del Acero.}
-{235}{}{Durante muchos años, nos mantuvimos en nuestro búnker, pero cuando California estaba en riesgo de una invasión mutante, tuvimos que actuar. Derrotamos a su ejército gracias a la valentía de nuestros hermanos y hermanas, por lo que estamos cazando a los supervivientes.}
-{236}{}{Pero si estaban dentro del búnker, ¿cómo descubrieron al ejército enemigo?}
-{237}{}{Para serte honesto, un desconocido nos ayudó. Después de eso, hicimos de él un iniciado. Fue el que saboteó su base principal en Mariposa. Pero oficialmente, la Hermandad tiene el crédito de acabar con el ejército en sí. Es justo, considerando las batallas que se libraron.}
-{238}{}{Odio a la Hermandad, ustedes no son más que unos invasores codiciosos.}
-{239}{}{No eres la primera persona que piensa eso - y no serás la última. Pero si no hubiera sido por nosotros, el yermo no tendría ninguna oportunidad para amenazas como los supermutantes o los garras mortales. La Hermandad es necesaria, te guste o no.}
+{224}{}{¿Te suena la "Hermandad del Acero"? Se trata de una orden antigua, y yo soy uno de sus Caballeros. La misión principal de mi rango es entender la tecnología antigua.}
+{225}{}{¿Has intentando escapar?}
+{226}{}{Ah, ¿de verdad?}
 
-{240}{}{¿Sabes hacia dónde se dirigen los supermutantes?}
-{241}{}{Ni siquiera ellos mismos lo saben. El capitán les prometió encontrar una tierra próspera en donde construir un estado para los mutantes.}
-{242}{}{¿Has intentado escapar?}
-{243}{}{Ya perdí esa oportunidad, hay desierto por todos lados, me atraparían tarde o temprano. Incluso si fuera a salir corriendo, no sería capaz de llegar a Lost Hills. Ni siquiera sé en dónde estamos.}
-{244}{}{Nos encontramos en el Desierto de Sonora.}
-{245}{}{¿Sonora? Quizás no todo está perdido. Sé que tenemos un puesto avanzado en Rocky Point... Creo que ustedes le llaman Puerto Peñasco. Ellos me ayudarán.}
-{246}{}{¿Entonces qué estamos esperando?}
-{247}{}{Primero, tenemos que desactivar esta plataforma. Hay un reactor en el nivel inferior, es como el 'corazón' de la base. Si lo desactivas, la plataforma dejará de funcionar por completo.}
-{248}{}{Me ocuparé de ello.}
-{249}{}{El reactor fue desactivado.}
+{227}{}{Ya perdí mi oportunidad. A nuestros alrededores, solo hay desierto, así que los mutantes no tendrían problema en volver a atraparme. E incluso si lo consiguiera, estamos demasiado lejos de cualquier base, o asentamiento... De hecho, ¿sabes en dónde estamos?}
+{228}{}{El Desierto Sonorense.}
+{229}{}{Sonora...}
 
-{250}{}{El reactor está muerto, es hora de salir de aquí.}
-{251}{}{Como ingeniero, me duele ver algo tan complejo ser destruido. Pero tenía que hacerse. Los mutantes no podrán repararlo, y aquí afuera, no significan un peligro para nadie.}
-{252}{}{Vámonos.}
-{253}{}{No hagas ruido...}
-{254}{}{Es hora de escapar.}
-{255}{}{Ya eres libre.}
-{256}{}{No sé cómo llegaré con mis hermanos en Rocky Point, tengo que recordar todo lo que me enseñaron en Lost Hills. Gracias, si sobrevivo, le diré a la Hermandad lo que hiciste por mí.}
-{257}{}{Ten un buen viaje.}
-{258}{}{Lo siento, pero no puedo dejarte ir. La Hermandad es malvada, y tengo que matarte... ¡Sufrirás el mismo destino que tus amigos en Puerto Peñasco!}
-{1258}{}{Lo siento, pero no puedo dejarte ir. La Hermandad es malvada, y tengo que matarte... ¡Sufrirás el mismo destino que tus amigos en Puerto Peñasco!}
-{259}{}{Los mutantes están muertos. Puedes irte.}
-{260}{}{Eso es impresionante, esta cosa no llegará lejos sin gente adentro. Sí que sabes lo que haces, nos habría venido bien gente como tú durante la Gran Guerra Mutante.}
-{261}{}{Vámonos de aquí.}
+{230}{}{Sé sobre la Hermandad. Tienen una base, no está muy lejos de aquí.}
+{231}{}{¿¡Cómo!? Espera, ¿en dónde estamos, exactamente?}
+{232}{}{En ese caso, ¡aún hay esperanzas! Si no estoy mal, teníamos un puesto de abastecimiento en Puerto Peñasco. Ellos me aceptarían... Si es que llego con vida.}
+{233}{}{¿Y qué estás esperando?}
+{234}{}{¿Y?}
+{235}{}{Ya te lo dije, ¡los mutantes me tienen de rehén! Necesitamos sabotear la plataforma. Hay un reactor en el nivel inferior. Si lo deshabilitamos, la plataforma ya no se irá a ningún lado.}
+{236}{}{Bien, me encargaré de ello.}
+{237}{}{Entendido.}
+{238}{}{Espera un momento, Paul. Necesito saber más de la situación.}
+{239}{}{Sé sobre la Hermandad del Acero, solían tener una base, no estaba muy lejos de aquí.}
+
+{240}{}{¿La Hermandad del Acero? Ustedes son demonios. ¡Te mataré, igual que a todos tus camaradas de Puerto Peñasco!}
+{1240}{}{¿La Hermandad del Acero? Ustedes son demonios. ¡Te mataré, igual que a todos tus camaradas de Puerto Peñasco!}
+{241}{}{¡Heg-man-mad mala! ¡Tú morir, caballero!}
+{242}{}{La Hermandad del Acero es mi enemiga, ¡tengo que matarte!}
+{243}{}{Me uní a la Hermandad del Acero, no hace mucho. Es un gusto conocerte, hermano.}
+{1243}{}{Me uní a la Hermandad del Acero, no hace mucho. Es un gusto conocerte, hermano.}
+{244}{}{Bien, te creeré. No es que tenga opción. Aún así, solo ha habido un forastero que fue admitido en la Hermandad, y sus hazañas fueron... Legendarias, a decir verdad. De todos modos... ¿En dónde estamos, exactamente?}
+
+{250}{}{¿Cómo fue que terminaste aquí?}
+{251}{}{Fui capturado por los supermutantes, cerca de Necrópolis. Al principio, querían matarme, pero luego descubrieron que era un ingeniero y me dejaron con vida para mantener a esta plataforma en marcha. Desde ese entonces que he sido un prisionero.}
+{252}{}{¿Necrópolis? ¿En dónde está eso?}
+{253}{}{¿Kaka-polis?}
+{254}{}{Se encuentra en California. No me sorprende que no sepas de ella; estamos muy lejos de allá.}
+{255}{}{Ya veo.}
+{256}{}{De acuerdo.}
+
+{260}{}{¿Sabes hacia dónde se dirigen los supermutantes?}
+{261}{}{Ni siquiera ellos lo saben. El capitán les prometió que capturaría una región rica y fundaría un estado supermutante en ella.}
+
+{300}{}{El reactor ya no funciona, es hora de salir de aquí.}
+{301}{}{Como ingeniero, me duele ver un ejemplar de maquinaria destrozado. Pero, era nuestra única opción. Los mutantes no podrán reparar la plataforma y al estar varados en el desierto, no presentarán un peligro a nadie.}
+{302}{}{Vamos.}
+{303}{}{¡Bum-bum! ¡Mí hacerlo todo!}
+{304}{}{El reactor está apagado, hora de salir de aquí.}
+
+{310}{}{Los supermutantes están muertos. Eres libre.}
+{311}{}{¡Super-muertos! ¡Mí aplastar cabezas!}
+{312}{}{¡Impresionante! Ojalá hubiésemos tenido a soldados como tú durante la Guerra Supermutante...}
+{313}{}{Vámonos.}
+{314}{}{No hace falta. Los supermutantes están muertos, así que podemos irnos.}
+
+{320}{}{Lo más importante, es no atraer la atención. Necesitamos alejarnos de la plataforma antes de que nos vean.}
+{321}{}{Vámonos.}
+{322}{}{Ya nos alejamos lo suficiente, eres libre.}
+{323}{}{De acuerdo.}
+{324}{}{Si consigo regresar, les contaré a todos sobre ti. Ahora tendré que poner en práctica todo lo que aprendí en la base. Si tu sendero te lleva hacia allá, puede que volvamos a vernos en Puerto Peñasco.}
+{325}{}{Buena suerte con tu viaje.}
+{326}{}{¡Hasta luego!}

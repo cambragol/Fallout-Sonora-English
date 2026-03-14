@@ -741,7 +741,7 @@
 {841}{}{Marcos}
 {842}{}{Mercenario de Faber}
 {843}{}{Paul}
-{844}{}{Héctor}
+{844}{}{Cesareo}
 {845}{}{Residente de San Felipe}
 {846}{}{Jan}
 {847}{}{Gloria}
@@ -986,14 +986,15 @@
 {1086}{}{Alarma}
 {1087}{}{Pasaje}
 {1088}{}{Supermutante}
-{1089}{}{}
-{1090}{}{}
-{1091}{}{}
-{1092}{}{}
-{1093}{}{}
-{1094}{}{}
-{1095}{}{}
-{1096}{}{}
-{1097}{}{}
-{1098}{}{}
-{1099}{}{}
+{1089}{}{Mensaje}
+{1090}{}{Mensaje}
+{1091}{}{Héctor}
+{1092}{}{Estandarte de la Hermandad del Acero}
+{1093}{}{Goleta}
+{1094}{}{Bomba de agua}
+{1095}{}{Salvaje de Baja California}
+{1096}{}{Explorador de San Felipe}
+{1097}{}{Tótem}
+{1098}{}{Supermutante}
+{1099}{}{Desperado}
+{1100}{}{Escalera}
