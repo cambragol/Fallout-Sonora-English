@@ -76,7 +76,6 @@ end
 
 procedure combat_p_proc begin
    effectAttak(0,0,2,2,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
-   effectIntimidationPerk
 end
 
 procedure damage_p_proc begin

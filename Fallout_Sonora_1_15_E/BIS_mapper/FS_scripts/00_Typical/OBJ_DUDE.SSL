@@ -597,24 +597,9 @@ procedure is_dropping_p_proc begin
        display_mstr(142);
    end
    if ((obj_pid(source_obj) == PID_M_MEAT_JERKY) or (obj_pid(source_obj) == PID_M_IGUANA)) then begin
-       if (cur_map_index == MAP_SANTA_ANA_PLAZA) then begin
-          if (global_var(GVAR_SANTAANA_STATUS_EL_DIABLO) == 0) then begin
-          display_mstr(144);
-          set_map_var(MVAR_SANTA_MEAT_TILE,dude_tile);
-          end
-       end
-       if (cur_map_index == MAP_CASA_NUEVA_CEMENT) then begin
-          if (global_var(GVAR_NUEVA_STATUS_EL_GIGANTO) == 0) then begin
-          display_mstr(144);
-          set_map_var(MVAR_NUEVA_MEAT_TILE,dude_tile);
-          end
-       end
-       if (cur_map_index == MAP_reserv_138) then begin // MAP_DAYGLOW_CITYHEART
-          if (global_var(GVAR_DAYGLOW_STATUS_EL_TEMOR_ROJO) == 0) then begin
-          display_mstr(144);
-          set_map_var(1,dude_tile); // MVAR_DIEGOHEART_MEAT_HEX
-          end
-       end
+       display_mstr(144);
+       set_global_var(GVAR_MEAT_TO_ANIMALES_HEX, dude_tile);
+       set_global_var(GVAR_MEAT_TO_ANIMALES_LVL, dude_elevation);
    end
 end
 
@@ -935,7 +920,7 @@ end
 
 //-----------------------------------------------------------------------------
 //------------- Managing Sonora Express Mailboxes
-//------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
    /*
 procedure express_box_enter begin

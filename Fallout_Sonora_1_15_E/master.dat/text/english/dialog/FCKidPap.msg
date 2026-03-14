@@ -31,7 +31,9 @@
 {223}{}{I doubt he'll give up his position voluntarily. How could I replace him?}
 {224}{}{Leave that to me. I'll handle everything.}
 {225}{}{What's wrong with the warden? Are you trying to scam me?}
-{226}{}{I'm earning a lot of caps now, things are looking up. And it's all thanks to you.}
+{226}{}{Things are looking up! I'm making enough caps to support my family now. And it's all thanks to you.}
+{227}{}{I'm working on it. Just give me a little time.}
+{228}{}{You're welcome. But I have to go.}
 
 {230}{}{Faber has agreed to give you the position of overseer.}
 {231}{}{I can't even imagine how you managed to convince him. Thank you.}

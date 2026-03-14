@@ -78,6 +78,8 @@ procedure map_enter_p_proc begin
       set_global_var(GVAR_RADIOACTIV_GLOBAL,0);
       set_global_var(GVAR_RADIOACTIV_STOP,0);
       set_global_var(GVAR_RANDOM_CAVE_ENEMIES,random(0,6)); // см SCRIPT_ZSRandom
+      set_global_var(GVAR_MEAT_TO_ANIMALES_HEX, 0);
+      set_global_var(GVAR_MEAT_TO_ANIMALES_LVL, 0);
 
       if (map_first_run) then begin
           //--- Встречная реплика при первом входе на карту

@@ -153,14 +153,18 @@ procedure NodeStartDialog begin
 end
 
 procedure NodeDialog begin
+   variable replyNum;
    if (getQuest(GVAR_FLAGSTAFF_EVIL_WARDEN) >= qEnd) then begin
    Reply(226)
+   replyNum := 228;
    end
    else if (global_var(GVAR_STATUS_FLAGSTAFF_EXWARDEN) > 0) then begin
    Reply(225)
+   replyNum := 227;
    end
    else begin
    Reply(200)
+   replyNum := 201;
    end
 
    if ((global_var(GVAR_STATUS_FLAGSTAFF_EXWARDEN) == 0) and (map_var(MVAR_FLAG_Vor) >= 2)) then begin
@@ -176,7 +180,7 @@ procedure NodeDialog begin
       end
    end
 
-   NAnswer(201,1,Node999)
+   NAnswer(replyNum,1,Node999)
 end
 
 procedure NodeDialog100 begin

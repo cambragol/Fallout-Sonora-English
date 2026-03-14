@@ -167,7 +167,6 @@ procedure combat_p_proc begin
    //отравляют: растения, скорпы (если жало не травмировано), летун (очень сильно), спороносы
    //травмы: собаги (по ногам), брамы (руки и ноги), летун (глаза), коготь (везде), гули (глаза), люди (везде)
    effectAttak(0,0,1,1,1) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
-   effectIntimidationPerk
    effectRegeratHP
 end
 

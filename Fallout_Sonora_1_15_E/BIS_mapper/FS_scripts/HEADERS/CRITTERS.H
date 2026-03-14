@@ -337,6 +337,7 @@
                                             end                                 \
                                         end                                     \
                                     end                                         \
+                                    effectIntimidationPerk                      \
 
 #define effectIntimidationPerk      if (fixed_param == COMBAT_SUBTYPE_TURN) then begin \
                                         if DudePerkHas(PERK_intimidation) then begin   \
@@ -344,11 +345,9 @@
                                            end                                         \
                                            else if (type_kill(KILL_TYPE_robot) or type_kill(KILL_TYPE_big_boss)) then begin \
                                            end                                         \
-                                           else if (self_cur_hits >= (90+dude_charisma)) then begin \
-                                           end                                         \
                                            else if self_enemy_dude then begin          \
-                                              if (tile_distance_objs(self_obj,dude_obj) <= 10) then begin \
-                                                 if (random (0,(11-dude_charisma)) == 0) then begin \
+                                              if (tile_distance_objs(self_obj,dude_obj) < 20) then begin \
+                                                 if (random (0,(11-dude_charisma)) == 1) then begin \
                                                  script_overrides;                     \
                                                  display_msg(self_name+g_mstr(320));   \
                                                  g_floater(self_obj,327,COLOR_MSG_RED); \

@@ -94,7 +94,6 @@ procedure combat_p_proc begin
    paramAttak := 5;
    end
    effectAttak(0,paramAttak,1,1,0) //poisoning min, radiation min, leg injury %, arm injury %, eye injury %
-   effectIntimidationPerk
 end
 
 procedure damage_p_proc begin

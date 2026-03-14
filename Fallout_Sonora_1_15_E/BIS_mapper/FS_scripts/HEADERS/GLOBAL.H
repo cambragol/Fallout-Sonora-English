@@ -288,6 +288,8 @@
                                                     - bit_32 Пуэрто - ГГ провел сеанс психотерапии с Беллом
                                                     */
 #define GVAR_TEQUILA_INFO                     (75) // Рецепт текилы
+#define GVAR_MEAT_TO_ANIMALES_LVL             (17) // уровень карты где задавался GVAR_MEAT_TO_ANIMALES_HEX в последний раз
+#define GVAR_MEAT_TO_ANIMALES_HEX             (20) // точка сбора приманки для когтей смерти
 
 //--- Карта мира:
 #define GVAR_MYSTERIOUS_STRANGER             (352) // Таинственный незнакомец: 0 - жив, 1 - мертв

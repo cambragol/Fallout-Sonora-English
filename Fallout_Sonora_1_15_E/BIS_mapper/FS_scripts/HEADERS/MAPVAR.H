@@ -506,8 +506,6 @@
 
 //------------------------------- Quarry
 
-#define MVAR_NUEVA_MEAT_TILE             (1) // tile for moving El Gigante to the meat drop-off point
-
 //------------------------------- Greenhouses (exterior)
 
 #define MVAR_NUEVA_LAB_DOCS_DISC         (1) // !=0 - PC has obtained documentation from the lab computer
@@ -528,7 +526,6 @@
 
 #define MVAR_SANTA_DIALOG                (1) // number of dialogues conducted for quest GVAR_SANTAANA_QST_DIALOG
 #define MVAR_SANTA_BOSS_ATTAK            (2) // initiation of the fight with the elder in the church
-#define MVAR_SANTA_MEAT_TILE             (3) // tile for moving El Diablo to the meat drop-off point
 
 #define dialog_qst_SANTA                 if (getQuest(GVAR_SANTAANA_QST_DIALOG) == qStart) then begin \
                                             inc_map_var(MVAR_SANTA_DIALOG); \

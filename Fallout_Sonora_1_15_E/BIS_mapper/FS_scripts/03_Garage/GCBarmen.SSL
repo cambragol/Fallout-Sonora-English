@@ -544,7 +544,11 @@ end
 
 procedure NodeAnswer300 begin
    Reply(361)
+   if (town_known(AREA_FLAGSTAFF) >= MARK_STATE_KNOWN) then begin
    NAnswer(362,3,NodeAnswer301)
+   end else begin
+   NAnswer(375,3,NodeAnswer301)
+   end
    NAnswer(363,1,NodeAnswer100)
 end
 
