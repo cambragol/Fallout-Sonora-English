@@ -100,7 +100,7 @@
 {200}{}{Estación de Radio}
 {201}{}{Prisionero}
 {202}{}{Trabajador}
-{203}{}{Mercenario}
+{203}{}{Cliente del Bar}
 {204}{}{Colono}
 {205}{}{Sirviente}
 {206}{}{Prisionero Fugitivo}

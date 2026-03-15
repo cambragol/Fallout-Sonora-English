@@ -31,7 +31,9 @@
 {223}{}{Dudo que renuncie por voluntad propia. ¿Cómo voy a reemplazarlo?}
 {224}{}{Déjamelo a mí. Yo me encargo de eso.}
 {225}{}{¿De verdad tendrá algo de malo el capataz? Espero que no estés intentando estafarme.}
-{226}{}{Estoy ganando muchas chapas, y las cosas están mejorando. Es todo gracias a ti.}
+{226}{}{¡Las cosas han ido mejorando! Ahora, estoy ganando las chapas suficientes para mantener a mi familia. Y es todo gracias a ti.}
+{227}{}{Estoy en ello, solo necesito un poco más de tiempo.}
+{228}{}{De nada. Ya tengo que irme.}
 
 {230}{}{Faber está de acuerdo. Ahora tienes el puesto de capataz.}
 {231}{}{No quiero ni imaginar como lo convenciste. Gracias.}

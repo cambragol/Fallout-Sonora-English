@@ -168,6 +168,7 @@
 {372}{}{Jamás me habían estafado de esta manera. Adiós, tacaño.}
 {373}{}{Gracias, eso me basta. Podría vender la escopeta en otro lugar. Fue un placer hacer negocios contigo.}
 {374}{}{Trato hecho. Me quedaré un rato más.}
+{375}{}{Si llego a estar allá, conversaré con alguna persona acerca del suministro de alcohol.}
 
 #Trade route quest
 {400}{}{¿Tienes algo para comer?}

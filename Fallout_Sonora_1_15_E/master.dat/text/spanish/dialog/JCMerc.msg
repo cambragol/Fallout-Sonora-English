@@ -12,7 +12,7 @@
 {206}{}{Ten cuidado con sus garras y especialmente sus cuchillos, pues los envenenan. También necesitaremos luz ahí dentro. Deberían haber antorchas en los túneles, valdrá la pena encontrarlas y encenderlas.}
 {207}{}{No es un buen momento para hablar. Vámonos.}
 {208}{}{No esperaba ver a un ranger aquí dentro. Parece que no son tan fuertes como parecen.}
-{209}{}{¿Eran los últimos?}
-{210}{}{Eso parece. Limpiamos la basura de estos túneles. Solo hay que registrar los cadáveres e irnos a casa.}
+{209}{}{}
+{210}{}{Parece que esos fueron los últimos. Solo falta registrar los cadáveres e irnos a casa.}
 {211}{}{Bien.}
 {212}{}{[Más]}
