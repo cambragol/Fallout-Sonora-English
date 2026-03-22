@@ -9,6 +9,17 @@
 
 [Changes marked with an asterisk may not apply to saves from previous versions.]
 
+Version 1.16.2e (February 24, 2026) ------------------------------------------------
+
+- ​​Garage City: Removed an unnecessary line from the gate guard when asking about weapons.
+- Updated the code for the "Intimidation" perk.
+- Rewrote the Deathclaw lure mechanic from mvar (map-specific) to gvar (universal).
+
+Version 1.16.1e (February 14, 2026) ------------------------------------------------
+
+Many small fixes to script merge between Nevada Band’s 1.16 release and the 1.15+E English release - thanks NovaRain
+small fixes to accompanying message files - thanks NovaRain
+
 Version 1.16e (February 8, 2026) ------------------------------------------------
 
 Important! For version 1.16, you must update both the main game and the DLC if you choose to install it.
