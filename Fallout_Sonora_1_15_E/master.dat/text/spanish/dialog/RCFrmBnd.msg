@@ -24,7 +24,8 @@
 {214}{}{¡NO! Esos bastardos no me ayudarán. ¡Ellos tienen la culpa de que esté así! Igual que tú, sólo estaba viajando, buscaba un lugar en el que asentarme. Los Rangers asumieron que era un saqueador y me dispararon sin hacer preguntas, tengo suerte de estar vivo. Saqué la bala con un cuchillo, ¡pero la herida me está matando!}
 {215}{}{La tienes difícil...}
 {216}{}{¡Has algo! ¡Sin ti, estoy acabado!}
-{217}{}{Entonces quítate la chaqueta y prepárate para ser examinado. Te ayudaré, sé de medicina.}
+{217}{}{Entonces quítate la chaqueta y prepárate para ser examinado. Soy doctor.}
+{1217}{}{Entonces quítate la chaqueta y prepárate para ser examinado. Soy doctora.}
 {218}{}{Esa herida es muy seria... no sé de medicina.}
 {219}{}{Entonces anda con los Rangers y obtén medicamentos de allá. ¡Necesito un estimulante, o moriré!}
 {220}{}{Resiste, ya vengo.}

@@ -72,3 +72,38 @@
 {187}{}{Un vehículo lo cambiaría todo...}
 {188}{}{Un día, haremos del yermo un lugar mejor.}
 {189}{}{Ten cuidado con los mercaderes, son estafadores.}
+
+{1150}{}{Los rangers luchan por su causa hasta el final.}
+{1151}{}{Siempre apuntamos con la justicia en mente, y nuestras balas disipan el mal.}
+{1152}{}{Algún día, cambiaremos el yermo por completo.}
+{1153}{}{Un vehículo nos haría la vida mucho más fácil...}
+{1154}{}{Deberíamos haber acabado con esos malditos Chacales hace años.}
+{1155}{}{Fénix es una amenaza, y cada día crece más y más.}
+{1156}{}{Debes tener cuidado en el yermo.}
+{1157}{}{Estás a salvo con nosotros.}
+{1158}{}{No tengo el permiso de hablar al respecto.}
+{1159}{}{Tienes buenos rasgos, podrías ser una ranger.}
+{1160}{}{Las criaturas más peligrosas del yermo son nocturnas, así que ten cuidado.}
+{1161}{}{Te deseo buena suerte.}
+
+{1170}{}{¿Estás buscando problemas. mujer?}
+{1171}{}{Nuestros disparos nunca fallan, recuérdalo.}
+{1172}{}{Llegaste justo a tiempo - podemos usarte de práctica en el campo de tiro.}
+{1173}{}{No deberías pasearte por aquí.}
+{1174}{}{¿Qué quieres?}
+{1175}{}{Hmm, no parece que podamos confiar en ti.}
+{1176}{}{No puedo hablar contigo al respecto.}
+{1177}{}{Estás por tu cuenta.}
+{1178}{}{Juntos podremos reconstruir el yermo.}
+{1179}{}{¿Algún problema, mujer?}
+
+{1180}{}{Bienvenida, ranger.}
+{1181}{}{Lo siento, pero no puedo escoltarte a la base.}
+{1182}{}{Estás haciendo la diferencia en el yermo.}
+{1183}{}{Todos te agradecemos que luches con nosotros.}
+{1184}{}{Pásate por la base cuando puedas.}
+{1185}{}{Mantén los ojos bien abiertos, ranger.}
+{1186}{}{Espero con ansias tus informes acerca de las nuevas zonas.}
+{1187}{}{Un vehículo lo cambiaría todo...}
+{1188}{}{Un día, haremos del yermo un lugar mejor.}
+{1189}{}{Ten cuidado con los mercaderes, son estafadores.}

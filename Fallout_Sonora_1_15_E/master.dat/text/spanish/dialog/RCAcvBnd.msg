@@ -21,6 +21,7 @@
 {206}{}{Ah, claro. Deben ser esos idiotas a los que se les dijo que se mantuvieran alejados del acueducto. Y no hicieron caso. Como tú.}
 {207}{}{Fueron asesinados, no fue una bestia, sino un hombre.}
 {208}{}{No me digas. ¿Y ahora qué, genio?}
+{1208}{}{No me digas. ¿Y ahora qué, listilla?}
 {209}{}{Voy a matar a todos los responsables. Empezando contigo.}
 {210}{}{Garth tenía razón, eres peligroso. Es tu funeral, forastero.}
 {1210}{}{Garth tenía razón, eres peligrosa. Es tu funeral, forastera.}

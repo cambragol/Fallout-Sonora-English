@@ -38,6 +38,7 @@
 {226}{}{[Corre del mendigo tan rápido como puedas]}
 {227}{}{[Ignóralo y sigue caminando]}
 {228}{}{¡Oye, detente! Te estoy hablando, normalucho.}
+{1228}{}{¡Oye, detente! Te estoy hablando, normalucha.}
 {229}{}{[Ignóralo]}
 {230}{}{¿Qué quieres?}
 {231}{}{Está bien, tengo chapas. ¿Cuánto necesitas?}

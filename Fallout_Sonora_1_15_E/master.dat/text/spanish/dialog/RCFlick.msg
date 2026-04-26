@@ -47,7 +47,8 @@
 {263}{}{Hmm. Lo que tú digas.}
 {264}{}{Hmm. (analiza la situación) Carajo, es lejos y está peligroso... Eh... No puedo ayudarte.}
 {265}{}{Mi gente fue esclavizada y quiero que los rangers me ayuden a rescatarlos.}
-{266}{}{Dudo que vayan a hacer eso, pero habla con el comandante en el centro de información. ¿En dónde está tu asentamiento?}
+{266}{}{Dudo que vayan a hacer eso, amiguito. Pero, habla con el comandante en el centro de información. ¿En dónde está tu asentamiento?}
+{1266}{}{Dudo que vayan a hacer eso, señorita. Pero, habla con el comandante en el centro de información. ¿En dónde está tu asentamiento?}
 {267}{}{Está... lejos de aquí.}
 {268}{}{Hmm. Lo que tú digas.}
 {269}{}{Al note, lo llamamos 'La Villa'.}

@@ -12,6 +12,7 @@
 {206}{}{No, señor.}
 {207}{}{Sí, tengo muchas preguntas, pero dudo que las respondas.}
 {208}{}{No exactamente. Somos la Hermandad del Acero, una antigua orden militar. Por lo tanto, mantenemos una disciplina militar estricta.}
+{1208}{}{No exactamente. Somos la Hermandad del Acero, una antigua orden militar. Por lo tanto, mantenemos una disciplina militar estricta.}
 {209}{}{Puede que sean lo que estoy buscando. Vengo de una aldea al norte de aquí, últimamente hemos tenido problemas y buscamos... Protectores.}  
 {210}{}{Puede que sean lo que estoy buscando. La mayoría de mi aldea fue capturada por esclavistas e intento liberarlos...}
 {211}{}{Lo lamento, pero no puedo molestar al general con los asuntos de un pueblo. No tenemos tiempo para eso.}
