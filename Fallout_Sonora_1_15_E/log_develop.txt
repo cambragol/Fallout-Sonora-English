@@ -9,6 +9,13 @@
 
 [Changes marked with an asterisk may not apply to saves from previous versions.]
 
+Version 1.16.4e (May 20, 2026) ------------------------------------------------
+- Fix for DLC Robot bug preventing fade back in
+- Removed former dialog 'border' graphic
+
+Version 1.16.3e (May 11, 2026) ------------------------------------------------
+- Fix for Spanish language bugs preventing 'New Character' screen
+
 Version 1.16.2e (February 24, 2026) ------------------------------------------------
 
 - ​​Garage City: Removed an unnecessary line from the gate guard when asking about weapons.
