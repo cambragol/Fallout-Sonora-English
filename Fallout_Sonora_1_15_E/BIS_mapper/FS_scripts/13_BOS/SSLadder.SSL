@@ -25,7 +25,16 @@ procedure use_p_proc begin
    else if (combat_is_initialized == true) then begin
       display_mstr(111);
    end
-   else if ((global_var(GVAR_TITUL_BOS)>0) or (armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B)) then begin
+   else if (global_var(GVAR_TITUL_BOS)>0) then begin
+      usingStop := 0;
+      if (global_var(GVAR_PUERTO_DOPUSK) == 0) then begin
+      set_global_var(GVAR_PUERTO_DOPUSK, 1);
+      end
+   end
+   else if ((armor_pid_dude_var == PID_ARMOR_POWER_A) or (armor_pid_dude_var == PID_ARMOR_POWER_B) or (armor_pid_dude_var == PID_ARMOR_POWER_C)) then begin
+      usingStop := 0;
+   end
+   else if (global_var(GVAR_PUERTO_STATUS_POST)<0) then begin
       usingStop := 0;
    end
    else if (global_var(GVAR_PUERTO_STATUS_POST)<0) then begin

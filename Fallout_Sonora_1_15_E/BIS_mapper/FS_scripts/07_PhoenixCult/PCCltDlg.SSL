@@ -114,7 +114,12 @@ end
 procedure talk_p_proc begin
    setReaction(0) // Отношение к ГГ(1 - персонаж положительный, -1 отрицательный, 0 нейтральный)
    fracReaction(GVAR_TITUL_PHENIX_CULT,70) // Поправка к отношению за принадлежность к фракциям
+   if ((getQuest(GVAR_PHENIX_PARTY_ATTAKTOAARON) >= qStart) or (global_var(GVAR_PHENIX_STATUS_CULT_AARON)<0)) then begin
+   floater(self_obj, 102, COLOR_MSG_RED);
+   end
+   else begin
    dialog_proc(0,0,NodeStartDialog,-1,-1)
+   end
 end
 
 procedure Node998 begin

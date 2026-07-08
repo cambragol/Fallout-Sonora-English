@@ -230,12 +230,14 @@ end
 
 procedure NodeFstDialog9 begin
    inc_map_var(MVAR_PNX_RUINS_SPY);
+   box_stop_use := 0;
    Reply(232)
    NAnswer(233,0,Node999)
 end
 
 procedure NodeFstDialog10 begin
    inc_map_var(MVAR_PNX_RUINS_SPY);
+   box_stop_use := 0;
    Reply(252)
    NAnswer(253,0,Node999)
 end

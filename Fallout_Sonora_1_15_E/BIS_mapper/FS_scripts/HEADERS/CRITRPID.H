@@ -121,6 +121,8 @@
 #define PID_GHOST_FEMALE                (16777334) // 118
 #define PID_LA_GARRA                    (16777338) // 122
 #define PID_PARTY_EL_ASSISTENTE         (16777339) // 123
+#define PID_PARTY_PANCHO                (16777340) // 124
+#define PID_PARTY_DIANA                 (16777342) // 126
 #define PID_SCOLOPENDRA                 (16777357) // 141
 #define PID_MEXICANO                    (16777358) // 142 мексиканец в шляпе
 #define PID_GHOUL_C                     (16777359) // 143 типовой гуль-женщина
@@ -130,6 +132,7 @@
 #define PID_EL_TEMOR_ROJO               (16777363) // 147 коготь смерти Эль Темор Рохо
 #define PID_LA_FANTASMA                 (16777364) // 148 коготь смерти Ла Фантазма
 #define PID_PARTY_GHOUL_TWOSUN          (16777365) // 149 гуль - выживальщик в Тусоне
+#define PID_PARTY_MERCVILLA             (16777370) // 154
 
 //--- FID персонажей
 #define FID_HMMAXX                      (16777229)

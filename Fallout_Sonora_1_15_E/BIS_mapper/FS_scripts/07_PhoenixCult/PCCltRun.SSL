@@ -140,24 +140,24 @@ end
 procedure NodeSndDialog begin
    set_map_var(MVAR_PNX_REFUGEE_DIALOG,1);
    Reply(200)
-   NAnswer(201,1,NodeSndDialog2)
+   NAnswer(201,0,NodeSndDialog2)
 end
 
 procedure NodeSndDialog2 begin
    Reply(202)
-   NAnswer(203,1,NodeSndDialog3)
+   NAnswer(203,0,NodeSndDialog3)
 end
 
 procedure NodeSndDialog3 begin
    Reply(204)
-   NAnswer(207,7,NodeSndDialog4)
-   NAnswer(205,1,Node999)
-   BAnswer(206,1,Node999)
+   NAnswer(207,0,NodeSndDialog4)
+   //NAnswer(205,0,Node999)
+   //BAnswer(206,0,Node999)
 end
 
 procedure NodeSndDialog4 begin
    bitDialogExp(bit_2,50)
    Reply(208)
-   NAnswer(209,1,Node999)
-   BAnswer(210,1,Node999)
+   NAnswer(209,0,Node999)
+   BAnswer(210,0,Node999)
 end

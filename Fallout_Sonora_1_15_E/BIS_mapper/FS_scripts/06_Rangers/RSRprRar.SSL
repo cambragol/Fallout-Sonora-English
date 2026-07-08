@@ -1,7 +1,7 @@
 #include "..\headers\define.h"
 #include "..\headers\REPAIR.h"
 #define NAME                            SCRIPT_RSRprRar
-#define SKILL_LIMIT                     100
+#define SKILL_LIMIT                     60
 
 procedure start;
 procedure map_enter_p_proc;
@@ -42,6 +42,6 @@ procedure repair_proc begin
     create_object_sid(33555193, self_tile, self_elevation, -1);
    gfade_in(ONE_GAME_SECOND);
 
-   RepairProcRepair(112,250,"FIXSTILL")
+   RepairProcRepair(112,500,"FIXSTILL")
    destroy_object(self_obj);
 end

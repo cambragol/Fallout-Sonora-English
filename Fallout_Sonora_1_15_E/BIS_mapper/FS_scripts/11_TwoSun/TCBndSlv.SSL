@@ -7,7 +7,7 @@
 #define NUM_TEAM                        TEAM_TWOSUN_SLAVES    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_BANDIT             // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
 #define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
-#define KILL_TOWN_REP                   REP_KILL_GOOD         // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
+#define KILL_TOWN_REP                   REP_KILL_CRITICAL     // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
 #define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
 
 #define FLAG_STEAL                      50 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)

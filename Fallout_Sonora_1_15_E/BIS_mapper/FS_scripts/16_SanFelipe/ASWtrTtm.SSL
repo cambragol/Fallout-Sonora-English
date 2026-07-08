@@ -3,6 +3,7 @@
 
 procedure start;
 procedure map_enter_p_proc;
+procedure use_p_proc;
 procedure use_skill_on_p_proc;
 procedure use_obj_on_p_proc;
 procedure damage_p_proc;
@@ -19,6 +20,11 @@ procedure map_enter_p_proc begin
       anim(self_obj, ANIMATE_ROTATION, random(0,5));
       end
    end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   call zipper_proc;
 end
 
 procedure use_skill_on_p_proc begin

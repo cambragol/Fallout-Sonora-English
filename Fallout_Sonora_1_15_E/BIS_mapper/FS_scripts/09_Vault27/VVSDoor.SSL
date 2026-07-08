@@ -4,6 +4,7 @@
 procedure start;
 procedure look_at_p_proc;
 procedure description_p_proc;
+procedure map_update_p_proc;
 procedure use_p_proc;
 procedure use_skill_on_p_proc;
 procedure use_obj_on_p_proc;
@@ -19,6 +20,15 @@ end
 
 procedure description_p_proc begin
    dsrptProcMsg
+end
+
+procedure map_update_p_proc begin
+   if (map_var(MVAR_Vault_DoorX) != 0) then begin
+      if (SELF_IS_LOCKED and SELF_IS_CLOSED) then begin
+      obj_unlock(self_obj);
+      obj_open(self_obj);
+      end
+   end
 end
 
 procedure use_p_proc begin

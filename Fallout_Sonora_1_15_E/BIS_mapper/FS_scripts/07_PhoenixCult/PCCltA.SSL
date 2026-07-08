@@ -143,7 +143,7 @@ procedure talk_p_proc begin
    variable replyNumber;
 
    if (cur_map_index == MAP_PHOENIX_CHURCH) then begin
-      if ((dude_elevation == 2) and (global_var(GVAR_PHENIX_STATUS_CULT_AARON) >= 0)) then begin
+      if ((self_elevation == 2) and (global_var(GVAR_PHENIX_STATUS_CULT_AARON) >= 0)) then begin
          if (getQuest(GVAR_PHENIX_CULT_OWR_DOPUSK) == qStart) then begin
          replyNumber := random(102,103);
          end
@@ -166,6 +166,16 @@ procedure talk_p_proc begin
       replyNumber := random(114,119);
       if dude_is_female then begin
       replyNumber := random(1114,1119);
+      end
+   end
+
+   if (cur_map_index == MAP_PHOENIX_CHURCH) then begin
+      if (self_elevation < 2) then begin
+      if ((global_var(GVAR_PHENIX_MATIAS_NONATTAK) > 0) and (local_var(LVAR_Flag_AttakNon) > 0)) then begin
+      if (getQuest(GVAR_PHENIX_PARTY_ATTAKTOAARON) >= qStart) then begin
+      replyNumber := 104;
+      end
+      end
       end
    end
 

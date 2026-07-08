@@ -685,7 +685,7 @@ procedure NodeFAID304 begin
    item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
    PLAY_FADE
    critter_add_trait(dude_obj,TRAIT_PERK,PERK_autodoc_hp_bonus1,1);
-   game_time_advance(ONE_GAME_DAY*10);
+   game_time_advance(ONE_GAME_DAY*7);
    display_mstr(261);
    display_mstr(262);
    call Node999;
@@ -697,7 +697,7 @@ procedure NodeFAID305 begin
 end
 
 procedure NodeFAID306 begin
-   MedicMany := 1500;
+   MedicMany := 1000;
    call NodeFAIDcost;
    Reply(mstr(266)+MedicMany+mstr(267))
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS) >= MedicMany) then begin
@@ -719,7 +719,7 @@ procedure NodeFAID308 begin
    item_remove(dude_obj, PID_BOOTLE_CAPS, MedicMany)
    PLAY_FADE
    critter_add_trait(dude_obj,TRAIT_PERK,PERK_autodoc_hp_bonus2,1);
-   game_time_advance(ONE_GAME_DAY*14);
+   game_time_advance(ONE_GAME_DAY*7);
    display_mstr(261);
    display_mstr(262);
    call Node999;

@@ -135,7 +135,7 @@ end
 
 procedure destroy_p_proc begin
    set_global_var(GVAR_VAULT27_GHOST_KNOW,1);
-   if (random(0,99)<75) then begin
+   if (random(0,100)>=50) then begin
    item_add(self_obj,PID_TOOL_GAS_MASK,1)
    end
    kill_critter_opt
