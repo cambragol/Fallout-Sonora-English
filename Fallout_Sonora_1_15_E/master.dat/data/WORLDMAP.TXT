@@ -402,7 +402,7 @@ type_01=pid:16777288, Item:149(wielded), Item:133, Item:7, Script:637 ; Ranger F
 position=wedge, spacing:2
 
 [Encounter: RNGR_Farmer]
-type_00=pid:16777275, Item:132, Item:(1-4)61, Script:630 ; farmer
+type_00=pid:16777275, Item:132, Item:(1-5)61, Item:(20-60)41, Script:630 ; farmer
 position=huddle, spacing:3, distance:10
 
 [Encounter: RNGR_Bancrot]

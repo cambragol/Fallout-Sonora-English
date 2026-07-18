@@ -1,45 +1,45 @@
-In-game File	    File in OST Album		        Fallout Sonora			            Fallout 1			                Fallout 2
+In-game File    File in OST Album               Fallout Sonora                      Fallout 1                           Fallout 2
 
-09glow.acm	        01-Radiation_Storm		        Villa				                Glow				                ---
-12junktn.acm	    02-Industrial_Junk		        Garage+CasaGrande+SantaAna+Platform	Junktown			                Gecko
-05raider.acm	    03-Khans_Of_The_New_California	Flagstaff + Raiders		            Khans Raiders			            Bishop Raiders + Hole + Stables
-04brthrh.acm	    04-Metallic_Monks		        Puerto				                Lost Hills			                 ---
-16follow.acm	    05-Follower's_Credo		        Rangers			                    Followers of Apocalypse	            Enclave
-08vats.acm	        06-Vats_Of_Goo			        Two-Sun			                    Mariposa + Cathedral after blast	Broken Hills + Sierra + Vault 13
-01hub.acm	        07-A_Trader's_Life		        Casa Nueva			                Hub				                    NCR
-03wrldmp.acm	    08-Moribund_World		        World Map			                World Map			                Klamath
-06vault.acm	        09-The_Vault_Of_The_Future	    ---				                    Vault 13			                ---
-15shady.acm	        10-Second_Chance		        San-Brahmin			                Shady Sands			                ---
-14necro.acm	        11-City_Of_The_Dead		        Inferno				                Necropolis			                Vault 15
-13carvrn.acm	    12-Underground_Trouble		    Vault 27			                Vault 15 + caves		            Toxic Caves + Temple of Trials + Mariposa + caves
-10labone.acm	    13-City_Of_Lost_Angels		    Phoenix				                Boneyard			                Golgotha
-02mstrlr.acm	    14-Flame_Of_The_Ancient_World	Hermosillo			                Master's Vault			            ---
-21sf.acm	        15-Many_Contrasts		        ---				                    ---				                    San Francisco
-24redd.acm	        16-Gold_Slouch			        ---				                    ---				                    Redding
-20car.acm	        17-My_Chrysalis_Highwayman	    world map by bike		            ---				                    world map by car
-17arroyo.acm	    18-Beyond_The_Canyon		    ---				                    ---				                    Arroyo
-19reno.acm	        19-Biggest_Little_City_In_...	---				                    ---				                    New Reno
-18modoc.acm	        20-Dream_Town			        ---				                    ---				                    Modoc
-23world.acm	        21-California_Revisited		    ---				                    ---				                    world map on foot
-22vcity.acm	        22-All-Clear_Signal		        ---				                    ---				                    Vault City
-11chilrn.acm	    23-Acolytes_Of_The_New_God	    Phoenix (cathedral)		            Cathedral			                ---
-07desert.acm	    24-Desert_Wind			        encounters + Jackals + Motel	    world map encounters		        world map encounters
+09glow.acm      01-Radiation_Storm              Villa                               Glow                                ---
+12junktn.acm    02-Industrial_Junk              Garage+CasaGrande+SantaAna+Platform Junktown                            Gecko
+05raider.acm    03-Khans_Of_The_New_California  Flagstaff + Raiders                 Khans Raiders                       Bishop Raiders + Hole + Stables
+04brthrh.acm    04-Metallic_Monks               Puerto                              Lost Hills                          ---
+16follow.acm    05-Follower's_Credo             Rangers                             Followers of Apocalypse             Enclave
+08vats.acm      06-Vats_Of_Goo                  Two-Sun                             Mariposa + Cathedral after blast    Broken Hills + Sierra + Vault 13
+01hub.acm       07-A_Trader's_Life              Casa Nueva                          Hub                                 NCR
+03wrldmp.acm    08-Moribund_World               World Map                           World Map                           Klamath
+06vault.acm     09-The_Vault_Of_The_Future      ---                                 Vault 13                            ---
+15shady.acm     10-Second_Chance                San-Brahmin                         Shady Sands                         ---
+14necro.acm     11-City_Of_The_Dead             Inferno                             Necropolis                          Vault 15
+13carvrn.acm    12-Underground_Trouble          Vault 27                            Vault 15 + caves                    Toxic Caves + Temple of Trials + Mariposa + caves
+10labone.acm    13-City_Of_Lost_Angels          Phoenix                             Boneyard                            Golgotha
+02mstrlr.acm    14-Flame_Of_The_Ancient_World   Hermosillo                          Master's Vault                      ---
+21sf.acm        15-Many_Contrasts               ---                                 ---                                 San Francisco
+24redd.acm      16-Gold_Slouch                  ---                                 ---                                 Redding
+20car.acm       17-My_Chrysalis_Highwayman      world map by bike                   ---                                 world map by car
+17arroyo.acm    18-Beyond_The_Canyon            ---                                 ---                                 Arroyo
+19reno.acm      19-Biggest_Little_City_In_...   ---                                 ---                                 New Reno
+18modoc.acm     20-Dream_Town                   ---                                 ---                                 Modoc
+23world.acm     21-California_Revisited         ---                                 ---                                 world map on foot
+22vcity.acm     22-All-Clear_Signal             ---                                 ---                                 Vault City
+11chilrn.acm    23-Acolytes_Of_The_New_God      Phoenix (cathedral)                 Cathedral                           ---
+07desert.acm    24-Desert_Wind                  encounters + Jackals + Motel        world map encounters                world map encounters
 
 New Music:
 
-07desert.acm	    01 Fallout Sonora - Theme	    main menu
-fs_villa.acm	    02 Villa			            Villa
-fs_bos.acm	        03 Fogbound			            Puerto
-fs_phnx.acm	        04 City of Phoenix		        Phoenix
-fs_infrn.acm	    05 Collapse			            Inferno
-fs_brhmn.acm	    06 Out of The World		        San-Brahmin
-fs_flag.acm	        07 City of Flagstaff		    El Faro Pier + Santa Ana
-fs_hermo.acm	    08 La Ciudad del Sol		    Hermosillo
-fs_vault.acm	    09 Ghosts			            Vault 27
-fs_jckls.acm	    10 Jackals			            Jackals
-fs_rngr.acm	        11 Desert Rangers		        Rangers
-fs_grand.acm	    12 Casa Grande			        Casa Grande
-fs_garag.acm	    13 Garage City			        Garage City
-fs_motel.acm	    14 Motel			            Motel
-fs_tsun.acm	        15 Out-of-Service		        Two-Sun
--		            16 One Way			            -
+07desert.acm    01 Fallout Sonora - Theme       main menu
+fs_villa.acm    02 Villa                        Villa
+fs_bos.acm      03 Fogbound                     Puerto
+fs_phnx.acm     04 City of Phoenix              Phoenix
+fs_infrn.acm    05 Collapse                     Inferno
+fs_brhmn.acm    06 Out of The World             San-Brahmin
+fs_flag.acm     07 City of Flagstaff            El Faro Pier + Santa Ana
+fs_hermo.acm    08 La Ciudad del Sol            Hermosillo
+fs_vault.acm    09 Ghosts                       Vault 27
+fs_jckls.acm    10 Jackals                      Jackals
+fs_rngr.acm     11 Desert Rangers               Rangers
+fs_grand.acm    12 Casa Grande                  Casa Grande
+fs_garag.acm    13 Garage City                  Garage City
+fs_motel.acm    14 Motel                        Motel
+fs_tsun.acm     15 Out-of-Service               Two-Sun
+-               16 One Way                      -
