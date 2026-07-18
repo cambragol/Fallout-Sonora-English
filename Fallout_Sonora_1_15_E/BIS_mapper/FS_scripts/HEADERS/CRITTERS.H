@@ -55,12 +55,15 @@
                                              move_obj_inven_to_obj(self_obj,selfBarterBoxObj); \
                                              end
 
-#define set_BarterBoxLvar(time)              if (local_var(LVAR_Barter_Timer) < game_time) then begin \
-                                                  call setBarterA;                             \
-                                                  if (get_BarterDopusk != 0) then begin        \
-                                                  call setBarterB;                             \
-                                                  end                                          \
-                                                  set_local_var(LVAR_Barter_Timer, time + game_time); \
+#define set_BarterBoxLvar(time)              if ( ((game_time - local_var(LVAR_Barter_Timer)) < -25920000) or ((game_time - local_var(LVAR_Barter_Timer)) > 25920000) ) then begin \
+                                                set_local_var(LVAR_Barter_Timer, game_time);   \
+                                             end                                               \
+                                             if (local_var(LVAR_Barter_Timer) <= game_time) then begin \
+                                                call setBarterA;                               \
+                                                if (get_BarterDopusk != 0) then begin          \
+                                                call setBarterB;                               \
+                                                end                                            \
+                                                set_local_var(LVAR_Barter_Timer, time + game_time); \
                                              end                                               \
 
 #define set_BarterDopusk                     set_lvar_bit_on(LVAR_Self_Flags, bit_10) \
@@ -787,7 +790,7 @@ itemTypeUseDude фиксирует успех применения предме�
 #define UsedToCrit_Stimpak                  if ((objUsedPid == PID_M_STIMPAK) or (objUsedPid == PID_M_SUPER_STIMPAK)) then begin \
                                                if (source_obj != dude_obj) then begin       \
                                                end                                          \
-                                               else if (type_kill(KILL_TYPE_men) or type_kill(KILL_TYPE_women) or type_kill(KILL_TYPE_children) or type_kill(KILL_TYPE_ghoul) or type_kill(KILL_TYPE_big_boss)) then begin \
+                                               else if (type_kill(KILL_TYPE_men) or type_kill(KILL_TYPE_women) or type_kill(KILL_TYPE_children) or type_kill(KILL_TYPE_ghoul) or type_kill(KILL_TYPE_super_mutant) or type_kill(KILL_TYPE_big_boss)) then begin \
                                                   if (self_enemy_dude and (self_TEAM != TEAM_PLAYER)) then begin \
                                                      script_overrides;                      \
                                                      display_msg(self_name+g_mstr(403));    \

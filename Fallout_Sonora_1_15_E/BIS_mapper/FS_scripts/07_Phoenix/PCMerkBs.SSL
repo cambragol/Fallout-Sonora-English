@@ -296,7 +296,7 @@ procedure NodeStartDialog begin
    end
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog100 begin
    bitDialogExp(bit_3,0)
@@ -636,7 +636,7 @@ procedure NodeDudeSlave5 begin
    zBAnswer(322,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    bitDialogExp(bit_13,0)
@@ -709,7 +709,7 @@ procedure NodeAnswer106 begin
 end
 
 procedure NodeAnswer107 begin
-   bitDialogExp(bit_11,0)
+   bitDialogExp(bit_11,100)
    if (getQuest(GVAR_MAIN_QUEST_PHENIX) < qStart) then begin
    setQuest(GVAR_MAIN_QUEST_PHENIX,qStart);
    end

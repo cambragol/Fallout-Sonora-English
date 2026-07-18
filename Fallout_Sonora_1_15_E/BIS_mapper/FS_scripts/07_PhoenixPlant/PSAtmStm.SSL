@@ -1,7 +1,7 @@
 #include "..\headers\define.h"
 #include "..\headers\REPAIR.h"
 #define NAME                            SCRIPT_PSAtmStm
-#define SKILL_LIMIT                     100
+#define SKILL_LIMIT                     75
 
 procedure start;
 procedure map_enter_p_proc;

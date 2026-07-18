@@ -3,6 +3,7 @@
 
 procedure start;
 procedure map_enter_p_proc;
+procedure use_p_proc;
 procedure use_skill_on_p_proc;
 procedure use_obj_on_p_proc;
 procedure zipper_proc;
@@ -21,6 +22,12 @@ procedure map_enter_p_proc begin
        set_obj_visibility(self_obj, 1);
        end
    end
+end
+
+procedure use_p_proc begin
+   script_overrides;
+   play_sfx("WH21WXX1");
+   call zipper_proc;
 end
 
 procedure use_skill_on_p_proc begin

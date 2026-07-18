@@ -441,6 +441,9 @@ end
 procedure NodeQst202 begin
    PLAY_FADE
    setQuest(GVAR_PUERTO_QST_INFERNO,qEnd);
+   if (global_var(GVAR_PUERTO_DOPUSK) == 0) then begin
+   set_global_var(GVAR_PUERTO_DOPUSK, 1);
+   end
    exp_add(500);
    setBonusReaction(25)
    set_REP(5)

@@ -101,13 +101,14 @@ procedure use_obj_on_p_proc begin
    UsedItemToCrit_Proc
    if (itemTypeUseDude == 3) then begin
       inc_local_var(LVAR_Food_Amnt);
-      if (local_var(LVAR_Food_Amnt)>=3) then begin
+      if (local_var(LVAR_Food_Amnt)>=5) then begin
       floater(self_obj, 106, COLOR_MSG_GREEN);
       bitDialogExp(bit_2,0)
       end
       else begin
       floater(self_obj, 105, COLOR_MSG_NORMAL);
       end
+      display_msg("("+local_var(LVAR_Food_Amnt)+"/"+5+") "+mstr(107));
    end
 end
 

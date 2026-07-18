@@ -447,7 +447,7 @@ procedure NodeAnswer200 begin
    if ((global_var(GVAR_BRAHMIN_STATUS_HEAD_GERONIMO) > 0) or (getQuest(GVAR_BRAHMIN_QST_GERONIMO) >= qEnd)) then begin
    NAnswer(243,1,NodeAnswer201)
    end
-   NAnswerSkill(249,3,NodeAnswer203,SKILL_BARTER,65,246,NodeAnswer202)
+   NAnswerSkill(249,3,NodeAnswer203,SKILL_BARTER,50,246,NodeAnswer202)
    NAnswerRep(252,3,NodeAnswer204,30,252,NodeAnswer202)
    NAnswer(242,1,Node999)
 end

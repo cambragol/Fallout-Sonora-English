@@ -33,12 +33,15 @@ procedure talk_p_proc;
 procedure Node998;
 procedure Node999;
 procedure NodeStartDialog;
+procedure NodeBellEnd;
 procedure NodeFstDialog;
 procedure NodeFstDialog101;
 procedure NodeFstDialog102;
+procedure NodeFstDialog102b;
 procedure NodeFstDialog103;
 procedure NodeFstDialog104;
 procedure NodeFstDialog105;
+procedure NodeFstDialog106;
 procedure NodeSndDialog;
 procedure NodeSndDialog2;
 procedure NodeGame;
@@ -180,9 +183,20 @@ procedure NodeStartDialog begin
    if (bitDialog(bit_1) == 0) then begin
    call NodeFstDialog;
    end
+   else if ((getQuest(GVAR_PUERTO_QST_BELL)>=qEnd) and (bitDialog(bit_4) == 0)) then begin
+   call NodeBellEnd;
+   end
    else begin
    call NodeSndDialog;
    end
+end
+
+procedure NodeBellEnd begin
+   bitDialogExp(bit_4,0)
+   setBonusReaction(35)
+   Reply(352)
+   NAnswer(353,4,NodeSndDialog)
+   NAnswer(354,-3,NodeSndDialog)
 end
 
 //--- FIRST DIALOGUE
@@ -191,15 +205,15 @@ procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    if (global_var(GVAR_TITUL_BOS)>0) then begin
    zReply(210)
-   GAnswer(211,1,NodeFstDialog103)
-   //NAnswer(211,1,NodeFstDialog103)
-   BAnswer(213,1,NodeFstDialog104)
+   GAnswer(211,4,NodeFstDialog103)
+   BAnswer(213,4,NodeFstDialog104)
+   BAnswer(217,-3,NodeFstDialog106)
    end
    else begin
    zReply(200)
-   GAnswer(201,1,NodeFstDialog101)
-   //NAnswer(201,1,NodeFstDialog101)
-   BAnswer(203,1,NodeFstDialog102)
+   GAnswer(201,4,NodeFstDialog101)
+   BAnswer(203,4,NodeFstDialog102b)
+   BAnswer(218,-3,NodeFstDialog102)
    end
 end
 
@@ -207,35 +221,46 @@ procedure NodeFstDialog101 begin
    set_REP(1)
    setBonusReaction(10)
    zReply(202)
-   NAnswer(205,1,NodeFstDialog105)
+   NAnswer(205,4,NodeFstDialog105)
+end
+
+procedure NodeFstDialog102b begin
+   set_REP(-1)
+   setBonusReaction(-10)
+   call NodeFstDialog102;
 end
 
 procedure NodeFstDialog102 begin
-   set_REP(-1)
-   setBonusReaction(-10)
    zReply(204)
-   NAnswer(205,1,NodeFstDialog105)
+   NAnswer(205,4,NodeFstDialog105)
+   NAnswer(219,-3,NodeFstDialog105)
 end
 
 procedure NodeFstDialog103 begin
    set_REP(1)
    setBonusReaction(10)
    Reply(212)
-   NAnswer(205,1,NodeFstDialog105)
+   NAnswer(205,4,NodeFstDialog105)
 end
 
 procedure NodeFstDialog104 begin
    set_REP(-1)
    setBonusReaction(-10)
    Reply(214)
-   NAnswer(205,1,NodeFstDialog105)
+   NAnswer(205,4,NodeFstDialog105)
 end
 
 procedure NodeFstDialog105 begin
    Reply(206)
-   GAnswer(207,1,NodeSndDialog)
-   NAnswer(208,1,NodeSndDialog)
-   BAnswer(209,1,NodeSndDialog)
+   GAnswer(207,4,NodeSndDialog)
+   NAnswer(208,4,NodeSndDialog)
+   BAnswer(209,4,NodeSndDialog)
+   NAnswer(225,-3,NodeSndDialog)
+end
+
+procedure NodeFstDialog106 begin
+   Reply(216)
+   NAnswer(217,-3,NodeSndDialog)
 end
 
 //--- REPEAT DIALOGUE
@@ -247,26 +272,31 @@ procedure NodeSndDialog begin
    else begin
    zReply(220)
    end
-   NAnswer(230,3,NodeAnswer101)
-   NAnswer(234,3,NodeAnswer100)
-   //! боевой рассказ на 100 опыта
+
+   NAnswer(230,4,NodeAnswer101)
+   NAnswer(234,4,NodeAnswer100)
+   //? боевой рассказ на 100 опыта
    if (getQuest(GVAR_PUERTO_QST_BELL) < qEnd) then begin
    if (gvar_bit(GVAR_DIALOGS_FLAGS_BIT, bit_32) != 0) then begin
-   NAnswer(340,1,NodeAnswer300)
+   if (map_var(MVAR_PUERTO_MEDIC_BELL_INFO)==0) then begin
+   NAnswer(340,4,NodeAnswer300)
+   end
    end
    end
    if (local_var(LVAR_Game_Point)<10) then begin
-   NAnswerSkill(250,3,NodeGame,SKILL_GAMBLING,50,250,NodeGame2)
+   NAnswerSkill(250,4,NodeGame,SKILL_GAMBLING,50,250,NodeGame2)
    end
    else begin
-   NAnswer(270,3,NodeGame9)
+   NAnswer(270,4,NodeGame9)
    end
-   NAnswer(222,1,NodeSndDialog2)
+
+   NAnswer(222,4,NodeSndDialog2)
+   NAnswer(226,-3,Node999)
 end
 
 procedure NodeSndDialog2 begin
    Reply(223)
-   NAnswer(224,1,Node999)
+   NAnswer(224,4,Node999)
 end
 
 //--- АЗАРТНАЯ ИГРА
@@ -275,24 +305,24 @@ procedure NodeGame begin
    gameStatus := 0;
    Reply(251)
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=25) then begin
-   NAnswer(253,1,NodeGame5)
+   NAnswer(253,4,NodeGame5)
    end
    NAnswer(254,4,NodeGame3)
-   NAnswer(252,1,Node999)
+   NAnswer(252,4,Node999)
 end
 
 procedure NodeGame2 begin
    Reply(257)
-   NAnswer(258,1,Node999)
-   BAnswer(259,1,Node999)
+   NAnswer(258,4,Node999)
+   BAnswer(259,4,Node999)
 end
 
 procedure NodeGame3 begin
    zReply(255)
    if (item_amnt(dude_obj,PID_BOOTLE_CAPS)>=50) then begin
-   NAnswer(253,1,NodeGame4)
+   NAnswer(253,4,NodeGame4)
    end
-   NAnswer(252,1,Node999)
+   NAnswer(252,4,Node999)
 end
 
 procedure NodeGame4 begin
@@ -302,8 +332,8 @@ end
 
 procedure NodeGame5 begin
    Reply(260)
-   NAnswer(261,1,NodeGame6)
-   NAnswer(262,1,Node999)
+   NAnswer(261,4,NodeGame6)
+   NAnswer(262,4,Node999)
 end
 
 procedure NodeGame6 begin
@@ -325,8 +355,8 @@ procedure NodeGame7 begin
    exp_add(35);
    inc_local_var(LVAR_Game_Point);
    zReply(263)
-   NAnswer(264,1,Node999)
-   BAnswer(265,1,Node999)
+   NAnswer(264,4,Node999)
+   BAnswer(265,4,Node999)
 end
 
 procedure NodeGame8 begin
@@ -338,111 +368,111 @@ procedure NodeGame8 begin
    end
    dec_local_var(LVAR_Game_Point);
    Reply(266)
-   NAnswer(267,1,Node999)
-   BAnswer(268,1,Node999)
+   NAnswer(267,4,Node999)
+   BAnswer(268,4,Node999)
 end
 
 procedure NodeGame9 begin
    Reply(271)
-   NAnswer(272,1,Node999)
+   NAnswer(272,4,Node999)
 end
 
 //--- QUESTIONS
 
 procedure NodeAnswer100 begin
    Reply(235)
-   NAnswer(290,3,NodeAnswer200)
+   NAnswer(290,4,NodeAnswer200)
    if (getQuest(GVAR_PUERTO_QST_TOY) != qZero) then begin
-   NAnswer(280,3,NodeAnswer102)
+   NAnswer(280,4,NodeAnswer102)
    end
-   NAnswer(236,1,Node999)
+   NAnswer(236,4,Node999)
 end
 
 procedure NodeAnswer101 begin
    Reply(231)
-   NAnswer(232,1,NodeAnswer100)
-   NAnswer(233,1,Node999)
+   NAnswer(232,4,NodeAnswer100)
+   NAnswer(233,4,Node999)
 end
 
 procedure NodeAnswer102 begin
    Reply(281)
-   NAnswer(283,1,NodeAnswer103)
-   NAnswer(285,1,NodeAnswer104)
-   NAnswer(287,1,NodeAnswer105)
-   NAnswer(282,1,NodeAnswer100)
+   NAnswer(283,4,NodeAnswer103)
+   NAnswer(285,4,NodeAnswer104)
+   NAnswer(287,4,NodeAnswer105)
+   NAnswer(282,4,NodeAnswer100)
 end
 
 procedure NodeAnswer103 begin
    Reply(284)
-   NAnswer(285,1,NodeAnswer104)
-   NAnswer(287,1,NodeAnswer105)
-   NAnswer(282,1,NodeAnswer100)
+   NAnswer(285,4,NodeAnswer104)
+   NAnswer(287,4,NodeAnswer105)
+   NAnswer(282,4,NodeAnswer100)
 end
 
 procedure NodeAnswer104 begin
    Reply(286)
-   NAnswer(283,1,NodeAnswer103)
-   NAnswer(287,1,NodeAnswer105)
-   NAnswer(282,1,NodeAnswer100)
+   NAnswer(283,4,NodeAnswer103)
+   NAnswer(287,4,NodeAnswer105)
+   NAnswer(282,4,NodeAnswer100)
 end
 
 procedure NodeAnswer105 begin
    Reply(288)
-   NAnswer(283,1,NodeAnswer103)
-   NAnswer(285,1,NodeAnswer104)
-   NAnswer(282,1,NodeAnswer100)
+   NAnswer(283,4,NodeAnswer103)
+   NAnswer(285,4,NodeAnswer104)
+   NAnswer(282,4,NodeAnswer100)
 end
 
 procedure NodeAnswer200 begin
    Reply(291)
    if (bitDialog(bit_2) == 0) then begin
-   NAnswer(295,1,NodeAnswer202)
-   GAnswer(297,1,NodeAnswer203)
-   BAnswer(293,1,NodeAnswer201)
+   NAnswer(295,4,NodeAnswer202)
+   GAnswer(297,4,NodeAnswer203)
+   BAnswer(293,4,NodeAnswer201)
    end
-   NAnswer(292,1,NodeAnswer100)
+   NAnswer(292,4,NodeAnswer100)
 end
 
 procedure NodeAnswer201 begin
    setBonusReaction(-10)
    Reply(294)
-   NAnswer(299,1,NodeAnswer204)
-   GAnswer(300,1,NodeAnswer204)
-   BAnswer(301,1,NodeAnswer204)
+   NAnswer(299,4,NodeAnswer204)
+   GAnswer(300,4,NodeAnswer204)
+   BAnswer(301,4,NodeAnswer204)
 end
 
 procedure NodeAnswer202 begin
    Reply(296)
-   NAnswer(299,1,NodeAnswer204)
-   GAnswer(300,1,NodeAnswer204)
-   BAnswer(301,1,NodeAnswer204)
+   NAnswer(299,4,NodeAnswer204)
+   GAnswer(300,4,NodeAnswer204)
+   BAnswer(301,4,NodeAnswer204)
 end
 
 procedure NodeAnswer203 begin
    setBonusReaction(10)
    Reply(298)
-   NAnswer(299,1,NodeAnswer204)
-   GAnswer(300,1,NodeAnswer204)
-   BAnswer(301,1,NodeAnswer204)
+   NAnswer(299,4,NodeAnswer204)
+   GAnswer(300,4,NodeAnswer204)
+   BAnswer(301,4,NodeAnswer204)
 end
 
 procedure NodeAnswer204 begin
    Reply(302)
-   NAnswer(303,1,NodeAnswer205)
-   BAnswer(304,1,NodeAnswer205)
+   NAnswer(303,4,NodeAnswer205)
+   BAnswer(304,4,NodeAnswer205)
 end
 
 procedure NodeAnswer205 begin
    Reply(305)
-   NAnswer(306,1,NodeAnswer206)
-   BAnswer(307,1,NodeAnswer206)
+   NAnswer(306,4,NodeAnswer206)
+   BAnswer(307,4,NodeAnswer206)
 end
 
 procedure NodeAnswer206 begin
    Reply(308)
-   NAnswer(309,1,NodeAnswer208)
-   GAnswer(310,1,NodeAnswer207)
-   BAnswer(312,1,NodeAnswer209)
+   NAnswer(309,4,NodeAnswer208)
+   GAnswer(310,4,NodeAnswer207)
+   BAnswer(312,4,NodeAnswer209)
 end
 
 procedure NodeAnswer207 begin
@@ -453,28 +483,28 @@ end
 
 procedure NodeAnswer208 begin
    Reply(311)
-   NAnswer(314,1,NodeAnswer210)
-   BAnswer(315,1,NodeAnswer210)
+   NAnswer(314,4,NodeAnswer210)
+   BAnswer(315,4,NodeAnswer210)
 end
 
 procedure NodeAnswer209 begin
    setBonusReaction(-10)
    set_REP(-1)
    Reply(313)
-   NAnswer(314,1,NodeAnswer210)
-   BAnswer(315,1,NodeAnswer210)
+   NAnswer(314,4,NodeAnswer210)
+   BAnswer(315,4,NodeAnswer210)
 end
 
 procedure NodeAnswer210 begin
    Reply(316)
-   NAnswer(317,1,NodeAnswer211)
-   BAnswer(318,1,NodeAnswer212)
+   NAnswer(317,4,NodeAnswer211)
+   BAnswer(318,4,NodeAnswer212)
 end
 
 procedure NodeAnswer211 begin
    Reply(319)
-   NAnswer(320,1,NodeAnswer213)
-   BAnswer(321,1,NodeAnswer214)
+   NAnswer(320,4,NodeAnswer213)
+   BAnswer(321,4,NodeAnswer214)
 end
 
 procedure NodeAnswer212 begin
@@ -484,8 +514,8 @@ end
 
 procedure NodeAnswer213 begin
    Reply(322)
-   NAnswer(323,1,NodeAnswer215)
-   BAnswer(324,1,NodeAnswer216)
+   NAnswer(323,4,NodeAnswer215)
+   BAnswer(324,4,NodeAnswer216)
 end
 
 procedure NodeAnswer214 begin
@@ -495,17 +525,17 @@ end
 
 procedure NodeAnswer215 begin
    Reply(325)
-   NAnswer(327,1,NodeAnswer216)
-   GAnswer(326,1,NodeAnswer217)
-   BAnswer(328,1,NodeAnswer218)
+   NAnswer(327,4,NodeAnswer216)
+   GAnswer(326,4,NodeAnswer217)
+   BAnswer(328,4,NodeAnswer218)
 end
 
 procedure NodeAnswer216 begin
    bitDialogExp(bit_2,100)
    zReply(329)
-   NAnswer(330,1,Node999)
-   GAnswer(331,1,Node999)
-   BAnswer(332,1,Node999)
+   NAnswer(330,4,Node999)
+   GAnswer(331,4,Node999)
+   BAnswer(332,4,Node999)
 end
 
 procedure NodeAnswer217 begin
@@ -523,247 +553,34 @@ end
 procedure NodeAnswer300 begin
    bitDialogExp(bit_3,100)
    zReply(341)
-   GAnswer(342,1,NodeAnswer301)
-   BAnswer(343,1,NodeAnswer301b)
+   GAnswer(342,4,NodeAnswer301)
+   BAnswer(343,4,NodeAnswer301b)
 end
 
 procedure NodeAnswer301 begin
    Reply(344)
-   NAnswer(345,1,NodeAnswer302)
+   NAnswer(345,4,NodeAnswer302)
 end
 
 procedure NodeAnswer301b begin
    set_REP(-1)
-   Reply(352)
-   NAnswer(345,1,NodeAnswer302)
+   call NodeAnswer301;
 end
 
 procedure NodeAnswer302 begin
    Reply(346)
-   NAnswer(347,1,NodeAnswer303)
+   NAnswer(347,4,NodeAnswer303)
 end
 
 procedure NodeAnswer303 begin
    Reply(348)
-   NAnswer(349,1,NodeAnswer304)
+   NAnswer(349,4,NodeAnswer304)
 end
 
 procedure NodeAnswer304 begin
+   set_map_var(MVAR_PUERTO_MEDIC_BELL_INFO, 1);
    mark_on_map(AREA_CASA_NUEVA)
    mark_map_entrance_state(MAP_CASA_NUEVA_CEMENT, 1);
    Reply(350)
-   NAnswer(351,1,Node999)
+   NAnswer(351,4,Node999)
 end
-
-/*
-
-{290}{}{Расскажи о своем Братстве.}
-{291}{}{Ха-ха, что такому ничтожеству вроде тебя нужно знать о Братстве?}
-{292}{}{Охотно верю. На этом и закончим разговор о Братстве.}
-{293}{}{Звучит громко, но что-то я не особо слышу о вас в Аризоне.}
-{294}{}{Зато нас отлично знают в Калифорнии. Знают и бояться, ведь именно мы уничтожили Повелителя и всю его армию. Как, ты этого не знаешь? Боже правый, куда катится эта страна... Сейчас я тебе объясню.}
-{295}{}{Не стану спорить. Но что вы сделали, чтобы вас боялись?}
-{296}{}{Здесь, в Аризоне, у нас много дел, но простолюдины пока плохо знают о нас. А вот в Калифорнии каждая дворняга на Пустошах знает, что именно мы уничтожили армию Повелителя. Хочешь знать подробности?}
-{297}{}{Да, расскажи, что за Повелитель?}
-{298}{}{Кажется, ты расскажешь в любом случае. Тогда давай по-быстрее.}
-{299}{}{Прошу вас. Кто же такой этот Повелитель?}
-{300}{}{Вот поэтому я здесь, рядом с могущественным Братством. Но что привело ваш орден к такой славе?}
-{301}{}{Много славных побед мы одержали за последнее время. Знаешь что-нибудь о Повелителе? Даже до Аризоны докатились слухи об этой войне.}
-{302}{}{Будь добр, расскажи подробнее.}
-{303}{}{Раз уж ты начал, то рассказывай дальше.}
-{304}{}{Повелитель - это чертов психопат, чьи мутировавшие мозги породили идею всеобщего преображения людей в мутантов. Он думал, что так спасет человечество от вымирания.}
-{305}{}{Продолжай.}
-{306}{}{А что, неплохая идея.}
-{307}{}{Ему удалось создать культ вокруг своей персоны. В его церковь приходило множество людей. Они использовались в качестве материала для экспериментов. Наиболее удачные экземпляры составили личную армию Повелителя.}
-{308}{}{Настоящая армия чертовых супермутантов? Должно быть, у Повелителя была огромная сила.}
-{309}{}{И вам это, конечно же, не понравилось?}
-{310}{}{Наши разведчики изучили обстановку, рискуя жизнью. Церковь была уничтожена. Армия разбита. Остатки армии расселились по пустошам, но наши отряды быстро нашли их и стерли из истории.}
-{311}{}{Ух ты, вы и правда самая мощная сила, которую можно только представить в наше время.}
-{312}{}{Не волнуйся, сынок. Мы и Аризону превратим в цивилизованное место. Дай только срок.}
-{1312}{}{Не волнуйтесь, леди. Мы и Аризону превратим в цивилизованное место. Дай только срок.}
-{313}{}{Нисколько не сомневаюсь после всего услышанного. И большое спасибо за рассказ.}
-{314}{}{О, здорово. Отлично. Э, пока.}
-{315}{}{Все это чрезвычайно интересно. Хорошо, что в Соноре нет ничего подобного.}
-{316}{}{Не верю. Наверняка ты приукрашиваешь заслуги Братства.}
-{317}{}{Говоришь, я вру? Будешь в Калифорнии, расспроси местных жителей. Правда, они тоже любят приврать. Как например, та история с Выходцем-Из-Убежища, который был просто нашим наемником, но решил прибрать всю славу себе.}
-{318}{}{Действительно, верить частным слухам не очень хорошая идея.}
-{319}{}{Здесь вы также себя ведете?}
-
-{320}{}{Откуда вы все взялись?}
-{321}{}{Мы из Калифорнии. Раньше сидели тихо в бункере и в мирские дела не лезли. Но пришло наше время.}
-{322}{}{Расскажи историю Братства.}
-{323}{}{Ну, нас собрал генерал Максон во время Великой Войны и привел на старую военную базу. Так мы пережили самые тяжелые времена. Прошло несколько поколений, теперь уже его потомок правит нашими рядами.}
-{324}{}{Так в чем ваша миссия? Чего вы добиваетесь?}
-{325}{}{Порядка добиваемся. Как в старые-добрые времена. Чтобы ни одна китайская шпана не могла и вякнуть против нашей страны.}
-{326}{}{Страны? О какой стране идет речь?}
-{327}{}{Соединенные Штаты Америки. Да, тебе кажется, что их больше нет. Но мы - остатки армии той самой страны. И пока мы живы, с нами жива Америка.}
-{328}{}{Эм, вернемся немного назад.}
-{329}{}{Спасибо. На этом закончим разговор о Братстве.}
-{330}{}{Мне нужно знать всё.}
-{331}{}{Тебе хватит того, что нет в Пустошах большей силы, чем мы.}
-
-{340}{}{Расскажи об этом корабле.}
-{341}{}{Это судно - эскадренный миноносец Вокельгейзинг DD-1862. Длинна 119 метров, ширина 12,5, осадка 4,37. Если бы эта машина была на ходу, то прошла бы пять с половиной морских узлов.}
-{342}{}{Звучит круто. Что еще можешь рассказать?}
-{343}{}{Миноносец - что это значит?}
-{344}{}{Что на борту судна покоится несколько чертовых ядерных торпед, каждая из которых способна уничтожить целый город. Любой солдат на судне мечтает увидеть, как это произойдет. Но пока для этого не было повода.}
-{345}{}{Этот корабль не может выйти в море?}
-{346}{}{Только не сейчас. Ему не хватит ядерного топлива для продолжительного плавания. К тому же требуется ремонт старого оборудования и корпуса. Мы знали, что это плавание в один конец, пока полностью не наладим базу в этом порту.}
-{347}{}{Почему некоторые двери заблокированы?}
-{348}{}{Есть причины. Кое-что на корабле требует особенно бережного ухода. Но даже среди своих случаются ошибки. Поэтому есть места с доступом только у генерала.}
-
-
-procedure NodeAnswer100 begin
-   Reply(235)
-   NAnswer(290,3,NodeAnswer200)
-   if (getQuest(GVAR_PUERTO_QST_TOY) != qZero) then begin
-   NAnswer(280,3,NodeAnswer102)
-   end
-   NAnswer(236,1,Node999)
-end
-
-procedure NodeAnswer101 begin
-   Reply(231)
-   NAnswer(232,1,NodeAnswer100)
-   NAnswer(233,1,Node999)
-end
-
-procedure NodeAnswer102 begin
-   Reply(281)
-   NAnswer(283,1,NodeAnswer103)
-   NAnswer(285,1,NodeAnswer104)
-   NAnswer(287,1,NodeAnswer105)
-   NAnswer(282,1,NodeAnswer100)
-end
-
-procedure NodeAnswer103 begin
-   Reply(284)
-   NAnswer(285,1,NodeAnswer104)
-   NAnswer(287,1,NodeAnswer105)
-   NAnswer(282,1,NodeAnswer100)
-end
-
-procedure NodeAnswer104 begin
-   Reply(286)
-   NAnswer(283,1,NodeAnswer103)
-   NAnswer(287,1,NodeAnswer105)
-   NAnswer(282,1,NodeAnswer100)
-end
-
-procedure NodeAnswer105 begin
-   Reply(288)
-   NAnswer(283,1,NodeAnswer103)
-   NAnswer(285,1,NodeAnswer104)
-   NAnswer(282,1,NodeAnswer100)
-end
-
-
-procedure NodeAnswer200 begin
-   Reply(291)
-   NAnswer(320,1,NodeAnswer211)
-   NAnswer(322,1,NodeAnswer212)
-   NAnswer(324,1,NodeAnswer213)
-   if (bitDialog(bit_2) == 0) then begin
-   GAnswer(330,1,NodeAnswer201)
-   end
-   NAnswer(292,1,NodeAnswer100)
-end
-
-procedure NodeAnswer201 begin
-   Reply(331)
-   NAnswer(295,1,NodeAnswer203)
-   GAnswer(300,1,NodeAnswer204)
-   BAnswer(293,1,NodeAnswer202)
-end
-
-procedure NodeAnswer202 begin
-   setBonusReaction(-10)
-   Reply(294)
-   NAnswer(299,1,NodeAnswer205)
-   BAnswer(298,1,NodeAnswer205)
-end
-
-procedure NodeAnswer203 begin
-   Reply(296)
-   NAnswer(297,1,NodeAnswer205)
-   BAnswer(298,1,NodeAnswer205)
-end
-
-procedure NodeAnswer204 begin
-   setBonusReaction(10)
-   Reply(301)
-   NAnswer(302,1,NodeAnswer205)
-   BAnswer(303,1,NodeAnswer205)
-end
-
-procedure NodeAnswer205 begin
-   Reply(304)
-   NAnswer(305,1,NodeAnswer206)
-   BAnswer(306,1,NodeAnswer206)
-end
-
-procedure NodeAnswer206 begin
-   Reply(307)
-   NAnswer(308,1,NodeAnswer207)
-   BAnswer(309,1,NodeAnswer207)
-end
-
-procedure NodeAnswer207 begin
-   bitDialogExp(bit_2,50)
-   Reply(310)
-   NAnswer(315,1,NodeAnswer209)
-   GAnswer(311,1,NodeAnswer208)
-   BAnswer(316,1,NodeAnswer210)
-end
-
-procedure NodeAnswer208 begin
-   setBonusReaction(10)
-   set_REP(1)
-   call NodeAnswer209;
-end
-
-procedure NodeAnswer209 begin
-   zReply(312)
-   NAnswer(313,1,Node999)
-   BAnswer(314,1,Node999)
-end
-
-procedure NodeAnswer210 begin
-   setBonusReaction(-10)
-   set_REP(-1)
-   Reply(317)
-   NAnswer(318,1,NodeAnswer209)
-   BAnswer(319,1,NodeAnswer209)
-end
-
-procedure NodeAnswer211 begin
-   Reply(321)
-   NAnswer(322,1,NodeAnswer212)
-   NAnswer(324,1,NodeAnswer213)
-   NAnswer(329,1,NodeSndDialog)
-end
-
-procedure NodeAnswer212 begin
-   Reply(323)
-   NAnswer(320,1,NodeAnswer211)
-   NAnswer(324,1,NodeAnswer213)
-   NAnswer(329,1,NodeSndDialog)
-end
-
-procedure NodeAnswer213 begin
-   Reply(325)
-   NAnswer(326,1,NodeAnswer214)
-   NAnswer(320,1,NodeAnswer211)
-   NAnswer(322,1,NodeAnswer212)
-   NAnswer(329,1,NodeSndDialog)
-end
-
-procedure NodeAnswer214 begin
-   Reply(327)
-   NAnswer(320,1,NodeAnswer211)
-   NAnswer(322,1,NodeAnswer212)
-   NAnswer(324,1,NodeAnswer213)
-   NAnswer(328,1,NodeSndDialog)
-end
-
-*/

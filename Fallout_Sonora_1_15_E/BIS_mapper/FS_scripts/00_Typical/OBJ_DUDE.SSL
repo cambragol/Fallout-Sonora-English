@@ -324,6 +324,11 @@ procedure critter_p_proc begin
 end
 
 procedure description_p_proc begin
+   /*script_overrides;
+   display_msg(game_time +" game_time");
+   game_time_advance(ONE_GAME_MONTH*12);
+   display_msg(game_time +" game_time");*/
+
    //exp_add(20000);
    //call CHIT_BONUS_loot;
    //call CHIT_BONUS_stat;

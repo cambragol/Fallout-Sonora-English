@@ -70,6 +70,8 @@ procedure NodeAnswer103;
 procedure NodeAnswer104;
 procedure NodeAnswer105;
 procedure NodeAnswer106;
+procedure NodeAnswer107;
+procedure NodeAnswer108;
 procedure NodeQst100;
 procedure NodeQst101;
 procedure NodeQst102;
@@ -227,10 +229,10 @@ procedure NodeStartDialog begin
       end
    end
    else if (bitDialog(bit_2) == 0) then begin
-   call NodeFstDialog105;
+      call NodeFstDialog105;
    end
    else begin
-   call NodeSndDialog;
+      call NodeSndDialog;
    end
 end
 
@@ -260,6 +262,7 @@ end
 procedure NodeFstDialog101 begin
    if (tile_contains_obj_pid(15287,0,234) == true) then begin
    move_obj_inven_to_obj(dude_obj,DUDE_BOX_OBJ);
+   bitDialogExp(bit_4,0)
    end
    Reply(212)
    NAnswer(213,1,NodeFstDialog105)
@@ -325,6 +328,7 @@ end
 procedure NodeFstDialog202 begin
    if (tile_contains_obj_pid(15287,0,234) == true) then begin
    move_obj_inven_to_obj(dude_obj,DUDE_BOX_OBJ);
+   bitDialogExp(bit_4,0)
    end
    move_to(dude_obj,26916,0);
    set_map_var(MVAR_ROADWAR_DOPUSK,0);
@@ -499,6 +503,10 @@ procedure NodeSndDialog begin
 
    //!!! Будучи женщиной можно отдаться ему для повышения Отношения и Репутации
 
+   if (bitDialog(bit_4) != 0) then begin
+   NAnswer(224,3,NodeAnswer107)
+   end
+
    if (getQuest(GVAR_RAIDER_QST_PRISON) >= qEnd) then begin
    NAnswer(310,3,NodeAnswer)
    end
@@ -509,7 +517,7 @@ procedure NodeSndDialog begin
    NAnswer(301,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(313)
@@ -562,6 +570,24 @@ end
 procedure NodeAnswer106 begin
    Reply(337)
    NAnswer(338,1,NodeAnswer)
+end
+
+procedure NodeAnswer107 begin
+   if ((global_var(GVAR_RAIDER_STATUS_ROADBOSS)>0) or (getQuest(GVAR_RAIDER_QST_PRISON) >= qEnd) or (getQuest(GVAR_RAIDER_QST_CONTRACT) >= qEnd) or (getQuest(GVAR_RAIDER_QST_GRANGE) >= qEnd)) then begin
+   call NodeAnswer108;
+   end
+   else begin
+   Reply(225)
+   NAnswerSkill(229,4,NodeAnswer108,SKILL_CONVERSANT,40,254,Node998)
+   NAnswer(226,1,NodeSndDialog)
+   end
+end
+
+procedure NodeAnswer108 begin
+   move_obj_inven_to_obj(DUDE_BOX_OBJ,dude_obj);
+   bitDialogZero(bit_4)
+   Reply(227)
+   NAnswer(228,1,NodeSndDialog)
 end
 
 //--- КВЕСТЫ

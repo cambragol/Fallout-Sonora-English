@@ -193,7 +193,7 @@ procedure talk_p_proc begin
    setReaction(0) // Attitude towards the main character (1 - positive character, -1 negative, 0 neutral)
    fracReaction(GVAR_TITUL_PHENIX_CULT,-20) // Поправка к отношению за принадлежность к фракциям
    fracReaction(GVAR_TITUL_ARENA_MASTER,30) // Поправка к отношению за принадлежность к фракциям
-   dialog_proc(1,0,NodeStartDialog,-1,-1)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
    end
 end
 
@@ -412,7 +412,7 @@ procedure NodeSndDialog begin
    NAnswer(303,1,Node999)
 end
 
-//--- СТОП-ДИАЛОГ
+//--- STOP DIALOGUE
 
 procedure NodeStopDialog100 begin
    bitDialogExp(bit_2,0)
@@ -474,7 +474,7 @@ procedure NodeStopDialog202 begin
    BAnswer(275,1,Node999)
 end
 
-//--- РАССПРОСЫ
+//--- QUESTIONS
 
 procedure NodeAnswer begin
    Reply(351)

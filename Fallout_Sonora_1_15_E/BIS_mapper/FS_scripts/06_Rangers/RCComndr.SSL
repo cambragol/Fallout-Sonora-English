@@ -404,6 +404,7 @@ end
 procedure NodeAcv begin
    Reply(391)
    NAnswer(392,0,Node999)
+   BAnswer(396,0,Node999)
 end
 
 procedure NodeAcv2 begin

@@ -30,6 +30,14 @@ procedure damage_p_proc begin
    end
 end
 
+procedure use_obj_on_p_proc begin
+   stopUseCarGaz
+   else if ((objUsedPid == PID_TOOL_SHOVEL) or (objUsedPid == PID_W_CROWBAR) or (objUsedPid == PID_W_HAMMER) or (objUsedPid == PID_W_SUPER_SLEDGE) or (objUsedPid == PID_W_SLEDGEHAMMER)) then begin
+      script_overrides;
+      call destroy_proc;
+   end
+end
+
 procedure destroy_proc begin
    play_sfx("PEBBLE");
    set_obj_visibility(self_obj, 1);

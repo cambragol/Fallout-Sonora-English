@@ -35,6 +35,7 @@ procedure Node999;
 procedure NodeStartDialog;
 procedure NodeFstDialog;
 procedure NodeFstDialog2;
+procedure NodeFstDialog2b;
 procedure NodeFstDialog3;
 procedure NodeFstDialog4;
 procedure NodeFstDialog5;
@@ -170,55 +171,63 @@ end
 procedure NodeFstDialog begin
    bitDialogExp(bit_1,0)
    zReply(200)
-   NAnswer(201,1,NodeFstDialog2)
+   NAnswer(201,4,NodeFstDialog2)
+   NAnswer(240,-3,NodeFstDialog2b)
+end
+
+procedure NodeFstDialog2b begin
+   bitDialogExp(bit_2,0)
+   Reply(241)
+   NAnswer(242,-3,Node999)
 end
 
 procedure NodeFstDialog2 begin
    Reply(202)
-   NAnswer(203,1,NodeFstDialog3)
+   NAnswer(203,4,NodeFstDialog3)
 end
 
 procedure NodeFstDialog3 begin
    Reply(204)
-   BAnswer(205,1,NodeFstDialog4)
-   NAnswer(mstr(209)+dude_name+mstr(210),1,NodeFstDialog5)
+   BAnswer(205,4,NodeFstDialog4)
+   NAnswer(mstr(209)+dude_name+mstr(210),4,NodeFstDialog5)
 end
 
 procedure NodeFstDialog4 begin
    setBonusReaction(-20)
    set_REP(-1)
    Reply(206)
-   BAnswer(207,1,Node999)
-   NAnswer(208,1,Node999)
+   BAnswer(207,4,Node999)
+   NAnswer(208,4,Node999)
 end
 
 procedure NodeFstDialog5 begin
    bitDialogExp(bit_2,0)
    Reply(211)
-   NAnswer(219,1,NodeStartDialog)
-   GAnswer(212,1,Node999)
-   NAnswer(213,1,Node999)
+   NAnswer(219,4,NodeStartDialog)
+   GAnswer(212,4,Node999)
+   NAnswer(213,4,Node999)
 end
 
 procedure NodeFstDialog6 begin
    Reply(214)
-   NAnswer(mstr(217)+dude_name+mstr(218),1,NodeFstDialog5)
-   BAnswer(215,1,Node999)
-   NAnswer(216,1,Node999)
+   NAnswer(mstr(217)+dude_name+mstr(218),4,NodeFstDialog5)
+   BAnswer(215,4,Node999)
+   NAnswer(216,4,Node999)
 end
 
 procedure NodeFstDialog7 begin
    bitDialogExp(bit_3,0)
    setBonusReaction(25)
    Reply(mstr(230)+g_mstr(global_var(GVAR_PHENIX_TITUL_ARENA_NAME))+mstr(231))
-   BAnswer(232,1,NodeStartDialog)
-   GAnswer(233,1,NodeStartDialog)
-   NAnswer(234,3,NodeFstDialog8)
+   BAnswer(232,4,NodeStartDialog)
+   GAnswer(233,4,NodeStartDialog)
+   NAnswer(234,4,NodeFstDialog8)
+   NAnswer(243,-3,NodeStartDialog)
 end
 
 procedure NodeFstDialog8 begin
    zReply(235)
-   NAnswer(236,1,NodeStartDialog)
+   NAnswer(236,4,NodeStartDialog)
 end
 
 //--- REPEAT DIALOGUE
@@ -231,26 +240,27 @@ procedure NodeSndDialog begin
    end
 
    if (bitDialog(bit_4) == 0) then begin
-   NAnswerReaction(250,3,NodeAnswer100,0,250,NodeAnswer101)
+   NAnswerReaction(250,4,NodeAnswer100,0,250,NodeAnswer101)
    end
    else begin
-   NAnswer(255,1,NodeAnswer102)
+   NAnswer(255,4,NodeAnswer102)
    end
-   NAnswer(350,1,NodeAnswer400)
-   NAnswer(229,1,Node999)
+   NAnswer(350,4,NodeAnswer400)
+   NAnswer(229,4,Node999)
+   NAnswer(242,-3,Node999)
 end
 
 procedure NodeAnswer100 begin
    Reply(254)
-   NAnswer(255,1,NodeAnswer103)
-   NAnswer(252,1,NodeAnswer400)
-   NAnswer(253,1,Node999)
+   NAnswer(255,4,NodeAnswer103)
+   NAnswer(252,4,NodeAnswer400)
+   NAnswer(253,4,Node999)
 end
 
 procedure NodeAnswer101 begin
    Reply(251)
-   NAnswer(252,1,NodeAnswer400)
-   NAnswer(253,1,Node999)
+   NAnswer(252,4,NodeAnswer400)
+   NAnswer(253,4,Node999)
 end
 
 procedure NodeAnswer102 begin
@@ -260,35 +270,43 @@ end
 procedure NodeAnswer103 begin
    Reply(256)
    if (town_known(AREA_GARAGE) == MARK_STATE_VISITED) then begin
-   NAnswer(257,1,NodeAnswer104)
+   NAnswer(257,4,NodeAnswer104)
    end
    else begin
-   NAnswer(260,1,NodeAnswer105)
+   NAnswer(260,4,NodeAnswer105)
    end
-   NAnswer(262,1,NodeSndDialog)
+   NAnswer(262,4,NodeSndDialog)
 end
 
 procedure NodeAnswer104 begin
    Reply(258)
-   NAnswer(259,1,NodeAnswer105)
+   if ((getQuest(GVAR_GARAGE_QST_LUCS_TRADE) >= 4) or (getQuest(GVAR_GARAGE_QST_BOSS_TRADE) >= 4)) then begin
+   NAnswer(268,4,NodeAnswer105)
+   end
+   else if (getQuest(GVAR_GARAGE_STANOK_DESTROY)>=qEnd) then begin
+   NAnswer(269,4,NodeAnswer105)
+   end
+   else begin
+   NAnswer(259,4,NodeAnswer105)
+   end
 end
 
 procedure NodeAnswer105 begin
    Reply(263)
-   NAnswer(264,1,NodeAnswer106)
+   NAnswer(264,4,NodeAnswer106)
 end
 
 procedure NodeAnswer106 begin
    bitDialogExp(bit_4,50)
    Reply(265)
    if (bitDialog(bit_5) == 0) then begin
-   NAnswer(299,3,NodeAnswer200)
+   NAnswer(299,4,NodeAnswer200)
    end
    if (getQuest(GVAR_VAULT27_VISITED) == qStart) then begin
-   NAnswer(270,3,NodeAnswer300)
+   NAnswer(270,4,NodeAnswer300)
    end
-   NAnswer(266,1,NodeAnswer400)
-   NAnswer(267,1,Node999)
+   NAnswer(266,4,NodeAnswer400)
+   NAnswer(267,4,Node999)
 end
 
 procedure NodeAnswer200 begin
@@ -302,43 +320,43 @@ end
 
 procedure NodeAnswer201 begin
    Reply(291)
-   NAnswer(292,1,NodeSndDialog)
-   NAnswer(293,1,Node999)
+   NAnswer(292,4,NodeSndDialog)
+   NAnswer(293,4,Node999)
 end
 
 procedure NodeAnswer202 begin
    bitDialogExp(bit_5,0)
    item_add(self_obj,PID_MAP_PHIENIX,1)
    Reply(300)
-   NAnswer(301,1,NodeAnswer203)
+   NAnswer(301,4,NodeAnswer203)
 end
 
 procedure NodeAnswer203 begin
    goBarter(0);
    Reply(302)
-   NAnswer(303,1,Node999)
+   NAnswer(303,4,Node999)
 end
 
 procedure NodeAnswer300 begin
    Reply(271)
-   NAnswer(272,1,NodeAnswer301)
+   NAnswer(272,4,NodeAnswer301)
 end
 
 procedure NodeAnswer301 begin
    Reply(273)
-   NAnswer(274,1,NodeAnswer302)
+   NAnswer(274,4,NodeAnswer302)
 end
 
 procedure NodeAnswer302 begin
    Reply(275)
-   NAnswer(276,1,NodeAnswer303)
+   NAnswer(276,4,NodeAnswer303)
 end
 
 procedure NodeAnswer303 begin
    Reply(277)
-   NAnswer(280,1,NodeSndDialog)
-   NAnswer(278,1,Node999)
-   BAnswer(279,1,Node999)
+   NAnswer(280,4,NodeSndDialog)
+   NAnswer(278,4,Node999)
+   BAnswer(279,4,Node999)
 end
 
 procedure NodeAnswer400 begin
@@ -353,73 +371,73 @@ end
 procedure NodeAnswer401 begin
    Reply(351)
    if (bitDialog(bit_4) == 0) then begin
-   NAnswerReaction(352,3,NodeAnswer100,0,352,NodeAnswer101)
+   NAnswerReaction(352,4,NodeAnswer100,0,352,NodeAnswer101)
    end else begin
-   NAnswer(255,1,NodeAnswer102)
+   NAnswer(255,4,NodeAnswer102)
    end
-   NAnswer(353,1,Node999)
+   NAnswer(353,4,Node999)
 end
 
 procedure NodeAnswer402 begin
    Reply(354)
-   NAnswer(356,1,NodeAnswer403)
-   NAnswer(358,1,NodeAnswer404)
-   NAnswer(355,1,NodeSndDialog)
+   NAnswer(356,4,NodeAnswer403)
+   NAnswer(358,4,NodeAnswer404)
+   NAnswer(355,4,NodeSndDialog)
 end
 
 procedure NodeAnswer403 begin
    Reply(357)
-   NAnswer(359,1,NodeAnswer404)
-   NAnswer(355,1,NodeSndDialog)
+   NAnswer(359,4,NodeAnswer404)
+   NAnswer(355,4,NodeSndDialog)
 end
 
 procedure NodeAnswer404 begin
    Reply(360)
    if (getQuest(GVAR_PHENIX_CULT_DESTROY) >= qEnd) then begin
-   NAnswer(361,1,NodeAnswer411)
+   NAnswer(361,4,NodeAnswer411)
    end
    else begin
-   NAnswer(361,1,NodeAnswer405)
+   NAnswer(361,4,NodeAnswer405)
    end
 end
 
 procedure NodeAnswer405 begin
    Reply(362)
-   NAnswerSkill(370,3,NodeAnswer407,SKILL_CONVERSANT,50,366,NodeAnswer406)
-   NAnswer(363,1,NodeAnswer403)
-   NAnswer(364,1,NodeSndDialog)
+   NAnswerSkill(370,4,NodeAnswer407,SKILL_CONVERSANT,50,366,NodeAnswer406)
+   NAnswer(363,4,NodeAnswer403)
+   NAnswer(364,4,NodeSndDialog)
 end
 
 procedure NodeAnswer406 begin
    Reply(367)
-   NAnswer(368,1,NodeSndDialog)
-   BAnswer(369,1,Node999)
+   NAnswer(368,4,NodeSndDialog)
+   BAnswer(369,4,Node999)
 end
 
 procedure NodeAnswer407 begin
    bitDialogExp(bit_6,50)
    Reply(371)
-   NAnswer(372,1,NodeAnswer408)
+   NAnswer(372,4,NodeAnswer408)
 end
 
 procedure NodeAnswer408 begin
    Reply(373)
-   NAnswer(374,1,NodeAnswer409)
+   NAnswer(374,4,NodeAnswer409)
 end
 
 procedure NodeAnswer409 begin
    Reply(375)
-   NAnswer(376,1,NodeAnswer410)
+   NAnswer(376,4,NodeAnswer410)
 end
 
 procedure NodeAnswer410 begin
    Reply(377)
-   NAnswer(378,1,NodeSndDialog)
-   BAnswer(379,1,Node999)
+   NAnswer(378,4,NodeSndDialog)
+   BAnswer(379,4,Node999)
 end
 
 procedure NodeAnswer411 begin
    Reply(380)
-   NAnswer(381,1,NodeSndDialog)
-   BAnswer(382,1,Node999)
+   NAnswer(381,4,NodeSndDialog)
+   BAnswer(382,4,Node999)
 end

@@ -233,7 +233,7 @@ procedure destroy_p_proc begin
 end
 
 procedure talk_p_proc begin
-   dialog_proc(1,0,NodeStartDialog,-1,-1)
+   dialog_proc(0,0,NodeStartDialog,-1,-1)
 end
 
 procedure Node998 begin

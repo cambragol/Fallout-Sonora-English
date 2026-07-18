@@ -1,7 +1,7 @@
 #include "..\headers\define.h"
 #include "..\headers\REPAIR.h"
 #define NAME                            SCRIPT_DSWtrRpr
-#define SKILL_LIMIT                     90
+#define SKILL_LIMIT                     80
 
 procedure start;
 procedure map_enter_p_proc;

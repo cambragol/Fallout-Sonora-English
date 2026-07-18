@@ -1197,7 +1197,6 @@ end
 //--- QUEST
 
 procedure NodeQst100 begin
-   setQuest(GVAR_CGRANDE_QST_BANDITS,qStart);
    Reply(454)
    NAnswer(455,4,NodeQst101)
 end
@@ -1209,6 +1208,9 @@ procedure NodeQst101 begin
 end
 
 procedure NodeQst102 begin
+   if (getQuest(GVAR_CGRANDE_QST_BANDITS) == qZero) then begin
+   setQuest(GVAR_CGRANDE_QST_BANDITS,qStart);
+   end
    Reply(459)
    GAnswer(461,4,Node999)
    NAnswer(460,4,Node999)

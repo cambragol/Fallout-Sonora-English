@@ -4,14 +4,14 @@
 #define NAME                            SCRIPT_TCCarlos
 #define TOWN_REP_VAR                    GVAR_TOWN_REP_TWO_SUN   // привязка к репутации (-1, если не нужно)
 
-#define NUM_TEAM                        TEAM_TWOSUN_PEASAN    // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
+#define NUM_TEAM                        TEAM_VILLA_PEASAN     // группа, к которой принадлежит персонаж (-1 если нужно оставить Team, заданный в редакторе)
 #define NUM_AI                          AI_TRIBLE_VILLA       // AI персонажа (-1 если нужно оставить AI, заданный в редакторе)
 #define KILL_SLAVA                      SLAVA_KILL_GOOD       // слава за убийство этого персонажа (SLAVA_KILL_GOOD, SLAVA_KILL_BAD, SLAVA_KILL_NEITRAL, SLAVA_KILL_CHILD)
 #define KILL_TOWN_REP                   REP_KILL_NEITRAL      // репутация за убийство этого персонажа (REP_KILL_GOOD, REP_KILL_BAD, REP_KILL_NEITRAL, REP_KILL_CRITICAL для враждебности всего поселения, REP_KILL_CHILD)
 #define KILL_FRAC_REP                   FRAC_NON              // принадлежность определенной фракции (-1, если не нужно)
 
-#define FLAG_STEAL                      20 // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
-#define FLAG_ALCOHOL                    1  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
+#define FLAG_STEAL                      0  // Нижний порог навыка для кражи (для торговцев 200, для животных 300)
+#define FLAG_ALCOHOL                    0  // Примет ли алкоголь от ГГ: 0 - принимает, 1 - не принимает
 #define FLAG_FOOD                       1  // Примет ли пищу от ГГ: 0 - принимает, 1 - не принимает
 
 //---------------------

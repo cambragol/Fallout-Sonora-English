@@ -42,6 +42,7 @@ procedure NodeFstDialog5;
 procedure NodeFstDialog6;
 procedure NodeSndDialog;
 procedure NodeSndDialog100;
+procedure NodeSndDialog100b;
 procedure NodeSndDialog101;
 procedure NodeSndDialog102;
 
@@ -220,6 +221,7 @@ procedure damage_p_proc begin
 end
 
 procedure destroy_p_proc begin
+   set_map_var(MVAR_PUERTO_MEDIC_BELL_INFO,-1);
    if (getQuest(GVAR_PUERTO_QST_BELL) == qStart) then begin
    setQuest(GVAR_PUERTO_QST_BELL,qStop);
    end
@@ -299,10 +301,14 @@ end
 procedure NodeSndDialog begin
    Reply(220)
    if (global_var(GVAR_NUEVA_STATUS_EL_GIGANTO)<0) then begin
-   if (item_amnt(dude_obj,PID_SCULL_DEATHCLAW)>0) then begin
-   NAnswer(230,1,NodeSndDialog100)
+   if (map_var(MVAR_PUERTO_MEDIC_BELL_INFO) > 0) then begin
+      if (item_amnt(dude_obj,PID_SCULL_DEATHCLAW)>0) then begin
+      NAnswer(230,1,NodeSndDialog100b)
+      end
+      else begin
+      NAnswer(231,1,NodeSndDialog100)
+      end
    end
-   NAnswer(231,1,NodeSndDialog100)
    end
    NAnswer(221,1,Node999)
 end
@@ -311,6 +317,11 @@ procedure NodeSndDialog100 begin
    Reply(232)
    NAnswer(233,1,NodeSndDialog101)
    NAnswer(234,1,NodeSndDialog101)
+end
+
+procedure NodeSndDialog100b begin
+   item_remove(dude_obj,PID_SCULL_DEATHCLAW,1)
+   call NodeSndDialog100;
 end
 
 procedure NodeSndDialog101 begin

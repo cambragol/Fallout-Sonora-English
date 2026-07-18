@@ -233,7 +233,7 @@ end
 procedure NodeQstDialogEnd begin
    if (item_amnt(dude_obj,PID_GENERATOR_ENERGY) >0) then begin
    bitDialogExp(bit_2,350)
-   item_add(dude_obj,PID_MANY,5)
+   item_add(dude_obj,PID_MANY,15)
    set_map_var(MVAR_TWOSUN_CaravanPompa,1);
    setQuest(GVAR_TWOSUN_QST_POMPA,qEnd);
    set_SLAVA(25)
