@@ -86,7 +86,7 @@
 {310}{}{I'm investigating an attack on the Followers. What do you know about it?}
 {311}{}{(2/3) Initial testimony regarding the attacks has been obtained.}
 {312}{}{(3/3) Final testimony regarding the attacks has been obtained. It's time to discuss this with Aaron.}
-{313}{}{(frowns, a nervous twitch crossing his face) So, another Follower's lackey? I already told the monks everything. Leave us be.}
+{313}{}{(frowns, a nervous twitch crossing his face) So, another Followers' lackey? I already told the monks everything. Leave us be.}
 {314}{}{(twitches nervously with a frown) Didn't think they'd rope you in too. But I already told the monks everything I know.}
 {315}{}{Guess you'll have to tell your story again.}
 {316}{}{We didn't kill anyone. The monks were asking for alms around here and got nothing. Once outside, they were grabbed by masked men and strung up on lamp posts. We don't know who did it, but they were clearly well-prepared.}

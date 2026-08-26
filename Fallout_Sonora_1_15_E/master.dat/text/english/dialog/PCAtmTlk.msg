@@ -74,7 +74,7 @@
 {272}{}{[More]}
 {273}{}{So you must have connections with the fire worshippers, otherwise how would you know about our secret deal?}
 {274}{}{I have plenty of connections. But what are *you* after? You want to take your boss's place?}
-{275}{}{Such a shortsighted motive. Please. Remember, I'm a hundred years old. If we were in the Old World, I'd be climbing the corporate ladder. But what do we have now? Ruin, no infrastruture, no services, roads, running water...people only saw street lighting again thanks to us and the Church of the Holy Fire.}
+{275}{}{Such a shortsighted motive. Please. Remember, I'm a hundred years old. If we were in the Old World, I'd be climbing the corporate ladder. But what do we have now? Ruin, no infrastructure, no services, roads, running water...people only saw street lighting again thanks to us and the Church of the Holy Fire.}
 {276}{}{Doesn't the church supply you with uranium?}
 {277}{}{Yes, but simple trading, or bartering, is not enough. Theodore keeps them out of the power plant's affairs, and without them, progress is too slow. At first, things were purely technical - we took uranium and got energy from it. Now it's time for economics, business, and taxes. Theodore doesn't understand any of this and thinks it's enough to just sell energy left and right.}
 {278}{}{So you want to renegotiate *exclusive* deals? What about Theodore?}

@@ -18,7 +18,7 @@
 {209}{}{Good.}
 {210}{}{Alright, }
 {211}{}{. So? What brings you to Casa Grande?}
-{212}{}{By the will of the Sacred Fire, you will answer my questions.}
+{212}{}{By the will of the Holy Fire, you will answer my questions.}
 {213}{}{You're with the Fire Church? Thanks to your missions, my city sees extra caps. What can I do for you?}
 {214}{}{I'm looking for a convoy carrying specific slaves. Maybe one passed through here recently.}
 {215}{}{I don't stick my nose into that business. But lately the Tinheads have been rounding up slaves for something big. Plenty of those caravans passed through here. You should check Two-Sun.}

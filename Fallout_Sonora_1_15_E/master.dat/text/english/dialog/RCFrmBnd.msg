@@ -57,7 +57,7 @@
 {314}{}{Hmm...}
 {315}{}{Got it.}
 {316}{}{So what brought you to Ranger territory?}
-{317}{}{Talk, about the Rangers and their justice. The talks all lies and exaggerations. If you want their support, you have to give them everything you've got. And then, MAYBE, they'll help you.}
+{317}{}{Talk, about the Rangers and their justice. The talk's all lies and exaggerations. If you want their support, you have to give them everything you've got. And then, MAYBE, they'll help you.}
 {320}{}{Have you seen the farmers' dog?}
 {321}{}{I saw one, but where it went, I don't know. The farmers should've fed it better.}
 {322}{}{I see.}
