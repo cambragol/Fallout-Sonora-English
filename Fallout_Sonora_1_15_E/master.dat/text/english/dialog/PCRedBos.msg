@@ -25,7 +25,7 @@
 {214}{}{You were raped and thrown out onto the street, pockets emptied.}
 {215}{}{Let's see what you can do. Who's first?}
 {216}{}{What do you want from me?}
-{217}{}{Honestly, I ended up here by accident. Can I just go, please.}
+{217}{}{Honestly, I ended up here by accident. Can I just go, please?}
 {218}{}{[Murphy] Just another crazy off the street. Let's empty their pockets and be done with it.}
 {1218}{}{[Murphy] Just another crazy woman off the street. Let's empty her pockets and be done with it.}
 {219}{}{[More]}

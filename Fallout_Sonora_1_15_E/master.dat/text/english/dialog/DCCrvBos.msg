@@ -1,4 +1,4 @@
-{100}{}{You see a merchant.}
+{100}{}{You see Ramirez, the caravaner.}
 {101}{}{You see the caravan manager.}
 {102}{}{I heard about such armor, but thought it was fiction.}
 

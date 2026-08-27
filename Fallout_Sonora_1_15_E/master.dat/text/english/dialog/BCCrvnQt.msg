@@ -8,8 +8,8 @@
 {107}{}{ died. Now there is no one to pay you to guard the caravan.}
 
 #Before receiving the quest
-{200}{}{Hello, wanderer. I'm Sid, the merchant. Looks like we're both stuck in this hole, right?}
-{1200}{}{Greetings, lady. I'm Sid, the merchant. Looks like we're both stuck in this hole, right?}
+{200}{}{Hey there, wanderer. I'm Sid. Looks like we're both stuck in this hole, huh?}
+{1200}{}{Greetings, lady. I'm Sid. Looks like we're both stuck in this hole, huh?}
 {201}{}{I had business here. But I'll be heading out soon.}
 {202}{}{Business, you say? OK. But even if you have good relations with the inhabitants of the pueblo, the tribes in the wasteland are not so friendly. Do you think you can safely pass through their lands?}
 {203}{}{Do you have any suggestions?}

@@ -56,7 +56,7 @@
 {253}{}{The problem is the high cost. Such procedures are not essential and consume a lot of resources and time. Therefore, the clinic cannot provide these services at its own expense.}
 {254}{}{How much does the health enhancement cost?}
 {255}{}{Hmm. Let me calculate... It will cost }
-{256}{}{ caps and require ten days of strict regimen. Expensive, but it buys you extra health.}
+{256}{}{ caps and a week of strict bed rest. It's steep, but it buys you extra health.}
 {257}{}{Uh, no. Thanks for the offer, Doc, but I don't have that many caps.}
 {258}{}{I'm in, Doc. Here's the payment.}
 {259}{}{Very good. First, let's conduct an examination...}
@@ -64,10 +64,10 @@
 {261}{}{You have received a bonus to your hit points.}
 {262}{}{After completing a course of treatment, you feel an unprecedented surge of strength!}
 {263}{}{Can I take that health enhancement course again?}
-{264}{}{It's possible. But the effect will be less noticeable. This time you'll need to spend more time and effort to achieve similar results.}
+{264}{}{Sure, it's possible.}
 {265}{}{How much does it cost?}
 {266}{}{It'll be }
-{267}{}{ caps and will take two weeks.}
+{267}{}{ caps and take a week.}
 {268}{}{Ahh, that's just a little too much.}
 {269}{}{Here's the caps. When do we start?}
 

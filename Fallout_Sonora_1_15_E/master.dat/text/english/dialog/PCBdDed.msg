@@ -44,7 +44,13 @@
 {234}{}{You know, it was just another fight. Nothing special.}
 {235}{}{Whatever you say, champ. Whatever you say.}
 {1235}{}{Whatever you say, champ. Whatever you say.}
-{236}{}{Hmm.}
+{236}{}{Okay.}
+
+#low IN
+{240}{}{Gotta poop.}
+{241}{}{Oh, I see. This is the com-mu-ni-ty house, and I'm Bob. I am a sca-ven-ger and a han-dy-man. Get it? Hmph. You probably need Vernon; he runs things around here.}
+{242}{}{Okay.}
+{243}{}{Yeah!}
 
 #Questions about Scavengers
 {250}{}{You mentioned you were a scavenger.}
@@ -54,9 +60,9 @@
 {254}{}{Yeah, there was a golden time when scavengers swarmed through the ruins of Phoenix. Now only the truly dangerous, highly radioactive areas remain untouched. So what?}
 {255}{}{Tell me about the scavengers.}
 {256}{}{You seriously don't know about us? Hmm, guess we do keep a low profile.}
-{257}{}{I've been to Garage City, and scavengers live there too.}
-{258}{}{Ah, old Kogan must've gone completely crazy by now, right? Many scavengers went there to make money when all the fuss about that new branch of the cartel started. I was afraid to go on such a long journey. But now there's no point in going -- they say the ruins up there have run dry, and the cartel is broken up.}
-{259}{}{So what do you do?}
+{257}{}{I've been to Garage City. There's scavengers there too.}
+{258}{}{Ah, old Kogan must've gone completely crazy by now, huh? Lot's of people went there to make their fortune when all the fuss about the new branch started. I was afraid to take such a long journey. But now there's no point in going -- they say the ruins up there have run dry?}
+{259}{}{No idea what's going on there now. So what do you do?}
 {260}{}{There's no scavengers where I'm from. What do you do?}
 {261}{}{}
 {262}{}{So, low profile... okay... Let's talk about something else.}
@@ -65,6 +71,8 @@
 {265}{}{Of course. The city grew and demanded more and more things. Now, however, little remains in the ruins. In the past few years, I've been mostly looking for electronics parts and books for the Fire Cult.}
 {266}{}{I see. By the way, anything new going on around the city?}
 {267}{}{Parts and books? Hmph. Good luck with that. I guess it's time to go.}
+{268}{}{There's still potential in those ruins. What do you do here?}
+{269}{}{Yeah, the 'mine' is completely tapped. There's absolutely nothing left in those ruins. What do you do here?}
 
 {270}{}{Do you know anything about Vaults?}
 {271}{}{Vaults? What are you talking about? Like bank vaults?}

@@ -34,7 +34,7 @@
 {220}{}{Yes, the Brotherhood sent me on a rescue mission.}
 {221}{}{Hmm. I don't remember you. Show your tag.}
 {222}{}{Tag? I'm not Brotherhood. I'm just hired help.}
-{223}{}{I see. I heard the Brotherhood in Arizona isn't doing too well. Sad. Where's the rest of your team?}
+{223}{}{I see. I was warned the Brotherhood in Sonora isn't in the best shape. Damn shame. Where's the rest of your team?}
 {224}{}{Who are you talking about? I'm alone.}
 {1224}{}{Who are you talking about? I'm alone.}
 {225}{}{Damn it! What are they thinking? How can one mercenary handle this? Though a small group does have a tactical edge in ruins... Fine, just don't get in my way.}

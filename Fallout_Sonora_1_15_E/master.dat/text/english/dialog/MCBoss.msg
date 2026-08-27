@@ -34,6 +34,13 @@
 {222}{}{I don't know what you're talking about. You're confusing me with someone else.}
 {223}{}{You think I'd help scum like your guys? No way. You're wrong, idiot.}
 
+{224}{}{Give me back my stuff.}
+{225}{}{Finish the task, then I'll give it back.}
+{226}{}{Fine.}
+{227}{}{(Signals for his men to return the things they took from you.)}
+{228}{}{Thanks.}
+{229}{}{I won't be much use to you if I die out in the wastes. I need my stuff.}
+
 {230}{}{I'm seeking allies to free my people from slavery.}
 {231}{}{And why should we give two shits about your problems? The forces behind the slave trade are too powerful to fight.}
 {232}{}{How about some mutual aid? You probably need someone with connections outside these walls.}
@@ -53,8 +60,8 @@
 {250}{}{I'm here to stop you and your whole gang.}
 {251}{}{(rasping growl) I've never met anyone dumber than you. It'll be a real laugh to hear your last squeals.}
 {252}{}{Uh, what are you up to? Oh no, not this...}
-{253}{}{Screw you.}
-{254}{}{}
+{253}{}{Fuck you.}
+{254}{}{Then I'll just take my stuff back the hard way!}
 {255}{}{I'm here on behalf of the mayor of Casa Grande. He accuses you of robbing caravans.}
 {256}{}{(snarling through mask) He knows damn well who robs caravans and why. What's the point of this charade, mercenary?}
 {1256}{}{(snarling through mask) He knows damn well who robs caravans and why. What's the point of this charade, mercenary?}

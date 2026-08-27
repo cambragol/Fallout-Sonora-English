@@ -42,7 +42,7 @@
 {221}{}{Do you know how to disable the prisoners' collars?}
 {222}{}{You need a terminal access code. Only Faber and I have it, and I won't tell you.}
 {223}{}{Come on, do something useful for oppressed people like you. This is your chance at salvation.}
-{224}{}{You're insane! If a the warden catches us, we'll face something worse than the noose. You better leave before they see us together. I don't want any trouble.}
+{224}{}{You're insane! If the warden catches us, we'll face something worse than the noose. You better leave before they see us together. I don't want any trouble.}
 {225}{}{Well... maybe. I don't know if I can trust you... we could both pay with our lives for this. Here's the password, but be careful!}
 {226}{}{Good decision.}
 {227}{}{This equipment seems out of place here.}
